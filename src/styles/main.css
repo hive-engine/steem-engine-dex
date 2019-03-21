@@ -1,0 +1,886 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: #FFF;
+  font-size: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 42px;
+  margin-bottom: 20px;
+}
+
+tr:nth-child(even) {background-color: #E9EEF2;}
+
+.modal-backdrop-opaque.show {
+  background-color: #0C171F;
+  opacity: 1;
+}
+
+.modal-content {
+  border: 0;
+  border-radius: 86px;
+  background: url(https://s3.amazonaws.com/steem-engine/images/steem-engine_icon.svg) transparent no-repeat center center;
+}
+
+.modal-content.white {
+  background: url(https://s3.amazonaws.com/steem-engine/images/steem-engine_icon_edf0f2.svg) transparent no-repeat center center;
+}
+
+.modal-body {
+  padding: 10px 80px;
+}
+
+.modal-content input {
+  border-radius: 18px;
+  border: 0px;
+  padding: 2px 16px 2px 16px;
+  width: 100%;
+}
+
+.modal-content input:focus {
+	outline: none;
+}
+
+.edit-dialog .modal-content input {
+	font-size: 15px;
+	padding: 10px 16px;
+}
+
+.edit-dialog .modal-content textarea {
+	width: 100%;
+	height: 100px;
+	font-size: 15px;
+	padding: 5px 10px;
+}
+
+.modal-content label {
+  text-align: left;
+  font-family: 'Nunito', sans-serif;
+  font-size: 18px;
+  color: #B0B7BD;
+  width: 100%;
+}
+
+.modal-content .input-group-prepend {
+  z-index: 100;
+  color: #27475E;
+  position: absolute;
+  left: 10px;
+}
+
+
+.modal-content .input-group-append {
+  z-index: 100;
+  color: #27475E;
+  position: absolute;
+  right: 19px;
+}
+
+.modal-content.blue {
+  background-color: #27475E;
+}
+
+.modal-content.blue a {
+	color: white;
+}
+
+.modal-content.blue a:hover {
+	text-decoration: none;
+	color: #8E4A2C;
+}
+
+.modal-content.blue .text-cutoff {
+	max-width: 310px;
+	overflow: hidden;
+	display: inline-block;
+	vertical-align: bottom;
+}
+
+.modal-content.blue p, .modal-content.brown p{
+  font-size: 24px;
+  text-align: left;
+}
+
+.modal-content.white {
+  background-color: #FFF;
+}
+
+.modal-content.white p{
+  color: #27475E;
+  text-align: left;
+  font-size: 18px;
+}
+
+.modal-content.brown {
+  background-color: #582D1A;
+}
+
+.modal-content.brown h1, .modal-content.brown label {
+  color: #EBA88B;
+}
+
+.modal-content.brown .btn {
+  color: #EBA88B;
+  background-color: #0C171F;
+}
+
+.modal-content input.is-invalid~.invalid-tooltip {
+  display: block;
+}
+
+.modal-content .invalid-tooltip {
+  right: 0;
+}
+
+.modal-dialog {
+  max-width: 512px;
+}
+
+.modal-header {
+  border: 0;
+  align-items: center;
+  padding: 40px 80px 10px 80px;
+}
+
+.modal-header .close{
+  color: #FFF;
+  font-family: 'Nunito', sans-serif;
+  font-size: 42px;
+  font-weight: bold;
+  text-shadow: none;
+  opacity: 1;
+}
+
+.modal-header h1 {
+  color: #93A3AF;
+  font-weight: bold;
+}
+
+.modal-footer {
+  border: 0;
+  justify-content: space-evenly;
+  margin-top: 20px;
+  padding: 0px 80px 40px;
+}
+
+
+.navbar-steem-engine {
+  background: url(https://s3.amazonaws.com/steem-engine/images/bg_header.jpg) black repeat-x top right;
+  min-height: 60px;
+  padding: 0 50px;
+}
+
+.navbar-steem-engine .navbar-brand img{
+  width: 238px;
+  height: 32px;
+}
+
+.navbar-steem-engine .navbar-nav  .nav-link {
+  font-family: 'Nunito', sans-serif;
+  font-size: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: white;
+}
+
+.navbar-steem-engine .navbar-nav .nav-link:visited {
+	color: white;
+}
+
+.navbar-steem-engine button{
+  font-family: 'Nunito', sans-serif;
+  font-size: 20px;
+  border-radius: 18px;
+  color: #27475E;
+  background-color: #93A3AF;
+  border: 0;
+  width: 147px;
+  height: 36px;
+  padding: 0;
+}
+
+#navbarSupportedContent {
+  background-color: rgba(0, 0, 0, .84);
+}
+
+.dropdown-menu a {
+  cursor: pointer;
+}
+
+.dropdown-menu.show {
+  background-color: black;
+  color: #EBA88B;
+  border-radius: 0;
+  font-size: 20px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.btn {
+  font-family: 'Nunito', sans-serif;
+  border-radius: 18px;
+  border: 0;
+  font-size: 20px;
+  padding: 5px 30px;
+}
+
+.btn-primary {
+	color: #FFF;
+  background-color: #8E4A2C;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  color: rgba(255, 255, 255, .54);
+	background-color: #582D1A;
+}
+
+.btn-lg {
+  width: 305px;
+  height: 62px;
+  font-size: 32px;
+  border-radius: 31px;
+}
+
+header {
+  background: linear-gradient(263deg, #27475E, #080E13);
+  height: 164px;
+  padding-left: 130px;
+  padding-right: 130px;
+}
+
+header::before {
+  content: " ";
+  background: url(https://s3.amazonaws.com/steem-engine/images/img_gear.svg) transparent no-repeat top left;
+  height: 164px;
+  width: 300px;
+  position: absolute;
+  left: 0;
+  pointer-events: none;
+}
+
+header h1 {
+  color: #93A3AF;
+  padding-top: 43px;
+  text-align: left;
+  font-weight: bold;
+}
+
+header h2 {
+  color: #FFF;
+  font-size: 27px;
+  width: 100%;
+  text-align: left;
+  padding-left: 30px;
+}
+
+header h2 .subtitle {
+	font-size: 14px;
+  color: #93A3AF;
+}
+
+header h2 .btn {
+  height: 24px;
+  font-size: 14px;
+  padding: 2px 22px;
+  margin-left: 10px;
+}
+
+header p {
+  text-align: left;
+}
+
+header .group {
+  display: flex;
+  align-items: center;
+  align-content: center;
+	height: 140px;
+	width: 80%;
+	margin: auto;
+	padding-right: 50px;
+}
+
+header .header-row {
+	padding-top: 43px;
+}
+
+header .header-row h1 {
+	padding-top: 0;
+}
+
+header .group .buttons{
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+header .group .buttons > *{
+  margin-left: 20px;
+}
+
+header .buttons .note {
+	font-size: 13px;
+	color: #B0B7BD;
+	font-style: italic;
+	margin-top: 5px;
+}
+
+input.search {
+	background-color: rgba(255,255,255,0.2);
+	color: white;
+	border-radius: 18px;
+	width: 250px;
+	height: 40px;
+	border: none;
+	padding: 0 20px;
+	background-image: url(https://s3.amazonaws.com/steem-engine/images/search.png);
+	background-repeat: no-repeat;
+	background-position: 95%;
+}
+
+input.search:focus {
+	outline: none;
+}
+
+footer {
+  background: url(https://s3.amazonaws.com/steem-engine/images/bg_footer.jpg) black repeat-x top right;
+  height: 200px;
+  padding: 7px 140px 40px 140px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  color: white;
+  text-align: left;
+}
+
+footer img{
+  width: 90px;
+  height: 90px;
+}
+
+footer .copyright {
+  margin-top: 50px;
+}
+
+.loading {
+  position: fixed;
+  width: 200px;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
+
+.loading-backdrop {
+  z-index: 1100;
+}
+
+.toast {
+  width: 350px;
+  color: black;
+  z-index: 5000;
+}
+
+.toast-header.success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.toast-header.error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.toast-body {
+  background-color: #FFF;
+  text-align: left;
+}
+
+.home-1 {
+  height: 600px;
+  background: url(https://s3.amazonaws.com/steem-engine/images/bg_hero_machinery.jpg) #21374c no-repeat top right;
+  background-size: cover;
+  padding: 80px;
+}
+
+.home-1 p {
+  width: 306px;
+  margin: 52px auto 70px auto;
+}
+
+.home-2 {
+  padding: 77px;
+  background-color: #FFF;
+  font-size: 26px;
+  font-style: italic;
+  color: #27475E;
+}
+
+.home-3 {
+  background: url(https://s3.amazonaws.com/steem-engine/images/bg_engine.jpg) #962e17 no-repeat top right;
+  background-size: cover;
+  padding-top: 65px;
+  padding-bottom: 65px;
+}
+
+.home-3 .container {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.home-3-square {
+  width: 544px;
+  background-color: rgba(0, 0, 0, .84);
+  border-radius: 83px;
+  padding: 55px;
+}
+
+.home-3 h1 {
+  color: #FDCC49; margin-bottom: 35px;
+}
+
+.home-3-container p {
+  text-align: left;
+}
+
+.home-4 {
+  background: url(https://s3.amazonaws.com/steem-engine/images/bg_gears.jpg) #21374c no-repeat top right;
+  background-size: cover;
+  padding-top: 60px;
+  padding-bottom: 65px;
+}
+
+.home-4 h1 {
+  color: #93A3AF;
+}
+
+.home-5 {
+  background-color: #FFF;
+  color: #27475E;
+}
+
+.home-5::before {
+  content: " ";
+  background: url(https://s3.amazonaws.com/steem-engine/images/img_train.svg) transparent no-repeat top left;
+  height: 700px;
+  width: 700px;
+  position: absolute;
+  left: 0;
+}
+
+.home-5 h1 {
+  padding-top: 70px;
+  color: #8E4A2C;
+}
+
+.home-5 p {
+  padding-bottom: 70px;
+}
+
+.home-6 {
+  padding: 77px;
+  background-image: linear-gradient(261deg, #8E4A2C, #472516);
+}
+
+.home-6 h1 {
+  margin-bottom: 0px;
+}
+
+.about-1 {
+  color: #27475E;
+  text-align: left;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.about-2 {
+  background-color: #000000;
+  color: #ffffff;
+  text-align: left;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.about-3 {
+  color: #532B19;
+  text-align: left;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.about-4 {
+  color: #FFF;
+  background-image: linear-gradient(77deg, #191919, #4D4D4D);
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.about-4 p {
+  text-align: left;
+}
+
+table.tokensTable {
+  top: -35px;
+}
+
+.tokensTable thead {
+  color: #FFF;
+  font-size: 18px;
+}
+
+.tokensTable thead th {
+  font-weight: normal;
+	padding-bottom: 22px;
+	white-space: nowrap;
+}
+
+.tokensTable tbody {
+  color: #27475E;
+	font-size: 14px;
+}
+
+.tokensTable td.icon {
+	padding: 0 0 0 10px;
+	width: 34px;
+}
+
+.tokensTable td.symbol {
+	padding: 0 20px 0 10px;
+}
+
+.tokensTable img.icon {
+	height: 24px;
+	width: 24px;
+}
+
+.tokensTable .icons {
+	font-size: 150%;
+}
+
+.tokensTable .icons .fas {
+	cursor: pointer;
+}
+
+.tokensTable .icons .fas:hover {
+	color: #8E4A2C;
+}
+
+.tokensTable tbody tr{
+  height: 40px;
+  vertical-align: middle;
+}
+
+.tokensTable tbody tr td {
+  padding: 0 20px;
+}
+
+.tokensTable tbody tr td:last-child {
+	max-width: 300px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+#market_tokens_table tbody tr td {
+	padding: 0;
+}
+
+#market_tokens_table.interactiveTable tbody tr:not(.footable-empty):hover, #history_table.interactiveTable tbody tr:not(.footable-empty):hover {
+  color: #FFF;
+  background-color: #8E4A2C;
+  cursor: pointer;
+}
+
+table.tokensTable td.footable-sortable>span.fooicon, table.tokensTable th.footable-sortable>span.fooicon {
+  right: unset;
+  top: unset;
+  margin-top: 5px;
+  margin-left: 10px;
+
+}
+
+table.tokensTable .fooicon-sort:before {
+  font-family: "Material Icons"; font-weight: 900; content: "\e164";
+}
+
+table.tokensTable .fooicon-sort-asc:before {
+  font-family: "Material Icons"; font-weight: 900; content: "\e5c5";
+}
+
+table.tokensTable .fooicon-sort-desc:before {
+  font-family: "Material Icons"; font-weight: 900; content: "\e5c7";
+}
+
+.sign_in {
+  color: #27475E;
+}
+
+.sign_in .col {
+  padding: 45px;
+}
+
+.sign_in .keychain_desc {
+  margin-top: 25px;
+  margin-bottom: 75px;
+}
+
+.sign_in .input-group-text {
+  color: #004A54;
+  background: transparent;
+  border-radius: 0;
+  border-width: 0;
+  position: relative;
+  z-index: 5;
+}
+
+.sign_in .input-group-prepend {
+  position: absolute;
+  top: -9px;
+  left: -10px;
+}
+
+.sign_in .at {
+  font-size: 28px;
+}
+
+.sign_in input {
+	width: 90%;
+	font-size: 20px;
+	color: #27475E;
+	padding: 7px 7px 7px 35px;
+	height: 40px;
+	border-width: 0 0 1px 0;
+	border-color: #27475E;
+	transition: border-width 0.1s ease-in;
+}
+
+.sign_in input:focus {
+  outline-width: 0;
+  border-width: 0 0 3px 0;
+}
+
+.sign_in .input-group-append img {
+  height: 35px;
+  top: -9px;
+  left: -38px;
+  cursor: pointer;
+}
+
+.sign_in .divider::after {
+  background: #27475E;
+  width: 1px;
+  content: "";
+  display: block;
+  position: absolute;
+  top: 10%;
+  right: 0;
+  height: 80%;
+}
+
+.sign_in .keychain-logo {
+  max-width: 350px;
+}
+
+.sign_in .steemconnect-logo {
+  width: 292px;
+  margin-bottom: 50px;
+}
+
+.sign_in .btn-steemconnect {
+  font-family: 'Open Sans', sans-serif;
+  border-radius: 8px;
+  width: 287px;
+  height: 41px;
+  background-color: white;
+  border: 1px solid #707070;
+  font-size: 20px;
+}
+
+.sign_in-2 {
+  color: #27475E;
+  background-color: #BCD0DE;
+  border-radius: 31px;
+  padding: 21px;
+  margin: 0px auto 80px auto;
+}
+
+.register {
+  color: #27475E;
+  margin-top: 20px;
+  margin-bottom: 30px;
+	font-size: 16px;
+}
+
+.register label {
+  font-size: 20px;
+  text-align: left;
+}
+
+.register input {
+  border-width: 0 0 1px 0;
+  border-color: #27475E;
+  flex: 1 1 auto;
+  transition: border-width 0.1s ease-in;
+  font-size: 20px;
+  color:#8E4A2C;
+  flex-grow: 0;
+  width: 100%;
+}
+
+.register input:focus {
+  outline-width: 0;
+  border-width: 0 0 3px 0;
+}
+
+.register .col {
+  margin: 0 60px;
+}
+
+.register .col .group{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 60px;
+}
+
+.register input.is-invalid~.invalid-feedback {
+  display: block;
+  text-align: left;
+}
+
+.confirm_add_token_dialog .modal-header {
+  flex-direction: column;
+  padding: 0;
+}
+
+.confirm_add_token_dialog .modal-content {
+  background: url(https://s3.amazonaws.com/steem-engine/images/steem-engine_icon.svg) transparent no-repeat top center;
+}
+
+.confirm_add_token_dialog .token_info {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  padding: 0 25px;
+}
+
+.ssc-cost {
+	font-family: 'Nunito', sans-serif;
+	font-size: 15px;
+	color: #B0B7BD;
+	text-align: right;
+}
+
+.note {
+	font-family: 'Nunito', sans-serif;
+	font-size: 15px;
+	color: #B0B7BD;
+	margin-top: 5px;
+}
+
+.balance-cell {
+	text-align: right;
+	width: 180px;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.balance-cell.received, .green {
+	color: #009e73;
+}
+
+.balance-cell.sent, .red {
+	color: red;
+}
+
+.btn-send {
+  width: 20px;
+  cursor: pointer;
+}
+
+.btn-history {
+  cursor: pointer;
+}
+
+.btn-back {
+  width: 36px;
+  padding: 0;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #93A3AF;
+  color: #27475E;
+}
+
+.btn-back i {
+  font-size: 32px;
+}
+
+.faq-content {
+	color: #27475E;
+	font-family: 'Nunito', sans-serif;
+	text-align: left;
+}
+
+.faq-section-title {
+	font-size: 42px;
+	margin-top: 20px;
+	margin-left: -40px;
+}
+
+.faq-content .panel-title a {
+	font-size: 30px;
+	color: #532B19;
+}
+
+.faq-content .panel-body {
+	margin-bottom: 20px;
+}
+
+.faq-content .panel-body a {
+	color: #532B19;
+}
+
+.market {
+  color: #27475E;
+}
+.market .footable-header {
+  background-color: #182b3a;
+}
+.market .tokensTable {
+  top: 0;
+}
+.market .tokensTable tbody {
+  font-size: 14px;
+}
+.market .tokensTable thead th {
+  padding: 15px 30px 15px 5px;
+}
+.market .tokensTable thead th {
+  padding: 5px 30px 5px 5px;
+  color: #FFF;
+  font-size: 16px;
+}
+.market #user_order_table .btn {
+  border-radius: 5px;
+  font-size: 15px;
+  padding: 3px 10px;
+}
+.market .stats .label {
+  border-radius: 4px;
+  border: 1px solid #ccc!important;
+  padding: 5px 15px;
+}
+
+.buy-form input.is-invalid~.invalid-feedback, .sell-form input.is-invalid~.invalid-feedback {
+  display: block;
+  text-align: left;
+}
+
+.tokensTable tbody tr td.market-token-list-cell {
+	padding: 0;
+}
