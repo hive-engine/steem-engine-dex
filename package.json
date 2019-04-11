@@ -8,6 +8,8 @@
   },
   "license": "MIT",
   "dependencies": {
+    "apollo-boost": "^0.3.1",
+    "apollo-cache-inmemory": "^1.5.1",
     "aurelia-animator-css": "^1.0.4",
     "aurelia-async-binding": "^1.2.0",
     "aurelia-bootstrapper": "^2.3.3",
@@ -20,6 +22,8 @@
     "bootstrap": "^4.3.1",
     "chart.js": "^2.8.0",
     "font-awesome": "^4.7.0",
+    "graphql": "^14.2.1",
+    "graphql-tag": "^2.10.1",
     "i18next": "^15.0.9",
     "i18next-xhr-backend": "^2.0.1",
     "jquery": "^3.4.0",
