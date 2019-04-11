@@ -22,18 +22,37 @@ const srcDir = path.resolve(__dirname, 'src');
 const nodeModulesDir = path.resolve(__dirname, 'node_modules');
 const baseUrl = '/';
 
-const cssRules = [
-    { loader: 'css-loader' },
-    {
-        loader: 'postcss-loader',
-        options: {
-            plugins: () => [
-                require('autoprefixer')({ browsers: ['last 2 versions'] }),
-                require('cssnano')()
-            ]
-        }
-    }
-];
+function loadPostCssPlugins() {
+    return [
+      require("postcss-import")({
+        path: [
+          'src/components/'
+        ]
+      }),
+      require("precss")(),
+      require("postcss-nested")(),
+      require("postcss-advanced-variables")(),
+      require("postcss-custom-properties")(),
+      require("postcss-partial-import")(),
+      require("postcss-extend")(),
+      require("postcss-preset-env")({ browsers: ["last 2 versions", "> 5%"] }),
+      require("autoprefixer")({ browsers: ["last 2 versions"] }),
+      require("cssnano")()
+    ];
+  }
+  
+  const loaders = {
+    style: { loader: "style-loader" },
+    css: { loader: "css-loader" },
+    cssModules: { 
+      loader: "css-loader",
+      options: {
+        modules: true,
+        localIdentName: '[name]__[local]____[hash:base64:5]'
+      }
+    },
+    postCss: { loader: "postcss-loader", options: { plugins: loadPostCssPlugins } },
+  };
 
 module.exports = ({
     production,
@@ -46,11 +65,9 @@ module.exports = ({
     resolve: {
         extensions: ['.ts', '.js'],
         modules: [srcDir, 'node_modules'],
-        alias: {
-            'aurelia-binding': path.resolve(
-                __dirname,
-                'node_modules/aurelia-binding'
-            )
+        alias: { 
+            'aurelia-binding': path.resolve(__dirname, 'node_modules/aurelia-binding'),
+            'base-environment': path.resolve(__dirname, 'aurelia_project/environments/base') 
         }
     },
     entry: {
@@ -73,6 +90,7 @@ module.exports = ({
     optimization: {
         runtimeChunk: true,
         moduleIds: 'hashed',
+        concatenateModules: false,
         splitChunks: {
             hidePathInfo: true,
             chunks: 'initial',
@@ -166,22 +184,15 @@ module.exports = ({
         : 'cheap-module-eval-source-map',
     module: {
         rules: [
-            {
-                test: /\.css$/i,
-                issuer: [{ not: [{ test: /\.html$/i }] }],
-                use: extractCss
-                    ? [
-                          {
-                              loader: MiniCssExtractPlugin.loader
-                          },
-                          'css-loader'
-                      ]
-                    : ['style-loader', ...cssRules]
+            { 
+                test: /\.css$/i, 
+                issuer: [{ not: [{ test: /\.html$/i }] }], 
+                use: [production ? MiniCssExtractPlugin.loader : loaders.style, loaders.cssModules, loaders.postCss] 
             },
-            {
-                test: /\.css$/i,
-                issuer: [{ test: /\.html$/i }],
-                use: cssRules
+            { 
+                test: /\.css$/i, 
+                issuer: [{ test: /\.html$/i }], 
+                use: [loaders.css, loaders.postCss] 
             },
             { test: /\.html$/i, loader: 'html-loader' },
             { test: /\.ts$/, loader: 'ts-loader' },

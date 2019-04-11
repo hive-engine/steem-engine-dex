@@ -4,6 +4,7 @@
     "module": "esnext",
     "skipLibCheck": true,
     "removeComments": true,
+    "downlevelIteration": true,
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -13,6 +14,11 @@
       "es2015",
       "dom"
     ],
+    "paths": {
+        "base-environment": [
+            "aurelia_project/environments/base"
+        ],
+    },
     "moduleResolution": "node",
     "allowJs": true,
     "baseUrl": "src"

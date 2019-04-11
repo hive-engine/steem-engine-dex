@@ -1,11 +1,5 @@
-import {PLATFORM} from 'aurelia-pal';
-import {Router, RouterConfiguration} from 'aurelia-router';
-
-import 'sscjs/dist/ssc';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'font-awesome/css/font-awesome.min.css';
-import './styles/main.css';
+import { PLATFORM } from 'aurelia-pal';
+import { Router, RouterConfiguration } from 'aurelia-router';
 
 export class App {
     public router: Router;

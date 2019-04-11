@@ -1,2 +1,3 @@
 # steem-engine-dex
-An alternative steem-engine.com dex
+
+A new wave steem-engine.com DEX.

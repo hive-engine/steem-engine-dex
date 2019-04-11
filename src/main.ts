@@ -4,8 +4,16 @@ import { Aurelia } from 'aurelia-framework';
 import environment from './environment';
 import { PLATFORM } from 'aurelia-pal';
 import { initialState } from './store/state';
-import { I18N, TCustomAttribute } from 'aurelia-i18n';
+import { TCustomAttribute } from 'aurelia-i18n';
 import Backend from 'i18next-xhr-backend';
+
+import 'sscjs/dist/ssc';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.min.css';
+import '!style-loader!css-loader!./styles/main.css';
+
+import modalCss from './styles/modal.css';
 
 export function configure(aurelia: Aurelia) {
     aurelia.use
@@ -22,6 +30,7 @@ export function configure(aurelia: Aurelia) {
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-async-binding'));
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-portal-attribute'));
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-fetch-client'));
+    aurelia.use.plugin(PLATFORM.moduleName('aurelia-fontawesome'));
 
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-store', 'store'), {
         initialState: initialState,
@@ -29,6 +38,12 @@ export function configure(aurelia: Aurelia) {
             undoable: false,
             limit: 10
         }
+    });
+
+    aurelia.use.plugin(PLATFORM.moduleName('aurelia-dialog'), config => {
+        config
+            .useDefaults()
+            .useCSS(modalCss)
     });
 
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-i18n'), (instance) => {
