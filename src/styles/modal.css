@@ -1,0 +1,89 @@
+ux-dialog-container,
+ux-dialog-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+ux-dialog-overlay.active {
+    background-color: #1F1F1F;
+    opacity: .8;
+}
+
+ux-dialog-container {
+    display: block;
+    padding: 30px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    outline: 0;
+}
+ux-dialog {
+    color: #FFF;
+    display: table;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 3px;
+    width: 95%;
+    height: fit-content;
+    margin: auto;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+    background: #2D4C62;
+}
+ux-dialog > ux-dialog-header {
+    display: block;
+    padding: 16px;
+}
+ux-dialog > ux-dialog-header > button {
+    float: right;
+    border: none;
+    display: block;
+    width: 32px;
+    height: 32px;
+    background: 0 0;
+    font-size: 22px;
+    line-height: 16px;
+    margin: -14px -16px 0 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+ux-dialog > ux-dialog-body {
+    display: block;
+    padding: 16px;
+}
+
+ux-dialog > ux-dialog-body a {
+    color: #FFF;
+}
+
+ux-dialog > ux-dialog-footer {
+    display: block;
+    padding: 6px;
+    text-align: right;
+}
+
+.ux-dialog-open {
+    overflow: hidden;
+}
+
+@media all and (min-width: 992px) {
+    ux-dialog-container {
+        min-width: 300px;
+    }
+
+    ux-dialog {
+        min-width: 512px;
+        width: fit-content;
+    }
+}

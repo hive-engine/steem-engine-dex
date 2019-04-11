@@ -1,39 +1,37 @@
 export interface State {
-    loggedIn: boolean;
-    user: {
-        id: number;
-        name: string;
-        balance: string;
-        sbd_balance: string;
-        can_vote: boolean;
-        post_count: number;
-        voting_power: number;
-        json_metadata?: any;
-        voting_manabar: {
-          current_mana: string;
-          last_update_time: number;
-        };
-        reputation: any;
-        valueInUsd: number;
-    };
+  user: {
+      name: string;
+      balances: any[];
+      buyBook: any[];
+      sellBook: any[];
+      tokenBalance: any[];
+      totalUsdValue: number;
+      loggedIn: boolean;
+  };
+  loading: boolean;
+  steemPrice: number;
+  buyBook: any[];
+  sellBook: any[];
+  tradesHistory: any[];
+  token: any;
+  tokens: any[];
 }
 
 export const initialState: State = {
-    loggedIn: false,
-    user: {
-        id: null,
-        name: '',
-        balance: '',
-        sbd_balance: '',
-        can_vote: false,
-        post_count: 0,
-        voting_power: 0,
-        json_metadata: {},
-        voting_manabar: {
-          current_mana: '',
-          last_update_time: 0
-        },
-        reputation: 0,
-        valueInUsd: 0
-    }
+  user: {
+      name: '',
+      balances: [],
+      buyBook: [],
+      sellBook: [],
+      tokenBalance: [],
+      totalUsdValue: 0.00,
+      loggedIn: false
+  },
+  loading: false,
+  steemPrice: 0,
+  buyBook: [],
+  sellBook: [],
+  tradesHistory: [],
+  token: 0,
+  tokens: []
 };
