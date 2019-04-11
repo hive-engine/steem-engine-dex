@@ -1,0 +1,109 @@
+.modal-backdrop {
+    background: #1b1e63;
+}
+
+.modal-container .modal-content {
+    background: transparent;
+    border-color: transparent;
+    border-radius: 5px;
+}
+
+.modal-container .modal-body {
+    padding: 0;
+    background: #fff;
+    border-radius: 5px;
+}
+
+.modal-container .modal-header {
+    text-align: center;
+    background: #1b1e63;
+}
+
+.modal-container .modal-header h5 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.modal-container .modal-header .close {
+    color: #fff;
+}
+
+.modal-container .modal-header .close:focus {
+    outline: none;
+}
+
+.modal-container .modal-info-block {
+    text-align: center;
+    padding-top: 30px;
+}
+
+.modal-container .modal-info-block p {
+    margin-bottom: 18px;
+}
+
+.modal-container .modal-info-block .block-inner {
+    padding: 8px 25px;
+    background: #f7f7f7;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.modal-container .modal-info-block .block-inner p {
+    margin-bottom: 0;
+}
+
+.modal-container .modal-info-block .block-inner span {
+    font-size: 14px;
+    font-weight: 700;
+    color: #00c162;
+}
+
+.modal-container .user-connected-form-block {
+    box-shadow: none;
+    border-radius: 0 0 5px 5px;
+}
+
+.modal-container .user-connected-form-block p {
+    text-align: left;
+}
+
+.modal-container .user-connected-form-block .btn-default,
+.modal-container .user-connected-form-block .form-control {
+    border-radius: 5px;
+}
+
+.modal-container .user-signup-form select {
+    font-size: 15px;
+}
+
+.modal-container .user-signup-form select:focus,
+.modal-container .user-signup-form select:active,
+.modal-container .user-signup-form select:focus:active {
+    outline: none;
+    box-shadow: none;
+    border-color: #e8e9eb;
+}
+
+.modal-container .user-connected-form-block {
+    box-shadow: none;
+    border-radius: 0 0 5px 5px;
+}
+.modal-container .user-connected-form-block p {
+    text-align: left;
+}
+.modal-container .user-connected-form-block .btn-default,
+.modal-container .user-connected-form-block .form-control {
+    border-radius: 5px;
+}
+
+.modal-container .user-signup-form select {
+    font-size: 15px;
+}
+.modal-container .user-signup-form select:focus,
+.modal-container .user-signup-form select:active,
+.modal-container .user-signup-form select:focus:active {
+    outline: none;
+    box-shadow: none;
+    border-color: #e8e9eb;
+}

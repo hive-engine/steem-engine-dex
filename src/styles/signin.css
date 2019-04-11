@@ -1,0 +1,94 @@
+.user-login-signup-section {
+    padding: 290px 0 231px 0;
+    background: #142430;
+    background-size: cover;
+}
+
+.user-login-signup-form-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-login-signup-form-wrap .modal-content {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 50%;
+}
+
+.user-login-signup-form-wrap .modal-content > h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 auto 45px auto;
+}
+
+
+.modal-container .modal-body {
+    padding: 0;
+    background: #fff;
+    border-radius: 5px;
+}
+
+.modal-container .modal-info-block {
+    text-align: center;
+    padding-top: 30px;
+}
+
+.modal-container .user-connected-form-block {
+    box-shadow: none;
+    border-radius: 0 0 5px 5px;
+}
+
+.user-connected-form-block {
+    padding: 40px 40px 45px 40px;
+    background: #fff;
+    box-shadow: 0px -20px 45px 0px rgba(0, 0, 0, 0.05);
+}
+
+.user-connected-from .form-group {
+    margin-bottom: 30px;
+}
+
+.user-connected-from input {
+    border-radius: 0px;
+    min-height: 50px;
+    padding: 0 20px;
+    border: 1px solid #e8e9eb;
+}
+
+.modal-container .user-connected-form-block .btn-default, 
+.modal-container .user-connected-form-block .form-control {
+    border-radius: 5px;
+}
+
+.user-login-form .pass-remember-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-connected-from .btn-default {
+    width: 100%;
+    border-radius: 0;
+    background: #1652f0;
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    min-height: 50px;
+    margin-bottom: 20px;
+}
+
+.user-connected-form-block p {
+    margin: 0 auto;
+    text-align: center;
+    font-size: 14px;
+}
+
+.modal-container .user-connected-form-block p {
+    text-align: left;
+}
+
+.user-connected-form-block p a {
+    color: #1652f0;
+}

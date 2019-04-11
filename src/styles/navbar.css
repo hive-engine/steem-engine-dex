@@ -10,7 +10,6 @@
     margin: 0;
     border: none;
     border-radius: 0;
-    border-bottom: 1px solid #2d3572;
 }
 
 .navbar-expand-lg .navbar-nav .nav-link,
@@ -19,6 +18,10 @@
     font-weight: 400;
     font-size: 15px;
     padding: 6px 20px;
+}
+
+.navbar-nav > li.language-option > a {
+    margin-right: 10px;
 }
 
 .navbar-nav > li.language-option > a {
