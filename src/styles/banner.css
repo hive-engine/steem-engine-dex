@@ -1,0 +1,56 @@
+.banner-block {
+    padding: 310px 0 43px 0;
+    position: relative;
+    background: #1B2062;
+    background-size: cover; }
+  
+  .banner-content {
+    text-align: center;
+    margin-bottom: 100px; }
+    .banner-content h2 {
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 30px; }
+    .banner-content p {
+      color: #fff;
+      font-size: 17px;
+      line-height: 28px;
+      margin-bottom: 57px; }
+    .banner-content .subs-form .input-box {
+      max-width: 570px;
+      position: relative;
+      margin: 0 auto; }
+    .banner-content .subs-form input {
+      border: none;
+      height: 55px;
+      padding: 0 175px 0 25px;
+      background: #fff; }
+      .banner-content .subs-form input:focus {
+        outline: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none; }
+    .banner-content .subs-form button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      min-width: 170px;
+      height: 55px;
+      background: #1652f0;
+      color: #fff;
+      border: none;
+      outline: 0;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 0 3px 3px 0;
+      -webkit-border-radius: 0 3px 3px 0;
+      -moz-border-radius: 0 3px 3px 0;
+      -ms-border-radius: 0 3px 3px 0;
+      -o-border-radius: 0 3px 3px 0; }
+      .banner-content .subs-form button:active, .banner-content .subs-form button:focus {
+        border: none;
+        outline: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none; }
+  

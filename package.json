@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "apollo-boost": "^0.3.1",
     "apollo-cache-inmemory": "^1.5.1",
     "aurelia-animator-css": "^1.0.4",

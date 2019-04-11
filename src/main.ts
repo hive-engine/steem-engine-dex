@@ -17,6 +17,11 @@ import '!style-loader!css-loader!./styles/main.css';
 
 import modalCss from './styles/modal.css';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faGlobe, faFlagUsa, faPoundSign } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faGlobe, faFlagUsa, faPoundSign);
+
 export function configure(aurelia: Aurelia) {
     aurelia.use
         .standardConfiguration()

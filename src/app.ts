@@ -1,3 +1,6 @@
+import { PostRenderStep } from './resources/pipeline-steps/postrender';
+import { PreRenderStep } from './resources/pipeline-steps/prerender';
+import { MaintenanceStep } from './resources/pipeline-steps/maintenance';
 import { PLATFORM } from 'aurelia-pal';
 import { Router, RouterConfiguration } from 'aurelia-router';
 
@@ -6,6 +9,10 @@ export class App {
 
     public configureRouter(config: RouterConfiguration, router: Router) {
         config.title = 'Steem Engine';
+
+        config.addPipelineStep('authorize', MaintenanceStep);
+        config.addPipelineStep('preRender', PreRenderStep);
+        config.addPipelineStep('postRender', PostRenderStep);
 
         config.map([
             {
