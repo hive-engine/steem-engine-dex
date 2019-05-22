@@ -1,3 +1,4 @@
+import { AuthType } from './../common/types';
 import { Subscription } from 'rxjs';
 import { I18N } from 'aurelia-i18n';
 import { State } from 'store/state';
@@ -66,14 +67,14 @@ export class SteemEngine {
         return parseFloat(response.steem_price);
     }
 
-    async login(username: string, key?: string) {
+    async login(username: string, key?: string): Promise<string> {
         return new Promise(async (resolve, reject) => {
             if (window.steem_keychain && !key) {
                 steem_keychain.requestSignBuffer(username, 'Log In', 'Posting', function(response) {
                     if (response.error) {
                         const toast = new ToastMessage();
     
-                        toast.message = this.i18n.tr('errorLogin', { 
+                        toast.message = this.i18n.tr('errorLogin', {
                             username, 
                             ns: 'errors' 
                         });
@@ -148,9 +149,10 @@ export class SteemEngine {
         dispatchify(logout)();
     }
 
-    async steemConnectJson(auth_type, data) {
+    async steemConnectJson(auth_type: AuthType, id: string, data) {
         return new Promise((resolve, reject) => {
-            const username = this.state.user.name;
+            const username = this.state.account;
+
             let url = 'https://steemconnect.com/sign/custom-json?';
 
             if (auth_type == 'active') {
@@ -335,7 +337,7 @@ export class SteemEngine {
                 }
               });
             } else {
-                    this.steemConnectJson('active', transaction_data).then(() => {
+                    this.steemConnectJson('active', null, transaction_data).then(() => {
                         // this.loadBalances(SE.User.name, () => this.showHistory(symbol));
                     });
                 }
@@ -343,23 +345,24 @@ export class SteemEngine {
     }
 
     getBalance(token) {
-        if (this.state.user && this.state.user.balances) {
-            const token2 = this.state.user.balances.find(b => b.symbol === token);
-            return token2 ? parseFloat(token2.balance) : 0;
-        }
+        // if (this.state.account) {
+        //     const token2 = this.state.user.balances.find(b => b.symbol === token);
+        //     return token2 ? parseFloat(token2.balance) : 0;
+        // }
 
         return 0;
     }
 
     getToken(symbol: string) {
-        return this.state.tokens.find(t => t.symbol === symbol);
+        return {} as any;
+        //return this.tokens.find(t => t.symbol === symbol);
     }
 
     async showHistory(symbol: string) {
         let token =  this.getToken(symbol);
         
         const history = await this.request('/history', { 
-            account: this.state.user.name, 
+            account: this.state.account, 
             limit: 100, 
             offset: 0, 
             type: 'user', 
