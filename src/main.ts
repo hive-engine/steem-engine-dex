@@ -20,9 +20,9 @@ import modalCss from './styles/modal.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faGlobe, faFlagUsa, faPoundSign } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faGlobe, faFlagUsa, faPoundSign);
+library.add(faGlobe as any, faFlagUsa as any, faPoundSign as any);
 
-export function configure(aurelia: Aurelia) {
+export async function configure(aurelia: Aurelia) {
     aurelia.use
         .standardConfiguration()
         .feature(PLATFORM.moduleName('resources/index'));
@@ -73,5 +73,7 @@ export function configure(aurelia: Aurelia) {
         });
     });
 
-  aurelia.start().then(() => aurelia.setRoot(PLATFORM.moduleName('app')));
+    await aurelia.start();
+
+    aurelia.setRoot(PLATFORM.moduleName('app'));
 }
