@@ -2,7 +2,7 @@ import { AuthType } from './../common/types';
 import { Subscription } from 'rxjs';
 import { I18N } from 'aurelia-i18n';
 import { State } from 'store/state';
-import { HttpClient } from 'aurelia-fetch-client';
+import { HttpClient, json } from 'aurelia-fetch-client';
 import { lazy } from 'aurelia-framework';
 import { environment } from 'environment';
 import SSC from 'sscjs';
@@ -769,7 +769,45 @@ export class SteemEngine {
         };
     }
 
-    getDepositAddress(symbol) {
+    async getDepositAddress(symbol) {
         const peggedToken = environment.PEGGED_TOKENS.find(p => p.symbol === symbol);
+
+        if (!peggedToken) {
+            return;
+        }
+
+        try {
+            const request = await this.http.fetch(`${environment.CONVERTER_API}/convert/`, {
+                method: 'POST',
+                body: json({from_coin: symbol, to_coin: peggedToken.pegged_token_symbol, destination: this.user.name})
+            });
+
+            const response = await request.json();
+
+            return {...response, ...peggedToken};
+        } catch {
+            return null;
+        }
+    }
+
+    async getWithdrawalAddress(symbol, address) {
+        const peggedToken = environment.PEGGED_TOKENS.find(p => p.symbol === symbol);
+
+        if (!peggedToken) {
+            return;
+        }
+
+        try {
+            const request = await this.http.fetch(`${environment.CONVERTER_API}/convert/`, {
+                method: 'POST',
+                body: json({from_coin: peggedToken.pegged_token_symbol, to_coin: symbol, destination: address})
+            });
+
+            const response = await request.json();
+
+            return {...response, ...peggedToken};
+        } catch {
+            return null;
+        }
     }
 }
