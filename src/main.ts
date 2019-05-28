@@ -25,7 +25,8 @@ library.add(faGlobe as any, faFlagUsa as any, faPoundSign as any);
 export async function configure(aurelia: Aurelia) {
     aurelia.use
         .standardConfiguration()
-        .feature(PLATFORM.moduleName('resources/index'));
+        .feature(PLATFORM.moduleName('resources/index'))
+        .feature(PLATFORM.moduleName('components/index'))
 
     aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');
 
