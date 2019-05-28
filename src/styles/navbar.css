@@ -22,7 +22,7 @@
     text-transform: uppercase;
 }
 
-.navbar-nav > li.active > a,
+.navbar-nav > li.active:not(.button) > a,
 .navbar-nav > li > a:hover {
     color: #FFF !important;
 }
