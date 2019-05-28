@@ -644,6 +644,10 @@ export class SteemEngine {
         return this.tokens.find(t => t.symbol === symbol);
     }
 
+    getTokens() {
+        return this.tokens;
+    }
+
     async showHistory(symbol: string) {
         let token =  this.getToken(symbol);
         
