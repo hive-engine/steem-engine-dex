@@ -40,31 +40,28 @@ export class App {
                 route: 'offerings',
                 name: 'offerings',
                 moduleId: PLATFORM.moduleName('./routes/offerings'),
-                nav: true,
-                title: 'Offerings',
-                order: 3
+                nav: 2,
+                title: 'Offerings'
             },
             {
                 route: 'tokens',
                 name: 'tokens',
                 moduleId: PLATFORM.moduleName('./routes/tokens'),
-                nav: true,
+                nav: 1,
                 title: 'Tokens',
-                order: 2
             },
             {
                 route: 'exchange',
                 name: 'exchange',
                 moduleId: PLATFORM.moduleName('./routes/exchange'),
-                nav: true,
-                title: 'Exchange',
-                order: 1
+                nav: 0,
+                title: 'Exchange'
             },
             {
                 route: 'faq',
                 name: 'faq',
                 moduleId: PLATFORM.moduleName('./routes/faq'),
-                nav: true,
+                nav: 3,
                 title: 'Faq'
             }
         ]);
