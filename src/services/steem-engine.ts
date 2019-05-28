@@ -54,15 +54,15 @@ export class SteemEngine {
         });
     }
 
-    request(url: string, params: any) {
+    request(url: string, params: any = {}) {
         // Cache buster
         params.v = new Date().getTime();
 
         url = url + queryParam(params);
 
-        this.http.fetch(url, {
+        return this.http.fetch(url, {
             method: 'GET'
-        })
+        });
     }
 
     async loadSteemPrice() {
