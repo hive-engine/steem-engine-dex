@@ -1,3 +1,4 @@
+import { environment } from './environment';
 import { PostRenderStep } from './resources/pipeline-steps/postrender';
 import { PreRenderStep } from './resources/pipeline-steps/prerender';
 import { MaintenanceStep } from './resources/pipeline-steps/maintenance';
@@ -51,7 +52,8 @@ export class App {
                 title: 'Tokens',
             },
             {
-                route: 'exchange',
+                route: 'exchange/:symbol?',
+                href: `/exchange/${environment.NATIVE_TOKEN}`,
                 name: 'exchange',
                 moduleId: PLATFORM.moduleName('./routes/exchange'),
                 nav: 0,
