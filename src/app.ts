@@ -33,22 +33,32 @@ export class App {
                 route: 'wallet',
                 name: 'wallet',
                 moduleId: PLATFORM.moduleName('./routes/wallet'),
-                nav: true,
+                nav: false,
                 title: 'Wallet'
+            },
+            {
+                route: 'offerings',
+                name: 'offerings',
+                moduleId: PLATFORM.moduleName('./routes/offerings'),
+                nav: true,
+                title: 'Offerings',
+                order: 3
             },
             {
                 route: 'tokens',
                 name: 'tokens',
                 moduleId: PLATFORM.moduleName('./routes/tokens'),
                 nav: true,
-                title: 'Tokens'
+                title: 'Tokens',
+                order: 2
             },
             {
-                route: 'market',
-                name: 'market',
-                moduleId: PLATFORM.moduleName('./routes/market'),
+                route: 'exchange',
+                name: 'exchange',
+                moduleId: PLATFORM.moduleName('./routes/exchange'),
                 nav: true,
-                title: 'Market'
+                title: 'Exchange',
+                order: 1
             },
             {
                 route: 'faq',
