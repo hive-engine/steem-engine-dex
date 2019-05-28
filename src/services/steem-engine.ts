@@ -15,8 +15,8 @@ import { queryParam, popupCenter, tryParse } from 'common/functions';
 
 @connectTo()
 export class SteemEngine {
+    private accountsApi: HttpClient;
     private http: HttpClient;
-    private http2: HttpClient;
     private ssc;
     private state: State;
     private subscription: Subscription;
@@ -26,18 +26,18 @@ export class SteemEngine {
         private i18n: I18N,
         private store: Store<State>,
         private toast: ToastService) {
+        this.accountsApi = getHttpClient();
         this.http = getHttpClient();
-        this.http2 = getHttpClient();
 
         this.ssc = new SSC(environment.RPC_URL);
 
-        this.http.configure(config => {
+        this.accountsApi.configure(config => {
             config
                 .useStandardConfiguration()
                 .withBaseUrl(environment.ACCOUNTS_API_URL);
         });
 
-        this.http2.configure(config => config.useStandardConfiguration());
+        this.http.configure(config => config.useStandardConfiguration());
 
         this.subscription = this.store.state.subscribe((state: State) => {
             if (state) {
@@ -58,7 +58,7 @@ export class SteemEngine {
     }
 
     async loadSteemPrice() {
-        const request = await this.http2.fetch('https://postpromoter.net/api/prices', {
+        const request = await this.http.fetch('https://postpromoter.net/api/prices', {
             method: 'get'
         });
 
