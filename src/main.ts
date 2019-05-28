@@ -1,3 +1,4 @@
+import { AppRouter } from 'aurelia-router';
 import '@babel/polyfill';
 import 'bootstrap';
 import { Aurelia } from 'aurelia-framework';
@@ -19,6 +20,7 @@ import modalCss from './styles/modal.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faGlobe, faFlagUsa, faPoundSign } from '@fortawesome/free-solid-svg-icons';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 library.add(faGlobe as any, faFlagUsa as any, faPoundSign as any);
 
@@ -67,10 +69,19 @@ export async function configure(aurelia: Aurelia) {
           },
           attributes: aliases,
           lng: environment.defaultLocale,
-          ns: ['translation', 'headings', 'buttons'],
+          ns: ['translation', 'headings', 'buttons', 'titles'],
           defaultNS: 'translation',
           fallbackLng: 'en',
           debug : false
+        }).then(() => {
+            const router = aurelia.container.get(AppRouter);
+
+            router.transformTitle = title => instance.tr(`titles:${title}`);
+
+            const eventAggregator = aurelia.container.get(EventAggregator);
+            eventAggregator.subscribe('i18n:locale:changed', () => {
+              router.updateTitle();
+            });
         });
     });
 
