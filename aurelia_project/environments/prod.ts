@@ -1,6 +1,7 @@
+import { EnvironmentInterface } from './base';
 import { baseEnvironmentConfiguration } from 'base-environment';
 
-export const environment = {
+export const environment: Partial<EnvironmentInterface> = {
     ...baseEnvironmentConfiguration,
     debug: false,
     testing: false,
