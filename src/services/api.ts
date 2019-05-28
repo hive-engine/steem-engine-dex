@@ -1,10 +1,11 @@
 import { HttpClient } from 'aurelia-fetch-client';
-import { lazy } from 'aurelia-framework';
+import { lazy, autoinject } from 'aurelia-framework';
 
 import queryString from 'query-string';
 
 import { environment } from 'environment';
 
+@autoinject()
 export class Api {
     private http: HttpClient;
 

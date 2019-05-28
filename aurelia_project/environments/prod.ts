@@ -1,4 +1,3 @@
-import { EnvironmentInterface } from './base';
 import { baseEnvironmentConfiguration } from 'base-environment';
 
 export const environment: Partial<EnvironmentInterface> = {

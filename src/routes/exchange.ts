@@ -1,10 +1,10 @@
 import { SteemEngine } from '../services/steem-engine';
 import { autoinject } from 'aurelia-framework';
-import { environment } from 'environment';
 
 @autoinject()
 export class Exchange {
     private currentToken: string;
+    private styles = {};
 
     constructor(private se: SteemEngine) {
 

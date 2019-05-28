@@ -5,7 +5,3 @@ declare namespace SSC {
 }
 
 declare const SSC: SSC.SSC;
-
-interface Window {
-    steem_keychain: SSC.SSC;
-}

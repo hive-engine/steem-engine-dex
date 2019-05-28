@@ -1,3 +1,6 @@
+import { autoinject } from 'aurelia-framework';
+
+@autoinject()
 export class SteemKeychain {
     useKeychain() {
         return window.steem_keychain && !localStorage.getItem('key');

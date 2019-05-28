@@ -1,12 +1,11 @@
 import { AuthType } from './../common/types';
-import { Subscription } from 'rxjs';
 import { I18N } from 'aurelia-i18n';
 import { State } from 'store/state';
 import { HttpClient, json } from 'aurelia-fetch-client';
-import { lazy } from 'aurelia-framework';
+import { lazy, autoinject } from 'aurelia-framework';
 import { environment } from 'environment';
 import SSC from 'sscjs';
-import { connectTo, dispatchify, Store } from 'aurelia-store';
+import { connectTo, dispatchify } from 'aurelia-store';
 import steem from 'steem';
 import { logout } from 'store/actions';
 
@@ -15,12 +14,12 @@ import { queryParam, popupCenter, tryParse } from 'common/functions';
 import { SteemKeychain } from './steem-keychain';
 
 @connectTo()
+@autoinject()
 export class SteemEngine {
     private accountsApi: HttpClient;
     private http: HttpClient;
     private ssc;
     private state: State;
-    private subscription: Subscription;
 
     private user = null;
     private params = {};
@@ -31,7 +30,6 @@ export class SteemEngine {
     constructor(
         @lazy(HttpClient) private getHttpClient: () => HttpClient,
         private i18n: I18N,
-        private store: Store<State>,
         private toast: ToastService,
         private keychain: SteemKeychain) {
         this.accountsApi = getHttpClient();
@@ -46,12 +44,6 @@ export class SteemEngine {
         });
 
         this.http.configure(config => config.useStandardConfiguration());
-
-        this.subscription = this.store.state.subscribe((state: State) => {
-            if (state) {
-                this.state = state;
-            }
-        });
     }
 
     request(url: string, params: any = {}) {
@@ -228,7 +220,7 @@ export class SteemEngine {
     }
 
     async loadTokens() {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             this.ssc.find('tokens', 'tokens', { }, 1000, 0, [], (err, result) => {
                 this.tokens = result.filter(t => !environment.DISABLED_TOKENS.includes(t.symbol));
     
