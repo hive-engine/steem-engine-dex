@@ -21,6 +21,11 @@ export class SteemEngine {
     private state: State;
     private subscription: Subscription;
 
+    private user = null;
+    private params = {};
+    private tokens = [];
+    private scotTokens = {};
+    private _sc_callback;
     constructor(
         @lazy(HttpClient) private getHttpClient: () => HttpClient,
         private i18n: I18N,
