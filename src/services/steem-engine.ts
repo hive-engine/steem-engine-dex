@@ -12,6 +12,7 @@ import { logout } from 'store/actions';
 
 import { ToastService, ToastMessage } from './toast-service';
 import { queryParam, popupCenter, tryParse } from 'common/functions';
+import { SteemKeychain } from './steem-keychain';
 
 @connectTo()
 export class SteemEngine {
@@ -26,11 +27,13 @@ export class SteemEngine {
     private tokens = [];
     private scotTokens = {};
     private _sc_callback;
+
     constructor(
         @lazy(HttpClient) private getHttpClient: () => HttpClient,
         private i18n: I18N,
         private store: Store<State>,
-        private toast: ToastService) {
+        private toast: ToastService,
+        private keychain: SteemKeychain) {
         this.accountsApi = getHttpClient();
         this.http = getHttpClient();
 
