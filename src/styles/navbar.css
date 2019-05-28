@@ -1,5 +1,6 @@
 .navbar {
-    min-height: 110px;
+    background: linear-gradient(280deg, #160033 0%, #008b80 51.72%, #00323e 100%);
+    min-height: 60px;
     position: absolute;
     top: 0;
     left: 0;
@@ -14,10 +15,16 @@
 
 .navbar-expand-lg .navbar-nav .nav-link,
 .navbar-nav > li > a {
-    color: #ffffff;
+    color: rgba(255, 255, 255, 0.6);
     font-weight: 400;
-    font-size: 15px;
+    font-size: 16px;
     padding: 6px 20px;
+    text-transform: uppercase;
+}
+
+.navbar-nav > li.active > a,
+.navbar-nav > li > a:hover {
+    color: #FFF !important;
 }
 
 .navbar-nav > li.language-option > a {

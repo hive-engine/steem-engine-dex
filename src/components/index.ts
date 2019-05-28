@@ -3,6 +3,7 @@ import { FrameworkConfiguration } from 'aurelia-framework';
 
 export function configure(config: FrameworkConfiguration) {
     config.globalResources([
-        PLATFORM.moduleName('./components/chart/chart')
+        PLATFORM.moduleName('./chart/chart'),
+        PLATFORM.moduleName('./nav-bar/nav-bar'),
     ]);
 }
