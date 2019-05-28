@@ -1,7 +1,7 @@
 import ApolloClient, { InMemoryCache  } from 'apollo-boost';
 import gql from 'graphql-tag';
 
-import environment from 'environment';
+import { environment } from 'environment';
 
 // Setup the Apollo Client
 const client = new ApolloClient({

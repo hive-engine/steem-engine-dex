@@ -3,7 +3,7 @@ import { lazy } from 'aurelia-framework';
 
 import queryString from 'query-string';
 
-import environment from 'environment';
+import { environment } from 'environment';
 
 export class Api {
     private http: HttpClient;

@@ -4,7 +4,7 @@ import { I18N } from 'aurelia-i18n';
 import { State } from 'store/state';
 import { HttpClient } from 'aurelia-fetch-client';
 import { lazy } from 'aurelia-framework';
-import environment from 'environment';
+import { environment } from 'environment';
 import SSC from 'sscjs';
 import { connectTo, dispatchify, Store } from 'aurelia-store';
 import steem from 'steem';

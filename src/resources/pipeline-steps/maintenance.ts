@@ -1,4 +1,4 @@
-import environment from 'environment';
+import { environment } from 'environment';
 import { Redirect } from 'aurelia-router';
 
 export class MaintenanceStep {

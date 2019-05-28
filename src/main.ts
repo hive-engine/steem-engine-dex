@@ -1,7 +1,7 @@
 import '@babel/polyfill';
 import 'bootstrap';
 import { Aurelia } from 'aurelia-framework';
-import environment from './environment';
+import { environment } from './environment';
 import { PLATFORM } from 'aurelia-pal';
 import { initialState } from './store/state';
 import { TCustomAttribute } from 'aurelia-i18n';
