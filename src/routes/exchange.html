@@ -1,3 +1,48 @@
 <template>
-    
+    <header class="meta-header">
+        <div class="container-fluid h100">
+            <div class="h100 row align-items-center justify-content-between">
+                <div class="col-1 exchange-pair">STEEMP/ENG</div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <span class="meta-label">LAST PRICE: </span>
+                            <span class="meta-value">1,234.56789</span>
+                        </div>
+                        <div class="col">
+                            <span class="meta-label">24H: </span>
+                            <span class="meta-value positive">+8.24%</span>
+                        </div>
+                        <div class="col">
+                            <span class="meta-label">HIGH: </span>
+                            <span class="meta-value">1,234.56789</span>
+                        </div>
+                        <div class="col">
+                            <span class="meta-label">LOW: </span>
+                            <span class="meta-value">1,234.56789</span>
+                        </div>
+                        <div class="col">
+                            <span class="meta-label">VOLUME: </span>
+                            <span class="meta-value">1,234.56789</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <button type="button">Deposit</button>
+                    <button type="button">Withdraw</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid">
+        
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6">
+                <chart data.bind="{}"></chart>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
 </template>

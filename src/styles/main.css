@@ -55,5 +55,15 @@ h6 {
     font-size: 12px;
 }
 
+.h100 {
+    height: 100%;
+}
+
+--positive: #3CFFB5;
+
+.positive {
+    color: var(--positive);
+}
+
 @import "./bootstrap-modal.css";
 @import "./signin.css";

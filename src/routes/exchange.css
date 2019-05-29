@@ -1,0 +1,15 @@
+.meta-header {
+    background: #000000;
+    color: #FFF;
+    font-size: 14px;
+    height: 40px;
+    text-transform: uppercase;
+}
+
+.meta-label {
+    color: #71FFFF;
+}
+
+.exchange-pair {
+    font-weight: bold;
+}

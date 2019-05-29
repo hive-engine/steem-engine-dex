@@ -1,7 +1,7 @@
 .navbar {
     background: linear-gradient(280deg, #160033 0%, #008b80 51.72%, #00323e 100%);
     min-height: 60px;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -11,6 +11,13 @@
     margin: 0;
     border: none;
     border-radius: 0;
+    z-index: 999;
+}
+
+.space-navbar {
+    display: block;
+    padding-top: 60px;
+    position: relative;
 }
 
 .navbar-expand-lg .navbar-nav .nav-link,
