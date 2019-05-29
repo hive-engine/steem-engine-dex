@@ -4,9 +4,12 @@ import { State } from 'store/state';
 import { HttpClient, json } from 'aurelia-fetch-client';
 import { lazy, autoinject } from 'aurelia-framework';
 import { environment } from 'environment';
+
 import SSC from 'sscjs';
-import { connectTo, dispatchify } from 'aurelia-store';
 import steem from 'steem';
+
+import { connectTo, dispatchify } from 'aurelia-store';
+
 import { logout } from 'store/actions';
 
 import { ToastService, ToastMessage } from './toast-service';
@@ -58,17 +61,21 @@ export class SteemEngine {
     }
 
     async loadSteemPrice() {
-        const request = await this.http.fetch('https://postpromoter.net/api/prices', {
-            method: 'get'
-        });
-
-        const response = await request.json();
-
-        return parseFloat(response.steem_price);
+        try {
+            const request = await this.http.fetch('https://postpromoter.net/api/prices', {
+                method: 'GET'
+            });
+    
+            const response = await request.json();
+    
+            return parseFloat(response.steem_price);
+        } catch {
+            return 0;
+        }
     }
 
     async login(username: string, key?: string): Promise<string> {
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async (resolve) => {
             if (window.steem_keychain && !key) {
                 steem_keychain.requestSignBuffer(username, 'Log In', 'Posting', function(response) {
                     if (response.error) {
@@ -322,7 +329,7 @@ export class SteemEngine {
 			symbol
         };
         
-        if (this.keychain.useKeychain()) {
+        if (this.keychain.useKeychain) {
             const response = await this.keychain.customJson(username, 'scot_claim_token', 'Posting', JSON.stringify(claimData),`Claim ${calculated} ${symbol.toUpperCase()} Tokens`);
             
             if (response.success && response.result) {
@@ -355,7 +362,7 @@ export class SteemEngine {
             }
         };
 
-        if (this.keychain.useKeychain()) {
+        if (this.keychain.useKeychain) {
             const response = await this.keychain.customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Enable Token Staking');
 
             if (response.success && response.result) {
@@ -401,7 +408,7 @@ export class SteemEngine {
             }
         };
         
-        if (this.keychain.useKeychain()) {
+        if (this.keychain.useKeychain) {
             const response = await this.keychain.customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Stake Token');
 
             if (response.success && response.result) {
@@ -447,7 +454,7 @@ export class SteemEngine {
             }
         };
         
-        if (this.keychain.useKeychain()) {
+        if (this.keychain.useKeychain) {
             const response = await this.keychain.customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Unstake Tokens');
 
             if (response.success && response.result) {
@@ -492,7 +499,7 @@ export class SteemEngine {
             }
         };
         
-        if (this.keychain.useKeychain()) {
+        if (this.keychain.useKeychain) {
             const response = await this.keychain.customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Cancel Unstake Tokens');
 
             if (response.success && response.result) {
