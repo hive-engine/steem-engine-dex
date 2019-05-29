@@ -1,9 +1,5 @@
-import { SteemEngine } from 'services/steem-engine';
-import { Container } from 'aurelia-framework';
 import { State } from './state';
 import store from './store';
-
-const SE: SteemEngine = Container.instance.get(SteemEngine);
 
 export function loading(state: State, boolean: boolean) {
     const newState = { ...state };
