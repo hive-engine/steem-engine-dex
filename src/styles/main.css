@@ -12,6 +12,10 @@ body {
     text-rendering: optimizeLegibility;
 }
 
+.route--exchange {
+    background: #002B33;
+}
+
 a {
     color: inherit;
     text-decoration: none;
