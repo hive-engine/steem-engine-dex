@@ -21,13 +21,13 @@ import { SteemKeychain } from './steem-keychain';
 export class SteemEngine {
     private accountsApi: HttpClient;
     private http: HttpClient;
-    private ssc;
+    public ssc;
     private state: State;
 
-    private user = null;
-    private params = {};
-    private tokens = [];
-    private scotTokens = {};
+    public user = null;
+    public params = {};
+    public tokens = [];
+    public scotTokens = {};
     private _sc_callback;
 
     constructor(

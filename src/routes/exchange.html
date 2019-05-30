@@ -2,12 +2,12 @@
     <header class="meta-header">
         <div class="container-fluid h100">
             <div class="h100 row align-items-center justify-content-between">
-                <div class="col-1 exchange-pair">STEEMP/ENG</div>
+                <div class="col-1 exchange-pair">STEEMP/${data.symbol}</div>
                 <div class="col">
                     <div class="row">
                         <div class="col">
                             <span class="meta-label">LAST PRICE: </span>
-                            <span class="meta-value">1,234.56789</span>
+                            <span class="meta-value">${data.lastPrice}</span>
                         </div>
                         <div class="col">
                             <span class="meta-label">24H: </span>
@@ -15,15 +15,15 @@
                         </div>
                         <div class="col">
                             <span class="meta-label">HIGH: </span>
-                            <span class="meta-value">1,234.56789</span>
+                            <span class="meta-value">${data.highestBid}</span>
                         </div>
                         <div class="col">
                             <span class="meta-label">LOW: </span>
-                            <span class="meta-value">1,234.56789</span>
+                            <span class="meta-value">${data.lowestAsk}</span>
                         </div>
                         <div class="col">
                             <span class="meta-label">VOLUME: </span>
-                            <span class="meta-value">1,234.56789</span>
+                            <span class="meta-value">${data.volume}</span>
                         </div>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
         <div class="row">
             <div class="col-3"></div>
             <div class="col-6">
-                <chart data.bind="{}"></chart>
+                <chart data.bind="chartData"></chart>
             </div>
             <div class="col-3"></div>
         </div>
