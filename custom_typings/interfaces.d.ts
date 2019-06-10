@@ -23,3 +23,15 @@ interface EnvironmentInterface {
     PEGGED_TOKEN: string;
     PEGGED_TOKENS: PeggedToken[];
 }
+
+interface BalanceInterface {
+    $loki: number;
+    account: string;
+    balance: string;
+    lastPrice: number;
+    name: string;
+    priceChangePercent: number;
+    scotConfig?: any;
+    symbol: string;
+    usdValue: string;
+}
