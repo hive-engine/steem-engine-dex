@@ -8,6 +8,10 @@ import { initialState } from './store/state';
 import { TCustomAttribute } from 'aurelia-i18n';
 import Backend from 'i18next-xhr-backend';
 
+import 'datatables.net-bs4';
+import 'datatables.net-responsive-bs4';
+import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
+
 import 'sscjs/dist/ssc';
 
 import '!style-loader!css-loader!bootstrap/dist/css/bootstrap.min.css';
@@ -16,7 +20,7 @@ import '!style-loader!css-loader!izitoast/dist/css/iziToast.css';
 import '!style-loader!css-loader!./styles/toast.css';
 import '!style-loader!css-loader!./styles/main.css';
 
-import modalCss from './styles/modal.css';
+import modalCss from '!style-loader!css-loader!./styles/modal.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faGlobe, faFlagUsa, faPoundSign } from '@fortawesome/free-solid-svg-icons';
@@ -53,7 +57,6 @@ export async function configure(aurelia: Aurelia) {
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-dialog'), config => {
         config
             .useDefaults()
-            .useCSS(modalCss)
     });
 
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-i18n'), (instance) => {
