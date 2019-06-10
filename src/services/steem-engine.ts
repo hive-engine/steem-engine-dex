@@ -67,9 +67,13 @@ export class SteemEngine {
             });
     
             const response = await request.json();
+
+            window.steem_price = parseFloat(response.steem_price);
     
-            return parseFloat(response.steem_price);
+            return window.steem_price;
         } catch {
+            window.steem_price = 0;
+            
             return 0;
         }
     }
