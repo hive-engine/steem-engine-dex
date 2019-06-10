@@ -35,8 +35,8 @@ function loadPostCssPlugins() {
       require("postcss-custom-properties")(),
       require("postcss-partial-import")(),
       require("postcss-extend")(),
-      require("postcss-preset-env")({ browsers: ["last 2 versions", "> 5%"] }),
-      require("autoprefixer")({ browsers: ["last 2 versions"] }),
+      require("postcss-preset-env")(),
+      require("autoprefixer")(),
       require("cssnano")()
     ];
   }
