@@ -13,7 +13,7 @@ import { connectTo, dispatchify } from 'aurelia-store';
 import { logout } from 'store/actions';
 
 import { ToastService, ToastMessage } from './toast-service';
-import { queryParam, popupCenter, tryParse } from 'common/functions';
+import { queryParam, popupCenter, tryParse, usdFormat } from 'common/functions';
 import { SteemKeychain } from './steem-keychain';
 
 @connectTo()
@@ -220,14 +220,44 @@ export class SteemEngine {
         return result;
     }
 
-    async loadBalances(account: string) {
-        const balances = await this.ssc.find('tokens', 'balances', { account: account }, 1000, 0, '', false);
-
-        if (this.user && account === this.user.name) {
-            this.user.balances = balances;
+    async loadBalances(account?: string): Promise<BalanceInterface[]> {
+        if (!account) {
+            account = localStorage.getItem('username') || null;
         }
 
-        return balances;
+        if (!account) {
+            return null;
+        }
+
+        await this.loadTokens();
+
+        const loadedBalances: BalanceInterface[] = await this.ssc.find('tokens', 'balances', { account: account }, 1000, 0, '', false);
+
+        if (loadedBalances.length) {
+            const balances = loadedBalances
+                .filter(b => !environment.DISABLED_TOKENS.includes(b.symbol))
+                .map(d => {
+                    const token = this.tokens.find(t => t.symbol === d.symbol);
+                    const scotConfig = (this.user && Object.keys(this.user.scotTokens).length && typeof this.user.scotTokens[token.symbol] !== 'undefined') 
+                    ? this.user.scotTokens[token.symbol] : null;
+
+                    return { ...d, ...{
+                        name: token.name,
+                        lastPrice: token.lastPrice,
+                        priceChangePercent: token.priceChangePercent,
+                        usdValue: usdFormat(parseFloat(d.balance) * token.lastPrice, 2),
+                        scotConfig
+                    } };
+                });
+
+            //balances.sort((a, b) => parseFloat(b.balance) * b.lastPrice * window.steem_price - parseFloat(b.balance) * a.lastPrice * window.steem_price);
+
+            if (this.user && account === this.user.name) {
+                this.user.balances = balances;
+            }
+    
+            return balances;
+        }
     }
 
     async loadTokens() {
