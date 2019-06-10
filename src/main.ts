@@ -1,7 +1,8 @@
+import { SteemEngine } from 'services/steem-engine';
 import { AppRouter } from 'aurelia-router';
 import '@babel/polyfill';
 import 'bootstrap';
-import { Aurelia } from 'aurelia-framework';
+import { Aurelia, Container } from 'aurelia-framework';
 import { environment } from './environment';
 import { PLATFORM } from 'aurelia-pal';
 import { initialState } from './store/state';
@@ -27,6 +28,14 @@ import { faGlobe, faFlagUsa, faPoundSign } from '@fortawesome/free-solid-svg-ico
 import { EventAggregator } from 'aurelia-event-aggregator';
 
 library.add(faGlobe as any, faFlagUsa as any, faPoundSign as any);
+
+const SE: SteemEngine = Container.instance.get(SteemEngine);
+
+SE.loadSteemPrice();
+
+setInterval(() => {
+    SE.loadSteemPrice();
+}, 300000);
 
 export async function configure(aurelia: Aurelia) {
     aurelia.use
