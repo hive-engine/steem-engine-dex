@@ -4,6 +4,8 @@ import { SteemEngine } from 'services/steem-engine';
 @autoinject()
 export class Wallet {
     private balances: BalanceInterface[];
+    private balancesCopy: BalanceInterface[];
+
     private tokenTable: HTMLTableElement;
     
     constructor(private se: SteemEngine) {
@@ -17,6 +19,7 @@ export class Wallet {
     
     async activate() {       
         this.balances = await this.se.loadBalances();
+        this.balancesCopy = this.balances;
 
         console.log(this.balances);
     }
