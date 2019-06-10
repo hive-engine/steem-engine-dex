@@ -14,7 +14,11 @@ export class Wallet {
 
     attached() {
         // @ts-ignore
-        $(this.tokenTable).DataTable();
+        $(this.tokenTable).DataTable({
+            bInfo: false,
+            paging: false,
+            searching: false
+        });
     }
     
     async activate() {       
