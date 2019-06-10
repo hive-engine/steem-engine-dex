@@ -1,4 +1,4 @@
-import { autoinject } from 'aurelia-framework';
+import { autoinject, observable } from 'aurelia-framework';
 import { SteemEngine } from 'services/steem-engine';
 
 @autoinject()
@@ -7,6 +7,7 @@ export class Wallet {
     private balancesCopy: BalanceInterface[];
 
     private tokenTable: HTMLTableElement;
+    @observable() private hideZeroBalances = false;
     
     constructor(private se: SteemEngine) {
 
@@ -26,5 +27,13 @@ export class Wallet {
         this.balancesCopy = this.balances;
 
         console.log(this.balances);
+    }
+
+    hideZeroBalancesChanged(val) {
+        if (val) {
+            this.balances = this.balances.filter(t => parseFloat(t.balance) > 0);
+        } else {
+            this.balances = this.balancesCopy;
+        }
     }
 }
