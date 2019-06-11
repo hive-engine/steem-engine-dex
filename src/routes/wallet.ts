@@ -1,3 +1,4 @@
+import { Redirect } from 'aurelia-router';
 import { autoinject, observable } from 'aurelia-framework';
 import { SteemEngine } from 'services/steem-engine';
 
@@ -26,9 +27,20 @@ export class Wallet {
             searching: false
         });
     }
+
+    async canActivate() {
+        try {
+            this.balances = await this.se.loadBalances();
+
+            if (!this.balances) {
+                return new Redirect('');
+            }
+        } catch {
+            return false;
+        }
+    }
     
-    async activate() {       
-        this.balances = await this.se.loadBalances();
+    activate() {       
         this.balancesCopy = this.balances;
 
         console.log(this.balances);

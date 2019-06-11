@@ -1,12 +1,28 @@
+import { Store } from 'aurelia-store';
 import { environment } from './environment';
 import { PostRenderStep } from './resources/pipeline-steps/postrender';
 import { PreRenderStep } from './resources/pipeline-steps/prerender';
 import { MaintenanceStep } from './resources/pipeline-steps/maintenance';
 import { PLATFORM } from 'aurelia-pal';
 import { Router, RouterConfiguration } from 'aurelia-router';
+import { State } from 'store/state';
+import { autoinject } from 'aurelia-framework';
+import { map, pluck } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
+@autoinject()
 export class App {
+    private loggedIn: Observable<boolean>;
     public router: Router;
+
+    constructor(private store: Store<State>) {
+
+    }
+
+    bind() {
+        console.log('bind');
+        this.loggedIn = this.store.state.pipe(pluck('loggedIn'));
+    }
 
     public configureRouter(config: RouterConfiguration, router: Router) {
         config.title = 'Steem Engine';
@@ -34,14 +50,14 @@ export class App {
                 route: 'wallet',
                 name: 'wallet',
                 moduleId: PLATFORM.moduleName('./routes/wallet'),
-                nav: false,
+                nav: 2,
                 title: 'Wallet'
             },
             {
                 route: 'offerings',
                 name: 'offerings',
                 moduleId: PLATFORM.moduleName('./routes/offerings'),
-                nav: 2,
+                nav: 3,
                 title: 'Offerings'
             },
             {
@@ -63,7 +79,7 @@ export class App {
                 route: 'faq',
                 name: 'faq',
                 moduleId: PLATFORM.moduleName('./routes/faq'),
-                nav: 3,
+                nav: 4,
                 title: 'Faq'
             }
         ]);
