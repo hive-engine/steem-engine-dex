@@ -11,11 +11,6 @@
     <!-- imported CSS are concatenated and added automatically -->
   </head>
   <body aurelia-app="main">
-    <style type="text/css">
-        body {
-            background: #181F1F;
-            color: #FFF;
-        }
-    </style>
+    <%= require('html-loader!./matrix.ejs') %>
   </body>
 </html>
