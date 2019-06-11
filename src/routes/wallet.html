@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container main-container">
         <div class="row">
             <div class="col-12">
                 <div class="tabs">
@@ -39,9 +39,9 @@
                             <td></td>
                             <td>${token.symbol}</td>
                             <td>${token.name}</td>
-                            <td>${token.balance}</td>
+                            <td>${token.balance | comma}</td>
                             <td>${token.usdValue}</td>
-                            <td>${token.priceChangePercent}</td>
+                            <td>${token.priceChangePercent.toFixed(2)}%</td>
                             <td>${token.stake >= 0 ? parseFloat(token.stake) : '--'}</td>
                             <td class="table-buttons"><a route-href="route: exchange;">Market</a></td>
                         </tr>
