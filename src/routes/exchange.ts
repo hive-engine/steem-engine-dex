@@ -49,7 +49,7 @@ export class Exchange {
         const results = await Promise.all(tasks);
 
         // prepare buy orders
-        var buy_total = 0;
+        let buy_total = 0;
         this.buyBook = results[0].map(o => {
             buy_total += o.quantity * o.price;
             o.total = buy_total;
@@ -58,7 +58,7 @@ export class Exchange {
         });
         
         // prepare sell orders
-        var sell_total = 0;
+        let sell_total = 0;
         this.sellBook = results[1].map(o => {
             sell_total += o.quantity * o.price;
             o.total = sell_total;

@@ -1,12 +1,17 @@
 import { autoinject, observable } from 'aurelia-framework';
 import { SteemEngine } from 'services/steem-engine';
 
+import Styles from './wallet.css';
+
 @autoinject()
 export class Wallet {
+    private styles = Styles;
+    
     private balances: BalanceInterface[];
     private balancesCopy: BalanceInterface[];
 
     private tokenTable: HTMLTableElement;
+
     @observable() private hideZeroBalances = false;
     
     constructor(private se: SteemEngine) {

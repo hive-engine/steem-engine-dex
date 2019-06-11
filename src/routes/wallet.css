@@ -1,0 +1,11 @@
+.table-buttons {
+    display: flex;
+}
+
+.table-buttons a {
+    margin-right: 10px;
+}
+
+.table-buttons a:last-child {
+    margin-right: 0;
+}
