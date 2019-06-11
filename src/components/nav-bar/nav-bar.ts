@@ -11,4 +11,12 @@ import { Observable } from 'rxjs';
 export class NavBar {
     @bindable router;
     @bindable loggedIn;
+
+    private username = '';
+
+    loggedInChanged(bool) {
+        if (bool) {
+            this.username = localStorage.getItem('username');
+        }
+    }
 }

@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 
 @autoinject()
 export class App {
-    private loggedIn: Observable<boolean>;
+    private loggedIn = false;
     public router: Router;
 
     constructor(private store: Store<State>) {
@@ -20,8 +20,11 @@ export class App {
     }
 
     bind() {
-        console.log('bind');
-        this.loggedIn = this.store.state.pipe(pluck('loggedIn'));
+        this.store.state.subscribe((s: State) => {
+            if (s) {
+                this.loggedIn = s.loggedIn;
+            }
+        });
     }
 
     public configureRouter(config: RouterConfiguration, router: Router) {

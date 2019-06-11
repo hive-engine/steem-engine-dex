@@ -26,6 +26,8 @@ import modalCss from '!style-loader!css-loader!./styles/modal.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faGlobe, faFlagUsa, faPoundSign } from '@fortawesome/free-solid-svg-icons';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { dispatchify } from 'aurelia-store';
+import { login } from 'store/actions';
 
 library.add(faGlobe as any, faFlagUsa as any, faPoundSign as any);
 
@@ -96,6 +98,11 @@ export async function configure(aurelia: Aurelia) {
             });
         });
     });
+
+    const username = localStorage.getItem('username') || null;
+    if (username) {
+        dispatchify(login)(username);
+    }
 
     await aurelia.start();
 

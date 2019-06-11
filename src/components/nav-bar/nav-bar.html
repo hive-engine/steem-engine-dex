@@ -30,9 +30,11 @@
                             </li>
                         </ul>
                     </li>
-                    <p>${loggedIn & async}</p>
-                    <li class="nav-item button active" if.bind="!loggedIn & async">
+                    <li class="nav-item button active" if.bind="!loggedIn">
                         <a class="btn nav-link" route-href="route: signin;">${'Sign In' & t}</a>
+                    </li>
+                    <li else class="nav-item button active">
+                        <a href="#">${username}</a>
                     </li>
                 </ul>
             </div>
