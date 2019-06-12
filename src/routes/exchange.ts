@@ -4,7 +4,7 @@ import { autoinject } from 'aurelia-framework';
 import styles from './exchange.css'
 import { environment } from 'environment';
 import moment from 'moment';
-import { find } from 'lodash';
+import { find, uniq, fill } from 'lodash';
 
 @autoinject()
 export class Exchange {
@@ -13,7 +13,7 @@ export class Exchange {
     private data;
     private styles = styles;
     private tokenData;
-    private chartData = {};
+    private chartData: any = {};
     private sellBook = [];
     private buyBook = [];
 
@@ -103,5 +103,55 @@ export class Exchange {
         
         this.buyBook = this.buyBook.slice(0, 15);
         this.sellBook = this.sellBook.slice(0, 15);
+
+        let buyOrderLabels = uniq(this.buyBook.map(o => parseFloat(o.price)));
+        let buyOrderDataset = [];
+        let buyOrderCurrentVolume = 0;
+        buyOrderLabels.forEach(label => {
+            let matchingBuyOrders = this.buyBook.filter(o => parseFloat(o.price) === label);
+    
+            if (matchingBuyOrders.length === 0) {
+                buyOrderDataset.push(null);
+            } else {
+                buyOrderCurrentVolume = buyOrderCurrentVolume + matchingBuyOrders.reduce((acc, val) => acc + parseFloat(val.quantity), 0);
+                buyOrderDataset.push(buyOrderCurrentVolume);
+            }
+        });
+        buyOrderLabels.reverse();
+        buyOrderDataset.reverse();
+    
+        let sellOrderLabels = uniq(this.sellBook.map(o => parseFloat(o.price)));
+        let sellOrderDataset = fill(Array(buyOrderDataset.length), null);
+        let sellOrderCurrentVolume = 0;
+        sellOrderLabels.forEach(label => {
+            let matchingSellOrders = this.sellBook.filter(o => parseFloat(o.price) === label);
+    
+            if (matchingSellOrders.length === 0) {
+                sellOrderDataset.push(null);
+            } else {
+                sellOrderCurrentVolume = sellOrderCurrentVolume + matchingSellOrders.reduce((acc, val) => acc + parseFloat(val.quantity), 0);
+                sellOrderDataset.push(sellOrderCurrentVolume);
+            }
+        });
+
+        this.chartData = {
+            labels: buyOrderLabels.concat(sellOrderLabels),
+            datasets: [
+                {
+                    label: 'Buy',
+                    steppedLine: 'after',
+                    borderColor: '#88e86b',
+                    backgroundColor: '#a9ea96',
+                    data: buyOrderDataset
+                },
+                {
+                    label: 'Sell',
+                    steppedLine: 'before',
+                    borderColor: '#e45858',
+                    backgroundColor: '#e87f7f',
+                    data: sellOrderDataset
+                }
+            ]
+        };
     }
 }
