@@ -13,3 +13,12 @@
 .exchange-pair {
     font-weight: bold;
 }
+
+.exchange-columns > div {
+    background-color: #002B33;
+    padding-top: 20px;
+}
+
+.chart-col {
+    background-color: #181F1F;
+}
