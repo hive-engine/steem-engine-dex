@@ -1,3 +1,9 @@
 {
-    "steemEngine": "Steem Engine"
+    "steemEngine": "Steem Engine",
+    "Withdraw": "Withdraw",
+    "Deposit": "Deposit",
+    "LAST PRICE": "LAST PRICE",
+    "HIGH": "HIGH",
+    "LOW": "LOW",
+    "VOLUME": "VOLUME"
 }
