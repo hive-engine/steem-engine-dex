@@ -71,16 +71,20 @@ export class ClassCustomAttribute {
   }
 
   valueChanged(newValue: string) {
+    if (!this.bindingContext) {
+        return;
+    }
+
     this.previousClasses.forEach(x => removeClassList(this.element, x));
 
     this.previousClasses = newValue
-      .split(' ')
-      .map(x => x.trim())
-      .map(x =>
-        this.bindingContext.styles[x] ? this.bindingContext.styles[x] : x
-      )
-      .join(' ')
-      .split(' ');
+        .split(' ')
+        .map(x => x.trim())
+        .map(x =>
+            this.bindingContext.styles[x] ? this.bindingContext.styles[x] : x
+        )
+        .join(' ')
+        .split(' ');
 
     this.previousClasses.forEach(x => addClassList(this.element, x));
   }
