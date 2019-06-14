@@ -38,7 +38,25 @@
     <div class="container-fluid h100-minus-header">
         
         <div class="row exchange-columns h100">
-            <div class="col-3"></div>
+            <div class="col-3">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>${'Price' & t} (STEEMP)</th>
+                            <th>${'QTY' & t} (ENG)</th>
+                            <th>${'Total' & t} (STEEMP)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr repeat.for="order of sellBook">
+                            <td>${parseFloat(order.price)}</td>
+                            <td>${parseFloat(order.quantity).toFixed(3)}</td>
+                            <td>${parseFloat(order.price) * parseFloat(order.quantity)}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
             <div class="col-6 chart-col">
                 <chart data.bind="chartData" options="{legend: { display: false }}"></chart>
             </div>
