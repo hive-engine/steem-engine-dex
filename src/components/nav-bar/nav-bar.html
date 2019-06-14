@@ -1,4 +1,6 @@
 <template>
+    <require from="./language-switcher"></require>
+    
     <nav class="navbar main-nav navbar-expand-lg" role="navigation">
 
     <div class="container-fluid">
@@ -14,21 +16,7 @@
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown language-option">
-                        <a class="nav-link" href="#">
-                            <font-awesome-icon icon="globe"></font-awesome-icon> EN
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <font-awesome-icon icon="flag-usa"></font-awesome-icon> US
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <font-awesome-icon icon="pound-sign"></font-awesome-icon> UK
-                                </a>
-                            </li>
-                        </ul>
+                        <language-switcher></language-switcher>
                     </li>
                     <li class="nav-item button active" if.bind="!loggedIn">
                         <a class="btn nav-link" route-href="route: signin;">${'Sign In' & t}</a>
