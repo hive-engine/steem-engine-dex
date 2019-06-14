@@ -2,34 +2,34 @@
     <header class="meta-header">
         <div class="container-fluid h100">
             <div class="h100 row align-items-center justify-content-between">
-                <div class="col-1 exchange-pair">STEEMP/${data.symbol}</div>
+                <div class="col-1 exchange-pair">${'STEEMP' & t}/${data.symbol}</div>
                 <div class="col">
                     <div class="row">
                         <div class="col">
-                            <span class="meta-label">LAST PRICE: </span>
+                            <span class="meta-label">${'LAST PRICE' & t}: </span>
                             <span class="meta-value">${data.lastPrice}</span>
                         </div>
                         <div class="col">
-                            <span class="meta-label">24H: </span>
+                            <span class="meta-label">${'24H' & t}: </span>
                             <span class="meta-value positive">+8.24%</span>
                         </div>
                         <div class="col">
-                            <span class="meta-label">HIGH: </span>
+                            <span class="meta-label">${'HIGH' & t}: </span>
                             <span class="meta-value">${data.highestBid}</span>
                         </div>
                         <div class="col">
-                            <span class="meta-label">LOW: </span>
+                            <span class="meta-label">${'LOW' & t}: </span>
                             <span class="meta-value">${data.lowestAsk}</span>
                         </div>
                         <div class="col">
-                            <span class="meta-label">VOLUME: </span>
+                            <span class="meta-label">${'VOLUME' & t}: </span>
                             <span class="meta-value">${data.volume}</span>
                         </div>
                     </div>
                 </div>
                 <div class="col">
-                    <button type="button">Deposit</button>
-                    <button type="button">Withdraw</button>
+                    <button type="button">${'Deposit' & t}</button>
+                    <button type="button">${'Withdraw' & t}</button>
                 </div>
             </div>
         </div>
