@@ -2,4 +2,6 @@
   <nav-bar router.bind="router" logged-in.bind="loggedIn"></nav-bar>
 
   <router-view class="space-navbar"></router-view>
+
+  <loader loading.bind="loading || router.isNavigating & debounce:350"></loader>
 </template>

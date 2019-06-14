@@ -1,3 +1,4 @@
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { Store } from 'aurelia-store';
 import { environment } from './environment';
 import { PostRenderStep } from './resources/pipeline-steps/postrender';
@@ -13,15 +14,17 @@ import { Observable } from 'rxjs';
 @autoinject()
 export class App {
     private loggedIn = false;
+    private loading = false;
     public router: Router;
 
-    constructor(private store: Store<State>) {
+    constructor(private ea: EventAggregator, private store: Store<State>) {
 
     }
 
     bind() {
         this.store.state.subscribe((s: State) => {
             if (s) {
+                this.loading = s.loading;
                 this.loggedIn = s.loggedIn;
             }
         });
