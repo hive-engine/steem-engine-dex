@@ -1,0 +1,12 @@
+<template>
+    <a class="nav-link" href="#">
+        <font-awesome-icon icon="globe"></font-awesome-icon> ${selectedLanguage.value}
+    </a>
+    <ul class="dropdown-menu">
+        <li class="nav-item" repeat.for="language of languages">
+            <a class="nav-link" href="javascript:void(0);" click.delegate="setLanguage(language)">
+                <font-awesome-icon icon.bind="language.icon"></font-awesome-icon> ${language.text & t}
+            </a>
+        </li>
+    </ul>
+</template>
