@@ -1,16 +1,19 @@
-language: node_js
-node_js:
-  - "10"
-  - "12"
+image: cstheriot/aurelia-cli:latest
 
-branches:
-  only:
-  - master
-  - develop
-  
-before_script:
-  - yarn install
-  - yarn global add aurelia-cli
-  
-script:
-  - au build --env prod
+options:
+  docker: true
+
+pipelines:
+  branches:
+    master:
+      - step:
+        script:
+          - yarn
+          - au build --env prod
+          - au test
+    develop:
+      - step:
+        script:
+          - yarn
+          - au build --env dev
+          - au test
