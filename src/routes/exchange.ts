@@ -16,6 +16,7 @@ export class Exchange {
     private chartData: any = {};
     private sellBook = [];
     private buyBook = [];
+    private tradeHistory = [];
 
     constructor(private se: SteemEngine) {
 
@@ -67,7 +68,7 @@ export class Exchange {
         });
         
         // prepare trade history
-        let trade_history = results[2].map(o => {
+        this.tradeHistory = results[2].map(o => {
             o.total = o.price * o.quantity;
             o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
             return o;
@@ -103,6 +104,7 @@ export class Exchange {
         
         this.buyBook = this.buyBook.slice(0, 15);
         this.sellBook = this.sellBook.slice(0, 15);
+        this.tradeHistory = this.tradeHistory.slice(0, 15);
 
         let buyOrderLabels = uniq(this.buyBook.map(o => parseFloat(o.price)));
         let buyOrderDataset = [];
