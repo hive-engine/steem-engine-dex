@@ -6,6 +6,7 @@ export function configure(config: FrameworkConfiguration) {
         PLATFORM.moduleName('./attributes/class'),
         PLATFORM.moduleName('./value-converters/comma'),
         PLATFORM.moduleName('./value-converters/large-number'),
+        PLATFORM.moduleName('./value-converters/to-fixed'),
         PLATFORM.moduleName('./value-converters/usd-format'),
     ]);
 }
