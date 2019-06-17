@@ -15,6 +15,7 @@ import { logout } from 'store/actions';
 import { ToastService, ToastMessage } from './toast-service';
 import { queryParam, popupCenter, tryParse, usdFormat } from 'common/functions';
 import { SteemKeychain } from './steem-keychain';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 @connectTo()
 @autoinject()
@@ -28,10 +29,12 @@ export class SteemEngine {
     public params = {};
     public tokens = [];
     public scotTokens = {};
+    public steemPrice = 0;
     private _sc_callback;
 
     constructor(
         @lazy(HttpClient) private getHttpClient: () => HttpClient,
+        private ea: EventAggregator,
         private i18n: I18N,
         private toast: ToastService,
         private keychain: SteemKeychain) {
@@ -69,6 +72,10 @@ export class SteemEngine {
             const response = await request.json();
 
             window.steem_price = parseFloat(response.steem_price);
+
+            this.steemPrice = window.steem_price;
+
+            this.ea.publish('steem:price:updated', window.steem_price);
     
             return window.steem_price;
         } catch {
