@@ -17,6 +17,7 @@ export class Exchange {
     private sellBook = [];
     private buyBook = [];
     private tradeHistory = [];
+    private userOrders = [];
 
     constructor(private se: SteemEngine) {
 
@@ -94,8 +95,8 @@ export class Exchange {
                 return o;
             });
 
-            user_orders = user_buy_orders.concat(user_sell_orders);
-            user_orders.sort((a, b) => b.timestamp - a.timestamp);
+            this.userOrders = user_buy_orders.concat(user_sell_orders);
+            this.userOrders.sort((a, b) => b.timestamp - a.timestamp);
 
             user_token_balance = find(results[5], (balance) => balance.symbol === symbol);
             user_steemp_balance = find(results[5], (balance) => balance.symbol === 'STEEMP');
