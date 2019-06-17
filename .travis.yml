@@ -1,16 +1,19 @@
-***REMOVED***
-***REMOVED***
-***REMOVED***
-  - "12"
+image: cstheriot/aurelia-cli:latest
 
-branches:
-  only:
-  - master
-  - develop
-  
-before_script:
-  - yarn install
-  - yarn global add aurelia-cli
-  
-script:
-  - au build --env prod
+options:
+  docker: true
+
+***REMOVED***
+***REMOVED***
+***REMOVED***
+      - step:
+  ***REMOVED***
+    ***REMOVED***
+    ***REMOVED***
+          - au test
+***REMOVED***
+      - step:
+  ***REMOVED***
+    ***REMOVED***
+    ***REMOVED***
+          - au test
