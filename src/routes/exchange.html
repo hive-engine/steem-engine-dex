@@ -49,9 +49,9 @@
                     </thead>
                     <tbody>
                         <tr repeat.for="order of sellBook">
-                            <td>${parseFloat(order.price)}</td>
-                            <td>${parseFloat(order.quantity).toFixed(3)}</td>
-                            <td>${parseFloat(order.price) * parseFloat(order.quantity)}</td>
+                            <td>${order.price}</td>
+                            <td>${order.quantity}</td>
+                            <td>${order.amountLocked}</td>
                         </tr>
                     </tbody>
                 </table>
