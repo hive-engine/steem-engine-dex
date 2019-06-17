@@ -14,6 +14,8 @@ export class Exchange {
     private styles = styles;
     private tokenData;
     private chartData: any = {};
+
+    private userTokenBalance = [];
     private sellBook = [];
     private buyBook = [];
     private tradeHistory = [];
@@ -34,7 +36,6 @@ export class Exchange {
         this.data = this.tokenData.find(t => t.symbol === symbol);
 
         let tasks = [];
-        let precision = this.data.precision;
 
         tasks.push(this.se.ssc.find('market', 'buyBook', { symbol: symbol }, 200, 0, [{ index: 'price', descending: true }], false));
 		tasks.push(this.se.ssc.find('market', 'sellBook', { symbol: symbol }, 200, 0, [{ index: 'price', descending: false }], false));
@@ -75,10 +76,6 @@ export class Exchange {
             return o;
         });
 
-        let user_orders = [];
-        let user_token_balance = null;
-        let user_steemp_balance = null;
-
         if (account) {
             // prepare user orders and balance
             let user_buy_orders = results[3].map(o => {
@@ -98,8 +95,8 @@ export class Exchange {
             this.userOrders = user_buy_orders.concat(user_sell_orders);
             this.userOrders.sort((a, b) => b.timestamp - a.timestamp);
 
-            user_token_balance = find(results[5], (balance) => balance.symbol === symbol);
-            user_steemp_balance = find(results[5], (balance) => balance.symbol === 'STEEMP');
+            this.userTokenBalance = find(results[5], (balance) => balance.symbol === symbol);
+            this.userTokenBalance = find(results[5], (balance) => balance.symbol === 'STEEMP');
         }
 
         
