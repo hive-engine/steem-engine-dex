@@ -18,7 +18,8 @@
     font-weight: bold;
 }
 
-.exchange-columns > div {
+.exchange-columns > div:first-child,
+.exchange-columns > div:last-child {
     background-color: #002B33;
     padding-top: 20px;
 }

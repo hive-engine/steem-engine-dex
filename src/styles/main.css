@@ -25,7 +25,7 @@ body {
 }
 
 .route--exchange {
-    background: #002B33;
+    background: #181F1F;
 }
 
 a {
@@ -81,7 +81,7 @@ h6 {
 }
 
 .h100-minus-header {
-    min-height: calc(100vh - 40px);
+    min-height: calc(100vh - 120px);
 }
 
 --positive: #3CFFB5;
