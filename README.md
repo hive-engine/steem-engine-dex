@@ -30,6 +30,8 @@ Provided everything went according to plan, to run the application locally in de
 au run --watch
 ```
 
+The application will then be viewable via: http://localhost:8081
+
 ## Building The App For Production
 
 It's time to ship it, to do a production build simply run the following command in your project directory in a Terminal window:
