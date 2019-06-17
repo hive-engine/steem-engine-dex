@@ -24,6 +24,13 @@
     padding-top: 20px;
 }
 
+.current-price {
+    background: #000;
+    color: #FFF;
+    padding: 15px;
+    text-align: center;
+}
+
 .chart-col {
     background-color: #181F1F;
 }
