@@ -3,11 +3,11 @@ import { customElement, bindable, TaskQueue, autoinject, DOM } from 'aurelia-fra
 import Chart from 'chart.js';
 
 const DefaultChartOptions = {
-    legend: {
-        display: false
-    },
     options: {
         animation: {},
+        legend: {
+            display: false
+        },
         steppedLine: true
     }
 };
