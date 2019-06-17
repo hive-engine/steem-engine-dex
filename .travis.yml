@@ -1,5 +1,15 @@
-# safelist
+***REMOVED***
+***REMOVED***
+  - "10.16.0"
+
 branches:
   only:
   - master
   - develop
+  
+before_script:
+  - yarn install
+  - yarn global add aurelia-cli
+  
+script:
+  - au build --env prod
