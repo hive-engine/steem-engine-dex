@@ -1,6 +1,9 @@
 language: node_js
 node_js:
   - "10"
+addons:
+  ssh_known_hosts:
+  - echo $HOST
 pipelines:
   branches:
     master:
@@ -19,7 +22,6 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_134e9820d8ee_key -iv $encrypted_134e9820d8ee_iv
   -in deploy-key.enc -out ./deploy-key -d
 - npm install aurelia-cli -g
-- echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCzIuAj4qDQ1qoPdV3+UeNDfmf7ZYyiX/m9V/xA6wIhi5G6vNCVkB7yBYldGeNMufnErCiox0Mv0mJtJ/gEj0A7gOSpJDjvGW7ajOduyriOIybeSGMmEj5GZuy2ToMr7gqYKA$' >> $HOME/.ssh/known_hosts
 - eval "$(ssh-agent -s)"
 - chmod 400 ./deploy-key
 - ssh-add ./deploy-key
