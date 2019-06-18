@@ -18,3 +18,8 @@ options:
 ***REMOVED***
 ***REMOVED***
   -in steem-engine-deploy-key.enc -out ~\/steem-engine-deploy-key -d
+***REMOVED***
+- chmod 400 ./steem-engine-deploy-key
+- echo -e "Host steembottracker.net\n\StrictHostKeyChecking no\n" >> ~./ssh/config
+- ssh-add ./steem-engine-deploy-key
+- ssh -i ./steem-engine-deploy-key ubuntu@steembotracker.net pwd
