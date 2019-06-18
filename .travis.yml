@@ -12,7 +12,7 @@ deploy:
     branch: master
 - provider: script
   skip_cleanup: true
-  script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/dist $REMOTE_USER@$HOST:$REMOTE_APP_DIR
+  script: rsync -avz --delete-after --quiet $TRAVIS_BUILD_DIR/dist $REMOTE_USER@$HOST:$REMOTE_APP_DIR
   on:
     branch: master
 
