@@ -15,7 +15,7 @@ deploy:
   skip_cleanup: true
   script:
     - au build --env prod
-    - scp -r dist ubuntu@$HOST:next.steem-engine.com
+    - scp -v -o StrictHostKeyChecking=no -r dist $REMOTE_USER@$HOST:$REMOTE_APP_DIR
   on:
     branch: master
 
@@ -30,3 +30,4 @@ before_install:
 install:
 - yarn global add aurelia-cli
 - yarn
+- echo "skipping tests"
