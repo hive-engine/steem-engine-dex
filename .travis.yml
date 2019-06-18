@@ -4,12 +4,6 @@ node_js:
   - "10"
 addons:
   ssh_known_hosts: steem-engine.com
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
-
 deploy:
 - provider: script
   skip_cleanup: true
