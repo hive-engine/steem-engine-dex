@@ -1,19 +1,33 @@
-image: cstheriot/aurelia-cli:latest
+dist: trusty
+language: node_js
+node_js:
+  - "10"
+addons:
+  ssh_known_hosts: steem-engine.com
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
 
-options:
-  docker: true
+deploy:
+- provider: script
+  skip_cleanup: true
+  script:
+    - au build --env prod
+    - scp -v -o StrictHostKeyChecking=no -r dist $REMOTE_USER@$HOST:$REMOTE_APP_DIR
+  on:
+    branch: master
 
-pipelines:
-  branches:
-    master:
-      - step:
-        script:
-          - yarn
-          - au build --env prod
-          - au test
-    develop:
-      - step:
-        script:
-          - yarn
-          - au build --env dev
-          - au test
+before_install:
+- openssl aes-256-cbc -K $encrypted_134e9820d8ee_key -iv $encrypted_134e9820d8ee_iv
+  -in deploy-key.enc -out ./deploy-key -d
+- eval "$(ssh-agent -s)"
+- chmod 400 ./deploy-key
+- ssh-add ./deploy-key
+- ssh -i ./deploy-key $REMOTE_USER@$HOST pwd
+
+install:
+- yarn global add aurelia-cli
+- yarn
+- echo "skipping tests"
