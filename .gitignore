@@ -61,4 +61,4 @@ typings/
 .next
 
 dist/
-deploy_key
+deploy-key
