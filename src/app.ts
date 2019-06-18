@@ -33,6 +33,8 @@ export class App {
     public configureRouter(config: RouterConfiguration, router: Router) {
         config.title = 'Steem Engine';
 
+        config.options.pushState = true;
+
         config.addPipelineStep('authorize', MaintenanceStep);
         config.addPipelineStep('preRender', PreRenderStep);
         config.addPipelineStep('postRender', PostRenderStep);
