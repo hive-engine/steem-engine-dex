@@ -1,6 +1,8 @@
 language: node_js
 node_js:
   - "10"
+addons:
+  ssh_known_hosts: steem-engine.com
 pipelines:
   branches:
     master:
@@ -22,5 +24,4 @@ before_install:
 - eval "$(ssh-agent -s)"
 - chmod 400 ./deploy-key
 - ssh-add ./deploy-key
-- ssh-keyscan -t $TRAVIS_SSH_KEY_TYPES -H $HOST 2>&1 | tee -a $HOME/.ssh/known_hosts
 - ssh -i ./deploy-key ubuntu@$HOST pwd
