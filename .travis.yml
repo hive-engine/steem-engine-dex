@@ -1,28 +1,28 @@
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-  - steembottracker.net
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-- ssh -i ./deploy-key ubuntu@steembottracker.net pwd
+language: node_js
+node_js:
+  - "10"
+addons:
+  ssh_known_hosts:
+  - $HOST
+pipelines:
+  branches:
+    master:
+    - step: 
+      script:
+      - yarn
+      - au build --env prod
+      - au test --passWithNoTests
+    develop:
+    - step: 
+      script:
+      - yarn
+      - au build --env dev
+      - au test --passWithNoTests
+before_install:
+- npm install aurelia-cli -g
+- openssl aes-256-cbc -K $encrypted_134e9820d8ee_key -iv $encrypted_134e9820d8ee_iv
+  -in deploy-key.enc -out ./deploy-key -d
+- eval "$(ssh-agent -s)"
+- chmod 400 ./deploy-key
+- ssh-add ./deploy-key
+- ssh -i ./deploy-key ubuntu@$HOST pwd
