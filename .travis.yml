@@ -24,4 +24,3 @@ before_install:
 install:
 - yarn global add aurelia-cli
 - yarn
-- echo "skipping tests"
