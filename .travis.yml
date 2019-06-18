@@ -24,4 +24,4 @@ options:
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
-- ssh -i ./deploy-key ubuntu@steembotracker.net pwd
+- ssh -i ./deploy-key ubuntu@steembottracker.net pwd
