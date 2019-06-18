@@ -1,19 +1,20 @@
 image: cstheriot/aurelia-cli:latest
-
 options:
   docker: true
-
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
-      - step:
-  ***REMOVED***
-    ***REMOVED***
-    ***REMOVED***
-          - au test
 ***REMOVED***
-      - step:
-  ***REMOVED***
-    ***REMOVED***
-    ***REMOVED***
-          - au test
+***REMOVED***
+***REMOVED***
+***REMOVED***
+      - au test
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+      - au test
+***REMOVED***
+***REMOVED***
+  -in steem-engine-deploy-key.enc -out ~\/steem-engine-deploy-key -d
