@@ -14,7 +14,6 @@ deploy:
 - provider: script
   skip_cleanup: true
   script:
-    - yarn
     - au build --env prod
     - scp -r dist ubuntu@$HOST:next.steem-engine.com
   on:
@@ -29,4 +28,5 @@ before_install:
 - ssh -i ./deploy-key ubuntu@$HOST pwd
 
 install:
-- npm install aurelia-cli -g
+- yarn global add aurelia-cli
+- yarn
