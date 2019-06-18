@@ -1,27 +1,32 @@
+dist: trusty
 language: node_js
 node_js:
   - "10"
 addons:
   ssh_known_hosts: steem-engine.com
-pipelines:
-  branches:
-    master:
-    - step: 
-      script:
-      - yarn
-      - au build --env prod
-      - au test --passWithNoTests
-    develop:
-    - step: 
-      script:
-      - yarn
-      - au build --env dev
-      - au test --passWithNoTests
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+
+deploy:
+- provider: script
+  skip_cleanup: true
+  script:
+    - yarn
+    - au build --env prod
+    - scp -r dist ubuntu@$HOST:next.steem-engine.com
+  on:
+    branch: master
+
 before_install:
 - openssl aes-256-cbc -K $encrypted_134e9820d8ee_key -iv $encrypted_134e9820d8ee_iv
   -in deploy-key.enc -out ./deploy-key -d
-- npm install aurelia-cli -g
 - eval "$(ssh-agent -s)"
 - chmod 400 ./deploy-key
 - ssh-add ./deploy-key
 - ssh -i ./deploy-key ubuntu@$HOST pwd
+
+install:
+- npm install aurelia-cli -g
