@@ -25,7 +25,7 @@ before_install:
 - eval "$(ssh-agent -s)"
 - chmod 400 ./deploy-key
 - ssh-add ./deploy-key
-- ssh -i ./deploy-key ubuntu@$HOST pwd
+- ssh -i ./deploy-key $REMOTE_USER@$HOST pwd
 
 install:
 - yarn global add aurelia-cli
