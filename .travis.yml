@@ -1,9 +1,6 @@
 language: node_js
 node_js:
   - "10"
-addons:
-  ssh_known_hosts:
-  - echo $HOST
 pipelines:
   branches:
     master:
@@ -19,6 +16,7 @@ pipelines:
       - au build --env dev
       - au test --passWithNoTests
 before_install:
+- ssh-keyscan -t $TRAVIS_SSH_KEY_TYPES -H $HOST 2>&1 | tee -a $HOME/.ssh/known_hosts
 - openssl aes-256-cbc -K $encrypted_134e9820d8ee_key -iv $encrypted_134e9820d8ee_iv
   -in deploy-key.enc -out ./deploy-key -d
 - npm install aurelia-cli -g
