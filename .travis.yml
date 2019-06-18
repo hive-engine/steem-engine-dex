@@ -3,12 +3,9 @@ options:
   docker: true
 ***REMOVED***
 ***REMOVED***
+  - steembottracker.net
 ***REMOVED***
 ***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-      - au test
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
@@ -20,6 +17,11 @@ options:
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
-- echo -e "Host steembottracker.net\n\StrictHostKeyChecking no\n" >> ~./ssh/config
+      - au test
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
 ***REMOVED***
 - ssh -i ./deploy-key ubuntu@steembotracker.net pwd
