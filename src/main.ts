@@ -83,7 +83,7 @@ export async function configure(aurelia: Aurelia) {
           },
           attributes: aliases,
           lng: environment.defaultLocale,
-          ns: ['translation', 'headings', 'buttons', 'titles'],
+          ns: ['translation', 'headings', 'buttons', 'notifications', 'titles'],
           defaultNS: 'translation',
           fallbackLng: 'en',
           debug : false
