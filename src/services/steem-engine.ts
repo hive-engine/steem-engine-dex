@@ -92,7 +92,7 @@ export class SteemEngine {
                     if (response.error) {
                         const toast = new ToastMessage();
     
-                        toast.message = this.i18n.tr('errorLogin', {
+                        toast.message = this.i18n.tr('notifications:errorLogin', {
                             username, 
                             ns: 'errors' 
                         });

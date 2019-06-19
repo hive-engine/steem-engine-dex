@@ -30,7 +30,7 @@ export class Signin {
         if (username) {
             const toast = new ToastMessage();
     
-            toast.message = this.i18n.tr('signinSuccess');
+            toast.message = this.i18n.tr('notifications:signinSuccess');
 
             toast.overrideOptions.onClosing = () => {
                 this.router.navigateToRoute('home');
@@ -48,7 +48,7 @@ export class Signin {
         if (username) {
             const toast = new ToastMessage();
     
-            toast.message = this.i18n.tr('signinSuccess');
+            toast.message = this.i18n.tr('notifications:signinSuccess');
 
             toast.overrideOptions.onClosing = () => {
                 this.router.navigateToRoute('home');
