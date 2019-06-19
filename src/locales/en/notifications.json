@@ -1,4 +1,6 @@
 {
     "signinSuccess": "You have successfully signed in",
-    "errorLogin": "There was an error attempting to login"
+    "errorLogin": "There was an error attempting to login",
+    "invalidPrivateKeyOrPassword": "The key provided was either not a valid posting key or was incorrect",
+    "errorLoading": "Error retrieving account from the Steemit API"
 }

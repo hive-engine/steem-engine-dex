@@ -132,7 +132,7 @@ export class SteemEngine {
                                 const toast = new ToastMessage();
     
                                 toast.message = this.i18n.tr('errorLogin', { 
-                                    ns: 'errors' 
+                                    ns: 'notifications' 
                                 });
                 
                                 this.toast.error(toast);
@@ -141,7 +141,7 @@ export class SteemEngine {
                             const toast = new ToastMessage();
     
                             toast.message = this.i18n.tr('errorLogin', { 
-                                ns: 'errors' 
+                                ns: 'notifications' 
                             });
             
                             this.toast.error(toast);
@@ -150,7 +150,7 @@ export class SteemEngine {
                         const toast = new ToastMessage();
     
                         toast.message = this.i18n.tr('errorLoading', { 
-                            ns: 'errors' 
+                            ns: 'notifications' 
                         });
         
                         this.toast.error(toast);
@@ -256,7 +256,7 @@ export class SteemEngine {
                     } };
                 });
 
-            //balances.sort((a, b) => parseFloat(b.balance) * b.lastPrice * window.steem_price - parseFloat(b.balance) * a.lastPrice * window.steem_price);
+            balances.sort((a, b) => parseFloat(b.balance) * b.lastPrice * window.steem_price - parseFloat(b.balance) * a.lastPrice * window.steem_price);
 
             if (this.user && account === this.user.name) {
                 this.user.balances = balances;
@@ -689,14 +689,20 @@ export class SteemEngine {
 
     async showHistory(symbol: string) {
         let token =  this.getToken(symbol);
-        
-        const history = await this.request('/history', { 
-            account: this.state.account, 
-            limit: 100, 
-            offset: 0, 
-            type: 'user', 
-            symbol: symbol 
-        });
+
+        try {
+            const history = await this.request('/history', { 
+                account: this.state.account, 
+                limit: 100, 
+                offset: 0, 
+                type: 'user', 
+                symbol: symbol 
+            });
+    
+            return history.json();
+        } catch (e) {
+            return [];
+        }
     }
 
     async checkAccount(name) {
