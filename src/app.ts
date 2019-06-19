@@ -101,7 +101,21 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/faq'),
                 nav: 4,
                 title: 'Faq'
-            }
+            },
+            {
+                route: 'rewards',
+                name: 'rewards',
+                moduleId: PLATFORM.moduleName('./routes/rewards'),
+                nav: false,
+                title: 'Rewards',
+            },
+            {
+                route: 'conversion-history',
+                name: 'conversionHistory',
+                moduleId: PLATFORM.moduleName('./routes/conversion-history'),
+                nav: false,
+                title: 'Conversion History',
+            },
         ]);
 
         this.router = router;
