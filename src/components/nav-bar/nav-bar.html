@@ -21,8 +21,19 @@
                     <li class="nav-item button active" if.bind="!loggedIn">
                         <a class="btn nav-link" route-href="route: signin;">${'Sign In' & t}</a>
                     </li>
-                    <li else class="nav-item button active">
-                        <a href="#" class="btn nav-link">${username}</a>
+                    <li else class="nav-item dropdown active">
+                        <a class="nav-link" href="javascript:void(0);">${username}</a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" href="javascript:void(0);" click.delegate="logout()">Logout</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" route-href="route: rewards;">Rewards</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" route-href="route: conversionHistory;">Conversion History</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
