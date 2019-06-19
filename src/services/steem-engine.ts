@@ -126,7 +126,6 @@ export class SteemEngine {
                         try {
                             if (steem.auth.wifToPublic(key) == user[0].memo_key || steem.auth.wifToPublic(key) === user[0].posting.key_auths[0][0]) {
                                 localStorage.setItem('username', username);
-                                localStorage.setItem('key', key);
 
                                 resolve(username);
                             } else {

@@ -10,6 +10,7 @@ import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
 import { map, pluck } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { SteemKeychain } from 'services/steem-keychain';
 
 @autoinject()
 export class App {
@@ -17,7 +18,7 @@ export class App {
     private loading = false;
     public router: Router;
 
-    constructor(private ea: EventAggregator, private store: Store<State>) {
+    constructor(private ea: EventAggregator, private keychain: SteemKeychain, private store: Store<State>) {
 
     }
 
@@ -28,6 +29,16 @@ export class App {
                 this.loggedIn = s.loggedIn;
             }
         });
+    }
+
+    attached() {
+        setTimeout(() => {
+            if (window && window.steem_keychain) {
+                window.steem_keychain.requestHandshake(() => {
+                    this.keychain.useKeychain = true;
+                });
+            }
+        }, 500);
     }
 
     public configureRouter(config: RouterConfiguration, router: Router) {

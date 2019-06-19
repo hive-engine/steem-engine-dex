@@ -2,7 +2,7 @@ import { autoinject } from 'aurelia-framework';
 
 @autoinject()
 export class SteemKeychain {
-    public useKeychain = window.steem_keychain && !localStorage.getItem('key');
+    public useKeychain = false;
 
     async customJson(username: string, jsonId: string, keyType: SteemKeychain.KeyType, jsonData: string, displayName: string): Promise<SteemKeychain.SteemKeyChainResponse> {
         return new Promise((resolve) => {

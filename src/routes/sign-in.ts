@@ -8,19 +8,20 @@ import { ToastService } from 'services/toast-service';
 import { Router } from 'aurelia-router';
 
 import styles from './sign-in.css';
+import { SteemKeychain } from 'services/steem-keychain';
 
 @autoinject()
 export class Signin {
-    private username = '';
-    private privateKey = '';
+    private username;
+    private privateKey;
     private styles = styles;
 
     constructor(
         private router: Router,
+        private keychain: SteemKeychain,
         private SE: SteemEngine, 
         private i18n: I18N, 
         private toast: ToastService) {
-
     }
 
     async keychainSignIn() {

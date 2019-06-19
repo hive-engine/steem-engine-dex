@@ -7,29 +7,35 @@
                     <div class="modal-body">
                         <div class="user-connected-form-block">
                             <form class="user-connected-from user-login-form">
+                                <p if.bind="keychain.useKeychain">To login using Keychain, please only enter your username.</p>
                                 <div class="form-group">
                                     <input
-                                        type="email"
+                                        type="text"
                                         class="form-control"
-                                        id="exampleInputEmail1"
-                                        placeholder="Email address"
+                                        value.bind="username"
+                                        id="inputUsername"
+                                        placeholder="Username"
                                     />
                                 </div>
                                 <div class="form-group">
                                     <input
-                                        type="password"
+                                        type="text"
                                         class="form-control"
-                                        id="exampleInputPassword1"
-                                        placeholder="Password"
+                                        value.bind="privateKey"
+                                        id="inputActiveKey"
+                                        placeholder="Private Key"
                                     />
                                 </div>
-                                <button type="submit" class="btn btn-default">
-                                    Login
-                                </button>
+
+                                <template if.bind="keychain.useKeychain">
+                                    <button if.bind="!privateKey.length" disabled.bind="!username.length || privateKey.length" type="submit" class="btn btn-default" click.delegate="keychainSignIn()">Login with Keychain</button>
+                                    <button if.bind="username.length && privateKey.length" disabled.bind="!username.length && !privateKey.length" type="submit" class="btn btn-default" click.delegate="keySignIn()">Login</button>
+                                </template>
+                                <template else>
+                                    <button disabled.bind="!username.length && !privateKey.length" type="submit" class="btn btn-default" click.delegate="keySignIn()">Login</button>
+                                </template>
                             </form>
-                            <p>
-                                Don't have an account? <a href="#"> Register</a>
-                            </p>
+    
                         </div>
                     </div>
                 </div>
