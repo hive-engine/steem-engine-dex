@@ -8,6 +8,7 @@ import { PLATFORM } from 'aurelia-pal';
 import { initialState } from './store/state';
 import { TCustomAttribute } from 'aurelia-i18n';
 import Backend from 'i18next-xhr-backend';
+import LngDetector from 'i18next-browser-languagedetector';
 
 import 'datatables.net-bs4';
 import 'datatables.net-responsive-bs4';
@@ -67,7 +68,8 @@ export async function configure(aurelia: Aurelia) {
 
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-dialog'), config => {
         config
-            .useDefaults()
+            .useDefaults();
+        config.useCss(modalCss);
     });
 
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-i18n'), (instance) => {
@@ -75,18 +77,25 @@ export async function configure(aurelia: Aurelia) {
         TCustomAttribute.configureAliases(aliases);
   
         // register backend plugin
-        instance.i18next.use(Backend);
+        instance.i18next
+            .use(Backend)
+            .use(LngDetector);
   
         return instance.setup({
-          backend: {
-            loadPath: './locales/{{lng}}/{{ns}}.json',
-          },
-          attributes: aliases,
-          lng: environment.defaultLocale,
-          ns: ['translation', 'headings', 'buttons', 'notifications', 'titles'],
-          defaultNS: 'translation',
-          fallbackLng: 'en',
-          debug : false
+            backend: {
+                loadPath: './locales/{{lng}}/{{ns}}.json',
+            },
+            detection: {
+                order: ['localStorage', 'cookie', 'navigator'],
+                lookupCookie: 'i18next',
+                lookupLocalStorage: 'i18nextLng',
+                caches: ['localStorage', 'cookie']
+            },
+            attributes: aliases,
+            ns: ['translation', 'headings', 'buttons', 'notifications', 'titles'],
+            defaultNS: 'translation',
+            fallbackLng: 'en',
+            debug : false
         }).then(() => {
             const router = aurelia.container.get(AppRouter);
 
