@@ -8,7 +8,6 @@ import { PLATFORM } from 'aurelia-pal';
 import { initialState } from './store/state';
 import { TCustomAttribute } from 'aurelia-i18n';
 import Backend from 'i18next-xhr-backend';
-import LngDetector from 'i18next-browser-languagedetector';
 
 import 'datatables.net-bs4';
 import 'datatables.net-responsive-bs4';
@@ -77,22 +76,16 @@ export async function configure(aurelia: Aurelia) {
   
         // register backend plugin
         instance.i18next
-            .use(Backend)
-            .use(LngDetector);
+            .use(Backend);
   
         return instance.setup({
             backend: {
                 loadPath: './locales/{{lng}}/{{ns}}.json',
             },
-            detection: {
-                order: ['localStorage', 'cookie', 'navigator'],
-                lookupCookie: 'i18next',
-                lookupLocalStorage: 'i18nextLng',
-                caches: ['localStorage', 'cookie']
-            },
             attributes: aliases,
             ns: ['translation', 'headings', 'buttons', 'notifications', 'titles'],
             defaultNS: 'translation',
+            lng: environment.defaultLocale,
             fallbackLng: 'en',
             debug : false
         }).then(() => {
