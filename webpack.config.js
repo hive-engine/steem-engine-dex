@@ -21,38 +21,19 @@ const outDir = path.resolve(__dirname, project.platform.output);
 const srcDir = path.resolve(__dirname, 'src');
 const nodeModulesDir = path.resolve(__dirname, 'node_modules');
 const baseUrl = '/';
-
-function loadPostCssPlugins() {
-    return [
-      require("postcss-import")({
-        path: [
-          'src/components/'
-        ]
-      }),
-      require("precss")(),
-      require("postcss-nested")(),
-      require("postcss-advanced-variables")(),
-      require("postcss-custom-properties")(),
-      require("postcss-partial-import")(),
-      require("postcss-extend")(),
-      require("postcss-preset-env")(),
-      require("autoprefixer")(),
-      require("cssnano")()
-    ];
-  }
   
-  const loaders = {
+const loaders = {
     style: { loader: "style-loader" },
     css: { loader: "css-loader" },
     cssModules: { 
-      loader: "css-loader",
-      options: {
+        loader: "css-loader",
+        options: {
         modules: true,
         localIdentName: '[name]__[local]____[hash:base64:5]'
-      }
+        }
     },
-    postCss: { loader: "postcss-loader", options: { plugins: loadPostCssPlugins } },
-  };
+    postCss: { loader: "postcss-loader" },
+};
 
 module.exports = ({
     production,

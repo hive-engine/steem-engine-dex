@@ -5,53 +5,6 @@
 $positive: #3CFFB5;
 $negative: #BE4200;
 
-:global {
-    .main-container {
-        margin-top: 30px;
-    }
-    
-    .route--exchange {
-        background: #181F1F;
-    }
-
-    .h100 {
-        height: 100%;
-        overflow: auto;
-    }
-    
-    .h100vh {
-        min-height: 100vh;
-    }
-    
-    .h100-minus-header {
-        min-height: calc(100vh - 120px);
-    }
-    
-    .positive {
-        color: $positive;
-    }
-    
-    .negative {
-        color: $negative;
-    }
-    
-    .table-transparent {
-        background: transparent;
-    }
-    
-    .table-transparent td, 
-    .table-transparent th, 
-    .table-transparent thead th {
-        border-color: rgba(255, 255, 255, 0.3);
-        color: #FFF;
-    }
-    
-    .table-transparent thead th {
-        border-bottom-color: rgba(255, 255, 255, 0.1);
-        border-top-color: rgba(255, 255, 255, 0.1);
-    }
-}
-
 body {
     background: #181F1F;
     width: 100%;
@@ -113,4 +66,49 @@ h5 {
 
 h6 {
     font-size: 12px;
+}
+
+.main-container {
+    margin-top: 30px;
+}
+
+.route--exchange {
+    background: #181F1F;
+}
+
+.h100 {
+    height: 100%;
+    overflow: auto;
+}
+
+.h100vh {
+    min-height: 100vh;
+}
+
+.h100-minus-header {
+    min-height: calc(100vh - 120px);
+}
+
+.positive {
+    color: $positive;
+}
+
+.negative {
+    color: $negative;
+}
+
+.table-transparent {
+    background: transparent;
+}
+
+.table-transparent td, 
+.table-transparent th, 
+.table-transparent thead th {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #FFF;
+}
+
+.table-transparent thead th {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+    border-top-color: rgba(255, 255, 255, 0.1);
 }
