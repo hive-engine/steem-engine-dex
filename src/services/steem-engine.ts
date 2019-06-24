@@ -829,6 +829,57 @@ export class SteemEngine {
         };
     }
 
+    async depositSteem(amount: string) {
+        const username = localStorage.getItem('username');
+
+        const transaction_data = {
+			id: environment.CHAIN_ID,
+			json: {
+				"contractName": "steempegged",
+				"contractAction": "buy",
+				"contractPayload": { }
+			}
+        };
+
+        if (window.steem_keychain) {
+            const deposit = await this.keychain.requestTransfer(username, environment.STEEMP_ACCOUNT, amount, JSON.stringify(transaction_data), 'STEEM');
+
+            if (deposit && deposit.success && deposit.result) {
+                this.checkTransaction(deposit.result.id, 3, tx => {
+                    if (tx.success) {
+                        const toast = new ToastMessage();
+
+                        toast.message = this.i18n.tr('notifications:depositSteemSuccess', {
+                            from: username,
+                            to: environment.STEEMP_ACCOUNT,
+                            amount,
+                            memo: JSON.stringify(transaction_data)
+                        });
+        
+                        this.toast.success(toast);
+
+                        return true;
+                    }
+
+                    const toast = new ToastMessage();
+
+                    toast.message = this.i18n.tr('notifications:depositSteemError', {
+                        from: username,
+                        to: environment.STEEMP_ACCOUNT,
+                        amount,
+                        memo: JSON.stringify(transaction_data)
+                    });
+    
+                    this.toast.error(toast);
+                });
+            }
+        } else {
+            this.steemConnectTransfer(username, environment.STEEMP_ACCOUNT, `${amount} STEEM`, JSON.stringify(transaction_data), () => {
+
+            });
+        }
+    }
+
     async getDepositAddress(symbol) {
         const peggedToken = environment.PEGGED_TOKENS.find(p => p.symbol === symbol);
 
