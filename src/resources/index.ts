@@ -8,5 +8,7 @@ export function configure(config: FrameworkConfiguration) {
         PLATFORM.moduleName('./value-converters/large-number'),
         PLATFORM.moduleName('./value-converters/to-fixed'),
         PLATFORM.moduleName('./value-converters/usd-format'),
+        PLATFORM.moduleName('./value-converters/slice'),
+        PLATFORM.moduleName('./value-converters/last'),
     ]);
 }
