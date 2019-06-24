@@ -11,4 +11,12 @@ export class SteemKeychain {
             });
         });
     }
+
+    async requestTransfer(username: string, account: string, amount: string, memo: string, currency: SteemKeychain.CurrencyType): Promise<SteemKeychain.SteemKeyChainResponse> {
+        return new Promise((resolve) => {
+            steem_keychain.requestTransfer(username, account, amount, memo, currency, response => {
+                resolve(response);
+            });
+        })
+    }
 }
