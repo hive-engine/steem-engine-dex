@@ -83,7 +83,26 @@
                 <chart data.bind="chartData"></chart>
             </div>
 
-            <div class="col-3"></div>
+            <div class="col-3">
+                <div class="history">
+                        <table class="buy-table">
+                            <thead>
+                                <tr>
+                                    <th width="135">${'Price' & t} (STEEMP)</th>
+                                    <th>${'QTY' & t} (ENG)</th>
+                                    <th>${'Time' & t}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr repeat.for="trade of tradeHistory | slice:10">
+                                    <td>${trade.price}</td>
+                                    <td>${trade.quantity}</td>
+                                    <td>${trade.timestamp_string}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
         </div>
     </div>
 </template>
