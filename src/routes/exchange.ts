@@ -17,6 +17,7 @@ export class Exchange {
 
     private userTokenBalance = [];
     private sellBook = [];
+    private bestSellPrice = null;
     private buyBook = [];
     private tradeHistory = [];
     private userOrders = [];
@@ -100,9 +101,13 @@ export class Exchange {
         }
 
         
-        this.buyBook = this.buyBook.slice(0, 10);
-        this.sellBook = this.sellBook.slice(0, 10);
-        this.tradeHistory = this.tradeHistory.slice(0, 10);
+        //this.buyBook = this.buyBook.slice(0, 10);
+        //this.sellBook = this.sellBook.slice(0, 10);
+        //this.tradeHistory = this.tradeHistory.slice(0, 10);
+
+        if (this.sellBook.length) {
+            this.bestSellPrice = this.sellBook[0];
+        }
 
         let buyOrderLabels = uniq(this.buyBook.map(o => parseFloat(o.price)));
         let buyOrderDataset = [];

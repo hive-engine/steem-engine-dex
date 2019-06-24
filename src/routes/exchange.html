@@ -39,7 +39,7 @@
         
         <div class="row exchange-columns h100">
             <div class="col-3">
-                <table>
+                <table class="buy-table">
                     <thead>
                         <tr>
                             <th>${'Price' & t} (STEEMP)</th>
@@ -48,7 +48,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr repeat.for="order of sellBook">
+                        <tr repeat.for="order of sellBook | slice:10">
                             <td>${order.price}</td>
                             <td>${order.quantity}</td>
                             <td>${order.amountLocked}</td>
@@ -56,20 +56,21 @@
                     </tbody>
                 </table>
 
-                <div class="current-price">
-
+                <div class="best-price" if.bind="bestSellPrice">
+                    <div class="negative">${bestSellPrice.amountLocked} ${'STEEMP' & t}</div>
+                    <div>${bestSellPrice.quantity} ${data.symbol}</div>
                 </div>
 
-                <table>
-                    <thead>
+                <table class="sell-table">
+                    <thead class="sr-only">
                         <tr>
-                            <th>${'Price' & t} (STEEMP)</th>
+                            <th></th>
                             <th>${'QTY' & t} (ENG)</th>
                             <th>${'Total' & t} (STEEMP)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr repeat.for="order of buyBook">
+                        <tr repeat.for="order of buyBook | slice:10">
                             <td>${order.price}</td>
                             <td>${order.quantity}</td>
                             <td>${order.amountLocked}</td>
