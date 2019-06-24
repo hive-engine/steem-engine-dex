@@ -6,6 +6,10 @@ import { environment } from 'environment';
 import moment from 'moment';
 import { find, uniq, fill } from 'lodash';
 
+import { DepositModal } from 'modals/deposit';
+import { WithdrawModal } from 'modals/withdraw';
+import { DialogService } from 'aurelia-dialog';
+
 @autoinject()
 export class Exchange {
     private environment = environment;
@@ -22,7 +26,7 @@ export class Exchange {
     private tradeHistory = [];
     private userOrders = [];
 
-    constructor(private se: SteemEngine) {
+    constructor(private se: SteemEngine, private dialogService: DialogService) {
 
     }
 
@@ -158,5 +162,17 @@ export class Exchange {
                 }
             ]
         };
+    }
+
+    deposit() {
+        this.dialogService.open({ viewModel: DepositModal }).whenClosed(response => {
+            console.log(response);
+        });
+    }
+
+    withdraw() {
+        this.dialogService.open({ viewModel: WithdrawModal }).whenClosed(response => {
+            console.log(response);
+        });
     }
 }
