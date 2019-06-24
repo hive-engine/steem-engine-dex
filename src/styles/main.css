@@ -1,9 +1,8 @@
-@import './navbar.css';
+@import "./variables.css";
+@import "./navbar.css";
 @import "./bootstrap-modal.css";
 @import "./signin.css";
-
-$positive: #3CFFB5;
-$negative: #BE4200;
+@import "./buttons.css";
 
 body {
     background: #181F1F;

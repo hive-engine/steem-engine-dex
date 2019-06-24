@@ -1,0 +1,17 @@
+.outline-btn {
+    appearance: none;
+    background: none;
+    border-width: 1px;
+    line-height: 1;
+    margin: 0;
+    padding: 7px 25px;
+    text-transform: uppercase;
+}
+
+.outline-btn.positive {
+    border-color: $positive;
+}
+
+.outline-btn.negative {
+    border-color: $negative;
+}
