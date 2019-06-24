@@ -206,6 +206,17 @@ export class SteemEngine {
         this._sc_callback = callback;
     }
 
+    steemConnectTransfer(from: string, to: string, amount: string, memo: string, callback: any) {
+        let url = 'https://steemconnect.com/sign/transfer?';
+		url += '&from=' + encodeURI(from);
+		url += '&to=' + encodeURI(to);
+		url += '&amount=' + encodeURI(amount);
+		url += '&memo=' + encodeURI(memo);
+
+		popupCenter(url, 'steemconnect', 500, 560);
+		window._sc_callback = callback;
+    }
+
     async getAccount(username: string) {
         try {
             const user = await steem.api.getAccountsAsync([username]); 
