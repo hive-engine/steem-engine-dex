@@ -62,4 +62,13 @@
     background: #000;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
+    color: #71FFFF;
+}
+
+.buy-table th,
+.buy-table td,
+.sell-table th,
+.sell-table td {
+    font-weight: 400;
+    padding: 5px 15px;
 }

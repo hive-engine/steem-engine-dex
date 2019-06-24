@@ -42,7 +42,7 @@
                 <table class="buy-table">
                     <thead>
                         <tr>
-                            <th>${'Price' & t} (STEEMP)</th>
+                            <th width="135">${'Price' & t} (STEEMP)</th>
                             <th>${'QTY' & t} (ENG)</th>
                             <th>${'Total' & t} (STEEMP)</th>
                         </tr>
@@ -51,7 +51,7 @@
                         <tr repeat.for="order of sellBook | slice:10">
                             <td>${order.price}</td>
                             <td>${order.quantity}</td>
-                            <td>${order.amountLocked}</td>
+                            <td>${order.amountLocked | toFixed:6}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -64,7 +64,7 @@
                 <table class="sell-table">
                     <thead class="sr-only">
                         <tr>
-                            <th></th>
+                            <th width="135">${'Price' & t} (STEEMP)</th>
                             <th>${'QTY' & t} (ENG)</th>
                             <th>${'Total' & t} (STEEMP)</th>
                         </tr>
@@ -73,7 +73,7 @@
                         <tr repeat.for="order of buyBook | slice:10">
                             <td>${order.price}</td>
                             <td>${order.quantity}</td>
-                            <td>${order.amountLocked}</td>
+                            <td>${order.amountLocked | toFixed:6}</td>
                         </tr>
                     </tbody>
                 </table>
