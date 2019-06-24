@@ -19,7 +19,7 @@ import '!style-loader!css-loader!bootstrap/dist/css/bootstrap.min.css';
 import '!style-loader!css-loader!font-awesome/css/font-awesome.min.css';
 import '!style-loader!css-loader!izitoast/dist/css/iziToast.css';
 import '!style-loader!css-loader!./styles/toast.css';
-import '!style-loader!css-loader!./styles/main.css';
+import './styles/main.css';
 
 import modalCss from '!style-loader!css-loader!./styles/modal.css';
 
