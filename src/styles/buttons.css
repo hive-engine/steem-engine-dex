@@ -1,3 +1,16 @@
+.btn-primary {
+    background-color: rgb(32, 39, 53);
+    border: none;
+    transition: all .2s cubic-bezier(.4,0,.2,1);
+}
+    .btn-primary:not(:disabled):hover {
+        background-color: rgb(41, 50, 69);
+    }
+
+.btn-secondary {
+    border: none;
+}
+
 .outline-btn {
     appearance: none;
     background: none;
