@@ -34,6 +34,7 @@ export class Exchange {
         this.currentToken = symbol;
 
         await this.se.loadTokens();
+        await this.se.loadBalances();
 
         this.tokenData = this.se.tokens.filter(t => t.symbol !== 'STEEMP')
             .filter(t => t.metadata && !t.metadata.hide_in_market);
