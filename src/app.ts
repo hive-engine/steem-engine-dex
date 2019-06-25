@@ -30,7 +30,7 @@ export class App {
                 this.loggedIn = s.loggedIn;
 
                 if (s.loggedIn) {
-                    this.se.user = s.account;
+                    this.se.user = {...this.se.user, ...s.account};
                 } else {
                     this.se.user = null;
                 }
