@@ -1,3 +1,4 @@
+import { SteemEngine } from 'services/steem-engine';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Store } from 'aurelia-store';
 import { environment } from './environment';
@@ -18,7 +19,7 @@ export class App {
     private loading = false;
     public router: Router;
 
-    constructor(private ea: EventAggregator, private keychain: SteemKeychain, private store: Store<State>) {
+    constructor(private ea: EventAggregator, private keychain: SteemKeychain, private store: Store<State>, private se: SteemEngine) {
 
     }
 
@@ -27,6 +28,12 @@ export class App {
             if (s) {
                 this.loading = s.loading;
                 this.loggedIn = s.loggedIn;
+
+                if (s.loggedIn) {
+                    this.se.user = s.account;
+                } else {
+                    this.se.user = null;
+                }
             }
         });
     }

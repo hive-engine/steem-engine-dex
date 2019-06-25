@@ -901,7 +901,8 @@ export class SteemEngine {
             const response = await request.json();
 
             return {...response, ...peggedToken};
-        } catch {
+        } catch(e) {
+            console.error(e);
             return null;
         }
     }
