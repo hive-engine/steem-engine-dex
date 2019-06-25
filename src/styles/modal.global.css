@@ -14,7 +14,7 @@ ux-dialog-overlay.active {
 
 ux-dialog-container {
     display: block;
-    padding: 30px;
+    padding: 0;
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
