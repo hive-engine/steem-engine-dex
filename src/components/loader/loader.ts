@@ -11,6 +11,7 @@ export class Loader {
     static inject = [Element];
 
     @bindable loading = false;
+    @bindable mode = 'full';
 
     constructor(element: HTMLElement) {
         this.element = element;
@@ -20,11 +21,17 @@ export class Loader {
         if (newVal) {
             this.element.style.opacity = '1';
             this.element.style.display = 'block';
-            document.body.style.overflow = 'hidden';
+
+            if (this.mode === 'full') {
+                document.body.style.overflow = 'hidden';
+            }
         } else {
             this.element.style.opacity = '0';
             this.element.style.display = 'none';
-            document.body.style.overflow = 'unset';
+
+            if (this.mode === 'full') {
+                document.body.style.overflow = 'unset';
+            }
         }
     }
 }
