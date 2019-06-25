@@ -834,31 +834,33 @@ export class SteemEngine {
         };
     }
 
-    async depositSteem(amount: string) {
+    async withdrawSteem(amount: string) {
         const username = localStorage.getItem('username');
 
         const transaction_data = {
 			id: environment.CHAIN_ID,
 			json: {
 				"contractName": "steempegged",
-				"contractAction": "buy",
-				"contractPayload": { }
+				"contractAction": "withdraw",
+				"contractPayload": {
+                    "quantity": formatSteemAmount(amount)
+                }
 			}
         };
 
         if (window.steem_keychain) {
-            const deposit = await this.keychain.requestTransfer(username, environment.STEEMP_ACCOUNT, amount, JSON.stringify(transaction_data), 'STEEM');
+            const withdraw = await this.keychain.customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Withdraw STEEM');
 
-            if (deposit && deposit.success && deposit.result) {
-                this.checkTransaction(deposit.result.id, 3, tx => {
+            if (withdraw && withdraw.success && withdraw.result) {
+                this.checkTransaction(withdraw.result.id, 3, tx => {
                     if (tx.success) {
                         const toast = new ToastMessage();
 
-                        toast.message = this.i18n.tr('notifications:depositSteemSuccess', {
+                        toast.message = this.i18n.tr('notifications:withdrawSteemSuccess', {
                             from: username,
                             to: environment.STEEMP_ACCOUNT,
                             amount,
-                            memo: JSON.stringify(transaction_data)
+                            jsonData: JSON.stringify(transaction_data)
                         });
         
                         this.toast.success(toast);
@@ -868,21 +870,76 @@ export class SteemEngine {
 
                     const toast = new ToastMessage();
 
-                    toast.message = this.i18n.tr('notifications:depositSteemError', {
+                    toast.message = this.i18n.tr('notifications:withdrawSteemError', {
                         from: username,
                         to: environment.STEEMP_ACCOUNT,
                         amount,
-                        memo: JSON.stringify(transaction_data)
+                        jsonData: JSON.stringify(transaction_data)
                     });
     
                     this.toast.error(toast);
                 });
             }
         } else {
-            this.steemConnectTransfer(username, environment.STEEMP_ACCOUNT, `${amount} STEEM`, JSON.stringify(transaction_data), () => {
-
+            this.steemConnectJson('active', transaction_data, () => {
+                return true;
             });
         }
+    }
+
+    depositSteem(amount: string) {
+        return new Promise(async (resolve) => {
+            const username = localStorage.getItem('username');
+
+            const transaction_data = {
+                id: environment.CHAIN_ID,
+                json: {
+                    "contractName": "steempegged",
+                    "contractAction": "buy",
+                    "contractPayload": { }
+                }
+            };
+    
+            if (window.steem_keychain) {
+                const deposit = await this.keychain.requestTransfer(username, environment.STEEMP_ACCOUNT, amount, JSON.stringify(transaction_data), 'STEEM');
+    
+                if (deposit && deposit.success && deposit.result) {
+                    this.checkTransaction(deposit.result.id, 3, tx => {
+                        if (tx.success) {
+                            const toast = new ToastMessage();
+    
+                            toast.message = this.i18n.tr('notifications:depositSteemSuccess', {
+                                from: username,
+                                to: environment.STEEMP_ACCOUNT,
+                                amount,
+                                memo: JSON.stringify(transaction_data)
+                            });
+            
+                            this.toast.success(toast);
+    
+                            return resolve(true);
+                        }
+    
+                        const toast = new ToastMessage();
+    
+                        toast.message = this.i18n.tr('notifications:depositSteemError', {
+                            from: username,
+                            to: environment.STEEMP_ACCOUNT,
+                            amount,
+                            memo: JSON.stringify(transaction_data)
+                        });
+        
+                        this.toast.error(toast);
+
+                        return resolve(false);
+                    });
+                }
+            } else {
+                this.steemConnectTransfer(username, environment.STEEMP_ACCOUNT, `${amount} STEEM`, JSON.stringify(transaction_data), () => {
+                    resolve(true);
+                });
+            }
+        });
     }
 
     async getDepositAddress(symbol) {
