@@ -13,7 +13,7 @@ import { connectTo, dispatchify } from 'aurelia-store';
 import { logout } from 'store/actions';
 
 import { ToastService, ToastMessage } from './toast-service';
-import { queryParam, popupCenter, tryParse, usdFormat } from 'common/functions';
+import { queryParam, popupCenter, tryParse, usdFormat, formatSteemAmount } from 'common/functions';
 import { SteemKeychain } from './steem-keychain';
 import { EventAggregator } from 'aurelia-event-aggregator';
 
@@ -280,8 +280,8 @@ export class SteemEngine {
                 });
 
             balances.sort((a, b) => parseFloat(b.balance) * b.lastPrice * window.steem_price - parseFloat(b.balance) * a.lastPrice * window.steem_price);
-
-            if (this.user && account === this.user.name) {
+            
+            if (this.user) {
                 this.user.balances = balances;
             }
     
