@@ -56,10 +56,19 @@ export class DepositModal {
     }
 
     async depositSteem() {
-        const result = await this.se.depositSteem(parseFloat(this.amount).toFixed(3));
+        this.loading = true;
 
-        if (result) {
-            this.controller.ok();
+        try {
+            const result = await this.se.depositSteem(parseFloat(this.amount).toFixed(3));
+
+            if (result) {
+                this.loading = false;
+                this.controller.ok();
+            } else {
+                this.loading = false;
+            }
+        } finally {
+            this.loading = false;
         }
     }
 }
