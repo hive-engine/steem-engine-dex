@@ -4,9 +4,11 @@ import { DialogController } from 'aurelia-dialog';
 import { autoinject } from 'aurelia-framework';
 import { State } from 'store/state';
 import { pluck } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @autoinject()
 export class DepositModal {
+    private subscription: Subscription;
     private user: any;
 
     constructor(private controller: DialogController, private se: SteemEngine, private store: Store<State>) {
@@ -15,8 +17,14 @@ export class DepositModal {
     }
 
     bind() {
-        this.store.state.pipe(pluck('account')).subscribe((user: any) => {
+        this.subscription = this.store.state.pipe(pluck('account')).subscribe((user: any) => {
             this.user = user;
         });
+    }
+
+    unbind() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 }
