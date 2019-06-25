@@ -7,7 +7,10 @@ export interface State {
 export const initialState: State = {
     account: {
         name: '',
-        account: {}
+        account: {},
+        balances: [],
+        scotTokens: [],
+        pendingUnstakes: []
     },
     loggedIn: false,
     loading: false

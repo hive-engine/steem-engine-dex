@@ -16,6 +16,7 @@ export async function login(state: State, account: any): Promise<State> {
         name: account.name,
         account
     };
+
     newState.loggedIn = true;
 
     return newState;
@@ -24,7 +25,13 @@ export async function login(state: State, account: any): Promise<State> {
 export async function logout(state: State): Promise<State> {
     const newState = { ...state };
 
-    newState.account = null;
+    newState.account = {
+        name: '',
+        account: {},
+        balances: [],
+        scotTokens: [],
+        pendingUnstakes: []
+    };
     newState.loggedIn = false;
 
     return newState;
