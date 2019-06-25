@@ -940,6 +940,8 @@ export class SteemEngine {
 
                         return resolve(false);
                     });
+                } else {
+                    return resolve(false);
                 }
             } else {
                 this.steemConnectTransfer(username, environment.STEEMP_ACCOUNT, `${amount} STEEM`, JSON.stringify(transaction_data), () => {
