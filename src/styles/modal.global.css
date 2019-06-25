@@ -22,6 +22,7 @@ ux-dialog-container {
     height: fit-content;
     margin: auto;
     outline: 0;
+    width: 300px;
 }
 ux-dialog {
     color: #FFF;
@@ -38,12 +39,20 @@ ux-dialog {
     border-image-width: initial;
     border-image-outset: initial;
     border-image-repeat: initial;
-    background: #2D4C62;
+    background: #1C222F;
 }
 ux-dialog > ux-dialog-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     display: block;
     padding: 16px;
 }
+
+ux-dialog > ux-dialog-header h2 {
+    color: #CCC;
+    font-size: 18px;
+    margin: 0;
+}
+
 ux-dialog > ux-dialog-header > button {
     float: right;
     border: none;
@@ -79,11 +88,11 @@ ux-dialog > ux-dialog-footer {
 
 @media all and (min-width: 992px) {
     ux-dialog-container {
-        min-width: 300px;
+        width: 600px;
     }
 
     ux-dialog {
-        min-width: 512px;
+        min-width: 600px;
         width: fit-content;
     }
 }
