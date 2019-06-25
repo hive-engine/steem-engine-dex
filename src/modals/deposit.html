@@ -70,11 +70,11 @@
         </ux-dialog-body>
 
         <ux-dialog-footer>
-            <button class="btn btn-sm btn-secondary" click.trigger="controller.cancel()">
+            <button class="btn btn-lg btn-secondary" click.trigger="controller.cancel()">
                 ${'Close' & t}
             </button>
             
-            <button class="btn btn-sm btn-primary" click.trigger="depositSteem()" if.bind="token && token == 'STEEM'">${'Deposit' & t} ${token & t}</button>
+            <button class="btn btn-lg btn-primary" click.trigger="depositSteem()" if.bind="token && token == 'STEEM'">${'Deposit' & t} ${token & t}</button>
         </ux-dialog-footer>
     </ux-dialog>
 </template>
