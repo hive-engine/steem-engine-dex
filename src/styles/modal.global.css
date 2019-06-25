@@ -82,6 +82,14 @@ ux-dialog > ux-dialog-footer {
     text-align: right;
 }
 
+ux-dialog > ux-dialog-footer button {
+    margin-right: 15px;
+}
+
+ux-dialog > ux-dialog-footer button:last-child {
+    margin-right: 0;
+}
+
 .ux-dialog-open {
     overflow: hidden;
 }
