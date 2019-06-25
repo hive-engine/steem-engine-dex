@@ -78,7 +78,7 @@ ux-dialog > ux-dialog-body a {
 
 ux-dialog > ux-dialog-footer {
     display: block;
-    padding: 6px;
+    padding: 16px;
     text-align: right;
 }
 
