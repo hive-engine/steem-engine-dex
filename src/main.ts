@@ -23,7 +23,7 @@ import '!style-loader!css-loader!izitoast/dist/css/iziToast.css';
 import '!style-loader!css-loader!./styles/toast.css';
 import '!style-loader!css-loader!postcss-loader!./styles/main.css';
 
-import modalCss from '!style-loader!css-loader!./styles/modal.css';
+import modalCss from './styles/modal.global.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faGlobe, faFlagUsa, faPoundSign } from '@fortawesome/free-solid-svg-icons';
@@ -69,7 +69,8 @@ export async function configure(aurelia: Aurelia) {
 
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-dialog'), config => {
         config
-            .useDefaults();
+            .useDefaults()
+            .useCSS(modalCss.toString());
     });
 
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-i18n'), (instance) => {
