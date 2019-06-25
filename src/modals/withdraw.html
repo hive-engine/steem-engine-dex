@@ -1,49 +1,48 @@
 <template>
     <ux-dialog>
+        
+        <loader mode="tiny" loading.bind="loading"></loader>
+
+        <ux-dialog-header>
+            <h2>${'Withdraw' & t}</h2>
+        </ux-dialog-header>
         <ux-dialog-body>
-            <h2>${'Transfer' & t}</h2>
+            <p class="note mb-4">${'There is a 1% fee on deposits and withdrawals' & t}</p>
 
-            <p class="mb-4">
-                <span id="balance">${token.balance | comma }</span>
-            </p>
-
-            <label>TO</label>
-            <div class="input-group justify-content-center align-items-center mb-4">
-                <div class="input-group-prepend">@</div>
-                <input
-                    style="padding-left: 32px;"
-                    type="text"
-                    placeholder="username"
-                    id="txtTo"
-                    value.bind="transaction.to"
-                />
-                <div class="invalid-tooltip">
-                    Please enter a valid account
-                </div>
+            <div class="form-group">
+                <select class="form-control" value.bind="token" change.delegate="tokenSelected()">
+                    <option model.bind="t" repeat.for="t of environment.PEGGED_TOKENS">${t.name & t} (${t.symbol})</option>
+                </select>
             </div>
 
-            <label>AMOUNT</label>
-            <div class="input-group justify-content-center align-items-center mb-4">
-                <input type="text" placeholder="0.00000000" id="txtAmount" value.bind="transaction.amount" />
-                <div class="input-group-append">
-                    ${token.symbol}
+            <div>
+                <div class="form-group">
+                    <h4>${`Current ${token.pegged_token_symbol} Balance` & t}</h4>
+                    <p class="mb-4">${se.getBalance(token.pegged_token_symbol) | comma}</p>
                 </div>
-                <div class="invalid-tooltip">
-                    Please enter an amount greater than 0
+
+                <div class="form-group">
+                    <label>${'Withdrawal Amount' & t}</label>
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="0.000" value.bind="amount">
+                        <div class="input-group-append">${token.symbol & t}</div>
+                        <div class="invalid-tooltip">
+                            ${'errors:Please enter an amount greater than 0' & t}
+                        </div>
+                    </div>
                 </div>
+
+                <div class="ssc-cost">You will receive: <span id="receive_amt">${amount * 0.99 | toFixed: 3}</span> ${token.pegged_token_symbol}</div>
             </div>
 
-            <label>MEMO</label>
-            <div class="input-group justify-content-center align-items-center mb-4">
-                <input type="text" id="txtMemo" value.bind="transaction.memo" />
-            </div>
         </ux-dialog-body>
 
         <ux-dialog-footer>
-            <button class="btn btn-sm btn-secondary" click.trigger="controller.cancel()">
-                ${'Cancel' & t}
+            <button class="btn btn-lg btn-secondary" click.trigger="controller.cancel()">
+                ${'Close' & t}
             </button>
-            <button class="btn btn-sm btn-primary" click.trigger="controller.ok(transaction)">${'Send' & t} ${token.symbol}</button>
+            
+            <button class="btn btn-lg btn-primary" click.trigger="handleWithdraw()">${'Withdraw' & t} ${token.symbol & t}</button>
         </ux-dialog-footer>
     </ux-dialog>
 </template>
