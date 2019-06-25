@@ -10,5 +10,6 @@ export function configure(config: FrameworkConfiguration) {
         PLATFORM.moduleName('./value-converters/usd-format'),
         PLATFORM.moduleName('./value-converters/slice'),
         PLATFORM.moduleName('./value-converters/last'),
+        PLATFORM.moduleName('./value-converters/float'),
     ]);
 }
