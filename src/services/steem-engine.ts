@@ -688,9 +688,9 @@ export class SteemEngine {
         });
     }
 
-    getBalance(token) {
+    getBalance(t) {
         if (this.user && this.user.balances) {
-            const token = this.user.balances.find(b => b.symbol === token);
+            const token = this.user.balances.find(b => b.symbol === t);
             return token ? parseFloat(token.balance) : 0;
         }
     }
