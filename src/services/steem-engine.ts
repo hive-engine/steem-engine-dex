@@ -25,7 +25,14 @@ export class SteemEngine {
     public ssc;
     private state: State;
 
-    public user = null;
+    public user = {
+        name: '',
+        account: {},
+        balances: [],
+        scotTokens: [],
+        pendingUnstakes: []
+    };
+
     public params = {};
     public tokens = [];
     public scotTokens = {};
