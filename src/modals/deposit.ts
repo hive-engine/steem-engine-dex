@@ -15,6 +15,8 @@ export class DepositModal {
     private token: any = null;
     private depositInfo: any = null;
     private loading = false;
+    
+    private amount = '0.000';
 
     constructor(private controller: DialogController, private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue) {
         this.controller.settings.lock = false;
@@ -53,7 +55,11 @@ export class DepositModal {
         });
     }
 
-    depositSteem() {
+    async depositSteem() {
+        const result = await this.se.depositSteem(parseFloat(this.amount).toFixed(3));
 
+        if (result) {
+            this.controller.ok();
+        }
     }
 }
