@@ -1,10 +1,12 @@
 <template>
     <ux-dialog>
         <ux-dialog-body>
-            <h2>${'Deposit' & t}</h2>
+            <h2>${'Deposit STEEM' & t}</h2>
+            <p class="note mb-4">${'There is a 1% fee on deposits and withdrawals' & t}</p>
 
+            <h4>${'Current STEEM Balance' & t}</h4>
             <p class="mb-4">
-                <span id="balance">${token.balance | comma }</span>
+                <span id="balance">${user.account.balance | comma }</span>
             </p>
 
             <label>TO</label>
