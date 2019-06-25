@@ -28,8 +28,10 @@ const loaders = {
     cssModules: { 
         loader: "css-loader",
         options: {
-        modules: true,
-        localIdentName: '[name]__[local]____[hash:base64:5]'
+            modules: true,
+            import: true,
+            importLoaders: 2,
+            localIdentName: '[name]__[local]____[hash:base64:5]'
         }
     },
     postCss: { loader: "postcss-loader" },
@@ -166,9 +168,14 @@ module.exports = ({
     module: {
         rules: [
             { 
-                test: /\.css$/i, 
+                test: /^((?!\.?global).)*css$/, 
                 issuer: [{ not: [{ test: /\.html$/i }] }], 
                 use: [production ? MiniCssExtractPlugin.loader : loaders.style, loaders.cssModules, loaders.postCss] 
+            },
+            { 
+                test: /\.?global.css$/,
+                issuer: [{ not: [{ test: /\.html$/i }] }], 
+                use: [loaders.css, loaders.postCss]
             },
             { 
                 test: /\.css$/i, 
