@@ -9,6 +9,8 @@ import { initialState } from './store/state';
 import { TCustomAttribute } from 'aurelia-i18n';
 import Backend from 'i18next-xhr-backend';
 
+import steem from 'steem';
+
 import 'datatables.net-bs4';
 import 'datatables.net-responsive-bs4';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
@@ -101,8 +103,13 @@ export async function configure(aurelia: Aurelia) {
     });
 
     const username = localStorage.getItem('username') || null;
+
     if (username) {
-        dispatchify(login)(username);
+        const user = await steem.api.getAccountsAsync([username]);
+
+        if (user) {
+            dispatchify(login)(user[0]);
+        }
     }
 
     await aurelia.start();

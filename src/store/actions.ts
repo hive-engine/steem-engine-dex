@@ -9,10 +9,13 @@ export function loading(state: State, boolean: boolean) {
     return newState;
 }
 
-export async function login(state: State, account: string): Promise<State> {
+export async function login(state: State, account: any): Promise<State> {
     let newState = { ...state };
 
-    newState.account = account;
+    newState.account = {
+        name: account.name,
+        account
+    };
     newState.loggedIn = true;
 
     return newState;
@@ -21,7 +24,7 @@ export async function login(state: State, account: string): Promise<State> {
 export async function logout(state: State): Promise<State> {
     const newState = { ...state };
 
-    newState.account = '';
+    newState.account = null;
     newState.loggedIn = false;
 
     return newState;

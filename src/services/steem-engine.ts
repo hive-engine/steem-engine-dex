@@ -85,10 +85,10 @@ export class SteemEngine {
         }
     }
 
-    async login(username: string, key?: string): Promise<string> {
+    async login(username: string, key?: string): Promise<any> {
         return new Promise(async (resolve) => {
             if (window.steem_keychain && !key) {
-                steem_keychain.requestSignBuffer(username, 'Log In', 'Posting', function(response) {
+                steem_keychain.requestSignBuffer(username, 'Log In', 'Posting', async function(response) {
                     if (response.error) {
                         const toast = new ToastMessage();
     
@@ -99,8 +99,13 @@ export class SteemEngine {
     
                         this.toast.error(toast);
                     } else {
-                        localStorage.setItem('username', username);
-                        resolve(username);
+                        try {
+                            const user = await steem.api.getAccountsAsync([username]);
+                            localStorage.setItem('username', username);
+                            resolve(user);
+                        } catch {
+                            resolve(null);
+                        }
                     }
                 });
             } else {
@@ -127,7 +132,7 @@ export class SteemEngine {
                             if (steem.auth.wifToPublic(key) == user[0].memo_key || steem.auth.wifToPublic(key) === user[0].posting.key_auths[0][0]) {
                                 localStorage.setItem('username', username);
 
-                                resolve(username);
+                                resolve(user);
                             } else {
                                 const toast = new ToastMessage();
     

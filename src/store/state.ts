@@ -1,11 +1,14 @@
 export interface State {
-    account: string;
+    account: any;
     loggedIn: boolean;
     loading: boolean;
 }
 
 export const initialState: State = {
-    account: '',
+    account: {
+        name: '',
+        account: {}
+    },
     loggedIn: false,
     loading: false
 };

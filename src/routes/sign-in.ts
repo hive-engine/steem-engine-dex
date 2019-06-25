@@ -19,15 +19,15 @@ export class Signin {
     constructor(
         private router: Router,
         private keychain: SteemKeychain,
-        private SE: SteemEngine, 
+        private se: SteemEngine, 
         private i18n: I18N, 
         private toast: ToastService) {
     }
 
     async keychainSignIn() {
-        const username = await this.SE.login(this.username.trim().toLowerCase());
+        const account = await this.se.login(this.username.trim().toLowerCase());
 
-        if (username) {
+        if (account) {
             const toast = new ToastMessage();
     
             toast.message = this.i18n.tr('notifications:signinSuccess');
@@ -38,14 +38,14 @@ export class Signin {
 
             this.toast.success(toast);
 
-            await dispatchify(login)(username);
+            await dispatchify(login)(account);
         }
     }
 
     async keySignIn() {
-        const username = await this.SE.login(this.username.trim().toLowerCase(), this.privateKey.trim());
+        const account = await this.se.login(this.username.trim().toLowerCase(), this.privateKey.trim());
         
-        if (username) {
+        if (account) {
             const toast = new ToastMessage();
     
             toast.message = this.i18n.tr('notifications:signinSuccess');
@@ -56,7 +56,7 @@ export class Signin {
 
             this.toast.success(toast);
 
-            await dispatchify(login)(username);
+            await dispatchify(login)(account);
         }
     }
 }
