@@ -69,6 +69,12 @@ h6 {
 
 .main-header {
     border-bottom: 1px solid #424242;
+    height: 250px;
+}
+
+.main-header > .main-container {
+    height: 100%;
+    margin-top: 0;
 }
 
 .main-container {
@@ -102,12 +108,12 @@ h6 {
 }
 
 .tabs {
-
+    height: 44px;
 }
 
 .tabs .active {
-    color: #4B63C1;
-    border-bottom: 2px solid #4B63C1;
+    color: #3489E7;
+    border-bottom: 2px solid #3489E7;
 }
 
 .tabs__tab {
@@ -146,15 +152,14 @@ h6 {
 .table-dark td,
 .table-dark th,
 .table-dark thead th {
-    background: #1c222f;
+    background: #1C212A;
     border-color: #39455f;
     color: #FFF;
 }
 
 .table-dark thead th {
-    border-bottom-color: #39455f;
-    border-top-color: #39455f;
-    border-width: 1px;
+    border-bottom: 1px solid #39455f;
+    border-top: 0;
 }
 
 .table-dark tbody td {
