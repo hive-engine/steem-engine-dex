@@ -11,5 +11,6 @@ export function configure(config: FrameworkConfiguration) {
         PLATFORM.moduleName('./value-converters/slice'),
         PLATFORM.moduleName('./value-converters/last'),
         PLATFORM.moduleName('./value-converters/float'),
+        PLATFORM.moduleName('./value-converters/array-filter'),
     ]);
 }
