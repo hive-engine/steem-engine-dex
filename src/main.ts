@@ -106,6 +106,8 @@ export async function configure(aurelia: Aurelia) {
     const username = localStorage.getItem('username') || null;
 
     if (username) {
+        SE.user.name = username;
+        
         const user = await steem.api.getAccountsAsync([username]);
 
         if (user) {
