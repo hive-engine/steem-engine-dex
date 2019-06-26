@@ -73,13 +73,19 @@ module.exports = ({
         rules: [
             { 
                 test: /^((?!\.?global).)*css$/, 
+                exclude: /node_modules/, 
                 issuer: [{ not: [{ test: /\.html$/i }] }], 
-                use: [production ? MiniCssExtractPlugin.loader : loaders.style, loaders.cssModules, loaders.postCss] 
+                use: [MiniCssExtractPlugin.loader, loaders.style, loaders.cssModules, loaders.postCss] 
+            },
+            { 
+                test: /^((?!\.?global).)*css$/,
+                issuer: [{ not: [{ test: /\.html$/i }] }], 
+                use: [MiniCssExtractPlugin.loader, loaders.style, loaders.postCss] 
             },
             { 
                 test: /\.?global.css$/,
                 issuer: [{ not: [{ test: /\.html$/i }] }], 
-                use: [loaders.css, loaders.postCss]
+                use: [MiniCssExtractPlugin.loader, loaders.style, loaders.css, loaders.postCss] 
             },
             { 
                 test: /\.css$/i, 
