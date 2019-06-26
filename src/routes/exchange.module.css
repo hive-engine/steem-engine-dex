@@ -24,6 +24,10 @@
     padding-top: 20px;
 }
 
+.table-wrapper {
+    position: relative;
+}
+
 .best-price {
     background: #000;
     border-radius: 4px;
