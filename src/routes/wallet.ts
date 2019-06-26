@@ -3,6 +3,7 @@ import { autoinject, observable } from 'aurelia-framework';
 import { SteemEngine } from 'services/steem-engine';
 
 import Styles from './wallet.module.css';
+import { faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
 @autoinject()
 export class Wallet {
@@ -15,6 +16,7 @@ export class Wallet {
 
     private searchValue = '';
     private columns = ['symbol'];
+    private selectedTab = 'balances';
 
     @observable() private hideZeroBalances = false;
     
@@ -48,14 +50,23 @@ export class Wallet {
     activate() {       
         this.balancesCopy = this.balances;
 
-        console.log(this.balances);
+        this.hideZeroBalances = localStorage.getItem('ui_hide_zero_balances') ? true : false;
+    }
+
+    selectTab(tab: string) {
+        this.selectedTab = tab;
     }
 
     hideZeroBalancesChanged(val) {
-        if (val) {
-            this.balances = this.balances.filter(t => parseFloat(t.balance) > 0);
-        } else {
-            this.balances = this.balancesCopy;
+        if (this.balances) {
+            if (val) {
+                localStorage.setItem('ui_hide_zero_balances', JSON.stringify(val));
+                this.balances = this.balances.filter(t => parseFloat(t.balance) > 0);
+            } else {
+                localStorage.removeItem('ui_hide_zero_balances');
+
+                this.balances = this.balancesCopy;
+            }
         }
     }
 }
