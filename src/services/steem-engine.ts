@@ -59,6 +59,18 @@ export class SteemEngine {
         this.http.configure(config => config.useStandardConfiguration());
     }
 
+    getUser() {
+        const username = localStorage.getItem('username');
+
+        if (this.user.name === '' && username) {
+            return username;
+        }
+
+        if (this.user.name !== '') {
+            return this.user.name;
+        }
+    }
+
     request(url: string, params: any = {}) {
         // Cache buster
         params.v = new Date().getTime();
