@@ -77,6 +77,9 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma} = 
         contentBase: outDir,
         historyApiFallback: true
     },
+    optimization: {
+        concatenateModules: false,
+    },
     devtool: production ? 'nosources-source-map' : 'cheap-module-eval-source-map',
     module: {
         rules: [
