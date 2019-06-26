@@ -14,7 +14,7 @@ loader {
 }
 
 loader[mode="tiny"] {
-    background: rgba(255, 255, 255, 0.34);
+    background: rgba(32, 32, 32, 0.5);
     height: 100%;
     left: 0;
     opacity: 1;
