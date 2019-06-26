@@ -39,44 +39,52 @@
         
         <div class="row exchange-columns h100">
             <div class="col-md-3 col-sm-12">
-                <table class="buy-table">
-                    <thead>
-                        <tr>
-                            <th width="135">${'Price' & t} (STEEMP)</th>
-                            <th>${'QTY' & t} (ENG)</th>
-                            <th>${'Total' & t} (STEEMP)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr repeat.for="order of sellBook | slice:10">
-                            <td>${order.price}</td>
-                            <td>${order.quantity}</td>
-                            <td>${order.amountLocked | toFixed:6}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-wrapper">
+                    <loader loading.bind="loadingUserBuyBook" mode="tiny"></loader>
+                    
+                    <table class="buy-table">
+                        <thead>
+                            <tr>
+                                <th width="135">${'Price' & t} (STEEMP)</th>
+                                <th>${'QTY' & t} (ENG)</th>
+                                <th>${'Total' & t} (STEEMP)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr repeat.for="order of sellBook | slice:10">
+                                <td>${order.price}</td>
+                                <td>${order.quantity}</td>
+                                <td>${order.amountLocked | toFixed:6}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
                 <div class="best-price" if.bind="bestSellPrice">
                     <div class="negative">${bestSellPrice.amountLocked} ${'STEEMP' & t}</div>
                     <div>${bestSellPrice.quantity} ${data.symbol}</div>
                 </div>
 
-                <table class="sell-table">
-                    <thead class="sr-only">
-                        <tr>
-                            <th width="135">${'Price' & t} (STEEMP)</th>
-                            <th>${'QTY' & t} (ENG)</th>
-                            <th>${'Total' & t} (STEEMP)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr repeat.for="order of buyBook | slice:10">
-                            <td>${order.price}</td>
-                            <td>${order.quantity}</td>
-                            <td>${order.amountLocked | toFixed:6}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-wrapper">
+                    <loader loading.bind="loadingUserSellBook" mode="tiny"></loader>
+
+                    <table class="sell-table">
+                            <thead class="sr-only">
+                                <tr>
+                                    <th width="135">${'Price' & t} (STEEMP)</th>
+                                    <th>${'QTY' & t} (ENG)</th>
+                                    <th>${'Total' & t} (STEEMP)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr repeat.for="order of buyBook | slice:10">
+                                    <td>${order.price}</td>
+                                    <td>${order.quantity}</td>
+                                    <td>${order.amountLocked | toFixed:6}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
             </div>
 
             <div class="col-md-6 col-sm-12 chart-col">
