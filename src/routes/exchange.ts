@@ -24,7 +24,13 @@ export class Exchange {
     private bestSellPrice = null;
     private buyBook = [];
     private tradeHistory = [];
+    private userBuyOrders = [];
+    private userSellOrders = [];
     private userOrders = [];
+
+    private loadingUserBuyBook = false;
+    private loadingUserSellBook = false;
+    private loadingUserBalances = false;
 
     constructor(private se: SteemEngine, private dialogService: DialogService) {
 
@@ -46,14 +52,6 @@ export class Exchange {
         tasks.push(this.se.ssc.find('market', 'buyBook', { symbol: symbol }, 200, 0, [{ index: 'price', descending: true }], false));
 		tasks.push(this.se.ssc.find('market', 'sellBook', { symbol: symbol }, 200, 0, [{ index: 'price', descending: false }], false));
         tasks.push(this.se.ssc.find('market', 'tradesHistory', { symbol: symbol }, 30, 0, [{ index: 'timestamp', descending: false }], false));
-        
-        const account = localStorage.getItem('username');
-
-        if (account) {
-			tasks.push(this.se.ssc.find('market', 'buyBook', { symbol: symbol, account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false));
-			tasks.push(this.se.ssc.find('market', 'sellBook', { symbol: symbol, account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false));
-            tasks.push(this.se.ssc.find('tokens', 'balances', { account: account, symbol : { '$in' : [symbol, 'STEEMP'] } }, 2, 0, '', false));
-        }
 
         const results = await Promise.all(tasks);
 
@@ -81,34 +79,6 @@ export class Exchange {
             o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
             return o;
         });
-
-        if (account) {
-            // prepare user orders and balance
-            let user_buy_orders = results[3].map(o => {
-                o.type = 'buy';
-                o.total = o.price * o.quantity;
-                o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
-                return o;
-            });
-
-            let user_sell_orders = results[4].map(o => {
-                o.type = 'sell';
-                o.total = o.price * o.quantity;
-                o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
-                return o;
-            });
-
-            this.userOrders = user_buy_orders.concat(user_sell_orders);
-            this.userOrders.sort((a, b) => b.timestamp - a.timestamp);
-
-            this.userTokenBalance = find(results[5], (balance) => balance.symbol === symbol);
-            this.userTokenBalance = find(results[5], (balance) => balance.symbol === 'STEEMP');
-        }
-
-        
-        //this.buyBook = this.buyBook.slice(0, 10);
-        //this.sellBook = this.sellBook.slice(0, 10);
-        //this.tradeHistory = this.tradeHistory.slice(0, 10);
 
         if (this.sellBook.length) {
             this.bestSellPrice = this.sellBook[0];
@@ -163,6 +133,49 @@ export class Exchange {
                 }
             ]
         };
+    }
+
+    attached() {
+        const symbol = this.currentToken;
+        const account = this.se.getUser();
+
+        if (account) {
+            this.loadingUserBuyBook = true;
+            this.loadingUserSellBook = true;
+            this.loadingUserBalances = true;
+
+            this.se.ssc.find('market', 'buyBook', { symbol: symbol, account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false).then(result => {
+                this.loadingUserBuyBook = false;
+
+                this.userBuyOrders = result.map(o => {
+                    o.type = 'buy';
+                    o.total = o.price * o.quantity;
+                    o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
+                    return o;
+                });  
+                
+                this.se.ssc.find('market', 'sellBook', { symbol: symbol, account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false).then(result => {
+                    this.loadingUserSellBook = false;
+    
+                    this.userSellOrders = result.map(o => {
+                        o.type = 'sell';
+                        o.total = o.price * o.quantity;
+                        o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
+                        return o;
+                    });
+
+                    this.userOrders = this.userBuyOrders.concat(this.userSellOrders);
+                    this.userOrders.sort((a, b) => b.timestamp - a.timestamp);
+                });
+            });
+
+            this.se.ssc.find('tokens', 'balances', { account: account, symbol : { '$in' : [symbol, 'STEEMP'] } }, 2, 0, '', false).then(result => {
+                this.loadingUserBalances = false;
+
+                this.userTokenBalance = find(result, (balance) => balance.symbol === symbol);
+                this.userTokenBalance = find(result, (balance) => balance.symbol === 'STEEMP');
+            });
+        }
     }
 
     deposit() {
