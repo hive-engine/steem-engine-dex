@@ -164,4 +164,5 @@ h6 {
 
 .table-dark tbody td {
     border-bottom: 1px solid #262e3f;
+    border-top: 0;
 }
