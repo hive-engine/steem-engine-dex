@@ -37,14 +37,23 @@ const loaders = {
     postCss: { loader: "postcss-loader" },
 };
 
-module.exports = ({
-    production,
-    server,
-    extractCss,
-    coverage,
-    analyze,
-    karma
-} = {}) => ({
+const productionCss = [
+    {
+        loader: MiniCssExtractPlugin.loader,
+    },
+    loaders.cssModules, 
+    loaders.postCss
+];
+
+const productionGlobalCss = [
+    {
+        loader: MiniCssExtractPlugin.loader,
+    },
+    loaders.css, 
+    loaders.postCss
+];
+
+module.exports = ({ production, server, extractCss, coverage, analyze, karma} = {}) => ({
     resolve: {
         extensions: ['.ts', '.js'],
         modules: [srcDir, 'node_modules'],
@@ -72,20 +81,14 @@ module.exports = ({
     module: {
         rules: [
             { 
-                test: /^((?!\.?global).)*css$/, 
-                exclude: /node_modules/, 
+                test: /\.module.css$/,
                 issuer: [{ not: [{ test: /\.html$/i }] }], 
-                use: [MiniCssExtractPlugin.loader, loaders.style, loaders.cssModules, loaders.postCss] 
+                use: production ? productionCss : [loaders.style, loaders.cssModules, loaders.postCss] 
             },
             { 
-                test: /^((?!\.?global).)*css$/,
+                test: /^((?!\.module).)*css$/,
                 issuer: [{ not: [{ test: /\.html$/i }] }], 
-                use: [MiniCssExtractPlugin.loader, loaders.style, loaders.postCss] 
-            },
-            { 
-                test: /\.?global.css$/,
-                issuer: [{ not: [{ test: /\.html$/i }] }], 
-                use: [MiniCssExtractPlugin.loader, loaders.style, loaders.css, loaders.postCss] 
+                use: production ? productionGlobalCss : [loaders.style, loaders.css, loaders.postCss] 
             },
             { 
                 test: /\.css$/i, 

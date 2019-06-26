@@ -23,7 +23,7 @@ import 'izitoast/dist/css/iziToast.css';
 import './styles/toast.css';
 import './styles/main.css';
 
-import modalCss from './styles/modal.global.css';
+import modalCss from './styles/modal.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faGlobe, faFlagUsa, faPoundSign } from '@fortawesome/free-solid-svg-icons';
