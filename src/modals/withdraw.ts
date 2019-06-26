@@ -72,4 +72,16 @@ export class WithdrawModal {
             this.loading = false;
         }
     }
+
+    async handleWithdraw() {
+        this.loading = true;
+
+        try {
+            if (this.token.symbol === 'STEEM') {
+                const result = await this.se.withdrawSteem(parseFloat(this.amount).toFixed(3));
+            }
+        } finally {
+
+        }
+    }
 }

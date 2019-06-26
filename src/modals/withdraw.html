@@ -32,6 +32,12 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label>${'Withdrawal Address' & t}</label>
+                    <input class="form-control" type="text" id="withdraw_address" value.one-time="se.user.name" disabled="disabled">
+                    <div class="invalid-tooltip" id="error_response"></div>
+                </div>
+
                 <div class="ssc-cost">You will receive: <span id="receive_amt">${amount * 0.99 | toFixed: 3}</span> ${token.pegged_token_symbol}</div>
             </div>
 
