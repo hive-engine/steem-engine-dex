@@ -2,7 +2,7 @@ import { Redirect } from 'aurelia-router';
 import { autoinject, observable } from 'aurelia-framework';
 import { SteemEngine } from 'services/steem-engine';
 
-import Styles from './wallet.css';
+import Styles from './wallet.module.css';
 
 @autoinject()
 export class Wallet {

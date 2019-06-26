@@ -20,8 +20,8 @@ import 'sscjs/dist/ssc';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'izitoast/dist/css/iziToast.css';
-import './styles/toast.global.css';
-import './styles/main.global.css';
+import './styles/toast.css';
+import './styles/main.css';
 
 import modalCss from './styles/modal.global.css';
 

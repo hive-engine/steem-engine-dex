@@ -7,7 +7,7 @@ import { autoinject } from 'aurelia-framework';
 import { ToastService } from 'services/toast-service';
 import { Router } from 'aurelia-router';
 
-import styles from './sign-in.css';
+import styles from './sign-in.module.css';
 import { SteemKeychain } from 'services/steem-keychain';
 
 @autoinject()

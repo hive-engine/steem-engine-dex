@@ -1,7 +1,7 @@
 import { SteemEngine } from '../services/steem-engine';
 import { autoinject } from 'aurelia-framework';
 
-import styles from './exchange.css'
+import styles from './exchange.module.css'
 import { environment } from 'environment';
 import moment from 'moment';
 import { find, uniq, fill } from 'lodash';
