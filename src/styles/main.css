@@ -67,8 +67,13 @@ h6 {
     font-size: 12px;
 }
 
+.main-header {
+    border-bottom: 1px solid #424242;
+}
+
 .main-container {
     margin-top: 30px;
+    max-width: 1440px;
 }
 
 .route--exchange {
@@ -96,6 +101,32 @@ h6 {
     color: $negative;
 }
 
+.tabs {
+
+}
+
+.tabs .active {
+    color: #4B63C1;
+    border-bottom: 2px solid #4B63C1;
+}
+
+.tabs__tab {
+    text-align: center;
+}
+
+.form-control-transparent,
+.form-control-transparent:focus {
+    background: transparent;
+    border: 1px solid #424242;
+    border-radius: 3px;
+}
+
+.input-group-text-transparent {
+    background: transparent;
+    border-color: #424242;
+    color: #FFF;
+}
+
 .table-transparent {
     background: transparent;
 }
@@ -110,4 +141,22 @@ h6 {
 .table-transparent thead th {
     border-bottom-color: rgba(255, 255, 255, 0.1);
     border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.table-dark td,
+.table-dark th,
+.table-dark thead th {
+    background: #1c222f;
+    border-color: #39455f;
+    color: #FFF;
+}
+
+.table-dark thead th {
+    border-bottom-color: #39455f;
+    border-top-color: #39455f;
+    border-width: 1px;
+}
+
+.table-dark tbody td {
+    border-bottom: 1px solid #262e3f;
 }
