@@ -263,14 +263,12 @@ export class SteemEngine {
 
     async loadBalances(account?: string): Promise<BalanceInterface[]> {
         if (!account) {
-            account = localStorage.getItem('username') || null;
+            account = this.getUser();
         }
 
         if (!account) {
             return null;
         }
-
-        await this.loadTokens();
 
         const loadedBalances: BalanceInterface[] = await this.ssc.find('tokens', 'balances', { account: account }, 1000, 0, '', false);
 
