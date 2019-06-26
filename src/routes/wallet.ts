@@ -13,6 +13,9 @@ export class Wallet {
 
     private tokenTable: HTMLTableElement;
 
+    private searchValue = '';
+    private columns = ['symbol'];
+
     @observable() private hideZeroBalances = false;
     
     constructor(private se: SteemEngine) {

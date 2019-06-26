@@ -1,27 +1,52 @@
 <template>
-    <div class="container main-container">
-        <div class="row">
-            <div class="col-12">
-                <div class="tabs">
 
+    <header class="main-header">
+        <div class="container-fluid main-container d-flex flex-column justify-content-end">
+            <div class="row">
+                <div class="col-6">
+                    <h1>${'Wallet' & t}</h1>
+                </div>
+            </div>
+        
+            <nav class="nav tabs mt-3">
+                <a class="nav-link tabs__tab active" href="#">Balances</a>
+                <a class="nav-link tabs__tab" href="#">Open Orders</a>
+                <a class="nav-link tabs__tab" href="#">Order History</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container-fluid main-container">
+
+        <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="input-group input-group-sm mb-3">
+                            <input type="text" class="form-control form-control-transparent" placeholder="Symbol" aria-label="Symbol" aria-describedby="symbol-search" value.bind="searchValue">
+                            <div class="input-group-append">
+                                <span class="input-group-text input-group-text-transparent" id="symbol-search">O</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 text-right">
+                <div class="custom-control custom-control-inline custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="hideZeroBalances" checked.bind="hideZeroBalances">
+                    <label class="custom-control-label" for="hideZeroBalances">${'Hide zero balances' & t}</label>
+                </div>
+                <div class="custom-control custom-control-inline custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="hideSmallBalances" checked.bind="hideSmallBalances">
+                    <label class="custom-control-label" for="hideSmallBalances">${'Hide small balances' & t}</label>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-6">
-                <h1>${'Wallet' & t}</h1>
-                <label><input type="checkbox" checked.bind="hideZeroBalances"> Hide zero balances</label>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-small">Deposit</button>
-                <button class="btn btn-small">Withdraw</button>
-            </div>
-        </div>
-
-        <div class="row">
             <div class="col-12">
-                <table class="table table-transparent" ref="tokenTable">
+                <table class="table table-dark" ref="tokenTable">
                     <thead>
                         <tr>
                             <th></th>
@@ -35,7 +60,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr repeat.for="token of balances">
+                        <tr repeat.for="token of balances | arrayFilter:searchValue:columns">
                             <td></td>
                             <td>${token.symbol}</td>
                             <td>${token.name}</td>
