@@ -30,6 +30,8 @@ export class Wallet {
 
     async canActivate() {
         try {
+            await this.se.loadTokens();
+            
             this.balances = await this.se.loadBalances();
 
             if (!this.balances) {
