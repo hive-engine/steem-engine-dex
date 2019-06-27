@@ -376,6 +376,37 @@ export class SteemEngine {
         });
     }
 
+    async getUserOpenOrders(account: string = null) {
+        if (!account) {
+            account = this.getUser();
+        }
+
+        try {
+            let buyOrders = await this.ssc.find('market', 'buyBook', { account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false);
+            let sellOrders = await this.ssc.find('market', 'sellBook', { account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false);
+            
+            buyOrders = buyOrders.map(o => {
+                o.type = 'buy';
+                return o;
+            });
+
+            sellOrders = sellOrders.map(o => {
+                o.type = 'sell';
+                return o;
+            });
+
+            return [...buyOrders, ...sellOrders];
+        } catch(e) {
+            const toast = new ToastMessage();
+
+            toast.message = this.i18n.tr(e);
+
+            this.toast.error(toast);
+
+            return [];
+        }
+    }
+
     async getScotUsertokens(account) {
         if (!account && this.user) {
             account = this.user.name;
@@ -688,6 +719,7 @@ export class SteemEngine {
                             });
             
                             this.toast.error(toast);
+
                             this.loadBalances(username).then(() => {
                                 this.showHistory(symbol);
                             });
