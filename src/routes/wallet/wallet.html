@@ -1,0 +1,22 @@
+<template>
+
+    <header class="main-header">
+        <div class="container-fluid main-container d-flex flex-column justify-content-end">
+            <div class="row">
+                <div class="col-6">
+                    <h1>${'Wallet' & t}</h1>
+                </div>
+            </div>
+        
+            <nav class="nav tabs mt-3">
+                <a class="nav-link tabs__tab ${row.isActive ? 'active' : ''}" repeat.for="row of router.navigation" href.bind="row.href">${row.title & t}</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container-fluid main-container">
+
+        <router-view swap-order="after"></router-view>
+
+    </div>
+</template>

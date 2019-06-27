@@ -1,26 +1,17 @@
 import { Redirect } from 'aurelia-router';
-import { autoinject, observable } from 'aurelia-framework';
+import { observable } from 'aurelia-binding';
 import { SteemEngine } from 'services/steem-engine';
-
-import Styles from './wallet.module.css';
-import { faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import { autoinject } from 'aurelia-framework';
 
 @autoinject()
-export class Wallet {
-    private styles = Styles;
-    
+export class Balances {
+    private searchValue = '';
+    private columns = ['symbol'];
+
     private balances: BalanceInterface[];
     private balancesCopy: BalanceInterface[];
 
     private tokenTable: HTMLTableElement;
-
-    private openOrders = [];
-
-    private searchValue = '';
-    private columns = ['symbol'];
-    private selectedTab = 'balances';
-
-    private loadingOpenOrders = false;
 
     @observable() private hideZeroBalances = false;
     
@@ -55,15 +46,6 @@ export class Wallet {
         this.balancesCopy = this.balances;
 
         this.hideZeroBalances = localStorage.getItem('ui_hide_zero_balances') ? true : false;
-    }
-
-    async selectTab(tab: string) {
-        this.selectedTab = tab;
-
-        if (tab === 'open-orders') {
-            this.openOrders = await this.se.getUserOpenOrders('someguy123');
-            console.log(this.openOrders);
-        }
     }
 
     hideZeroBalancesChanged(val) {

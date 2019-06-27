@@ -76,7 +76,7 @@ export class App {
             {
                 route: 'wallet',
                 name: 'wallet',
-                moduleId: PLATFORM.moduleName('./routes/wallet'),
+                moduleId: PLATFORM.moduleName('./routes/wallet/wallet'),
                 nav: 2,
                 title: 'Wallet'
             },
