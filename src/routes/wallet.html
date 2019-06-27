@@ -70,5 +70,30 @@
             </div>
         </template>
 
+        <template if.bind="selectedTab == 'open-orders'">
+            <div class="table-wrapper">
+                <loader loading.bind="loadingOpenOrders" mode="tiny"></loader>
+
+                <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>${'Symbol' & t}</th>
+                                <th width="135">${'Price' & t} (${'STEEMP' & t})</th>
+                                <th>${'Quantity' & t}</th>
+                                <th>${'Total' & t} (STEEMP)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr repeat.for="order of openOrders">
+                                <td>${order.symbol}</td>
+                                <td>${order.price}</td>
+                                <td>${order.quantity}</td>
+                                <td>${order.price * order.quantity | toFixed:6}</td>
+                            </tr>
+                        </tbody>
+                </table>
+            </div>
+        </template>
+
     </div>
 </template>

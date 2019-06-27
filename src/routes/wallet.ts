@@ -14,9 +14,13 @@ export class Wallet {
 
     private tokenTable: HTMLTableElement;
 
+    private openOrders = [];
+
     private searchValue = '';
     private columns = ['symbol'];
     private selectedTab = 'balances';
+
+    private loadingOpenOrders = false;
 
     @observable() private hideZeroBalances = false;
     
@@ -53,8 +57,13 @@ export class Wallet {
         this.hideZeroBalances = localStorage.getItem('ui_hide_zero_balances') ? true : false;
     }
 
-    selectTab(tab: string) {
+    async selectTab(tab: string) {
         this.selectedTab = tab;
+
+        if (tab === 'open-orders') {
+            this.openOrders = await this.se.getUserOpenOrders('someguy123');
+            console.log(this.openOrders);
+        }
     }
 
     hideZeroBalancesChanged(val) {
