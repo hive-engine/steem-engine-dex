@@ -4,6 +4,7 @@ import { State } from 'store/state';
 import { HttpClient, json } from 'aurelia-fetch-client';
 import { lazy, autoinject } from 'aurelia-framework';
 import { environment } from 'environment';
+import moment from 'moment';
 
 import SSC from 'sscjs';
 import steem from 'steem';
@@ -387,15 +388,22 @@ export class SteemEngine {
             
             buyOrders = buyOrders.map(o => {
                 o.type = 'buy';
+                o.total = o.price * o.quantity;
+                o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
                 return o;
             });
 
             sellOrders = sellOrders.map(o => {
                 o.type = 'sell';
+                o.total = o.price * o.quantity;
+				o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
                 return o;
             });
 
-            return [...buyOrders, ...sellOrders];
+            let combinedOrders = [...buyOrders, ...sellOrders]
+                                 .sort((a, b) => b.timestamp - a.timestamp);
+
+            return combinedOrders;
         } catch(e) {
             const toast = new ToastMessage();
 
@@ -804,7 +812,7 @@ export class SteemEngine {
 		});
     }
 
-    cncelMarketOrder(type: string, orderId: string, symbol: string) {
+    cancelMarketOrder(type: string, orderId: string, symbol: string) {
         return new Promise((resolve) => {
             if (type !== 'buy' && type !== 'sell') {
                 console.error('Invalid order type: ', type);

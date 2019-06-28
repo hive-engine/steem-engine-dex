@@ -9,6 +9,8 @@
                                 <th width="135">${'Price' & t} (${'STEEMP' & t})</th>
                                 <th>${'Quantity' & t}</th>
                                 <th>${'Total' & t} (STEEMP)</th>
+                                <th>${'Date' & t}</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -16,7 +18,9 @@
                                 <td>${order.symbol}</td>
                                 <td>${order.price}</td>
                                 <td>${order.quantity}</td>
-                                <td>${order.price * order.quantity | toFixed:6}</td>
+                                <td>${order.total}</td>
+                                <td>${order.timestamp_string}</td>
+                                <td><button type="button" class="btn btn-danger btn-sm" click.delegate="cancelOrder(order.type, order.txId, order.symbol)">cancel</button></td>
                             </tr>
                         </tbody>
                 </table>
