@@ -25,13 +25,14 @@ const baseUrl = '/';
 const loaders = {
     style: { loader: "style-loader" },
     css: { loader: "css-loader" },
-    cssModules: { 
-        loader: "css-loader",
+    cssModules: {
+        loader: 'css-loader',
         options: {
-            modules: true,
-            import: true,
-            importLoaders: 2,
+          importLoaders: 2,
+          modules: true,
+          modules: {
             localIdentName: '[name]__[local]____[hash:base64:5]'
+          }
         }
     },
     postCss: { loader: "postcss-loader" },
