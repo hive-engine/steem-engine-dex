@@ -730,10 +730,10 @@ export class SteemEngine {
                 }
               });
             } else {
-                    this.steemConnectJson('active', transaction_data, () => {
+                this.steemConnectJson('active', transaction_data, () => {
 
-                    });
-                }
+                });
+            }
         });
     }
 
@@ -802,6 +802,70 @@ export class SteemEngine {
                 callback({ success: false, error: 'Transaction not found.' });
             }
 		});
+    }
+
+    cncelMarketOrder(type: string, orderId: string, symbol: string) {
+        return new Promise((resolve) => {
+            if (type !== 'buy' && type !== 'sell') {
+                console.error('Invalid order type: ', type);
+                return;
+            }
+            
+            const username = this.getUser();
+    
+            if (!username) {
+                window.location.reload();
+                return;
+            }
+
+            const transaction_data = {
+                "contractName": "market",
+                "contractAction": "cancel",
+                "contractPayload": {
+                    "type": type,
+                    "id": orderId
+                }
+            };
+
+            console.log('Broadcasting cancel order: ', JSON.stringify(transaction_data));
+
+            if (window.steem_keychain) {
+                steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), `Cancel ${type.toUpperCase()} Order`, (response) => {
+                    if (response.success && response.result) {
+                        this.checkTransaction(response.result.id, 3, tx => {
+                            if (tx.success) {
+                                const toast = new ToastMessage();
+  
+                                toast.message = this.i18n.tr('orderCanceled', {
+                                    symbol
+                                });
+                
+                                this.toast.success(toast);
+
+                                resolve(tx);
+                            } else {
+                              const toast = new ToastMessage();
+  
+                              toast.message = this.i18n.tr('errorCancelOrder', {
+                                  ns: 'errors',
+                                  error: tx.error
+                              });
+              
+                              this.toast.error(toast);
+  
+                              resolve(false);
+                            }
+                        });
+                    } else {
+                        resolve(response);
+                    }
+                });
+              } else {
+                  this.steemConnectJson('active', transaction_data, () => {
+  
+                  });
+              }
+        });
     }
     
     async buyBook(symbol, account?: string) {
