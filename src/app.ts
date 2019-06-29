@@ -77,6 +77,7 @@ export class App {
                 route: 'wallet',
                 name: 'wallet',
                 moduleId: PLATFORM.moduleName('./routes/wallet/wallet'),
+                auth: true,
                 nav: 2,
                 title: 'Wallet'
             },
@@ -114,6 +115,7 @@ export class App {
                 name: 'rewards',
                 moduleId: PLATFORM.moduleName('./routes/rewards'),
                 nav: false,
+                auth: true,
                 title: 'Rewards',
             },
             {
@@ -121,6 +123,7 @@ export class App {
                 name: 'conversionHistory',
                 moduleId: PLATFORM.moduleName('./routes/conversion-history'),
                 nav: false,
+                auth: true,
                 title: 'Conversion History',
             },
         ]);
