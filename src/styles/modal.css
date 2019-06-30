@@ -27,8 +27,8 @@ ux-dialog-container {
 ux-dialog {
     color: #FFF;
     display: table;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: none;
+    border: none;
     border-radius: 5px;
     padding: 3px;
     width: 95%;
@@ -39,17 +39,24 @@ ux-dialog {
     border-image-width: initial;
     border-image-outset: initial;
     border-image-repeat: initial;
-    background: #1C222F;
+    background: #003E49;
 }
 ux-dialog > ux-dialog-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: linear-gradient(280deg, #160033 0%, #008b80 51.72%, #00323e 100%);
+    color: #FFF;
     display: block;
+    font-size: 22px;
+    font-weight: 300;
     padding: 16px;
+    text-align: center;
+    text-transform: uppercase;
 }
 
 ux-dialog > ux-dialog-header h2 {
-    color: #CCC;
-    font-size: 18px;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: 1;
     margin: 0;
 }
 
