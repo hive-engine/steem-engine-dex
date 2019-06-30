@@ -19,7 +19,7 @@
                         <language-switcher></language-switcher>
                     </li>
                     <li class="nav-item button active" if.bind="!loggedIn">
-                        <a class="btn nav-link" route-href="route: signin;">${'Sign In' & t}</a>
+                        <a class="btn nav-link" click.delegate="signin()">${'Sign In' & t}</a>
                     </li>
                     <li else class="nav-item dropdown active">
                         <a class="nav-link" href="javascript:void(0);">${username}</a>

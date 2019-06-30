@@ -1,3 +1,5 @@
+import { SigninModal } from './../../modals/signin';
+import { DialogService } from 'aurelia-dialog';
 import { customElement, bindable } from 'aurelia-framework';
 import { autoinject } from 'aurelia-dependency-injection';
 import { dispatchify } from 'aurelia-store';
@@ -11,6 +13,10 @@ export class NavBar {
 
     private username = '';
 
+    constructor(private dialogService: DialogService) {
+
+    }
+
     loggedInChanged(bool) {
         if (bool) {
             this.username = localStorage.getItem('username');
@@ -21,5 +27,11 @@ export class NavBar {
 
     logout() {
         dispatchify(logout)();
+    }
+
+    signin() {
+        this.dialogService.open({ viewModel: SigninModal }).whenClosed(response => {
+            console.log(response);
+        });
     }
 }
