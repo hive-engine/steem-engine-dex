@@ -67,13 +67,6 @@ export class App {
                 title: 'Home'
             },
             {
-                route: 'sign-in',
-                name: 'signin',
-                moduleId: PLATFORM.moduleName('./routes/sign-in'),
-                nav: false,
-                title: 'Signin'
-            },
-            {
                 route: 'wallet',
                 name: 'wallet',
                 moduleId: PLATFORM.moduleName('./routes/wallet/wallet'),
