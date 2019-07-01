@@ -26,7 +26,7 @@
             </div>
             
             <template if.bind="keychain.useKeychain">
-                <button type="button" click.delegate="keychainSignIn()">${'Sign In With Keychain' & t}</button>
+                <button type="button" class="keychain-btn" click.delegate="keychainSignIn()">${'Sign In With Keychain' & t}</button>
                 <a href="javascript:void(0);" click.delegate="useActiveKey = !useActiveKey">${'Sign In with Active Key' & t}</a>
             </template>
 

@@ -1,0 +1,26 @@
+.keychain-btn {
+    background: linear-gradient(280deg, #20835E 0%, #005552 51.72%, #533C81 100%);
+    border: none;
+    color: rgba(255, 255, 255, 0.68);
+    height: 56px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+    width: 376px;
+}
+
+.keychain-btn:before {
+    background: transparent url(../images/icon_keychain.svg) no-repeat left top;
+    background-size: contain;
+    content: "";
+    display: block;
+    height: 41px;
+    left: 15px;
+    position: absolute;
+    top: 50%;
+    width: 35px;
+}
