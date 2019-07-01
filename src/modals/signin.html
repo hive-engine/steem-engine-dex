@@ -7,10 +7,11 @@
             <h2>${'Sign In' & t}</h2>
         </ux-dialog-header>
         <ux-dialog-body>
+            <p class="signin-text">${'Sign in with your STEEM Account' & t}:</p>
             <div class="form-group">
                 <input
                     type="text"
-                    class="form-control"
+                    class="form-control auth-input"
                     value.bind="username"
                     id="inputUsername"
                     placeholder="Username">
@@ -19,7 +20,7 @@
             <div class="form-group" if.bind="!keychain.useKeychain || useActiveKey">
                 <input
                     type="text"
-                    class="form-control"
+                    class="form-control auth-input"
                     value.bind="privateKey"
                     id="inputActiveKey"
                     placeholder="Active Key">
@@ -27,7 +28,7 @@
             
             <template if.bind="keychain.useKeychain">
                 <button type="button" class="keychain-btn" click.delegate="keychainSignIn()">${'Sign In With Keychain' & t}</button>
-                <a href="javascript:void(0);" click.delegate="useActiveKey = !useActiveKey">${'Sign In with Active Key' & t}</a>
+                <a href="javascript:void(0);" class="auth-link" click.delegate="useActiveKey = !useActiveKey">${'Sign In with Active Key' & t}</a>
             </template>
 
             <template if.bind="!keychain.useKeychain || useActiveKey">
