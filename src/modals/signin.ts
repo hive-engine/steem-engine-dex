@@ -13,8 +13,11 @@ import { ToastService } from 'services/toast-service';
 import { login } from 'store/actions';
 import { SteemKeychain } from 'services/steem-keychain';
 
+import styles from './signin.module.css';
+
 @autoinject()
 export class SigninModal {
+    private styles = styles;
     private environment = environment;
     private subscription: Subscription;
     private user: State['account'];
@@ -30,8 +33,10 @@ export class SigninModal {
     }
 
     bind() {
-        this.subscription = this.store.state.pipe(pluck('account')).subscribe((user: State['account']) => {
-            this.user = user;
+        this.subscription = this.store.state.subscribe((state: State) => {
+            if (state) {
+                this.user = state.account;
+            }
         });
     }
 
