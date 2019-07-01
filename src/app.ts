@@ -1,3 +1,4 @@
+import { AuthorizeStep } from './resources/pipeline-steps/authorize';
 import { SteemEngine } from 'services/steem-engine';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Store } from 'aurelia-store';
@@ -29,6 +30,8 @@ export class App {
                 this.loading = s.loading;
                 this.loggedIn = s.loggedIn;
 
+                AuthorizeStep.loggedIn = s.loggedIn;
+
                 if (s.loggedIn) {
                     this.se.user = {...this.se.user, ...s.account};
                 } else {
@@ -54,6 +57,7 @@ export class App {
 
         config.options.pushState = true;
 
+        config.addPipelineStep('authorize', AuthorizeStep);
         config.addPipelineStep('authorize', MaintenanceStep);
         config.addPipelineStep('preRender', PreRenderStep);
         config.addPipelineStep('postRender', PostRenderStep);
