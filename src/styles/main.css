@@ -6,6 +6,7 @@
 
 body {
     background: #181F1F;
+    font-family: 'Roboto', sans-serif;
     width: 100%;
     height: 100%;
     font-size: 15px;
@@ -41,6 +42,11 @@ p {
     line-height: 26px;
     font-size: 15px;
     margin-bottom: 30px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
 }
 
 h1 {
