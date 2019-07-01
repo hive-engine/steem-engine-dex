@@ -189,6 +189,7 @@ export class SteemEngine {
 
     logout() {
         dispatchify(logout)();
+        localStorage.removeItem('username');
     }
 
     async steemConnectJson(auth_type: AuthType, data: any, callback) {

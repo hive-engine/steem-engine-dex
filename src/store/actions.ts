@@ -32,6 +32,7 @@ export async function logout(state: State): Promise<State> {
         scotTokens: [],
         pendingUnstakes: []
     };
+    
     newState.loggedIn = false;
 
     return newState;
