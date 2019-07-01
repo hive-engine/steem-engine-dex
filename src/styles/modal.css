@@ -30,7 +30,7 @@ ux-dialog {
     box-shadow: none;
     border: none;
     border-radius: 5px;
-    padding: 3px;
+    padding: 0;
     width: 95%;
     height: fit-content;
     margin: auto;
@@ -63,15 +63,20 @@ ux-dialog > ux-dialog-header h2 {
 ux-dialog > ux-dialog-header > button {
     float: right;
     border: none;
+    color: #FFF;
     display: block;
     width: 32px;
     height: 32px;
     background: 0 0;
-    font-size: 22px;
+    font-size: 32px;
     line-height: 16px;
-    margin: -14px -16px 0 0;
+    margin: -7px -16px 0 0;
     padding: 0;
     cursor: pointer;
+}
+
+ux-dialog > ux-dialog-header > button:focus {
+    outline: none;
 }
 
 ux-dialog > ux-dialog-body {
