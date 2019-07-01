@@ -1,6 +1,14 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
+const serviceAccount = require('steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json');
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://steem-engine-dex.firebaseio.com"
+});
+
+const firestore = admin.firestore();
+
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //
@@ -9,8 +17,12 @@ import * as admin from 'firebase-admin';
 // });
 
 
-export const createUserReference = functions.auth.user().onCreate((user) => {
-    const displayName = user.displayName;
-    const email = user.email;
-    const uid = user.uid;
+export const createUserReference = functions.auth.user().onCreate(async (user) => {
+    const usersRef = firestore.collection('users');
+
+    const created = await usersRef.doc(user.displayName as string).create(user);
+});
+
+export const removeUserReference = functions.auth.user().onDelete((user) => {
+
 });
