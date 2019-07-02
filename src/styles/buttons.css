@@ -1,3 +1,7 @@
+.btn {
+    font-family: 'Nunito', sans-serif;
+}
+
 .btn-primary {
     background-color: rgb(32, 39, 53);
     border: none;
@@ -28,4 +32,39 @@
 
 .outline-btn.negative {
     border-color: $negative;
+}
+
+.btn-link,
+.btn-link:hover {
+    background: none;
+    border: none;
+    color: #3CFFB5;
+    font-size: 12px;
+    line-height: 1;
+    margin: 0;
+    outline: none;
+    padding: 0;
+    text-decoration: underline;
+    text-transform: uppercase;
+}
+
+.btn-buy,
+.btn-sell {
+    font-size: 20px;
+    padding: .5rem 1.5rem;
+    text-transform: uppercase;
+}
+
+.btn-buy,
+.btn-buy:hover,
+.btn-buy:focus {
+    background-color: #00955C;
+    color: #FFF;
+}
+
+.btn-sell,
+.btn-sell:hover,
+.btn-sell:focus {
+    background-color: rgba(190, 60, 0, 0.5);
+    color: #BE4200;
 }
