@@ -35,6 +35,10 @@ library.add(faGlobe as any, faFlagUsa as any, faPoundSign as any);
 
 const SE: SteemEngine = Container.instance.get(SteemEngine);
 
+// Disable connect queue to speed up application
+import { disableConnectQueue } from 'aurelia-binding';
+disableConnectQueue();
+
 SE.loadSteemPrice();
 
 setInterval(() => {
