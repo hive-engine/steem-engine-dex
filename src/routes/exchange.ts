@@ -172,8 +172,8 @@ export class Exchange {
             this.se.ssc.find('tokens', 'balances', { account: account, symbol : { '$in' : [symbol, 'STEEMP'] } }, 2, 0, '', false).then(result => {
                 this.loadingUserBalances = false;
 
-                this.userTokenBalance = find(result, (balance) => balance.symbol === symbol);
-                this.userTokenBalance = find(result, (balance) => balance.symbol === 'STEEMP');
+                this.userTokenBalance = result;
+                console.log(result);
             });
         }
     }
@@ -188,5 +188,9 @@ export class Exchange {
         this.dialogService.open({ viewModel: WithdrawModal }).whenClosed(response => {
             console.log(response);
         });
+    }
+
+    amountSelect(amount: string) {
+
     }
 }

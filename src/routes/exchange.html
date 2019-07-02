@@ -88,7 +88,60 @@
             </div>
 
             <div class="col-md-6 col-sm-12 chart-col">
-                <chart data.bind="chartData"></chart>
+                <chart class="exchange-chart" data.bind="chartData"></chart>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 class="balances-heading">${'Balances' & t}</h4>
+
+                        <div class="form-group">
+                            <label class="balance-label d-block">${'STEEM (Pegged)' & t} <button type="button" class="btn-link float-right">${'Deposit' & t}</button></label>
+                            <div class="input-group">
+                                <input class="form-control form-control-dark text-right" type="text" placeholder="0.000" value.bind="userTokenBalance[0].balance" readonly>
+                                <div class="input-group-append"><div class="input-group-text input-group-text-dark">${'STEEMP' & t}</div></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="balance-label d-block">${'Engine Token' & t}</label>
+                            <div class="input-group">
+                                <input class="form-control form-control-dark text-right" type="text" placeholder="0.000" value.bind="userTokenBalance[1].balance" readonly>
+                                <div class="input-group-append"><div class="input-group-text input-group-text-dark">${'ENG' & t}</div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="order-buttons">
+                            <button type="button" class="btn btn-lg btn-buy">${'Buy' & t}</button>
+                            <button type="button" class="btn btn-lg btn-sell">${'Sell' & t}</button>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="balance-label d-block">${'Price' & t}</label>
+                            <div class="input-group">
+                                <input class="form-control form-control-light text-right" type="text" placeholder="0.000" value.bind="bidPrice">
+                                <div class="input-group-append"><div class="input-group-text input-group-text-light">${'STEEMP' & t}</div></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="balance-label d-block">${'Quantity' & t}</label>
+                            <div class="input-group">
+                                <input class="form-control form-control-light text-right" type="text" placeholder="0.000" value.bind="bidQuantity">
+                                <div class="input-group-append"><div class="input-group-text input-group-text-light">${data.symbol & t}</div></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="d-flex buy-percentage-buttons justify-space-between">
+                                <button type="button" click.delegate="amountSelect(25)">25%</button>
+                                <button type="button" click.delegate="amountSelect(50)">50%</button>
+                                <button type="button" click.delegate="amountSelect(75)">75%</button>
+                                <button type="button" click.delegate="amountSelect(100)">100%</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-3 col-sm-12">
