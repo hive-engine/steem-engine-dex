@@ -7,13 +7,25 @@ import { pluck } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { environment } from 'environment';
 
+interface IOrder {
+    type: string;
+    symbol: string;
+    quantity: string;
+    price: string;
+}
+
 @autoinject()
-export class DepositModal {
+export class MarketOrderModal {
     private environment = environment;
     private subscription: Subscription;
     private user: any;
     private loading = false;
-    private order = {};
+    private order: IOrder = {
+        type: '',
+        symbol: '',
+        quantity: '',
+        price: ''
+    };
 
     constructor(private controller: DialogController, private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue) {
         this.controller.settings.lock = false;
@@ -36,7 +48,16 @@ export class DepositModal {
         }
     }
 
-    confirmOrder() {
-        
+    async confirmOrder() {
+        try {
+            this.loading = true;
+            const order = await this.se.sendMarketOrder(this.order.type, this.order.symbol, this.order.quantity, this.order.price);
+
+            if (order) {
+                this.controller.ok();
+            }
+        } catch (e) {
+            this.loading = false;
+        }
     }
 }

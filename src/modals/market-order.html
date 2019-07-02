@@ -19,7 +19,7 @@
 
         <ux-dialog-footer>
             <button class="btn btn-lg btn-secondary" click.trigger="controller.cancel()">${'Cancel' & t}</button>
-            <button class="btn btn-lg btn-primary" click.trigger="confirmOrder()">${order.type & t}</button>
+            <button class="btn btn-lg btn-primary" click.trigger="confirmOrder()">${order.type | capitalise & t}</button>
         </ux-dialog-footer>
     </ux-dialog>
 </template>
