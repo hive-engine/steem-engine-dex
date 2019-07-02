@@ -8,6 +8,8 @@ import { find, uniq, fill } from 'lodash';
 
 import { DepositModal } from 'modals/deposit';
 import { WithdrawModal } from 'modals/withdraw';
+import { MarketOrderModal } from 'modals/market-order';
+
 import { DialogService } from 'aurelia-dialog';
 
 @autoinject()
@@ -36,6 +38,8 @@ export class Exchange {
     private tokenBalance = 0;
 
     private currentExchangeMode = 'buy';
+    private bidQuantity = '0';
+    private bidPrice = '0.000';
 
     constructor(private se: SteemEngine, private dialogService: DialogService) {
 
@@ -205,6 +209,19 @@ export class Exchange {
 
     withdraw() {
         this.dialogService.open({ viewModel: WithdrawModal }).whenClosed(response => {
+            console.log(response);
+        });
+    }
+
+    confirmMarketOrder() {
+        const order = {
+            symbol: this.data.symbol,
+            type: this.currentExchangeMode,
+            quantity: this.bidQuantity,
+            price: this.bidPrice
+        };
+
+        this.dialogService.open({ viewModel: MarketOrderModal, model: order }).whenClosed(response => {
             console.log(response);
         });
     }
