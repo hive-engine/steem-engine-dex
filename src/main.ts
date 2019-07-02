@@ -120,18 +120,6 @@ export async function configure(aurelia: Aurelia) {
         });
     });
 
-    const username = localStorage.getItem('username') || null;
-
-    if (username) {
-        SE.user.name = username;
-        
-        const user = await steem.api.getAccountsAsync([username]);
-
-        if (user) {
-            dispatchify(login)(user[0]);
-        }
-    }
-
     ValidationMessageProvider.prototype.getMessage = function(key) {
         const i18n = aurelia.container.get(I18N);
         const translation = i18n.tr(`errors:${key}`);
@@ -149,5 +137,19 @@ export async function configure(aurelia: Aurelia) {
 
     await aurelia.start();
 
-    aurelia.setRoot(PLATFORM.moduleName('app'));
+    if (PLATFORM.global.localStorage) {
+        if (PLATFORM.global.localStorage.getItem('se_access_token')) {
+            const username = PLATFORM.global.localStorage.getItem('username');
+            const accessToken = PLATFORM.global.localStorage.getItem('se_access_token');
+            const refreshToken = PLATFORM.global.localStorage.getItem('se_refresh_token');
+
+            await dispatchify(login)({
+                username,
+                accessToken,
+                refreshToken
+            });
+        }
+    }
+
+    await aurelia.setRoot(PLATFORM.moduleName('app'));
 }
