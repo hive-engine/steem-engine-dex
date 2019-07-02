@@ -2,7 +2,7 @@ import { SteemEngine } from 'services/steem-engine';
 import { AppRouter } from 'aurelia-router';
 import '@babel/polyfill';
 import 'bootstrap';
-import { Aurelia, Container } from 'aurelia-framework';
+import { Aurelia, Container, LogManager } from 'aurelia-framework';
 import { environment } from './environment';
 import { PLATFORM } from 'aurelia-pal';
 import { initialState } from './store/state';
@@ -16,6 +16,8 @@ import 'datatables.net-responsive-bs4';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
 
 import 'sscjs/dist/ssc';
+
+import Mousetrap from 'mousetrap';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
@@ -38,6 +40,11 @@ const SE: SteemEngine = Container.instance.get(SteemEngine);
 // Disable connect queue to speed up application
 import { disableConnectQueue } from 'aurelia-binding';
 disableConnectQueue();
+
+Mousetrap.bind('ctrl+shift+f10', () => {
+    console.debug('Enabling debug mode');
+    LogManager.setLevel(LogManager.logLevel.debug);
+});
 
 SE.loadSteemPrice();
 
