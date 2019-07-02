@@ -110,6 +110,13 @@
     outline: none;
 }
 
+.input-group-text-dark {
+    background: #000;
+    border: none;
+    color: #FFF;
+    padding-left: 0;
+}
+
 .form-control-dark::-webkit-input-placeholder {
     color: #FFF;
 }
@@ -159,6 +166,7 @@
     color: #002B33;
     padding-left: 0;
 }
+
 .order-buttons {
     margin: 0 auto;
     width: 50%;
