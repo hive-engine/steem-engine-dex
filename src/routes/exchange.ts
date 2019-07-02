@@ -1,5 +1,8 @@
+import { ToastMessage } from './../services/toast-service';
+import { BootstrapFormRenderer } from './../resources/bootstrap-form-renderer';
 import { SteemEngine } from '../services/steem-engine';
 import { autoinject } from 'aurelia-framework';
+import { ValidationControllerFactory, ValidationController, ValidationRules, ControllerValidateResult } from 'aurelia-validation';
 
 import styles from './exchange.module.css'
 import { environment } from 'environment';
@@ -15,6 +18,8 @@ import { DialogService } from 'aurelia-dialog';
 @autoinject()
 export class Exchange {
     private environment = environment;
+    private controller: ValidationController;
+    private renderer: BootstrapFormRenderer;
     private currentToken: string;
     private data;
     private styles = styles;
@@ -38,11 +43,36 @@ export class Exchange {
     private tokenBalance = 0;
 
     private currentExchangeMode = 'buy';
-    private bidQuantity = '0';
-    private bidPrice = '0.000';
+    private bidQuantity = '';
+    private bidPrice = '';
 
-    constructor(private se: SteemEngine, private dialogService: DialogService) {
+    constructor(private se: SteemEngine, private dialogService: DialogService, private controllerFactory: ValidationControllerFactory) {
+        this.controller = controllerFactory.createForCurrentScope();
 
+        this.renderer = new BootstrapFormRenderer();
+        this.controller.addRenderer(this.renderer);
+
+        this.createValidationRules();
+    }
+
+    /**
+     * Applies validation rules to inputs on the exchange screen
+     */
+    private createValidationRules() {
+        const rules = ValidationRules
+            .ensure('bidQuantity')
+                .required()
+                .then()
+                .satisfies((value: any, object: any) => parseFloat(value) > 0)
+                .withMessageKey('bidQuantity')
+            .ensure('bidPrice')
+                .required()
+                .then()
+                .satisfies((value: any, object: any) => parseFloat(value) > 0)
+                .withMessageKey('bidPrice')
+        .rules;
+
+        this.controller.addObject(this, rules);
     }
 
     async activate({symbol}) {
@@ -213,17 +243,25 @@ export class Exchange {
         });
     }
 
-    confirmMarketOrder() {
-        const order = {
-            symbol: this.data.symbol,
-            type: this.currentExchangeMode,
-            quantity: this.bidQuantity,
-            price: this.bidPrice
-        };
+    async confirmMarketOrder() {
+        // Run the form validation
+        const validationResult: ControllerValidateResult = await this.controller.validate();
 
-        this.dialogService.open({ viewModel: MarketOrderModal, model: order }).whenClosed(response => {
-            console.log(response);
-        });
+        // All fields are valid
+        if (validationResult.valid) {
+            const order = {
+                symbol: this.data.symbol,
+                type: this.currentExchangeMode,
+                quantity: this.bidQuantity,
+                price: this.bidPrice
+            };
+    
+            this.dialogService.open({ viewModel: MarketOrderModal, model: order }).whenClosed(response => {
+                console.log(response);
+            });
+        } else {
+            const message = new ToastMessage();
+        }
     }
 
     amountSelect(amount: string) {

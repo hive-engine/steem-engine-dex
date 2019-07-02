@@ -119,7 +119,7 @@
                         <div class="form-group">
                             <label class="balance-label d-block">${'Price' & t}</label>
                             <div class="input-group">
-                                <input class="form-control form-control-light text-right" type="text" placeholder="0.000" value.bind="bidPrice">
+                                <input class="form-control form-control-light text-right" type="text" placeholder.one-time="0.000" value.bind="bidPrice & validate">
                                 <div class="input-group-append"><div class="input-group-text input-group-text-light">${'STEEMP' & t}</div></div>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                         <div class="form-group">
                             <label class="balance-label d-block">${'Quantity' & t}</label>
                             <div class="input-group">
-                                <input class="form-control form-control-light text-right" type="text" placeholder="0.000" value.bind="bidQuantity">
+                                <input class="form-control form-control-light text-right" type="text" placeholder="0.000" value.bind="bidQuantity & validate">
                                 <div class="input-group-append"><div class="input-group-text input-group-text-light">${data.symbol & t}</div></div>
                             </div>
                         </div>
