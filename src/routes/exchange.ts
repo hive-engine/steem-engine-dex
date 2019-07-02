@@ -35,6 +35,8 @@ export class Exchange {
     private steempBalance = 0;
     private tokenBalance = 0;
 
+    private currentExchangeMode = 'buy';
+
     constructor(private se: SteemEngine, private dialogService: DialogService) {
 
     }

@@ -112,8 +112,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="order-buttons">
-                            <button type="button" class="btn btn-lg btn-buy">${'Buy' & t}</button>
-                            <button type="button" class="btn btn-lg btn-sell">${'Sell' & t}</button>
+                            <button type="button" class="btn btn-lg btn-buy" click.delegate="currentExchangeMode = 'buy'">${'Buy' & t}</button>
+                            <button type="button" class="btn btn-lg btn-sell" click.delegate="currentExchangeMode = 'sell'">${'Sell' & t}</button>
                         </div>
 
                         <div class="form-group">
@@ -139,6 +139,10 @@
                                 <button type="button" click.delegate="amountSelect(75)">75%</button>
                                 <button type="button" click.delegate="amountSelect(100)">100%</button>
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="button" class="btn ${currentExchangeMode == 'buy' ? 'btn-buy' : 'btn-sell'} btn-wide">${currentExchangeMode == 'buy' ? 'Buy' : 'sell' & t}</button>
                         </div>
                     </div>
                 </div>
