@@ -1,6 +1,6 @@
 import { customElement, bindable, bindingMode } from 'aurelia-framework';
 
-import countries from '../common/data/countries.json';
+import countries from '../../common/data/countries.json';
 
 @customElement('countries')
 export class Countries {
