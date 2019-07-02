@@ -1,24 +1,11 @@
-import { SteemEngine } from 'services/steem-engine';
-import { AppRouter } from 'aurelia-router';
 import '@babel/polyfill';
 import 'bootstrap';
-import { Aurelia, Container, LogManager } from 'aurelia-framework';
-import { environment } from './environment';
-import { PLATFORM } from 'aurelia-pal';
-import { initialState } from './store/state';
-import { TCustomAttribute, I18N } from 'aurelia-i18n';
-import Backend from 'i18next-xhr-backend';
-
-import steem from 'steem';
-
 import 'datatables.net-bs4';
 import 'datatables.net-responsive-bs4';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
-
-import 'sscjs/dist/ssc';
-
-import Mousetrap from 'mousetrap';
-
+import 'datatables.net-bs4';
+import 'datatables.net-responsive-bs4';
+import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'izitoast/dist/css/iziToast.css';
@@ -27,11 +14,29 @@ import './styles/main.css';
 
 import modalCss from './styles/modal.css';
 
+import 'sscjs/dist/ssc';
+
+import { SteemEngine } from 'services/steem-engine';
+import { AppRouter } from 'aurelia-router';
+import { Aurelia, Container, LogManager } from 'aurelia-framework';
+import { ConsoleAppender } from 'aurelia-logging-console';
+import { environment } from './environment';
+import { PLATFORM } from 'aurelia-pal';
+import { initialState } from './store/state';
+import { TCustomAttribute, I18N } from 'aurelia-i18n';
+import { ValidationMessageProvider } from 'aurelia-validation';
+import Backend from 'i18next-xhr-backend';
+
+import steem from 'steem';
+import Mousetrap from 'mousetrap';
+
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faGlobe, faFlagUsa, faPoundSign } from '@fortawesome/free-solid-svg-icons';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { dispatchify } from 'aurelia-store';
 import { login } from 'store/actions';
+
+LogManager.addAppender(new ConsoleAppender());
 
 library.add(faGlobe as any, faFlagUsa as any, faPoundSign as any);
 
@@ -39,7 +44,6 @@ const SE: SteemEngine = Container.instance.get(SteemEngine);
 
 // Disable connect queue to speed up application
 import { disableConnectQueue } from 'aurelia-binding';
-import { ValidationMessageProvider } from 'aurelia-validation';
 disableConnectQueue();
 
 Mousetrap.bind('ctrl+shift+f10', () => {
