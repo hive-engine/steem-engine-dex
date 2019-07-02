@@ -211,6 +211,8 @@ export class SteemEngine {
     logout() {
         dispatchify(logout)();
         localStorage.removeItem('username');
+        localStorage.removeItem('se_access_token');
+        localStorage.removeItem('se_refresh_token');
     }
 
     async steemConnectJson(auth_type: AuthType, data: any, callback) {
