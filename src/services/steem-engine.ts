@@ -1,3 +1,4 @@
+import { log } from './log';
 import { AuthService } from './auth-service';
 import { AuthType } from './../common/types';
 import { I18N } from 'aurelia-i18n';
@@ -836,10 +837,79 @@ export class SteemEngine {
 		});
     }
 
+    sendMarketOrder(type: string, symbol: string, quantity: string, price: string) {
+        return new Promise((resolve) => {
+            if (type !== 'buy' && type !== 'sell') {
+                log.error(`Invalid order type: ${type}`);
+                return;
+            }
+            
+            const username = this.getUser();
+    
+            if (!username) {
+                window.location.reload();
+                return;
+            }
+
+            const transaction_data = {
+                "contractName": "market",
+                "contractAction": `${type}`,
+                "contractPayload": {
+                    "symbol": `${symbol}`,
+                    "quantity": `${quantity}`,
+                    "price": `${price}`
+                }
+            };
+
+            log.debug(`Broadcasting cancel order: ${JSON.stringify(transaction_data)}`);
+
+            if (window.steem_keychain) {
+                steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), `${type.toUpperCase()} Order`, (response) => {
+                    if (response.success && response.result) {
+                        this.checkTransaction(response.result.id, 3, tx => {
+                            if (tx.success) {
+                                const toast = new ToastMessage();
+                                
+                                toast.message = this.i18n.tr('orderSuccess', {
+                                    ns: 'notifications',
+                                    type,
+                                    symbol
+                                });
+                
+                                this.toast.success(toast);
+
+                                resolve(tx);
+                            } else {
+                              const toast = new ToastMessage();
+
+                                toast.message = this.i18n.tr('orderError', {
+                                    ns: 'notifications',
+                                    type,
+                                    symbol,
+                                    error: tx.error
+                                });
+              
+                                this.toast.error(toast);
+  
+                                resolve(false);
+                            }
+                        });
+                    } else {
+                        resolve(response);
+                    }
+                });
+            } else {
+                this.steemConnectJson('active', transaction_data, () => {
+
+                });
+            }
+        });
+    }
+
     cancelMarketOrder(type: string, orderId: string, symbol: string) {
         return new Promise((resolve) => {
             if (type !== 'buy' && type !== 'sell') {
-                console.error('Invalid order type: ', type);
+                log.error(`Invalid order type: ${type}`);
                 return;
             }
             
@@ -859,7 +929,7 @@ export class SteemEngine {
                 }
             };
 
-            console.log('Broadcasting cancel order: ', JSON.stringify(transaction_data));
+            log.debug(`Broadcasting cancel order: ${JSON.stringify(transaction_data)}`);
 
             if (window.steem_keychain) {
                 steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), `Cancel ${type.toUpperCase()} Order`, (response) => {
@@ -869,6 +939,8 @@ export class SteemEngine {
                                 const toast = new ToastMessage();
   
                                 toast.message = this.i18n.tr('orderCanceled', {
+                                    ns: 'notifications',
+                                    type,
                                     symbol
                                 });
                 
@@ -879,7 +951,8 @@ export class SteemEngine {
                               const toast = new ToastMessage();
   
                               toast.message = this.i18n.tr('errorCancelOrder', {
-                                  ns: 'errors',
+                                  ns: 'notifications',
+                                  type,
                                   error: tx.error
                               });
               
@@ -892,11 +965,11 @@ export class SteemEngine {
                         resolve(response);
                     }
                 });
-              } else {
-                  this.steemConnectJson('active', transaction_data, () => {
-  
-                  });
-              }
+            } else {
+                this.steemConnectJson('active', transaction_data, () => {
+
+                });
+            }
         });
     }
     
@@ -1001,7 +1074,8 @@ export class SteemEngine {
                     if (tx.success) {
                         const toast = new ToastMessage();
 
-                        toast.message = this.i18n.tr('notifications:withdrawSteemSuccess', {
+                        toast.message = this.i18n.tr('withdrawSteemSuccess', {
+                            ns: 'notifications',
                             from: username,
                             to: environment.STEEMP_ACCOUNT,
                             amount,
@@ -1015,7 +1089,8 @@ export class SteemEngine {
 
                     const toast = new ToastMessage();
 
-                    toast.message = this.i18n.tr('notifications:withdrawSteemError', {
+                    toast.message = this.i18n.tr('withdrawSteemError', {
+                        ns: 'notifications',
                         from: username,
                         to: environment.STEEMP_ACCOUNT,
                         amount,
@@ -1053,11 +1128,12 @@ export class SteemEngine {
                         if (tx.success) {
                             const toast = new ToastMessage();
     
-                            toast.message = this.i18n.tr('notifications:depositSteemSuccess', {
+                            toast.message = this.i18n.tr('depositSteemSuccess', {
                                 from: username,
                                 to: environment.STEEMP_ACCOUNT,
                                 amount,
-                                memo: JSON.stringify(transaction_data)
+                                memo: JSON.stringify(transaction_data),
+                                ns: 'notifications'
                             });
             
                             this.toast.success(toast);
@@ -1067,11 +1143,12 @@ export class SteemEngine {
     
                         const toast = new ToastMessage();
     
-                        toast.message = this.i18n.tr('notifications:depositSteemError', {
+                        toast.message = this.i18n.tr('depositSteemError', {
                             from: username,
                             to: environment.STEEMP_ACCOUNT,
                             amount,
-                            memo: JSON.stringify(transaction_data)
+                            memo: JSON.stringify(transaction_data),
+                            ns: 'notifications'
                         });
         
                         this.toast.error(toast);
