@@ -1,3 +1,4 @@
+import { AuthService } from './auth-service';
 import { AuthType } from './../common/types';
 import { I18N } from 'aurelia-i18n';
 import { State } from 'store/state';
@@ -45,7 +46,8 @@ export class SteemEngine {
         private ea: EventAggregator,
         private i18n: I18N,
         private toast: ToastService,
-        private keychain: SteemKeychain) {
+        private keychain: SteemKeychain,
+        private authService: AuthService) {
         this.accountsApi = getHttpClient();
         this.http = getHttpClient();
 
@@ -108,24 +110,31 @@ export class SteemEngine {
     async login(username: string, key?: string): Promise<any> {
         return new Promise(async (resolve) => {
             if (window.steem_keychain && !key) {
-                steem_keychain.requestSignBuffer(username, 'Log In', 'Posting', async function(response) {
+                // Get an encrypted memo only the user can decrypt with their private key
+                const encryptedMemo = await this.authService.getUserAuthMemo(username);
+
+                steem_keychain.requestVerifyKey(username, encryptedMemo, 'Posting', async response => {
                     if (response.error) {
                         const toast = new ToastMessage();
-    
-                        toast.message = this.i18n.tr('notifications:errorLogin', {
-                            username, 
-                            ns: 'errors' 
+
+                        toast.message = this.i18n.tr('errorLogin', {
+                            ns: 'notifications'
                         });
-    
+
                         this.toast.error(toast);
                     } else {
-                        try {
-                            const user = await steem.api.getAccountsAsync([username]);
-                            localStorage.setItem('username', username);
-                            resolve(user);
-                        } catch {
-                            resolve(null);
-                        }
+                        // Get the return memo and remove the "#" at the start of the private memo
+                        const signedKey = (response.result as unknown as string).substring(1);
+
+                        // The decrypted memo is an encrypted string, so pass this to the server to get back refresh and access tokens
+                        const tokens = await this.authService.verifyUserAuthMemo(response.data.username, signedKey);
+
+                        // Store the username, access token and refresh token
+                        localStorage.setItem('username', response.data.username);
+                        localStorage.setItem('se_access_token', tokens.accessToken);
+                        localStorage.setItem('se_refresh_token', tokens.refreshToken);
+
+                        resolve({username, accessToken: tokens.accessToken, refreshToken: tokens.refreshToken});
                     }
                 });
             } else {
@@ -150,9 +159,21 @@ export class SteemEngine {
                     if (user && user.length > 0) {
                         try {
                             if (steem.auth.wifToPublic(key) == user[0].memo_key || steem.auth.wifToPublic(key) === user[0].posting.key_auths[0][0]) {
-                                localStorage.setItem('username', username);
+                                // Get an encrypted memo only the user can decrypt with their private key
+                                const encryptedMemo = await this.authService.getUserAuthMemo(username);
 
-                                resolve(user);
+                                // Decrypt the private memo to get the encrypted string
+                                const signedKey = steem.memo.decode(key, encryptedMemo).substring(1);
+
+                                // The decrypted memo is an encrypted string, so pass this to the server to get back refresh and access tokens
+                                const tokens = await this.authService.verifyUserAuthMemo(username, signedKey);
+
+                                // Store the username, private key, access token and refresh token
+                                localStorage.setItem('username', username);
+                                localStorage.setItem('se_access_token', tokens.accessToken);
+                                localStorage.setItem('se_refresh_token', tokens.refreshToken);
+
+                                resolve({username, accessToken: tokens.accessToken, refreshToken: tokens.refreshToken});
                             } else {
                                 const toast = new ToastMessage();
     
