@@ -10,8 +10,6 @@ import { PLATFORM } from 'aurelia-pal';
 import { Router, RouterConfiguration } from 'aurelia-router';
 import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
-import { map, pluck } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { SteemKeychain } from 'services/steem-keychain';
 
 @autoinject()
