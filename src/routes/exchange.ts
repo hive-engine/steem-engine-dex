@@ -32,6 +32,9 @@ export class Exchange {
     private loadingUserSellBook = false;
     private loadingUserBalances = false;
 
+    private steempBalance = 0;
+    private tokenBalance = 0;
+
     constructor(private se: SteemEngine, private dialogService: DialogService) {
 
     }
@@ -172,8 +175,22 @@ export class Exchange {
             this.se.ssc.find('tokens', 'balances', { account: account, symbol : { '$in' : [symbol, 'STEEMP'] } }, 2, 0, '', false).then(result => {
                 this.loadingUserBalances = false;
 
-                this.userTokenBalance = result;
-                console.log(result);
+                if (result) {
+                    for (const token of result) {
+                        if (token.symbol === 'STEEMP') {
+                            this.steempBalance = token.balance;
+                        }
+
+                        if (token.symbol === symbol) {
+                            this.tokenBalance = token.balance;
+                        }
+                    }
+                }
+
+                this.userTokenBalance.push(find(result, (balance) => balance.symbol === symbol));
+                this.userTokenBalance.push(find(result, (balance) => balance.symbol === 'STEEMP'));
+
+                console.log(this.userTokenBalance);
             });
         }
     }

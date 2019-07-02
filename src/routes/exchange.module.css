@@ -168,8 +168,7 @@
 }
 
 .order-buttons {
-    margin: 0 auto;
-    width: 50%;
+    text-align: center;
 }
 
     .order-buttons button {
