@@ -68,3 +68,8 @@
     background-color: rgba(190, 60, 0, 0.5);
     color: #BE4200;
 }
+
+.btn-wide {
+    display: block;
+    width: 100%;
+}
