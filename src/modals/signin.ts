@@ -47,12 +47,12 @@ export class SigninModal {
     }
 
     async keychainSignIn() {
-        const account = await this.se.login(this.username.trim().toLowerCase());
+        const { username, accessToken, refreshToken } = await this.se.login(this.username.trim().toLowerCase());
 
-        if (account) {
+        if (username) {
             const toast = new ToastMessage();
     
-            toast.message = this.i18n.tr('notifications:signinSuccess');
+            toast.message = this.i18n.tr('signinSuccess', { ns: 'notifications' });
 
             toast.overrideOptions.onClosing = () => {
                 this.controller.close(true);
@@ -61,17 +61,17 @@ export class SigninModal {
 
             this.toast.success(toast);
 
-            await dispatchify(login)(account);
+            await dispatchify(login)({username, accessToken, refreshToken});
         }
     }
 
     async keySignIn() {
-        const account = await this.se.login(this.username.trim().toLowerCase(), this.privateKey.trim());
+        const { username, accessToken, refreshToken } = await this.se.login(this.username.trim().toLowerCase(), this.privateKey.trim());
         
-        if (account) {
+        if (username) {
             const toast = new ToastMessage();
     
-            toast.message = this.i18n.tr('notifications:signinSuccess');
+            toast.message = this.i18n.tr('signinSuccess', { ns: 'notifications' });
 
             toast.overrideOptions.onClosing = () => {
                 this.controller.close(true);
@@ -80,7 +80,7 @@ export class SigninModal {
 
             this.toast.success(toast);
 
-            await dispatchify(login)(account);
+            await dispatchify(login)({username, accessToken, refreshToken});
         }
     }
 }
