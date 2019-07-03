@@ -3,7 +3,7 @@ export const baseEnvironmentConfiguration: Partial<EnvironmentInterface> = {
     defaultLocale: 'en',
     GRAPHQL_API: 'https://graphql.steem.services/',
     SCOT_API: 'https://scot-api.steem-engine.com/',
-    FIREBASE_API: 'https://us-central1-steem-engine-dex.cloudfunctions.net/api',
+    FIREBASE_API: 'https://us-central1-steem-engine-dex.cloudfunctions.net/api/',
     DISABLED_TOKENS: ['BTC', 'STEEM', 'SBD', 'BCC', 'XAP'],
     PEGGED_TOKEN: 'STEEMP',
 	PEGGED_TOKENS: [
