@@ -59,7 +59,8 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma} = 
         extensions: ['.ts', '.js'],
         modules: [srcDir, 'node_modules'],
         alias: {
-            'base-environment': path.resolve(__dirname, 'aurelia_project/environments/base')
+            'base-environment': path.resolve(__dirname, 'aurelia_project/environments/base'),
+            'tslib': path.resolve(__dirname, 'node_modules/tslib')
         }
     },
     entry: {
