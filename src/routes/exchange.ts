@@ -3,7 +3,7 @@ import { log } from './../services/log';
 import { ToastMessage, ToastService } from './../services/toast-service';
 import { BootstrapFormRenderer } from './../resources/bootstrap-form-renderer';
 import { SteemEngine } from '../services/steem-engine';
-import { autoinject } from 'aurelia-framework';
+import { autoinject, computedFrom } from 'aurelia-framework';
 import { ValidationControllerFactory, ValidationController, ValidationRules, ControllerValidateResult } from 'aurelia-validation';
 
 import styles from './exchange.module.css'
@@ -356,5 +356,10 @@ export class Exchange {
         else {
 
         }
+    }
+
+    @computedFrom('bidPrice', 'bidQuantity')
+    get totalMarketBalance() {
+        return (parseFloat(this.bidPrice) * parseFloat(this.bidQuantity)) || 0;
     }
 }
