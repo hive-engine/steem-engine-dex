@@ -13,6 +13,7 @@ export class LanguageSwitcher {
     private languages = [
         { value: 'en', text: 'English (US)', icon: 'us' },
         { value: 'en-gb', text: 'English (British)', icon: 'gb' },
+        { value: 'kr', text: 'Korean', icon: 'kr' },
         { value: 'cn', text: 'Chinese', icon: 'cn' },
     ];
 
