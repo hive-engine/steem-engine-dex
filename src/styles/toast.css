@@ -1,0 +1,51 @@
+.iziToast-overlay {
+    cursor: wait;
+  }
+  
+  .iziToast {
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .iziToast > button.iziToast-close {
+    border: 0;
+    box-shadow: none;
+  }
+  
+  .iziToast > button.iziToast-close:hover {
+    background-color: transparent;
+    border: none;
+  }
+  
+  /*success*/
+  .iziToast.iziToast-color-green{
+    background-color: #09A47A !important;
+  }
+  
+  /*error*/ 
+  .iziToast.iziToast-color-red{
+    background-color: #870307 !important;
+  }
+  
+  /*warning*/
+  .iziToast.iziToast-color-yellow{
+    background-color: #F58767 !important;
+  }
+  
+  /*information*/
+  .iziToast.iziToast-color-blue{
+    background-color: #818EA3 !important;
+  }
+  
+  /*loading indicator*/
+  .iziToast.ia-loader-toast {
+    border-radius: 0 !important;
+  }
+  .iziToast.ia-loader-toast:after {
+    box-shadow: none !important;  
+  }
+  .iziToast.ia-loader-toast > .iziToast-cover {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+  }
+  
