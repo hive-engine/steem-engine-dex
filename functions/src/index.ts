@@ -6,10 +6,10 @@ import * as cors from 'cors';
 
 import { Auth } from './auth';
 
-import { authMiddleware } from './auth-middleware';
+//import { authMiddleware } from './auth-middleware';
 import { UserRecord } from 'firebase-functions/lib/providers/auth';
 
-import * as serviceAccount from './steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json';
+import { serviceAccount } from './steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75';
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount as any),
@@ -29,7 +29,7 @@ const cacheMiddleware = (req: express.Request, res: express.Response, next: expr
 };
 
 app.use(cacheMiddleware);
-app.use(authMiddleware);
+//app.use(authMiddleware);
 
 // @ts-ignore
 const getUser = async (token: string) => {
@@ -48,22 +48,18 @@ const createUserToken = (username: string) => admin.auth().createCustomToken(use
 
 const firestore = admin.firestore();
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
-
-
 export const createUserReference = functions.auth.user().onCreate(async (user: UserRecord) => {
     const usersRef = firestore.collection('users');
 
     usersRef.doc(user.displayName as string).create(user);
 });
 
-export const removeUserReference = functions.auth.user().onDelete((user: UserRecord) => {
+// export const removeUserReference = functions.auth.user().onDelete((user: UserRecord) => {
 
+// });
+
+app.get('/test', (req: express.Request, res: express.Response, next: express.NextFunction) => { 
+    res.send('HELLO WORLD');
 });
 
 // Gets an encrypted memo to send to the user
