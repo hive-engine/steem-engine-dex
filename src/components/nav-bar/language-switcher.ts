@@ -1,13 +1,16 @@
 import { customElement, autoinject, containerless } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 
+import 'flag-icon-css/css/flag-icon.css';
+
 @customElement('language-switcher')
 @autoinject()
 @containerless()
 export class LanguageSwitcher {
     private languages = [
-        { value: 'en', text: 'English (US)', icon: 'flag-usa' },
-        { value: 'en-GB', text: 'English (British)', icon: 'pound-sign' }
+        { value: 'en', text: 'English (US)', icon: 'us' },
+        { value: 'en-GB', text: 'English (British)', icon: 'gb' },
+        { value: 'zh', text: 'Chinese', icon: 'cn' },
     ];
 
     private selectedLanguage = this.languages[0];

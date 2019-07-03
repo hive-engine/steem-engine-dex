@@ -1,11 +1,11 @@
 <template>
-    <a class="nav-link" href="javascript:void(0);">
-        <font-awesome-icon icon="globe"></font-awesome-icon> ${selectedLanguage.value & t}
+    <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="languageSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <font-awesome-icon icon="globe"></font-awesome-icon> ${selectedLanguage.text & t}
     </a>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu" aria-labelledby="languageSelect">
         <li class="nav-item" repeat.for="language of languages">
             <a class="nav-link" href="javascript:void(0);" click.delegate="setLanguage(language)">
-                <font-awesome-icon icon.bind="language.icon"></font-awesome-icon> ${language.text & t}
+            <span class="flag-icon flag-icon-squared flag-icon-${language.icon}"></span> ${language.text & t}
             </a>
         </li>
     </ul>
