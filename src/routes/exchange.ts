@@ -340,8 +340,8 @@ export class Exchange {
                         // Take users balance above and determine how much they can buy "quantity"
 
                         while(totalSteemp < amount) {
-                            totalTokens += 0.001;
-                            totalSteemp += 0.001 * price;
+                            totalTokens += 0.00000001;
+                            totalSteemp += 0.00000001 * price;
                         }
 
                         this.bidQuantity = totalTokens.toFixed(3);
