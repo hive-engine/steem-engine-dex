@@ -81,7 +81,7 @@ export class App {
                 name: 'wallet',
                 moduleId: PLATFORM.moduleName('./routes/wallet/wallet'),
                 auth: true,
-                nav: 2,
+                nav: false,
                 title: 'Wallet'
             },
             {
