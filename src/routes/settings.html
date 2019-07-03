@@ -41,6 +41,17 @@
             <section class="col-md-12" show.bind="selectedTab == 'preferences'">
                 <h3>${'Preferences' & t}</h3>
                 <p if.bind="!user.hiddenTokens.length">${'Configure exchange preferences here' & t}.</p>
+
+                <fieldset class="mt-5">
+                    <legend>Wallet</legend>
+
+                    <div class="form-group">
+                        <span class="switch">
+                            <input type="checkbox" class="switch" id="hideZeroBalances">
+                            <label for="hideZeroBalances">Hide zero balances</label>
+                        </span>
+                    </div>
+                </fieldset>
             </section>
         </div>    
     </div>
