@@ -9,8 +9,8 @@ import 'flag-icon-css/css/flag-icon.css';
 export class LanguageSwitcher {
     private languages = [
         { value: 'en', text: 'English (US)', icon: 'us' },
-        { value: 'en-GB', text: 'English (British)', icon: 'gb' },
-        { value: 'zh', text: 'Chinese', icon: 'cn' },
+        { value: 'en-gb', text: 'English (British)', icon: 'gb' },
+        { value: 'cn', text: 'Chinese', icon: 'cn' },
     ];
 
     private selectedLanguage = this.languages[0];
