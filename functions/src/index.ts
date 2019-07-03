@@ -84,12 +84,14 @@ app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Respon
 
             if (!user.exists) {
                 usersRef.doc(username).set({
-                    user: user.data()
+                    favourites: [],
+                    hiddenTokens: []
                 });
             }
 
             return res.status(200).json({ success: true, token });
         } catch (e) {
+            console.error(e);
             return res.status(500).json({ success: false, message: e });
         }
     } else {
