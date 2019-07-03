@@ -1,4 +1,7 @@
 import '@babel/polyfill';
+
+import './common/firebase';
+
 import 'bootstrap';
 import 'datatables.net-bs4';
 import 'datatables.net-responsive-bs4';
@@ -125,13 +128,11 @@ export async function configure(aurelia: Aurelia) {
     if (PLATFORM.global.localStorage) {
         if (PLATFORM.global.localStorage.getItem('se_access_token')) {
             const username = PLATFORM.global.localStorage.getItem('username');
-            const accessToken = PLATFORM.global.localStorage.getItem('se_access_token');
-            const refreshToken = PLATFORM.global.localStorage.getItem('se_refresh_token');
+            const token = PLATFORM.global.localStorage.getItem('se_access_token');
 
             await dispatchify(login)({
                 username,
-                accessToken,
-                refreshToken
+                token
             });
         }
     }
