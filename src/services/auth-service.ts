@@ -11,20 +11,10 @@ export class AuthService {
             config
                 .useStandardConfiguration()
                 .withBaseUrl(environment.FIREBASE_API)
-                .withInterceptor({
-                    request(message) {
-                        let token = localStorage.getItem('se_access_token') || null;
-
-                        message.headers.set('Authorization', `Bearer ${token}`);
-                        
-                        return message;
-                    }
-                })
         });
     }
 
     async getUserAuthMemo(username: string) {
-        console.log(http.defaults);
         const res = await http.fetch(`getUserAuthMemo/${username}/`);
         const obj = await res.json();
 
