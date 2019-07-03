@@ -1,25 +1,26 @@
 import { Redirect } from 'aurelia-router';
+import firebase from 'firebase/app';
 
 export class AuthorizeStep {
-  static loggedIn = false;
-
   run(navigationInstruction, next) {
-    let isLoggedIn = AuthorizeStep.loggedIn;
+    return new Promise((resolve, reject) => {
+        firebase.auth().onAuthStateChanged(user => {        
+            let currentRoute = navigationInstruction.config;
+            
+            let loginRequired = currentRoute.auth === true;
+            
+            if (!user && loginRequired === true) {
+                return resolve(next.cancel(new Redirect('')));
+            }
+            
+            let publicOnly = currentRoute.publicOnly === true;
     
-    let currentRoute = navigationInstruction.config;
-    
-    let loginRequired = currentRoute.auth === true;
-    
-    if (isLoggedIn === false && loginRequired === true) {
-        return next.cancel(new Redirect(''));
-    }
-    
-    let publicOnly = currentRoute.publicOnly === true;
-
-    if (isLoggedIn === true && publicOnly === true) {
-      return next.cancel(new Redirect('wallet'));
-    }
-    
-    return next();
+            if (user && publicOnly === true) {
+                return resolve(next.cancel(new Redirect('wallet')));
+            }
+            
+            return resolve(next());
+        });
+    });
   }
 }
