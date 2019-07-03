@@ -1,6 +1,6 @@
-import { SteemEngine } from './../services/steem-engine';
 import firebase from 'firebase/app';
-import { autoinject } from 'aurelia-framework';
+import { autoinject, TaskQueue } from 'aurelia-framework';
+import { SteemEngine } from './../services/steem-engine';
 
 @autoinject()
 export class Settings {
@@ -8,7 +8,7 @@ export class Settings {
     private tokens = [];
     private selectedTab = 'favorites';
 
-    constructor(private se: SteemEngine) {
+    constructor(private se: SteemEngine, private taskQueue: TaskQueue) {
 
     }
 
@@ -32,5 +32,15 @@ export class Settings {
 
     tabChanged(tab: string) {
         this.selectedTab = tab;
+    }
+
+    tokensChanged() {
+        this.taskQueue.queueTask(() => {
+            const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
+
+            userRef.set(this.user, {
+                merge: true
+            })
+        });
     }
 }
