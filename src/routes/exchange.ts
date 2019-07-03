@@ -356,6 +356,7 @@ export class Exchange {
 
     @computedFrom('bidPrice', 'bidQuantity')
     get totalMarketBalance() {
-        return (parseFloat(this.bidPrice) * parseFloat(this.bidQuantity)) || 0;
+        const total = parseFloat(this.bidPrice) * parseFloat(this.bidQuantity);
+        return !isNaN(total) ? total.toFixed(4) : 0;
     }
 }
