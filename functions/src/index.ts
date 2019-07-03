@@ -9,9 +9,10 @@ import { Auth } from './auth';
 import { authMiddleware } from './auth-middleware';
 import { UserRecord } from 'firebase-functions/lib/providers/auth';
 
-const serviceAccount = require('steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json');
+import * as serviceAccount from './steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json';
+
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+    credential: admin.credential.cert(serviceAccount as any),
     databaseURL: "https://steem-engine-dex.firebaseio.com"
 });
 
