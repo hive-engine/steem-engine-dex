@@ -7,6 +7,7 @@ interface PeggedToken {
 interface EnvironmentInterface {
     debug: boolean;
     testing: boolean;
+    FIREBASE_API: string;
     MAINTENANCE_MODE: boolean;
     CHAIN_ID: string;
     siteName: string;
