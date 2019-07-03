@@ -62,14 +62,32 @@ export class Exchange {
         const rules = ValidationRules
             .ensure('bidQuantity')
                 .required()
+                    .withMessageKey('errors:bidQuantityRequired')
                 .then()
-                .satisfies((value: any, object: any) => parseFloat(value) > 0)
-                .withMessageKey('bidQuantity')
+                    .satisfies((value: any, object: any) => parseFloat(value) > 0)
+                    .withMessageKey('errors:amountGreaterThanZero')
+                .when((object: unknown) => this.currentExchangeMode === 'buy')
+                    .satisfies((value: any, object: Exchange) => {
+                        const quantity = parseFloat(value);
+                        const price = parseFloat(object.bidPrice);
+                        const total = quantity * price;
+
+                        return (total <= this.steempBalance);
+                    })
+                    .withMessageKey('errors:insufficientSteemForOrder')
+                .when((object: unknown) => this.currentExchangeMode === 'sell')
+                    .satisfies((value: any, object: Exchange) => {
+                        const quantity = parseFloat(value);
+
+                        return (quantity <= this.tokenBalance);
+                    })
+                    .withMessageKey('errors:insufficientSteemForOrder')
             .ensure('bidPrice')
                 .required()
+                    .withMessageKey('errors:bidPriceRequired')
                 .then()
-                .satisfies((value: any, object: any) => parseFloat(value) > 0)
-                .withMessageKey('bidPrice')
+                    .satisfies((value: any, object: any) => parseFloat(value) > 0)
+                    .withMessageKey('errors:amountGreaterThanZero')
         .rules;
 
         this.controller.addObject(this, rules);
