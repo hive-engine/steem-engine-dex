@@ -31,7 +31,7 @@
                 <h3>${'Hidden Tokens' & t}</h3>
                 <p if.bind="!user.hiddenTokens.length">${'You have no hidden tokens' & t}.</p>
 
-                <select2 placeholder="Select one or more tokens">
+                <select2 placeholder="Select one or more tokens" if.bind="selectedTab == 'hiddenTokens'">
                     <select value.bind="user.hiddenTokens" change.delegate="tokensChanged()" multiple>
                         <option value.bind="token.symbol" repeat.for="token of tokens">${token.name & t} (${token.symbol})</option>
                     </select>
