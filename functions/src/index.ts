@@ -7,7 +7,6 @@ import * as cors from 'cors';
 import { Auth } from './auth';
 
 //import { authMiddleware } from './auth-middleware';
-import { UserRecord } from 'firebase-functions/lib/providers/auth';
 
 import { serviceAccount } from './steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75';
 
