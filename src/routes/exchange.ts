@@ -318,7 +318,9 @@ export class Exchange {
 
         // Determine what the user can buy from the buy book
         if (this.currentExchangeMode === 'buy') {
-            let lastPrice = 0;
+            let totalTokens = 0;
+            let totalSteemp = 0;
+
             const amount = percentageOf(actualAmount, userSteem);
 
             if (sellBook) {
@@ -331,14 +333,6 @@ export class Exchange {
                     if (total > amount) {
                         this.bidPrice = price;
 
-                        let totalTokens = 0;
-                        let totalSteemp = 0;
-
-                        // ** PSEUDO **
-                        // Determine how many tokens "quantity" in order
-                        // Determine the price per token "price" in order
-                        // Take users balance above and determine how much they can buy "quantity"
-
                         while(totalSteemp < amount) {
                             totalTokens += 0.00000001;
                             totalSteemp += 0.00000001 * price;
@@ -348,6 +342,8 @@ export class Exchange {
 
                         // Stop the loop, we don't need to go further
                         break;
+                    } else {
+                    
                     }
                 }
             }
