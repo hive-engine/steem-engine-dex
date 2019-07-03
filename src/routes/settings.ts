@@ -5,6 +5,7 @@ import { autoinject } from 'aurelia-framework';
 @autoinject()
 export class Settings {
     private user = null;
+    private tokens = [];
     private selectedTab = 'favorites';
 
     constructor(private se: SteemEngine) {
@@ -12,8 +13,11 @@ export class Settings {
     }
 
     async activate() {
-        console.log(this.se.getUser());
         try {
+            this.tokens = await this.se.loadTokens() as any;
+
+            console.log(this.tokens);
+
             const doc = await firebase.firestore().collection('users').doc(this.se.getUser()).get();
 
             if (doc.exists) {

@@ -19,6 +19,13 @@
             <section class="col-md-12" show.bind="selectedTab == 'favorites'">
                 <h3>${'Favorites' & t}</h3>
                 <p if.bind="!user.favourites.length">${'You have no favorited tokens' & t}.</p>
+                ${user.favourites[0]}
+
+                <select2 placeholder="Select one or more tokens">
+                    <select value.bind="user.favourites" multiple>
+                        <option value.bind="token.symbol" repeat.for="token of tokens">${token.name & t} (${token.symbol})</option>
+                    </select>
+                </select2>
             </section>
 
             <section class="col-md-12" show.bind="selectedTab == 'hiddenTokens'">
