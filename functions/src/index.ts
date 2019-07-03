@@ -4,7 +4,10 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 
+import { Auth } from './auth';
+
 import { authMiddleware } from './auth-middleware';
+import { UserRecord } from 'firebase-functions/lib/providers/auth';
 
 const serviceAccount = require('steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json');
 admin.initializeApp({
@@ -40,6 +43,8 @@ const getUser = async (token: string) => {
     }
 };
 
+const createUserToken = (username: string) => admin.auth().createCustomToken(username);
+
 const firestore = admin.firestore();
 
 // // Start writing Firebase Functions
@@ -50,33 +55,48 @@ const firestore = admin.firestore();
 // });
 
 
-export const createUserReference = functions.auth.user().onCreate(async (user) => {
+export const createUserReference = functions.auth.user().onCreate(async (user: UserRecord) => {
     const usersRef = firestore.collection('users');
 
-    const created = await usersRef.doc(user.displayName as string).create(user);
+    usersRef.doc(user.displayName as string).create(user);
 });
 
-export const removeUserReference = functions.auth.user().onDelete((user) => {
-
-});
-
-app.get('getUserAuthMemo/:username', (req: express.Request, res: express.Response, next: express.NextFunction) => {
+export const removeUserReference = functions.auth.user().onDelete((user: UserRecord) => {
 
 });
 
-app.post('verifyUserAuthMemo', (req: express.Request, res: express.Response, next: express.NextFunction) => {
+// Gets an encrypted memo to send to the user
+// They use their private key to decode it and send back the AES string
+app.get('getUserAuthMemo/:username', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const username = req.params.username;
 
+    try {
+        const memo = await Auth.generateMemo(username);
+
+        res.status(201).json({ success: true, memo });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ success: false, message: 'Could not load account' });
+    }
 });
 
-app.post('verifyAuthToken', (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    if (req.body.username && req.body.signedKey) {
-        admin.auth().createCustomToken(req.body.username)
-            .then(function(customToken: any) {
-                // Send token back to client
-            })
-            .catch(function(error) {
-                console.log('Error creating custom token:', error);
-            });
+// This should be an AES encryption string containing their username
+app.post('verifyUserAuthMemo', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const username = req.body.username;
+    const signedKey = req.body.signedKey;
+
+    const decoded = Auth.decryptAes(signedKey);
+
+    if (decoded[0] === username) {
+        try {
+            // User is legit
+            const token = await createUserToken(username);
+            return res.status(200).json({ success: true, token });
+        } catch (e) {
+            return res.status(500).json({ success: false, message: e });
+        }
+    } else {
+        return res.status(401).json({ success: false, message: 'Username not found in payload' })
     }
 });
 
