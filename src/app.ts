@@ -30,8 +30,6 @@ export class App {
                 this.loading = s.loading;
                 this.loggedIn = s.loggedIn;
 
-                AuthorizeStep.loggedIn = s.loggedIn;
-
                 if (s.loggedIn) {
                     this.se.user = {...this.se.user, ...s.account};
                 } else {
@@ -130,6 +128,14 @@ export class App {
                 nav: false,
                 auth: true,
                 title: 'Conversion History',
+            },
+            {
+                route: 'settings',
+                name: 'settings',
+                moduleId: PLATFORM.moduleName('./routes/settings'),
+                nav: false,
+                auth: true,
+                title: 'Settings',
             },
         ]);
 
