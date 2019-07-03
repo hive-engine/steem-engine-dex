@@ -7,5 +7,6 @@ export function configure(config: FrameworkConfiguration) {
         PLATFORM.moduleName('./countries/countries'),
         PLATFORM.moduleName('./loader/loader'),
         PLATFORM.moduleName('./nav-bar/nav-bar'),
+        PLATFORM.moduleName('./select2/select2'),
     ]);
 }

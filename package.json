@@ -40,6 +40,7 @@
     "mousetrap": "^1.6.3",
     "popper.js": "^1.15.0",
     "query-string": "^6.8.1",
+    "select2": "^4.0.7",
     "sscjs": "^0.0.8",
     "steem": "^0.7.5",
     "whatwg-fetch": "^3.0.0"
@@ -50,6 +51,7 @@
     "@types/jquery": "^3.3.30",
     "@types/lodash": "^4.14.135",
     "@types/node": "^12.0.10",
+    "@types/select2": "^4.0.48",
     "@types/webpack": "^4.4.34",
     "aurelia-cli": "^1.0.0-beta.15",
     "aurelia-loader-nodejs": "^1.0.1",
