@@ -15,6 +15,9 @@
                     <li class="nav-item ${row.isActive ? 'active' : ''}" repeat.for="row of router.navigation | authFilter:loggedIn"><a class="nav-link" href.bind="row.href">${row.title}</a></li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
+                    <li class="nav-item wallet" if.bind="loggedIn">
+                        <a class="nav-link" href="javascript:void(0);" route-href="route: wallet;"><img src="../../images/icon_wallet.svg"></a>
+                    </li>
                     <li class="nav-item dropdown language-option">
                         <language-switcher></language-switcher>
                     </li>
@@ -22,21 +25,15 @@
                         <a class="btn nav-link" click.delegate="signin()">${'Sign In' & t}</a>
                     </li>
                     <li else class="nav-item dropdown active">
-                        <a class="nav-link" href="javascript:void(0);">${username}</a>
-                        <ul class="dropdown-menu">
-                            <li class="nav-item">
-                                <a class="nav-link" href="javascript:void(0);" click.delegate="logout()">${'Logout' & t}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" route-href="route: settings;">${'Settings' & t}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" route-href="route: rewards;">${'Rewards' & t}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" route-href="route: conversionHistory;">${'Conversion History' & t}</a>
-                            </li>
-                        </ul>
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            ${username | capitalise}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="javascript:void(0);" click.delegate="logout()">${'Logout' & t}</a>
+                            <a class="dropdown-item" route-href="route: settings;">${'Settings' & t}</a>
+                            <a class="dropdown-item" route-href="route: rewards;">${'Rewards' & t}</a>
+                            <a class="dropdown-item" route-href="route: conversionHistory;">${'Conversion History' & t}</a>
+                        </div>
                     </li>
                 </ul>
             </div>
