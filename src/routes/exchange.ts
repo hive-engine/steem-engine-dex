@@ -1,4 +1,6 @@
-import { ToastMessage } from './../services/toast-service';
+import { I18N } from 'aurelia-i18n';
+import { log } from './../services/log';
+import { ToastMessage, ToastService } from './../services/toast-service';
 import { BootstrapFormRenderer } from './../resources/bootstrap-form-renderer';
 import { SteemEngine } from '../services/steem-engine';
 import { autoinject } from 'aurelia-framework';
@@ -46,7 +48,11 @@ export class Exchange {
     private bidQuantity = '';
     private bidPrice = '';
 
-    constructor(private se: SteemEngine, private dialogService: DialogService, private controllerFactory: ValidationControllerFactory) {
+    constructor(private se: SteemEngine, 
+        private dialogService: DialogService, 
+        private i18n: I18N,
+        private controllerFactory: ValidationControllerFactory, 
+        private toast: ToastService) {
         this.controller = controllerFactory.createForCurrentScope();
 
         this.renderer = new BootstrapFormRenderer();
@@ -264,6 +270,23 @@ export class Exchange {
     async confirmMarketOrder() {
         // Run the form validation
         const validationResult: ControllerValidateResult = await this.controller.validate();
+        
+        for (const result of validationResult.results) {
+            if (!result.valid) {
+                const toast = new ToastMessage();
+
+                toast.message = this.i18n.tr(result.rule.messageKey, {
+                    balance: this.steempBalance,
+                    tokenBalance: this.tokenBalance,
+                    total: parseFloat(this.bidQuantity) * parseFloat(this.bidPrice), 
+                    ns: 'errors' 
+                });
+                
+                this.toast.error(toast);
+            }
+        }
+
+        console.log('Validation result: ', validationResult);
 
         // All fields are valid
         if (validationResult.valid) {
