@@ -14,6 +14,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import 'izitoast/dist/css/iziToast.css';
 import './styles/toast.css';
 import './styles/main.css';
+import './styles/radio-toggles.css';
 
 import modalCss from './styles/modal.css';
 
