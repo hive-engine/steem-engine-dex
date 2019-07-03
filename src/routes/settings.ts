@@ -5,6 +5,7 @@ import { autoinject } from 'aurelia-framework';
 @autoinject()
 export class Settings {
     private user = null;
+    private selectedTab = 'favorites';
 
     constructor(private se: SteemEngine) {
 
@@ -12,12 +13,20 @@ export class Settings {
 
     async activate() {
         console.log(this.se.getUser());
-        const doc = await firebase.firestore().collection('users').doc(this.se.getUser()).get();
+        try {
+            const doc = await firebase.firestore().collection('users').doc(this.se.getUser()).get();
 
-        if (doc.exists) {
-            this.user = doc.data();
+            if (doc.exists) {
+                this.user = doc.data();
+            }
+    
+            console.log(this.user);
+        } catch (e) {
+            console.error(e);
         }
+    }
 
-        console.log(this.user);
+    tabChanged(tab: string) {
+        this.selectedTab = tab;
     }
 }
