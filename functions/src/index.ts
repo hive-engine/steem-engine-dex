@@ -51,7 +51,9 @@ const firestore = admin.firestore();
 export const createUserReference = functions.auth.user().onCreate(async (user: UserRecord) => {
     const usersRef = firestore.collection('users');
 
-    usersRef.doc(user.displayName as string).create(user);
+    usersRef.doc(user.uid).set({
+        user
+    });
 });
 
 // export const removeUserReference = functions.auth.user().onDelete((user: UserRecord) => {
