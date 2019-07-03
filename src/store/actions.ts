@@ -1,7 +1,7 @@
 import { State } from './state';
 import store from './store';
 
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 export function loading(state: State, boolean: boolean) {
     const newState = { ...state };
@@ -11,20 +11,11 @@ export function loading(state: State, boolean: boolean) {
     return newState;
 }
 
-export async function login(state: State, user: { username: string, token: string }): Promise<State> {
+export async function login(state: State, username: string): Promise<State> {
     let newState = { ...state };
 
-    try {
-        const signin = await firebase.auth().signInWithCustomToken(user.token);
-
-        console.log(signin);
-    } catch (e) {
-        console.error(e);
-    }
-
     newState.account = {
-        name: user.username,
-        token: user.token
+        name: username
     };
 
     newState.loggedIn = true;

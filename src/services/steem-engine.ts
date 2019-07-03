@@ -8,6 +8,8 @@ import { lazy, autoinject } from 'aurelia-framework';
 import { environment } from 'environment';
 import moment from 'moment';
 
+import firebase from 'firebase/app';
+
 import SSC from 'sscjs';
 import steem from 'steem';
 
@@ -130,9 +132,12 @@ export class SteemEngine {
                         // The decrypted memo is an encrypted string, so pass this to the server to get back refresh and access tokens
                         const token = await this.authService.verifyUserAuthMemo(response.data.username, signedKey);
 
-                        // Store the username, access token and refresh token
-                        localStorage.setItem('username', response.data.username);
-                        localStorage.setItem('se_access_token', token);
+                        if (token) {
+                            const signin = await firebase.auth().signInWithCustomToken(token);
+
+                            // Store the username, access token and refresh token
+                            localStorage.setItem('username', signin.user.uid);
+                        }
 
                         resolve({username, token});
                     }
@@ -166,14 +171,16 @@ export class SteemEngine {
                                 const signedKey = steem.memo.decode(key, encryptedMemo).substring(1);
 
                                 // The decrypted memo is an encrypted string, so pass this to the server to get back refresh and access tokens
-                                const tokens = await this.authService.verifyUserAuthMemo(username, signedKey);
+                                const token = await this.authService.verifyUserAuthMemo(username, signedKey);
 
-                                // Store the username, private key, access token and refresh token
-                                localStorage.setItem('username', username);
-                                localStorage.setItem('se_access_token', tokens.accessToken);
-                                localStorage.setItem('se_refresh_token', tokens.refreshToken);
+                                if (token) {
+                                    const signin = await firebase.auth().signInWithCustomToken(token);
 
-                                resolve({username, accessToken: tokens.accessToken, refreshToken: tokens.refreshToken});
+                                    // Store the username, access token and refresh token
+                                    localStorage.setItem('username', signin.user.uid);
+                                }
+
+                                resolve({username, token});
                             } else {
                                 const toast = new ToastMessage();
     
@@ -209,10 +216,9 @@ export class SteemEngine {
     }
 
     logout() {
-        dispatchify(logout)();
         localStorage.removeItem('username');
-        localStorage.removeItem('se_access_token');
-        localStorage.removeItem('se_refresh_token');
+        firebase.auth().signOut();
+        dispatchify(logout)();
     }
 
     async steemConnectJson(auth_type: AuthType, data: any, callback) {

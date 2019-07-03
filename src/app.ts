@@ -1,7 +1,7 @@
 import { AuthorizeStep } from './resources/pipeline-steps/authorize';
 import { SteemEngine } from 'services/steem-engine';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { Store } from 'aurelia-store';
+import { Store, dispatchify } from 'aurelia-store';
 import { environment } from './environment';
 import { PostRenderStep } from './resources/pipeline-steps/postrender';
 import { PreRenderStep } from './resources/pipeline-steps/prerender';
@@ -11,6 +11,8 @@ import { Router, RouterConfiguration } from 'aurelia-router';
 import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
 import { SteemKeychain } from 'services/steem-keychain';
+import firebase from 'firebase/app';
+import { login, logout } from 'store/actions';
 
 @autoinject()
 export class App {
@@ -40,6 +42,14 @@ export class App {
     }
 
     attached() {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                dispatchify(login)(user.uid);
+            } else {
+                dispatchify(logout)();
+            }
+        });
+
         setTimeout(() => {
             if (window && window.steem_keychain) {
                 window.steem_keychain.requestHandshake(() => {

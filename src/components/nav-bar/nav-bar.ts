@@ -1,3 +1,4 @@
+import { SteemEngine } from './../../services/steem-engine';
 import { SigninModal } from './../../modals/signin';
 import { DialogService } from 'aurelia-dialog';
 import { customElement, bindable } from 'aurelia-framework';
@@ -13,7 +14,7 @@ export class NavBar {
 
     private username = '';
 
-    constructor(private dialogService: DialogService) {
+    constructor(private dialogService: DialogService, private se: SteemEngine) {
 
     }
 
@@ -26,7 +27,7 @@ export class NavBar {
     }
 
     logout() {
-        dispatchify(logout)();
+        this.se.logout();
     }
 
     signin() {

@@ -125,17 +125,5 @@ export async function configure(aurelia: Aurelia) {
 
     await aurelia.start();
 
-    if (PLATFORM.global.localStorage) {
-        if (PLATFORM.global.localStorage.getItem('se_access_token')) {
-            const username = PLATFORM.global.localStorage.getItem('username');
-            const token = PLATFORM.global.localStorage.getItem('se_access_token');
-
-            await dispatchify(login)({
-                username,
-                token
-            });
-        }
-    }
-
     await aurelia.setRoot(PLATFORM.moduleName('app'));
 }

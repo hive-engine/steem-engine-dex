@@ -47,7 +47,7 @@ export class SigninModal {
     }
 
     async keychainSignIn() {
-        const { username, token } = await this.se.login(this.username.trim().toLowerCase());
+        const { username } = await this.se.login(this.username.trim().toLowerCase());
 
         if (username) {
             const toast = new ToastMessage();
@@ -61,12 +61,12 @@ export class SigninModal {
 
             this.toast.success(toast);
 
-            await dispatchify(login)({username, token});
+            await dispatchify(login)(username);
         }
     }
 
     async keySignIn() {
-        const { username, token } = await this.se.login(this.username.trim().toLowerCase(), this.privateKey.trim());
+        const { username } = await this.se.login(this.username.trim().toLowerCase(), this.privateKey.trim());
         
         if (username) {
             const toast = new ToastMessage();
@@ -80,7 +80,7 @@ export class SigninModal {
 
             this.toast.success(toast);
 
-            await dispatchify(login)({username, token});
+            await dispatchify(login)(username);
         }
     }
 }
