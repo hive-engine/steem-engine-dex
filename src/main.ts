@@ -103,7 +103,7 @@ export async function configure(aurelia: Aurelia) {
                 loadPath: './locales/{{lng}}/{{ns}}.json',
             },
             attributes: aliases,
-            ns: ['translation', 'headings', 'buttons', 'notifications', 'titles'],
+            ns: ['translation', 'errors', 'headings', 'buttons', 'notifications', 'titles'],
             defaultNS: 'translation',
             lng: environment.defaultLocale,
             fallbackLng: 'en',
@@ -119,21 +119,6 @@ export async function configure(aurelia: Aurelia) {
             });
         });
     });
-
-    ValidationMessageProvider.prototype.getMessage = function(key) {
-        const i18n = aurelia.container.get(I18N);
-        const translation = i18n.tr(`errors:${key}`);
-        return this.parser.parse(translation);
-    }
-
-    ValidationMessageProvider.prototype.getDisplayName = function(propertyName, displayName) {
-        if (displayName !== null && displayName !== undefined) {
-          return displayName;
-        }
-
-        const i18n = aurelia.container.get(I18N);
-        return i18n.tr(propertyName);
-    };
 
     await aurelia.start();
 
