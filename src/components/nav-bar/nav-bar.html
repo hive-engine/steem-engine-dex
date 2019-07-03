@@ -25,13 +25,16 @@
                         <a class="nav-link" href="javascript:void(0);">${username}</a>
                         <ul class="dropdown-menu">
                             <li class="nav-item">
-                                <a class="nav-link" href="javascript:void(0);" click.delegate="logout()">Logout</a>
+                                <a class="nav-link" href="javascript:void(0);" click.delegate="logout()">${'Logout' & t}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" route-href="route: rewards;">Rewards</a>
+                                <a class="nav-link" route-href="route: settings;">${'Settings' & t}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" route-href="route: conversionHistory;">Conversion History</a>
+                                <a class="nav-link" route-href="route: rewards;">${'Rewards' & t}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" route-href="route: conversionHistory;">${'Conversion History' & t}</a>
                             </li>
                         </ul>
                     </li>
