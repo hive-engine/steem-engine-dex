@@ -40,7 +40,7 @@ export class Settings {
 
             userRef.set(this.user, {
                 merge: true
-            })
+            });
         });
     }
 }
