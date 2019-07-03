@@ -20,67 +20,67 @@ export class SigninModal {
     private styles = styles;
     private environment = environment;
     private subscription: Subscription;
-    private user: State['account'];
     private loading = false;
     private useActiveKey = false;
     private username;
     private privateKey;
 
-    constructor(private controller: DialogController, private se: SteemEngine, private keychain: SteemKeychain, private store: Store<State>, 
+    constructor(private controller: DialogController, private se: SteemEngine, private keychain: SteemKeychain, 
         private i18n: I18N, private router: Router, private toast: ToastService) {
         this.controller.settings.lock = false;
         this.controller.settings.centerHorizontalOnly = true;
     }
 
-    bind() {
-        this.subscription = this.store.state.subscribe((state: State) => {
-            if (state) {
-                this.user = state.account;
-            }
-        });
-    }
-
-    unbind() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
-    }
-
     async keychainSignIn() {
-        const { username } = await this.se.login(this.username.trim().toLowerCase());
+        try {
+            this.loading = true;
 
-        if (username) {
-            const toast = new ToastMessage();
+            const { username } = await this.se.login(this.username.trim().toLowerCase());
+
+            if (username) {
+                const toast = new ToastMessage();
+        
+                toast.message = this.i18n.tr('signinSuccess', { ns: 'notifications' });
     
-            toast.message = this.i18n.tr('signinSuccess', { ns: 'notifications' });
-
-            toast.overrideOptions.onClosing = () => {
-                this.controller.close(true);
-                this.router.navigateToRoute('home');
+                toast.overrideOptions.onClosing = () => {
+                    this.controller.close(true);
+                    this.loading = false;
+                    this.router.navigateToRoute('home');
+                }
+    
+                this.toast.success(toast);
+    
+                await dispatchify(login)(username);
             }
-
-            this.toast.success(toast);
-
-            await dispatchify(login)(username);
+        } catch (e) {
+            this.loading = false;
         }
     }
 
     async keySignIn() {
-        const { username } = await this.se.login(this.username.trim().toLowerCase(), this.privateKey.trim());
+        try {
+            this.loading = true;
+
+            const { username } = await this.se.login(this.username.trim().toLowerCase(), this.privateKey.trim());
         
-        if (username) {
-            const toast = new ToastMessage();
+            if (username) {
+                const toast = new ToastMessage();
+        
+                toast.message = this.i18n.tr('signinSuccess', { ns: 'notifications' });
     
-            toast.message = this.i18n.tr('signinSuccess', { ns: 'notifications' });
+                toast.overrideOptions.onClosing = () => {
+                    this.controller.close(true);
+                    this.router.navigateToRoute('home');
+                }
+    
+                this.toast.success(toast);
+    
+                await dispatchify(login)(username);
 
-            toast.overrideOptions.onClosing = () => {
-                this.controller.close(true);
-                this.router.navigateToRoute('home');
+                this.loading = false;
             }
-
-            this.toast.success(toast);
-
-            await dispatchify(login)(username);
+        } catch (e) {
+            this.loading = false;
         }
     }
 }
