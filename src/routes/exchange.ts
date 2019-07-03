@@ -16,6 +16,7 @@ import { WithdrawModal } from 'modals/withdraw';
 import { MarketOrderModal } from 'modals/market-order';
 
 import { DialogService } from 'aurelia-dialog';
+import { percentageOf } from 'common/functions';
 
 @autoinject()
 export class Exchange {
@@ -300,12 +301,43 @@ export class Exchange {
             this.dialogService.open({ viewModel: MarketOrderModal, model: order }).whenClosed(response => {
                 console.log(response);
             });
-        } else {
-            const message = new ToastMessage();
         }
     }
 
+    /**
+     * Method for calculating how much a user can buy/sell
+     * given their current STEEMP or TOKEN balance
+     * @param amount
+     */
     amountSelect(amount: string) {
+        const actualAmount = parseInt(amount);
+        const userSteem = this.steempBalance;
+        const userTokenBalance = this.userTokenBalance;
+        const buyBook = this.buyBook;
+        const sellBook = this.sellBook;
 
+        // Determine what the user can buy from the buy book
+        if (this.currentExchangeMode === 'buy') {
+            let lastPrice = 0;
+            const amount = percentageOf(actualAmount, userSteem);
+
+            if (sellBook) {
+                for (const order of sellBook) {
+                    // Total is total STEEMP, price is price per 1 quantity and quantity is amount
+                    // Total = quantity * price
+                    const { total, price, quantity } = order;
+
+                    // ORder total STEEM is greater than user balance
+                    if (total > amount) {
+                        this.bidPrice = price;
+                        break;
+                    }
+                }
+            }
+        } 
+        // Determine what the user can set the price at to sell all of their token
+        else {
+
+        }
     }
 }
