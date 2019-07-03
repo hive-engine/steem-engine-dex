@@ -48,18 +48,6 @@ const createUserToken = (username: string) => admin.auth().createCustomToken(use
 
 const firestore = admin.firestore();
 
-export const createUserReference = functions.auth.user().onCreate(async (user: UserRecord) => {
-    const usersRef = firestore.collection('users');
-
-    usersRef.doc(user.uid).set({
-        user
-    });
-});
-
-// export const removeUserReference = functions.auth.user().onDelete((user: UserRecord) => {
-
-// });
-
 app.get('/test', (req: express.Request, res: express.Response, next: express.NextFunction) => { 
     res.send('HELLO WORLD');
 });
@@ -86,10 +74,21 @@ app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Respon
 
     const decoded = Auth.decryptAes(signedKey);
 
+    const usersRef = firestore.collection('users');
+
     if (decoded[0] === username) {
         try {
             // User is legit
             const token = await createUserToken(username);
+
+            const user = await usersRef.doc(username).get();
+
+            if (!user.exists) {
+                usersRef.doc(username).set({
+                    user: user.data()
+                });
+            }
+
             return res.status(200).json({ success: true, token });
         } catch (e) {
             return res.status(500).json({ success: false, message: e });
