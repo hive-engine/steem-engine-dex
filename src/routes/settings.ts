@@ -34,7 +34,7 @@ export class Settings {
         this.selectedTab = tab;
     }
 
-    tokensChanged() {
+    updateData() {
         this.taskQueue.queueTask(() => {
             const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
 

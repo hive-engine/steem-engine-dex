@@ -3,6 +3,8 @@ import { observable } from 'aurelia-binding';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject } from 'aurelia-framework';
 
+import firebase from 'firebase/app';
+
 @autoinject()
 export class Balances {
     private searchValue = '';
@@ -10,6 +12,7 @@ export class Balances {
 
     private balances: BalanceInterface[];
     private balancesCopy: BalanceInterface[];
+    private user;
 
     private tokenTable: HTMLTableElement;
 
@@ -34,6 +37,12 @@ export class Balances {
             
             this.balances = await this.se.loadBalances();
 
+            const doc = await firebase.firestore().collection('users').doc(this.se.getUser()).get();
+
+            if (doc.exists) {
+                this.user = doc.data();
+            }
+
             if (!this.balances) {
                 return new Redirect('');
             }
@@ -45,19 +54,22 @@ export class Balances {
     activate() {       
         this.balancesCopy = this.balances;
 
-        this.hideZeroBalances = localStorage.getItem('ui_hide_zero_balances') ? true : false;
+        this.user.wallet.hideZeroBalances;
     }
 
     hideZeroBalancesChanged(val) {
         if (this.balances) {
             if (val) {
-                localStorage.setItem('ui_hide_zero_balances', JSON.stringify(val));
                 this.balances = this.balances.filter(t => parseFloat(t.balance) > 0);
             } else {
-                localStorage.removeItem('ui_hide_zero_balances');
-
                 this.balances = this.balancesCopy;
             }
+
+            const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
+
+            userRef.set(this.user, {
+                merge: true
+            })
         }
     }
 }

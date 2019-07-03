@@ -21,7 +21,7 @@
                 <p if.bind="!user.favourites.length">${'You have no favorited tokens' & t}.</p>
 
                 <select2 placeholder="Select one or more tokens">
-                    <select value.bind="user.favourites" change.delegate="tokensChanged()" multiple>
+                    <select value.bind="user.favourites" change.delegate="updateData()" multiple>
                         <option value.bind="token.symbol" repeat.for="token of tokens">${token.name & t} (${token.symbol})</option>
                     </select>
                 </select2>
@@ -32,7 +32,7 @@
                 <p if.bind="!user.hiddenTokens.length">${'You have no hidden tokens' & t}.</p>
 
                 <select2 placeholder="Select one or more tokens" if.bind="selectedTab == 'hiddenTokens'">
-                    <select value.bind="user.hiddenTokens" change.delegate="tokensChanged()" multiple>
+                    <select value.bind="user.hiddenTokens" change.delegate="updateData()" multiple>
                         <option value.bind="token.symbol" repeat.for="token of tokens">${token.name & t} (${token.symbol})</option>
                     </select>
                 </select2>
@@ -47,7 +47,7 @@
 
                     <div class="form-group">
                         <span class="switch">
-                            <input type="checkbox" class="switch" id="hideZeroBalances">
+                            <input type="checkbox" class="switch" id="hideZeroBalances" checked.bind="user.wallet.hideZeroBalances" change.delegate="updateData()">
                             <label for="hideZeroBalances">Hide zero balances</label>
                         </span>
                     </div>

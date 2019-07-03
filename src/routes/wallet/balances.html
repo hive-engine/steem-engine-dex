@@ -11,9 +11,11 @@
                 </div>
     
                 <div class="col-6 text-right">
-                    <div class="custom-control custom-control-inline custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="hideZeroBalances" checked.bind="hideZeroBalances">
-                        <label class="custom-control-label" for="hideZeroBalances">${'Hide zero balances' & t}</label>
+                    <div class="form-group">
+                        <span class="switch">
+                            <input type="checkbox" class="switch" id="hideZeroBalances" checked.bind="user.wallet.hideZeroBalances" change.delegate="hideZeroBalancesChanged()">
+                            <label for="hideZeroBalances">Hide zero balances</label>
+                        </span>
                     </div>
                 </div>
             </div>
