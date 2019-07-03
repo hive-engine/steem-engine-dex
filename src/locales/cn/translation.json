@@ -15,5 +15,14 @@
     "Preferences": "喜好",
     "Settings": "设置",
     "Wallet": "钱包",
-    "You have no favorited tokens": "你没有最喜欢的代币"
+    "You have no favorited tokens": "你没有最喜欢的代币",
+    "Price": "价钱",
+    "QTY": "数量",
+    "Quantity": "数量",
+    "Pegged": "钉住",
+    "Balances": "结余",
+    "Total": "总",
+    "Time": "时间",
+    "Buy": "购买",
+    "Sell": "卖"
 }

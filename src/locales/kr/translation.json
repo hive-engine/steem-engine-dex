@@ -15,5 +15,14 @@
     "Preferences": "환경 설정",
     "Settings": "설정",
     "Wallet": "지갑",
-    "You have no favorited tokens": "너는 유리한 토큰이 없다."
+    "You have no favorited tokens": "너는 유리한 토큰이 없다.",
+    "Price": "가격",
+    "QTY": "수량",
+    "Quantity": "수량",
+    "Pegged": "고정 된",
+    "Balances": "균형",
+    "Total": "합계",
+    "Time": "시각",
+    "Buy": "사다",
+    "Sell": "팔다"
 }
