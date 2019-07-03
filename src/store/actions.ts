@@ -1,6 +1,8 @@
 import { State } from './state';
 import store from './store';
 
+import firebase from 'firebase';
+
 export function loading(state: State, boolean: boolean) {
     const newState = { ...state };
 
@@ -9,13 +11,20 @@ export function loading(state: State, boolean: boolean) {
     return newState;
 }
 
-export async function login(state: State, user: { username: string, accessToken: string, refreshToken: string }): Promise<State> {
+export async function login(state: State, user: { username: string, token: string }): Promise<State> {
     let newState = { ...state };
+
+    try {
+        const signin = await firebase.auth().signInWithCustomToken(user.token);
+
+        console.log(signin);
+    } catch (e) {
+        console.error(e);
+    }
 
     newState.account = {
         name: user.username,
-        accessToken: user.accessToken,
-        refreshToken: user.refreshToken
+        token: user.token
     };
 
     newState.loggedIn = true;
@@ -28,8 +37,7 @@ export async function logout(state: State): Promise<State> {
 
     newState.account = {
         name: '',
-        accesstoken: '',
-        refreshToken: '',
+        token: '',
         account: {},
         balances: [],
         scotTokens: [],

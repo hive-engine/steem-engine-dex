@@ -128,14 +128,13 @@ export class SteemEngine {
                         const signedKey = (response.result as unknown as string).substring(1);
 
                         // The decrypted memo is an encrypted string, so pass this to the server to get back refresh and access tokens
-                        const tokens = await this.authService.verifyUserAuthMemo(response.data.username, signedKey);
+                        const token = await this.authService.verifyUserAuthMemo(response.data.username, signedKey);
 
                         // Store the username, access token and refresh token
                         localStorage.setItem('username', response.data.username);
-                        localStorage.setItem('se_access_token', tokens.accessToken);
-                        localStorage.setItem('se_refresh_token', tokens.refreshToken);
+                        localStorage.setItem('se_access_token', token);
 
-                        resolve({username, accessToken: tokens.accessToken, refreshToken: tokens.refreshToken});
+                        resolve({username, token});
                     }
                 });
             } else {
