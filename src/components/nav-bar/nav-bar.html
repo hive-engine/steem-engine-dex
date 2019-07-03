@@ -28,7 +28,7 @@
                         <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             ${username | capitalise}
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="userDropdown">
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                             <a class="dropdown-item" href="javascript:void(0);" click.delegate="logout()">${'Logout' & t}</a>
                             <a class="dropdown-item" route-href="route: settings;">${'Settings' & t}</a>
                             <a class="dropdown-item" route-href="route: rewards;">${'Rewards' & t}</a>
