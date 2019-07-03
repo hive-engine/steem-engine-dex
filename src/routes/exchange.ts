@@ -327,9 +327,26 @@ export class Exchange {
                     // Total = quantity * price
                     const { total, price, quantity } = order;
 
-                    // ORder total STEEM is greater than user balance
+                    // Order total STEEM is greater than user balance
                     if (total > amount) {
                         this.bidPrice = price;
+
+                        let totalTokens = 0;
+                        let totalSteemp = 0;
+
+                        // ** PSEUDO **
+                        // Determine how many tokens "quantity" in order
+                        // Determine the price per token "price" in order
+                        // Take users balance above and determine how much they can buy "quantity"
+
+                        while(totalSteemp < amount) {
+                            totalTokens += 0.001;
+                            totalSteemp += 0.001 * price;
+                        }
+
+                        this.bidQuantity = totalTokens.toFixed(3);
+
+                        // Stop the loop, we don't need to go further
                         break;
                     }
                 }
