@@ -64,7 +64,7 @@ app.get('/test', (req: express.Request, res: express.Response, next: express.Nex
 
 // Gets an encrypted memo to send to the user
 // They use their private key to decode it and send back the AES string
-app.get('getUserAuthMemo/:username', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.get('/getUserAuthMemo/:username', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const username = req.params.username;
 
     try {
@@ -78,7 +78,7 @@ app.get('getUserAuthMemo/:username', async (req: express.Request, res: express.R
 });
 
 // This should be an AES encryption string containing their username
-app.post('verifyUserAuthMemo', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const username = req.body.username;
     const signedKey = req.body.signedKey;
 
