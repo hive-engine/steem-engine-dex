@@ -8,7 +8,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@fortawesome/free-solid-svg-icons": "^5.8.2",
     "apollo-boost": "^0.4.3",
     "apollo-cache-inmemory": "^1.6.0",
     "aurelia-animator-css": "^1.0.4",
@@ -28,7 +27,6 @@
     "firebase": "^6.2.4",
     "flag-icon-css": "^3.3.0",
     "flatpickr": "^4.6.1",
-    "font-awesome": "^4.7.0",
     "graphql": "^14.4.1",
     "graphql-tag": "^2.10.1",
     "i18next": "^15.1.2",
@@ -48,6 +46,9 @@
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^4.0.3",
+    "@fortawesome/fontawesome-pro": "^5.9.0",
+    "@fortawesome/pro-regular-svg-icons": "^5.9.0",
+    "@fortawesome/pro-solid-svg-icons": "^5.9.0",
     "@types/jest": "^24.0.15",
     "@types/jquery": "^3.3.30",
     "@types/lodash": "^4.14.135",
