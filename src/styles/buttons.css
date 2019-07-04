@@ -73,3 +73,22 @@
     display: block;
     width: 100%;
 }
+
+.btn-icon {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.btn-favourite,
+.btn-favourite:hover {
+    color: #FFF;
+}
+
+.btn-favourite:focus {
+    box-shadow: none;
+}
+
+.btn-favourite.active {
+    color: #F9D423;
+}
