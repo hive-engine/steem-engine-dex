@@ -1,8 +1,7 @@
 import { I18N } from 'aurelia-i18n';
-import { log } from './../services/log';
-import { ToastMessage, ToastService } from './../services/toast-service';
-import { BootstrapFormRenderer } from './../resources/bootstrap-form-renderer';
-import { SteemEngine } from '../services/steem-engine';
+import { ToastMessage, ToastService } from '../../services/toast-service';
+import { BootstrapFormRenderer } from '../../resources/bootstrap-form-renderer';
+import { SteemEngine } from '../../services/steem-engine';
 import { autoinject, computedFrom } from 'aurelia-framework';
 import { ValidationControllerFactory, ValidationController, ValidationRules, ControllerValidateResult } from 'aurelia-validation';
 

@@ -1,4 +1,8 @@
 <template>
+    <require from="./components/buybook.html"></require>
+    <require from="./components/sellbook.html"></require>
+    <require from="./components/best-price.html"></require>
+
     <header class="meta-header">
         <div class="container-fluid h100">
             <div class="h100 row align-items-center justify-content-between">
@@ -39,52 +43,9 @@
         
         <div class="row exchange-columns h100">
             <div class="col-md-3 col-sm-12">
-                <div class="table-wrapper">
-                    <loader loading.bind="loadingUserBuyBook" mode="tiny"></loader>
-                    
-                    <table class="buy-table">
-                        <thead>
-                            <tr>
-                                <th width="135">${'Price' & t} (STEEMP)</th>
-                                <th>${'QTY' & t} (ENG)</th>
-                                <th>${'Total' & t} (STEEMP)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr repeat.for="order of buyBook | slice:10">
-                                <td>${order.price}</td>
-                                <td>${order.quantity}</td>
-                                <td>${order.amountLocked | toFixed:6}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="best-price" if.bind="bestSellPrice">
-                    <div class="negative">${bestSellPrice.amountLocked} ${'STEEMP' & t}</div>
-                    <div>${bestSellPrice.quantity} ${data.symbol}</div>
-                </div>
-
-                <div class="table-wrapper">
-                    <loader loading.bind="loadingUserSellBook" mode="tiny"></loader>
-
-                    <table class="sell-table">
-                            <thead class="sr-only">
-                                <tr>
-                                    <th width="135">${'Price' & t} (STEEMP)</th>
-                                    <th>${'QTY' & t} (ENG)</th>
-                                    <th>${'Total' & t} (STEEMP)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr repeat.for="order of sellBook | slice:10">
-                                    <td>${order.price}</td>
-                                    <td>${order.quantity}</td>
-                                    <td>${order.amountLocked | toFixed:6}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                </div>
+                <buybook loading.bind="loadingUserBuyBook" buy-book.bind="buyBook"></buybook>
+                <best-price order.bind="bestSellPrice"></best-price>
+                <sellbook loading.bind="loadingUserSellBook" sell-book.bind="sellBook"></sellbook>
             </div>
 
             <div class="col-md-6 col-sm-12 chart-col">
@@ -95,7 +56,7 @@
                         <h4 class="balances-heading">${'Balances' & t}</h4>
 
                         <div class="form-group">
-                            <label class="balance-label d-block">${'STEEM (${'Pegged' & t})' & t} <button type="button" class="btn-link float-right">${'Deposit' & t}</button></label>
+                            <label class="balance-label d-block">${'STEEM' & t}(${'Pegged' & t}) <button type="button" class="btn-link float-right">${'Deposit' & t}</button></label>
                             <div class="input-group">
                                 <input class="form-control form-control-dark text-right" type="text" placeholder="0.000" value.bind="steempBalance | comma" readonly>
                                 <div class="input-group-append"><div class="input-group-text input-group-text-dark">${'STEEMP' & t}</div></div>

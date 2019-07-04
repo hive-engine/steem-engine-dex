@@ -102,7 +102,7 @@ export class App {
                 route: 'exchange/:symbol?',
                 href: `exchange/${environment.NATIVE_TOKEN}`,
                 name: 'exchange',
-                moduleId: PLATFORM.moduleName('./routes/exchange'),
+                moduleId: PLATFORM.moduleName('./routes/exchange/exchange'),
                 nav: 0,
                 title: 'Exchange'
             },
