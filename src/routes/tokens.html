@@ -26,7 +26,7 @@
                         <tr repeat.for="token of tokens">
                             <td></td>
                             <td>
-                                <button type="button" class="btn btn-icon btn-favourite ${token.isFavourite ? 'active' : ''}" click.delegate="token.isFavourite = !token.isFavourite">
+                                <button type="button" class="btn btn-icon btn-favourite ${token.isFavourite ? 'active' : ''}" click.delegate="favouriteToken(token)">
                                     <font-awesome-icon if.bind="token.isFavourite" icon.bind="['fas', 'star']"></font-awesome-icon>
                                     <font-awesome-icon else icon.bind="['far', 'star']"></font-awesome-icon>
                                 </button>${token.symbol}</td>
