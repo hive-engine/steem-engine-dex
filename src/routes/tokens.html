@@ -34,7 +34,7 @@
                             <td>${token.usdValue}</td>
                             <td>${token.priceChangePercent.toFixed(2)}%</td>
                             <td>${token.stake >= 0 ? parseFloat(token.stake) : '--'}</td>
-                            <td class="table-buttons"><a route-href="route: exchange;">Market</a></td>
+                            <td class="table-buttons"><a route-href="route: exchange; params.bind: { symbol: token.symbol }">Market</a></td>
                         </tr>
                     </tbody>
                 </table>
