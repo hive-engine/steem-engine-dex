@@ -4,7 +4,7 @@
     <require from="./components/best-price.html"></require>
     <require from="./components/token-metrics"></require>
 
-    <token-metrics token.bind="data"></token-metrics>
+    <token-metrics token.bind="data" deposit.call="deposit()" withdraw.call="withdraw()"></token-metrics>
 
     <div class="container-fluid h100-minus-header">
         

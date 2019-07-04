@@ -7,4 +7,6 @@ export class TokenMetrics {
     private styles = styles;
     
     @bindable token;
+    @bindable deposit;
+    @bindable withdraw;
 }
