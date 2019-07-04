@@ -25,7 +25,11 @@
                     <tbody>
                         <tr repeat.for="token of tokens">
                             <td></td>
-                            <td>${token.symbol}</td>
+                            <td>
+                                <button type="button" class="btn btn-icon btn-favourite ${token.isFavourite ? 'active' : ''}" click.delegate="token.isFavourite = !token.isFavourite">
+                                    <font-awesome-icon if.bind="token.isFavourite" icon.bind="['fas', 'star']"></font-awesome-icon>
+                                    <font-awesome-icon else icon.bind="['far', 'star']"></font-awesome-icon>
+                                </button>${token.symbol}</td>
                             <td>${token.name}</td>
                             <td>${token.usdValue}</td>
                             <td>${token.priceChangePercent.toFixed(2)}%</td>
