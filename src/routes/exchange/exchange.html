@@ -1,8 +1,10 @@
 <template>
+    <require from="./components/balances.html"></require>
     <require from="./components/buybook.html"></require>
     <require from="./components/sellbook.html"></require>
     <require from="./components/best-price.html"></require>
     <require from="./components/token-metrics"></require>
+    <require from="./components/order-actions"></require>
 
     <token-metrics token.bind="data" deposit.call="deposit()" withdraw.call="withdraw()"></token-metrics>
 
@@ -20,62 +22,20 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <h4 class="balances-heading">${'Balances' & t}</h4>
-
-                        <div class="form-group">
-                            <label class="balance-label d-block">${'STEEM' & t}(${'Pegged' & t}) <button type="button" class="btn-link float-right">${'Deposit' & t}</button></label>
-                            <div class="input-group">
-                                <input class="form-control form-control-dark text-right" type="text" placeholder="0.000" value.bind="steempBalance | comma" readonly>
-                                <div class="input-group-append"><div class="input-group-text input-group-text-dark">${'STEEMP' & t}</div></div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="balance-label d-block">${data.name & t}</label>
-                            <div class="input-group">
-                                <input class="form-control form-control-dark text-right" type="text" placeholder="0.000" value.bind="tokenBalance" readonly>
-                                <div class="input-group-append"><div class="input-group-text input-group-text-dark">${data.symbol & t}</div></div>
-                            </div>
-                        </div>
+                        <balances data.bind="data" steemp-balance.bind="steempBalance" token-balance.bind="tokenBalance"></balances>
                     </div>
                     <div class="col-md-6">
-                        <div class="order-buttons">
-                            <button type="button" class="btn btn-lg btn-buy" click.delegate="currentExchangeMode = 'buy'">${'Buy' & t}</button>
-                            <button type="button" class="btn btn-lg btn-sell" click.delegate="currentExchangeMode = 'sell'">${'Sell' & t}</button>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="balance-label d-block">${'Price' & t}</label>
-                            <div class="input-group">
-                                <input class="form-control form-control-light text-right" type="text" placeholder.one-time="0.000" value.bind="bidPrice & validate">
-                                <div class="input-group-append"><div class="input-group-text input-group-text-light">${'STEEMP' & t}</div></div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="balance-label d-block">${'Quantity' & t}</label>
-                            <div class="input-group">
-                                <input class="form-control form-control-light text-right" type="text" placeholder="0.000" value.bind="bidQuantity & validate">
-                                <div class="input-group-append"><div class="input-group-text input-group-text-light">${data.symbol & t}</div></div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="d-flex buy-percentage-buttons justify-space-between">
-                                <button type="button" click.delegate="amountSelect(25)">25%</button>
-                                <button type="button" click.delegate="amountSelect(50)">50%</button>
-                                <button type="button" click.delegate="amountSelect(75)">75%</button>
-                                <button type="button" click.delegate="amountSelect(100)">100%</button>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <p>${totalMarketBalance}</p> ${'STEEMP' & t}
-                        </div>
-
-                        <div class="form-group">
-                            <button type="button" class="btn ${currentExchangeMode == 'buy' ? 'btn-buy' : 'btn-sell'} btn-wide" click.delegate="confirmMarketOrder()">${currentExchangeMode == 'buy' ? 'Buy' : 'sell' & t}</button>
-                        </div>
+                        <order-actions
+                            data.bind="data"
+                            price.bind="bidPrice"
+                            quantity.bind="bidQuantity"
+                            mode.bind="currentExchangeMode"
+                            steemp-balance.bind="steempBalance"
+                            token-balance.bind="tokenBalance"
+                            confirm.call="confirmMarketOrder()"
+                            amount-select.call="amountSelect(amount)"
+                            total.bind="totalMarketBalance">
+                        </order-actions>
                     </div>
                 </div>
             </div>

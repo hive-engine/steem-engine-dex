@@ -57,46 +57,6 @@ export class Exchange {
 
         this.renderer = new BootstrapFormRenderer();
         this.controller.addRenderer(this.renderer);
-
-        this.createValidationRules();
-    }
-
-    /**
-     * Applies validation rules to inputs on the exchange screen
-     */
-    private createValidationRules() {
-        const rules = ValidationRules
-            .ensure('bidQuantity')
-                .required()
-                    .withMessageKey('errors:bidQuantityRequired')
-                .then()
-                    .satisfies((value: any, object: any) => parseFloat(value) > 0)
-                    .withMessageKey('errors:amountGreaterThanZero')
-                .when((object: unknown) => this.currentExchangeMode === 'buy')
-                    .satisfies((value: any, object: Exchange) => {
-                        const quantity = parseFloat(value);
-                        const price = parseFloat(object.bidPrice);
-                        const total = quantity * price;
-
-                        return (total <= this.steempBalance);
-                    })
-                    .withMessageKey('errors:insufficientSteemForOrder')
-                .when((object: unknown) => this.currentExchangeMode === 'sell')
-                    .satisfies((value: any, object: Exchange) => {
-                        const quantity = parseFloat(value);
-
-                        return (quantity <= this.tokenBalance);
-                    })
-                    .withMessageKey('errors:insufficientSteemForOrder')
-            .ensure('bidPrice')
-                .required()
-                    .withMessageKey('errors:bidPriceRequired')
-                .then()
-                    .satisfies((value: any, object: any) => parseFloat(value) > 0)
-                    .withMessageKey('errors:amountGreaterThanZero')
-        .rules;
-
-        this.controller.addObject(this, rules);
     }
 
     async activate({symbol}) {
@@ -267,40 +227,17 @@ export class Exchange {
         });
     }
 
-    async confirmMarketOrder() {
-        // Run the form validation
-        const validationResult: ControllerValidateResult = await this.controller.validate();
-        
-        for (const result of validationResult.results) {
-            if (!result.valid) {
-                const toast = new ToastMessage();
+    confirmMarketOrder() {
+        const order = {
+            symbol: this.data.symbol,
+            type: this.currentExchangeMode,
+            quantity: this.bidQuantity,
+            price: this.bidPrice
+        };
 
-                toast.message = this.i18n.tr(result.rule.messageKey, {
-                    balance: this.steempBalance,
-                    tokenBalance: this.tokenBalance,
-                    total: parseFloat(this.bidQuantity) * parseFloat(this.bidPrice), 
-                    ns: 'errors' 
-                });
-                
-                this.toast.error(toast);
-            }
-        }
-
-        console.log('Validation result: ', validationResult);
-
-        // All fields are valid
-        if (validationResult.valid) {
-            const order = {
-                symbol: this.data.symbol,
-                type: this.currentExchangeMode,
-                quantity: this.bidQuantity,
-                price: this.bidPrice
-            };
-    
-            this.dialogService.open({ viewModel: MarketOrderModal, model: order }).whenClosed(response => {
-                console.log(response);
-            });
-        }
+        this.dialogService.open({ viewModel: MarketOrderModal, model: order }).whenClosed(response => {
+            console.log(response);
+        });
     }
 
     /**
@@ -309,6 +246,7 @@ export class Exchange {
      * @param amount
      */
     amountSelect(amount: string) {
+        console.log(amount);
         const actualAmount = parseInt(amount);
         const userSteem = this.steempBalance;
         const userTokenBalance = this.userTokenBalance;

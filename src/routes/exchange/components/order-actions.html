@@ -1,0 +1,39 @@
+<template>
+    <div class="order-buttons">
+        <button type="button" class="btn btn-lg btn-buy" click.delegate="mode = 'buy'">${'Buy' & t}</button>
+        <button type="button" class="btn btn-lg btn-sell" click.delegate="mode = 'sell'">${'Sell' & t}</button>
+    </div>
+
+    <div class="form-group">
+        <label class="balance-label d-block">${'Price' & t}</label>
+        <div class="input-group">
+            <input class="form-control form-control-light text-right" type="text" placeholder.one-time="0.000" value.bind="price & validate">
+            <div class="input-group-append"><div class="input-group-text input-group-text-light">${'STEEMP' & t}</div></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="balance-label d-block">${'Quantity' & t}</label>
+        <div class="input-group">
+            <input class="form-control form-control-light text-right" type="text" placeholder="0.000" value.bind="quantity & validate">
+            <div class="input-group-append"><div class="input-group-text input-group-text-light">${data.symbol & t}</div></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="d-flex buy-percentage-buttons justify-space-between">
+            <button type="button" click.delegate="amountSelect({amount: 25})">25%</button>
+            <button type="button" click.delegate="amountSelect({amount: 50})">50%</button>
+            <button type="button" click.delegate="amountSelect({amount: 75})">75%</button>
+            <button type="button" click.delegate="amountSelect({amount: 100})">100%</button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <p>${total}</p> ${'STEEMP' & t}
+    </div>
+
+    <div class="form-group">
+        <button type="button" class="btn ${mode == 'buy' ? 'btn-buy' : 'btn-sell'} btn-wide" click.delegate="confirmButtonPressed()">${mode == 'buy' ? 'Buy' : 'sell' & t}</button>
+    </div>
+</template>
