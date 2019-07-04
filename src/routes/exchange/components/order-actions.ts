@@ -24,7 +24,9 @@ export class OrderActions {
 
         this.renderer = new BootstrapFormRenderer();
         this.validationController.addRenderer(this.renderer);
+    }
 
+    bind() {
         this.createValidationRules();
     }
 
@@ -53,7 +55,7 @@ export class OrderActions {
 
     private createValidationRules() {
         const rules = ValidationRules
-            .ensure('bidQuantity')
+            .ensure('quantity')
                 .required()
                     .withMessageKey('errors:bidQuantityRequired')
                 .then()
@@ -75,7 +77,7 @@ export class OrderActions {
                         return (quantity <= this.tokenBalance);
                     })
                     .withMessageKey('errors:insufficientSteemForOrder')
-            .ensure('bidPrice')
+            .ensure('price')
                 .required()
                     .withMessageKey('errors:bidPriceRequired')
                 .then()
