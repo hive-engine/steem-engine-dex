@@ -1,4 +1,4 @@
-import { customElement, containerless, bindable, DOM } from 'aurelia-framework';
+import { customElement, containerless, bindable, DOM, TaskQueue } from 'aurelia-framework';
 
 import 'select2/dist/css/select2.css';
 import 'select2/dist/js/select2';
@@ -6,28 +6,32 @@ import './select2.css';
 
 @customElement('select2')
 export class Select2 {
-    static inject = [Element];
+    static inject = [Element, TaskQueue];
 
     private element;
+    private taskQueue: TaskQueue;
 
     @bindable placeholder = null;
 
-    constructor(element: HTMLElement) {
+    constructor(element: HTMLElement, taskQueue) {
         this.element = element;
+        this.taskQueue = taskQueue;
     }
 
     attached() {
-        $(this.element.querySelector('select')).select2({
-            placeholder: this.placeholder
-        });
-
-        $(this.element.querySelector('select')).on('select2:select select2:unselect', event => {
-            const e = DOM.createCustomEvent('change', {
-                bubbles: true,
-                cancelable: true
+        this.taskQueue.queueTask(() => {
+            $(this.element.querySelector('select')).select2({
+                placeholder: this.placeholder
             });
-
-            this.element.querySelector('select').dispatchEvent(e);
+    
+            $(this.element.querySelector('select')).on('select2:select select2:unselect', event => {
+                const e = DOM.createCustomEvent('change', {
+                    bubbles: true,
+                    cancelable: true
+                });
+    
+                this.element.querySelector('select').dispatchEvent(e);
+            });
         });
     }
 }
