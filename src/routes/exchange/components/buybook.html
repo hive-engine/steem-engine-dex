@@ -1,0 +1,22 @@
+<template bindable="loading, buyBook">
+    <div class="table-wrapper">
+        <loader loading.bind="loading" mode="tiny"></loader>
+        
+        <table class="buy-table">
+            <thead>
+                <tr>
+                    <th width="135">${'Price' & t} (STEEMP)</th>
+                    <th>${'QTY' & t} (ENG)</th>
+                    <th>${'Total' & t} (STEEMP)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr repeat.for="order of buyBook | slice:10">
+                    <td>${order.price}</td>
+                    <td>${order.quantity}</td>
+                    <td>${order.amountLocked | toFixed:6}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</template>
