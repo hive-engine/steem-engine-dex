@@ -60,6 +60,7 @@ export class Balances {
             }
 
             this.hideZeroBalancesChanged();
+            this.onlyShowFavourites();
         } catch {
             return false;
         }
@@ -67,8 +68,6 @@ export class Balances {
     
     activate() {       
         this.balancesCopy = this.balances;
-
-        this.user.wallet.hideZeroBalances;
     }
 
     hideZeroBalancesChanged() {
@@ -79,12 +78,22 @@ export class Balances {
                 } else {
                     this.balances = this.balancesCopy;
                 }
-    
-                const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
-    
-                userRef.set(this.user, {
-                    merge: true
-                })
+                
+                this.updateUser();
+            }
+        });
+    }
+
+    onlyShowFavourites() {
+        this.taskQueue.queueTask(() => {
+            if (this.balances) {
+                if (this.user.wallet.onlyShowFavourites) {
+                    this.balances = this.balances.filter((t: any) => t.isFavourite);
+                } else {
+                    this.balances = this.balancesCopy;
+                }
+                
+                this.updateUser();
             }
         });
     }
@@ -101,11 +110,16 @@ export class Balances {
                 }
             });
 
-            const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
+            this.onlyShowFavourites();
+            this.updateUser();
+        });
+    }
 
-            userRef.set(this.user, {
-                merge: true
-            });
+    updateUser() {
+        const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
+
+        userRef.set(this.user, {
+            merge: true
         });
     }
 }
