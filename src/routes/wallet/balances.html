@@ -38,7 +38,12 @@
                         <tbody>
                             <tr repeat.for="token of balances | arrayFilter:searchValue:columns">
                                 <td></td>
-                                <td>${token.symbol}</td>
+                                <td>
+                                    <button type="button" class="btn btn-icon btn-favourite ${token.isFavourite ? 'active' : ''}" click.delegate="favouriteToken(token)">
+                                        <font-awesome-icon if.bind="token.isFavourite" icon.bind="['fas', 'star']"></font-awesome-icon>
+                                        <font-awesome-icon else icon.bind="['far', 'star']"></font-awesome-icon>
+                                    </button>${token.symbol}
+                                </td>
                                 <td>${token.name}</td>
                                 <td>${token.balance | comma}</td>
                                 <td>${token.usdValue}</td>

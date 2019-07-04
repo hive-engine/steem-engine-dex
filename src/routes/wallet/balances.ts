@@ -41,6 +41,18 @@ export class Balances {
 
             if (doc.exists) {
                 this.user = doc.data();
+
+                if (this.user.favourites) {
+                    this.balances.map((token: any) => {
+                        if (this.user.favourites.includes(token.symbol)) {
+                            token.isFavourite = true;
+                        } else {
+                            token.isFavourite = false;
+                        }
+
+                        return token;
+                    });
+                }
             }
 
             if (!this.balances) {
@@ -74,6 +86,26 @@ export class Balances {
                     merge: true
                 })
             }
+        });
+    }
+
+    favouriteToken(token) {
+        this.taskQueue.queueTask(() => {
+            token.isFavourite = !token.isFavourite;
+
+            this.balances.forEach((t: any) => {
+                if (t.isFavourite && !this.user.favourites.includes(t.symbol)) {
+                    this.user.favourites.push(t.symbol);
+                } else if (!t.isFavourite && this.user.favourites.includes(t.symbol)) {
+                    this.user.favourites.splice(this.user.favourites.indexOf(t.symbol), 1);
+                }
+            });
+
+            const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
+
+            userRef.set(this.user, {
+                merge: true
+            });
         });
     }
 }
