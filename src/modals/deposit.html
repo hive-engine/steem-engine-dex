@@ -18,13 +18,6 @@
 
             <div if.bind="token && token == 'STEEM'">
                 <div class="form-group">
-                    <h4>${'Current STEEM Balance' & t}</h4>
-                    <p class="mb-4">
-                        <span id="balance">${user.account.balance | comma }</span>
-                    </p>
-                </div>
-
-                <div class="form-group">
                     <h4>${'Current STEEMP Balance' & t}</h4>
                     <p class="mb-4">${se.getBalance('STEEMP') | comma}</p>
                 </div>
