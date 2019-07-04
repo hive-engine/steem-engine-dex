@@ -9,8 +9,7 @@ import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
 import 'datatables.net-bs4';
 import 'datatables.net-responsive-bs4';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'font-awesome/css/font-awesome.min.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import 'izitoast/dist/css/iziToast.css';
 import './styles/toast.css';
 import './styles/main.css';
@@ -35,14 +34,13 @@ import steem from 'steem';
 import Mousetrap from 'mousetrap';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faGlobe, faFlagUsa, faPoundSign } from '@fortawesome/free-solid-svg-icons';
+import { fas } from '@fortawesome/pro-solid-svg-icons';
+import { far } from '@fortawesome/pro-regular-svg-icons';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { dispatchify } from 'aurelia-store';
-import { login } from 'store/actions';
 
 LogManager.addAppender(new ConsoleAppender());
 
-library.add(faGlobe as any, faFlagUsa as any, faPoundSign as any);
+library.add(fas, far);
 
 const SE: SteemEngine = Container.instance.get(SteemEngine);
 
