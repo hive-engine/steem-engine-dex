@@ -11,24 +11,21 @@ export function loading(state: State, boolean: boolean) {
     return newState;
 }
 
-export async function login(state: State, username: string): Promise<State> {
+export function login(state: State, username: string): State {
     let newState = { ...state };
 
-    newState.account = {
-        name: username
-    };
+    newState.account = { ...newState.account, ...{ name: username } };
 
     newState.loggedIn = true;
 
     return newState;
 }
 
-export async function logout(state: State): Promise<State> {
+export function logout(state: State): State {
     const newState = { ...state };
 
     newState.account = {
         name: '',
-        token: '',
         account: {},
         balances: [],
         scotTokens: [],
