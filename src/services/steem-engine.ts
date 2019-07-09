@@ -68,6 +68,10 @@ export class SteemEngine {
     getUser() {
         const username = localStorage.getItem('username');
 
+        if (!this.user && !username) {
+            return null;
+        }
+
         if (this.user.name === '' && username) {
             return username;
         }
