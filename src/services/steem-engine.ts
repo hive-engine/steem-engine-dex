@@ -220,9 +220,8 @@ export class SteemEngine {
     }
 
     logout() {
-        localStorage.removeItem('username');
         firebase.auth().signOut();
-        dispatchify(logout)();
+        //dispatchify(logout)();
     }
 
     async steemConnectJson(auth_type: AuthType, data: any, callback) {
