@@ -1,5 +1,13 @@
-export interface State {
+export interface AccountInterface {
+    name: string;
     account: any;
+    balances: any[];
+    scotTokens: any[];
+    pendingUnstakes: any[];
+}
+
+export interface State {
+    account: AccountInterface;
     loggedIn: boolean;
     loading: boolean;
 }
