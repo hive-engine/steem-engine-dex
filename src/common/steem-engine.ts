@@ -4,7 +4,6 @@ import { environment } from './../environment';
 import { ssc } from './ssc';
 import { tryParse } from './functions';
 import { dispatchify } from 'aurelia-store';
-import { setTokens, getToken, setUserBalances } from 'store/actions';
 
 const http = new HttpClient();
 
@@ -101,17 +100,6 @@ export async function loadTokens() {
     });
 }
 
-export async function getScotUsertokens(account: string) {
-    try {
-        const req = await this.request(`${environment.SCOT_API}@${account}`);
-        const scotTokens = await req.json();
-    
-        return Object.entries(scotTokens);
-    } catch (e) {
-        return [];
-    }
-}
-
 export async function loadPendingUnstakes(account: string) {
     try {
         const result = await ssc.find('tokens', 'pendingUnstakes', { account: account }, 1000, 0, '', false);
@@ -119,35 +107,6 @@ export async function loadPendingUnstakes(account: string) {
         return result;
     } catch (e) {
         return [];
-    }
-}
-
-export async function loadBalances(account?: string): Promise<BalanceInterface[]> {
-    const loadedBalances: BalanceInterface[] = await ssc.find('tokens', 'balances', { account: account }, 1000, 0, '', false);
-
-    if (loadedBalances.length) {
-        const balances = loadedBalances
-            .filter(b => !environment.DISABLED_TOKENS.includes(b.symbol))
-            .map(d => {
-                const token = this.tokens.find(t => t.symbol === d.symbol);
-                const scotConfig = (this.user && Object.keys(this.user.scotTokens).length && typeof this.user.scotTokens[token.symbol] !== 'undefined') 
-                ? this.user.scotTokens[token.symbol] : null;
-
-                return { ...d, ...{
-                    name: token.name,
-                    lastPrice: token.lastPrice,
-                    priceChangePercent: token.priceChangePercent,
-                    usdValue: usdFormat(parseFloat(d.balance) * token.lastPrice, 2),
-                    scotConfig
-                } };
-            });
-
-        balances.sort((a, b) => parseFloat(b.balance) * b.lastPrice * window.steem_price - parseFloat(b.balance) * a.lastPrice * window.steem_price);
-
-        // Store user balances in state if user is logged in
-        dispatchify(setUserBalances)(balances);
-
-        return balances;
     }
 }
 
@@ -168,32 +127,9 @@ export function checkTransaction(trx_id, retries, callback) {
                 callback(Object.assign(result, { error: error, success: !error }));
             }	
         } else if (retries > 0) {
-            setTimeout(() => this.checkTransaction(trx_id, retries - 1, callback), 5000);
+            setTimeout(() => checkTransaction(trx_id, retries - 1, callback), 5000);
         } else if (callback) {
             callback({ success: false, error: 'Transaction not found.' });
         }
     });
-}
-
-export async function claimToken(username: string, symbol: string, tokens: any[], scotTokens: any) {
-    const token = tokens.find(t => t.symbol === symbol);
-    const amount = scotTokens[symbol].pending_token;
-    const factor = Math.pow(10, token.precision);
-    const calculated = amount / factor;
-    
-    const claimData = {
-        symbol
-    };
-    
-    if (this.keychain.useKeychain) {
-        const response = await this.keychain.customJson(username, 'scot_claim_token', 'Posting', JSON.stringify(claimData),`Claim ${calculated} ${symbol.toUpperCase()} Tokens`);
-        
-        if (response.success && response.result) {
-            // Success
-        }
-    } else {
-        this.steemConnectJsonId(username, 'posting', 'scot_claim_token', claimData, () => {
-            // Hide loading
-        });
-    }
 }
