@@ -46,6 +46,7 @@ const SE: SteemEngine = Container.instance.get(SteemEngine);
 
 // Disable connect queue to speed up application
 import { disableConnectQueue } from 'aurelia-binding';
+import { getSteemPrice } from 'common/functions';
 disableConnectQueue();
 
 Mousetrap.bind('ctrl+shift+f10', () => {
@@ -53,11 +54,9 @@ Mousetrap.bind('ctrl+shift+f10', () => {
     LogManager.setLevel(LogManager.logLevel.debug);
 });
 
-SE.loadSteemPrice();
-
-setInterval(() => {
-    SE.loadSteemPrice();
-}, 300000);
+// Gets the latest Steem price periodically
+getSteemPrice();
+setInterval(() => getSteemPrice, 300000);
 
 export async function configure(aurelia: Aurelia) {
     aurelia.use

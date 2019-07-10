@@ -1,3 +1,7 @@
+import { HttpClient } from 'aurelia-fetch-client';
+
+const http: HttpClient = new HttpClient();
+
 export function queryParam( ary ) {
     return Object.keys( ary ).map( function( key ) {
         if ( Array.isArray( ary[key] ) ) {
@@ -101,4 +105,22 @@ export function formatSteemAmount(num) {
 
 export function percentageOf(amount: number, percentOf: number) {
     return percentOf * amount / 100;
+}
+
+export async function getSteemPrice() {
+    try {
+        const request = await http.fetch('https://postpromoter.net/api/prices', {
+            method: 'GET'
+        });
+
+        const response = await request.json();
+
+        window.steem_price = parseFloat(response.steem_price);
+
+        return window.steem_price;
+    } catch {
+        window.steem_price = 0;
+        
+        return 0;
+    }
 }

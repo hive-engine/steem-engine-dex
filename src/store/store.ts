@@ -4,16 +4,14 @@ import { State } from './state';
 
 const store: Store<State> = Container.instance.get(Store);
 
-export const getStateOnce = async () => {
-  let state;
-  
-  const subscription = await store.state.subscribe((innerState) => {
-    state = innerState;
-  });
+export async function getStateOnce(): Promise<State> {
+    return new Promise(async (resolve) => {
+        const subscription = await store.state.subscribe((innerState) => {
+            subscription.unsubscribe();
 
-  subscription.unsubscribe();
-  
-  return state;
+            resolve(innerState);
+        });
+    });
 }
 
 export const getCurrentState = () => (store as any)._state.getValue();
