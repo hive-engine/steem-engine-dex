@@ -1,11 +1,16 @@
+import { State } from 'store/state';
 import { Redirect } from 'aurelia-router';
 import { observable } from 'aurelia-binding';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
+import { loadTokens, loadBalances } from 'common/steem-engine';
 
 import firebase from 'firebase/app';
+import { connectTo, dispatchify } from 'aurelia-store';
+import { getCurrentFirebaseUser, loadAccountBalances, loadTokensList } from 'store/actions';
 
 @autoinject()
+@connectTo()
 export class Balances {
     private searchValue = '';
     private columns = ['symbol'];
@@ -13,6 +18,7 @@ export class Balances {
     private balances: BalanceInterface[];
     private balancesCopy: BalanceInterface[];
     private user;
+    private state: State;
 
     private tokenTable: HTMLTableElement;
 
@@ -33,36 +39,14 @@ export class Balances {
 
     async canActivate() {
         try {
-            await this.se.loadTokens();
-            
-            this.balances = await this.se.loadBalances();
-
-            const doc = await firebase.firestore().collection('users').doc(this.se.getUser()).get();
-
-            if (doc.exists) {
-                this.user = doc.data();
-
-                if (this.user.favourites) {
-                    this.balances.map((token: any) => {
-                        if (this.user.favourites.includes(token.symbol)) {
-                            token.isFavourite = true;
-                        } else {
-                            token.isFavourite = false;
-                        }
-
-                        return token;
-                    });
-                }
-            }
-
-            if (!this.balances) {
-                return new Redirect('');
-            }
+            await dispatchify(loadTokensList)();
+            await dispatchify(loadAccountBalances)();
+            await dispatchify(getCurrentFirebaseUser)();
 
             this.hideZeroBalancesChanged();
             this.onlyShowFavourites();
         } catch {
-            return false;
+            return new Redirect('');
         }
     }
     
