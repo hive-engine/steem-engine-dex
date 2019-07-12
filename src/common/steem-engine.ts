@@ -4,6 +4,8 @@ import { environment } from './../environment';
 import { ssc } from './ssc';
 import { tryParse } from './functions';
 import { dispatchify } from 'aurelia-store';
+import { setTokens, setAccount } from 'store/actions';
+import { getStateOnce } from 'store/store';
 
 const http = new HttpClient();
 
@@ -18,7 +20,7 @@ export async function request(url: string, params: any = {}) {
     });
 }
 
-export async function loadTokens() {
+export async function loadTokens(): Promise<any[]> {
     return new Promise((resolve) => {
         ssc.find('tokens', 'tokens', { }, 1000, 0, [], (err, result) => {
             const tokens = result.filter(t => !environment.DISABLED_TOKENS.includes(t.symbol));
@@ -91,13 +93,41 @@ export async function loadTokens() {
                     token.circulatingSupply -= parseFloat(steemp_balance.balance);
                 }
 
-                // Store the sorted and filtered tokens into the state
-                dispatchify(setTokens)(tokens);
-
                 resolve(tokens);
             });
         });
     });
+}
+
+export async function loadBalances(account: string): Promise<BalanceInterface[]> {
+    const loadedBalances: BalanceInterface[] = await ssc.find('tokens', 'balances', { account: account }, 1000, 0, '', false);
+
+    if (loadedBalances.length) {
+        const state = await getStateOnce();
+
+        const balances = loadedBalances
+            .filter(b => !environment.DISABLED_TOKENS.includes(b.symbol))
+            .map(d => {
+                const tokens = state.tokens;
+                const token = tokens.find(t => t.symbol === d.symbol);
+                const scotConfig = (state.account.name && Object.keys(state.account.scotTokens).length && typeof state.account.scotTokens[token.symbol] !== 'undefined') 
+                ? state.account.scotTokens[token.symbol] : null;
+
+                return { ...d, ...{
+                    name: token.name,
+                    lastPrice: token.lastPrice,
+                    priceChangePercent: token.priceChangePercent,
+                    usdValue: usdFormat(parseFloat(d.balance) * token.lastPrice, 2),
+                    scotConfig
+                } };
+            });
+
+        balances.sort((a, b) => parseFloat(b.balance) * b.lastPrice * window.steem_price - parseFloat(b.balance) * a.lastPrice * window.steem_price);
+
+        return balances;
+    } else {
+        return [];
+    }
 }
 
 export async function loadPendingUnstakes(account: string) {
