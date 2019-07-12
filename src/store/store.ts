@@ -5,12 +5,11 @@ import { State } from './state';
 const store: Store<State> = Container.instance.get(Store);
 
 export async function getStateOnce(): Promise<State> {
+    let subscription;
     return new Promise(async (resolve) => {
-        const subscription = await store.state.subscribe((innerState) => {
-            subscription.unsubscribe();
-
+        subscription = await store.state.subscribe((innerState) => {
             resolve(innerState);
-        });
+        }).unsubscribe();
     });
 }
 
