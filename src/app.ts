@@ -29,13 +29,7 @@ export class App {
             if (s) {
                 this.loading = s.loading;
                 this.loggedIn = s.loggedIn;
-
-                if (s.loggedIn) {
-                    this.se.user = {...this.se.user, ...s.account};
-                } else {
-                    this.se.user = null;
                 }
-            }
         });
     }
 
