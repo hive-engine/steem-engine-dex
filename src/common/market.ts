@@ -7,6 +7,7 @@ import moment from 'moment';
 import { ssc } from './ssc';
 import { I18N } from 'aurelia-i18n';
 import { checkTransaction } from './steem-engine';
+import { steemConnectJson } from './steem';
 
 const toastService: ToastService = Container.instance.get(ToastService);
 const i18n: I18N = Container.instance.get(I18N);
@@ -30,8 +31,7 @@ export async function getUserOpenOrders(account: string = null) {
             return o;
         });
 
-        let combinedOrders = [...buyOrders, ...sellOrders]
-                             .sort((a, b) => b.timestamp - a.timestamp);
+        let combinedOrders = [...buyOrders, ...sellOrders].sort((a, b) => b.timestamp - a.timestamp);
 
         return combinedOrders;
     } catch(e) {
@@ -101,9 +101,7 @@ export async function sendMarketOrder(username: string, type: string, symbol: st
                 }
             });
         } else {
-            steemConnectJson(username, 'active', transaction_data, () => {
-
-            });
+            steemConnectJson(username, 'active', transaction_data);
         }
     });
 }

@@ -30,7 +30,7 @@ export class App {
             if (s) {
                 this.loading = s.loading;
                 this.loggedIn = s.loggedIn;
-                }
+            }
         });
     }
 
