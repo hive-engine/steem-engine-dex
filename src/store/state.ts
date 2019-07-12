@@ -8,8 +8,10 @@ export interface AccountInterface {
 
 export interface State {
     account: AccountInterface;
+    firebaseUser: any;
     loggedIn: boolean;
     loading: boolean;
+    tokens: any[];
 }
 
 export const initialState: State = {
@@ -20,6 +22,8 @@ export const initialState: State = {
         scotTokens: [],
         pendingUnstakes: []
     },
+    firebaseUser: {},
     loggedIn: false,
-    loading: false
+    loading: false,
+    tokens: []
 };
