@@ -30,7 +30,6 @@ import { TCustomAttribute, I18N } from 'aurelia-i18n';
 import { ValidationMessageProvider } from 'aurelia-validation';
 import Backend from 'i18next-xhr-backend';
 
-import steem from 'steem';
 import Mousetrap from 'mousetrap';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -42,11 +41,10 @@ LogManager.addAppender(new ConsoleAppender());
 
 library.add(fas, far);
 
-const SE: SteemEngine = Container.instance.get(SteemEngine);
-
 // Disable connect queue to speed up application
 import { disableConnectQueue } from 'aurelia-binding';
 import { getSteemPrice } from 'common/functions';
+import { dispatchify } from 'aurelia-store';
 disableConnectQueue();
 
 Mousetrap.bind('ctrl+shift+f10', () => {
@@ -81,7 +79,7 @@ export async function configure(aurelia: Aurelia) {
         initialState: initialState,
         history: {
             undoable: false,
-            limit: 10
+            limit: 5
         }
     });
 
@@ -122,6 +120,5 @@ export async function configure(aurelia: Aurelia) {
     });
 
     await aurelia.start();
-
     await aurelia.setRoot(PLATFORM.moduleName('app'));
 }
