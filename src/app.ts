@@ -11,6 +11,7 @@ import { Router, RouterConfiguration } from 'aurelia-router';
 import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
 import { SteemKeychain } from 'services/steem-keychain';
+
 import firebase from 'firebase/app';
 import { login, logout } from 'store/actions';
 
@@ -21,7 +22,7 @@ export class App {
     public router: Router;
 
     constructor(private ea: EventAggregator, private keychain: SteemKeychain, private store: Store<State>, private se: SteemEngine) {
-
+        authStateChanged();
     }
 
     bind() {
@@ -34,14 +35,6 @@ export class App {
     }
 
     attached() {
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                dispatchify(login)(user.uid);
-            } else {
-                dispatchify(logout)();
-            }
-        });
-
         setTimeout(() => {
             if (window && window.steem_keychain) {
                 window.steem_keychain.requestHandshake(() => {
@@ -135,4 +128,20 @@ export class App {
 
         this.router = router;
     }
+}
+
+
+async function authStateChanged() {
+    return new Promise((resolve) => {
+        firebase.auth().onAuthStateChanged(async (user) => {
+            console.log(user);
+            if (user) {
+                dispatchify(login)(user.uid);
+                resolve();
+            } else {
+                dispatchify(logout)();
+                resolve();
+            }
+        });
+    });
 }
