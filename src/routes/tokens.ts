@@ -1,44 +1,27 @@
+import { State } from './../store/state';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 
 import firebase from 'firebase/app';
+import { connectTo, dispatchify } from 'aurelia-store';
+import { loadTokensList, getCurrentFirebaseUser } from 'store/actions';
 
 @autoinject()
+@connectTo()
 export class Tokens {
     private tokenTable: HTMLTableElement;
-    private user;
-    private tokens = [];
+    private state: State;
 
     constructor(private se: SteemEngine, private taskQueue: TaskQueue) {
 
     }
 
     async canActivate() {
-        this.tokens = await this.se.loadTokens() as any;
+        await dispatchify(loadTokensList)();
     }
 
     async activate() {
-        try {
-            const doc = await firebase.firestore().collection('users').doc(this.se.getUser()).get();
-
-            if (doc.exists) {
-                this.user = doc.data();
-
-                if (this.user.favourites) {
-                    this.tokens.map(token => {
-                        if (this.user.favourites.includes(token.symbol)) {
-                            token.isFavourite = true;
-                        } else {
-                            token.isFavourite = false;
-                        }
-
-                        return token;
-                    });
-                }
-            }
-        } catch {
-            return true;
-        }
+        await dispatchify(getCurrentFirebaseUser)();
     }
 
     attached() {
@@ -54,17 +37,17 @@ export class Tokens {
         this.taskQueue.queueTask(() => {
             token.isFavourite = !token.isFavourite;
 
-            this.tokens.forEach(t => {
-                if (t.isFavourite && !this.user.favourites.includes(t.symbol)) {
-                    this.user.favourites.push(t.symbol);
-                } else if (!t.isFavourite && this.user.favourites.includes(t.symbol)) {
-                    this.user.favourites.splice(this.user.favourites.indexOf(t.symbol), 1);
+            this.state.tokens.forEach(t => {
+                if (t.isFavourite && !this.state.firebaseUser.favourites.includes(t.symbol)) {
+                    this.state.firebaseUser.favourites.push(t.symbol);
+                } else if (!t.isFavourite && this.state.firebaseUser.favourites.includes(t.symbol)) {
+                    this.state.firebaseUser.favourites.splice(this.state.firebaseUser.favourites.indexOf(t.symbol), 1);
                 }
             });
 
             const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
 
-            userRef.set(this.user, {
+            userRef.set(this.state.firebaseUser, {
                 merge: true
             });
         });

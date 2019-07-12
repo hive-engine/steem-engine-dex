@@ -16,6 +16,8 @@ import { MarketOrderModal } from 'modals/market-order';
 
 import { DialogService } from 'aurelia-dialog';
 import { percentageOf } from 'common/functions';
+import { loadTokensList, loadAccountBalances } from 'store/actions';
+import { dispatchify } from 'aurelia-store';
 
 @autoinject()
 export class Exchange {
@@ -62,8 +64,8 @@ export class Exchange {
     async activate({symbol}) {
         this.currentToken = symbol;
 
-        await this.se.loadTokens();
-        await this.se.loadBalances();
+        await dispatchify(loadTokensList)();
+        await dispatchify(loadAccountBalances)();
 
         this.tokenData = this.se.tokens.filter(t => t.symbol !== 'STEEMP')
             .filter(t => t.metadata && !t.metadata.hide_in_market);

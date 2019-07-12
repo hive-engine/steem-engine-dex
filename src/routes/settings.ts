@@ -1,11 +1,14 @@
+import { State } from './../store/state';
+import { loadTokensList, getCurrentFirebaseUser } from 'store/actions';
 import firebase from 'firebase/app';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 import { SteemEngine } from './../services/steem-engine';
+import { dispatchify, connectTo } from 'aurelia-store';
 
 @autoinject()
+@connectTo()
 export class Settings {
-    private user = null;
-    private tokens = [];
+    private state: State;
     private selectedTab = 'favorites';
 
     constructor(private se: SteemEngine, private taskQueue: TaskQueue) {
@@ -13,21 +16,8 @@ export class Settings {
     }
 
     async activate() {
-        try {
-            this.tokens = await this.se.loadTokens() as any;
-
-            console.log(this.tokens);
-
-            const doc = await firebase.firestore().collection('users').doc(this.se.getUser()).get();
-
-            if (doc.exists) {
-                this.user = doc.data();
-            }
-    
-            console.log(this.user);
-        } catch (e) {
-            console.error(e);
-        }
+        await dispatchify(loadTokensList)();
+        await dispatchify(getCurrentFirebaseUser)();
     }
 
     tabChanged(tab: string) {
@@ -38,7 +28,7 @@ export class Settings {
         this.taskQueue.queueTask(() => {
             const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
 
-            userRef.set(this.user, {
+            userRef.set(this.state.firebaseUser, {
                 merge: true
             });
         });
