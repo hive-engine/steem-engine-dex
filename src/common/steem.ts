@@ -13,7 +13,7 @@ export async function getAccount(username: string) {
     }
 }
 
-export async function steemConnectJson(username: string, auth_type: AuthType, data: any, callback) {
+export async function steemConnectJson(username: string, auth_type: AuthType, data: any, callback?) {
     let url = 'https://steemconnect.com/sign/custom-json?';
 
     if (auth_type == 'active') {
@@ -28,7 +28,9 @@ export async function steemConnectJson(username: string, auth_type: AuthType, da
 
     popupCenter(url, 'steemconnect', 500, 560);
 
-    this._sc_callback = callback;
+    if (callback) {
+        window._sc_callback = callback;
+    }
 }
 
 export async function steemConnectJsonId(username: string, auth_type: AuthType, id: string, data: any, callback) {
