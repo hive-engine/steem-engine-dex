@@ -1,29 +1,23 @@
+import { State } from 'store/state';
 import { SteemEngine } from './../../services/steem-engine';
 import { SigninModal } from './../../modals/signin';
 import { DialogService } from 'aurelia-dialog';
 import { customElement, bindable } from 'aurelia-framework';
 import { autoinject } from 'aurelia-dependency-injection';
-import { dispatchify } from 'aurelia-store';
+import { dispatchify, connectTo } from 'aurelia-store';
 import { logout } from 'store/actions';
 
 @autoinject()
 @customElement('nav-bar')
+@connectTo()
 export class NavBar {
     @bindable router;
     @bindable loggedIn;
 
-    private username = '';
+    private state: State;
 
     constructor(private dialogService: DialogService, private se: SteemEngine) {
 
-    }
-
-    loggedInChanged(bool) {
-        if (bool) {
-            this.username = localStorage.getItem('username');
-        } else {
-            this.username = '';
-        }
     }
 
     logout() {
