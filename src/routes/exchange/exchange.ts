@@ -16,8 +16,10 @@ import { MarketOrderModal } from 'modals/market-order';
 
 import { DialogService } from 'aurelia-dialog';
 import { percentageOf } from 'common/functions';
-import { loadTokensList, loadAccountBalances } from 'store/actions';
+import { loadTokensList, loadAccountBalances, loadBuyBook, loadSellBook, loadTradeHistory } from 'store/actions';
 import { dispatchify } from 'aurelia-store';
+import { ssc } from 'common/ssc';
+import { getStateOnce } from 'store/store';
 
 @autoinject()
 export class Exchange {
@@ -66,48 +68,26 @@ export class Exchange {
 
         await dispatchify(loadTokensList)();
         await dispatchify(loadAccountBalances)();
+        await dispatchify(loadBuyBook)(symbol);
+        await dispatchify(loadSellBook)(symbol);
+        await dispatchify(loadTradeHistory)(symbol);
 
-        this.tokenData = this.se.tokens.filter(t => t.symbol !== 'STEEMP')
+        const state = await getStateOnce();
+
+        this.tokenData = state.tokens.filter(t => t.symbol !== 'STEEMP')
             .filter(t => t.metadata && !t.metadata.hide_in_market);
 
         this.data = this.tokenData.find(t => t.symbol === symbol);
 
-        let tasks = [];
-
-        tasks.push(this.se.ssc.find('market', 'buyBook', { symbol: symbol }, 200, 0, [{ index: 'price', descending: true }], false));
-		tasks.push(this.se.ssc.find('market', 'sellBook', { symbol: symbol }, 200, 0, [{ index: 'price', descending: false }], false));
-        tasks.push(this.se.ssc.find('market', 'tradesHistory', { symbol: symbol }, 30, 0, [{ index: 'timestamp', descending: false }], false));
-
-        const results = await Promise.all(tasks);
-
-        // prepare buy orders
-        let buy_total = 0;
-        this.buyBook = results[0].map(o => {
-            buy_total += o.quantity * o.price;
-            o.total = buy_total;
-            o.amountLocked = o.quantity * o.price;
-            return o;
-        });
-        
-        // prepare sell orders
-        let sell_total = 0;
-        this.sellBook = results[1].map(o => {
-            sell_total += o.quantity * o.price;
-            o.total = sell_total;
-            o.amountLocked = o.quantity * o.price;
-            return o;
-        });
-        
-        // prepare trade history
-        this.tradeHistory = results[2].map(o => {
-            o.total = o.price * o.quantity;
-            o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
-            return o;
-        });
-
-        if (this.sellBook.length) {
-            this.bestSellPrice = this.sellBook[0];
+        if (state.sellBook.length) {
+            this.bestSellPrice = state.sellBook[0];
         }
+
+        this.buyBook = state.buyBook;
+        this.sellBook = state.sellBook;
+        this.tradeHistory = state.tradeHistory;
+
+        console.log(state);
 
         let buyOrderLabels = uniq(this.buyBook.map(o => parseFloat(o.price)));
         let buyOrderDataset = [];

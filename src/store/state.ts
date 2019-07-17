@@ -12,6 +12,11 @@ export interface State {
     loggedIn: boolean;
     loading: boolean;
     tokens: any[];
+    buyBook: any[];
+    sellBook: any[];
+    tradeHistory: any[];
+    buyTotal?: number;
+    sellTotal?: number;
 }
 
 export const initialState: State = {
@@ -25,5 +30,10 @@ export const initialState: State = {
     firebaseUser: {},
     loggedIn: false,
     loading: false,
-    tokens: []
+    tokens: [],
+    buyBook: [],
+    sellBook: [],
+    tradeHistory: [],
+    buyTotal: 0,
+    sellTotal: 0
 };

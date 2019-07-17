@@ -4,6 +4,8 @@ import store, { getCurrentState } from './store';
 import firebase from 'firebase/app';
 import { log } from 'services/log';
 import { loadBalances, loadTokens } from 'common/steem-engine';
+import { ssc } from 'common/ssc';
+import moment from 'moment';
 
 export function loading(state: State, boolean: boolean) {
     const newState = { ...state };
@@ -96,6 +98,61 @@ export async function loadAccountBalances(state: State): Promise<State> {
     return newState;
 }
 
+export async function loadBuyBook(state: State, symbol: string, account: string = undefined): Promise<State> {
+    const newState = { ...state };
+
+    try {
+        const buyBook = await ssc.find('market', 'buyBook', { symbol, account }, 200, 0, [{ index: 'price', descending: true }], false);
+        
+        newState.buyBook = buyBook.map(o => {
+            newState.buyTotal += o.quantity * o.price;
+            o.total = newState.buyTotal;
+            o.amountLocked = o.quantity * o.price;
+            return o;
+        });
+    } catch (e) {
+        log.error(e);
+    }
+
+    return newState;
+}
+
+export async function loadSellBook(state: State, symbol: string, account: string = undefined): Promise<State> {
+    const newState = { ...state };
+
+    try {
+        const sellBook = await ssc.find('market', 'sellBook', { symbol, account }, 200, 0, [{ index: 'price', descending: false }], false);
+
+        newState.sellBook = sellBook.map(o => {
+            newState.sellTotal += o.quantity * o.price;
+            o.total = newState.sellTotal;
+            o.amountLocked = o.quantity * o.price;
+            return o;
+        });
+    } catch (e) {
+        log.error(e);
+    }
+
+    return newState;
+}
+
+export async function loadTradeHistory(state: State, symbol: string, account: string = undefined): Promise<State> {
+    const newState = { ...state };
+
+    try {
+        const tradeHistory = await ssc.find('market', 'tradesHistory', { symbol, account }, 30, 0, [{ index: 'timestamp', descending: false }], false);
+        newState.tradeHistory = tradeHistory.map(o => {
+            o.total = o.price * o.quantity;
+            o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
+            return o;
+        });
+    } catch (e) {
+        log.error(e);
+    }
+
+    return newState;
+}
+
 export async function loadTokensList(state: State): Promise<State> {
     const newState = { ...state };
 
@@ -116,3 +173,6 @@ store.registerAction('setTokens', setTokens);
 store.registerAction('getCurrentFirebaseUser', getCurrentFirebaseUser);
 store.registerAction('loadAccountBalances', loadAccountBalances);
 store.registerAction('loadTokensList', loadTokensList);
+store.registerAction('loadBuyBook', loadBuyBook);
+store.registerAction('loadSellBook', loadSellBook);
+store.registerAction('loadTradeHistory', loadTradeHistory);
