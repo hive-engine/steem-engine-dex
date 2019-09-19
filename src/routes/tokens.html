@@ -16,8 +16,8 @@
                             <th></th>
                             <th>Symbol</th>
                             <th>Name</th>
-                            <th>USD Value</th>
-                            <th>% Chg</th>
+                            <th class="text-right">USD Value</th>
+                            <th class="text-right">% Chg</th>
                             <th>Staked</th>
                             <th></th>
                         </tr>
@@ -31,8 +31,8 @@
                                     <font-awesome-icon else icon.bind="['far', 'star']"></font-awesome-icon>
                                 </button>${token.symbol}</td>
                             <td>${token.name}</td>
-                            <td>${token.usdValue}</td>
-                            <td>${token.priceChangePercent.toFixed(2)}%</td>
+                            <td class="text-right">${token.usdValue}</td>
+                            <td class="text-right">${token.priceChangePercent.toFixed(2)}%</td>
                             <td>${token.stake >= 0 ? parseFloat(token.stake) : '--'}</td>
                             <td class="table-buttons"><a route-href="route: exchange; params.bind: { symbol: token.symbol }">Market</a></td>
                         </tr>

@@ -2,7 +2,7 @@ import { Container } from 'aurelia-framework';
 import { Store } from 'aurelia-store';
 import { State } from './state';
 
-const store: Store<State> = Container.instance.get(Store);
+const store: Store<State> = Container.instance.get(Store) as Store<State>;
 
 export async function getStateOnce(): Promise<State> {
     let subscription;
