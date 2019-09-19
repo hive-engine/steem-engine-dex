@@ -11,14 +11,15 @@
 
             <div class="form-group">
                 <select class="form-control" value.bind="token" change.delegate="tokenSelected()">
+                    <option model.bind="null">${'Please select a token...' & t}</option>
                     <option model.bind="t" repeat.for="t of environment.PEGGED_TOKENS">${t.name & t} (${t.symbol})</option>
                 </select>
             </div>
 
             <div>
-                <div class="form-group">
+                <div class="form-group" if.bind="token">
                     <h4>${`Current ${token.pegged_token_symbol} Balance` & t}</h4>
-                    <p class="mb-4">${se.getBalance(token.pegged_token_symbol) | comma}</p>
+                    <p class="mb-4">${tokenBalance | comma}</p>
                 </div>
 
                 <div class="form-group">
