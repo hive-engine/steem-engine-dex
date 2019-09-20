@@ -52,6 +52,7 @@ export async function loadTokens(): Promise<any[]> {
                         token.lastPrice = parseFloat(metric.lastPrice);
                         token.lowestAsk = parseFloat(metric.lowestAsk);
                         token.marketCap = token.lastPrice * token.circulatingSupply;
+                        token.usdValue = usdFormat(token.lastPrice);
                         
                         if (Date.now() / 1000 < metric.volumeExpiration) {
                             token.volume = parseFloat(metric.volume);
