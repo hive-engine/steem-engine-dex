@@ -6,7 +6,7 @@ export const environment: Partial<EnvironmentInterface> = {
     testing: false,
 	MAINTENANCE_MODE: false,
 	CHAIN_ID: 'ssc-00000000000000000002',
-	RPC_URL: 'https://testapi.steem-engine.com/',
+	RPC_URL: 'https://api.steem-engine.com/rpc/',
 	ACCOUNTS_API_URL: 'https://testaccounts.steem-engine.com',
     CONVERTER_API: 'https://converter-api.steem-engine.com/api',
     NODE_API_URL: 'http://localhost:3001/',
