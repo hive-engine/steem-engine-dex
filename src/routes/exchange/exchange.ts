@@ -150,7 +150,7 @@ export class Exchange {
 
     convertToOHLC2(data) {
         var parsedData = data,//JSON.parse(data),
-            pointStart = parsedData[parsedData.length-1].timestamp,
+            pointStart,
             range = [],
             low,
             high,
@@ -161,6 +161,8 @@ export class Exchange {
         parsedData.sort(function (a, b) {
             return a.timestamp - b.timestamp
         });
+
+        pointStart = parsedData[0].timestamp;
 
         var pointStartDT = moment.unix(pointStart).format('YYYY-M-DD HH:mm:ss');
         var startInterval = pointStart + interval;
@@ -207,16 +209,14 @@ export class Exchange {
     convertToOHLC(data) {
         data.sort((a, b) => d3.ascending(a.timestamp, b.timestamp));
         var result = [];
-        var format = d3.timeFormat("%Y-%m-%d %H:%M");
-        data.forEach(d => d.timestamp = format(new Date(d.timestamp * 60 * 60)));
+        var format = d3.timeFormat("%Y-%m-%d");
+        data.forEach(d => d.timestamp = format(new Date(d.timestamp * 1000)));
         var allDates = [...new Set(data.map(d => d.timestamp))];
         allDates.forEach(d => {
             var tempObject = { t: null, o: null, c: null, h: null, l: null, };
             var filteredData = data.filter(e => e.timestamp === d);
-            var date = DateTime.fromRFC2822(d); 
-            //console.log(d);
-            //console.log(date);
-            tempObject.t = d.valueOf();
+            
+            tempObject.t = d;
             tempObject.o = filteredData[0].price; 
             tempObject.c = filteredData[filteredData.length - 1].price;
             tempObject.h = d3.max(filteredData, e => e.price);

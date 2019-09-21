@@ -56,17 +56,14 @@ export class ChartComponent {
 
         if (chartType == 'line') {
             options.data = this.data;
-        } else {
-            console.log('ohlcData:');
-            console.log(this.data.ohlcData);
+        } else {            
             options.data = {
                 datasets: [{
                     label: 'SE Dex',
-                    data: this.data.ohlcData//this.getRandomData(this.initialDateStr, this.barCount)
+                    //data: this.data.ohlcData
+                    data: this.getRandomData(this.initialDateStr, this.barCount)
                 }]
-            };
-            console.log('randomdata');
-            console.log(this.getRandomData(this.initialDateStr, this.barCount));
+            };            
         }
 
         options.options.animation.onComplete = () => {
