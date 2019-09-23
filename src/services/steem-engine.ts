@@ -16,7 +16,6 @@ import steem from 'steem';
 import { connectTo, dispatchify } from 'aurelia-store';
 
 import { logout } from 'store/actions';
-import { loadTokens } from 'common/steem-engine';
 
 import { ToastService, ToastMessage } from './toast-service';
 import { queryParam, popupCenter, tryParse, usdFormat, formatSteemAmount } from 'common/functions';
@@ -664,29 +663,10 @@ export class SteemEngine {
         });
     }
 
-    async getBalance(t) {
-        var balanceVal = 0;
-        
+    getBalance(t) {
         if (this.user && this.user.balances) {
-            const username = this.getUser();
-            if (this.tokens.length == 0) {            
-                const tokenResponse = await loadTokens();
-
-                if (tokenResponse)
-                    this.tokens = tokenResponse;
-            }    
-
-            const userBalances = await this.userBalances(t, username);
-            
-            if (userBalances) {
-                this.user.balances = userBalances;
-
-                const token = this.user.balances.find(b => b.symbol === t);
-                if (token)
-                    balanceVal = parseFloat(token.balance);
-            }
-
-            return balanceVal;
+            const token = this.user.balances.find(b => b.symbol === t);
+            return token ? parseFloat(token.balance) : 0;
         }
     }
 

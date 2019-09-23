@@ -16,7 +16,6 @@ export class WithdrawModal {
     private depositInfo: any = null;
     private address = '';
     private loading = false;
-    private tokenBalance: any = 0;
     
     private amount = '0.000';
 
@@ -38,29 +37,17 @@ export class WithdrawModal {
     }
 
     tokenSelected() {
-        this.taskQueue.queueMicroTask(async () => {            
-            this.tokenBalance = 0;
+        this.taskQueue.queueMicroTask(async () => {
+            this.loading = false;
 
-            if (this.token) {
+            if (this.token !== 'STEEM') {
                 this.loading = true;
-                var token = this.token.pegged_token_symbol;
-
-                if (token !== 'STEEMP') {
-                    try {
-                        const result = await this.se.getWithdrawalAddress(token, this.address);
-
-                        if (result) {
-                            this.depositInfo = result;
-                        }
-                    } finally {
-                        this.loading = false;
-                    }
-                }
 
                 try {
-                    const balanceResult = await this.se.getBalance(token);
-                    if (balanceResult) {
-                        this.tokenBalance = balanceResult;
+                    const result = await this.se.getWithdrawalAddress(this.token, this.address);
+
+                    if (result) {
+                        this.depositInfo = result;
                     }
                 } finally {
                     this.loading = false;
