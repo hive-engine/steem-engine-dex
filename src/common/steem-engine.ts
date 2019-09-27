@@ -65,7 +65,7 @@ export async function loadTokens(): Promise<any[]> {
 
                         if (token.symbol == 'AFIT') {
                             const afit_data = await ssc.find('market', 'tradesHistory', { symbol: 'AFIT' }, 100, 0, [{ index: 'timestamp', descending: false }], false);
-                            token.volume = afit_data.reduce((t, v) => t += parseFloat(v.price) * parseFloat(v.quantity), 0);
+                            token.volume = (afit_data) ? afit_data.reduce((t, v) => t += parseFloat(v.price) * parseFloat(v.quantity), 0) : 0;
                         }
                     }
 
