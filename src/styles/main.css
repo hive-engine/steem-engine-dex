@@ -4,17 +4,31 @@
 @import "./signin.css";
 @import "./buttons.css";
 
+
+
+@font-face {
+    font-family: main-font;
+    src: url('../fonts/main-font-regular.woff');
+}
+@font-face {
+    font-family: main-font-bold;
+    src: url('../fonts/main-font-bold-c.woff')
+}
+
 body {
-    background: #181F1F;
-    font-family: 'Roboto', sans-serif;
+    background:#fefefe;
+    font-family: "main-font", Roboto, Helvetica, Arial, sans-serif;
     width: 100%;
     height: 100%;
+    overflow-x: hidden;
     font-size: 15px;
     line-height: 26px;
     color: #FFF;
     font-weight: 400;
     position: relative;
     text-rendering: optimizeLegibility;
+    margin: 0;
+    padding: 0;
 }
 
 html {
@@ -40,25 +54,26 @@ a:focus {
 
 p {
     line-height: 26px;
-    font-size: 15px;
+    font-size: 18px;
     margin-bottom: 30px;
+    color: rgba(3,27,78,.7);
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 400;
+    font-family: "main-font-bold", Roboto, Helvetica, Arial, sans-serif;
+    color: #0c111a;
 }
 
 h1 {
-    font-size: 42px;
-}
-
-h2 {
     font-size: 50px;
 }
 
+h2 {
+    font-size: 40px;
+}
+
 h3 {
-    font-size: 30px;
+    font-size: 20px;
 }
 
 h4 {

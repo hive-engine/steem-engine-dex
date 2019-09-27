@@ -1,16 +1,18 @@
 .navbar {
-    background: linear-gradient(280deg, #160033 0%, #008b80 51.72%, #00323e 100%);
+    /*background: linear-gradient(280deg, #160033 0%, #008b80 51.72%, #00323e 100%);*/
+    /*background: url(https://s3.amazonaws.com/steem-engine/images/bg_header.jpg) black repeat-x top right;*/
+    background-color: #fff;
+    color: #0048b3!important;
     min-height: 60px;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    background-color: transparent;
+    box-shadow:  0 1px 9px rgba(0,0,0,.05);
     z-index: 980;
-    padding: 0;
+    padding: 20px;
     margin: 0;
     border: none;
-    border-radius: 0;
     z-index: 999;
 }
 
@@ -23,16 +25,16 @@
 
 .navbar-expand-lg .navbar-nav .nav-link,
 .navbar-nav > li > a {
-    color: rgba(255, 255, 255, 0.6);
+    color: #000000;
     font-weight: 400;
     font-size: 16px;
     padding: 6px 20px;
-    text-transform: uppercase;
+    text-transform: initial;
 }
 
 .navbar-nav > li.active:not(.button) > a,
 .navbar-nav > li > a:hover {
-    color: #FFF !important;
+    color: lightblue!important;
 }
 
 .navbar-nav > li.language-option > a {
@@ -41,12 +43,12 @@
 
 .navbar-nav > li.language-option > a {
     padding: 5px 20px !important;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid #0048b3;
     border-radius: 5px;
 }
 
 .language-option .dropdown-menu .nav-link {
-    color: #1B1B1B;
+    color: #0048b3;
 }
 
 .navbar-expand-lg .navbar-nav > li.button > .btn.nav-link {
@@ -59,8 +61,8 @@
     outline: none;
     -webkit-box-shadow: none;
     box-shadow: none;
-    background: transparent;
-    color: #fff;
+    background: #fff;
+    color: #0048b3;
 }
 
 .navbar-expand-lg .navbar-nav > li.button.active > .btn.nav-link {
@@ -98,6 +100,7 @@
     }
     .navbar {
         min-height: 80px;
+        background: #fff!important;
     }
     .navbar-toggler {
         background: transparent;
@@ -121,7 +124,7 @@
         border-radius: 1px;
         height: 2px;
         width: 35px;
-        background: white;
+        background: #0048b3;
         position: absolute;
         left: 0;
         top: 50%;
