@@ -71,3 +71,4 @@ steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json
 /package-lock.json
 /steem-engine-dex.sln
 *.sln
+functions/lib/
