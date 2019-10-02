@@ -1,0 +1,49 @@
+<template>
+    <ux-dialog>
+        <ux-dialog-body>
+            <h2>${'Transfer' & t}</h2>
+
+            <p class="mb-4">
+                <span id="balance">${token.balance | comma }</span>
+            </p>
+
+            <label>TO</label>
+            <div class="input-group justify-content-center align-items-center mb-4">
+                <div class="input-group-prepend">@</div>
+                <input
+                    style="padding-left: 32px;"
+                    type="text"
+                    placeholder="username"
+                    id="txtTo"
+                    value.bind="transaction.to"
+                />
+                <div class="invalid-tooltip">
+                    Please enter a valid account
+                </div>
+            </div>
+
+            <label>AMOUNT</label>
+            <div class="input-group justify-content-center align-items-center mb-4">
+                <input type="text" placeholder="0.00000000" id="txtAmount" value.bind="transaction.amount" />
+                <div class="input-group-append">
+                    ${token.symbol}
+                </div>
+                <div class="invalid-tooltip">
+                    Please enter an amount greater than 0
+                </div>
+            </div>
+
+            <label>MEMO</label>
+            <div class="input-group justify-content-center align-items-center mb-4">
+                <input type="text" id="txtMemo" value.bind="transaction.memo" />
+            </div>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <button class="btn btn-sm btn-secondary" click.trigger="controller.cancel()">
+                ${'Cancel' & t}
+            </button>
+            <button class="btn btn-sm btn-primary" click.trigger="controller.ok(transaction)">${'Send' & t} ${token.symbol}</button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>

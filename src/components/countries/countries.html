@@ -1,0 +1,5 @@
+<template>
+    <select class="custom-select" value.bind="value">
+        <option value.bind="country.code" repeat.for="country of countries">${country.name}</option>
+    </select>
+</template>

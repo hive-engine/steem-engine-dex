@@ -1,0 +1,49 @@
+<template>
+    <require from="./components/balances.html"></require>
+    <require from="./components/buybook.html"></require>
+    <require from="./components/sellbook.html"></require>
+    <require from="./components/best-price.html"></require>
+    <require from="./components/trade-history.html"></require>
+    <require from="./components/token-metrics"></require>
+    <require from="./components/order-actions"></require>
+
+    <token-metrics token.bind="data" deposit.call="deposit()" withdraw.call="withdraw()"></token-metrics>
+
+    <div class="container-fluid h100-minus-header">
+        
+        <div class="row exchange-columns h100">
+            <div class="col-md-3 col-sm-12">
+                <buybook loading.bind="loadingUserBuyBook" buy-book.bind="buyBook"></buybook>
+                <best-price order.bind="bestSellPrice"></best-price>
+                <sellbook loading.bind="loadingUserSellBook" sell-book.bind="sellBook"></sellbook>
+            </div>
+
+            <div class="col-md-6 col-sm-12 chart-col">
+                <chart class="exchange-chart" data.bind="chartData"></chart>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <balances data.bind="data" steemp-balance.bind="steempBalance" token-balance.bind="tokenBalance"></balances>
+                    </div>
+                    <div class="col-md-6">
+                        <order-actions
+                            data.bind="data"
+                            price.bind="bidPrice"
+                            quantity.bind="bidQuantity"
+                            mode.bind="currentExchangeMode"
+                            steemp-balance.bind="steempBalance"
+                            token-balance.bind="tokenBalance"
+                            confirm.call="confirmMarketOrder()"
+                            amount-select.call="amountSelect(amount)"
+                            total.bind="totalMarketBalance">
+                        </order-actions>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-12">
+                <trade-history trades.bind="tradeHistory"></trade-history>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,43 +1,61 @@
-import { SteemEngine } from 'services/steem-engine';
-import { AppRouter } from 'aurelia-router';
-import '@babel/polyfill';
-import 'bootstrap';
-import { Aurelia, Container } from 'aurelia-framework';
-import { environment } from './environment';
-import { PLATFORM } from 'aurelia-pal';
-import { initialState } from './store/state';
-import { TCustomAttribute } from 'aurelia-i18n';
-import Backend from 'i18next-xhr-backend';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
+import './common/firebase';
+
+import 'bootstrap';
 import 'datatables.net-bs4';
 import 'datatables.net-responsive-bs4';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
+import 'datatables.net-bs4';
+import 'datatables.net-responsive-bs4';
+import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'izitoast/dist/css/iziToast.css';
+import './styles/toast.css';
+import './styles/main.css';
+import './styles/radio-toggles.css';
+
+import modalCss from './styles/modal.css';
 
 import 'sscjs/dist/ssc';
 
-import '!style-loader!css-loader!bootstrap/dist/css/bootstrap.min.css';
-import '!style-loader!css-loader!font-awesome/css/font-awesome.min.css';
-import '!style-loader!css-loader!izitoast/dist/css/iziToast.css';
-import '!style-loader!css-loader!./styles/toast.css';
-import '!style-loader!css-loader!./styles/main.css';
+import { SteemEngine } from 'services/steem-engine';
+import { AppRouter } from 'aurelia-router';
+import { Aurelia, Container, LogManager } from 'aurelia-framework';
+import { ConsoleAppender } from 'aurelia-logging-console';
+import { environment } from './environment';
+import { PLATFORM } from 'aurelia-pal';
+import { initialState } from './store/state';
+import { TCustomAttribute, I18N } from 'aurelia-i18n';
+import { ValidationMessageProvider } from 'aurelia-validation';
+import Backend from 'i18next-xhr-backend';
 
-import modalCss from '!style-loader!css-loader!./styles/modal.css';
+import Mousetrap from 'mousetrap';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faGlobe, faFlagUsa, faPoundSign } from '@fortawesome/free-solid-svg-icons';
+import { fas } from '@fortawesome/pro-solid-svg-icons';
+import { far } from '@fortawesome/pro-regular-svg-icons';
 import { EventAggregator } from 'aurelia-event-aggregator';
+
+LogManager.addAppender(new ConsoleAppender());
+
+library.add(fas, far);
+
+// Disable connect queue to speed up application
+import { disableConnectQueue } from 'aurelia-binding';
+import { getSteemPrice } from 'common/functions';
 import { dispatchify } from 'aurelia-store';
-import { login } from 'store/actions';
+disableConnectQueue();
 
-library.add(faGlobe as any, faFlagUsa as any, faPoundSign as any);
+Mousetrap.bind('ctrl+shift+f10', () => {
+    console.debug('Enabling debug mode');
+    LogManager.setLevel(LogManager.logLevel.debug);
+});
 
-const SE: SteemEngine = Container.instance.get(SteemEngine);
-
-SE.loadSteemPrice();
-
-setInterval(() => {
-    SE.loadSteemPrice();
-}, 300000);
+// Gets the latest Steem price periodically
+getSteemPrice();
+setInterval(() => getSteemPrice, 300000);
 
 export async function configure(aurelia: Aurelia) {
     aurelia.use
@@ -55,19 +73,21 @@ export async function configure(aurelia: Aurelia) {
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-async-binding'));
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-portal-attribute'));
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-fetch-client'));
+    aurelia.use.plugin(PLATFORM.moduleName('aurelia-validation'));
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-fontawesome'));
 
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-store', 'store'), {
         initialState: initialState,
         history: {
             undoable: false,
-            limit: 10
+            limit: 5
         }
     });
 
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-dialog'), config => {
         config
             .useDefaults()
+            .useCSS(modalCss.toString());
     });
 
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-i18n'), (instance) => {
@@ -75,18 +95,19 @@ export async function configure(aurelia: Aurelia) {
         TCustomAttribute.configureAliases(aliases);
   
         // register backend plugin
-        instance.i18next.use(Backend);
+        instance.i18next
+            .use(Backend);
   
         return instance.setup({
-          backend: {
-            loadPath: './locales/{{lng}}/{{ns}}.json',
-          },
-          attributes: aliases,
-          lng: environment.defaultLocale,
-          ns: ['translation', 'headings', 'buttons', 'titles'],
-          defaultNS: 'translation',
-          fallbackLng: 'en',
-          debug : false
+            backend: {
+                loadPath: './locales/{{lng}}/{{ns}}.json',
+            },
+            attributes: aliases,
+            ns: ['translation', 'errors', 'headings', 'buttons', 'notifications', 'titles'],
+            defaultNS: 'translation',
+            lng: environment.defaultLocale,
+            fallbackLng: 'en',
+            debug : false
         }).then(() => {
             const router = aurelia.container.get(AppRouter);
 
@@ -99,12 +120,6 @@ export async function configure(aurelia: Aurelia) {
         });
     });
 
-    const username = localStorage.getItem('username') || null;
-    if (username) {
-        dispatchify(login)(username);
-    }
-
     await aurelia.start();
-
-    aurelia.setRoot(PLATFORM.moduleName('app'));
+    await aurelia.setRoot(PLATFORM.moduleName('app'));
 }

@@ -34,7 +34,7 @@ declare namespace SteemKeychain {
             amount: string, 
             memo: string, 
             currency: CurrencyType, 
-            callback: (response: SteemKeyChainResponse) => void, enforce: boolean): void;
+            callback: (response: SteemKeyChainResponse) => void, enforce?: boolean): void;
     
         requestVerifyKey(
             account_name: string, 

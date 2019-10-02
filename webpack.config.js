@@ -21,53 +21,46 @@ const outDir = path.resolve(__dirname, project.platform.output);
 const srcDir = path.resolve(__dirname, 'src');
 const nodeModulesDir = path.resolve(__dirname, 'node_modules');
 const baseUrl = '/';
-
-function loadPostCssPlugins() {
-    return [
-      require("postcss-import")({
-        path: [
-          'src/components/'
-        ]
-      }),
-      require("precss")(),
-      require("postcss-nested")(),
-      require("postcss-advanced-variables")(),
-      require("postcss-custom-properties")(),
-      require("postcss-partial-import")(),
-      require("postcss-extend")(),
-      require("postcss-preset-env")(),
-      require("autoprefixer")(),
-      require("cssnano")()
-    ];
-  }
   
-  const loaders = {
+const loaders = {
     style: { loader: "style-loader" },
     css: { loader: "css-loader" },
-    cssModules: { 
-      loader: "css-loader",
-      options: {
-        modules: true,
-        localIdentName: '[name]__[local]____[hash:base64:5]'
-      }
+    cssModules: {
+        loader: 'css-loader',
+        options: {
+          importLoaders: 2,
+          modules: true,
+          modules: {
+            localIdentName: '[name]__[local]____[hash:base64:5]'
+          }
+        }
     },
-    postCss: { loader: "postcss-loader", options: { plugins: loadPostCssPlugins } },
-  };
+    postCss: { loader: "postcss-loader" },
+};
 
-module.exports = ({
-    production,
-    server,
-    extractCss,
-    coverage,
-    analyze,
-    karma
-} = {}) => ({
+const productionCss = [
+    {
+        loader: MiniCssExtractPlugin.loader,
+    },
+    loaders.cssModules, 
+    loaders.postCss
+];
+
+const productionGlobalCss = [
+    {
+        loader: MiniCssExtractPlugin.loader,
+    },
+    loaders.css, 
+    loaders.postCss
+];
+
+module.exports = ({ production, server, extractCss, coverage, analyze, karma} = {}) => ({
     resolve: {
         extensions: ['.ts', '.js'],
         modules: [srcDir, 'node_modules'],
-        alias: { 
-            'aurelia-binding': path.resolve(__dirname, 'node_modules/aurelia-binding'),
-            'base-environment': path.resolve(__dirname, 'aurelia_project/environments/base') 
+        alias: {
+            'base-environment': path.resolve(__dirname, 'aurelia_project/environments/base'),
+            'tslib': path.resolve(__dirname, 'node_modules/tslib')
         }
     },
     entry: {
@@ -77,117 +70,30 @@ module.exports = ({
     output: {
         path: outDir,
         publicPath: baseUrl,
-        filename: production
-            ? '[name].[chunkhash].bundle.js'
-            : '[name].[hash].bundle.js',
-        sourceMapFilename: production
-            ? '[name].[chunkhash].bundle.map'
-            : '[name].[hash].bundle.map',
-        chunkFilename: production
-            ? '[name].[chunkhash].chunk.js'
-            : '[name].[hash].chunk.js'
-    },
-    optimization: {
-        runtimeChunk: true,
-        moduleIds: 'hashed',
-        concatenateModules: false,
-        splitChunks: {
-            hidePathInfo: true,
-            chunks: 'initial',
-            maxInitialRequests: Infinity,
-            maxAsyncRequests: Infinity,
-            minSize: 10000,
-            maxSize: 40000,
-            cacheGroups: {
-                default: false,
-                fontawesome: {
-                    name: 'vendor.font-awesome',
-                    test: /[\\/]node_modules[\\/]font-awesome[\\/]/,
-                    priority: 100,
-                    enforce: true
-                },
-                bootstrap: {
-                    name: 'vendor.font-awesome',
-                    test: /[\\/]node_modules[\\/]bootstrap[\\/]/,
-                    priority: 90,
-                    enforce: true
-                },
-                vendorSplit: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name(module) {
-                        const packageName = module.context.match(
-                            /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-                        )[1];
-                        return `vendor.${packageName.replace('@', '')}`;
-                    },
-                    priority: 20
-                },
-                vendors: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendors',
-                    priority: 19,
-                    enforce: true
-                },
-
-                vendorAsyncSplit: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name(module) {
-                        const packageName = module.context.match(
-                            /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-                        )[1];
-                        return `vendor.async.${packageName.replace('@', '')}`;
-                    },
-                    chunks: 'async',
-                    priority: 10,
-                    reuseExistingChunk: true,
-                    minSize: 5000
-                },
-                vendorsAsync: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendors.async',
-                    chunks: 'async',
-                    priority: 9,
-                    reuseExistingChunk: true,
-                    enforce: true
-                },
-                commonAsync: {
-                    name(module) {
-                        const moduleName = module.context.match(
-                            /[^\\/]+(?=\/$|$)/
-                        )[0];
-                        return `common.async.${moduleName.replace('@', '')}`;
-                    },
-                    minChunks: 2,
-                    chunks: 'async',
-                    priority: 1,
-                    reuseExistingChunk: true,
-                    minSize: 5000
-                },
-                commonsAsync: {
-                    name: 'commons.async',
-                    minChunks: 2,
-                    chunks: 'async',
-                    priority: 0,
-                    reuseExistingChunk: true,
-                    enforce: true
-                }
-            }
-        }
+        filename: production ? '[name].[chunkhash].bundle.js' : '[name].[hash].bundle.js',
+        sourceMapFilename: production ? '[name].[chunkhash].bundle.map' : '[name].[hash].bundle.map',
+        chunkFilename: production ? '[name].[chunkhash].chunk.js' : '[name].[hash].chunk.js'
     },
     performance: { hints: false },
     devServer: {
         contentBase: outDir,
         historyApiFallback: true
     },
-    devtool: production
-        ? 'nosources-source-map'
-        : 'cheap-module-eval-source-map',
+    optimization: {
+        concatenateModules: false,
+    },
+    devtool: production ? 'nosources-source-map' : 'cheap-module-eval-source-map',
     module: {
         rules: [
             { 
-                test: /\.css$/i, 
+                test: /\.module.css$/,
                 issuer: [{ not: [{ test: /\.html$/i }] }], 
-                use: [production ? MiniCssExtractPlugin.loader : loaders.style, loaders.cssModules, loaders.postCss] 
+                use: production ? productionCss : [loaders.style, loaders.cssModules, loaders.postCss] 
+            },
+            { 
+                test: /^((?!\.module).)*css$/,
+                issuer: [{ not: [{ test: /\.html$/i }] }], 
+                use: production ? productionGlobalCss : [loaders.style, loaders.css, loaders.postCss] 
             },
             { 
                 test: /\.css$/i, 
@@ -248,17 +154,14 @@ module.exports = ({
                 baseUrl
             }
         }),
-        ...when(
-            extractCss,
-            new MiniCssExtractPlugin({
-                filename: production
-                    ? 'css/[name].[contenthash].bundle.css'
-                    : 'css/[name].[hash].bundle.css',
-                chunkFilename: production
-                    ? 'css/[name].[contenthash].chunk.css'
-                    : 'css/[name].[hash].chunk.css'
-            })
-        ),
+        ...when(extractCss, new MiniCssExtractPlugin({
+            filename: production
+                ? 'css/[name].[contenthash].bundle.css'
+                : 'css/[name].[hash].bundle.css',
+            chunkFilename: production
+                ? 'css/[name].[contenthash].chunk.css'
+                : 'css/[name].[hash].chunk.css'
+        })),
         ...when(
             production || server,
             new CopyWebpackPlugin([

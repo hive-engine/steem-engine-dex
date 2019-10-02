@@ -40,21 +40,19 @@ export class ClassCustomAttribute {
       }
     }
 
-    if (!this.bindingContext || typeof this.bindingContext.styles === 'undefined') {
-      return;
+    if (this.bindingContext && typeof this.bindingContext.styles !== 'undefined') {
+        if (!this.value) {
+            this.value = '';
+        }
+        
+        // Filter out any classes that do not have substitutes found in the bindingContext styles property
+        // this prevents them being removed and allows for use-cases where :global {} is being used
+        const values = this.value.split(' ').filter((val, index) => {
+            return this.bindingContext.styles[val];
+        });
+    
+        values.forEach(x => removeClassList(this.element, x)); // remove the initial friendly names
     }
-
-    if (!this.value) {
-      this.value = '';
-    }
-
-    // Filter out any classes that do not have substitutes found in the bindingContext styles property
-    // this prevents them being removed and allows for use-cases where :global {} is being used
-    const values = this.value.split(' ').filter((val, index) => {
-      return this.bindingContext.styles[val];
-    });
-
-    values.forEach(x => removeClassList(this.element, x)); // remove the initial friendly names
 
     this.valueChanged(this.value);
   }
@@ -71,18 +69,18 @@ export class ClassCustomAttribute {
   }
 
   valueChanged(newValue: string) {
-    if (!this.bindingContext) {
-        return;
-    }
-
     this.previousClasses.forEach(x => removeClassList(this.element, x));
 
     this.previousClasses = newValue
         .split(' ')
         .map(x => x.trim())
-        .map(x =>
-            this.bindingContext.styles[x] ? this.bindingContext.styles[x] : x
-        )
+        .map(x => {
+            if (this.bindingContext && typeof this.bindingContext.styles !== 'undefined' && this.bindingContext.styles[x]) {
+                return this.bindingContext.styles[x];
+            } else {
+                return x;
+            }
+        })
         .join(' ')
         .split(' ');
 

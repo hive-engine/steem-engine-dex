@@ -1,3 +1,6 @@
 {
-    
+    "amountGreaterThanZero": "Please enter an amount greater than 0",
+    "bidPriceRequired": "Please enter a bid price",
+    "bidQuantityRequired": "Please enter a quantity",
+    "insufficientSteemForOrder": "You do not have enough STEEMP. Your balance is: {{balance}} and your order totalled: {{total}}"
 }

@@ -1,0 +1,25 @@
+<template>
+    <ux-dialog>
+        
+        <loader mode="tiny" loading.bind="loading"></loader>
+
+        <ux-dialog-header>
+            <h2>${'Confirm' & t} ${order.type & t} ${'Order' & t}</h2>
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <p class="note mb-4">${'Please review your order before proceeding.' & t}</p>
+
+            <div>
+                <p>${'Token' & t}: ${order.symbol}</p>
+                <p>${'Quantity' & t}: ${order.quantity}</p>
+                <p>${'Price' & t}: ${order.price}</p>
+            </div>
+
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <button class="btn btn-lg btn-secondary" click.trigger="controller.cancel()">${'Cancel' & t}</button>
+            <button class="btn btn-lg btn-primary" click.trigger="confirmOrder()">${order.type | capitalise & t}</button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>

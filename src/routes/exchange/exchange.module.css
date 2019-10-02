@@ -1,0 +1,179 @@
+.exchange-columns > div:first-child,
+.exchange-columns > div:last-child {
+    background-color: #002B33;
+    padding-top: 20px;
+}
+
+.table-wrapper {
+    position: relative;
+}
+
+.best-price {
+    background: #000;
+    border-radius: 4px;
+    color: #FFF;
+    margin: 15px 0;
+    padding: 15px;
+    text-align: center;
+}
+
+    .best-price > div:first-child {
+        font-size: 1.2rem;
+    }
+
+    .best-price > div:last-child {
+        
+    }
+
+.chart-col {
+    background-color: #181F1F;
+}
+
+.exchange-chart {
+    background: #000;
+    display: block;
+    margin-bottom: 20px;
+    margin-top: 15px;
+}
+
+.balances-heading {
+    color: #FFF;
+    font-size: 20px;
+    margin: 0 0 15px 0;
+    padding-top: 6px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.buy-table,
+.sell-table {
+    background: rgba(0, 0, 0, 0.5);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    width: 100%;
+}
+
+.sell-table {
+    margin-bottom: 20px;
+}
+
+.buy-table thead,
+.sell-table thead {
+    background: #000;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    color: #71FFFF;
+}
+
+.buy-table th,
+.buy-table td,
+.sell-table th,
+.sell-table td {
+    font-weight: 400;
+    padding: 5px 15px;
+}
+
+.balance-label {
+    color: #71FFFF;
+    font-size: 12px;
+    margin: 0;
+}
+
+.form-control-dark,
+.form-control-dark:focus,
+.form-control-dark:disabled, 
+.form-control-dark[readonly] {
+    background: #000;
+    border: none;
+    box-shadow: none;
+    color: #FFF;
+    outline: none;
+}
+
+.input-group-text-dark {
+    background: #000;
+    border: none;
+    color: #488E9B;
+    padding-left: 0;
+}
+
+.form-control-dark::-webkit-input-placeholder {
+    color: #FFF;
+}
+
+.form-control-dark::-moz-placeholder {
+    color: #FFF;
+}
+
+.form-control-dark:-ms-input-placeholder {
+   color: #FFF;
+}
+
+.form-control-dark:-moz-placeholder {
+    color: #FFF;
+}
+
+.form-control-light,
+.form-control-light:focus,
+.form-control-light:disabled, 
+.form-control-light[readonly] {
+    background: #D3E6EA;
+    border: none;
+    box-shadow: none;
+    color: #002B33;
+    outline: none;
+}
+
+.form-control-light::-webkit-input-placeholder {
+    color: #002B33;
+}
+
+.form-control-light::-moz-placeholder {
+    color: #002B33;
+}
+
+.form-control-light:-ms-input-placeholder {
+   color: #002B33;
+}
+
+.form-control-light:-moz-placeholder {
+    color: #002B33;
+}
+
+.input-group-text-light {
+    background: #D3E6EA;
+    border: none;
+    color: #002B33;
+    padding-left: 0;
+}
+
+.order-buttons {
+    text-align: center;
+}
+
+    .order-buttons button {
+        margin-right: 15px;
+    }
+
+    .order-buttons button:last-child {
+        margin-right: 0;
+    }
+
+.buy-percentage-buttons {
+
+}
+    .buy-percentage-buttons button {
+        appearance: none;
+        background: #324C4D;
+        border-radius: 4px;
+        border: none;
+        color: #FFF;
+        font-size: 12px;
+        line-height: 1;
+        margin-right: 6px;
+        padding: 6px 15px;
+    }
+
+    .buy-percentage-buttons button:last-child {
+        margin-right: 0;
+    }

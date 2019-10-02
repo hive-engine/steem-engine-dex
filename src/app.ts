@@ -1,5 +1,7 @@
+import { AuthorizeStep } from './resources/pipeline-steps/authorize';
+import { SteemEngine } from 'services/steem-engine';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { Store } from 'aurelia-store';
+import { Store, dispatchify } from 'aurelia-store';
 import { environment } from './environment';
 import { PostRenderStep } from './resources/pipeline-steps/postrender';
 import { PreRenderStep } from './resources/pipeline-steps/prerender';
@@ -8,8 +10,10 @@ import { PLATFORM } from 'aurelia-pal';
 import { Router, RouterConfiguration } from 'aurelia-router';
 import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
-import { map, pluck } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { SteemKeychain } from 'services/steem-keychain';
+
+import firebase from 'firebase/app';
+import { login, logout } from 'store/actions';
 
 @autoinject()
 export class App {
@@ -17,8 +21,8 @@ export class App {
     private loading = false;
     public router: Router;
 
-    constructor(private ea: EventAggregator, private store: Store<State>) {
-
+    constructor(private ea: EventAggregator, private keychain: SteemKeychain, private store: Store<State>, private se: SteemEngine) {
+        authStateChanged();
     }
 
     bind() {
@@ -30,9 +34,23 @@ export class App {
         });
     }
 
+    attached() {
+        setTimeout(() => {
+            if (window && window.steem_keychain) {
+                window.steem_keychain.requestHandshake(() => {
+                    this.keychain.useKeychain = true;
+                });
+            }
+        }, 500);
+    }
+
     public configureRouter(config: RouterConfiguration, router: Router) {
         config.title = 'Steem Engine';
+        config.options.pushState = true;
 
+        config.options.pushState = true;
+
+        config.addPipelineStep('authorize', AuthorizeStep);
         config.addPipelineStep('authorize', MaintenanceStep);
         config.addPipelineStep('preRender', PreRenderStep);
         config.addPipelineStep('postRender', PostRenderStep);
@@ -46,17 +64,11 @@ export class App {
                 title: 'Home'
             },
             {
-                route: 'sign-in',
-                name: 'signin',
-                moduleId: PLATFORM.moduleName('./routes/sign-in'),
-                nav: false,
-                title: 'Signin'
-            },
-            {
                 route: 'wallet',
                 name: 'wallet',
-                moduleId: PLATFORM.moduleName('./routes/wallet'),
-                nav: 2,
+                moduleId: PLATFORM.moduleName('./routes/wallet/wallet'),
+                auth: true,
+                nav: false,
                 title: 'Wallet'
             },
             {
@@ -77,7 +89,7 @@ export class App {
                 route: 'exchange/:symbol?',
                 href: `exchange/${environment.NATIVE_TOKEN}`,
                 name: 'exchange',
-                moduleId: PLATFORM.moduleName('./routes/exchange'),
+                moduleId: PLATFORM.moduleName('./routes/exchange/exchange'),
                 nav: 0,
                 title: 'Exchange'
             },
@@ -87,9 +99,49 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/faq'),
                 nav: 4,
                 title: 'Faq'
-            }
+            },
+            {
+                route: 'rewards',
+                name: 'rewards',
+                moduleId: PLATFORM.moduleName('./routes/rewards'),
+                nav: false,
+                auth: true,
+                title: 'Rewards',
+            },
+            {
+                route: 'conversion-history',
+                name: 'conversionHistory',
+                moduleId: PLATFORM.moduleName('./routes/conversion-history'),
+                nav: false,
+                auth: true,
+                title: 'Conversion History',
+            },
+            {
+                route: 'settings',
+                name: 'settings',
+                moduleId: PLATFORM.moduleName('./routes/settings'),
+                nav: false,
+                auth: true,
+                title: 'Settings',
+            },
         ]);
 
         this.router = router;
     }
+}
+
+
+async function authStateChanged() {
+    return new Promise((resolve) => {
+        firebase.auth().onAuthStateChanged(async (user) => {
+            console.log(user);
+            if (user) {
+                dispatchify(login)(user.uid);
+                resolve();
+            } else {
+                dispatchify(logout)();
+                resolve();
+            }
+        });
+    });
 }

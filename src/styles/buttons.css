@@ -1,0 +1,94 @@
+.btn {
+    font-family: 'Nunito', sans-serif;
+}
+
+.btn-primary {
+    background-color: rgb(32, 39, 53);
+    border: none;
+    transition: all .2s cubic-bezier(.4,0,.2,1);
+}
+    .btn-primary:not(:disabled):hover {
+        background-color: rgb(41, 50, 69);
+    }
+
+.btn-secondary {
+    border: none;
+    background-color: #3E4B67;
+}
+
+.outline-btn {
+    appearance: none;
+    background: none;
+    border-width: 1px;
+    line-height: 1;
+    margin: 0;
+    padding: 7px 25px;
+    text-transform: uppercase;
+}
+
+.outline-btn.positive {
+    border-color: $positive;
+}
+
+.outline-btn.negative {
+    border-color: $negative;
+}
+
+.btn-link,
+.btn-link:hover {
+    background: none;
+    border: none;
+    color: #3CFFB5;
+    font-size: 12px;
+    line-height: 1;
+    margin: 0;
+    outline: none;
+    padding: 0;
+    text-decoration: underline;
+    text-transform: uppercase;
+}
+
+.btn-buy,
+.btn-sell {
+    font-size: 20px;
+    padding: .5rem 1.5rem;
+    text-transform: uppercase;
+}
+
+.btn-buy,
+.btn-buy:hover,
+.btn-buy:focus {
+    background-color: #00955C;
+    color: #FFF;
+}
+
+.btn-sell,
+.btn-sell:hover,
+.btn-sell:focus {
+    background-color: rgba(190, 60, 0, 0.5);
+    color: #BE4200;
+}
+
+.btn-wide {
+    display: block;
+    width: 100%;
+}
+
+.btn-icon {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.btn-favourite,
+.btn-favourite:hover {
+    color: #FFF;
+}
+
+.btn-favourite:focus {
+    box-shadow: none;
+}
+
+.btn-favourite.active {
+    color: #F9D423;
+}

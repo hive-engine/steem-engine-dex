@@ -1,9 +1,14 @@
+import { log } from './log';
+import { AuthService } from './auth-service';
 import { AuthType } from './../common/types';
 import { I18N } from 'aurelia-i18n';
 import { State } from 'store/state';
 import { HttpClient, json } from 'aurelia-fetch-client';
 import { lazy, autoinject } from 'aurelia-framework';
 import { environment } from 'environment';
+import moment from 'moment';
+
+import firebase from 'firebase/app';
 
 import SSC from 'sscjs';
 import steem from 'steem';
@@ -11,10 +16,12 @@ import steem from 'steem';
 import { connectTo, dispatchify } from 'aurelia-store';
 
 import { logout } from 'store/actions';
+import { loadTokens } from 'common/steem-engine';
 
 import { ToastService, ToastMessage } from './toast-service';
-import { queryParam, popupCenter, tryParse, usdFormat } from 'common/functions';
+import { queryParam, popupCenter, tryParse, usdFormat, formatSteemAmount } from 'common/functions';
 import { SteemKeychain } from './steem-keychain';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 @connectTo()
 @autoinject()
@@ -24,17 +31,27 @@ export class SteemEngine {
     public ssc;
     private state: State;
 
-    public user = null;
+    public user = {
+        name: '',
+        account: {},
+        balances: [],
+        scotTokens: [],
+        pendingUnstakes: []
+    };
+
     public params = {};
     public tokens = [];
     public scotTokens = {};
+    public steemPrice = 0;
     private _sc_callback;
 
     constructor(
         @lazy(HttpClient) private getHttpClient: () => HttpClient,
+        private ea: EventAggregator,
         private i18n: I18N,
         private toast: ToastService,
-        private keychain: SteemKeychain) {
+        private keychain: SteemKeychain,
+        private authService: AuthService) {
         this.accountsApi = getHttpClient();
         this.http = getHttpClient();
 
@@ -47,6 +64,22 @@ export class SteemEngine {
         });
 
         this.http.configure(config => config.useStandardConfiguration());
+    }
+
+    getUser() {
+        const username = localStorage.getItem('username');
+
+        if (!this.user && !username) {
+            return null;
+        }
+
+        if (this.user.name === '' && username) {
+            return username;
+        }
+
+        if (this.user.name !== '') {
+            return this.user.name;
+        }
     }
 
     request(url: string, params: any = {}) {
@@ -69,6 +102,10 @@ export class SteemEngine {
             const response = await request.json();
 
             window.steem_price = parseFloat(response.steem_price);
+
+            this.steemPrice = window.steem_price;
+
+            this.ea.publish('steem:price:updated', window.steem_price);
     
             return window.steem_price;
         } catch {
@@ -78,22 +115,36 @@ export class SteemEngine {
         }
     }
 
-    async login(username: string, key?: string): Promise<string> {
+    async login(username: string, key?: string): Promise<any> {
         return new Promise(async (resolve) => {
             if (window.steem_keychain && !key) {
-                steem_keychain.requestSignBuffer(username, 'Log In', 'Posting', function(response) {
+                // Get an encrypted memo only the user can decrypt with their private key
+                const encryptedMemo = await this.authService.getUserAuthMemo(username);
+
+                steem_keychain.requestVerifyKey(username, encryptedMemo, 'Posting', async response => {
                     if (response.error) {
                         const toast = new ToastMessage();
-    
+
                         toast.message = this.i18n.tr('errorLogin', {
-                            username, 
-                            ns: 'errors' 
+                            ns: 'notifications'
                         });
-    
+
                         this.toast.error(toast);
                     } else {
-                        localStorage.setItem('username', username);
-                        resolve(username);
+                        // Get the return memo and remove the "#" at the start of the private memo
+                        const signedKey = (response.result as unknown as string).substring(1);
+
+                        // The decrypted memo is an encrypted string, so pass this to the server to get back refresh and access tokens
+                        const token = await this.authService.verifyUserAuthMemo(response.data.username, signedKey);
+
+                        if (token) {
+                            const signin = await firebase.auth().signInWithCustomToken(token);
+
+                            // Store the username, access token and refresh token
+                            localStorage.setItem('username', signin.user.uid);
+                        }
+
+                        resolve({username, token});
                     }
                 });
             } else {
@@ -118,15 +169,28 @@ export class SteemEngine {
                     if (user && user.length > 0) {
                         try {
                             if (steem.auth.wifToPublic(key) == user[0].memo_key || steem.auth.wifToPublic(key) === user[0].posting.key_auths[0][0]) {
-                                localStorage.setItem('username', username);
-                                localStorage.setItem('key', key);
+                                // Get an encrypted memo only the user can decrypt with their private key
+                                const encryptedMemo = await this.authService.getUserAuthMemo(username);
 
-                                resolve(username);
+                                // Decrypt the private memo to get the encrypted string
+                                const signedKey = steem.memo.decode(key, encryptedMemo).substring(1);
+
+                                // The decrypted memo is an encrypted string, so pass this to the server to get back refresh and access tokens
+                                const token = await this.authService.verifyUserAuthMemo(username, signedKey);
+
+                                if (token) {
+                                    const signin = await firebase.auth().signInWithCustomToken(token);
+
+                                    // Store the username, access token and refresh token
+                                    localStorage.setItem('username', signin.user.uid);
+                                }
+
+                                resolve({username, token});
                             } else {
                                 const toast = new ToastMessage();
     
                                 toast.message = this.i18n.tr('errorLogin', { 
-                                    ns: 'errors' 
+                                    ns: 'notifications' 
                                 });
                 
                                 this.toast.error(toast);
@@ -135,7 +199,7 @@ export class SteemEngine {
                             const toast = new ToastMessage();
     
                             toast.message = this.i18n.tr('errorLogin', { 
-                                ns: 'errors' 
+                                ns: 'notifications' 
                             });
             
                             this.toast.error(toast);
@@ -144,7 +208,7 @@ export class SteemEngine {
                         const toast = new ToastMessage();
     
                         toast.message = this.i18n.tr('errorLoading', { 
-                            ns: 'errors' 
+                            ns: 'notifications' 
                         });
         
                         this.toast.error(toast);
@@ -157,7 +221,8 @@ export class SteemEngine {
     }
 
     logout() {
-        dispatchify(logout)();
+        firebase.auth().signOut();
+        //dispatchify(logout)();
     }
 
     async steemConnectJson(auth_type: AuthType, data: any, callback) {
@@ -200,6 +265,17 @@ export class SteemEngine {
         this._sc_callback = callback;
     }
 
+    steemConnectTransfer(from: string, to: string, amount: string, memo: string, callback: any) {
+        let url = 'https://steemconnect.com/sign/transfer?';
+		url += '&from=' + encodeURI(from);
+		url += '&to=' + encodeURI(to);
+		url += '&amount=' + encodeURI(amount);
+		url += '&memo=' + encodeURI(memo);
+
+		popupCenter(url, 'steemconnect', 500, 560);
+		window._sc_callback = callback;
+    }
+
     async getAccount(username: string) {
         try {
             const user = await steem.api.getAccountsAsync([username]); 
@@ -220,121 +296,42 @@ export class SteemEngine {
         return result;
     }
 
-    async loadBalances(account?: string): Promise<BalanceInterface[]> {
+    async getUserOpenOrders(account: string = null) {
         if (!account) {
-            account = localStorage.getItem('username') || null;
+            account = this.getUser();
         }
 
-        if (!account) {
-            return null;
-        }
-
-        await this.loadTokens();
-
-        const loadedBalances: BalanceInterface[] = await this.ssc.find('tokens', 'balances', { account: account }, 1000, 0, '', false);
-
-        if (loadedBalances.length) {
-            const balances = loadedBalances
-                .filter(b => !environment.DISABLED_TOKENS.includes(b.symbol))
-                .map(d => {
-                    const token = this.tokens.find(t => t.symbol === d.symbol);
-                    const scotConfig = (this.user && Object.keys(this.user.scotTokens).length && typeof this.user.scotTokens[token.symbol] !== 'undefined') 
-                    ? this.user.scotTokens[token.symbol] : null;
-
-                    return { ...d, ...{
-                        name: token.name,
-                        lastPrice: token.lastPrice,
-                        priceChangePercent: token.priceChangePercent,
-                        usdValue: usdFormat(parseFloat(d.balance) * token.lastPrice, 2),
-                        scotConfig
-                    } };
-                });
-
-            //balances.sort((a, b) => parseFloat(b.balance) * b.lastPrice * window.steem_price - parseFloat(b.balance) * a.lastPrice * window.steem_price);
-
-            if (this.user && account === this.user.name) {
-                this.user.balances = balances;
-            }
-    
-            return balances;
-        }
-    }
-
-    async loadTokens() {
-        return new Promise((resolve) => {
-            this.ssc.find('tokens', 'tokens', { }, 1000, 0, [], (err, result) => {
-                this.tokens = result.filter(t => !environment.DISABLED_TOKENS.includes(t.symbol));
-    
-                this.ssc.find('market', 'metrics', { }, 1000, 0, '', false).then(async (metrics) => {
-                    for (const token of this.tokens) {
-                        token.highestBid = 0;
-                        token.lastPrice = 0;
-                        token.lowestAsk = 0;
-                        token.marketCap = 0;
-                        token.volume = 0;
-                        token.priceChangePercent = 0;
-                        token.priceChangeSteem = 0;
-    
-                        token.metadata = tryParse(token.metadata);
-
-                        if (!token.metadata) {
-                            token.metadata = {};
-                        }
-    
-                        if (!metrics) {
-                            return;
-                        }
-    
-                        const metric = metrics.find(m => token.symbol == m.symbol);
-    
-                        if (metric) {
-                            token.highestBid = parseFloat(metric.highestBid);
-                            token.lastPrice = parseFloat(metric.lastPrice);
-                            token.lowestAsk = parseFloat(metric.lowestAsk);
-                            token.marketCap = token.lastPrice * token.circulatingSupply;
-                            
-                            if (Date.now() / 1000 < metric.volumeExpiration) {
-                                token.volume = parseFloat(metric.volume);
-                            }
-    
-                            if(Date.now() / 1000 < metric.lastDayPriceExpiration) {
-                                token.priceChangePercent = parseFloat(metric.priceChangePercent);
-                                token.priceChangeSteem = parseFloat(metric.priceChangeSteem);
-                            }
-
-                            if (token.symbol == 'AFIT') {
-                                const afit_data = await this.ssc.find('market', 'tradesHistory', { symbol: 'AFIT' }, 100, 0, [{ index: 'timestamp', descending: false }], false);
-                                token.volume = afit_data.reduce((t, v) => t += parseFloat(v.price) * parseFloat(v.quantity), 0);
-                            }
-                        }
-
-                        if (token.symbol === 'STEEMP') {
-                            token.lastPrice = 1;
-                        }
-                    };
-    
-                    this.tokens.sort((a, b) => {
-                        return (b.volume > 0 ? b.volume : b.marketCap / 1000000000) - (a.volume > 0 ? a.volume : a.marketCap / 1000000000);
-                    });
-    
-                    const steemp_balance = await this.ssc.findOne('tokens', 'balances', { account: 'steem-peg', symbol: 'STEEMP' });
-
-                    if (steemp_balance && steemp_balance.balance) {
-                        const token = this.getToken('STEEMP');
-                        token.supply -= parseFloat(steemp_balance.balance);
-                        token.circulatingSupply -= parseFloat(steemp_balance.balance);
-                    }
-    
-                    if (steemp_balance && steemp_balance.balance) {
-                        const token = this.getToken('STEEMP');
-                        token.supply -= parseFloat(steemp_balance.balance);
-                        token.circulatingSupply -= parseFloat(steemp_balance.balance);
-                    }
-    
-                    resolve(this.tokens);
-                });
+        try {
+            let buyOrders = await this.ssc.find('market', 'buyBook', { account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false);
+            let sellOrders = await this.ssc.find('market', 'sellBook', { account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false);
+            
+            buyOrders = buyOrders.map(o => {
+                o.type = 'buy';
+                o.total = o.price * o.quantity;
+                o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
+                return o;
             });
-        });
+
+            sellOrders = sellOrders.map(o => {
+                o.type = 'sell';
+                o.total = o.price * o.quantity;
+				o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
+                return o;
+            });
+
+            let combinedOrders = [...buyOrders, ...sellOrders]
+                                 .sort((a, b) => b.timestamp - a.timestamp);
+
+            return combinedOrders;
+        } catch(e) {
+            const toast = new ToastMessage();
+
+            toast.message = this.i18n.tr(e);
+
+            this.toast.error(toast);
+
+            return [];
+        }
     }
 
     async getScotUsertokens(account) {
@@ -649,9 +646,10 @@ export class SteemEngine {
                             });
             
                             this.toast.error(toast);
-                            this.loadBalances(username).then(() => {
-                                this.showHistory(symbol);
-                            });
+
+                            // this.loadBalances(username).then(() => {
+                            //     this.showHistory(symbol);
+                            // });
                         }
                     });
                 } else {
@@ -659,17 +657,36 @@ export class SteemEngine {
                 }
               });
             } else {
-                    this.steemConnectJson('active', transaction_data, () => {
+                this.steemConnectJson('active', transaction_data, () => {
 
-                    });
-                }
+                });
+            }
         });
     }
 
-    getBalance(token) {
+    async getBalance(t) {
+        var balanceVal = 0;
+        
         if (this.user && this.user.balances) {
-            const token = this.user.balances.find(b => b.symbol === token);
-            return token ? parseFloat(token.balance) : 0;
+            const username = this.getUser();
+            if (this.tokens.length == 0) {            
+                const tokenResponse = await loadTokens();
+
+                if (tokenResponse)
+                    this.tokens = tokenResponse;
+            }    
+
+            const userBalances = await this.userBalances(t, username);
+            
+            if (userBalances) {
+                this.user.balances = userBalances;
+
+                const token = this.user.balances.find(b => b.symbol === t);
+                if (token)
+                    balanceVal = parseFloat(token.balance);
+            }
+
+            return balanceVal;
         }
     }
 
@@ -683,14 +700,20 @@ export class SteemEngine {
 
     async showHistory(symbol: string) {
         let token =  this.getToken(symbol);
-        
-        const history = await this.request('/history', { 
-            account: this.state.account, 
-            limit: 100, 
-            offset: 0, 
-            type: 'user', 
-            symbol: symbol 
-        });
+
+        try {
+            const history = await this.request('/history', { 
+                account: this.state.account, 
+                limit: 100, 
+                offset: 0, 
+                type: 'user', 
+                symbol: symbol 
+            });
+    
+            return history.json();
+        } catch (e) {
+            return [];
+        }
     }
 
     async checkAccount(name) {
@@ -725,6 +748,142 @@ export class SteemEngine {
                 callback({ success: false, error: 'Transaction not found.' });
             }
 		});
+    }
+
+    sendMarketOrder(type: string, symbol: string, quantity: string, price: string) {
+        return new Promise((resolve) => {
+            if (type !== 'buy' && type !== 'sell') {
+                log.error(`Invalid order type: ${type}`);
+                return;
+            }
+            
+            const username = this.getUser();
+    
+            if (!username) {
+                window.location.reload();
+                return;
+            }
+
+            const transaction_data = {
+                "contractName": "market",
+                "contractAction": `${type}`,
+                "contractPayload": {
+                    "symbol": `${symbol}`,
+                    "quantity": `${quantity}`,
+                    "price": `${price}`
+                }
+            };
+
+            log.debug(`Broadcasting cancel order: ${JSON.stringify(transaction_data)}`);
+
+            if (window.steem_keychain) {
+                steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), `${type.toUpperCase()} Order`, (response) => {
+                    if (response.success && response.result) {
+                        this.checkTransaction(response.result.id, 3, tx => {
+                            if (tx.success) {
+                                const toast = new ToastMessage();
+                                
+                                toast.message = this.i18n.tr('orderSuccess', {
+                                    ns: 'notifications',
+                                    type,
+                                    symbol
+                                });
+                
+                                this.toast.success(toast);
+
+                                resolve(tx);
+                            } else {
+                              const toast = new ToastMessage();
+
+                                toast.message = this.i18n.tr('orderError', {
+                                    ns: 'notifications',
+                                    type,
+                                    symbol,
+                                    error: tx.error
+                                });
+              
+                                this.toast.error(toast);
+  
+                                resolve(false);
+                            }
+                        });
+                    } else {
+                        resolve(response);
+                    }
+                });
+            } else {
+                this.steemConnectJson('active', transaction_data, () => {
+
+                });
+            }
+        });
+    }
+
+    cancelMarketOrder(type: string, orderId: string, symbol: string) {
+        return new Promise((resolve) => {
+            if (type !== 'buy' && type !== 'sell') {
+                log.error(`Invalid order type: ${type}`);
+                return;
+            }
+            
+            const username = this.getUser();
+    
+            if (!username) {
+                window.location.reload();
+                return;
+            }
+
+            const transaction_data = {
+                "contractName": "market",
+                "contractAction": "cancel",
+                "contractPayload": {
+                    "type": type,
+                    "id": orderId
+                }
+            };
+
+            log.debug(`Broadcasting cancel order: ${JSON.stringify(transaction_data)}`);
+
+            if (window.steem_keychain) {
+                steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), `Cancel ${type.toUpperCase()} Order`, (response) => {
+                    if (response.success && response.result) {
+                        this.checkTransaction(response.result.id, 3, tx => {
+                            if (tx.success) {
+                                const toast = new ToastMessage();
+  
+                                toast.message = this.i18n.tr('orderCanceled', {
+                                    ns: 'notifications',
+                                    type,
+                                    symbol
+                                });
+                
+                                this.toast.success(toast);
+
+                                resolve(tx);
+                            } else {
+                              const toast = new ToastMessage();
+  
+                              toast.message = this.i18n.tr('errorCancelOrder', {
+                                  ns: 'notifications',
+                                  type,
+                                  error: tx.error
+                              });
+              
+                              this.toast.error(toast);
+  
+                              resolve(false);
+                            }
+                        });
+                    } else {
+                        resolve(response);
+                    }
+                });
+            } else {
+                this.steemConnectJson('active', transaction_data, () => {
+
+                });
+            }
+        });
     }
     
     async buyBook(symbol, account?: string) {
@@ -806,6 +965,120 @@ export class SteemEngine {
         };
     }
 
+    async withdrawSteem(amount: string) {
+        const username = localStorage.getItem('username');
+
+        const transaction_data = {
+			id: environment.CHAIN_ID,
+			json: {
+				"contractName": "steempegged",
+				"contractAction": "withdraw",
+				"contractPayload": {
+                    "quantity": formatSteemAmount(amount)
+                }
+			}
+        };
+
+        if (window.steem_keychain) {
+            const withdraw = await this.keychain.customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Withdraw STEEM');
+
+            if (withdraw && withdraw.success && withdraw.result) {
+                this.checkTransaction(withdraw.result.id, 3, tx => {
+                    if (tx.success) {
+                        const toast = new ToastMessage();
+
+                        toast.message = this.i18n.tr('withdrawSteemSuccess', {
+                            ns: 'notifications',
+                            from: username,
+                            to: environment.STEEMP_ACCOUNT,
+                            amount,
+                            jsonData: JSON.stringify(transaction_data)
+                        });
+        
+                        this.toast.success(toast);
+
+                        return true;
+                    }
+
+                    const toast = new ToastMessage();
+
+                    toast.message = this.i18n.tr('withdrawSteemError', {
+                        ns: 'notifications',
+                        from: username,
+                        to: environment.STEEMP_ACCOUNT,
+                        amount,
+                        jsonData: JSON.stringify(transaction_data)
+                    });
+    
+                    this.toast.error(toast);
+                });
+            }
+        } else {
+            this.steemConnectJson('active', transaction_data, () => {
+                return true;
+            });
+        }
+    }
+
+    depositSteem(amount: string) {
+        return new Promise(async (resolve) => {
+            const username = localStorage.getItem('username');
+
+            const transaction_data = {
+                id: environment.CHAIN_ID,
+                json: {
+                    "contractName": "steempegged",
+                    "contractAction": "buy",
+                    "contractPayload": { }
+                }
+            };
+    
+            if (window.steem_keychain) {
+                const deposit = await this.keychain.requestTransfer(username, environment.STEEMP_ACCOUNT, amount, JSON.stringify(transaction_data), 'STEEM');
+    
+                if (deposit && deposit.success && deposit.result) {
+                    this.checkTransaction(deposit.result.id, 3, tx => {
+                        if (tx.success) {
+                            const toast = new ToastMessage();
+    
+                            toast.message = this.i18n.tr('depositSteemSuccess', {
+                                from: username,
+                                to: environment.STEEMP_ACCOUNT,
+                                amount,
+                                memo: JSON.stringify(transaction_data),
+                                ns: 'notifications'
+                            });
+            
+                            this.toast.success(toast);
+    
+                            return resolve(true);
+                        }
+    
+                        const toast = new ToastMessage();
+    
+                        toast.message = this.i18n.tr('depositSteemError', {
+                            from: username,
+                            to: environment.STEEMP_ACCOUNT,
+                            amount,
+                            memo: JSON.stringify(transaction_data),
+                            ns: 'notifications'
+                        });
+        
+                        this.toast.error(toast);
+
+                        return resolve(false);
+                    });
+                } else {
+                    return resolve(false);
+                }
+            } else {
+                this.steemConnectTransfer(username, environment.STEEMP_ACCOUNT, `${amount} STEEM`, JSON.stringify(transaction_data), () => {
+                    resolve(true);
+                });
+            }
+        });
+    }
+
     async getDepositAddress(symbol) {
         const peggedToken = environment.PEGGED_TOKENS.find(p => p.symbol === symbol);
 
@@ -822,7 +1095,8 @@ export class SteemEngine {
             const response = await request.json();
 
             return {...response, ...peggedToken};
-        } catch {
+        } catch(e) {
+            console.error(e);
             return null;
         }
     }

@@ -1,0 +1,6 @@
+<template bindable="order">
+    <div class="best-price" if.bind="order">
+        <div class="negative">${order.amountLocked} ${'STEEMP' & t}</div>
+        <div>${order.quantity} ${data.symbol}</div>
+    </div>
+</template>

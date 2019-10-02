@@ -13,6 +13,16 @@ loader {
     z-index: 9999;
 }
 
+loader[mode="tiny"] {
+    background: rgba(32, 32, 32, 0.5);
+    height: 100%;
+    left: 0;
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
 loader.hidden {
     display: none;
     opacity: 0;

@@ -1,11 +1,39 @@
+export interface AccountInterface {
+    name: string;
+    account: any;
+    balances: any[];
+    scotTokens: any[];
+    pendingUnstakes: any[];
+}
+
 export interface State {
-    account: string;
+    account: AccountInterface;
+    firebaseUser: any;
     loggedIn: boolean;
     loading: boolean;
+    tokens: any[];
+    buyBook: any[];
+    sellBook: any[];
+    tradeHistory: any[];
+    buyTotal?: number;
+    sellTotal?: number;
 }
 
 export const initialState: State = {
-    account: '',
+    account: {
+        name: '',
+        account: {},
+        balances: [],
+        scotTokens: [],
+        pendingUnstakes: []
+    },
+    firebaseUser: {},
     loggedIn: false,
-    loading: false
+    loading: false,
+    tokens: [],
+    buyBook: [],
+    sellBook: [],
+    tradeHistory: [],
+    buyTotal: 0,
+    sellTotal: 0
 };

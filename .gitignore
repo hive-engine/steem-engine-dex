@@ -61,3 +61,13 @@ typings/
 .next
 
 dist/
+deploy-key
+
+\.DS_Store
+
+steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.ts
+steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json
+/.vs
+/package-lock.json
+/steem-engine-dex.sln
+*.sln
