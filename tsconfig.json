@@ -17,7 +17,7 @@
     "paths": {
         "base-environment": [
             "aurelia_project/environments/base"
-        ],
+        ]
     },
     "moduleResolution": "node",
     "allowJs": true,
