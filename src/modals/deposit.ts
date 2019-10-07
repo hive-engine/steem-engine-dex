@@ -11,8 +11,7 @@ export class DepositModal {
     private token: any = null;
     private depositInfo: any = null;
     private loading = false;
-
-    private tokenBalance:any;
+    
     private amount = '0.000';
 
     constructor(private controller: DialogController, private se: SteemEngine, private taskQueue: TaskQueue) {
@@ -22,9 +21,11 @@ export class DepositModal {
 
     tokenSelected() {
         this.taskQueue.queueMicroTask(async () => {
-            this.loading = true;
+            this.loading = false;
 
             if (this.token !== 'STEEM') {
+                this.loading = true;
+
                 try {
                     const result = await this.se.getDepositAddress(this.token);
 
@@ -34,22 +35,9 @@ export class DepositModal {
                 } finally {
                     this.loading = false;
                 }
-            } else {
-                var token = 'STEEMP';
-                try {
-                    const balanceResult = await this.se.getBalance(token);
-
-                    if (balanceResult) {
-                        this.tokenBalance = balanceResult;
-                    }                    
-                } finally {
-                    this.loading = false;
-                }
             }
         });
     }
-
-
 
     async depositSteem() {
         this.loading = true;
