@@ -102,6 +102,7 @@
     padding: 0 30px;
 }
 
+
 /*.section-divider {
     margin-top: 100px;
     margin-bottom: 100px;
@@ -114,7 +115,7 @@
 .section-title h2 {
     border-bottom: 2px solid black;
     font-size: 50px;
-    color: #253859 !important;
+color: #253859 !important;
     line-height: 1.3em;
     font-style: arial;
 }
