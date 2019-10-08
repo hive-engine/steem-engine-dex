@@ -1,0 +1,87 @@
+<template>
+    <div class="accordion" id="tokenQuestionAccordion" style="margin-top: 30px;">
+        <div class="accordion-wrapper" id="tokenQuestions">
+            <div class="card">
+                <div class="card-header" id="tokenHeadingONe">
+                <h2 class="mb-0">
+                    <button class="btn btn-link accordion-header" type="button" data-toggle="collapse" data-target="#tokenQuestionOne" aria-expanded="false" aria-controls="collapseOne">
+                    What are pegged tokens?
+                    </button>
+                </h2>
+                </div>
+
+                <div id="tokenQuestionOne" class="collapse show" aria-labelledby="tokenHeadingONe" data-parent="#tokenQuestionAccordion">
+                <div class="card-body">
+                    Pegged tokens are tokens on Steem Engine that are backed one-to-one by a token 
+                    on another blockchain or potentially by a real world asset such as USD or gold. 
+                    In addition to STEEM, Steem Engine now supports pegged tokens for Bitcoin (BTC), 
+                    Litecoin (LTC), Bitcoin Cash (BCH), and Dogecoin (DOGE) and plans to add many more
+                    in the near future. This means that at any time users can deposit any of the supported 
+                    tokens and receive the pegged versions which can then be transferred or traded for other 
+                    Steem Engine tokens on the Steem Engine decentralized market. Users can also withdraw the 
+                    pegged tokens back out to the real version at any time.
+                </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="tokenHeadingTwo">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#tokenQuestionTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    How do I deposit tokens into STEEM ENGINE?
+                    </button>
+                </h2>
+                </div>
+                <div id="tokenQuestionTwo" class="collapse" aria-labelledby="tokenHeadingTwo" data-parent="#tokenQuestionAccordion">
+                <div class="card-body">
+                    To deposit tokens into Steem Engine from an external blockchain, you can click on the "Deposit" button found 
+                    at the top of the wallet or market screens. Then choose the token you would like to deposit from the list of 
+                    supported tokens and click "Get Deposit Info". Then you will see the wallet address to which you will need to 
+                    send the tokens to deposit them. You may then send any amount of tokens to the wallet address shown on the 
+                    appropriate blockchain to convert them into Steem Engine pegged tokens. It may take some time for the 
+                    transaction to complete and for the pegged tokens to be credited to your Steem account depending on the 
+                    speed of the external blockchain. You can check to see if your deposit has completed on the Conversion History page.                                
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="tokenHeadignThree">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#tokenQuestionThree" aria-expanded="false" aria-controls="collapseThree">
+                    How do I withdraw pegged token from STEEM ENGINE?
+                    </button>
+                </h2>
+                </div>
+                <div id="tokenQuestionThree" class="collapse" aria-labelledby="tokenHeadignThree" data-parent="#tokenQuestionAccordion">
+                <div class="card-body">
+                    To withdraw pegged tokens from Steem Engine to your wallet on an external blockchain, 
+                    you can click on the "Withdraw" button found at the top of the wallet or market screens. 
+                    Then choose the token you would like to withdraw from the list of supported tokens, 
+                    enter the amount you would like to withdraw, and the wallet address on the external 
+                    blockchain to which the tokens should be sent. It may take some time for the transaction 
+                    to complete and for the tokens to be send to your external wallet depending on the speed of 
+                    the external blockchain. Please double check the withdraw address as we cannot refund or 
+                    recover any incorrect withdrawals. You can check to see if your withdrawal has completed on the 
+                    <a href="#">Conversion History page.</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="tokenHeadingFour">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#tokenQuestionFour" aria-expanded="false" aria-controls="collapseThree">
+                    What do I do if there is an issue?
+                    </button>
+                </h2>
+                </div>
+                <div id="tokenQuestionFour" class="collapse" aria-labelledby="tokenHeadingFour" data-parent="#tokenQuestionAccordion">
+                    <div class="card-body">
+                        If you run into any issue with deposits or withdrawals of pegged tokens on the 
+                        Steem Engine platform, please post your problem in the #tech-support channel in 
+                        the Steem Engine Discord Server and one of our dedicated support representatives 
+                        will get back to you as soon as possible.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

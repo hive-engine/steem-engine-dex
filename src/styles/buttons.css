@@ -1,19 +1,27 @@
+@font-face {
+    font-family: main-font;
+    src: url("../fonts/main-font-regular.woff");
+}
+@font-face {
+    font-family: main-font-bold;
+    src: url("../fonts/main-font-bold-c.woff");
+}
 .btn {
-    font-family: 'Nunito', sans-serif;
+    font-family: "main-font-bold", sans-serif;
 }
 
 .btn-primary {
     background-color: rgb(32, 39, 53);
     border: none;
-    transition: all .2s cubic-bezier(.4,0,.2,1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
-    .btn-primary:not(:disabled):hover {
-        background-color: rgb(41, 50, 69);
-    }
+.btn-primary:not(:disabled):hover {
+    background-color: rgb(41, 50, 69);
+}
 
 .btn-secondary {
     border: none;
-    background-color: #3E4B67;
+    background-color: #3e4b67;
 }
 
 .outline-btn {
@@ -38,7 +46,7 @@
 .btn-link:hover {
     background: none;
     border: none;
-    color: #3CFFB5;
+    color: #3cffb5;
     font-size: 12px;
     line-height: 1;
     margin: 0;
@@ -51,22 +59,22 @@
 .btn-buy,
 .btn-sell {
     font-size: 20px;
-    padding: .5rem 1.5rem;
+    padding: 0.5rem 1.5rem;
     text-transform: uppercase;
 }
 
 .btn-buy,
 .btn-buy:hover,
 .btn-buy:focus {
-    background-color: #00955C;
-    color: #FFF;
+    background-color: #00955c;
+    color: #fff;
 }
 
 .btn-sell,
 .btn-sell:hover,
 .btn-sell:focus {
     background-color: rgba(190, 60, 0, 0.5);
-    color: #BE4200;
+    color: #be4200;
 }
 
 .btn-wide {
@@ -82,7 +90,7 @@
 
 .btn-favourite,
 .btn-favourite:hover {
-    color: #FFF;
+    color: #fff;
 }
 
 .btn-favourite:focus {
@@ -90,5 +98,5 @@
 }
 
 .btn-favourite.active {
-    color: #F9D423;
+    color: #f9d423;
 }
