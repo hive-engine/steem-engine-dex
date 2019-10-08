@@ -1,18 +1,36 @@
 .banner-block {
-    padding: 310px 0 43px 0;
     position: relative;
-    background-image: url('../images/bg-hero-machinery.jpg');
+    background-image: url("../images/main-header-bg.jpg");
     background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100%;
+}
+.overlay {
+    background: rgba(4, 3, 20, 0.8);
 }
 
 .banner-content {
-    margin-bottom: 100px;
+    height: 100vh;
+    padding: 50px 20;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
     text-align: center;
+}
+.banner-logo {
+    margin-top: -30px;
+}
+.banner-header {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #fff;
 }
 
 .banner-content h2 {
     font-weight: 700;
-    color: #fff;
+    color: #fff !important;
     margin-bottom: 30px;
 }
 
@@ -21,6 +39,35 @@
     font-size: 17px;
     line-height: 28px;
     margin-bottom: 57px;
+}
+
+.banner-content-btn {
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.banner-button {
+    margin: 4px;
+}
+
+.banner-btn {
+    border-radius: 3px;
+    color: white;
+    width: 216px;
+    height: 44px;
+    font-size: 25px;
+    margin-top: 4px;
+    padding: 5px 8px;
+    border: 1px solid white;
+}
+
+.btn-view-markets {
+    background-color: transparent;
+    color: white;
+}
+
+.btn-get-started {
+    background-color: rgb(50, 26, 94);
 }
 
 .banner-content .subs-form .input-box {

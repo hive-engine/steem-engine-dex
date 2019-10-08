@@ -1,0 +1,157 @@
+<template>
+    <require from="../../styles/faq.css"></require>
+    <div class="accordion" id="generalQuestionsAccordion" style="margin-top: 30px;">
+        <div class="accordion-wrapper" id="generalQuestions">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                    <button class="btn btn-link accordion-header" type="button" data-toggle="collapse" data-target="#questionOne" aria-expanded="false" aria-controls="collapseOne">
+                    What is STEEM ENGINE?
+                    </button>
+                </h2>
+                </div>
+
+                <div id="questionOne" class="collapse show" aria-labelledby="headingOne" data-parent="#generalQuestionsAccordion">
+                <div class="card-body">
+                    Steem Engine is a smart contracts side-chain platform for the Steem blockchain. 
+                    This means that it can execute custom smart contracts based on data published to 
+                    the Steem blockchain. This allows us to do things that are not currently supported 
+                    by the Steem blockchain, such as creating custom tokens, or literally anything else achievable with a smart contract.
+                </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#questionTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    How does STEEM ENGINE work?
+                    </button>
+                </h2>
+                </div>
+                <div id="questionTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#generalQuestionsAccordion">
+                <div class="card-body">
+                        Steem Engine uses the Steem Smart Contracts software created by @harpagon. 
+                        The software scans all blocks added to the Steem blockchain for transfers, 
+                        custom_json, or even comment operations that contain a certain sidechain ID. 
+                        It then executes the smart contract function specified in the operation data 
+                        and packages it into a block which is added to the sidechain. It also maintains 
+                        the current state of the sidechain and all smart contracts running on it which 
+                        can be queried using a familiar RPC API.                                </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#questionThree" aria-expanded="false" aria-controls="collapseThree">
+                    What are ENG tokens?
+                    </button>
+                </h2>
+                </div>
+                <div id="questionThree" class="collapse" aria-labelledby="headingThree" data-parent="#generalQuestionsAccordion">
+                <div class="card-body">
+                        ENG is the native token of the Steem Engine platform, 
+                        just like how ETH is the native token of the Ethereum platform. 
+                        ENG is currently required to create a new token on the Steem Engine platform, 
+                        and in the future it will be required to publish and execute custom smart contracts.                                </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingFour">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#questionFour" aria-expanded="false" aria-controls="collapseThree">
+                    How do I get ENG tokens?
+                    </button>
+                </h2>
+                </div>
+                <div id="questionFour" class="collapse" aria-labelledby="headingFour" data-parent="#generalQuestionsAccordion">
+                <div class="card-body">
+                        1M ENG tokens have been set aside for initial sale at the cost 
+                        of 1 STEEM per ENG token. They can be purchased through this website 
+                        by clicking the "Buy ENG" button on the Tokens page. In the future, 
+                        ENG will be able to be earned by running the Steem Smart Contracts node
+                        software to create blocks and help secure the network, just as STEEM/BTC/ETH
+                        can be earned by block producers securing their networks. At that point ENG
+                        will no longer be offered for sale directly and the price will be determined
+                        by the internal STEEM/ENG market.
+            
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingFive">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#questionFive" aria-expanded="false" aria-controls="collapseThree">
+                    How do I create my own token?
+                    </button>
+                </h2>
+                </div>
+                <div id="questionFive" class="collapse" aria-labelledby="headingFive" data-parent="#generalQuestionsAccordion">
+                <div class="card-body">
+                    You can create your own token through this website by clicking the 
+                    "CREATE" button at the top of the Tokens page. You will then be prompted to fill 
+                    in all of the required information about your token and pay the specified fee in ENG. 
+                    Please keep in mind that, other than the token URL, none of the information can be changed 
+                    once your token has been created, so please make sure you have thoroughly thought through everything before submitting.                                     
+                </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingSix">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#questionSix" aria-expanded="false" aria-controls="collapseThree">
+                    Why is there a fee to create a token?
+                    </button>
+                </h2>
+                </div>
+                <div id="questionSix" class="collapse" aria-labelledby="headingSix" data-parent="#generalQuestionsAccordion">
+                <div class="card-body">
+                        The fee is primarily to prevent people from creating "spam" tokens that have no real planned use. 
+                        If you would like to test creating a token, you can do so for free on the testnet website here. 
+                        The fee is meant to be large enough to prevent people from creating tokens they don't plan to 
+                        actually use, but small enough to not be a barrier for any serious projects. 
+                        If you have a good project and you truly cannot afford the fee, please contact us 
+                        on Discord and we may be able to cover the fee for you.                                
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingSeven">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#questionSeven" aria-expanded="false" aria-controls="collapseSeven">
+                    How do I issue a new token and what does that mean?
+                    </button>
+                </h2>
+                </div>
+                <div id="questionSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#generalQuestionsAccordion">
+                    <div class="card-body">
+                            After a new token is created they must be "issued" in order for them to be used and traded. 
+                            The total amount of a token that can be issued is limited by the max supply set during token creation. 
+                            Tokens may be issued all at once or in small amounts over time, it is up to the token creator. 
+                            To issue a token, you can click on the token in the list on the Tokens page and then click 
+                            on the "Issue" button on the top right of the screen. Only the creator of the token may 
+                            issue them, so you must be logged in with the Steem account that created the token in order for the option to appear.
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingEight">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#questionEight" aria-expanded="false" aria-controls="collapseEight">
+                    How do I view my balance/history or transfer tokens?
+                    </button>
+                </h2>
+                </div>
+                <div id="questionEight" class="collapse" aria-labelledby="headingEight" data-parent="#generalQuestionsAccordion">
+                <div class="card-body">
+                        You can view your balances of any tokens built on the Steem Engine platform from the "Wallet" 
+                        page of this site. If you click on a particular token you can see your recent transaction history. 
+                        If you click on a particular transaction in the history list you can see more details of that transaction. 
+                        There is also a "Send" button at the top right of the page after you have clicked on a specific 
+                        token which will allow you to transfer them to another Steem account. Additionally, 
+                        you can view your token balances and transfer tokens directly from the Steem Keychain browser extension.                                
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
