@@ -13,13 +13,12 @@ import firebase from 'firebase/app';
 import SSC from 'sscjs';
 import steem from 'steem';
 
-import { connectTo, dispatchify } from 'aurelia-store';
+import { connectTo } from 'aurelia-store';
 
-import { logout } from 'store/actions';
 import { loadTokens } from 'common/steem-engine';
 
 import { ToastService, ToastMessage } from './toast-service';
-import { queryParam, popupCenter, tryParse, usdFormat, formatSteemAmount } from 'common/functions';
+import { queryParam, popupCenter, formatSteemAmount } from 'common/functions';
 import { SteemKeychain } from './steem-keychain';
 import { EventAggregator } from 'aurelia-event-aggregator';
 

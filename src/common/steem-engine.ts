@@ -20,6 +20,30 @@ export async function request(url: string, params: any = {}) {
     });
 }
 
+/**
+ * 
+ * @param symbol a Steem-Engine token symbol (required)
+ * @param timestampStart a unix timestamp that represents the start of the dataset (optional)
+ * @param timestampEnd a unix timestamp that represents the end of the dataset (optional)
+ */
+export async function loadTokenMarketHistory(symbol: string, timestampStart?: string, timestampEnd?: string): Promise<IHistoryApiItem[]> {
+    let url = `${environment.HISTORY_API}?symbol=${symbol.toUpperCase()}`;
+
+    if (timestampStart) {
+        url += `&timestampStart=${timestampStart}`;
+    }
+
+    if (timestampEnd) {
+        url += `&timestampEnd=${timestampEnd}`;
+    }
+
+    const response = await http.fetch(url, {
+        method: 'GET'
+    });
+
+    return response.json() as Promise<IHistoryApiItem[]>;
+}
+
 export async function loadTokens(): Promise<any[]> {
     return new Promise((resolve) => {
         ssc.find('tokens', 'tokens', { }, 1000, 0, [], (err, result) => {
