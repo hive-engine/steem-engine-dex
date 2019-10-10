@@ -1,6 +1,6 @@
 .banner-block {
     position: relative;
-    background-image: url('../images/counter-section-bg.jpg');
+    background-image: url("../images/main-header-bg.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -30,7 +30,7 @@
 
 .banner-content h2 {
     font-weight: 700;
-    color: #fff!important;
+    color: #fff !important;
     margin-bottom: 30px;
 }
 
@@ -51,11 +51,10 @@
 }
 
 .banner-btn {
-    border-radius: 3px; 
+    border-radius: 3px;
     color: white;
     width: 216px;
     height: 44px;
-    font-weight: bold;
     font-size: 25px;
     margin-top: 4px;
     padding: 5px 8px;
@@ -65,13 +64,9 @@
 .btn-view-markets {
     background-color: transparent;
     color: white;
-    font-weight: 500px;
-    
 }
-
 .btn-get-started {
-    background-color: rgb(39, 35, 35);
-    
+    background-color: rgb(50, 26, 94);
 }
 
 .banner-content .subs-form .input-box {

@@ -1,0 +1,56 @@
+<template>
+    <div class="accordion" id="developerQuestionAccordion" style="margin-top: 30px;">
+        <div class="accordion-wrapper" id="developerQuestions">
+            <div class="card">
+                <div class="card-header" id="developerHeadingOne">
+                <h2 class="mb-0">
+                    <button class="btn btn-link accordion-header" type="button" data-toggle="collapse" data-target="#developerQuestionOne" aria-expanded="false" aria-controls="collapseOne">
+                    Can I integrate my website with STEEM ENGINE?
+                    </button>
+                </h2>
+                </div>
+
+                <div id="developerQuestionOne" class="collapse show" aria-labelledby="developerHeadingOne" data-parent="#developerQuestionAccordion">
+                <div class="card-body">
+                    Yes! The simplest way to integrate with the Steem Engine platform is to use our JavaScript library, 
+                    however you can also interact with the RPC endpoints directly from any programming language or tool 
+                    of your choice. If you have any questions or need any help please reach out in the developers channel in our Discord server.
+                </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="developerHeadingTwo">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#developerQuestionTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Can I run my own STEEM Smart Contracts Node?
+                    </button>
+                </h2>
+                </div>
+                <div id="developerQuestionTwo" class="collapse" aria-labelledby="developerHeadingTwo" data-parent="#developerQuestionAccordion">
+                <div class="card-body">
+                    Yes again! You can download the Steem Smart Contracts software from GitHub and view the documentation 
+                    for how to set it up in the readme. If you have any questions or need any help please reach out in the 
+                    developers channel in our Discord server.                                
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="developerHeadignThree">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#developerQuestionThree" aria-expanded="false" aria-controls="collapseThree">
+                    Can I publish my own Smart Contract to the STEEM sidechain?
+                    </button>
+                </h2>
+                </div>
+                <div id="developerQuestionThree" class="collapse" aria-labelledby="developerHeadignThree" data-parent="#developerQuestionAccordion">
+                <div class="card-body">
+                    We are currently not allowing arbitrary smart contracts to be published to the sidechain, 
+                    as you can do on platforms like Ethereum or EOS. Our goal is to be able to allow this at 
+                    some point in the future, but for now if you are interested in deploying a custom smart 
+                    contract please contact us on Discord and we can work with you on that.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
