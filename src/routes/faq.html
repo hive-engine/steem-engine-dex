@@ -1,3 +1,192 @@
 <template>
-    <h1>This is FAQ page!</h1>
+<require from="../components/faq/general-questions.html"></require>
+    <require from="../components/faq/market-questions.html"></require>
+    <require from="../components/faq/token-questions.html"></require>
+    <require from="../components/faq/developer-questions.html"></require>
+
+    <div class="faq-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 offset-md-1">
+                    <div class="header-title">
+                        <h1 class="header-text text-center">
+                            FAQ
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="hr-blue-style-faq" />
+        <div class="faq-wrapper">
+            <div class="container">
+                <div class="row" style="display:flex;">
+                    <div class="col-md-4">
+                        <div class="help-icon">
+                            <img
+                                src="../images/question.svg"
+                                width="100%"
+                                alt="askUs"
+                            />
+                        </div>
+                    </div>
+                    <div class="col-md-8 flex-it">
+                        <div class="faq-desc">
+                            <h2 class="faq-desc-title">
+                                What would you like to know about STEEM ENGINE?
+                            </h2>
+
+                            <p class="desc-text">
+                                You can't find the solution to what you are
+                                looking for? Here's a list of questions our
+                                users frequently ask us.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="questions">
+        <div class="container">
+            <div class="row" style="display: flex;">
+                <div class="col-md-4">
+                    <div class="category-items card">
+                        <ul class="category" id="questionToggler">
+                            <li>
+                                <a
+                                    data-toggle="collapse"
+                                    href="#general-question-tab"
+                                    role="button"
+                                    aria-expanded="false"
+                                    aria-controls="collapseExample"
+                                    click.trigger="handleClick('general')"
+                                    class="faq-header-links"
+                                    >General
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    data-toggle="collapse"
+                                    href="#market-question-tab"
+                                    role="button"
+                                    aria-expanded="false"
+                                    aria-controls="collapseExample"
+                                    click.trigger="handleClick('market')"
+                                    class="faq-header-links"
+                                    >Markets</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    data-toggle="collapse"
+                                    href="#token-question-tab"
+                                    role="button"
+                                    aria-expanded="false"
+                                    aria-controls="collapseExample"
+                                    click.trigger="handleClick('token')"
+                                    class="faq-header-links"
+                                    >Tokens</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    data-toggle="collapse"
+                                    href="#developer-question-tab"
+                                    role="button"
+                                    aria-expanded="false"
+                                    aria-controls="collapseExample"
+                                    click.trigger="handleClick('developer')"
+                                    class="faq-header-links"
+                                    >Developer</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    role="button"
+                                    class="faq-header-links"
+                                    >Rewards</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <general-questions
+                        id="general-question-tab"
+                        class="faq-detail"
+                    ></general-questions>
+                    <market-questions
+                        id="market-question-tab"
+                        class="faq-detail"
+                        style="display: none;"
+                        class="hide-tab"
+                    ></market-questions>
+                    <token-questions
+                        id="token-question-tab"
+                        class="faq-detail"
+                        style="display: none;"
+                        class="hide-tab"
+                    ></token-questions>
+                    <developer-questions
+                        id="developer-question-tab"
+                        class="faq-detail"
+                        style="display: none;"
+                        class="hide-tab"
+                    ></developer-questions>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mail-us">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 offset-md-1"></div>
+            </div>
+        </div>
+
+        <div class="faq-wrapper text-center" style="margin-top: 30px;">
+            <div class="row">
+                <div class="col-md-10 offset-md-1">
+                    <div class="faq-desc">
+                        <h2 class="faq-desc-title">
+                            What would you like to know about STEEM ENGINE?
+                        </h2>
+                        <hr class="hr-style-faq" />
+                        <p class="desc-text">
+                            You can't find the solution to what you are looking
+                            for? Here's a list of questions our users frequently
+                            ask us.
+                        </p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 offset-md-3">
+                            <div class="input">
+                                <form class="form-group">
+                                    <input
+                                        type="text"
+                                        class="form-control mb-2 mr-sm-2 text-center"
+                                        id="contactUs"
+                                        placeholder="Enter your email address"
+                                        width="100%"
+                                        style="padding: 25px; font-size: 18px; height: 30px;"
+                                    />
+                                    <a href="#" style="margin-top: 15px;"
+                                        ><button
+                                            type="submit"
+                                            class="btn greenBtn"
+                                        >
+                                            Submit
+                                        </button></a
+                                    >
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </template>
