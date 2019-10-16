@@ -1,0 +1,107 @@
+.tribes-header {
+    padding-top: 60px;
+    margin-bottom: 50px;
+}
+.card {
+    /*transition: box-shadow 0.25s linear;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+     //padding: 20px !important;
+    background-color: rgb(253, 253, 253);
+    border: 1px solid #eee;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(3, 27, 78, 0.06);*/
+    text-align: center;
+    transition: 0.1s all ease-out;
+}
+.card:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+    background: rgba(161, 149, 212, 0.034);
+    border-radius: 10%;
+}
+.tribe-item {
+    border-bottom: rgb(211, 205, 205) solid 1px;
+    padding: 8px;
+    padding-bottom: 20px;
+    border-radius: 50%;
+}
+.tribe-icon {
+    box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 9px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 50%;
+}
+.tribe-item span {
+    border-radius: 50%;
+    padding: 10px !important;
+}
+.tribes-title p {
+    font-size: 16px;
+}
+.tribe-link {
+    padding: 4px;
+}
+.font-awesome-icons {
+    color: #333;
+}
+.blue-line {
+    width: 10%;
+    border-top: 3px solid #1eac38;
+}
+.margin-class {
+    margin-bottom: 15px;
+}
+.greenBtn {
+    /*padding: .5rem 3rem;*/
+    background-color: #21be3d;
+    color: #fff !important;
+    font-weight: bold;
+    font-family: main-font-bold !important;
+    font-size: 12px;
+    border-radius: 0.25rem;
+}
+.greenBtn:hover {
+    background-color: #1eac38;
+}
+.transparentBtn {
+    color: #212529;
+    background-color: transparent !important;
+    border: 2px solid #ffc107;
+}
+.transparentBtn:hover {
+    color: #212529;
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+.see-more a {
+    color: #0048b3;
+    font-size: 24px;
+    padding-bottom: 25px;
+}
+.see-more a:hover {
+    color: #061833;
+    text-decoration: underline;
+}
+.see-more:hover .see-more-fa {
+    color: #061833;
+    padding-left: 6px;
+    margin-left: 2px;
+}
+.see-more-fa {
+    color: #0048b3;
+    font-size: 14px;
+    padding-left: 3px;
+    transition: 0.1s all ease-out;
+}
+.start {
+    background: #0048b3;
+    padding: 50px 20px;
+    margin-bottom: -100px;
+}
+.texts h2 {
+    color: #fff;
+}
+.texts p {
+    color: #fff;
+}
