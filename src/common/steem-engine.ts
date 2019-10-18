@@ -165,26 +165,38 @@ export async function loadPendingUnstakes(account: string) {
     }
 }
 
-export function checkTransaction(trx_id, retries, callback) {
-    ssc.getTransactionInfo(trx_id, (err, result) => {
-        if (result) {
-            let error = null;
+const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
+const getTransactionInfo = (trx_id) => new Promise((resolve, reject) => {
+    ssc.getTransactionInfo(trx_id, async (err, result) => {
+        if (result) {
             if (result.logs) {
                 const logs = JSON.parse(result.logs);
 
                 if (logs.errors && logs.errors.length > 0) {
-                    error = logs.errors[0];
+                    reject({
+                        ...result,
+                        error: logs.errors[0]
+                    });
                 }
             }
 
-            if (callback) {
-                callback(Object.assign(result, { error: error, success: !error }));
-            }	
-        } else if (retries > 0) {
-            setTimeout(() => checkTransaction(trx_id, retries - 1, callback), 5000);
-        } else if (callback) {
-            callback({ success: false, error: 'Transaction not found.' });
+            resolve(result);
+        } else {
+            reject(err);
         }
     });
+});
+
+export async function checkTransaction(trx_id: string, retries: number) {
+    try {
+        return await getTransactionInfo(trx_id);
+    } catch (e) {
+        if (retries > 0) {
+            await delay(5000);
+            return await checkTransaction(trx_id, retries - 1);
+        } else {
+            throw new Error('Transaction not found.');
+        }
+    }
 }
