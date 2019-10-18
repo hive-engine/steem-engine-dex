@@ -104,7 +104,7 @@ export function formatSteemAmount(num) {
 }
 
 export function percentageOf(amount: number, percentOf: number) {
-    return percentOf * amount / 100;
+    return !isNaN(amount) ? percentOf * amount / 100 : null;
 }
 
 export async function getSteemPrice() {
