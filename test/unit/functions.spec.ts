@@ -1,6 +1,21 @@
-import { addCommas, usdFormat, largeNumber, formatSteemAmount, percentageOf } from 'common/functions';
+import { addCommas, usdFormat, largeNumber, formatSteemAmount, percentageOf, getSteemPrice, queryParam } from 'common/functions';
+
+jest.mock('aurelia-fetch-client');
+
+import { HttpClient } from 'aurelia-fetch-client';
 
 describe('Functions', () => {
+
+    it('queryParam should create params', () => {
+        const returnedValue = queryParam({ val1: 123, 'value-two': 'gsdgsdg', goose: undefined });
+
+        expect(returnedValue).toEqual('val1=123&value-two=gsdgsdg&goose=undefined');
+    });
+    it('queryParam should create params with array', () => {
+        const returnedValue = queryParam({ val1: 123, 'val2': ['aggroed', 'beggars']});
+
+        expect(returnedValue).toEqual('val1=123&val2%5B%5D=aggroed&val2%5B%5D=beggars');
+    });
 
     it('addCommas method should convert provided value into comma separated value', () => {
         const returnedValue = addCommas('100000');
@@ -92,6 +107,38 @@ describe('Functions', () => {
         const returnedValue = percentageOf(7893, 0.87);
 
         expect(returnedValue).toEqual(68.6691);
+    });
+
+    it('percentageOf should return null when passed invalid value', () => {
+        // @ts-ignore
+        const returnedValue = percentageOf('fdsd', 0.87);
+
+        expect(returnedValue).toBeNull();
+    });
+
+    it('percentageOf should return null when passed invalid percentage', () => {
+        // @ts-ignore
+        const returnedValue = percentageOf(1234, 'fsdf');
+
+        expect(returnedValue).toBeNull();
+    });
+
+    it('getSteemPrice should return mock steem price', async () => {
+        // @ts-ignore
+        fetch.mockResponseOnce(JSON.stringify({ steem_price: 0.389283 }))
+
+        const returnedValue = await getSteemPrice();
+
+        expect(returnedValue).toEqual(0.389283);
+    });
+
+    it('getSteemPrice should return 0 if request fails', async () => {
+        // @ts-ignore
+        fetch.mockReject(new Error('fake error message'));
+
+        const returnedValue = await getSteemPrice();
+
+        expect(returnedValue).toEqual(0);
     });
 
 });
