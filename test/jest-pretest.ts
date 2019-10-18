@@ -1,3 +1,5 @@
+(global as any).fetch = require('jest-fetch-mock');
+
 import 'aurelia-polyfills';
 import {Options} from 'aurelia-loader-nodejs';
 import {globalize} from 'aurelia-pal-nodejs';
