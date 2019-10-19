@@ -143,9 +143,9 @@
             "json"
         ],
         "transform": {
-            "^.+\\.ts$": "ts-jest"
+            "^.+\\.tsx?$": "ts-jest"
         },
-        "testRegex": "\\.spec\\.(ts|js)$",
+        "testRegex": ".*(\\.test|\\.spec)\\.(jsx?|tsx?)",
         "setupFiles": [
             "<rootDir>/test/jest-pretest.ts"
         ],
