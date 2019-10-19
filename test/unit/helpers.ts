@@ -68,7 +68,7 @@ export function createUndoableTestStore(state: StateHistory<any>) {
   return { state, store };
 }
 
-export async function asyncTimer(msec) {
+export async function delay(msec) {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve();
