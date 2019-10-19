@@ -4,6 +4,12 @@ const customGlobal: GlobalWithFetchMock = global as GlobalWithFetchMock;
 customGlobal.fetch = require('jest-fetch-mock');
 customGlobal.fetchMock = customGlobal.fetch;
 
+jest.mock('sscjs', () => {
+    return {
+      default: jest.fn()
+    }
+});
+
 import 'aurelia-polyfills';
 import { Options } from 'aurelia-loader-nodejs';
 import { globalize } from 'aurelia-pal-nodejs';
