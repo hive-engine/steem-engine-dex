@@ -192,7 +192,7 @@ section {
     margin-top: 7px;
 }
 .offer-item a {
-    color: #0048b3;
+    color: #0048b3 !important;
     font-size: 18px;
 }
 .offer-item a span:hover {
