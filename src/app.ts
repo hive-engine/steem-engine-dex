@@ -137,6 +137,15 @@ export class App {
                 ),
                 nav: false,
                 title: "Tribes"
+            },
+            {
+                route: "pricing",
+                name: "pricing",
+                moduleId: PLATFORM.moduleName(
+                    "./routes/offering-routes/pricing"
+                ),
+                nav: false,
+                title: "Pricing"
             }
         ]);
 

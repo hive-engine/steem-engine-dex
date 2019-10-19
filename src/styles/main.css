@@ -3,6 +3,7 @@
 @import "./bootstrap-modal.css";
 @import "./signin.css";
 @import "./buttons.css";
+@import "./smallnav.css";
 
 @font-face {
     font-family: main-font;
