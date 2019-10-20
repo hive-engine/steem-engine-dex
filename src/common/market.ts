@@ -14,8 +14,8 @@ const i18n: I18N = Container.instance.get(I18N);
 
 export async function getUserOpenOrders(account: string = null) {
     try {
-        let buyOrders = await ssc.find('market', 'buyBook', { account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false);
-        let sellOrders = await ssc.find('market', 'sellBook', { account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false);
+        let buyOrders = await ssc.find('market', 'buyBook', { account: account }, 100, 0, [{ index: '_id', descending: true }], false);
+        let sellOrders = await ssc.find('market', 'sellBook', { account: account }, 100, 0, [{ index: '_id', descending: true }], false);
         
         buyOrders = buyOrders.map(o => {
             o.type = 'buy';
