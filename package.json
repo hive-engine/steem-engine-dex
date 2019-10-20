@@ -150,11 +150,6 @@
         "setupFiles": [
             "<rootDir>/test/jest-pretest.ts"
         ],
-        "testPathIgnorePatterns": [
-            "build",
-            "dist",
-            "sample"
-        ],
         "testEnvironment": "node",
         "collectCoverage": true,
         "collectCoverageFrom": [
