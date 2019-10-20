@@ -102,7 +102,7 @@ export async function loadBuyBook(state: State, symbol: string, account: string 
     const newState = { ...state };
 
     try {
-        const buyBook = await ssc.find('market', 'buyBook', { symbol, account }, 200, 0, [{ index: 'price', descending: true }], false);
+        const buyBook = await ssc.find('market', 'buyBook', { symbol, account }, 200, 0, [{ index: 'priceDec', descending: true }], false);
         
         newState.buyBook = buyBook.map(o => {
             newState.buyTotal += o.quantity * o.price;
@@ -121,7 +121,7 @@ export async function loadSellBook(state: State, symbol: string, account: string
     const newState = { ...state };
 
     try {
-        const sellBook = await ssc.find('market', 'sellBook', { symbol, account }, 200, 0, [{ index: 'price', descending: false }], false);
+        const sellBook = await ssc.find('market', 'sellBook', { symbol, account }, 200, 0, [{ index: 'priceDec', descending: false }], false);
 
         newState.sellBook = sellBook.map(o => {
             newState.sellTotal += o.quantity * o.price;
@@ -140,7 +140,8 @@ export async function loadTradeHistory(state: State, symbol: string, account: st
     const newState = { ...state };
 
     try {
-        const tradeHistory = await ssc.find('market', 'tradesHistory', { symbol, account }, 30, 0, [{ index: 'timestamp', descending: false }], false);
+        const tradeHistory = await ssc.find('market', 'tradesHistory', { symbol, account }, 30, 0, [{ index: '_id', descending: false }], false);
+        console.log('dwayne', tradeHistory);
         newState.tradeHistory = tradeHistory.map(o => {
             o.total = o.price * o.quantity;
             o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
