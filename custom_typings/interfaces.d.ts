@@ -47,4 +47,6 @@ interface IHistoryApiItem {
     volumeToken: string;
     lowestPrice: string;
     highestPrice: string;
+    openPrice: string;
+    closePrice: string;
 }
