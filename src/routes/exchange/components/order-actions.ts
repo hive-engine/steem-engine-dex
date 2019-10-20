@@ -6,6 +6,7 @@ import { I18N } from 'aurelia-i18n';
 
 @autoinject()
 export class OrderActions {
+    @bindable amountSelect;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) price;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) quantity;
     @bindable mode;

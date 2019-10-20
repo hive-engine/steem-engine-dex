@@ -13,13 +13,12 @@ import firebase from 'firebase/app';
 import SSC from 'sscjs';
 import steem from 'steem';
 
-import { connectTo, dispatchify } from 'aurelia-store';
+import { connectTo } from 'aurelia-store';
 
-import { logout } from 'store/actions';
 import { loadTokens } from 'common/steem-engine';
 
 import { ToastService, ToastMessage } from './toast-service';
-import { queryParam, popupCenter, tryParse, usdFormat, formatSteemAmount } from 'common/functions';
+import { queryParam, popupCenter, formatSteemAmount } from 'common/functions';
 import { SteemKeychain } from './steem-keychain';
 import { EventAggregator } from 'aurelia-event-aggregator';
 
@@ -302,8 +301,8 @@ export class SteemEngine {
         }
 
         try {
-            let buyOrders = await this.ssc.find('market', 'buyBook', { account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false);
-            let sellOrders = await this.ssc.find('market', 'sellBook', { account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false);
+            let buyOrders = await this.ssc.find('market', 'buyBook', { account: account }, 100, 0, [{ index: '_id', descending: true }], false);
+            let sellOrders = await this.ssc.find('market', 'sellBook', { account: account }, 100, 0, [{ index: '_id', descending: true }], false);
             
             buyOrders = buyOrders.map(o => {
                 o.type = 'buy';
@@ -898,10 +897,10 @@ export class SteemEngine {
         }
 
         if (!account) {
-            return this.ssc.find('market', 'buyBook', { symbol: symbol }, 200, 0, [{ index: 'price', descending: true }], false);
+            return this.ssc.find('market', 'buyBook', { symbol: symbol }, 200, 0, [{ index: 'priceDesc', descending: true }], false);
         }
 
-        return this.ssc.find('market', 'buyBook', { symbol, account }, 200, 0, [{ index: 'price', descending: true }], false);
+        return this.ssc.find('market', 'buyBook', { symbol, account }, 200, 0, [{ index: 'priceDesc', descending: true }], false);
     }
     
     async sellBook(symbol, account?: string) {
@@ -916,13 +915,13 @@ export class SteemEngine {
         }
 
         if (!account) {
-            return this.ssc.find('market', 'sellBook', { symbol }, 200, 0, [{ index: 'price', descending: false }], false);
+            return this.ssc.find('market', 'sellBook', { symbol }, 200, 0, [{ index: 'priceDesc', descending: false }], false);
         }
 
         return this.ssc.find('market', 'sellBook', { 
             symbol, 
             account 
-        }, 200, 0, [{ index: 'price', descending: false }], false);
+        }, 200, 0, [{ index: 'priceDesc', descending: false }], false);
     }
     
     async tradesHistory(symbol) {
@@ -936,7 +935,7 @@ export class SteemEngine {
             return false;
         }
 
-        return this.ssc.find('market', 'tradesHistory', { symbol: symbol }, 30, 0, [{ index: 'timestamp', descending: false }], false);
+        return this.ssc.find('market', 'tradesHistory', { symbol: symbol }, 30, 0, [{ index: '_id', descending: false }], false);
     }
 
     async userBalances(symbol, account) {

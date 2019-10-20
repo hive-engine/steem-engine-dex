@@ -17,6 +17,7 @@ interface EnvironmentInterface {
     CONVERTER_API: string;
     NODE_API_URL: string;
     GRAPHQL_API: string;
+    HISTORY_API: string;
     SCOT_API: string;
     STEEMP_ACCOUNT: string;
     NATIVE_TOKEN: string;
@@ -26,7 +27,7 @@ interface EnvironmentInterface {
 }
 
 interface BalanceInterface {
-    $loki: number;
+    _id: number;
     account: string;
     balance: string;
     lastPrice: number;
@@ -35,4 +36,15 @@ interface BalanceInterface {
     scotConfig?: any;
     symbol: string;
     usdValue: string;
+}
+
+
+interface IHistoryApiItem {
+    _id: string;
+    timestamp: number;
+    symbol: string;
+    volumeSteem: string;
+    volumeToken: string;
+    lowestPrice: string;
+    highestPrice: string;
 }

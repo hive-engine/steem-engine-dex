@@ -20,6 +20,30 @@ export async function request(url: string, params: any = {}) {
     });
 }
 
+/**
+ * 
+ * @param symbol a Steem-Engine token symbol (required)
+ * @param timestampStart a unix timestamp that represents the start of the dataset (optional)
+ * @param timestampEnd a unix timestamp that represents the end of the dataset (optional)
+ */
+export async function loadTokenMarketHistory(symbol: string, timestampStart?: string, timestampEnd?: string): Promise<IHistoryApiItem[]> {
+    let url = `${environment.HISTORY_API}?symbol=${symbol.toUpperCase()}`;
+
+    if (timestampStart) {
+        url += `&timestampStart=${timestampStart}`;
+    }
+
+    if (timestampEnd) {
+        url += `&timestampEnd=${timestampEnd}`;
+    }
+
+    const response = await http.fetch(url, {
+        method: 'GET'
+    });
+
+    return response.json() as Promise<IHistoryApiItem[]>;
+}
+
 export async function loadTokens(): Promise<any[]> {
     return new Promise((resolve) => {
         ssc.find('tokens', 'tokens', { }, 1000, 0, [], (err, result) => {
@@ -64,7 +88,7 @@ export async function loadTokens(): Promise<any[]> {
                         }
 
                         if (token.symbol == 'AFIT') {
-                            const afit_data = await ssc.find('market', 'tradesHistory', { symbol: 'AFIT' }, 100, 0, [{ index: 'timestamp', descending: false }], false);
+                            const afit_data = await ssc.find('market', 'tradesHistory', { symbol: 'AFIT' }, 100, 0, [{ index: '_id', descending: false }], false);
                             token.volume = (afit_data) ? afit_data.reduce((t, v) => t += parseFloat(v.price) * parseFloat(v.quantity), 0) : 0;
                         }
                     }
@@ -141,26 +165,38 @@ export async function loadPendingUnstakes(account: string) {
     }
 }
 
-export function checkTransaction(trx_id, retries, callback) {
-    ssc.getTransactionInfo(trx_id, (err, result) => {
-        if (result) {
-            let error = null;
+const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
+const getTransactionInfo = (trx_id) => new Promise((resolve, reject) => {
+    ssc.getTransactionInfo(trx_id, async (err, result) => {
+        if (result) {
             if (result.logs) {
                 const logs = JSON.parse(result.logs);
 
                 if (logs.errors && logs.errors.length > 0) {
-                    error = logs.errors[0];
+                    reject({
+                        ...result,
+                        error: logs.errors[0]
+                    });
                 }
             }
 
-            if (callback) {
-                callback(Object.assign(result, { error: error, success: !error }));
-            }	
-        } else if (retries > 0) {
-            setTimeout(() => checkTransaction(trx_id, retries - 1, callback), 5000);
-        } else if (callback) {
-            callback({ success: false, error: 'Transaction not found.' });
+            resolve(result);
+        } else {
+            reject(err);
         }
     });
+});
+
+export async function checkTransaction(trx_id: string, retries: number) {
+    try {
+        return await getTransactionInfo(trx_id);
+    } catch (e) {
+        if (retries > 0) {
+            await delay(5000);
+            return await checkTransaction(trx_id, retries - 1);
+        } else {
+            throw new Error('Transaction not found.');
+        }
+    }
 }
