@@ -1,10 +1,5 @@
 import { addCommas, usdFormat, largeNumber, formatSteemAmount, percentageOf, getSteemPrice, queryParam } from 'common/functions';
 
-jest.mock('aurelia-fetch-client');
-
-import { HttpClient } from 'aurelia-fetch-client';
-import { delay } from './helpers';
-
 describe('Functions', () => {
 
     beforeEach(() => {
@@ -123,23 +118,21 @@ describe('Functions', () => {
     });
 
     it('percentageOf should return null when passed invalid percentage', () => {
-        // @ts-ignore
+
         const returnedValue = percentageOf(1234, 'fsdf');
 
         expect(returnedValue).toBeNull();
     });
 
-    // it('getSteemPrice should return mock steem price', async () => {
-    //     // @ts-ignore
-    //     fetch.mockResponseOnce(JSON.stringify({ steem_price: 0.389283 }));
+    it('getSteemPrice should return mock steem price', async () => {
+        fetchMock.mockResponseOnce(JSON.stringify({ steem_price: 0.389283 }));
 
-    //     const response = await getSteemPrice();
-    //     expect(response).toEqual(0.389283)
-    // });
+        const response = await getSteemPrice();
+        expect(response).toEqual(0.389283)
+    });
 
     it('getSteemPrice should return 0 if request fails', async () => {
-        // @ts-ignore
-        fetch.mockRejectOnce(new Error('fake error message'));
+        fetchMock.mockRejectOnce(new Error('fake error message'));
 
         const returnedValue = await getSteemPrice();
 
