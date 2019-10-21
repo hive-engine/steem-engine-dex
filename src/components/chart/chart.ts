@@ -54,14 +54,18 @@ export class ChartComponent {
 
         options.type = chartType;
 
+        //var randomData = this.getRandomData(this.initialDateStr, this.barCount);
+        //console.log('random data');
+        //console.log(randomData);
+
         if (chartType == 'line') {
             options.data = this.data;
         } else {            
             options.data = {
                 datasets: [{
                     label: 'SE Dex',
-                    //data: this.data.ohlcData
-                    data: this.getRandomData(this.initialDateStr, this.barCount)
+                    data: this.data.ohlcData
+                    //data: this.getRandomData(this.initialDateStr, this.barCount)
                 }]
             };            
         }

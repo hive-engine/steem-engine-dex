@@ -119,9 +119,19 @@ export class Exchange {
                 sellOrderDataset.push(sellOrderCurrentVolume);
             }
         });
+                
+        const tokenHistory = await loadTokenMarketHistory(this.currentToken);        
+        var limitCandleStick = 60;
 
-        const tokenHistory = await loadTokenMarketHistory(this.currentToken);
-        console.log('History', tokenHistory);
+        var candleStickData = tokenHistory.slice(0, limitCandleStick).map(x => {
+            return {
+                t: moment.unix(x.timestamp).format('YYYY-MM-DD HH:mm:ss'),//x.timestamp * 1000,
+                o: x.openPrice, 
+                h: x.highestPrice,
+                l: x.lowestPrice,                
+                c: x.closePrice
+            }
+        });        
 
         this.chartData = {
             labels: buyOrderLabels.concat(sellOrderLabels),
@@ -141,89 +151,9 @@ export class Exchange {
                     data: sellOrderDataset
                 }
             ],
-            ohlcData: this.convertToOHLC(this.tradeHistory)
-        };
-        console.log('ohlc');
-        console.log(this.chartData.ohlcData);
-    }
-
-    convertToOHLC2(data) {
-        var parsedData = data,//JSON.parse(data),
-            pointStart,
-            range = [],
-            low,
-            high,
-            ranges = [],
-            dataOHLC = [],
-            interval = 60 * 60; //
-
-        parsedData.sort(function (a, b) {
-            return a.timestamp - b.timestamp
-        });
-
-        pointStart = parsedData[0].timestamp;
-
-        var pointStartDT = moment.unix(pointStart).format('YYYY-M-DD HH:mm:ss');
-        var startInterval = pointStart + interval;
-        var intervalDT = moment.unix(startInterval).format('YYYY-M-DD HH:mm:ss');
-
-        $.each(parsedData, function (i, el) {            
-            var startIntervaldt = moment.unix(startInterval).format('YYYY-M-DD HH:mm:ss');
-            
-            if (el.timestamp < pointStart + interval) {                
-                range.push(el);                
-            } else {                
-                ranges.push(range.slice());
-                range = [];
-                range.push(el);
-                pointStart = pointStart + interval;
-            }
-
-            if (i === parsedData.length - 1) {
-                ranges.push(range);
-            }
-        });
-
-        $.each(ranges, function (i, range) {
-            low = range[0].price;
-            high = range[0].price;
-
-            $.each(range, function (i, el) {
-                low = Math.min(low, el.price);
-                high = Math.max(high, el.price);
-            });
-
-            dataOHLC.push({
-                t: range[0].timestamp,
-                o: Number(range[0].price).toString(),
-                h: high.toString(),
-                l: low.toString(),
-                c: Number(range[range.length - 1].price).toString()
-            });
-        });
-
-        return dataOHLC;
-    }
-
-    convertToOHLC(data) {
-        data.sort((a, b) => d3.ascending(a.timestamp, b.timestamp));
-        var result = [];
-        var format = d3.timeFormat("%Y-%m-%d");
-        data.forEach(d => d.timestamp = format(new Date(d.timestamp * 1000)));
-        var allDates = [...new Set(data.map(d => d.timestamp))];
-        allDates.forEach(d => {
-            var tempObject = { t: null, o: null, c: null, h: null, l: null, };
-            var filteredData = data.filter(e => e.timestamp === d);
-            
-            tempObject.t = d;
-            tempObject.o = filteredData[0].price; 
-            tempObject.c = filteredData[filteredData.length - 1].price;
-            tempObject.h = d3.max(filteredData, e => e.price);
-            tempObject.l = d3.min(filteredData, e => e.price);
-            result.push(tempObject);
-        });
-        return result;
-    };
+            ohlcData: candleStickData
+        };        
+    }    
 
     attached() {
         const symbol = this.currentToken;

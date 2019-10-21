@@ -14,6 +14,9 @@ Chart.defaults.financial = {
     scales: {
         xAxes: [{
             type: 'time',
+            time: {
+                unit: 'day'
+            },
             distribution: 'series',
             categoryPercentage: 0.8,
             barPercentage: 0.9,
