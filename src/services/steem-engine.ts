@@ -21,7 +21,6 @@ import { ToastService, ToastMessage } from './toast-service';
 import { queryParam, popupCenter, formatSteemAmount } from 'common/functions';
 import { SteemKeychain } from './steem-keychain';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { throwError } from 'rxjs';
 
 @connectTo()
 @autoinject()
@@ -66,7 +65,7 @@ export class SteemEngine {
         this.http.configure(config => config.useStandardConfiguration());
     }
 
-    getUser() {
+    getUser() {        
         const username = localStorage.getItem('username');
 
         if (!this.user && !username) {
