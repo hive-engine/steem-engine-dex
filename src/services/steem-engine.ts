@@ -21,6 +21,7 @@ import { ToastService, ToastMessage } from './toast-service';
 import { queryParam, popupCenter, formatSteemAmount } from 'common/functions';
 import { SteemKeychain } from './steem-keychain';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { throwError } from 'rxjs';
 
 @connectTo()
 @autoinject()
@@ -1086,9 +1087,13 @@ export class SteemEngine {
         }
 
         try {
+            var userName = this.user.name != "" ? this.user.name : this.getUser();
+            if (userName == null || userName == '')
+                throw new Error("User is unknown");
+
             const request = await this.http.fetch(`${environment.CONVERTER_API}/convert/`, {
                 method: 'POST',
-                body: json({from_coin: symbol, to_coin: peggedToken.pegged_token_symbol, destination: this.user.name})
+                body: json({ from_coin: symbol, to_coin: peggedToken.pegged_token_symbol, destination: userName})
             });
 
             const response = await request.json();
