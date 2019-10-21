@@ -119,6 +119,7 @@ describe('Functions', () => {
 
     it('percentageOf should return null when passed invalid percentage', () => {
 
+        // @ts-ignore
         const returnedValue = percentageOf(1234, 'fsdf');
 
         expect(returnedValue).toBeNull();
