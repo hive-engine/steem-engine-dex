@@ -1,7 +1,16 @@
 .exchange-columns > div:first-child,
 .exchange-columns > div:last-child {
-    background-color: #002B33;
+    background-color: #fefefe;
     padding-top: 20px;
+}
+
+tr td:nth-child(2),
+tr td:last-child {
+    text-align: right;
+}
+
+.token-metrics-margin-top {
+    margin-top: 40px;
 }
 
 .table-wrapper {
@@ -9,35 +18,36 @@
 }
 
 .best-price {
-    background: #000;
+    background: #0048b3;
     border-radius: 4px;
-    color: #FFF;
+    color: #fff;
     margin: 15px 0;
     padding: 15px;
     text-align: center;
 }
 
-    .best-price > div:first-child {
-        font-size: 1.2rem;
-    }
+.best-price > div:first-child {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
 
-    .best-price > div:last-child {
-        
-    }
+.best-price > div:last-child {
+    color: red;
+}
 
 .chart-col {
-    background-color: #181F1F;
+    background: rgba(192, 186, 186, 0.5);
 }
 
 .exchange-chart {
-    background: #000;
+    background: #fff;
     display: block;
     margin-bottom: 20px;
     margin-top: 15px;
 }
 
 .balances-heading {
-    color: #FFF;
+    color: #0048b4;
     font-size: 20px;
     margin: 0 0 15px 0;
     padding-top: 6px;
@@ -47,7 +57,8 @@
 
 .buy-table,
 .sell-table {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(192, 186, 186, 0.5);
+    color: #0048b3;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     width: 100%;
@@ -59,10 +70,11 @@
 
 .buy-table thead,
 .sell-table thead {
-    background: #000;
+    background: #0048b3;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    color: #71FFFF;
+    color: #fff;
+    font-size: 14px;
 }
 
 .buy-table th,
@@ -74,106 +86,105 @@
 }
 
 .balance-label {
-    color: #71FFFF;
+    color: #525853;
     font-size: 12px;
     margin: 0;
 }
 
 .form-control-dark,
 .form-control-dark:focus,
-.form-control-dark:disabled, 
+.form-control-dark:disabled,
 .form-control-dark[readonly] {
-    background: #000;
+    background: #fff;
     border: none;
     box-shadow: none;
-    color: #FFF;
+    color: #0048b3;
     outline: none;
 }
 
 .input-group-text-dark {
-    background: #000;
+    background: #0048b3;
     border: none;
-    color: #488E9B;
-    padding-left: 0;
+    color: #fff;
+    padding-left: 10px;
 }
 
 .form-control-dark::-webkit-input-placeholder {
-    color: #FFF;
+    color: #000;
 }
 
 .form-control-dark::-moz-placeholder {
-    color: #FFF;
+    color: #000;
 }
 
 .form-control-dark:-ms-input-placeholder {
-   color: #FFF;
+    color: #000;
 }
 
 .form-control-dark:-moz-placeholder {
-    color: #FFF;
+    color: #000;
 }
 
 .form-control-light,
 .form-control-light:focus,
-.form-control-light:disabled, 
+.form-control-light:disabled,
 .form-control-light[readonly] {
-    background: #D3E6EA;
+    background: #ffffff;
     border: none;
     box-shadow: none;
-    color: #002B33;
+    color: #002b33;
     outline: none;
 }
 
 .form-control-light::-webkit-input-placeholder {
-    color: #002B33;
+    color: #002b33;
 }
 
 .form-control-light::-moz-placeholder {
-    color: #002B33;
+    color: #002b33;
 }
 
 .form-control-light:-ms-input-placeholder {
-   color: #002B33;
+    color: #002b33;
 }
 
 .form-control-light:-moz-placeholder {
-    color: #002B33;
+    color: #002b33;
 }
 
 .input-group-text-light {
-    background: #D3E6EA;
+    background: #21be3d;
     border: none;
-    color: #002B33;
-    padding-left: 0;
+    color: #fff;
+    padding-left: 10px;
 }
 
 .order-buttons {
     text-align: center;
 }
 
-    .order-buttons button {
-        margin-right: 15px;
-    }
-
-    .order-buttons button:last-child {
-        margin-right: 0;
-    }
-
-.buy-percentage-buttons {
-
+.order-buttons button {
+    margin-right: 15px;
 }
-    .buy-percentage-buttons button {
-        appearance: none;
-        background: #324C4D;
-        border-radius: 4px;
-        border: none;
-        color: #FFF;
-        font-size: 12px;
-        line-height: 1;
-        margin-right: 6px;
-        padding: 6px 15px;
-    }
 
-    .buy-percentage-buttons button:last-child {
-        margin-right: 0;
-    }
+.order-buttons button:last-child {
+    margin-right: 0;
+}
+
+/* .buy-percentage-buttons {
+}
+.buy-percentage-buttons button {
+    appearance: none;
+    background: #324c4d;
+    border-radius: 4px;
+    border: none;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1;
+    margin-right: 6px;
+    padding: 6px 15px;
+}
+
+.buy-percentage-buttons button:last-child {
+    margin-right: 0;
+} */

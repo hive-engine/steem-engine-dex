@@ -27,7 +27,7 @@ interface EnvironmentInterface {
 }
 
 interface BalanceInterface {
-    $loki: number;
+    _id: number;
     account: string;
     balance: string;
     lastPrice: number;
@@ -47,4 +47,6 @@ interface IHistoryApiItem {
     volumeToken: string;
     lowestPrice: string;
     highestPrice: string;
+    openPrice: string;
+    closePrice: string;
 }

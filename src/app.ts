@@ -21,7 +21,12 @@ export class App {
     private loading = false;
     public router: Router;
 
-    constructor(private ea: EventAggregator, private keychain: SteemKeychain, private store: Store<State>, private se: SteemEngine) {
+    constructor(
+        private ea: EventAggregator,
+        private keychain: SteemKeychain,
+        private store: Store<State>,
+        private se: SteemEngine
+    ) {
         authStateChanged();
     }
 
@@ -83,7 +88,7 @@ export class App {
                 name: 'tokens',
                 moduleId: PLATFORM.moduleName('./routes/tokens'),
                 nav: 1,
-                title: 'Tokens',
+                title: 'Tokens'
             },
             {
                 route: 'exchange/:symbol?',
@@ -106,7 +111,7 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/rewards'),
                 nav: false,
                 auth: true,
-                title: 'Rewards',
+                title: 'Rewards'
             },
             {
                 route: 'conversion-history',
@@ -114,7 +119,7 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/conversion-history'),
                 nav: false,
                 auth: true,
-                title: 'Conversion History',
+                title: 'Conversion History'
             },
             {
                 route: 'settings',
@@ -122,18 +127,35 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/settings'),
                 nav: false,
                 auth: true,
-                title: 'Settings',
+                title: 'Settings'
             },
+            {
+                route: 'tribes',
+                name: 'tribes',
+                moduleId: PLATFORM.moduleName(
+                    './routes/offering-routes/tribes'
+                ),
+                nav: false,
+                title: 'Tribes'
+            },
+            {
+                route: 'pricing',
+                name: 'pricing',
+                moduleId: PLATFORM.moduleName(
+                    './routes/offering-routes/pricing'
+                ),
+                nav: false,
+                title: 'Pricing'
+            }
         ]);
 
         this.router = router;
     }
 }
 
-
 async function authStateChanged() {
-    return new Promise((resolve) => {
-        firebase.auth().onAuthStateChanged(async (user) => {
+    return new Promise(resolve => {
+        firebase.auth().onAuthStateChanged(async user => {
             console.log(user);
             if (user) {
                 dispatchify(login)(user.uid);

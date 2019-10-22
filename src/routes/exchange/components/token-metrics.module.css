@@ -1,6 +1,6 @@
 .meta-header {
-    background: #000000;
-    color: #FFF;
+    background: #0048b3;
+    color: #fff;
     font-size: 14px;
     height: 60px;
     text-transform: uppercase;
@@ -11,7 +11,7 @@
 }
 
 .meta-label {
-    color: #71FFFF;
+    color: #71ffff;
 }
 
 .exchange-pair {

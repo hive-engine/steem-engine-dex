@@ -65,7 +65,7 @@ export class SteemEngine {
         this.http.configure(config => config.useStandardConfiguration());
     }
 
-    getUser() {
+    getUser() {        
         const username = localStorage.getItem('username');
 
         if (!this.user && !username) {
@@ -138,6 +138,9 @@ export class SteemEngine {
 
                         if (token) {
                             const signin = await firebase.auth().signInWithCustomToken(token);
+
+                            const idToken = await this.authService.getIdToken();
+                            console.log(idToken);
 
                             // Store the username, access token and refresh token
                             localStorage.setItem('username', signin.user.uid);
@@ -301,8 +304,8 @@ export class SteemEngine {
         }
 
         try {
-            let buyOrders = await this.ssc.find('market', 'buyBook', { account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false);
-            let sellOrders = await this.ssc.find('market', 'sellBook', { account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false);
+            let buyOrders = await this.ssc.find('market', 'buyBook', { account: account }, 100, 0, [{ index: '_id', descending: true }], false);
+            let sellOrders = await this.ssc.find('market', 'sellBook', { account: account }, 100, 0, [{ index: '_id', descending: true }], false);
             
             buyOrders = buyOrders.map(o => {
                 o.type = 'buy';
@@ -897,10 +900,10 @@ export class SteemEngine {
         }
 
         if (!account) {
-            return this.ssc.find('market', 'buyBook', { symbol: symbol }, 200, 0, [{ index: 'price', descending: true }], false);
+            return this.ssc.find('market', 'buyBook', { symbol: symbol }, 200, 0, [{ index: 'priceDesc', descending: true }], false);
         }
 
-        return this.ssc.find('market', 'buyBook', { symbol, account }, 200, 0, [{ index: 'price', descending: true }], false);
+        return this.ssc.find('market', 'buyBook', { symbol, account }, 200, 0, [{ index: 'priceDesc', descending: true }], false);
     }
     
     async sellBook(symbol, account?: string) {
@@ -915,13 +918,13 @@ export class SteemEngine {
         }
 
         if (!account) {
-            return this.ssc.find('market', 'sellBook', { symbol }, 200, 0, [{ index: 'price', descending: false }], false);
+            return this.ssc.find('market', 'sellBook', { symbol }, 200, 0, [{ index: 'priceDesc', descending: false }], false);
         }
 
         return this.ssc.find('market', 'sellBook', { 
             symbol, 
             account 
-        }, 200, 0, [{ index: 'price', descending: false }], false);
+        }, 200, 0, [{ index: 'priceDesc', descending: false }], false);
     }
     
     async tradesHistory(symbol) {
@@ -935,7 +938,7 @@ export class SteemEngine {
             return false;
         }
 
-        return this.ssc.find('market', 'tradesHistory', { symbol: symbol }, 30, 0, [{ index: 'timestamp', descending: false }], false);
+        return this.ssc.find('market', 'tradesHistory', { symbol: symbol }, 30, 0, [{ index: '_id', descending: false }], false);
     }
 
     async userBalances(symbol, account) {
@@ -1086,9 +1089,13 @@ export class SteemEngine {
         }
 
         try {
+            var userName = this.user.name != "" ? this.user.name : this.getUser();
+            if (userName == null || userName == '')
+                throw new Error("User is unknown");
+
             const request = await this.http.fetch(`${environment.CONVERTER_API}/convert/`, {
                 method: 'POST',
-                body: json({from_coin: symbol, to_coin: peggedToken.pegged_token_symbol, destination: this.user.name})
+                body: json({ from_coin: symbol, to_coin: peggedToken.pegged_token_symbol, destination: userName})
             });
 
             const response = await request.json();

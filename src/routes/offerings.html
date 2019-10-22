@@ -1,3 +1,217 @@
 <template>
-    
+    <require from="./offering-routes/offering-nav/smallnav.html"></require>
+    <div class="offering-banner">
+        <div class="offering-banner-wrapper">
+            <div class="container">
+                <smallnav></smallnav>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="offering-header">
+                            <div class="offering-header-title">
+                                <h1>Offerings</h1>
+                            </div>
+                            <div class="offering-header-desc">
+                                <h3>
+                                    Steem Engine - We Build Tools to Build your
+                                    Blockchain Business and Community
+                                </h3>
+                            </div>
+                            <div class="header-btns">
+                                <div class="btn-learn-how">
+                                    <a
+                                        route-href="route:scotbot"
+                                        class="btn btn-success"
+                                        >ScotBot</a
+                                    >
+                                </div>
+                                <div class="btn-get-started">
+                                    <a
+                                        route-href="route:tribes"
+                                        class="btn btn-warning"
+                                        >Get Tribes</a
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="header-illustration text-center">
+                            <img
+                                src="../images/stacked.png"
+                                alt="header image"
+                                width="100%"
+                                class="header-img"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="div-wave"></section>
+
+    <section class="tribe">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            Build amazing apps with ease
+                        </h2>
+                    </div>
+                    <div class="section-desc">
+                        <p class="section-desc-text">
+                            We build websites we call "Tribes" that link peopel
+                            with a common interest and tie them together with a
+                            common financial interest; your token!
+                        </p>
+                    </div>
+                    <div class="section-btns">
+                        <a route-href="route:scotbot" class="btn greenBtn"
+                            >Start Building Now</a
+                        >
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="section-img">
+                        <img src="../images/engage.svg" alt="" width="100%" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider divider-xs" />
+
+    <section class="offers">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-header">
+                        <h2 class="text-center">
+                            We Offer
+                        </h2>
+                        <hr class="blue-line" />
+                        <p class="text-center">
+                            Select the package that is most suitable for you
+                            project needs.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4 col-xs-12 text-center">
+                            <a route-href="route:scotbot">
+                                <div class="offer-item">
+                                    <img
+                                        src="../images/scotbot.svg"
+                                        alt="bot"
+                                        width="30%"
+                                    />
+                                    <h2>ScotBot</h2>
+                                    <p>
+                                        Distribution through Reward Pools -
+                                        using your custom token to distribute
+                                        small rewards in small amount.
+                                    </p>
+                                    <a
+                                        route-href="route:scotbot"
+                                        class="item-footer-link"
+                                        ><span>Get Now!</span>
+                                        <font-awesome-icon
+                                            class="font-awesome-icons"
+                                            icon="arrow-right"
+                                        ></font-awesome-icon
+                                    ></a>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-xs-12 text-center">
+                            <a route-href="route:tribes">
+                                <div class="offer-item">
+                                    <img
+                                        src="../images/tribes.svg"
+                                        alt="bot"
+                                        width="30%"
+                                    />
+                                    <h2>Tribes</h2>
+                                    <p>
+                                        A Community Platforms- We build websites
+                                        we call "Tribes" that link peopel with a
+                                        common interest.
+                                    </p>
+                                    <a
+                                        route-href="route:tribes"
+                                        class="item-footer-link"
+                                        ><span>Get Now!</span>
+                                        <font-awesome-icon
+                                            class="font-awesome-icons"
+                                            icon="arrow-right"
+                                        ></font-awesome-icon
+                                    ></a>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-xs-12 text-center">
+                            <a route-href="route:crowdfunding">
+                                <div class="offer-item">
+                                    <img
+                                        src="../images/crowdfunding.svg"
+                                        alt="bot"
+                                        width="30%"
+                                    />
+                                    <h2>Crowdfunding</h2>
+                                    <p>
+                                        We help businesses crowd-fund funds
+                                        legally within the USA and abroad. No
+                                        Airdrop but legal crowdfunding.
+                                    </p>
+                                    <a
+                                        route-href="route:crowdfunding"
+                                        class="item-footer-link"
+                                        ><span>Get Now!</span>
+                                        <font-awesome-icon
+                                            class="font-awesome-icons"
+                                            icon="arrow-right"
+                                        ></font-awesome-icon
+                                    ></a>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="no-margin-bottom" />
+
+    <section class="join-now">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tribe-features-header text-center">
+                    <div class="tribe-feature-title">
+                        <h2>
+                            Join <span>Over 40 TRIBES</span> already running on
+                            STEEM ENGINE
+                        </h2>
+                    </div>
+                    <div class="tribe-feature-desc">
+                        <p>
+                            Varous projects accross the world now leverage on
+                            the reality that STEEM ENGINE TRIBES are bringing.
+                        </p>
+                    </div>
+                    <div class="join-btn">
+                        <a route-href="route:scotbot" class="btn yellowBtn"
+                            >Join our Community</a
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </template>

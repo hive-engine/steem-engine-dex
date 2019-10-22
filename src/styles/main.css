@@ -3,27 +3,26 @@
 @import "./bootstrap-modal.css";
 @import "./signin.css";
 @import "./buttons.css";
-
-
+@import "./smallnav.css";
 
 @font-face {
     font-family: main-font;
-    src: url('../fonts/main-font-regular.woff');
+    src: url("../fonts/main-font-regular.woff");
 }
 @font-face {
     font-family: main-font-bold;
-    src: url('../fonts/main-font-bold-c.woff')
+    src: url("../fonts/main-font-bold-c.woff");
 }
 
 body {
-    background:#fefefe;
+    background: #fefefe;
     font-family: "main-font", Roboto, Helvetica, Arial, sans-serif;
     width: 100%;
     height: 100%;
     overflow-x: hidden;
     font-size: 15px;
     line-height: 26px;
-    color: #FFF;
+    color: #fff;
     font-weight: 400;
     position: relative;
     text-rendering: optimizeLegibility;
@@ -36,7 +35,7 @@ html {
 }
 
 body {
-   min-height: 100%;
+    min-height: 100%;
 }
 
 a {
@@ -56,10 +55,15 @@ p {
     line-height: 26px;
     font-size: 18px;
     margin-bottom: 30px;
-    color: rgba(3,27,78,.7);
+    color: rgba(3, 27, 78, 0.7);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: "main-font-bold", Roboto, Helvetica, Arial, sans-serif;
     color: #0c111a;
 }
@@ -88,6 +92,10 @@ h6 {
     font-size: 12px;
 }
 
+legend {
+    color: #0c111a;
+}
+
 .main-header {
     border-bottom: 1px solid #424242;
     height: 250px;
@@ -104,7 +112,7 @@ h6 {
 }
 
 .route--exchange {
-    background: #181F1F;
+    background: #fff;
 }
 
 .h100 {
@@ -133,11 +141,12 @@ h6 {
 }
 
 .tabs .active {
-    color: #3489E7;
-    border-bottom: 2px solid #3489E7;
+    color: #3489e7;
+    border-bottom: 2px solid #3489e7;
 }
 
 .tabs__tab {
+    color: #797979;
     text-align: center;
 }
 
@@ -151,18 +160,18 @@ h6 {
 .input-group-text-transparent {
     background: transparent;
     border-color: #424242;
-    color: #FFF;
+    color: #fff;
 }
 
 .table-transparent {
     background: transparent;
 }
 
-.table-transparent td, 
-.table-transparent th, 
+.table-transparent td,
+.table-transparent th,
 .table-transparent thead th {
     border-color: rgba(255, 255, 255, 0.3);
-    color: #FFF;
+    color: #fff;
 }
 
 .table-transparent thead th {
@@ -173,9 +182,9 @@ h6 {
 .table-dark td,
 .table-dark th,
 .table-dark thead th {
-    background: #1C212A;
+    background: #1c212a;
     border-color: #39455f;
-    color: #FFF;
+    color: #fff;
 }
 
 .table-dark thead th {

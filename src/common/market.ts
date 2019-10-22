@@ -14,8 +14,8 @@ const i18n: I18N = Container.instance.get(I18N);
 
 export async function getUserOpenOrders(account: string = null) {
     try {
-        let buyOrders = await ssc.find('market', 'buyBook', { account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false);
-        let sellOrders = await ssc.find('market', 'sellBook', { account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false);
+        let buyOrders = await ssc.find('market', 'buyBook', { account: account }, 100, 0, [{ index: '_id', descending: true }], false);
+        let sellOrders = await ssc.find('market', 'sellBook', { account: account }, 100, 0, [{ index: '_id', descending: true }], false);
         
         buyOrders = buyOrders.map(o => {
             o.type = 'buy';
@@ -66,36 +66,36 @@ export async function sendMarketOrder(username: string, type: string, symbol: st
         log.debug(`Broadcasting cancel order: ${JSON.stringify(transaction_data)}`);
 
         if (window.steem_keychain) {
-            steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), `${type.toUpperCase()} Order`, (response) => {
+            steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), `${type.toUpperCase()} Order`, async (response) => {
                 if (response.success && response.result) {
-                    checkTransaction(response.result.id, 3, tx => {
-                        if (tx.success) {
-                            const toast = new ToastMessage();
-                            
-                            toast.message = i18n.tr('orderSuccess', {
-                                ns: 'notifications',
-                                type,
-                                symbol
-                            });
-            
-                            toastService.success(toast);
+                    const tx = await checkTransaction(response.result.id, 3);
 
-                            resolve(tx);
-                        } else {
-                          const toast = new ToastMessage();
+                    if (tx.success) {
+                        const toast = new ToastMessage();
+                        
+                        toast.message = i18n.tr('orderSuccess', {
+                            ns: 'notifications',
+                            type,
+                            symbol
+                        });
+        
+                        toastService.success(toast);
 
-                            toast.message = i18n.tr('orderError', {
-                                ns: 'notifications',
-                                type,
-                                symbol,
-                                error: tx.error
-                            });
-          
-                            toastService.error(toast);
+                        resolve(tx);
+                    } else {
+                      const toast = new ToastMessage();
 
-                            resolve(false);
-                        }
-                    });
+                        toast.message = i18n.tr('orderError', {
+                            ns: 'notifications',
+                            type,
+                            symbol,
+                            error: tx.error
+                        });
+      
+                        toastService.error(toast);
+
+                        resolve(false);
+                    }
                 } else {
                     resolve(response);
                 }
