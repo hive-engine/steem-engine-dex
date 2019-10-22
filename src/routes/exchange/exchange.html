@@ -18,20 +18,16 @@
         <div class="row exchange-columns h100">
             <div class="col-lg-3 col-md-12 col-sm-12">
                 <div class="exchange-header">
-                    <h2>Buy Orders</h2>
-                </div>
-                <buybook
-                    loading.bind="loadingUserBuyBook"
-                    buy-book.bind="buyBook"
-                ></buybook>
-                <best-price order.bind="bestSellPrice"></best-price>
-                <div class="exchange-header">
                     <h2>Sell Orders</h2>
                 </div>
-                <sellbook
-                    loading.bind="loadingUserSellBook"
-                    sell-book.bind="sellBook"
-                ></sellbook>
+                <sellbook loading.bind="loadingUserSellBook"
+                          sell-book.bind="sellBook"></sellbook>
+                <best-price order.bind="bestSellPrice"></best-price>
+                <div class="exchange-header">
+                    <h2>Buy Orders</h2>
+                </div>
+                <buybook loading.bind="loadingUserBuyBook"
+                         buy-book.bind="buyBook"></buybook>
             </div>
 
             <div class="col-lg-6 col-md-12 col-sm-12 chart-col">
