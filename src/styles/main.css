@@ -92,6 +92,10 @@ h6 {
     font-size: 12px;
 }
 
+legend {
+    color: #0c111a;
+}
+
 .main-header {
     border-bottom: 1px solid #424242;
     height: 250px;
@@ -142,6 +146,7 @@ h6 {
 }
 
 .tabs__tab {
+    color: #797979;
     text-align: center;
 }
 

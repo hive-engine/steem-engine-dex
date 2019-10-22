@@ -65,7 +65,7 @@ export class SteemEngine {
         this.http.configure(config => config.useStandardConfiguration());
     }
 
-    getUser() {
+    getUser() {        
         const username = localStorage.getItem('username');
 
         if (!this.user && !username) {
@@ -138,6 +138,9 @@ export class SteemEngine {
 
                         if (token) {
                             const signin = await firebase.auth().signInWithCustomToken(token);
+
+                            const idToken = await this.authService.getIdToken();
+                            console.log(idToken);
 
                             // Store the username, access token and refresh token
                             localStorage.setItem('username', signin.user.uid);
@@ -1086,9 +1089,13 @@ export class SteemEngine {
         }
 
         try {
+            var userName = this.user.name != "" ? this.user.name : this.getUser();
+            if (userName == null || userName == '')
+                throw new Error("User is unknown");
+
             const request = await this.http.fetch(`${environment.CONVERTER_API}/convert/`, {
                 method: 'POST',
-                body: json({from_coin: symbol, to_coin: peggedToken.pegged_token_symbol, destination: this.user.name})
+                body: json({ from_coin: symbol, to_coin: peggedToken.pegged_token_symbol, destination: userName})
             });
 
             const response = await request.json();
