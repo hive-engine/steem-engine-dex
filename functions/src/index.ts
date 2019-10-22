@@ -22,17 +22,16 @@ AWS.config.update({
 const s3 = new AWS.S3();
 
 // @ts-ignore
-const uploadFile = async (mimetype, buffer) => {
+const uploadFile = async (filename: string, mimetype: string, buffer: Buffer): Promise<AWS.S3.ManagedUpload.SendData> => {
     return new Promise((resolve, reject) => {
         const config = {
-            Bucket: '',
+            Bucket: 'steem-engine-docs',
             ContentType: mimetype,
-            ACL: 'public-read',
-            Key: Date.now().toString(),
+            Key: filename,
             Body: buffer
         };
     
-        s3.upload(config, (err: any, data: any) => {
+        s3.upload(config, (err: Error, data: AWS.S3.ManagedUpload.SendData) => {
             if (err) {
                 reject(err);
             } else {
@@ -93,11 +92,41 @@ app.get('/test', (req: express.Request, res: express.Response, next: express.Nex
 });
 
 app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    // @ts-ignore
-    console.log(req.files);
+    const authToken = req.body.authToken;
+    const username = req.body.username;
 
-    // @ts-ignore
-    res.json(req.files);
+    try {
+        const decodedToken = await admin.auth().verifyIdToken(authToken);
+
+        // User checks out
+        if (decodedToken && decodedToken.aud === 'steem-engine-dex' && decodedToken.uid === username) {
+            try {
+                // @ts-ignore
+                const file = req.files;
+
+                if (file) {
+                    const { buffer, mimetype, originalname } = file;
+
+                    const upload = await uploadFile(originalname, mimetype, buffer);
+
+                    res.status(200).json(upload);
+                }
+            } catch (e) {
+                console.error(e);
+                res.status(400).json({ success: false, message: e });
+            }
+        }
+    } catch (e) {
+        console.error(e);
+
+        res.status(401).json({ success: false, message: 'Token is not valid' });
+    }
+
+    // // @ts-ignore
+    // console.log(req.files);
+
+    // // @ts-ignore
+    // res.json(req.files);
 });
 
 app.post('/verifyToken', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
