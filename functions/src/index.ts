@@ -1,3 +1,4 @@
+import { uploadMiddleware } from './upload-middleware';
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import * as express from 'express';
@@ -8,17 +9,38 @@ import * as AWS from 'aws-sdk';
 
 import { Auth } from './auth';
 
-import { serviceAccount } from './steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75';
+import * as serviceAccount from './steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json';
 
 const env = functions.config();
 
 AWS.config.update({
     accessKeyId: env.aws.access_key,
     secretAccessKey: env.aws.secret_key,
-    region: ''
+    region: 'ap-southeast-2'
 });
 
 const s3 = new AWS.S3();
+
+// @ts-ignore
+const uploadFile = async (mimetype, buffer) => {
+    return new Promise((resolve, reject) => {
+        const config = {
+            Bucket: '',
+            ContentType: mimetype,
+            ACL: 'public-read',
+            Key: Date.now().toString(),
+            Body: buffer
+        };
+    
+        s3.upload(config, (err: any, data: any) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+};
 
 // const s3PresignedParams = {
 //     Bucket: '',
@@ -70,8 +92,12 @@ app.get('/test', (req: express.Request, res: express.Response, next: express.Nex
     res.send('HELLO WORLD');
 });
 
-app.post('/uploadDocument', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    // @ts-ignore
+    console.log(req.files);
 
+    // @ts-ignore
+    res.json(req.files);
 });
 
 app.post('/verifyToken', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
