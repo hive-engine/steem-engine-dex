@@ -19,7 +19,10 @@ AWS.config.update({
     region: 'ap-southeast-2'
 });
 
-const s3 = new AWS.S3();
+const s3 = new AWS.S3({
+    accessKeyId: env.aws.access_key,
+    secretAccessKey: env.aws.secret_key
+});
 
 // @ts-ignore
 const uploadFile = async (filename: string, mimetype: string, buffer: Buffer): Promise<AWS.S3.ManagedUpload.SendData> => {
