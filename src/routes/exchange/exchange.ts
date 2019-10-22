@@ -119,7 +119,7 @@ export class Exchange {
         });
 
         const tokenHistory = await loadTokenMarketHistory(this.currentToken);
-        console.log('History', tokenHistory);
+        //console.log('History', tokenHistory);
 
         this.chartData = {
             labels: buyOrderLabels.concat(sellOrderLabels),
@@ -151,7 +151,7 @@ export class Exchange {
             this.loadingUserSellBook = true;
             this.loadingUserBalances = true;
 
-            this.se.ssc.find('market', 'buyBook', { symbol: symbol, account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false).then(result => {
+            this.se.ssc.find('market', 'buyBook', { symbol: symbol, account: account }, 100, 0, [{ index: '_id', descending: true }], false).then(result => {
                 this.loadingUserBuyBook = false;
 
                 this.userBuyOrders = result.map(o => {
@@ -161,7 +161,7 @@ export class Exchange {
                     return o;
                 });
 
-                this.se.ssc.find('market', 'sellBook', { symbol: symbol, account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false).then(result => {
+                this.se.ssc.find('market', 'sellBook', { symbol: symbol, account: account }, 100, 0, [{ index: '_id', descending: true }], false).then(result => {
                     this.loadingUserSellBook = false;
 
                     this.userSellOrders = result.map(o => {
@@ -216,7 +216,7 @@ export class Exchange {
             quantity: this.bidQuantity,
             price: this.bidPrice
         };
-
+        
         this.dialogService.open({ viewModel: MarketOrderModal, model: order }).whenClosed(response => {
             console.log(response);
         });
