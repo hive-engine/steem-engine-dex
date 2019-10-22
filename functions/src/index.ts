@@ -51,6 +51,19 @@ app.get('/test', (req: express.Request, res: express.Response, next: express.Nex
     res.send('HELLO WORLD');
 });
 
+app.post('/verifyToken', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const authToken = req.body.authToken;
+
+    try {
+        const decodedToken = await admin.auth().verifyIdToken(authToken);
+
+        res.status(201).json({ success: true, decodedToken });
+    } catch (e) {
+        console.error(e);
+        res.status(401).json({ success: false, message: 'Token is not valid' });
+    }
+});
+
 // Gets an encrypted memo to send to the user
 // They use their private key to decode it and send back the AES string
 app.get('/getUserAuthMemo/:username', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
