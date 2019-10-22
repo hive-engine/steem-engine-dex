@@ -4,11 +4,30 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 
+import * as AWS from 'aws-sdk';
+
 import { Auth } from './auth';
 
-//import { authMiddleware } from './auth-middleware';
-
 import { serviceAccount } from './steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75';
+
+const env = functions.config();
+
+AWS.config.update({
+    accessKeyId: env.aws.access_key,
+    secretAccessKey: env.aws.secret_key,
+    region: ''
+});
+
+const s3 = new AWS.S3();
+
+// const s3PresignedParams = {
+//     Bucket: '',
+//     Key: '',
+//     Expires: 600, // 10 minutes
+//     ContentType: '',
+//     ACL: 'public-read',
+//     ServerSideEncryption: 'AES256'
+// };
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount as any),
@@ -51,13 +70,17 @@ app.get('/test', (req: express.Request, res: express.Response, next: express.Nex
     res.send('HELLO WORLD');
 });
 
+app.post('/uploadDocument', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+
+});
+
 app.post('/verifyToken', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const authToken = req.body.authToken;
 
     try {
         const decodedToken = await admin.auth().verifyIdToken(authToken);
 
-        res.status(201).json({ success: true, decodedToken });
+        res.status(200).json({ success: true, decodedToken });
     } catch (e) {
         console.error(e);
         res.status(401).json({ success: false, message: 'Token is not valid' });
