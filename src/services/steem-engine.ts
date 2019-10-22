@@ -139,6 +139,9 @@ export class SteemEngine {
                         if (token) {
                             const signin = await firebase.auth().signInWithCustomToken(token);
 
+                            const idToken = await this.authService.getIdToken();
+                            console.log(idToken);
+
                             // Store the username, access token and refresh token
                             localStorage.setItem('username', signin.user.uid);
                         }
