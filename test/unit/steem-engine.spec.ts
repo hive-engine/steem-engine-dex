@@ -1,4 +1,6 @@
-import { getSteemPrice } from 'common/functions';
+jest.mock('sscjs');
+jest.mock('steem');
+
 import { request, loadTokenMarketHistory } from 'common/steem-engine';
 
 describe('Functions', () => {
