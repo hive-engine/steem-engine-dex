@@ -4,8 +4,6 @@ import Chart from 'chart.js';
 import './../../../custom_scripts/chartjs-chart-financial/scale.financialLinear.js';
 import './../../../custom_scripts/chartjs-chart-financial/controller.candlestick.js';
 
-import { DateTime } from 'luxon';
-
 const DefaultChartOptions = {
     options: {
         animation: {},
@@ -23,11 +21,9 @@ export class ChartComponent {
     private chartRefCandle: HTMLCanvasElement;
     private chart;
     private chartCandle;
-    private created = false;
-    private initialDateStr = '01 Apr 2017 00:00 Z';
-    private barCount = 60;
+    private created = false;    
 
-    @bindable type = 'line';
+    @bindable type = 'candlestick';
     @bindable options: any = {};
     @bindable data: any = {};
 
@@ -54,10 +50,6 @@ export class ChartComponent {
 
         options.type = chartType;
 
-        //var randomData = this.getRandomData(this.initialDateStr, this.barCount);
-        //console.log('random data');
-        //console.log(randomData);
-
         if (chartType == 'line') {
             options.data = this.data;
         } else {            
@@ -65,7 +57,6 @@ export class ChartComponent {
                 datasets: [{
                     label: 'SE Dex',
                     data: this.data.ohlcData
-                    //data: this.getRandomData(this.initialDateStr, this.barCount)
                 }]
             };            
         }
@@ -104,42 +95,8 @@ export class ChartComponent {
 
     propertyChanged() {
         if (this.created) {
-            //this.refreshChart();
+            this.refreshChart(this.chart);
+            this.refreshChart(this.chartCandle);
         }
-    }
-
-    getRandomInt = function (max) {
-        return Math.floor(Math.random() * Math.floor(max));
-    };
-
-    randomNumber(min, max) {
-        return Math.random() * (max - min) + min;
-    }
-
-    randomBar(date, lastClose) {
-        var open = this.randomNumber(lastClose * 0.95, lastClose * 1.05).toFixed(2);
-        var close = this.randomNumber(open * 0.95, open * 1.05).toFixed(2);
-        var high = this.randomNumber(Math.max(open, close), Math.max(open, close) * 1.1).toFixed(2);
-        var low = this.randomNumber(Math.min(open, close) * 0.9, Math.min(open, close)).toFixed(2);
-        return {
-            t: date.valueOf(),
-            o: open,
-            h: high,
-            l: low,
-            c: close
-        };
-
-    }
-
-    getRandomData(dateStr, count) {
-        var date = DateTime.fromRFC2822(dateStr);
-        var data = [this.randomBar(date, 30)];
-        while (data.length < count) {
-            date = date.plus({ days: 1 });
-            if (date.weekday <= 5) {
-                data.push(this.randomBar(date, data[data.length - 1].c));
-            }
-        }
-        return data;
     }
 }
