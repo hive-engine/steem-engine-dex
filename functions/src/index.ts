@@ -4,54 +4,50 @@ import * as admin from 'firebase-admin';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
-
-import * as AWS from 'aws-sdk';
+import { format } from 'util';
+import * as uuidv4 from 'uuid/v4';
+//import * as Multer from 'multer';
 
 import { Auth } from './auth';
 
 import * as serviceAccount from './steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json';
 
-const env = functions.config();
+import { Storage } from '@google-cloud/storage';
+const storage = new Storage();
 
-AWS.config.update({
-    accessKeyId: env.aws.access_key,
-    secretAccessKey: env.aws.secret_key,
-    region: 'ap-southeast-2'
-});
+// const multer = Multer({
+//     storage: Multer.memoryStorage(),
+//     limits: {
+//       fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
+//     },
+//   });
 
-const s3 = new AWS.S3({
-    accessKeyId: env.aws.access_key,
-    secretAccessKey: env.aws.secret_key
+const userDocs = storage.bucket('steem-engine-dex.appspot.com', {
+    userProject: 'steem-engine-dex'
 });
 
 // @ts-ignore
-const uploadFile = async (filename: string, mimetype: string, buffer: Buffer): Promise<AWS.S3.ManagedUpload.SendData> => {
+const uploadFile = async (filename: string, mimetype: string, buffer: Buffer) => {
     return new Promise((resolve, reject) => {
-        const config = {
-            Bucket: 'steem-engine-docs',
-            ContentType: mimetype,
-            Key: filename,
-            Body: buffer
-        };
-    
-        s3.upload(config, (err: Error, data: AWS.S3.ManagedUpload.SendData) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(data);
-            }
+        const formatedFilename = `user-uploads/${filename}`;
+        
+        const file = userDocs.file(formatedFilename);
+        const stream = file.createWriteStream({
+            metadata: {
+                contentType: mimetype
+            },
+            resumable: false
         });
+
+        stream.on('error', (err) => reject(err));
+        stream.on('finish', () => {
+            const publicUrl = format(`https://storage.googleapis.com/${userDocs.name}/${file.name}`);
+
+            resolve(publicUrl);
+        });
+        stream.end(buffer);
     });
 };
-
-// const s3PresignedParams = {
-//     Bucket: '',
-//     Key: '',
-//     Expires: 600, // 10 minutes
-//     ContentType: '',
-//     ACL: 'public-read',
-//     ServerSideEncryption: 'AES256'
-// };
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount as any),
@@ -105,23 +101,20 @@ app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: 
         if (decodedToken && decodedToken.aud === 'steem-engine-dex' && decodedToken.uid === username) {
             try {
                 // @ts-ignore
-                const file = req.files;
+                const file = req.files[0];
 
                 if (file) {
                     const { buffer, mimetype, originalname } = file;
 
-                    const upload = await uploadFile(originalname, mimetype, buffer);
+                    const upload = await uploadFile(`${username.toString().toLowerCase()}/${originalname}`, mimetype, buffer);
 
                     res.status(200).json(upload);
                 }
             } catch (e) {
-                console.error(e);
                 res.status(400).json({ success: false, message: e });
             }
         }
     } catch (e) {
-        console.error(e);
-
         res.status(401).json({ success: false, message: 'Token is not valid' });
     }
 
@@ -177,10 +170,29 @@ app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Respon
             const user = await usersRef.doc(username).get();
 
             if (!user.exists) {
+                // Create new user reference
                 usersRef.doc(username).set({
                     favourites: [],
-                    hiddenTokens: []
+                    hiddenTokens: [],
+                    kyc: {
+                        dateSubmitted: '',
+                        token: uuidv4(),
+                        verified: false
+                    }
                 });
+            } else {
+                const userData = user.data();
+
+                // User hasn't got a KYC object
+                if (userData && !userData.kyc) {
+                    user.ref.update({
+                        kyc: {
+                            dateSubmitted: '',
+                            token: uuidv4(),
+                            verified: false
+                        }
+                    });
+                }
             }
 
             return res.status(200).json({ success: true, token });
@@ -193,4 +205,7 @@ app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Respon
     }
 });
 
-export const api = functions.https.onRequest(app);
+export const api = functions
+    .runWith({ memory: '1GB', timeoutSeconds: 120 })
+    .https
+    .onRequest(app);
