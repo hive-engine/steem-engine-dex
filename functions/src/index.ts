@@ -4,54 +4,40 @@ import * as admin from 'firebase-admin';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
-
-import * as AWS from 'aws-sdk';
+import { format } from 'util';
 
 import { Auth } from './auth';
 
 import * as serviceAccount from './steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json';
 
-const env = functions.config();
-
-AWS.config.update({
-    accessKeyId: env.aws.access_key,
-    secretAccessKey: env.aws.secret_key,
-    region: 'ap-southeast-2'
+import { Storage } from '@google-cloud/storage';
+const storage = new Storage({
+    projectId: serviceAccount.project_id,
+    keyFilename: './steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json'
 });
 
-const s3 = new AWS.S3({
-    accessKeyId: env.aws.access_key,
-    secretAccessKey: env.aws.secret_key
-});
+const userDocs = storage.bucket('user-docs');
 
 // @ts-ignore
-const uploadFile = async (filename: string, mimetype: string, buffer: Buffer): Promise<AWS.S3.ManagedUpload.SendData> => {
+const uploadFile = async (filename: string, mimetype: string, buffer: Buffer) => {
     return new Promise((resolve, reject) => {
-        const config = {
-            Bucket: 'steem-engine-docs',
-            ContentType: mimetype,
-            Key: filename,
-            Body: buffer
-        };
-    
-        s3.upload(config, (err: Error, data: AWS.S3.ManagedUpload.SendData) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(data);
-            }
+        const file = userDocs.file(filename);
+        const stream = file.createWriteStream({
+            metadata: {
+                contentType: mimetype
+            },
+            resumable: false
         });
+
+        stream.on('error', (err) => reject(err));
+        stream.on('finish', () => {
+            const publicUrl = format(`https://storage.googleapis.com/${userDocs.name}/${userDocs.name}`);
+
+            resolve(publicUrl);
+        });
+        stream.end(buffer);
     });
 };
-
-// const s3PresignedParams = {
-//     Bucket: '',
-//     Key: '',
-//     Expires: 600, // 10 minutes
-//     ContentType: '',
-//     ACL: 'public-read',
-//     ServerSideEncryption: 'AES256'
-// };
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount as any),
