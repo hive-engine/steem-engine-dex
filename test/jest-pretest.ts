@@ -8,6 +8,25 @@ jest.mock('sscjs', () => {
     return {
       default: jest.fn()
     }
+});\
+jest.mock('steem', () => {
+    return {
+      default: jest.fn()
+    }
+});
+
+jest.mock('firebase/app', () => {
+    return {
+        default: {
+            auth: () => {
+                return {
+                    currentUser: {
+                        getIdToken: jest.fn().mockReturnValue('989duiu787u')
+                    }
+                }
+            }
+        }
+    }
 });
 
 (global as any).Blob = jest.fn();
