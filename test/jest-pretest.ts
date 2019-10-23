@@ -10,6 +10,8 @@ jest.mock('sscjs', () => {
     }
 });
 
+(global as any).Blob = jest.fn();
+
 import 'aurelia-polyfills';
 import { Options } from 'aurelia-loader-nodejs';
 import { globalize } from 'aurelia-pal-nodejs';
