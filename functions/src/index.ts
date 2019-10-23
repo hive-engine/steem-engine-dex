@@ -105,7 +105,7 @@ app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: 
                 if (file) {
                     const { buffer, mimetype, originalname } = file;
 
-                    const upload = await uploadFile(`${username.toString().toLowerCase()}-${originalname}`, mimetype, buffer);
+                    const upload = await uploadFile(`${username.toString().toLowerCase()}/${originalname}`, mimetype, buffer);
 
                     res.status(200).json(upload);
                 }
