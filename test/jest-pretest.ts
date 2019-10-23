@@ -6,7 +6,9 @@ customGlobal.fetchMock = customGlobal.fetch;
 
 jest.mock('sscjs', () => {
     return {
-      default: jest.fn()
+      default: {
+          find: jest.fn()
+      }
     }
 });\
 jest.mock('steem', () => {
