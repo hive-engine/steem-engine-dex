@@ -7,8 +7,10 @@
     "sourceMap": true,
     "strict": true,
     "target": "es2017",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true
   },
+  "typeRoots": [ "node_modules/@types" ],
   "compileOnSave": true,
   "include": [
     "src"

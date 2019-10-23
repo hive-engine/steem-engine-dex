@@ -27,7 +27,7 @@ interface EnvironmentInterface {
 }
 
 interface BalanceInterface {
-    $loki: number;
+    _id: number;
     account: string;
     balance: string;
     lastPrice: number;

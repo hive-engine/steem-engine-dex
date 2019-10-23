@@ -3,7 +3,7 @@
         <loader loading.bind="loading" mode="tiny"></loader>
 
         <table class="sell-table">
-            <thead class="sr-only">
+            <thead>
                 <tr>
                     <th width="135">${'Price' & t} (STEEMP)</th>
                     <th>${'QTY' & t} (ENG)</th>
@@ -11,7 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr repeat.for="order of sellBook | slice:10">
+                <tr repeat.for="order of sellBook | slice:10:true">
                     <td>${order.price}</td>
                     <td>${order.quantity}</td>
                     <td>${order.amountLocked | toFixed:6}</td>

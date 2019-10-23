@@ -1,35 +1,39 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "target": "esnext",
     "module": "esnext",
-    "skipLibCheck": true,
-    "removeComments": true,
-    "downlevelIteration": true,
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "removeComments": true,
     "sourceMap": true,
-    "target": "es5",
     "lib": [
       "es2015",
       "dom"
     ],
     "paths": {
-        "base-environment": [
-            "aurelia_project/environments/base"
+        "*": [
+          "src/*"
         ],
-    },
+        "base-environment": [
+          "aurelia_project/environments/base"
+        ]
+      },
     "moduleResolution": "node",
     "allowJs": true,
-    "baseUrl": "src"
+    "baseUrl": "."
   },
-  "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "./custom_typings/**/*.d.ts"
-  ],
   "exclude": [
-    "./test/e2e/**/*.ts"
+    "node_modules",
+    "aurelia_project/generators/**/*",
+    "aurelia_project/tasks/**/*",
+    "aurelia_project/**/*.json",
+    "x-scratch",
+    "dist",
+    "coverage",
+    "test/e2e"
   ],
   "atom": {
     "rewriteTsconfig": false

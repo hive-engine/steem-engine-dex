@@ -33,7 +33,7 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
+node_modules
 jspm_packages/
 
 # TypeScript v1 declaration files
@@ -67,8 +67,12 @@ deploy-key
 
 steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.ts
 steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json
+
 /.vs
 /package-lock.json
 /steem-engine-dex.sln
 *.sln
 functions/lib/
+
+
+test/coverage-jest/

@@ -1,14 +1,52 @@
+import { uploadMiddleware } from './upload-middleware';
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
+import { format } from 'util';
+//import * as Multer from 'multer';
 
 import { Auth } from './auth';
 
-//import { authMiddleware } from './auth-middleware';
+import * as serviceAccount from './steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json';
 
-import { serviceAccount } from './steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75';
+import { Storage } from '@google-cloud/storage';
+const storage = new Storage();
+
+// const multer = Multer({
+//     storage: Multer.memoryStorage(),
+//     limits: {
+//       fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
+//     },
+//   });
+
+const userDocs = storage.bucket('steem-engine-dex.appspot.com', {
+    userProject: 'steem-engine-dex'
+});
+
+// @ts-ignore
+const uploadFile = async (filename: string, mimetype: string, buffer: Buffer) => {
+    return new Promise((resolve, reject) => {
+        const formatedFilename = `user-uploads/${filename}`;
+        
+        const file = userDocs.file(formatedFilename);
+        const stream = file.createWriteStream({
+            metadata: {
+                contentType: mimetype
+            },
+            resumable: false
+        });
+
+        stream.on('error', (err) => reject(err));
+        stream.on('finish', () => {
+            const publicUrl = format(`https://storage.googleapis.com/${userDocs.name}/${file.name}`);
+
+            resolve(publicUrl);
+        });
+        stream.end(buffer);
+    });
+};
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount as any),
@@ -49,6 +87,54 @@ const firestore = admin.firestore();
 
 app.get('/test', (req: express.Request, res: express.Response, next: express.NextFunction) => { 
     res.send('HELLO WORLD');
+});
+
+app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const authToken = req.body.authToken;
+    const username = req.body.username;
+
+    try {
+        const decodedToken = await admin.auth().verifyIdToken(authToken);
+
+        // User checks out
+        if (decodedToken && decodedToken.aud === 'steem-engine-dex' && decodedToken.uid === username) {
+            try {
+                // @ts-ignore
+                const file = req.files[0];
+
+                if (file) {
+                    const { buffer, mimetype, originalname } = file;
+
+                    const upload = await uploadFile(`${username.toString().toLowerCase()}/${originalname}`, mimetype, buffer);
+
+                    res.status(200).json(upload);
+                }
+            } catch (e) {
+                res.status(400).json({ success: false, message: e });
+            }
+        }
+    } catch (e) {
+        res.status(401).json({ success: false, message: 'Token is not valid' });
+    }
+
+    // // @ts-ignore
+    // console.log(req.files);
+
+    // // @ts-ignore
+    // res.json(req.files);
+});
+
+app.post('/verifyToken', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const authToken = req.body.authToken;
+
+    try {
+        const decodedToken = await admin.auth().verifyIdToken(authToken);
+
+        res.status(200).json({ success: true, decodedToken });
+    } catch (e) {
+        console.error(e);
+        res.status(401).json({ success: false, message: 'Token is not valid' });
+    }
 });
 
 // Gets an encrypted memo to send to the user
@@ -99,4 +185,7 @@ app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Respon
     }
 });
 
-export const api = functions.https.onRequest(app);
+export const api = functions
+    .runWith({ memory: '1GB', timeoutSeconds: 120 })
+    .https
+    .onRequest(app);

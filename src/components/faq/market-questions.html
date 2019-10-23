@@ -1,0 +1,106 @@
+<template>
+    <div class="accordion" id="marketQuestionAccordion" style="margin-top: 30px;">
+        <div class="accordion-wrapper" id="marketQuestions">
+            <div class="card">
+                <div class="card-header" id="marketHeadingOne">
+                <h2 class="mb-0">
+                    <button class="btn btn-link accordion-header" type="button" data-toggle="collapse" data-target="#marketQuestionOne" aria-expanded="false" aria-controls="collapseOne">
+                    What is the Market?
+                    </button>
+                </h2>
+                </div>
+
+                <div id="marketQuestionOne" class="collapse show" aria-labelledby="marketHeadingOne" data-parent="#marketQuestionAccordion">
+                <div class="card-body">
+                        The Steem Engine market is a decentralized exchange (DEX) that allows 
+                        anyone to buy or sell any token created on the Steem Engine platform against STEEM. 
+                        All transactions are published on the Steem blockchain and trades are executed by the 
+                        open source Steem Smart Contracts platform software which is avaialble for anyone to 
+                        independently run and verify. The Steem Engine market is very similar to other decentralized 
+                        exchanges such as BitShares, Stellar, and even the internal STEEM / SBD market on the Steem blockchain.
+                </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="marketHeadingTwo">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#marketQuestionTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    What is STEEMP?
+                    </button>
+                </h2>
+                </div>
+                <div id="marketQuestionTwo" class="collapse" aria-labelledby="marketHeadingTwo" data-parent="#marketQuestionAccordion">
+                <div class="card-body">
+                        Since the Steem Engine platform is not part of the core Steem blockchain code, 
+                        it cannot transact in the STEEM token directly. Instead we have created a Steem 
+                        Engine token which is pegged to the value of the STEEM token, called STEEMP. 
+                        This means that all trading on the Steem Engine market will use the STEEMP 
+                        token which can be exchanged for real STEEM or vice versa at any time on a 1:1 basis.
+                        <br><br>
+                        STEEMP is pegged to the value of STEEM because one STEEM token will be held for every STEEMP token in circulation, and users are able to exchange STEEM for STEEMP and vice versa on a 1:1 basis at any time. This is the same way that many other pegged tokens work, such as Tether where, allegedly, $1 is held for every USDT token in circulation. Unlike with Tether, anyone can easily verify that the amount of STEEM held in the @steem-peg account is enough to cover all of the STEEMP tokens in circulation at any time thanks to the open and transparent nature of the Steem blockchain. Another example of creating a STEEM-pegged token to allow STEEM to be traded on another exchange is the Steem Anchor project which allows STEEM and SBD to be traded on the Stellar decentralized exchange.                                
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="marketHeadingThree">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#marketQuestionThree" aria-expanded="false" aria-controls="collapseThree">
+                    How do I deposit or withdraw STEEM?
+                    </button>
+                </h2>
+                </div>
+                <div id="marketQuestionThree" class="collapse" aria-labelledby="marketHeadingThree" data-parent="#marketQuestionAccordion">
+                <div class="card-body">
+                    At the top of the Market page on the Steem Engine website there are buttons to both deposit and withdraw STEEM. Please do NOT transfer tokens manually, to ensure your deposits and withdrawals arrive in the right location.
+                    <br><br>
+                    Please note that there is a 1% fee on all STEEM deposits and withdrawals. This fee is charged for the service of creating and maintaining the STEEM-pegged token on the Steem Engine platform and will be used to fund future development of the platform and associated services.
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="marketHeadingFour">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#marketQuestionFour" aria-expanded="false" aria-controls="collapseThree">
+                    How do I buy or sell tokens?
+                    </button>
+                </h2>
+                </div>
+                <div id="marketQuestionFour" class="collapse" aria-labelledby="marketHeadingFour" data-parent="#marketQuestionAccordion">
+                <div class="card-body">
+                        To buy or sell Steem Engine tokens on the market, you can first find the token you wish to trade in the tokens or wallet page and click on the trade icon next to it (). This will take you to the market view for that specific token. If you would like to buy the token you will first need enough STEEMP tokens in your account to pay for them at the specified price. You can get STEEMP tokens by either selling other Steem Engine tokens for STEEMP on the market, or you can deposit STEEM and get an equal amount of STEEMP tokens in return using the "Deposit STEEM" button at the top of the market page.
+                        <br><br>
+                        When you are ready to place your trade, you can enter the price at which you would like to buy or sell the tokens and the amount you would like to buy or sell and then press the "Buy" or "Sell" button. You will then see a confirmation screen in which you can double check the details of your order and submit it. Once submitted, your order will appear in the "My Open Orders" section until it is either filled or cancelled.
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="marketHeadingFive">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#marketQuestionFive" aria-expanded="false" aria-controls="collapseThree">
+                    Are there any trading fees?
+                    </button>
+                </h2>
+                </div>
+                <div id="marketQuestionFive" class="collapse" aria-labelledby="marketHeadingFive" data-parent="#marketQuestionAccordion">
+                    <div class="card-body">
+                        There are no fees for using the Steem Engine market, however please note that as with anything on the Steem blockchain you will need to have enough Resource Credits available in your account to publish the required transactions. Also, as mentioned above, there is a 1% fee for any deposits or withdrawals of STEEM.                                     
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="marketHeadingSix">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#marketQuestionSix" aria-expanded="false" aria-controls="collapseThree">
+                    Why aren't some tokens listed on the market?
+                    </button>
+                </h2>
+                </div>
+                <div id="marketQuestionSix" class="collapse" aria-labelledby="marketHeadingSix" data-parent="#marketQuestionAccordion">
+                <div class="card-body">
+                        While the market is fully decentralized and anyone can trade any token on the Steem Engine platform against STEEM at any time, the Steem Engine website itself is still owned and operated by a centralized entity and must abide by local laws and regulations in the jurisdictions where it is based. As a result certain tokens may not be listed on the market page of the Steem Engine website, though they may still be able to be traded on other Steem Engine based front ends. Additionally, token creators may request that their token not be listed on the Steem Engine website market page and we plan to honor those requests.                                
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
