@@ -10,7 +10,8 @@ jest.mock('sscjs', () => {
           find: jest.fn()
       }
     }
-});\
+});
+
 jest.mock('steem', () => {
     return {
       default: jest.fn()
