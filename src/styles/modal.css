@@ -117,6 +117,7 @@ ux-dialog > ux-dialog-footer button:last-child {
     }
 }
 
-.ux-dialog-open p.note {
+.ux-dialog-open .note,
+.ux-dialog-open .note p {
     color: #fff;
 }

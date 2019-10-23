@@ -119,7 +119,7 @@ export class Exchange {
         });
 
         const tokenHistory = await loadTokenMarketHistory(this.currentToken);
-        console.log('History', tokenHistory);
+        //console.log('History', tokenHistory);
 
         this.chartData = {
             labels: buyOrderLabels.concat(sellOrderLabels),
@@ -216,7 +216,7 @@ export class Exchange {
             quantity: this.bidQuantity,
             price: this.bidPrice
         };
-
+        
         this.dialogService.open({ viewModel: MarketOrderModal, model: order }).whenClosed(response => {
             console.log(response);
         });

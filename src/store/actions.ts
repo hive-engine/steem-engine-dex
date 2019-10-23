@@ -123,6 +123,7 @@ export async function loadSellBook(state: State, symbol: string, account: string
     try {
         const sellBook = await ssc.find('market', 'sellBook', { symbol, account }, 200, 0, [{ index: 'priceDec', descending: false }], false);
 
+        // re-order sellbook results to match the buybook results
         newState.sellBook = sellBook.map(o => {
             newState.sellTotal += o.quantity * o.price;
             o.total = newState.sellTotal;
@@ -141,7 +142,6 @@ export async function loadTradeHistory(state: State, symbol: string, account: st
 
     try {
         const tradeHistory = await ssc.find('market', 'tradesHistory', { symbol, account }, 30, 0, [{ index: '_id', descending: false }], false);
-        console.log('dwayne', tradeHistory);
         newState.tradeHistory = tradeHistory.map(o => {
             o.total = o.price * o.quantity;
             o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
