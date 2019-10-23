@@ -4,20 +4,6 @@ const customGlobal: GlobalWithFetchMock = global as GlobalWithFetchMock;
 customGlobal.fetch = require('jest-fetch-mock');
 customGlobal.fetchMock = customGlobal.fetch;
 
-jest.mock('sscjs', () => {
-    return {
-      default: {
-          find: jest.fn()
-      }
-    }
-});
-
-jest.mock('steem', () => {
-    return {
-      default: jest.fn()
-    }
-});
-
 jest.mock('firebase/app', () => {
     return {
         default: {

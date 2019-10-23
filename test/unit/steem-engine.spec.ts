@@ -1,3 +1,4 @@
+import { getSteemPrice } from 'common/functions';
 import { request, loadTokenMarketHistory } from 'common/steem-engine';
 
 describe('Functions', () => {
@@ -52,14 +53,5 @@ describe('Functions', () => {
 
         expect(request.parsedURL).toMatchObject({path: `/history/marketHistory?symbol=${symbol}&timestampEnd=123456`});
     });
-
-    // it('getSteemPrice should return 0 if request fails', async () => {
-    //     // @ts-ignore
-    //     fetch.mockRejectOnce(new Error('fake error message'));
-
-    //     const returnedValue = await getSteemPrice();
-
-    //     expect(returnedValue).toEqual(0);
-    // });
 
 });
