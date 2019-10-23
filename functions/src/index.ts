@@ -28,7 +28,9 @@ const userDocs = storage.bucket('steem-engine-dex.appspot.com', {
 // @ts-ignore
 const uploadFile = async (filename: string, mimetype: string, buffer: Buffer) => {
     return new Promise((resolve, reject) => {
-        const file = userDocs.file(filename);
+        const formatedFilename = `user-uploads/${filename}`;
+        
+        const file = userDocs.file(formatedFilename);
         const stream = file.createWriteStream({
             metadata: {
                 contentType: mimetype
@@ -38,7 +40,7 @@ const uploadFile = async (filename: string, mimetype: string, buffer: Buffer) =>
 
         stream.on('error', (err) => reject(err));
         stream.on('finish', () => {
-            const publicUrl = format(`https://storage.googleapis.com/${userDocs.name}/user-uploads/${file.name}`);
+            const publicUrl = format(`https://storage.googleapis.com/${userDocs.name}/${file.name}`);
 
             resolve(publicUrl);
         });
