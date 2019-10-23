@@ -4,20 +4,6 @@ const customGlobal: GlobalWithFetchMock = global as GlobalWithFetchMock;
 customGlobal.fetch = require('jest-fetch-mock');
 customGlobal.fetchMock = customGlobal.fetch;
 
-jest.mock('firebase/app', () => {
-    return {
-        default: {
-            auth: () => {
-                return {
-                    currentUser: {
-                        getIdToken: jest.fn().mockReturnValue('989duiu787u')
-                    }
-                }
-            }
-        }
-    }
-});
-
 (global as any).Blob = jest.fn();
 
 import 'aurelia-polyfills';
