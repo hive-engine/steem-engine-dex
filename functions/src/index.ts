@@ -5,18 +5,25 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import { format } from 'util';
+//import * as Multer from 'multer';
 
 import { Auth } from './auth';
 
 import * as serviceAccount from './steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json';
 
 import { Storage } from '@google-cloud/storage';
-const storage = new Storage({
-    projectId: serviceAccount.project_id,
-    keyFilename: './steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json'
-});
+const storage = new Storage();
 
-const userDocs = storage.bucket('user-docs');
+// const multer = Multer({
+//     storage: Multer.memoryStorage(),
+//     limits: {
+//       fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
+//     },
+//   });
+
+const userDocs = storage.bucket('steem-engine-dex.appspot.com', {
+    userProject: 'steem-engine-dex'
+});
 
 // @ts-ignore
 const uploadFile = async (filename: string, mimetype: string, buffer: Buffer) => {
@@ -31,7 +38,7 @@ const uploadFile = async (filename: string, mimetype: string, buffer: Buffer) =>
 
         stream.on('error', (err) => reject(err));
         stream.on('finish', () => {
-            const publicUrl = format(`https://storage.googleapis.com/${userDocs.name}/${userDocs.name}`);
+            const publicUrl = format(`https://storage.googleapis.com/${userDocs.name}/user-uploads/${file.name}`);
 
             resolve(publicUrl);
         });
@@ -91,23 +98,20 @@ app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: 
         if (decodedToken && decodedToken.aud === 'steem-engine-dex' && decodedToken.uid === username) {
             try {
                 // @ts-ignore
-                const file = req.files;
+                const file = req.files[0];
 
                 if (file) {
                     const { buffer, mimetype, originalname } = file;
 
-                    const upload = await uploadFile(originalname, mimetype, buffer);
+                    const upload = await uploadFile(`${username.toString().toLowerCase()}-${originalname}`, mimetype, buffer);
 
                     res.status(200).json(upload);
                 }
             } catch (e) {
-                console.error(e);
                 res.status(400).json({ success: false, message: e });
             }
         }
     } catch (e) {
-        console.error(e);
-
         res.status(401).json({ success: false, message: 'Token is not valid' });
     }
 
@@ -179,4 +183,7 @@ app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Respon
     }
 });
 
-export const api = functions.https.onRequest(app);
+export const api = functions
+    .runWith({ memory: '1GB', timeoutSeconds: 120 })
+    .https
+    .onRequest(app);
