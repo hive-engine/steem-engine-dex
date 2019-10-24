@@ -93,6 +93,7 @@ app.get('/test', (req: express.Request, res: express.Response) => {
 app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: express.Response) => {
     const authToken = req.headers.authorization || '';
     const type = req.body.type;
+    const kycFields = ['selfie', 'passport'];
 
     try {
         const decodedToken = await admin.auth().verifyIdToken(authToken);
@@ -113,13 +114,34 @@ app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: 
 
                     const usersRef = firestore.collection('users');
                     const user = await usersRef.doc(username).get();
+                    const userData = user.data();
+
+                    const data: any = {
+                        kyc: {
+                            ...userData,
+                            passportPending: false,
+                            passportVerified: false,
+                            selfiePending: false,
+                            selfieVerified: false
+                        },
+                        [type]: {
+                            filename: originalname
+                        }
+                    };
+
+                    // The type of upload is a KYC document
+                    if (kycFields.includes(type)) {
+                        if (type === 'selfie') {
+                            data.kyc.selfiePending = true;
+                            data.kyc.selfieVerified = false;
+                        } else if (type === 'passport') {
+                            data.kyc.passportPending = true;
+                            data.kyc.passportVerified = false;
+                        }
+                    }
 
                     if (user.exists) {
-                        usersRef.doc(username).set({
-                            [type]: {
-                                filename: originalname
-                            }
-                        }, { merge: true });
+                        usersRef.doc(username).set(data, { merge: true });
                     }
 
                     res.status(200).json(upload);
