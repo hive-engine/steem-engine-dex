@@ -10,6 +10,7 @@
                 <a class="${selectedTab == 'favorites' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);" click.delegate="tabChanged('favorites')">${'Favorites' & t}</a>
                 <a class="${selectedTab == 'hiddenTokens' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);" click.delegate="tabChanged('hiddenTokens')">${'Hidden Tokens' & t}</a>
                 <a class="${selectedTab == 'preferences' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);" click.delegate="tabChanged('preferences')">${'Preferences' & t}</a>
+                <a class="${selectedTab == 'kyc' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);" click.delegate="tabChanged('kyc')">${'KYC' & t}</a>
             </nav>
         </div>
     </header>
@@ -21,7 +22,7 @@
                 <p if.bind="!user.favourites.length">${'You have no favorited tokens' & t}.</p>
 
                 <select2 placeholder="Select one or more tokens">
-                    <select value.bind="user.favourites" change.delegate="updateData()" multiple>
+                    <select value.bind="state.firebaseUser.favourites" change.delegate="updateData()" multiple>
                         <option value.bind="token.symbol" repeat.for="token of tokens">${token.name & t} (${token.symbol})</option>
                     </select>
                 </select2>
@@ -29,10 +30,10 @@
 
             <section class="col-md-12" show.bind="selectedTab == 'hiddenTokens'">
                 <h3>${'Hidden Tokens' & t}</h3>
-                <p if.bind="!user.hiddenTokens.length">${'You have no hidden tokens' & t}.</p>
+                <p if.bind="!state.firebaseUser.hiddenTokens.length">${'You have no hidden tokens' & t}.</p>
 
                 <select2 placeholder="Select one or more tokens" if.bind="selectedTab == 'hiddenTokens'">
-                    <select value.bind="user.hiddenTokens" change.delegate="updateData()" multiple>
+                    <select value.bind="state.firebaseUser.hiddenTokens" change.delegate="updateData()" multiple>
                         <option value.bind="token.symbol" repeat.for="token of tokens">${token.name & t} (${token.symbol})</option>
                     </select>
                 </select2>
@@ -40,7 +41,7 @@
 
             <section class="col-md-12" show.bind="selectedTab == 'preferences'">
                 <h3>${'Preferences' & t}</h3>
-                <p if.bind="!user.hiddenTokens.length">${'Configure exchange preferences here' & t}.</p>
+                <p if.bind="!state.firebaseUser.hiddenTokens.length">${'Configure exchange preferences here' & t}.</p>
 
                 <fieldset class="mt-5">
                     <legend class="mb-4">${'Wallet' & t}</legend>
@@ -59,6 +60,36 @@
                         </span>
                     </div>
                 </fieldset>
+            </section>
+
+            <section class="col-md-12" show.bind="selectedTab == 'kyc'">
+                <h3>${'KYC' & t}</h3>
+                <template if.bind="!state.firebaseUser.kyc.verified">
+                    <p>${'Verify your account' & t}.</p>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4>Selfie</h4>
+                            <p>Upload a selfie that is well lit. You should be holding a piece of paper with "steem-engine.com" written on it, with todays date and your special verfication code: ${state.firebaseUser.kyc.token}</p>
+                            
+                            <div class="upload-box">
+                                <font-awesome-icon icon.bind="polaroidIcon"></font-awesome-icon>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <h4>Passport</h4>
+                            <p>Upload a scanned copy of your passport. Your name, image and citizenship details should be clearly visible.</p>
+                            
+                            <div class="upload-box">
+                                <font-awesome-icon icon.bind="passportIcon"></font-awesome-icon>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <template else>
+                    <p>You have been verified.</p>
+                </template>
             </section>
         </div>    
     </div>
