@@ -73,7 +73,7 @@
                             <p if.bind="!selfieVerified">Upload a selfie that is well lit. You should be holding a piece of paper with "steem-engine.com" written on it, with todays date and your special verfication code: ${state.firebaseUser.kyc.token}</p>
                             <p else class="green-text">Your selfie has been verified</p>
 
-                            <div class="upload-box" if.bind="!selfieVerified">
+                            <div class="upload-box" if.bind="!selfieVerified" drop.trigger="handleSelfieDrop($event)" dragover.trigger="handleEvent($event)">
                                 <font-awesome-icon icon.bind="polaroidIcon"></font-awesome-icon>
                             </div>
                         </div>

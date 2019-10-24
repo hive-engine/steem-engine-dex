@@ -44,6 +44,21 @@ export class Settings {
         await dispatchify(getCurrentFirebaseUser)();
     }
 
+    handleEvent(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    handleSelfieDrop(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        let dt = e.dataTransfer;
+        let files = dt.files;
+
+        console.log(files);
+    }
+
     @computedFrom('state')
     get selfieVerified() {
         if (this.state) {
