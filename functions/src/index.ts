@@ -86,11 +86,11 @@ const createUserToken = (username: string) => admin.auth().createCustomToken(use
 
 const firestore = admin.firestore();
 
-app.get('/test', (req: express.Request, res: express.Response, next: express.NextFunction) => { 
+app.get('/test', (req: express.Request, res: express.Response) => { 
     res.send('HELLO WORLD');
 });
 
-app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: express.Response) => {
     const authToken = req.headers.authorization || '';
     const type = req.body.type;
 
@@ -139,7 +139,7 @@ app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: 
     // res.json(req.files);
 });
 
-app.post('/verifyToken', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.post('/verifyToken', async (req: express.Request, res: express.Response) => {
     const authToken = req.body.authToken;
 
     try {
@@ -154,7 +154,7 @@ app.post('/verifyToken', async (req: express.Request, res: express.Response, nex
 
 // Gets an encrypted memo to send to the user
 // They use their private key to decode it and send back the AES string
-app.get('/getUserAuthMemo/:username', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.get('/getUserAuthMemo/:username', async (req: express.Request, res: express.Response) => {
     const username = req.params.username;
 
     try {
@@ -168,7 +168,7 @@ app.get('/getUserAuthMemo/:username', async (req: express.Request, res: express.
 });
 
 // This should be an AES encryption string containing their username
-app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Response) => {
     const username = req.body.username;
     const signedKey = req.body.signedKey;
 
