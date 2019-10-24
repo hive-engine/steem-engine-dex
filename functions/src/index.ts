@@ -5,7 +5,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import { format } from 'util';
-import * as uuidv4 from 'uuid/v4';
+import * as shortid from 'shortid';
 //import * as Multer from 'multer';
 
 import { Auth } from './auth';
@@ -224,13 +224,13 @@ app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Respon
                         passportVerified: false,
                         selfiePending: false,
                         selfieVerified: false,
-                        token: uuidv4(),
+                        token: shortid.generate(),
                         verified: false
                     },
                     wallet: {
                         hideZeroBalances: false,
                         onlyShowFavourites: false
-                    }
+                    },
                     tabPreference: 'profile'
                 });
             }
