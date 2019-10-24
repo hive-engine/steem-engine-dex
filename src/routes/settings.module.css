@@ -1,0 +1,15 @@
+.upload-box {
+    border: 3px dashed #E6E6E6;
+    color: #A0A0A0;
+    font-size: 50px;
+    height: 250px;
+    position: relative;
+    width: 250px;
+}
+
+.upload-box font-awesome-icon {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
