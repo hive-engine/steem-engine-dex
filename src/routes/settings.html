@@ -69,19 +69,19 @@
 
                     <div class="row">
                         <div class="col-md-4 kyc-box">
-                            <h4>Selfie <span class="verified-label"><font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> unverified</span></h4>
+                            <h4>Selfie <span class="verified-label ${state.firebaseUser.kyc.selfieVerified ? 'highlight' : ''}"><font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${state.firebaseUser.kyc.selfieVerified ? 'verified' : 'unverified'}</span></h4>
                             <p>Upload a selfie that is well lit. You should be holding a piece of paper with "steem-engine.com" written on it, with todays date and your special verfication code: ${state.firebaseUser.kyc.token}</p>
                             
-                            <div class="upload-box">
+                            <div class="upload-box" if.bind="!state.firebaseUser.kyc.selfieVerified">
                                 <font-awesome-icon icon.bind="polaroidIcon"></font-awesome-icon>
                             </div>
                         </div>
 
                         <div class="col-md-4 kyc-box">
-                            <h4>Passport</h4>
+                            <h4>Passport <span class="verified-label ${state.firebaseUser.kyc.passportVerified ? 'highlight' : ''}"><font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${state.firebaseUser.kyc.passportVerified ? 'verified' : 'unverified'}</span></h4>
                             <p>Upload a scanned copy of your passport. Your name, image and citizenship details should be clearly visible.</p>
                             
-                            <div class="upload-box">
+                            <div class="upload-box" if.bind="!state.firebaseUser.kyc.passportVerified">
                                 <font-awesome-icon icon.bind="passportIcon"></font-awesome-icon>
                             </div>
                         </div>
