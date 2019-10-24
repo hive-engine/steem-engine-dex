@@ -1,32 +1,20 @@
 <template>
     <div class="order-buttons">
-        <button
-            type="button"
-            class="btn btn-lg btn-buy"
-            click.delegate="mode = 'buy'"
-        >
-            ${'Buy' & t}
-        </button>
-        <button
-            type="button"
-            class="btn btn-lg btn-sell"
-            click.delegate="mode = 'sell'"
-        >
-            ${'Sell' & t}
-        </button>
+        <a href="javascript:void(0);" class="btn-link btn-buy" click.delegate="mode = 'buy'">${'Buy' & t}</a>
+        <a href="javascript:void(0);" class="btn-link btn-sell" click.delegate="mode = 'sell'">${'Sell' & t}</a>
     </div>
 
     <div class="form-group">
         <label class="balance-label d-block">${'Price' & t}</label>
         <div class="input-group">
             <input
-                class="form-control form-control-light text-right"
+                class="form-control form-control-dark text-right"
                 type="text"
                 placeholder.one-time="0.000"
                 value.bind="price & validate"
             />
             <div class="input-group-append">
-                <div class="input-group-text input-group-text-light">
+                <div class="input-group-text input-group-text-dark">
                     ${'STEEMP' & t}
                 </div>
             </div>
@@ -37,13 +25,13 @@
         <label class="balance-label d-block">${'Quantity' & t}</label>
         <div class="input-group">
             <input
-                class="form-control form-control-light text-right"
+                class="form-control form-control-dark text-right"
                 type="text"
                 placeholder="0.000"
                 value.bind="quantity & validate"
             />
             <div class="input-group-append">
-                <div class="input-group-text input-group-text-light">
+                <div class="input-group-text input-group-text-dark">
                     ${data.symbol & t}
                 </div>
             </div>
@@ -51,8 +39,7 @@
     </div>
 
     <div class="form-group">
-        <p>${total}</p>
-        ${'STEEMP' & t}
+        <p class="no-margin">${total} ${'STEEMP' & t}</p>
     </div>
 
     <div class="form-group">
