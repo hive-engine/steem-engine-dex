@@ -5,7 +5,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import { format } from 'util';
-import * as uuidv4 from 'uuid/v4';
+import * as shortid from 'shortid';
 //import * as Multer from 'multer';
 
 import { Auth } from './auth';
@@ -86,20 +86,23 @@ const createUserToken = (username: string) => admin.auth().createCustomToken(use
 
 const firestore = admin.firestore();
 
-app.get('/test', (req: express.Request, res: express.Response, next: express.NextFunction) => { 
+app.get('/test', (req: express.Request, res: express.Response) => { 
     res.send('HELLO WORLD');
 });
 
-app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const authToken = req.body.authToken;
-    const username = req.body.username;
+app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: express.Response) => {
+    const authToken = req.headers.authorization || '';
     const type = req.body.type;
+    const kycFields = ['selfie', 'passport'];
 
     try {
         const decodedToken = await admin.auth().verifyIdToken(authToken);
 
         // User checks out
-        if (decodedToken && decodedToken.aud === 'steem-engine-dex' && decodedToken.uid === username) {
+        if (decodedToken && decodedToken.aud === 'steem-engine-dex') {
+            // Username from token
+            const username = decodedToken.uid;
+
             try {
                 // @ts-ignore
                 const file = req.files[0];
@@ -107,18 +110,41 @@ app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: 
                 if (file) {
                     const { buffer, mimetype, originalname } = file;
 
-                    const upload = await uploadFile(`${username.toString().toLowerCase()}/${originalname}`, mimetype, buffer);
+                    await uploadFile(`${username.toString().toLowerCase()}/${originalname}`, mimetype, buffer);
 
                     const usersRef = firestore.collection('users');
                     const user = await usersRef.doc(username).get();
+                    const userData: any = user.data();
 
-                    if (user.exists) {
-                        usersRef.doc(username).set({
-                            
-                        }, { merge: true });
+                    const data: any = {
+                        kyc: {
+                            ...userData.kyc,
+                            passportPending: false,
+                            passportVerified: false,
+                            selfiePending: false,
+                            selfieVerified: false
+                        },
+                        [type]: {
+                            filename: originalname
+                        }
+                    };
+
+                    // The type of upload is a KYC document
+                    if (kycFields.includes(type)) {
+                        if (type === 'selfie') {
+                            data.kyc.selfiePending = true;
+                            data.kyc.selfieVerified = false;
+                        } else if (type === 'passport') {
+                            data.kyc.passportPending = true;
+                            data.kyc.passportVerified = false;
+                        }
                     }
 
-                    res.status(200).json(upload);
+                    if (user.exists) {
+                        usersRef.doc(username).set(data, { merge: true });
+                    }
+
+                    res.status(200).json({ success: true, message: 'Document uploaded successfully.' });
                 }
             } catch (e) {
                 res.status(400).json({ success: false, message: e });
@@ -135,7 +161,7 @@ app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: 
     // res.json(req.files);
 });
 
-app.post('/verifyToken', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.post('/verifyToken', async (req: express.Request, res: express.Response) => {
     const authToken = req.body.authToken;
 
     try {
@@ -150,7 +176,7 @@ app.post('/verifyToken', async (req: express.Request, res: express.Response, nex
 
 // Gets an encrypted memo to send to the user
 // They use their private key to decode it and send back the AES string
-app.get('/getUserAuthMemo/:username', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.get('/getUserAuthMemo/:username', async (req: express.Request, res: express.Response) => {
     const username = req.params.username;
 
     try {
@@ -164,7 +190,7 @@ app.get('/getUserAuthMemo/:username', async (req: express.Request, res: express.
 });
 
 // This should be an AES encryption string containing their username
-app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Response) => {
     const username = req.body.username;
     const signedKey = req.body.signedKey;
 
@@ -182,27 +208,31 @@ app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Respon
             if (!user.exists) {
                 // Create new user reference
                 usersRef.doc(username).set({
+                    country: '',
+                    email: '',
+                    firstName: '',
+                    lastName: '',
+                    addressLine1: '',
+                    addressLine2: '',
+                    state: '',
+                    zipCode: '',
                     favourites: [],
                     hiddenTokens: [],
                     kyc: {
                         dateSubmitted: '',
-                        token: uuidv4(),
+                        passportPending: false,
+                        passportVerified: false,
+                        selfiePending: false,
+                        selfieVerified: false,
+                        token: shortid.generate(),
                         verified: false
-                    }
+                    },
+                    wallet: {
+                        hideZeroBalances: false,
+                        onlyShowFavourites: false
+                    },
+                    tabPreference: 'profile'
                 });
-            } else {
-                const userData = user.data();
-
-                // User hasn't got a KYC object
-                if (userData && !userData.kyc) {
-                    user.ref.update({
-                        kyc: {
-                            dateSubmitted: '',
-                            token: uuidv4(),
-                            verified: false
-                        }
-                    });
-                }
             }
 
             return res.status(200).json({ success: true, token });
