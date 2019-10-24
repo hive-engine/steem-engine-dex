@@ -68,8 +68,8 @@
                     <p>${'Verify your account' & t}.</p>
 
                     <div class="row">
-                        <div class="col-md-4">
-                            <h4>Selfie</h4>
+                        <div class="col-md-4 kyc-box">
+                            <h4>Selfie <span class="verified-label"><font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> unverified</span></h4>
                             <p>Upload a selfie that is well lit. You should be holding a piece of paper with "steem-engine.com" written on it, with todays date and your special verfication code: ${state.firebaseUser.kyc.token}</p>
                             
                             <div class="upload-box">
@@ -77,7 +77,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-4 kyc-box">
                             <h4>Passport</h4>
                             <p>Upload a scanned copy of your passport. Your name, image and citizenship details should be clearly visible.</p>
                             

@@ -1,3 +1,7 @@
+.kyc-box {
+    background: #FFF;
+}
+
 .upload-box {
     border: 3px dashed #E6E6E6;
     color: #A0A0A0;
@@ -12,4 +16,17 @@
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+
+.verified-label {
+    color: #CCC;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 400;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.verified-label.highlight {
+    color: #21BE3D;
 }
