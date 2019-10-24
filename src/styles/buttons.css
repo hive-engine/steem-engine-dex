@@ -43,11 +43,10 @@
     border-color: $negative;
 }
 
-.btn-link,
-.btn-link:hover {
+.btn-link {
     background: none;
     border: none;
-    color: #3CFFB5;
+    color: #0048b3;
     font-size: 12px;
     line-height: 1;
     margin: 0;
@@ -76,6 +75,18 @@
 .btn-sell:focus {
     background-color: rgba(190, 60, 0, 0.5);
     color: #BE4200;
+}
+
+.btn-buy.btn-link {
+    background: none;
+    color: #00955C;
+    padding: 0;
+}
+
+.btn-sell.btn-link {
+    background: none;
+    color: #BE4200;
+    padding: 0;
 }
 
 .btn-wide {

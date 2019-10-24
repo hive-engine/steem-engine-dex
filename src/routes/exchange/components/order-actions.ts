@@ -4,8 +4,12 @@ import { bindable, bindingMode, autoinject } from 'aurelia-framework';
 import { ValidationControllerFactory, ValidationRules, ControllerValidateResult } from 'aurelia-validation';
 import { I18N } from 'aurelia-i18n';
 
+import styles from './order-actions.module.css';
+
 @autoinject()
 export class OrderActions {
+    private styles = styles;
+
     @bindable amountSelect;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) price;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) quantity;

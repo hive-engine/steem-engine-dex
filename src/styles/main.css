@@ -96,6 +96,10 @@ legend {
     color: #0c111a;
 }
 
+.no-margin {
+    margin: 0;
+}
+
 .main-header {
     border-bottom: 1px solid #424242;
     height: 250px;
@@ -113,6 +117,10 @@ legend {
 
 .route--exchange {
     background: #fff;
+}
+
+.route--exchange h2 {
+    font-size: 24px;
 }
 
 .h100 {
