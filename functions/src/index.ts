@@ -208,6 +208,14 @@ app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Respon
             if (!user.exists) {
                 // Create new user reference
                 usersRef.doc(username).set({
+                    country: '',
+                    email: '',
+                    firstName: '',
+                    lastName: '',
+                    addressLine1: '',
+                    addressLine2: '',
+                    state: '',
+                    zipCode: '',
                     favourites: [],
                     hiddenTokens: [],
                     kyc: {
@@ -221,23 +229,6 @@ app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Respon
                     },
                     tabPreference: 'favorites'
                 });
-            } else {
-                const userData = user.data();
-
-                // User hasn't got a KYC object
-                if (userData && !userData.kyc) {
-                    user.ref.update({
-                        kyc: {
-                            dateSubmitted: '',
-                            passportPending: false,
-                            passportVerified: false,
-                            selfiePending: false,
-                            selfieVerified: false,
-                            token: uuidv4(),
-                            verified: false
-                        }
-                    });
-                }
             }
 
             return res.status(200).json({ success: true, token });
