@@ -13,7 +13,7 @@ import styles from './settings.module.css';
 @autoinject()
 export class Settings {
     private state: State;
-    private selectedTab = 'favorites';
+    private selectedTab = 'profile';
     private user;
     private subscription: Subscription;
     private styles = styles;

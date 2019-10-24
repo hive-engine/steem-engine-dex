@@ -7,6 +7,7 @@
                 </div>
             </div>
             <nav class="nav tabs mt-3">
+                <a class="${selectedTab == 'profile' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);" click.delegate="tabChanged('profile')">${'Profile' & t}</a>
                 <a class="${selectedTab == 'favorites' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);" click.delegate="tabChanged('favorites')">${'Favorites' & t}</a>
                 <a class="${selectedTab == 'hiddenTokens' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);" click.delegate="tabChanged('hiddenTokens')">${'Hidden Tokens' & t}</a>
                 <a class="${selectedTab == 'preferences' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);" click.delegate="tabChanged('preferences')">${'Preferences' & t}</a>
@@ -17,6 +18,16 @@
 
     <div class="container-fluid main-container">
         <div class="row">
+            <section class="col-md-12" show.bind="selectedTab == 'profile'">
+                    <h3>${'Your Profile' & t}</h3>
+                    <p>Some of these fields are required if you want to verify yourself via the KYC process.</p>
+    
+                    <div class="form-group">
+                        <input type="text" class="form-control">
+                        <label>First name</label>
+                    </div>
+                </section>
+
             <section class="col-md-12" show.bind="selectedTab == 'favorites'">
                 <h3>${'Favorites' & t}</h3>
                 <p if.bind="!user.favourites.length">${'You have no favorited tokens' & t}.</p>
