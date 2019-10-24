@@ -28,6 +28,10 @@ export class Settings {
     bind() {
         this.subscription = this.store.state.subscribe((state: State) => {
             this.state = state;
+
+            if (this.state.firebaseUser.tabPreference) {
+                this.selectedTab = this.state.firebaseUser.tabPreference;
+            }
         });
     }
 
@@ -42,6 +46,10 @@ export class Settings {
 
     tabChanged(tab: string) {
         this.selectedTab = tab;
+
+        this.state.firebaseUser.tabPreference = tab;
+
+        this.updateData();
     }
 
     updateData() {
