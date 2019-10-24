@@ -1,6 +1,8 @@
 import { customElement, bindable, TaskQueue, autoinject, DOM } from 'aurelia-framework';
 
 import Chart from 'chart.js';
+import './../../../custom_scripts/chartjs-chart-financial/scale.financialLinear.js';
+import './../../../custom_scripts/chartjs-chart-financial/controller.candlestick.js';
 
 const DefaultChartOptions = {
     options: {
@@ -16,10 +18,12 @@ const DefaultChartOptions = {
 @customElement('chart')
 export class ChartComponent {
     private chartRef: HTMLCanvasElement;
+    private chartRefCandle: HTMLCanvasElement;
     private chart;
-    private created = false;
+    private chartCandle;
+    private created = false;    
 
-    @bindable type = 'line';
+    @bindable type = 'candlestick';
     @bindable options: any = {};
     @bindable data: any = {};
 
@@ -29,19 +33,8 @@ export class ChartComponent {
 
     attached() {
         this.taskQueue.queueMicroTask(() => {
-            this.options = { ...this.options, ...DefaultChartOptions };
-
-            this.options.type = this.type;
-            this.options.data = this.data;
-            this.options.options.animation.onComplete = () => {
-                const event = DOM.createCustomEvent('complete', {
-                    bubbles: true
-                });
-
-                this.element.dispatchEvent(event);
-            };
-
-            this.createChart();
+            this.createChart('line');
+            this.createChart('candlestick');
 
             this.created = true;
         });
@@ -52,20 +45,58 @@ export class ChartComponent {
         this.created = false;
     }
 
-    createChart() {
-        this.chart = new Chart(this.chartRef, this.options);
+    getOptionsOfChartType(chartType) {
+        var options = { ...options, ...DefaultChartOptions };
 
-        this.refreshChart();
+        options.type = chartType;
+
+        if (chartType == 'line') {
+            options.data = this.data;
+        } else {            
+            options.data = {
+                datasets: [{
+                    label: 'SE Dex',
+                    data: this.data.ohlcData
+                }]
+            };            
+        }
+
+        options.options.animation.onComplete = () => {
+            const event = DOM.createCustomEvent('complete', {
+                bubbles: true
+            });
+
+            this.element.dispatchEvent(event);
+        };
+
+        return options;
     }
 
-    refreshChart() {
-        this.chart.update();
-        this.chart.resize();
+    createChart(chartType) {
+        var options = this.getOptionsOfChartType(chartType);
+        if (chartType == 'line') {
+            this.chart = new Chart(this.chartRef, options);
+            this.refreshChart(this.chart);
+        }
+        else {            
+            this.chartCandle = new Chart(this.chartRefCandle, options);            
+            this.refreshChart(this.chartCandle);
+        }
+    }
+
+    refreshChart(chart) {
+        chart.update();
+        chart.resize();
+    }
+
+    setChartType(type) {
+        this.type = type;
     }
 
     propertyChanged() {
         if (this.created) {
-            this.refreshChart();
+            this.refreshChart(this.chart);
+            this.refreshChart(this.chartCandle);
         }
     }
 }

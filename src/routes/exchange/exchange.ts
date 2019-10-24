@@ -21,6 +21,8 @@ import { percentageOf } from 'common/functions';
 import { loadTokensList, loadAccountBalances, loadBuyBook, loadSellBook, loadTradeHistory } from 'store/actions';
 import { dispatchify } from 'aurelia-store';
 import { getStateOnce } from 'store/store';
+import * as d3 from 'd3';
+import { DateTime } from 'luxon';
 
 @autoinject()
 export class Exchange {
@@ -117,9 +119,19 @@ export class Exchange {
                 sellOrderDataset.push(sellOrderCurrentVolume);
             }
         });
+                
+        const tokenHistory = await loadTokenMarketHistory(this.currentToken);        
+        var limitCandleStick = 60;
 
-        const tokenHistory = await loadTokenMarketHistory(this.currentToken);
-        //console.log('History', tokenHistory);
+        var candleStickData = tokenHistory.slice(0, limitCandleStick).map(x => {
+            return {
+                t: moment.unix(x.timestamp).format('YYYY-MM-DD HH:mm:ss'),//x.timestamp * 1000,
+                o: x.openPrice, 
+                h: x.highestPrice,
+                l: x.lowestPrice,                
+                c: x.closePrice
+            }
+        });        
 
         this.chartData = {
             labels: buyOrderLabels.concat(sellOrderLabels),
@@ -138,9 +150,10 @@ export class Exchange {
                     backgroundColor: '#e87f7f',
                     data: sellOrderDataset
                 }
-            ]
-        };
-    }
+            ],
+            ohlcData: candleStickData
+        };        
+    }    
 
     attached() {
         const symbol = this.currentToken;

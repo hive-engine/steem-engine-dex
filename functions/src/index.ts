@@ -5,6 +5,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import { format } from 'util';
+import * as uuidv4 from 'uuid/v4';
 //import * as Multer from 'multer';
 
 import { Auth } from './auth';
@@ -169,10 +170,29 @@ app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Respon
             const user = await usersRef.doc(username).get();
 
             if (!user.exists) {
+                // Create new user reference
                 usersRef.doc(username).set({
                     favourites: [],
-                    hiddenTokens: []
+                    hiddenTokens: [],
+                    kyc: {
+                        dateSubmitted: '',
+                        token: uuidv4(),
+                        verified: false
+                    }
                 });
+            } else {
+                const userData = user.data();
+
+                // User hasn't got a KYC object
+                if (userData && !userData.kyc) {
+                    user.ref.update({
+                        kyc: {
+                            dateSubmitted: '',
+                            token: uuidv4(),
+                            verified: false
+                        }
+                    });
+                }
             }
 
             return res.status(200).json({ success: true, token });
