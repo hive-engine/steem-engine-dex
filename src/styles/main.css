@@ -204,3 +204,11 @@ legend {
     border-bottom: 1px solid #262e3f;
     border-top: 0;
 }
+
+.green-text {
+    color: #21BE3D;
+}
+
+.yellow-text {
+    color: #FFE289;
+}
