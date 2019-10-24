@@ -5,6 +5,7 @@ import firebase from 'firebase/app';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 import { SteemEngine } from 'services/steem-engine';
 import { dispatchify, Store } from 'aurelia-store';
+import { faCheckCircle, faImagePolaroid, faPassport } from '@fortawesome/pro-duotone-svg-icons'
 
 import styles from './settings.module.css';
 
@@ -15,6 +16,10 @@ export class Settings {
     private user;
     private subscription: Subscription;
     private styles = styles;
+
+    private polaroidIcon = faImagePolaroid;
+    private passportIcon = faPassport;
+    private checkIcon = faCheckCircle;
 
     constructor(private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue) {
 
