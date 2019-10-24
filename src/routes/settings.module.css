@@ -12,7 +12,12 @@
     font-size: 50px;
     height: 250px;
     position: relative;
+    transition: border 500ms ease-in-out;
     width: 250px;
+}
+
+.upload-box:hover {
+    border-color: #21BE3D;
 }
 
 .upload-box font-awesome-icon {
