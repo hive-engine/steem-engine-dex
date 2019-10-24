@@ -78,6 +78,16 @@
     color: #BE4200;
 }
 
+.btn-buy.btn-link {
+    background: none;
+    color: #00955C;
+}
+
+.btn-sell.btn-link {
+    background: none;
+    color: #BE4200;
+}
+
 .btn-wide {
     display: block;
     width: 100%;
