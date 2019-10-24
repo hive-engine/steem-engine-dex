@@ -91,7 +91,7 @@ app.get('/test', (req: express.Request, res: express.Response, next: express.Nex
 });
 
 app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const authToken = req.body.authToken;
+    const authToken = req.headers.authorization || '';
     const username = req.body.username;
     const type = req.body.type;
 
