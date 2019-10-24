@@ -18,6 +18,8 @@ export class Settings {
     private subscription: Subscription;
     private styles = styles;
 
+    private editMode = false;
+
     private polaroidIcon = faImagePolaroid;
     private passportIcon = faPassport;
     private checkIcon = faCheckCircle;
@@ -33,6 +35,8 @@ export class Settings {
             if (this.state.firebaseUser.tabPreference) {
                 this.selectedTab = this.state.firebaseUser.tabPreference;
             }
+            
+            this.user = { ...this.state.firebaseUser };
         });
     }
 
@@ -43,6 +47,18 @@ export class Settings {
     async activate() {
         await dispatchify(loadTokensList)();
         await dispatchify(getCurrentFirebaseUser)();
+    }
+
+    private resetUser() {
+        this.user = { ...this.state.firebaseUser };
+        this.editMode = false;
+    }
+
+    private saveProfile() {
+        this.state.firebaseUser = { ...this.state.firebaseUser, ...this.user };
+        this.editMode = false;
+
+        this.updateData();
     }
 
     handleEvent(e) {
@@ -131,6 +147,8 @@ export class Settings {
     updateData() {
         this.taskQueue.queueTask(() => {
             const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
+
+            console.log(this.state.firebaseUser);
 
             userRef.set(this.state.firebaseUser, {
                 merge: true
