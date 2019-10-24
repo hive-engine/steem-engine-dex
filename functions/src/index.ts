@@ -186,7 +186,9 @@ app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Respon
                     hiddenTokens: [],
                     kyc: {
                         dateSubmitted: '',
+                        passportPending: false,
                         passportVerified: false,
+                        selfiePending: false,
                         selfieVerified: false,
                         token: uuidv4(),
                         verified: false
@@ -201,7 +203,9 @@ app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Respon
                     user.ref.update({
                         kyc: {
                             dateSubmitted: '',
+                            passportPending: false,
                             passportVerified: false,
+                            selfiePending: false,
                             selfieVerified: false,
                             token: uuidv4(),
                             verified: false
