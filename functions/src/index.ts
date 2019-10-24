@@ -93,6 +93,7 @@ app.get('/test', (req: express.Request, res: express.Response, next: express.Nex
 app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const authToken = req.body.authToken;
     const username = req.body.username;
+    const type = req.body.type;
 
     try {
         const decodedToken = await admin.auth().verifyIdToken(authToken);
@@ -107,6 +108,15 @@ app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: 
                     const { buffer, mimetype, originalname } = file;
 
                     const upload = await uploadFile(`${username.toString().toLowerCase()}/${originalname}`, mimetype, buffer);
+
+                    const usersRef = firestore.collection('users');
+                    const user = await usersRef.doc(username).get();
+
+                    if (user.exists) {
+                        usersRef.doc(username).set({
+                            
+                        }, { merge: true });
+                    }
 
                     res.status(200).json(upload);
                 }
