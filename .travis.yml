@@ -19,9 +19,9 @@ deploy:
 before_install:
 - openssl aes-256-cbc -K $encrypted_134e9820d8ee_key -iv $encrypted_134e9820d8ee_iv -in deploy-key.enc -out /tmp/deploy_rsa -d
 - eval "$(ssh-agent -s)"
-- chmod 400 ./deploy-key
-- ssh-add ./deploy-key
-- ssh -i ./deploy-key $REMOTE_USER@$HOST pwd
+- chmod 600 /tmp/deploy_rsa
+- ssh-add /tmp/deploy_rsa
+- ssh -i /tmp/deploy_rsa $REMOTE_USER@$HOST pwd
 
 install:
 - npm config set "@fortawesome:registry" https://npm.fontawesome.com/
