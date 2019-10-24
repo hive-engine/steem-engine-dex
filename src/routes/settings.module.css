@@ -45,3 +45,7 @@
 .verified-label.pending {
     color: #FB4096;
 }
+
+.sections section {
+    color: #333;
+}
