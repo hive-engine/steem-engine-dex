@@ -144,7 +144,7 @@ app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: 
                         usersRef.doc(username).set(data, { merge: true });
                     }
 
-                    res.status(200).json(upload);
+                    res.status(200).json({ success: true, message: 'Document uploaded successfully.' });
                 }
             } catch (e) {
                 res.status(400).json({ success: false, message: e });
