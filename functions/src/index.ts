@@ -114,7 +114,9 @@ app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: 
 
                     if (user.exists) {
                         usersRef.doc(username).set({
-                            
+                            [type]: {
+                                filename: originalname
+                            }
                         }, { merge: true });
                     }
 
