@@ -43,8 +43,7 @@
     border-color: $negative;
 }
 
-.btn-link,
-.btn-link:hover {
+.btn-link {
     background: none;
     border: none;
     color: #0048b3;
