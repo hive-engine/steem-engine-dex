@@ -92,14 +92,16 @@ app.get('/test', (req: express.Request, res: express.Response, next: express.Nex
 
 app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const authToken = req.headers.authorization || '';
-    const username = req.body.username;
     const type = req.body.type;
 
     try {
         const decodedToken = await admin.auth().verifyIdToken(authToken);
 
         // User checks out
-        if (decodedToken && decodedToken.aud === 'steem-engine-dex' && decodedToken.uid === username) {
+        if (decodedToken && decodedToken.aud === 'steem-engine-dex') {
+            // Username from token
+            const username = decodedToken.uid;
+
             try {
                 // @ts-ignore
                 const file = req.files[0];
