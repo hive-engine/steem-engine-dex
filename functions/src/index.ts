@@ -118,7 +118,7 @@ app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: 
 
                     const data: any = {
                         kyc: {
-                            ...{...userData.kyc},
+                            ...userData.kyc,
                             passportPending: false,
                             passportVerified: false,
                             selfiePending: false,
