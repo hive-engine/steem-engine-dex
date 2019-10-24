@@ -51,6 +51,7 @@
         "popper.js": "^1.16.0",
         "query-string": "^6.8.3",
         "select2": "^4.0.11",
+        "shortid": "2.2.15",
         "sscjs": "^0.0.8",
         "steem": "^0.7.7",
         "whatwg-fetch": "^3.0.0",
