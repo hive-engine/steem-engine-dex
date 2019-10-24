@@ -2,6 +2,10 @@
     background: #FFF;
 }
 
+.kyc-box p {
+    font-size: 16px;
+}
+
 .upload-box {
     border: 3px dashed #E6E6E6;
     color: #A0A0A0;
