@@ -1,3 +1,4 @@
+import { UploadType, FirebaseService } from './../services/firebase-service';
 import { Subscription } from 'rxjs';
 import { State } from 'store/state';
 import { loadTokensList, getCurrentFirebaseUser } from 'store/actions';
@@ -5,7 +6,7 @@ import firebase from 'firebase/app';
 import { autoinject, TaskQueue, computedFrom } from 'aurelia-framework';
 import { SteemEngine } from 'services/steem-engine';
 import { dispatchify, Store } from 'aurelia-store';
-import { faCheckCircle, faImagePolaroid, faPassport } from '@fortawesome/pro-duotone-svg-icons'
+import { faCheckCircle, faImagePolaroid, faPassport } from '@fortawesome/pro-duotone-svg-icons';
 
 import styles from './settings.module.css';
 
@@ -21,7 +22,7 @@ export class Settings {
     private passportIcon = faPassport;
     private checkIcon = faCheckCircle;
 
-    constructor(private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue) {
+    constructor(private se: SteemEngine, private firebase: FirebaseService, private store: Store<State>, private taskQueue: TaskQueue) {
 
     }
 
@@ -54,9 +55,15 @@ export class Settings {
         e.stopPropagation();
 
         let dt = e.dataTransfer;
-        let files = dt.files;
+        let files: FileList = dt.files;
 
-        console.log(files);
+        if (files.length) {
+            this.uploadDocument(files[0], 'selfie');
+        }
+    }
+
+    async uploadDocument(file: File, type: UploadType) {
+        const upload = this.firebase.uploadFile(file, type);
     }
 
     @computedFrom('state')
