@@ -36,11 +36,12 @@ import Mousetrap from 'mousetrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/pro-solid-svg-icons';
 import { far } from '@fortawesome/pro-regular-svg-icons';
+import { fad } from '@fortawesome/pro-duotone-svg-icons';
 import { EventAggregator } from 'aurelia-event-aggregator';
 
 LogManager.addAppender(new ConsoleAppender());
 
-library.add(fas, far);
+library.add(fas, far, fad);
 
 // Disable connect queue to speed up application
 import { disableConnectQueue } from 'aurelia-binding';
