@@ -1,18 +1,30 @@
-import { State } from './../store/state';
+import { Subscription } from 'rxjs';
+import { State } from 'store/state';
 import { loadTokensList, getCurrentFirebaseUser } from 'store/actions';
 import firebase from 'firebase/app';
 import { autoinject, TaskQueue } from 'aurelia-framework';
-import { SteemEngine } from './../services/steem-engine';
-import { dispatchify, connectTo } from 'aurelia-store';
+import { SteemEngine } from 'services/steem-engine';
+import { dispatchify, Store } from 'aurelia-store';
 
 @autoinject()
-@connectTo()
 export class Settings {
     private state: State;
     private selectedTab = 'favorites';
+    private user;
+    private subscription: Subscription;
 
-    constructor(private se: SteemEngine, private taskQueue: TaskQueue) {
+    constructor(private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue) {
 
+    }
+
+    bind() {
+        this.subscription = this.store.state.subscribe((state: State) => {
+            this.state = state;
+        });
+    }
+
+    unbind() {
+        this.subscription.unsubscribe();
     }
 
     async activate() {
