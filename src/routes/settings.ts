@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs';
 import { State } from 'store/state';
 import { loadTokensList, getCurrentFirebaseUser } from 'store/actions';
 import firebase from 'firebase/app';
-import { autoinject, TaskQueue } from 'aurelia-framework';
+import { autoinject, TaskQueue, computedFrom } from 'aurelia-framework';
 import { SteemEngine } from 'services/steem-engine';
 import { dispatchify, Store } from 'aurelia-store';
 import { faCheckCircle, faImagePolaroid, faPassport } from '@fortawesome/pro-duotone-svg-icons'
@@ -42,6 +42,60 @@ export class Settings {
     async activate() {
         await dispatchify(loadTokensList)();
         await dispatchify(getCurrentFirebaseUser)();
+    }
+
+    @computedFrom('state')
+    get selfieVerified() {
+        if (this.state) {
+            return this.state.firebaseUser.kyc.selfieVerified;
+        }
+
+        return false;
+    }
+
+    @computedFrom('state')
+    get passportVerified() {
+        if (this.state) {
+            return this.state.firebaseUser.kyc.passportVerified;
+        }
+
+        return false;
+    }
+
+    @computedFrom('state')
+    get selfiePending() {
+        if (this.state) {
+            return this.state.firebaseUser.kyc.selfiePending;
+        }
+
+        return false;
+    }
+
+    @computedFrom('state')
+    get passportPending() {
+        if (this.state) {
+            return this.state.firebaseUser.kyc.passportPending;
+        }
+
+        return false;
+    }
+
+    @computedFrom('selfiePending', 'selfieVerified')
+    get selfieStatusText() {
+        if (!this.selfiePending) {
+            return this.selfieVerified ? 'verified' : 'unverified';
+        } else {
+            return 'pending';
+        }
+    }
+
+    @computedFrom('passportPending', 'passportPending')
+    get passportStatusText() {
+        if (!this.passportPending) {
+            return this.passportVerified ? 'verified' : 'unverified';
+        } else {
+            return 'pending';
+        }
     }
 
     tabChanged(tab: string) {

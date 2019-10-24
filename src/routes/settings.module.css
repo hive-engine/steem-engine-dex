@@ -31,6 +31,10 @@
     vertical-align: middle;
 }
 
-.verified-label.highlight {
+.verified-label.verified {
     color: #21BE3D;
+}
+
+.verified-label.pending {
+    color: #FB4096;
 }

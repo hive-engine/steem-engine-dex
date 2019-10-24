@@ -69,19 +69,21 @@
 
                     <div class="row">
                         <div class="col-md-4 kyc-box">
-                            <h4>Selfie <span class="verified-label ${state.firebaseUser.kyc.selfieVerified ? 'highlight' : ''}"><font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${state.firebaseUser.kyc.selfieVerified ? 'verified' : 'unverified'}</span></h4>
-                            <p>Upload a selfie that is well lit. You should be holding a piece of paper with "steem-engine.com" written on it, with todays date and your special verfication code: ${state.firebaseUser.kyc.token}</p>
-                            
-                            <div class="upload-box" if.bind="!state.firebaseUser.kyc.selfieVerified">
+                            <h4 class="${selfieVerified ? 'green-text' : ''}">Selfie <span class="verified-label ${selfieVerified ? 'verified' : ''} ${selfiePending ? 'pending' : ''}"><font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${selfieStatusText}</span></h4>
+                            <p if.bind="!selfieVerified">Upload a selfie that is well lit. You should be holding a piece of paper with "steem-engine.com" written on it, with todays date and your special verfication code: ${state.firebaseUser.kyc.token}</p>
+                            <p else class="green-text">Your selfie has been verified</p>
+
+                            <div class="upload-box" if.bind="!selfieVerified">
                                 <font-awesome-icon icon.bind="polaroidIcon"></font-awesome-icon>
                             </div>
                         </div>
 
                         <div class="col-md-4 kyc-box">
-                            <h4>Passport <span class="verified-label ${state.firebaseUser.kyc.passportVerified ? 'highlight' : ''}"><font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${state.firebaseUser.kyc.passportVerified ? 'verified' : 'unverified'}</span></h4>
-                            <p>Upload a scanned copy of your passport. Your name, image and citizenship details should be clearly visible.</p>
-                            
-                            <div class="upload-box" if.bind="!state.firebaseUser.kyc.passportVerified">
+                            <h4 class="${passportVerified ? 'green-text' : ''}">Passport <span class="verified-label ${passportVerified ? 'verified' : ''} ${passportPending ? 'pending' : ''}"><font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${passportStatusText}</span></h4>
+                            <p if.bind="!passportVerified">Upload a scanned copy of your passport. Your name, image and citizenship details should be clearly visible.</p>
+                            <p else class="green-text">Your passport has been verified.</p>
+
+                            <div class="upload-box" if.bind="!passportVerified">
                                 <font-awesome-icon icon.bind="passportIcon"></font-awesome-icon>
                             </div>
                         </div>
