@@ -110,7 +110,7 @@ app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: 
                 if (file) {
                     const { buffer, mimetype, originalname } = file;
 
-                    const upload = await uploadFile(`${username.toString().toLowerCase()}/${originalname}`, mimetype, buffer);
+                    await uploadFile(`${username.toString().toLowerCase()}/${originalname}`, mimetype, buffer);
 
                     const usersRef = firestore.collection('users');
                     const user = await usersRef.doc(username).get();
