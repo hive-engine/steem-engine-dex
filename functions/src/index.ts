@@ -114,11 +114,11 @@ app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: 
 
                     const usersRef = firestore.collection('users');
                     const user = await usersRef.doc(username).get();
-                    const userData = user.data();
+                    const userData: any = user.data();
 
                     const data: any = {
                         kyc: {
-                            ...userData,
+                            ...{...userData.kyc},
                             passportPending: false,
                             passportVerified: false,
                             selfiePending: false,
