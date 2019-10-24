@@ -227,7 +227,7 @@ app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Respon
                         token: uuidv4(),
                         verified: false
                     },
-                    tabPreference: 'favorites'
+                    tabPreference: 'profile'
                 });
             }
 
