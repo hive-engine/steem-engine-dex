@@ -57,7 +57,7 @@ export class Balances {
     hideZeroBalancesChanged() {
         this.taskQueue.queueTask(() => {
             if (this.balances) {
-                if (this.user.wallet.hideZeroBalances) {
+                if (this.state.firebaseUser.wallet.hideZeroBalances) {
                     this.balances = this.balances.filter(t => parseFloat(t.balance) > 0);
                 } else {
                     this.balances = this.balancesCopy;
@@ -71,7 +71,7 @@ export class Balances {
     onlyShowFavourites() {
         this.taskQueue.queueTask(() => {
             if (this.balances) {
-                if (this.user.wallet.onlyShowFavourites) {
+                if (this.state.firebaseUser.wallet.onlyShowFavourites) {
                     this.balances = this.balances.filter((t: any) => t.isFavourite);
                 } else {
                     this.balances = this.balancesCopy;
@@ -87,10 +87,10 @@ export class Balances {
             token.isFavourite = !token.isFavourite;
 
             this.balances.forEach((t: any) => {
-                if (t.isFavourite && !this.user.favourites.includes(t.symbol)) {
-                    this.user.favourites.push(t.symbol);
-                } else if (!t.isFavourite && this.user.favourites.includes(t.symbol)) {
-                    this.user.favourites.splice(this.user.favourites.indexOf(t.symbol), 1);
+                if (t.isFavourite && !this.state.firebaseUser.favourites.includes(t.symbol)) {
+                    this.state.firebaseUser.favourites.push(t.symbol);
+                } else if (!t.isFavourite && this.state.firebaseUser.favourites.includes(t.symbol)) {
+                    this.state.firebaseUser.favourites.splice(this.state.firebaseUser.favourites.indexOf(t.symbol), 1);
                 }
             });
 
