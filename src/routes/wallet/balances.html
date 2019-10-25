@@ -13,11 +13,11 @@
                 <div class="col-6 text-right">
                     <div class="form-group">
                         <span class="switch">
-                            <input type="checkbox" class="switch" id="hideZeroBalances" checked.bind="state.firebaseUser.hideZeroBalances" change.delegate="hideZeroBalancesChanged()">
+                            <input type="checkbox" class="switch" id="hideZeroBalances" checked.bind="state.firebaseUser.wallet.hideZeroBalances" change.delegate="hideZeroBalancesChanged()">
                             <label for="hideZeroBalances">Hide zero balances</label>
                         </span>
                         <span class="switch">
-                            <input type="checkbox" class="switch" id="onlyShowFavourites" checked.bind="state.firebaseUser.onlyShowFavourites" change.delegate="onlyShowFavourites()">
+                            <input type="checkbox" class="switch" id="onlyShowFavourites" checked.bind="state.firebaseUser.wallet.onlyShowFavourites" change.delegate="onlyShowFavourites()">
                             <label for="onlyShowFavourites">${'Only show favourites' & t}</label>
                         </span>
                     </div>
