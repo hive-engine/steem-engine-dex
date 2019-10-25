@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { State } from 'store/state';
 import { Redirect } from 'aurelia-router';
 import { observable } from 'aurelia-binding';
@@ -6,25 +7,40 @@ import { autoinject, TaskQueue } from 'aurelia-framework';
 import { loadTokens, loadBalances } from 'common/steem-engine';
 
 import firebase from 'firebase/app';
-import { connectTo, dispatchify } from 'aurelia-store';
+import { dispatchify, Store } from 'aurelia-store';
 import { getCurrentFirebaseUser, loadAccountBalances, loadTokensList } from 'store/actions';
 
 @autoinject()
-@connectTo()
 export class Balances {
     private searchValue = '';
     private columns = ['symbol'];
 
-    private balances: BalanceInterface[];
-    private balancesCopy: BalanceInterface[];
+    private balances: BalanceInterface[] = [];
+    private balancesCopy: BalanceInterface[] = [];
+    private user;
     private state: State;
+    private subscription: Subscription;
 
     private tokenTable: HTMLTableElement;
 
     @observable() private hideZeroBalances = false;
     
-    constructor(private se: SteemEngine, private taskQueue: TaskQueue) {
+    constructor(private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue) {
+        this.subscription = this.store.state.subscribe((state: State) => {
+            if (state) {
+                this.state = state;
 
+                this.balancesCopy = [ ...state.account.balances ];
+                this.balances = [ ...state.account.balances ];
+                this.user = { ...state.firebaseUser };
+            }
+        });
+    }
+
+    unbind() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     attached() {
@@ -48,15 +64,11 @@ export class Balances {
             return new Redirect('');
         }
     }
-    
-    activate() {       
-        this.balancesCopy = this.balances;
-    }
 
     hideZeroBalancesChanged() {
         this.taskQueue.queueTask(() => {
             if (this.balances) {
-                if (this.state.firebaseUser.wallet.hideZeroBalances) {
+                if (this.user.wallet.hideZeroBalances) {
                     this.balances = this.balances.filter(t => parseFloat(t.balance) > 0);
                 } else {
                     this.balances = this.balancesCopy;
@@ -70,7 +82,7 @@ export class Balances {
     onlyShowFavourites() {
         this.taskQueue.queueTask(() => {
             if (this.balances) {
-                if (this.state.firebaseUser.wallet.onlyShowFavourites) {
+                if (this.user.wallet.onlyShowFavourites) {
                     this.balances = this.balances.filter((t: any) => t.isFavourite);
                 } else {
                     this.balances = this.balancesCopy;
@@ -86,10 +98,10 @@ export class Balances {
             token.isFavourite = !token.isFavourite;
 
             this.balances.forEach((t: any) => {
-                if (t.isFavourite && !this.state.firebaseUser.favourites.includes(t.symbol)) {
-                    this.state.firebaseUser.favourites.push(t.symbol);
-                } else if (!t.isFavourite && this.state.firebaseUser.favourites.includes(t.symbol)) {
-                    this.state.firebaseUser.favourites.splice(this.state.firebaseUser.favourites.indexOf(t.symbol), 1);
+                if (t.isFavourite && !this.user.favourites.includes(t.symbol)) {
+                    this.user.favourites.push(t.symbol);
+                } else if (!t.isFavourite && this.user.favourites.includes(t.symbol)) {
+                    this.user.favourites.splice(this.user.favourites.indexOf(t.symbol), 1);
                 }
             });
 
@@ -101,7 +113,7 @@ export class Balances {
     updateUser() {
         const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
 
-        userRef.set(this.state.firebaseUser, {
+        userRef.set(this.user, {
             merge: true
         });
     }
