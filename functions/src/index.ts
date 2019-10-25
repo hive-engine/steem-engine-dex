@@ -94,6 +94,7 @@ app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: 
     const authToken = req.headers.authorization || '';
     const type = req.body.type;
     const kycFields = ['selfie', 'passport'];
+    const allowedMimeTypes = ['image/jpeg', 'application/pdf'];
 
     try {
         const decodedToken = await admin.auth().verifyIdToken(authToken);
@@ -109,6 +110,10 @@ app.post('/uploadDocument', uploadMiddleware, async (req: express.Request, res: 
 
                 if (file) {
                     const { buffer, mimetype, originalname } = file;
+
+                    if (!allowedMimeTypes.includes(mimetype)) {
+                        throw new Error('Invalid mimetype. Only JPG and PDF files are supported.');
+                    }
 
                     await uploadFile(`${username.toString().toLowerCase()}/${originalname}`, mimetype, buffer);
 
