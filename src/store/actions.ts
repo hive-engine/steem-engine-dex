@@ -1,11 +1,11 @@
-import { State } from './state';
-import store, { getCurrentState } from './store';
+import { State } from "./state";
+import store, { getCurrentState } from "./store";
 
-import firebase from 'firebase/app';
-import { log } from 'services/log';
-import { loadBalances, loadTokens } from 'common/steem-engine';
-import { ssc } from 'common/ssc';
-import moment from 'moment';
+import firebase from "firebase/app";
+import { log } from "services/log";
+import { loadBalances, loadTokens } from "common/steem-engine";
+import { ssc } from "common/ssc";
+import moment from "moment";
 
 export function loading(state: State, boolean: boolean) {
     const newState = { ...state };
@@ -29,19 +29,22 @@ export function logout(state: State): State {
     const newState = { ...state };
 
     newState.account = {
-        name: '',
+        name: "",
         account: {},
         balances: [],
         scotTokens: [],
         pendingUnstakes: []
     };
-    
+
     newState.loggedIn = false;
 
     return newState;
 }
 
-export function setAccount(state: State, account: Partial<State['account']>): State {
+export function setAccount(
+    state: State,
+    account: Partial<State["account"]>
+): State {
     const newState = { ...state };
 
     newState.account = Object.assign(newState.account, account);
@@ -61,14 +64,20 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
     const newState = { ...state };
 
     try {
-        const doc = await firebase.firestore().collection('users').doc(newState.account.name).get();
+        const doc = await firebase
+            .firestore()
+            .collection("users")
+            .doc(newState.account.name)
+            .get();
 
         if (doc.exists) {
             newState.firebaseUser = doc.data();
 
             if (newState.firebaseUser.favourites) {
                 newState.account.balances.map((token: any) => {
-                    if (newState.firebaseUser.favourites.includes(token.symbol)) {
+                    if (
+                        newState.firebaseUser.favourites.includes(token.symbol)
+                    ) {
                         token.isFavourite = true;
                     } else {
                         token.isFavourite = false;
@@ -98,12 +107,24 @@ export async function loadAccountBalances(state: State): Promise<State> {
     return newState;
 }
 
-export async function loadBuyBook(state: State, symbol: string, account: string = undefined): Promise<State> {
+export async function loadBuyBook(
+    state: State,
+    symbol: string,
+    account: string = undefined
+): Promise<State> {
     const newState = { ...state };
 
     try {
-        const buyBook = await ssc.find('market', 'buyBook', { symbol, account }, 200, 0, [{ index: 'price', descending: true }], false);
-        
+        const buyBook = await ssc.find(
+            "market",
+            "buyBook",
+            { symbol, account },
+            200,
+            0,
+            [{ index: "priceDec", descending: true }],
+            false
+        );
+
         newState.buyBook = buyBook.map(o => {
             newState.buyTotal += o.quantity * o.price;
             o.total = newState.buyTotal;
@@ -117,12 +138,25 @@ export async function loadBuyBook(state: State, symbol: string, account: string 
     return newState;
 }
 
-export async function loadSellBook(state: State, symbol: string, account: string = undefined): Promise<State> {
+export async function loadSellBook(
+    state: State,
+    symbol: string,
+    account: string = undefined
+): Promise<State> {
     const newState = { ...state };
 
     try {
-        const sellBook = await ssc.find('market', 'sellBook', { symbol, account }, 200, 0, [{ index: 'price', descending: false }], false);
+        const sellBook = await ssc.find(
+            "market",
+            "sellBook",
+            { symbol, account },
+            200,
+            0,
+            [{ index: "priceDec", descending: false }],
+            false
+        );
 
+        // re-order sellbook results to match the buybook results
         newState.sellBook = sellBook.map(o => {
             newState.sellTotal += o.quantity * o.price;
             o.total = newState.sellTotal;
@@ -136,14 +170,28 @@ export async function loadSellBook(state: State, symbol: string, account: string
     return newState;
 }
 
-export async function loadTradeHistory(state: State, symbol: string, account: string = undefined): Promise<State> {
+export async function loadTradeHistory(
+    state: State,
+    symbol: string,
+    account: string = undefined
+): Promise<State> {
     const newState = { ...state };
 
     try {
-        const tradeHistory = await ssc.find('market', 'tradesHistory', { symbol, account }, 30, 0, [{ index: 'timestamp', descending: false }], false);
+        const tradeHistory = await ssc.find(
+            "market",
+            "tradesHistory",
+            { symbol, account },
+            30,
+            0,
+            [{ index: "_id", descending: false }],
+            false
+        );
         newState.tradeHistory = tradeHistory.map(o => {
             o.total = o.price * o.quantity;
-            o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
+            o.timestamp_string = moment
+                .unix(o.timestamp)
+                .format("YYYY-M-DD HH:mm:ss");
             return o;
         });
     } catch (e) {
@@ -165,14 +213,14 @@ export async function loadTokensList(state: State): Promise<State> {
     return newState;
 }
 
-store.registerAction('loading', loading);
-store.registerAction('login', login);
-store.registerAction('logout', logout);
-store.registerAction('setAccount', setAccount);
-store.registerAction('setTokens', setTokens);
-store.registerAction('getCurrentFirebaseUser', getCurrentFirebaseUser);
-store.registerAction('loadAccountBalances', loadAccountBalances);
-store.registerAction('loadTokensList', loadTokensList);
-store.registerAction('loadBuyBook', loadBuyBook);
-store.registerAction('loadSellBook', loadSellBook);
-store.registerAction('loadTradeHistory', loadTradeHistory);
+store.registerAction("loading", loading);
+store.registerAction("login", login);
+store.registerAction("logout", logout);
+store.registerAction("setAccount", setAccount);
+store.registerAction("setTokens", setTokens);
+store.registerAction("getCurrentFirebaseUser", getCurrentFirebaseUser);
+store.registerAction("loadAccountBalances", loadAccountBalances);
+store.registerAction("loadTokensList", loadTokensList);
+store.registerAction("loadBuyBook", loadBuyBook);
+store.registerAction("loadSellBook", loadSellBook);
+store.registerAction("loadTradeHistory", loadTradeHistory);

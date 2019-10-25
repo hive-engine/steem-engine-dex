@@ -4,6 +4,7 @@
 @import "./signin.css";
 @import "./buttons.css";
 @import "./smallnav.css";
+@import "./scot-components.css";
 
 @font-face {
     font-family: main-font;
@@ -190,4 +191,7 @@ h6 {
 .table-dark tbody td {
     border-bottom: 1px solid #262e3f;
     border-top: 0;
+}
+ul li {
+    padding: 10px;
 }

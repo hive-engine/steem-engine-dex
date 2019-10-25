@@ -1,0 +1,127 @@
+.scotbot-header {
+    padding-top: 80px;
+}
+@media only screen and (max-width: 468px) {
+    .scotbot-header {
+        padding-top: 30px !important;
+        text-align: center;
+    }
+}
+.header-line {
+    width: 10%;
+    border-top: 3px solid #0048b3;
+    margin-bottom: 50px;
+}
+.scot-definition {
+    padding-top: 0px;
+}
+.scotbot-title h2 {
+    font-size: 46px;
+    color: #0048b3 !important;
+}
+.texts h2 {
+    margin-top: 20%;
+    color: #0048b3;
+}
+.texts h4 {
+    color: #000;
+    font-size: 24px;
+}
+.line {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.get-started h2 {
+    color: #0048b3;
+    margin-bottom: 30px;
+}
+.features {
+    margin-top: 40px;
+}
+.category-items {
+    box-shadow: 0 10px 20px rgba(3, 27, 78, 0.1) !important;
+}
+@media only screen and (max-width: 468px) {
+    .category-items {
+        margin-top: 15px !important;
+    }
+    .texts {
+        text-align: center;
+    }
+    .line {
+        margin: 0 !important;
+    }
+}
+
+.scotbot-header-links {
+    color: #0048b3;
+    margin: 0;
+    text-transform: capitalize;
+    font-size: 18px;
+    padding: 15px 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card-header {
+    padding: 15px;
+    margin-bottom: 0;
+    background-color: #0048b3 !important;
+    color: white !important;
+}
+#initialize-hint {
+    padding: 15px;
+    margin-bottom: 0;
+    background: #0048b3 !important;
+    color: white !important;
+}
+.mycard-header {
+    padding: 15px;
+    margin-bottom: 0;
+    background-color: #0048b3 !important;
+    color: white !important;
+}
+
+.card-header h3 {
+    color: #fff !important;
+    text-transform: capitalize;
+    margin-bottom: 0;
+}
+.card-form {
+    padding: 20px;
+}
+
+.category {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.category li {
+    border-bottom: 2px solid #0048b3;
+    padding: 10px;
+}
+
+.form-group label {
+    color: #000 !important;
+    margin-top: 15px;
+}
+.greenBtn {
+    padding: 0.5rem 3rem;
+    background-color: #21be3d;
+    color: #fff !important;
+    font-weight: bold;
+    font-family: main-font-bold !important;
+    font-size: 16px;
+    border-radius: 0.25rem;
+}
+.greenBtn:hover {
+    background-color: #1eac38;
+    cursor: pointer;
+}
+.scotbot-component-label {
+    color: black !important;
+}
+.hint-body p {
+    padding: 15px !important;
+    font-size: 14px;
+}

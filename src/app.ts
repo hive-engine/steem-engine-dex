@@ -146,6 +146,15 @@ export class App {
                 ),
                 nav: false,
                 title: "Pricing"
+            },
+            {
+                route: "scotbot",
+                name: "scotbot",
+                moduleId: PLATFORM.moduleName(
+                    "./routes/offering-routes/scotbot"
+                ),
+                nav: false,
+                title: "Scotbot"
             }
         ]);
 
