@@ -35,6 +35,11 @@
     text-transform: uppercase;
 }
 
+.outline-btn.white {
+    color: #FFF;
+    border-color: #FFF;
+}
+
 .outline-btn.positive {
     border-color: $positive;
 }
