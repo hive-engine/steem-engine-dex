@@ -218,6 +218,7 @@ app.post('/verifyUserAuthMemo', async (req: express.Request, res: express.Respon
                     zipCode: '',
                     favourites: [],
                     hiddenTokens: [],
+                    roles: ['member'],
                     kyc: {
                         dateSubmitted: '',
                         passportPending: false,
