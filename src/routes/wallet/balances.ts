@@ -17,7 +17,6 @@ export class Balances {
 
     private balances: BalanceInterface[];
     private balancesCopy: BalanceInterface[];
-    private user;
     private state: State;
 
     private tokenTable: HTMLTableElement;
@@ -102,7 +101,7 @@ export class Balances {
     updateUser() {
         const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
 
-        userRef.set(this.user, {
+        userRef.set(this.state.firebaseUser, {
             merge: true
         });
     }
