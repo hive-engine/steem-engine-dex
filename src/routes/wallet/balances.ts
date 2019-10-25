@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { State } from 'store/state';
 import { Redirect } from 'aurelia-router';
 import { observable } from 'aurelia-binding';
@@ -6,26 +7,40 @@ import { autoinject, TaskQueue } from 'aurelia-framework';
 import { loadTokens, loadBalances } from 'common/steem-engine';
 
 import firebase from 'firebase/app';
-import { connectTo, dispatchify } from 'aurelia-store';
+import { dispatchify, Store } from 'aurelia-store';
 import { getCurrentFirebaseUser, loadAccountBalances, loadTokensList } from 'store/actions';
 
 @autoinject()
-@connectTo()
 export class Balances {
     private searchValue = '';
     private columns = ['symbol'];
 
-    private balances: BalanceInterface[];
-    private balancesCopy: BalanceInterface[];
+    private balances: BalanceInterface[] = [];
+    private balancesCopy: BalanceInterface[] = [];
     private user;
     private state: State;
+    private subscription: Subscription;
 
     private tokenTable: HTMLTableElement;
 
     @observable() private hideZeroBalances = false;
     
-    constructor(private se: SteemEngine, private taskQueue: TaskQueue) {
+    constructor(private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue) {
+        this.subscription = this.store.state.subscribe((state: State) => {
+            if (state) {
+                this.state = state;
 
+                this.balancesCopy = [ ...state.account.balances ];
+                this.balances = [ ...state.account.balances ];
+                this.user = { ...state.firebaseUser };
+            }
+        });
+    }
+
+    unbind() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     attached() {
@@ -48,10 +63,6 @@ export class Balances {
         } catch {
             return new Redirect('');
         }
-    }
-    
-    activate() {       
-        this.balancesCopy = this.balances;
     }
 
     hideZeroBalancesChanged() {
