@@ -115,6 +115,7 @@ export async function loadBuyBook(
     const newState = { ...state };
 
     try {
+
         const buyBook = await ssc.find(
             "market",
             "buyBook",
@@ -124,6 +125,7 @@ export async function loadBuyBook(
             [{ index: "priceDec", descending: true }],
             false
         );
+
 
         newState.buyBook = buyBook.map(o => {
             newState.buyTotal += o.quantity * o.price;
@@ -146,6 +148,7 @@ export async function loadSellBook(
     const newState = { ...state };
 
     try {
+
         const sellBook = await ssc.find(
             "market",
             "sellBook",
@@ -155,6 +158,7 @@ export async function loadSellBook(
             [{ index: "priceDec", descending: false }],
             false
         );
+
 
         // re-order sellbook results to match the buybook results
         newState.sellBook = sellBook.map(o => {
@@ -178,6 +182,7 @@ export async function loadTradeHistory(
     const newState = { ...state };
 
     try {
+
         const tradeHistory = await ssc.find(
             "market",
             "tradesHistory",
@@ -187,6 +192,7 @@ export async function loadTradeHistory(
             [{ index: "_id", descending: false }],
             false
         );
+
         newState.tradeHistory = tradeHistory.map(o => {
             o.total = o.price * o.quantity;
             o.timestamp_string = moment

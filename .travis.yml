@@ -1,7 +1,7 @@
 dist: trusty
 language: node_js
 node_js:
-  - "10"
+- '10'
 addons:
   ssh_known_hosts: steem-engine.com
 deploy:
@@ -12,18 +12,17 @@ deploy:
     branch: master
 - provider: script
   skip_cleanup: true
-  script: cd $TRAVIS_BUILD_DIR/dist && rsync -auvhp --delete --exclude=node_modules --delete-after --quiet ./ $REMOTE_USER@$HOST:$REMOTE_APP_DIR
+  script: cd $TRAVIS_BUILD_DIR/dist && rsync -auvhp --delete --exclude=node_modules
+    --delete-after --quiet ./ $REMOTE_USER@$HOST:$REMOTE_APP_DIR
   on:
     branch: master
-
 before_install:
 - openssl aes-256-cbc -K $encrypted_134e9820d8ee_key -iv $encrypted_134e9820d8ee_iv
-  -in deploy-key.enc -out ./deploy-key -d
+  -in deploy_rsa.enc -out ./deploy_rsa -d
 - eval "$(ssh-agent -s)"
-- chmod 400 ./deploy-key
-- ssh-add ./deploy-key
-- ssh -i ./deploy-key $REMOTE_USER@$HOST pwd
-
+- chmod 400 ./deploy_rsa
+- ssh-add ./deploy_rsa
+- ssh -i ./deploy_rsa $REMOTE_USER@$HOST pwd
 install:
 - npm config set "@fortawesome:registry" https://npm.fontawesome.com/
 - npm config set "//npm.fontawesome.com/:_authToken" $FONT_AWESOME_TOKEN

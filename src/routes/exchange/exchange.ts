@@ -10,6 +10,8 @@ import { environment } from 'environment';
 import moment from 'moment';
 import { find, uniq, fill } from 'lodash';
 
+import { loadTokenMarketHistory } from 'common/steem-engine';
+
 import { DepositModal } from 'modals/deposit';
 import { WithdrawModal } from 'modals/withdraw';
 import { MarketOrderModal } from 'modals/market-order';
@@ -18,8 +20,9 @@ import { DialogService } from 'aurelia-dialog';
 import { percentageOf } from 'common/functions';
 import { loadTokensList, loadAccountBalances, loadBuyBook, loadSellBook, loadTradeHistory } from 'store/actions';
 import { dispatchify } from 'aurelia-store';
-import { ssc } from 'common/ssc';
 import { getStateOnce } from 'store/store';
+import * as d3 from 'd3';
+import { DateTime } from 'luxon';
 
 @autoinject()
 export class Exchange {
@@ -52,10 +55,10 @@ export class Exchange {
     private bidQuantity = '';
     private bidPrice = '';
 
-    constructor(private se: SteemEngine, 
-        private dialogService: DialogService, 
+    constructor(private se: SteemEngine,
+        private dialogService: DialogService,
         private i18n: I18N,
-        private controllerFactory: ValidationControllerFactory, 
+        private controllerFactory: ValidationControllerFactory,
         private toast: ToastService) {
         this.controller = controllerFactory.createForCurrentScope();
 
@@ -63,7 +66,7 @@ export class Exchange {
         this.controller.addRenderer(this.renderer);
     }
 
-    async activate({symbol}) {
+    async activate({ symbol }) {
         this.currentToken = symbol;
 
         await dispatchify(loadTokensList)();
@@ -87,14 +90,12 @@ export class Exchange {
         this.sellBook = state.sellBook;
         this.tradeHistory = state.tradeHistory;
 
-        console.log(state);
-
         let buyOrderLabels = uniq(this.buyBook.map(o => parseFloat(o.price)));
         let buyOrderDataset = [];
         let buyOrderCurrentVolume = 0;
         buyOrderLabels.forEach(label => {
             let matchingBuyOrders = this.buyBook.filter(o => parseFloat(o.price) === label);
-    
+
             if (matchingBuyOrders.length === 0) {
                 buyOrderDataset.push(null);
             } else {
@@ -104,13 +105,13 @@ export class Exchange {
         });
         buyOrderLabels.reverse();
         buyOrderDataset.reverse();
-    
+
         let sellOrderLabels = uniq(this.sellBook.map(o => parseFloat(o.price)));
         let sellOrderDataset = fill(Array(buyOrderDataset.length), null);
         let sellOrderCurrentVolume = 0;
         sellOrderLabels.forEach(label => {
             let matchingSellOrders = this.sellBook.filter(o => parseFloat(o.price) === label);
-    
+
             if (matchingSellOrders.length === 0) {
                 sellOrderDataset.push(null);
             } else {
@@ -118,6 +119,19 @@ export class Exchange {
                 sellOrderDataset.push(sellOrderCurrentVolume);
             }
         });
+                
+        const tokenHistory = await loadTokenMarketHistory(this.currentToken);        
+        var limitCandleStick = 60;
+
+        var candleStickData = tokenHistory.slice(0, limitCandleStick).map(x => {
+            return {
+                t: moment.unix(x.timestamp).format('YYYY-MM-DD HH:mm:ss'),//x.timestamp * 1000,
+                o: x.openPrice, 
+                h: x.highestPrice,
+                l: x.lowestPrice,                
+                c: x.closePrice
+            }
+        });        
 
         this.chartData = {
             labels: buyOrderLabels.concat(sellOrderLabels),
@@ -136,9 +150,10 @@ export class Exchange {
                     backgroundColor: '#e87f7f',
                     data: sellOrderDataset
                 }
-            ]
-        };
-    }
+            ],
+            ohlcData: candleStickData
+        };        
+    }    
 
     attached() {
         const symbol = this.currentToken;
@@ -149,7 +164,7 @@ export class Exchange {
             this.loadingUserSellBook = true;
             this.loadingUserBalances = true;
 
-            this.se.ssc.find('market', 'buyBook', { symbol: symbol, account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false).then(result => {
+            this.se.ssc.find('market', 'buyBook', { symbol: symbol, account: account }, 100, 0, [{ index: '_id', descending: true }], false).then(result => {
                 this.loadingUserBuyBook = false;
 
                 this.userBuyOrders = result.map(o => {
@@ -157,11 +172,11 @@ export class Exchange {
                     o.total = o.price * o.quantity;
                     o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
                     return o;
-                });  
-                
-                this.se.ssc.find('market', 'sellBook', { symbol: symbol, account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false).then(result => {
+                });
+
+                this.se.ssc.find('market', 'sellBook', { symbol: symbol, account: account }, 100, 0, [{ index: '_id', descending: true }], false).then(result => {
                     this.loadingUserSellBook = false;
-    
+
                     this.userSellOrders = result.map(o => {
                         o.type = 'sell';
                         o.total = o.price * o.quantity;
@@ -174,7 +189,7 @@ export class Exchange {
                 });
             });
 
-            this.se.ssc.find('tokens', 'balances', { account: account, symbol : { '$in' : [symbol, 'STEEMP'] } }, 2, 0, '', false).then(result => {
+            this.se.ssc.find('tokens', 'balances', { account: account, symbol: { '$in': [symbol, 'STEEMP'] } }, 2, 0, '', false).then(result => {
                 this.loadingUserBalances = false;
 
                 if (result) {
@@ -191,8 +206,6 @@ export class Exchange {
 
                 this.userTokenBalance.push(find(result, (balance) => balance.symbol === symbol));
                 this.userTokenBalance.push(find(result, (balance) => balance.symbol === 'STEEMP'));
-
-                console.log(this.userTokenBalance);
             });
         }
     }
@@ -216,7 +229,7 @@ export class Exchange {
             quantity: this.bidQuantity,
             price: this.bidPrice
         };
-
+        
         this.dialogService.open({ viewModel: MarketOrderModal, model: order }).whenClosed(response => {
             console.log(response);
         });
@@ -252,7 +265,7 @@ export class Exchange {
                     if (total > amount) {
                         this.bidPrice = price;
 
-                        while(totalSteemp < amount) {
+                        while (totalSteemp < amount) {
                             totalTokens += 0.00000001;
                             totalSteemp += 0.00000001 * price;
                         }
@@ -262,11 +275,11 @@ export class Exchange {
                         // Stop the loop, we don't need to go further
                         break;
                     } else {
-                    
+
                     }
                 }
             }
-        } 
+        }
         // Determine what the user can set the price at to sell all of their token
         else {
 

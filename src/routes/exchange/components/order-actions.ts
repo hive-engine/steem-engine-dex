@@ -4,12 +4,16 @@ import { bindable, bindingMode, autoinject } from 'aurelia-framework';
 import { ValidationControllerFactory, ValidationRules, ControllerValidateResult } from 'aurelia-validation';
 import { I18N } from 'aurelia-i18n';
 
+import styles from './order-actions.module.css';
+
 @autoinject()
 export class OrderActions {
+    private styles = styles;
+
     @bindable amountSelect;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) price;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) quantity;
-    @bindable mode;
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) mode;
     @bindable confirm;
     @bindable data;
     @bindable steempBalance;
@@ -33,7 +37,7 @@ export class OrderActions {
     async confirmButtonPressed() {
         const validationResult: ControllerValidateResult = await this.validationController.validate();
         
-        for (const result of validationResult.results) {
+        for (const result of validationResult.results) {            
             if (!result.valid) {
                 const toast = new ToastMessage();
 
@@ -60,22 +64,20 @@ export class OrderActions {
                     .withMessageKey('errors:bidQuantityRequired')
                 .then()
                     .satisfies((value: any, object: any) => parseFloat(value) > 0)
-                    .withMessageKey('errors:amountGreaterThanZero')
-                .when((object: unknown) => this.mode === 'buy')
+                    .withMessageKey('errors:amountGreaterThanZero')                
                     .satisfies((value: any, object: OrderActions) => {
                         const quantity = parseFloat(value);
                         const price = parseFloat(object.price);
-                        const total = quantity * price;
+                        const total = quantity * price;                        
 
-                        return (total <= this.steempBalance);
-                    })
-                    .withMessageKey('errors:insufficientSteemForOrder')
-                .when((object: unknown) => this.mode === 'sell')
+                        return (total <= object.steempBalance);
+                    }).when((object: OrderActions) => object.mode === 'buy')
+                    .withMessageKey('errors:insufficientSteemForOrder')                
                     .satisfies((value: any, object: OrderActions) => {
                         const quantity = parseFloat(value);
 
-                        return (quantity <= this.tokenBalance);
-                    })
+                        return (quantity <= object.tokenBalance);
+                    }).when((object: OrderActions) => object.mode === 'sell')
                     .withMessageKey('errors:insufficientSteemForOrder')
             .ensure('price')
                 .required()

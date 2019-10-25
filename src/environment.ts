@@ -5,11 +5,11 @@ export const environment: Partial<EnvironmentInterface> = {
     debug: false,
     testing: false,
 	MAINTENANCE_MODE: false,
-	CHAIN_ID: 'ssc-00000000000000000002',
-	RPC_URL: 'https://testapi.steem-engine.com/',
-	ACCOUNTS_API_URL: 'https://testaccounts.steem-engine.com',
-    CONVERTER_API: 'https://converter-api.steem-engine.com/api',
-    NODE_API_URL: 'http://localhost:3001/',
-	NATIVE_TOKEN: 'SSC',
-    STEEMP_ACCOUNT: 'steemsc'
+	CHAIN_ID: 'ssc-mainnet1',
+    RPC_URL: 'https://api.steem-engine.com/rpc2',
+    NODE_API_URL: 'https://node-api.steem-engine.com/v1/',
+	ACCOUNTS_API_URL: 'https://api.steem-engine.com/accounts',
+	CONVERTER_API: 'https://converter-api.steem-engine.com/api',
+	NATIVE_TOKEN: 'ENG',
+	STEEMP_ACCOUNT: 'steem-peg'
 };
