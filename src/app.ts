@@ -146,6 +146,17 @@ export class App {
                 ),
                 nav: false,
                 title: 'Pricing'
+            },
+            {
+                route: 'admin',
+                name: 'admin',
+                moduleId: PLATFORM.moduleName('./routes/admin/home'),
+                nav: false,
+                auth: true,
+                title: 'Admin',
+                settings: {
+                    roles: ['super', 'admin']
+                }
             }
         ]);
 
