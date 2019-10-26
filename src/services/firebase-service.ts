@@ -25,13 +25,13 @@ export class FirebaseService {
         });
     }
 
-    async uploadFile(file: File, type: UploadType) {
+    async uploadKycFile(file: File, type: UploadType) {
         const formData = new FormData();
 
         formData.append('document', file);
         formData.append('type', type);
 
-        const res = await http.fetch(`uploadDocument`, {
+        const res = await http.fetch(`kyc/upload`, {
             method: 'POST',
             body: formData,
             headers: new Headers()
