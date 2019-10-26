@@ -82,9 +82,10 @@ authRouter.post('/verifyUserAuthMemo', async (req: express.Request, res: express
                     hiddenTokens: [],
                     roles: ['member'],
                     kyc: {
-                        dateSubmitted: '',
+                        passportDateSubmitted: '',
                         passportPending: false,
                         passportVerified: false,
+                        selfieDateSubmitted: '',
                         selfiePending: false,
                         selfieVerified: false,
                         token: shortid.generate(),
