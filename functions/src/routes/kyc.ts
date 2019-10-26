@@ -71,11 +71,7 @@ kycRouter.post('/upload', uploadMiddleware, async (req: express.Request, res: ex
 
                     const data: any = {
                         kyc: {
-                            ...userData.kyc,
-                            passportPending: false,
-                            passportVerified: false,
-                            selfiePending: false,
-                            selfieVerified: false
+                            ...userData.kyc
                         },
                         [type]: {
                             filename: originalname
