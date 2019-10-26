@@ -123,7 +123,7 @@
                             <p if.bind="!selfieVerified">Upload a selfie that is well lit. You should be holding a piece of paper with "steem-engine.com" written on it, with todays date and your special verfication code: ${state.firebaseUser.kyc.token}</p>
                             <p else class="green-text">Your selfie has been verified</p>
 
-                            <div class="upload-box" if.bind="!selfieVerified" drop.trigger="handleSelfieDrop($event)" dragover.trigger="handleEvent($event)">
+                            <div class="upload-box" if.bind="!selfieVerified && !selfiePending" drop.trigger="handleSelfieDrop($event)" dragover.trigger="handleEvent($event)">
                                 <loader loading.bind="selfieUploading" mode="tiny"></loader>
                                 <font-awesome-icon icon.bind="polaroidIcon"></font-awesome-icon>
                             </div>
@@ -134,7 +134,7 @@
                             <p if.bind="!passportVerified">Upload a scanned copy of your passport. Your name, image and citizenship details should be clearly visible.</p>
                             <p else class="green-text">Your passport has been verified.</p>
 
-                            <div class="upload-box" if.bind="!passportVerified" drop.trigger="handlePassportDrop($event)" dragover.trigger="handleEvent($event)">
+                            <div class="upload-box" if.bind="!passportVerified && !passportPending" drop.trigger="handlePassportDrop($event)" dragover.trigger="handleEvent($event)">
                                 <loader loading.bind="passportUploading" mode="tiny"></loader>
                                 <font-awesome-icon icon.bind="passportIcon"></font-awesome-icon>
                             </div>
