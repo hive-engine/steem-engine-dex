@@ -24,6 +24,9 @@ export class Settings {
     private passportIcon = faPassport;
     private checkIcon = faCheckCircle;
 
+    private selfieUploading = false;
+    private passportUploading = false;
+
     constructor(private se: SteemEngine, private firebase: FirebaseService, private store: Store<State>, private taskQueue: TaskQueue) {
 
     }
@@ -78,8 +81,34 @@ export class Settings {
         }
     }
 
+    handlePassportDrop(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        let dt = e.dataTransfer;
+        let files: FileList = dt.files;
+
+        if (files.length) {
+            this.uploadDocument(files[0], 'passport');
+        }
+    }
+
     async uploadDocument(file: File, type: UploadType) {
-        const upload = this.firebase.uploadKycFile(file, type);
+        try {
+            if (type === 'selfie') {
+                this.selfieUploading = true;
+            } else {
+                this.passportUploading = true;
+            }
+
+            await this.firebase.uploadKycFile(file, type);
+
+            this.selfieUploading = false;
+            this.passportUploading = false;
+        } catch (e) {
+            this.selfieUploading = false;
+            this.passportUploading = false;
+        }
     }
 
     @computedFrom('state')

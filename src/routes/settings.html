@@ -124,6 +124,7 @@
                             <p else class="green-text">Your selfie has been verified</p>
 
                             <div class="upload-box" if.bind="!selfieVerified" drop.trigger="handleSelfieDrop($event)" dragover.trigger="handleEvent($event)">
+                                <loader loading.bind="selfieUploading" mode="tiny"></loader>
                                 <font-awesome-icon icon.bind="polaroidIcon"></font-awesome-icon>
                             </div>
                         </div>
@@ -133,7 +134,8 @@
                             <p if.bind="!passportVerified">Upload a scanned copy of your passport. Your name, image and citizenship details should be clearly visible.</p>
                             <p else class="green-text">Your passport has been verified.</p>
 
-                            <div class="upload-box" if.bind="!passportVerified">
+                            <div class="upload-box" if.bind="!passportVerified" drop.trigger="handlePassportDrop($event)" dragover.trigger="handleEvent($event)">
+                                <loader loading.bind="passportUploading" mode="tiny"></loader>
                                 <font-awesome-icon icon.bind="passportIcon"></font-awesome-icon>
                             </div>
                         </div>
