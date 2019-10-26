@@ -32,7 +32,7 @@ export class AuthorizeStep {
                     const data = doc.data();
 
                     // If the current user doesn't have every role configured in the route
-                    if (!data.roles.every(r => currentRoute.settings.roles.includes(r))) {
+                    if (!data.roles.some(r => currentRoute.settings.roles.includes(r))) {
                         return resolve(next.cancel(new Redirect('wallet')));
                     }
                 }
