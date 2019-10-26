@@ -111,6 +111,18 @@ export class Settings {
         }
     }
 
+    @computedFrom('state.firebaseUser')
+    get canUploadKycDocuments() {
+        const user = this.state.firebaseUser;
+
+        return user.firstName.trim() !== '' 
+            && user.lastName.trim() !== '' 
+            && user.email.trim() !== '' 
+            && user.country.trim() !== ''
+            && user.addressLine1.trim() !== ''
+            && user.state.trim() !== '';
+    }
+
     @computedFrom('state')
     get selfieVerified() {
         if (this.state) {

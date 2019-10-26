@@ -114,7 +114,7 @@
 
             <section class="col-md-12" show.bind="selectedTab == 'kyc'">
                 <h3>${'KYC' & t}</h3>
-                <template if.bind="!state.firebaseUser.kyc.verified">
+                <template if.bind="!state.firebaseUser.kyc.verified && canUploadKycDocuments">
                     <p>${'Verify your account' & t}.</p>
 
                     <div class="row">
@@ -142,7 +142,7 @@
                     </div>
                 </template>
                 <template else>
-                    <p>You have been verified.</p>
+                    <p>${state.firebaseUser.kyc.verified ? 'You have been verified.' : 'Please complete your profile details before undergoing the KYC process.'}</p>
                 </template>
             </section>
         </div>    
