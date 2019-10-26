@@ -74,6 +74,7 @@ kycRouter.post('/upload', uploadMiddleware, async (req: express.Request, res: ex
                             ...userData.kyc
                         },
                         [type]: {
+                            dateUploaded: new Date(),
                             filename: originalname
                         }
                     };
