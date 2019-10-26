@@ -79,7 +79,7 @@ export class Settings {
     }
 
     async uploadDocument(file: File, type: UploadType) {
-        const upload = this.firebase.uploadFile(file, type);
+        const upload = this.firebase.uploadKycFile(file, type);
     }
 
     @computedFrom('state')
