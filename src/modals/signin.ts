@@ -21,7 +21,7 @@ export class SigninModal {
     private environment = environment;
     private subscription: Subscription;
     private loading = false;
-    private useActiveKey = false;
+    private usePrivateKey = false;
     private username;
     private privateKey;
 
