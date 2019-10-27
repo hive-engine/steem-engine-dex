@@ -93,7 +93,6 @@ authRouter.post('/verifyUserAuthMemo', async (req: express.Request, res: express
                     zipCode: '',
                     favourites: [],
                     hiddenTokens: [],
-                    roles: ['member'],
                     kyc: {
                         passportPending: false,
                         passportVerified: false,
