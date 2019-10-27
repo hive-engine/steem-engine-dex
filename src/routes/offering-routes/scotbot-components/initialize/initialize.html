@@ -1,0 +1,38 @@
+<template>
+    <div class="card scotbot-component-header">
+        <div class="card-header">
+            <h3>ScotBot Initialization Form</h3>
+        </div>
+        <div class="card-form">
+            <form>
+                <div class="form-group">
+                    <label
+                        class="scotbot-component-label"
+                        for="exampleFormControlInput1"
+                        >Active Key</label
+                    >
+                    <input
+                        type="password"
+                        class="form-control"
+                        placeholder="Enter your active key"
+                    />
+                </div>
+                <div class="form-group">
+                    <label
+                        class="scotbot-component-label"
+                        for="exampleFormControlSelect1"
+                        >Choose your token</label
+                    >
+                    <select
+                        class="form-control"
+                        value.bind="token"
+                        change.delegate="tokenSelected()"
+                    >
+                    </select>
+                </div>
+
+                <a href="" class="btn greenBtn">Pay 500ENG</a>
+            </form>
+        </div>
+    </div>
+</template>

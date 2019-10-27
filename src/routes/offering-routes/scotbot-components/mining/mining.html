@@ -1,0 +1,80 @@
+<template>
+    <div class="card scotbot-component-header">
+        <div class="card-header">
+            <h3>ScotBB Form</h3>
+        </div>
+        <div class="card-form">
+            <form>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">How many miners would you like to create?</label>
+                    <select class="form-control" id="exampleFormControlSelect2">
+                        <option>1</option>
+                        <option>2</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label
+                        class="scotbot-component-label"
+                        for="exampleFormControlInput1"
+                        >How frequently should the miner reward tokens?</label
+                    >
+                    <input
+                        type=" number"
+                        class="form-control"
+                        placeholder="Enter a timeframe or duration"
+                    />
+                    <small class="form-text text-muted">
+                        Hourly is the shortest you can do.
+                    </small>
+                </div>
+                    <label
+                        class="scotbot-component-label"
+                        for="exampleFormControlInput1"
+                        >How many accounts should receive mined rewards?</label
+                    >
+                    <input
+                        type=" number"
+                        class="form-control"
+                        placeholder="Enter a number"
+                    />
+                   
+                
+
+                <div class="form-group">
+                    <label
+                        class="scotbot-component-label"
+                        for="exampleFormControlInput1"
+                        >Discord Username</label
+                    >
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter your discord username"
+                    />
+                    <small class="form-text text-muted">
+                        This will allow us to communicate easier with you during
+                        the setup process.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label
+                        class="scotbot-component-label"
+                        for="exampleFormControlInput1"
+                        >Steem Username</label
+                    >
+                    <input
+                        type="passoword"
+                        class="form-control"
+                        placeholder="Enter Steem Username"
+                    />
+                    <small class="form-text text-muted">
+                        This will allow us to verify if you have paid the fee.
+                    </small>
+                </div>
+
+                <a href="" class="btn greenBtn">Pay 1000ENG</a>
+            </form>
+        </div>
+        </div>
+    </div>
+</template>
