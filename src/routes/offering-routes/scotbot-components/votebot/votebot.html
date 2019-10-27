@@ -1,0 +1,55 @@
+<template>
+    <div class="card scotbot-component-header">
+        <div class="card-header">
+            <h3>VoteBot Form</h3>
+        </div>
+        <div class="card-form">
+            <form>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">What should happen to tokens earned by organic SP?</label>
+                    <select class="form-control" aria-placeholder="Please select an option" id="exampleFormControlSelect2">
+                        <option>Send it to an account</option>
+                        <option>Send it to @null</option>
+                        <option>Ignore the SP on the voting account so that the delegators get the benefit of organic SP</option>
+                    </select>
+                </div>
+                
+
+                <div class="form-group">
+                    <label
+                        class="scotbot-component-label"
+                        for="exampleFormControlInput1"
+                        >Discord Username</label
+                    >
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter your discord username"
+                    />
+                    <small class="form-text text-muted">
+                        This will allow us to communicate easier with you during
+                        the setup process.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label
+                        class="scotbot-component-label"
+                        for="exampleFormControlInput1"
+                        >Steem Username</label
+                    >
+                    <input
+                        type="passoword"
+                        class="form-control"
+                        placeholder="Enter Steem Username"
+                    />
+                    <small class="form-text text-muted">
+                        This will allow us to verify if you have paid the fee.
+                    </small>
+                </div>
+
+                <a href="" class="btn greenBtn">Pay 1000ENG</a>
+            </form>
+        </div>
+        </div>
+    </div>
+</template>

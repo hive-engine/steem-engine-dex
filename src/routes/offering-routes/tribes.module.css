@@ -2,6 +2,12 @@
     padding-top: 80px;
     margin-bottom: 20px;
 }
+@media only screen and (max-width: 468px) {
+    .tribes-header {
+        padding-top: 30px !important;
+        text-align: center;
+    }
+}
 .card {
     /*transition: box-shadow 0.25s linear;
     margin-right: 0 !important;
@@ -39,6 +45,11 @@
 }
 .tribes-title {
     margin-top: 20px;
+}
+.tribes-title h2 {
+    margin-top: 40px;
+    color: #0048b3;
+    font-size: 45px;
 }
 .tribes-title p {
     font-size: 16px;

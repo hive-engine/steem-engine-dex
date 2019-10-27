@@ -4,6 +4,7 @@
 @import "./signin.css";
 @import "./buttons.css";
 @import "./smallnav.css";
+@import "./scot-components.css";
 
 @font-face {
     font-family: main-font;
@@ -205,10 +206,15 @@ legend {
     border-top: 0;
 }
 
+ul li {
+    padding: 10px;
+
+
 .green-text {
     color: #21BE3D;
 }
 
 .yellow-text {
     color: #FFE289;
+
 }
