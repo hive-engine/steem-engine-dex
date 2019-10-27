@@ -1,18 +1,18 @@
-<template bindable="loading, sellBook">
+<template>
     <div class="table-wrapper">
         <loader loading.bind="loading" mode="tiny"></loader>
 
         <table class="sell-table">
-            <thead class="sr-only">
+            <thead>
                 <tr>
                     <th width="135">${'Price' & t} (STEEMP)</th>
-                    <th>${'QTY' & t} (ENG)</th>
-                    <th>${'Total' & t} (STEEMP)</th>
+                    <th class="text-right">${'QTY' & t} (${data.symbol & t})</th>
+                    <th class="text-right">${'Total' & t} (STEEMP)</th>
                 </tr>
             </thead>
             <tbody>
-                <tr repeat.for="order of sellBook | slice:10">
-                    <td>${order.price}</td>
+                <tr repeat.for="order of sellBook | slice:10:true">
+                    <td click.delegate="setBidPrice(order.price)">${order.price}</td>
                     <td>${order.quantity}</td>
                     <td>${order.amountLocked | toFixed:6}</td>
                 </tr>

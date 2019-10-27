@@ -1,9 +1,12 @@
 export class SliceValueConverter {
-    toView(array, count) {
+    toView(array, count, reverse = false) {
         if (!array) {
             return array;
         }
-        
-        return array.slice(0, parseInt(count));
+
+        if (reverse)
+            return array.slice(0, parseInt(count)).reverse();
+        else         
+            return array.slice(0, parseInt(count));
     }
 }

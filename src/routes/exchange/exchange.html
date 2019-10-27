@@ -1,7 +1,7 @@
 <template>
-    <require from="./components/balances.html"></require>
-    <require from="./components/buybook.html"></require>
-    <require from="./components/sellbook.html"></require>
+    <require from="./components/balances"></require>
+    <require from="./components/buybook"></require>
+    <require from="./components/sellbook"></require>
     <require from="./components/best-price.html"></require>
     <require from="./components/trade-history.html"></require>
     <require from="./components/token-metrics"></require>
@@ -18,20 +18,22 @@
         <div class="row exchange-columns h100">
             <div class="col-lg-3 col-md-12 col-sm-12">
                 <div class="exchange-header">
-                    <h2>Buy Orders</h2>
-                </div>
-                <buybook
-                    loading.bind="loadingUserBuyBook"
-                    buy-book.bind="buyBook"
-                ></buybook>
-                <best-price order.bind="bestSellPrice"></best-price>
-                <div class="exchange-header">
                     <h2>Sell Orders</h2>
                 </div>
-                <sellbook
-                    loading.bind="loadingUserSellBook"
-                    sell-book.bind="sellBook"
+                <sellbook loading.bind="loadingUserSellBook"
+                          sell-book.bind="sellBook"
+                          data.bind="data"
+                          price.bind="bidPrice"
                 ></sellbook>
+                <best-price order.bind="bestSellPrice"></best-price>
+                <div class="exchange-header">
+                    <h2>Buy Orders</h2>
+                </div>
+                <buybook loading.bind="loadingUserBuyBook"
+                         buy-book.bind="buyBook"
+                         data.bind="data"
+                         price.bind="bidPrice"
+                ></buybook>
             </div>
 
             <div class="col-lg-6 col-md-12 col-sm-12 chart-col">
@@ -43,6 +45,7 @@
                             data.bind="data"
                             steemp-balance.bind="steempBalance"
                             token-balance.bind="tokenBalance"
+                            deposit.call="deposit()"
                         ></balances>
                     </div>
                     <div class="col-md-6">

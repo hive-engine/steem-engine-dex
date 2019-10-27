@@ -93,6 +93,14 @@ h6 {
     font-size: 12px;
 }
 
+legend {
+    color: #0c111a;
+}
+
+.no-margin {
+    margin: 0;
+}
+
 .main-header {
     border-bottom: 1px solid #424242;
     height: 250px;
@@ -110,6 +118,10 @@ h6 {
 
 .route--exchange {
     background: #fff;
+}
+
+.route--exchange h2 {
+    font-size: 24px;
 }
 
 .h100 {
@@ -143,6 +155,7 @@ h6 {
 }
 
 .tabs__tab {
+    color: #797979;
     text-align: center;
 }
 
@@ -192,6 +205,16 @@ h6 {
     border-bottom: 1px solid #262e3f;
     border-top: 0;
 }
+
 ul li {
     padding: 10px;
+}
+
+.green-text {
+    color: #21BE3D;
+}
+
+.yellow-text {
+    color: #FFE289;
+
 }

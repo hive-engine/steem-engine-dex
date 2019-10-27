@@ -6,6 +6,7 @@ import { customElement, bindable } from 'aurelia-framework';
 import { autoinject } from 'aurelia-dependency-injection';
 import { dispatchify, connectTo } from 'aurelia-store';
 import { logout } from 'store/actions';
+import { faWallet } from '@fortawesome/pro-duotone-svg-icons'
 
 @autoinject()
 @customElement('nav-bar')
@@ -13,11 +14,11 @@ import { logout } from 'store/actions';
 export class NavBar {
     @bindable router;
     @bindable loggedIn;
+    @bindable iconWallet = faWallet;
 
     private state: State;
 
-    constructor(private dialogService: DialogService, private se: SteemEngine) {
-
+    constructor(private dialogService: DialogService, private se: SteemEngine) {        
     }
 
     logout() {

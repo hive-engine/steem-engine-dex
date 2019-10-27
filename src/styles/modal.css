@@ -116,3 +116,8 @@ ux-dialog > ux-dialog-footer button:last-child {
         width: fit-content;
     }
 }
+
+.ux-dialog-open .note,
+.ux-dialog-open .note p {
+    color: #fff;
+}

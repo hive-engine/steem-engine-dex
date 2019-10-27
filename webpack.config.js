@@ -59,8 +59,7 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma} = 
         extensions: ['.ts', '.js'],
         modules: [srcDir, 'node_modules'],
         alias: {
-            'base-environment': path.resolve(__dirname, 'aurelia_project/environments/base'),
-            'tslib': path.resolve(__dirname, 'node_modules/tslib')
+            'base-environment': path.resolve(__dirname, 'aurelia_project/environments/base')
         }
     },
     entry: {
@@ -81,8 +80,41 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma} = 
     },
     optimization: {
         concatenateModules: false,
-    },
-    devtool: production ? 'nosources-source-map' : 'cheap-module-eval-source-map',
+        runtimeChunk: true,
+        moduleIds: 'hashed',
+        splitChunks: {
+          hidePathInfo: true,
+          chunks: "initial",
+          maxSize: 200000,
+          cacheGroups: {
+            default: false,
+            vendors: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              priority: 19,
+              enforce: true,
+              minSize: 30000
+            },
+            vendorsAsync: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors.async',
+              chunks: 'async',
+              priority: 9,
+              reuseExistingChunk: true,
+              minSize: 10000
+            },
+            commonsAsync: {
+              name: 'commons.async',
+              minChunks: 2,
+              chunks: 'async',
+              priority: 0,
+              reuseExistingChunk: true,
+              minSize: 10000
+            }
+          }
+        }
+      },
+    devtool: production ? 'source-maps' : 'inline-source-map',
     module: {
         rules: [
             { 

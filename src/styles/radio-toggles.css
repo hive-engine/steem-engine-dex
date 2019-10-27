@@ -17,6 +17,7 @@
     box-shadow: none;
 }
 .switch input + label {
+    color: #797979;
     position: relative;
     min-width: calc(calc(2.375rem * .8) * 2);
     border-radius: calc(2.375rem * .8);
