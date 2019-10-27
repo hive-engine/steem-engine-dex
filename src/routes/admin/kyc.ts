@@ -1,22 +1,27 @@
-import firebase from 'firebase/app';
-
-import styles from './kyc.module.css';
+import { Router, RouterConfiguration } from 'aurelia-router';
+import { PLATFORM } from 'aurelia-framework';
 
 export class AdminKyc {
-    private styles = styles;
+    private router: Router;
 
-    private kycItems = [];
+    public configureRouter(config: RouterConfiguration, router: Router) {
+        config.map([
+            {
+                route: [''],
+                name: 'adminKycLanding',
+                moduleId: PLATFORM.moduleName('./kyc-queue'),
+                nav: false,
+                title: 'KYC'
+            },
+            {
+                route: 'view/:uid',
+                name: 'adminKycView',
+                moduleId: PLATFORM.moduleName('./kyc-view'),
+                nav: false,
+                title: 'Kyc View'
+            },
+        ]);
 
-    async activate() {
-        const pendingKycUsers = await firebase.firestore().collection('users')
-            .where('kyc.passportPending', '==', true)
-            .where('kyc.selfiePending', '==', true)
-            .get();
-
-        console.log(pendingKycUsers);
-
-        if (pendingKycUsers.docs) {
-            this.kycItems = pendingKycUsers.docs.map(doc => ({id: doc.id, ...doc.data()}));
-        }
+        this.router = router;
     }
 }
