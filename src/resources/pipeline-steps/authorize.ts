@@ -28,11 +28,10 @@ export class AuthorizeStep {
 
                 // The current route has settings and roles
                 if (currentRoute.settings && currentRoute.settings.roles) {
-                    const doc = await firebase.firestore().collection('users').doc(this.se.getUser()).get();
-                    const data = doc.data();
+                    const token = await firebase.auth().currentUser.getIdTokenResult();
 
                     // If the current user doesn't have every role configured in the route
-                    if (!data.roles.some(r => currentRoute.settings.roles.includes(r))) {
+                    if (!Object.keys(token.claims).some(r => currentRoute.settings.roles.includes(r))) {
                         return resolve(next.cancel(new Redirect('wallet')));
                     }
                 }
