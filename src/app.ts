@@ -159,7 +159,7 @@ export class App {
             {
                 route: 'admin',
                 name: 'admin',
-                moduleId: PLATFORM.moduleName('./routes/admin/home'),
+                moduleId: PLATFORM.moduleName('./routes/admin/admin'),
                 nav: false,
                 auth: true,
                 title: 'Admin',

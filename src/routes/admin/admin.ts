@@ -3,6 +3,7 @@ import { Router, RouterConfiguration } from 'aurelia-router';
 
 export class AdminAdmin {
     private router: Router;
+    
     public configureRouter(config: RouterConfiguration, router: Router) {
         config.map([
             {
