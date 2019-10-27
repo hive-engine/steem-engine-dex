@@ -21,6 +21,13 @@ export class AdminAdmin {
                 title: 'Kyc'
             },
             {
+                route: 'users',
+                name: 'adminUsers',
+                moduleId: PLATFORM.moduleName('./users'),
+                nav: true,
+                title: 'Users'
+            },
+            {
                 route: 'settings',
                 name: 'adminSettings',
                 moduleId: PLATFORM.moduleName('./settings'),
