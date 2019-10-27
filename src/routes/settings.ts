@@ -189,8 +189,6 @@ export class Settings {
         this.taskQueue.queueTask(() => {
             const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
 
-            console.log(this.state.firebaseUser);
-
             userRef.set(this.state.firebaseUser, {
                 merge: true
             });
