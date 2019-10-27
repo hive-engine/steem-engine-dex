@@ -176,7 +176,6 @@ export class App {
 async function authStateChanged() {
     return new Promise(resolve => {
         firebase.auth().onAuthStateChanged(async user => {
-            console.log(user);
             if (user) {
                 dispatchify(login)(user.uid);
                 resolve();
