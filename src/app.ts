@@ -175,6 +175,15 @@ export class App {
                 title: "Scotbot"
             },
             {
+                route: "state-costs",
+                name: "state-costs",
+                moduleId: PLATFORM.moduleName(
+                    "./routes/offering-routes/state-costs"
+                ),
+                nav: false,
+                title: "State Costs"
+            },
+            {
                 route: 'admin',
                 name: 'admin',
                 moduleId: PLATFORM.moduleName('./routes/admin/admin'),

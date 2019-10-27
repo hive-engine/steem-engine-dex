@@ -1,18 +1,78 @@
-.statecosts-header {
-    padding: 80px 0 0 0;
+.state-costs-header {
+    padding-top: 80px;
+    margin-bottom: 20px;
 }
 @media only screen and (max-width: 468px) {
-    .statecosts-header {
+    .state-costs-header {
         padding-top: 30px !important;
         text-align: center;
     }
 }
-.header-line {
-    width: 10%;
-    border-top: 3px solid #0048b3;
-    margin-bottom: 50px;
+.state-costs-title {
+    margin-top: 20px;
 }
-.statecosts-header h1 {
-    margin-top: 46px;
+.state-costs-title h2 {
+    margin-top: 40px;
     color: #0048b3;
+    font-size: 45px;
+}
+.state-costs-title p {
+    font-size: 16px;
+}
+.cost-table td,
+.cost-table th {
+    font-size: 17px;
+}
+.w-5 {
+    width: 5% !important;
+}
+.w-15 {
+    width: 15% !important;
+}
+.w-25 {
+    width: 25% !important;
+}
+.w-55 {
+    width: 55% !important;
+}
+
+@media only screen and (max-width: 468px) {
+    .w-5 {
+        width: 5% !important;
+    }
+    .w-15 {
+        width: 15% !important;
+    }
+    .w-25 {
+        width: 25% !important;
+    }
+    .w-55 {
+        width: 55% !important;
+    }
+}
+.start {
+    background-color: #0048b3;
+    padding: 50px 200px;
+    margin-bottom: -100px;
+}
+.greenBtn {
+    padding: 0.5rem 3rem;
+    background-color: #21be3d;
+    color: #fff !important;
+    font-weight: bold;
+    font-family: main-font-bold !important;
+    font-size: 16px;
+    border-radius: 0.25rem;
+    width: 15% !important;
+}
+.greenBtn:hover {
+    background-color: #1eac38;
+    cursor: pointer;
+}
+.texts h1,
+.texts p {
+    color: #fff;
+}
+.start-form {
+    text-align: center;
 }
