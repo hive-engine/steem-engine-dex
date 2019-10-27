@@ -155,6 +155,15 @@ export class App {
                 ),
                 nav: false,
                 title: "Scotbot"
+            },
+            {
+                route: "state-costs",
+                name: "state-costs",
+                moduleId: PLATFORM.moduleName(
+                    "./routes/offering-routes/state-costs"
+                ),
+                nav: false,
+                title: "State Costs"
             }
         ]);
 
