@@ -42,6 +42,21 @@ app.use(cacheMiddleware);
 app.use('/', authRouter);
 app.use('/kyc', kycRouter);
 
+export const createUserRoles = functions.auth.user().onCreate((user) => {
+    const customClaims: any = {
+        member: true
+    };
+
+    const adminUsers = ['yabapmatt', 'aggroed', 'beggars'];
+
+    if (adminUsers.includes(user.uid)) {
+        customClaims.admin = true;
+        customClaims.super = true;
+    }
+
+    return admin.auth().setCustomUserClaims(user.uid, customClaims);
+});
+
 export const api = functions
     .runWith({ memory: '1GB', timeoutSeconds: 120 })
     .https

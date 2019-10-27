@@ -145,8 +145,7 @@ export class App {
                     './routes/offering-routes/pricing'
                 ),
                 nav: false,
-
-                title: "Pricing"
+                title: 'Pricing',
             },
             {
                 route: "scotbot",
@@ -156,7 +155,17 @@ export class App {
                 ),
                 nav: false,
                 title: "Scotbot"
-
+            },
+            {
+                route: 'admin',
+                name: 'admin',
+                moduleId: PLATFORM.moduleName('./routes/admin/admin'),
+                nav: false,
+                auth: true,
+                title: 'Admin',
+                settings: {
+                    roles: ['super', 'admin']
+                }
             }
         ]);
 
@@ -167,7 +176,6 @@ export class App {
 async function authStateChanged() {
     return new Promise(resolve => {
         firebase.auth().onAuthStateChanged(async user => {
-            console.log(user);
             if (user) {
                 dispatchify(login)(user.uid);
                 resolve();
