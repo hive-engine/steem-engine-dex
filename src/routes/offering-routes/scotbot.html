@@ -1,0 +1,296 @@
+<template>
+    <require from="./offering-nav/smallnav.html"></require>
+    <require from="./scotbot-components/initialize/initialize.html"></require>
+    <require from="../exchange/components/balances.html"></require>
+    <require
+        from="./scotbot-components/initialize/initialize-hint.html"
+    ></require>
+    <require
+        from="./scotbot-components/scotbot-settings/scotbot-settings.html"
+    ></require>
+    <require
+        from="./scotbot-components/scotbot-settings/scotbot-settings-hint.html"
+    ></require>
+    <require from="./scotbot-components/nitrous/nitrous-hint.html"></require>
+    <require from="./scotbot-components/nitrous/nitrous.html"></require>
+    <require from="./scotbot-components/scotbb/scotbb-hint.html"></require>
+    <require from="./scotbot-components/scotbb/scotbb.html"></require>
+    <require from="./scotbot-components/scottube/scottube-hint.html"></require>
+    <require from="./scotbot-components/scottube/scottube.html"></require>
+    <require from="./scotbot-components/scotpeak/scotpeak-hint.html"></require>
+    <require from="./scotbot-components/scotpeak/scotpeak.html"></require>
+    <require from="./scotbot-components/mining/mining-hint.html"></require>
+    <require from="./scotbot-components/mining/mining.html"></require>
+    <require
+        from="./scotbot-components/proof-of-stake/proof-of-stake-hint.html"
+    ></require>
+    <require
+        from="./scotbot-components/proof-of-stake/proof-of-stake.html"
+    ></require>
+    <require from="./scotbot-components/votebot/votebot-hint.html"></require>
+    <require from="./scotbot-components/votebot/votebot.html"></require>
+
+    <div class="scotbot-header">
+        <div class="container">
+            <smallnav></smallnav>
+            <div class="row" style="padding-top: 40px;">
+                <div class="col-md-12">
+                    <div class="head">
+                        <div class="scotbot-title text-center">
+                            <h2>ScotBot</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="header-line" />
+        </div>
+    </div>
+    <hr class="line" />
+    <section class="scot-definition">
+        <div class="scot-definition-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="texts">
+                            <h2>
+                                Distribution through Reward Pools
+                            </h2>
+                            <p>
+                                We build a reward pool using your token to help
+                                you distribute it in small amounts to encourage
+                                new users to participate in your
+                                business/community.
+                            </p>
+                            <div class="btns">
+                                <a href="#get-started" class="btn greenBtn"
+                                    >Get Started</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="offset-md-1 col-md-5">
+                        <div class="image">
+                            <img
+                                src="../../images/bot.svg"
+                                alt="bot"
+                                width="100%"
+                                style="margin-top: 10%;"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr class="line" />
+
+    <section class="features">
+        <div class="get-started text-center">
+            <h2 id="get-started">Get Started</h2>
+        </div>
+        <div class="container-fluid">
+            <div class="row" style="display: flex;">
+                <div class="col-md-3">
+                    <div class="category-items card">
+                        <div class="card-header">
+                            <h3>Features</h3>
+                        </div>
+                        <ul class="category" id="scotbotToggler">
+                            <li>
+                                <a
+                                    href="#initialize"
+                                    role="button"
+                                    aria-expanded="false"
+                                    click.trigger="handleClick('initialize')"
+                                    class="scotbot-header-links"
+                                    >Initialize
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="#settings"
+                                    role="button"
+                                    aria-expanded="false"
+                                    click.trigger="handleClick('settings')"
+                                    class="scotbot-header-links"
+                                    >Settings</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#nitrous"
+                                    role="button"
+                                    aria-expanded="false"
+                                    click.trigger="handleClick('nitrous')"
+                                    class="scotbot-header-links"
+                                    >Nitrous</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#scotbb"
+                                    role="button"
+                                    aria-expanded="false"
+                                    click.trigger="handleClick('scotbb')"
+                                    class="scotbot-header-links"
+                                    >ScotBB</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#scottube"
+                                    role="button"
+                                    aria-expanded="false"
+                                    click.trigger="handleClick('scottube')"
+                                    class="scotbot-header-links"
+                                    >ScotTube</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#scotpeak"
+                                    role="button"
+                                    aria-expanded="false"
+                                    click.trigger="handleClick('scotpeak')"
+                                    class="scotbot-header-links"
+                                    >ScotPeak</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#mining"
+                                    role="button"
+                                    aria-expanded="false"
+                                    click.trigger="handleClick('mining')"
+                                    class="scotbot-header-links"
+                                    >Mining</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#proof-of-stake"
+                                    role="button"
+                                    aria-expanded="false"
+                                    click.trigger="handleClick('proof-of-stake')"
+                                    class="scotbot-header-links"
+                                    >Proof of Stake</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#votebot"
+                                    role="button"
+                                    aria-expanded="false"
+                                    click.trigger="handleClick('votebot')"
+                                    class="scotbot-header-links"
+                                    >VoteBot</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <initialize-hint
+                        class="scotbot-detail"
+                        id="initialize-hint"
+                    ></initialize-hint>
+                    <initialize
+                        class="scotbot-detail"
+                        id="initialize"
+                    ></initialize>
+                    <scotbot-settings-hint
+                        class="scotbot-detail"
+                        id="settings-hint"
+                        style="display: none;"
+                    ></scotbot-settings-hint>
+                    <scotbot-settings
+                        class="scotbot-detail"
+                        id="settings"
+                        style="display: none;"
+                    ></scotbot-settings>
+                    <nitrous-hint
+                        class="scotbot-detail"
+                        id="nitrous-hint"
+                        style="display: none;"
+                    ></nitrous-hint>
+                    <nitrous
+                        class="scotbot-detail"
+                        id="nitrous"
+                        style="display: none;"
+                    ></nitrous>
+
+                    <scotbb-hint
+                        class="scotbot-detail"
+                        id="scotbb-hint"
+                        style="display: none;"
+                    ></scotbb-hint>
+                    <scotbb
+                        class="scotbot-detail"
+                        id="scotbb"
+                        style="display: none;"
+                    ></scotbb>
+                    <scottube-hint
+                        class="scotbot-detail"
+                        id="scottube-hint"
+                        style="display: none;"
+                    ></scottube-hint>
+                    <scottube
+                        class="scotbot-detail"
+                        id="scottube"
+                        style="display: none;"
+                    ></scottube>
+                    <scotpeak-hint
+                        class="scotbot-detail"
+                        id="scotpeak-hint"
+                        style="display: none;"
+                    ></scotpeak-hint>
+                    <scotpeak
+                        class="scotbot-detail"
+                        id="scotpeak"
+                        style="display: none;"
+                    ></scotpeak>
+                    <mining-hint
+                        class="scotbot-detail"
+                        id="mining-hint"
+                        style="display: none;"
+                    ></mining-hint>
+                    <mining
+                        class="scotbot-detail"
+                        id="mining"
+                        style="display: none;"
+                    ></mining>
+                    <proof-of-stake-hint
+                        class="scotbot-detail"
+                        id="proof-of-stake-hint"
+                        style="display: none;"
+                    ></proof-of-stake-hint>
+                    <proof-of-stake
+                        class="scotbot-detail"
+                        id="proof-of-stake"
+                        style="display: none;"
+                    ></proof-of-stake>
+                    <votebot-hint
+                        class="scotbot-detail"
+                        id="votebot-hint"
+                        style="display: none;"
+                    ></votebot-hint>
+                    <votebot
+                        class="scotbot-detail"
+                        id="votebot"
+                        style="display: none;"
+                    ></votebot>
+                </div>
+                <div class="col-md-3">
+                    <div class="category-items card">
+                        <div class="card-header">
+                            <h3>Your Balance</h3>
+                        </div>
+                        <div style="padding: 10px;">
+                            <balances></balances>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
