@@ -42,7 +42,7 @@ app.use(cacheMiddleware);
 app.use('/', authRouter);
 app.use('/kyc', kycRouter);
 
-export const setDefaultUserRoles = functions.auth.user().onCreate((user) => {
+export const createUserRoles = functions.auth.user().onCreate((user) => {
     const customClaims: any = {
         member: true
     };

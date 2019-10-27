@@ -65,6 +65,19 @@ authRouter.post('/verifyUserAuthMemo', async (req: express.Request, res: express
             // User is legit
             const token = await createUserToken(username);
 
+            const customClaims: any = {
+                member: true
+            };
+        
+            const adminUsers = ['yabapmatt', 'aggroed', 'beggars'];
+        
+            if (adminUsers.includes(username)) {
+                customClaims.admin = true;
+                customClaims.super = true;
+            }
+        
+            await admin.auth().setCustomUserClaims(username, customClaims);
+
             const user = await usersRef.doc(username).get();
 
             if (!user.exists) {
