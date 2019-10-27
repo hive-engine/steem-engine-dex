@@ -1,9 +1,25 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isAuth() {
+        return request.auth != null && request.auth.uid != null;
+    }
+
+    function isUser(uid) {
+        return request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return isAuth() && request.auth.token.admin == true;
+    }
+
+    function isSuperAdmin() {
+        return isAuth() && request.auth.token.super == true;
+    }
+
     match /users/{userId} {
-      allow read, update, delete: if request.auth.uid == userId;
-      allow create: if request.auth.uid != null;
+      allow read, update, delete: if isUser(userId) || isAdmin() || isSuperAdmin();
+      allow create: if isAuth();
     }
   }
 }
