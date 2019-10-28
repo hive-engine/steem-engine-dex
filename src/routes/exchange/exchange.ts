@@ -133,6 +133,9 @@ export class Exchange {
             }
         });        
 
+        const tokenHistory = await loadTokenMarketHistory(this.currentToken);
+        console.log('History', tokenHistory);
+
         this.chartData = {
             labels: buyOrderLabels.concat(sellOrderLabels),
             datasets: [
@@ -173,6 +176,7 @@ export class Exchange {
                     o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
                     return o;
                 });
+
 
                 this.se.ssc.find('market', 'sellBook', { symbol: symbol, account: account }, 100, 0, [{ index: '_id', descending: true }], false).then(result => {
                     this.loadingUserSellBook = false;
