@@ -15,7 +15,7 @@ import steem from 'steem';
 
 import { connectTo } from 'aurelia-store';
 
-import { loadTokens } from 'common/steem-engine';
+import { loadTokens, loadCoinPairs, loadCoins } from 'common/steem-engine';
 
 import { ToastService, ToastMessage } from './toast-service';
 import { queryParam, popupCenter, formatSteemAmount } from 'common/functions';
@@ -1082,7 +1082,8 @@ export class SteemEngine {
     }
 
     async getDepositAddress(symbol) {
-        const peggedToken = environment.PEGGED_TOKENS.find(p => p.symbol === symbol);
+        var tokenPairs = await this.getTokenPairs();
+        const peggedToken = tokenPairs.find(p => p.symbol === symbol);
 
         if (!peggedToken) {
             return;
@@ -1108,7 +1109,8 @@ export class SteemEngine {
     }
 
     async getWithdrawalAddress(symbol, address) {
-        const peggedToken = environment.PEGGED_TOKENS.find(p => p.symbol === symbol);
+        var tokenPairs = await this.getTokenPairs();
+        const peggedToken = tokenPairs.find(p => p.symbol === symbol);
 
         if (!peggedToken) {
             return;
@@ -1127,4 +1129,39 @@ export class SteemEngine {
             return null;
         }
     }
+
+    async getTokenPairs() {
+        var coins = await loadCoins();
+        var coinPairs = await loadCoinPairs();
+
+        var tokenPairs = [];
+        var nonPeggedCoins = coins.filter(x => x.coin_type != "steemengine");
+
+        // add steem as first item
+        var steem = { name: 'STEEM', symbol: 'STEEM', pegged_token_symbol: 'STEEMP' };
+        tokenPairs.push(steem);
+
+        nonPeggedCoins.forEach(x => {
+            // find pegged coin for each non-pegged coin
+            var coinFound = coinPairs.find(y => y.from_coin_symbol == x.symbol);
+            if (coinFound) {
+                var tp = {
+                    name: x.display_name,
+                    symbol: x.symbol,
+                    pegged_token_symbol: coinFound.to_coin_symbol
+                }
+
+                // check if the token exists
+                if (!tokenPairs.find(x => x.pegged_token_symbol == tp.pegged_token_symbol)) {
+                    tokenPairs.push(tp);
+                }
+            }
+        })
+
+        // sort the coins
+        tokenPairs = tokenPairs.sort((a, b) => a.name.localeCompare(b.name));        
+
+        return tokenPairs;
+    }
+
 }
