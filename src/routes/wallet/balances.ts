@@ -67,7 +67,7 @@ export class Balances {
 
     hideZeroBalancesChanged() {
         this.taskQueue.queueTask(() => {
-            if (this.balances) {
+            if (this.balances && this.user.wallet) {
                 if (this.user.wallet.hideZeroBalances) {
                     this.balances = this.balances.filter(t => parseFloat(t.balance) > 0);
                 } else {
