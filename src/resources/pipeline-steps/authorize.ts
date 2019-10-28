@@ -1,3 +1,4 @@
+import { log } from './../../services/log';
 import { Redirect, RouteConfig } from 'aurelia-router';
 import firebase from 'firebase/app';
 import { autoinject } from 'aurelia-framework';
@@ -29,6 +30,8 @@ export class AuthorizeStep {
                 // The current route has settings and roles
                 if (currentRoute.settings && currentRoute.settings.roles) {
                     const token = await firebase.auth().currentUser.getIdTokenResult();
+
+                    log.debug('Current route requires roles', token);
 
                     // If the current user doesn't have every role configured in the route
                     if (!Object.keys(token.claims).some(r => currentRoute.settings.roles.includes(r))) {
