@@ -139,13 +139,31 @@ export class App {
                 title: 'Tribes'
             },
             {
-                route: 'pricing',
-                name: 'pricing',
+                route: 'legal-services',
+                name: 'legal-services',
                 moduleId: PLATFORM.moduleName(
-                    './routes/offering-routes/pricing'
+                    './routes/offering-routes/legal-services'
                 ),
                 nav: false,
-                title: 'Pricing',
+                title: 'Legal Services',
+            },
+            {
+                route: 'crowdfunding',
+                name: 'crowdfunding',
+                moduleId: PLATFORM.moduleName(
+                    './routes/offering-routes/crowdfunding'
+                ),
+                nav: false,
+                title: 'Crowdfunding',
+            },
+            {
+                route: 'state-costs',
+                name: 'state-costs',
+                moduleId: PLATFORM.moduleName(
+                    './routes/offering-routes/state-costs'
+                ),
+                nav: false,
+                title: 'State Costs',
             },
             {
                 route: "scotbot",
