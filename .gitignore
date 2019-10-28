@@ -73,4 +73,5 @@ steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json
 /steem-engine-dex.sln
 *.sln
 functions/lib/
+test/coverage-jest/
 

@@ -42,6 +42,18 @@ au build --env prod
 
 This will build the application into a `dist` folder which is the built application. You then deploy this built directory to your chosen location.
 
+## Tests
+
+This project is configured to use Cypress for end-to-end testing and Jest for unit testing. At this time, there are only unit tests. It is a requirement that any work contributed to this repository has accompanying test cases.
+
+A basic test case is checking all code paths, functions and ensuring that you have a test that accounts for failure and for success.
+
+To run the tests type:
+
+```shell
+yarn test
+```
+
 ## Environment / Project Configuration
 
 The application is broken down into three configuration files located within `aurelia_project/environments` these environment files are chosen based on the type of run or build command performed.

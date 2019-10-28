@@ -21,6 +21,8 @@ import { percentageOf } from 'common/functions';
 import { loadTokensList, loadAccountBalances, loadBuyBook, loadSellBook, loadTradeHistory } from 'store/actions';
 import { dispatchify } from 'aurelia-store';
 import { getStateOnce } from 'store/store';
+import * as d3 from 'd3';
+import { DateTime } from 'luxon';
 
 @autoinject()
 export class Exchange {
@@ -117,6 +119,19 @@ export class Exchange {
                 sellOrderDataset.push(sellOrderCurrentVolume);
             }
         });
+                
+        const tokenHistory = await loadTokenMarketHistory(this.currentToken);        
+        var limitCandleStick = 60;
+
+        var candleStickData = tokenHistory.slice(0, limitCandleStick).map(x => {
+            return {
+                t: moment.unix(x.timestamp).format('YYYY-MM-DD HH:mm:ss'),//x.timestamp * 1000,
+                o: x.openPrice, 
+                h: x.highestPrice,
+                l: x.lowestPrice,                
+                c: x.closePrice
+            }
+        });        
 
         const tokenHistory = await loadTokenMarketHistory(this.currentToken);
         console.log('History', tokenHistory);
@@ -138,9 +153,10 @@ export class Exchange {
                     backgroundColor: '#e87f7f',
                     data: sellOrderDataset
                 }
-            ]
-        };
-    }
+            ],
+            ohlcData: candleStickData
+        };        
+    }    
 
     attached() {
         const symbol = this.currentToken;
@@ -151,7 +167,7 @@ export class Exchange {
             this.loadingUserSellBook = true;
             this.loadingUserBalances = true;
 
-            this.se.ssc.find('market', 'buyBook', { symbol: symbol, account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false).then(result => {
+            this.se.ssc.find('market', 'buyBook', { symbol: symbol, account: account }, 100, 0, [{ index: '_id', descending: true }], false).then(result => {
                 this.loadingUserBuyBook = false;
 
                 this.userBuyOrders = result.map(o => {
@@ -161,7 +177,8 @@ export class Exchange {
                     return o;
                 });
 
-                this.se.ssc.find('market', 'sellBook', { symbol: symbol, account: account }, 100, 0, [{ index: 'timestamp', descending: true }], false).then(result => {
+
+                this.se.ssc.find('market', 'sellBook', { symbol: symbol, account: account }, 100, 0, [{ index: '_id', descending: true }], false).then(result => {
                     this.loadingUserSellBook = false;
 
                     this.userSellOrders = result.map(o => {
@@ -216,7 +233,7 @@ export class Exchange {
             quantity: this.bidQuantity,
             price: this.bidPrice
         };
-
+        
         this.dialogService.open({ viewModel: MarketOrderModal, model: order }).whenClosed(response => {
             console.log(response);
         });

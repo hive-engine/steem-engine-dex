@@ -28,6 +28,3 @@
 .tab a:hover {
     border-bottom: 2px solid #0048b3;
 }
-.tab a.active {
-    border-bottom: 2px solid blue;
-}
