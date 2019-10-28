@@ -69,7 +69,7 @@ authRouter.post('/verifyUserAuthMemo', async (req: express.Request, res: express
 
             if (!user.exists) {
                 await admin.auth().createUser({ uid: username });
-                
+
                 // Create new user reference
                 usersRef.doc(username).set({
                     country: '',
