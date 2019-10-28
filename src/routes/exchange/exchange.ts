@@ -2,7 +2,7 @@ import { I18N } from 'aurelia-i18n';
 import { ToastMessage, ToastService } from '../../services/toast-service';
 import { BootstrapFormRenderer } from '../../resources/bootstrap-form-renderer';
 import { SteemEngine } from '../../services/steem-engine';
-import { autoinject, computedFrom } from 'aurelia-framework';
+import { autoinject, computedFrom, observable } from 'aurelia-framework';
 import { ValidationControllerFactory, ValidationController, ValidationRules, ControllerValidateResult } from 'aurelia-validation';
 
 import styles from './exchange.module.css'
@@ -29,6 +29,7 @@ export class Exchange {
     private environment = environment;
     private controller: ValidationController;
     private renderer: BootstrapFormRenderer;
+    @observable({ changeHandler: 'currentTokenChanged' })
     private currentToken: string;
     private data;
     private styles = styles;
@@ -158,7 +159,7 @@ export class Exchange {
         };        
     }    
 
-    attached() {
+    loadUserExchangeData() {
         const symbol = this.currentToken;
         const account = this.se.getUser();
 
@@ -195,7 +196,7 @@ export class Exchange {
 
             this.se.ssc.find('tokens', 'balances', { account: account, symbol: { '$in': [symbol, 'STEEMP'] } }, 2, 0, '', false).then(result => {
                 this.loadingUserBalances = false;
-
+                
                 if (result) {
                     for (const token of result) {
                         if (token.symbol === 'STEEMP') {
@@ -212,6 +213,14 @@ export class Exchange {
                 this.userTokenBalance.push(find(result, (balance) => balance.symbol === 'STEEMP'));
             });
         }
+    }
+
+    currentTokenChanged(newValue, oldValue) {
+        this.loadUserExchangeData();
+    }
+
+    attached() {
+        this.loadUserExchangeData();        
     }
 
     deposit() {

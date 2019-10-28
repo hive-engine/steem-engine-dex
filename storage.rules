@@ -1,11 +1,27 @@
 service firebase.storage {
   match /b/{bucket}/o {
+    function isAuth() {
+        return request.auth != null && request.auth.uid != null;
+    }
+
+    function isUser(uid) {
+        return request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return isAuth() && request.auth.token.admin == true;
+    }
+
+    function isSuperAdmin() {
+        return isAuth() && request.auth.token.super == true;
+    }
+
     match /{allPaths=**} {
-      allow read, write: if request.auth!=null;
+      allow read, write: if isAuth();
     }
 
     match /user-uploads/{userId} {
-        allow read, write: if request.auth.uid == userId;
+        allow read, write: if isUser(userId) || isSuperAdmin() || isAdmin();
     }
   }
 }
