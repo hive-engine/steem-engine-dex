@@ -17,12 +17,17 @@ export class WithdrawModal {
     private address = '';
     private loading = false;
     private tokenBalance: any = 0;
+    private tokenList = [];
     
     private amount = '0.000';
 
     constructor(private controller: DialogController, private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue) {
         this.controller.settings.lock = false;
         this.controller.settings.centerHorizontalOnly = true;
+    }
+
+    async activate() {
+        this.tokenList = await this.se.getTokenPairs();
     }
 
     bind() {

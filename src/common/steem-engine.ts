@@ -44,6 +44,26 @@ export async function loadTokenMarketHistory(symbol: string, timestampStart?: st
     return response.json() as Promise<IHistoryApiItem[]>;
 }
 
+export async function loadCoinPairs(): Promise<ICoinPair[]> {
+    let url = `${environment.CONVERTER_API}/pairs/`;
+
+    const response = await http.fetch(url, {
+        method: 'GET'
+    });    
+
+    return response.json() as Promise<ICoinPair[]>;
+}
+
+export async function loadCoins(): Promise<ICoin[]> {
+    let url = `${environment.CONVERTER_API}/coins/`;
+
+    const response = await http.fetch(url, {
+        method: 'GET'
+    });
+
+    return response.json() as Promise<ICoin[]>;
+}
+
 export async function loadTokens(): Promise<any[]> {
     return new Promise((resolve) => {
         ssc.find('tokens', 'tokens', { }, 1000, 0, [], (err, result) => {

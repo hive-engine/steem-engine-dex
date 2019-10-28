@@ -12,7 +12,7 @@
             <div class="form-group">
                 <select class="form-control" value.bind="token" change.delegate="tokenSelected()">
                     <option model.bind="null">${'Please select a token...' & t}</option>
-                    <option model.bind="t" repeat.for="t of environment.PEGGED_TOKENS">${t.name & t} (${t.symbol})</option>
+                    <option model.bind="t" repeat.for="t of tokenList">${t.name & t} (${t.symbol})</option>
                 </select>
             </div>
 
