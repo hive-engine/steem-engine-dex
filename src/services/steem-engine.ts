@@ -1082,7 +1082,8 @@ export class SteemEngine {
     }
 
     async getDepositAddress(symbol) {
-        const peggedToken = environment.PEGGED_TOKENS.find(p => p.symbol === symbol);
+        var tokenPairs = await this.getTokenPairs();
+        const peggedToken = tokenPairs.find(p => p.symbol === symbol);
 
         if (!peggedToken) {
             return;
@@ -1108,7 +1109,8 @@ export class SteemEngine {
     }
 
     async getWithdrawalAddress(symbol, address) {
-        const peggedToken = environment.PEGGED_TOKENS.find(p => p.symbol === symbol);
+        var tokenPairs = await this.getTokenPairs();
+        const peggedToken = tokenPairs.find(p => p.symbol === symbol);
 
         if (!peggedToken) {
             return;
