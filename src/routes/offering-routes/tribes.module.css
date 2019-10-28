@@ -1,6 +1,6 @@
 .tribes-header {
-    padding-top: 60px;
-    margin-bottom: 50px;
+    padding-top: 80px;
+    margin-bottom: 20px;
 }
 .card {
     /*transition: box-shadow 0.25s linear;
@@ -22,9 +22,10 @@
 }
 .tribe-item {
     border-bottom: rgb(211, 205, 205) solid 1px;
-    padding: 8px;
+    padding: 18px;
     padding-bottom: 20px;
     border-radius: 50%;
+    width: 100%;
 }
 .tribe-icon {
     box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 9px;
@@ -36,6 +37,9 @@
     border-radius: 50%;
     padding: 10px !important;
 }
+.tribes-title {
+    margin-top: 20px;
+}
 .tribes-title p {
     font-size: 16px;
 }
@@ -43,7 +47,7 @@
     padding: 4px;
 }
 .font-awesome-icons {
-    color: #333;
+    color: #0048b3;
 }
 .blue-line {
     width: 10%;
