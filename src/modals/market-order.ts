@@ -6,6 +6,7 @@ import { State } from 'store/state';
 import { pluck } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { environment } from 'environment';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 interface IOrder {
     type: string;
@@ -26,10 +27,18 @@ export class MarketOrderModal {
         quantity: '',
         price: ''
     };
+    private eventAggregator: EventAggregator;
+    private reloadEventData: IReloadEventData = {
+        reloadBuyBook: false,
+        reloadSellBook: false,
+        reloadTradeHistory: false,
+        reloadUserExchangeData: false
+    };
 
-    constructor(private controller: DialogController, private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue) {
+    constructor(private controller: DialogController, private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue, private ea: EventAggregator) {
         this.controller.settings.lock = false;
         this.controller.settings.centerHorizontalOnly = true;
+        this.eventAggregator = ea;
     }
 
     activate(model) {
@@ -53,8 +62,18 @@ export class MarketOrderModal {
             this.loading = true;
             const order = await this.se.sendMarketOrder(this.order.type, this.order.symbol, this.order.quantity, this.order.price);
 
-            if (order) {
+            if (order) {                
                 this.controller.ok();
+
+                this.reloadEventData.reloadUserExchangeData = true;
+
+                if (this.order.type === "buy") {
+                    this.reloadEventData.reloadBuyBook = true;
+                } else {
+                    this.reloadEventData.reloadSellBook = true;
+                }
+
+                this.eventAggregator.publish('eventReload', { data: this.reloadEventData });
             }
         } catch (e) {
             this.loading = false;

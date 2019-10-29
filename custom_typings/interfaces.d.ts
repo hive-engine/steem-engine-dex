@@ -62,3 +62,10 @@ interface ICoin {
     coin_type: string;
     symbol_id: string;
 }
+
+interface IReloadEventData {
+    reloadUserExchangeData: boolean;
+    reloadBuyBook: boolean;
+    reloadSellBook: boolean;
+    reloadTradeHistory: boolean; 
+}
