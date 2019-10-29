@@ -20,11 +20,9 @@ describe('Steem Keychain', () => {
 
     it('customJson should return value after promise resolves from callback', async () => {
         const returnValue = await customJson('beggars', '1234', 'Active', JSON.stringify({ test: 123 }), 'Display Name');
-
-        const args = (global as any).steem_keychain.requestCustomJson.mock.calls[0];
         
         expect((global as any).steem_keychain.requestCustomJson)
-            .toHaveBeenCalledWith('beggars', '1234', 'Active', JSON.stringify({ test: 123 }), 'Display Name', args[5]);
+            .toHaveBeenCalledWith('beggars', '1234', 'Active', JSON.stringify({ test: 123 }), 'Display Name', expect.any(Function));
     });
 
     it('requestTransfer should return value after promise resolves from callback', async () => {
@@ -34,10 +32,8 @@ describe('Steem Keychain', () => {
 
     it('requestTransfer should return value after promise resolves from callback', async () => {
         const returnValue = await requestTransfer('beggars', 'aggroed', '1234.456', 'Testing', 'STEEM');
-
-        const args = (global as any).steem_keychain.requestTransfer.mock.calls[0];
         
         expect((global as any).steem_keychain.requestTransfer)
-            .toHaveBeenCalledWith('beggars', 'aggroed', '1234.456', 'Testing', 'STEEM', args[5]);
+            .toHaveBeenCalledWith('beggars', 'aggroed', '1234.456', 'Testing', 'STEEM', expect.any(Function));
     });
 });
