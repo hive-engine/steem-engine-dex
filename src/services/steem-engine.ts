@@ -14,7 +14,7 @@ import steem from 'steem';
 
 import { connectTo } from 'aurelia-store';
 
-import { steemConnectJsonId, steemConnectJson } from 'common/steem';
+import { steemConnectJsonId, steemConnectJson, getAccount, steemConnectTransfer } from 'common/steem';
 import { loadTokens } from 'common/steem-engine';
 
 import { ToastService, ToastMessage } from './toast-service';
@@ -143,7 +143,7 @@ export class SteemEngine {
                 }
     
                 try {
-                    const user = await steem.api.getAccountsAsync([username]);
+                    const user = await getAccount(username);
     
                     if (user && user.length > 0) {
                         try {
@@ -202,27 +202,6 @@ export class SteemEngine {
     logout() {
         firebase.auth().signOut();
         //dispatchify(logout)();
-    }
-
-    steemConnectTransfer(from: string, to: string, amount: string, memo: string, callback: any) {
-        let url = 'https://steemconnect.com/sign/transfer?';
-		url += '&from=' + encodeURI(from);
-		url += '&to=' + encodeURI(to);
-		url += '&amount=' + encodeURI(amount);
-		url += '&memo=' + encodeURI(memo);
-
-		popupCenter(url, 'steemconnect', 500, 560);
-		window._sc_callback = callback;
-    }
-
-    async getAccount(username: string) {
-        try {
-            const user = await steem.api.getAccountsAsync([username]); 
-        
-            return user && user.length > 0 ? user[0] : null;
-        } catch (e) {
-            throw new Error(e);
-        }
     }
 
     async loadPendingUnstakes(account) {
@@ -1011,7 +990,7 @@ export class SteemEngine {
                     return resolve(false);
                 }
             } else {
-                this.steemConnectTransfer(username, environment.STEEMP_ACCOUNT, `${amount} STEEM`, JSON.stringify(transaction_data), () => {
+                steemConnectTransfer(username, environment.STEEMP_ACCOUNT, `${amount} STEEM`, JSON.stringify(transaction_data), () => {
                     resolve(true);
                 });
             }
