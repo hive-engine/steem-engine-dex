@@ -1,6 +1,5 @@
 import { log } from './log';
 import { AuthService } from './auth-service';
-import { AuthType } from './../common/types';
 import { I18N } from 'aurelia-i18n';
 import { State } from 'store/state';
 import { HttpClient, json } from 'aurelia-fetch-client';
@@ -15,6 +14,7 @@ import steem from 'steem';
 
 import { connectTo } from 'aurelia-store';
 
+import { steemConnectJsonId, steemConnectJson } from 'common/steem';
 import { loadTokens } from 'common/steem-engine';
 
 import { ToastService, ToastMessage } from './toast-service';
@@ -25,10 +25,10 @@ import { customJson, requestTransfer } from 'common/keychain';
 @connectTo()
 @autoinject()
 export class SteemEngine {
-    private accountsApi: HttpClient;
-    private http: HttpClient;
+    public accountsApi: HttpClient;
+    public http: HttpClient;
     public ssc;
-    private state: State;
+    public state: State;
 
     public user = {
         name: '',
@@ -42,7 +42,7 @@ export class SteemEngine {
     public tokens = [];
     public scotTokens = {};
     public steemPrice = 0;
-    private _sc_callback;
+    public _sc_callback;
 
     constructor(
         @lazy(HttpClient) private getHttpClient: () => HttpClient,
@@ -204,46 +204,6 @@ export class SteemEngine {
         //dispatchify(logout)();
     }
 
-    async steemConnectJson(auth_type: AuthType, data: any, callback) {
-        const username = localStorage.getItem('username');
-
-        let url = 'https://steemconnect.com/sign/custom-json?';
-
-        if (auth_type == 'active') {
-            url += 'required_posting_auths=' + encodeURI('[]');
-            url += '&required_auths=' + encodeURI('["' + username + '"]');
-        } else {
-            url += 'required_posting_auths=' + encodeURI('["' + username + '"]');
-        }
-
-        url += '&id=' + environment.CHAIN_ID;
-        url += '&json=' + encodeURI(JSON.stringify(data));
-
-        popupCenter(url, 'steemconnect', 500, 560);
-
-        this._sc_callback = callback;
-    }
-
-    async steemConnectJsonId(auth_type: AuthType, id: string, data: any, callback) {
-        const username = this.user.name;
-
-        let url = 'https://steemconnect.com/sign/custom-json?';
-
-        if (auth_type == 'active') {
-            url += 'required_posting_auths=' + encodeURI('[]');
-            url += '&required_auths=' + encodeURI('["' + username + '"]');
-        } else {
-            url += 'required_posting_auths=' + encodeURI('["' + username + '"]');
-        }
-
-        url += '&id=' + id;
-        url += '&json=' + encodeURI(JSON.stringify(data));
-
-        popupCenter(url, 'steemconnect', 500, 560);
-
-        this._sc_callback = callback;
-    }
-
     steemConnectTransfer(from: string, to: string, amount: string, memo: string, callback: any) {
         let url = 'https://steemconnect.com/sign/transfer?';
 		url += '&from=' + encodeURI(from);
@@ -346,7 +306,7 @@ export class SteemEngine {
 
             }
         } else {
-            this.steemConnectJsonId('posting', 'scot_claim_token', claimData, () => {
+            steemConnectJsonId(this.user.name, 'posting', 'scot_claim_token', claimData, () => {
                 // Hide loading
             });
         }
@@ -391,7 +351,7 @@ export class SteemEngine {
                 // Hide loading
             }
         } else {
-            this.steemConnectJson('active', transaction_data, () => {
+            steemConnectJson(this.user.name, 'active', transaction_data, () => {
                 // Hide loading
 
                 // Hide dialog
@@ -437,7 +397,7 @@ export class SteemEngine {
                 // Hide loading
             }
         } else {
-            this.steemConnectJson('active', transaction_data, () => {
+            steemConnectJson(this.user.name, 'active', transaction_data, () => {
                 // Hide loading
 
                 // Hide dialog
@@ -483,7 +443,7 @@ export class SteemEngine {
                 // Hide loading
             }
         } else {
-            this.steemConnectJson('active', transaction_data, () => {
+            steemConnectJson(this.user.name, 'active', transaction_data, () => {
                 // Hide loading
 
                 // Hide dialog
@@ -528,7 +488,7 @@ export class SteemEngine {
                 // Hide loading
             }
         } else {
-            this.steemConnectJson('active', transaction_data, () => {
+            steemConnectJson(this.user.name, 'active', transaction_data, () => {
                 // Hide loading
 
                 // Hide dialog
@@ -636,7 +596,7 @@ export class SteemEngine {
                 }
               });
             } else {
-                this.steemConnectJson('active', transaction_data, () => {
+                steemConnectJson(this.user.name, 'active', transaction_data, () => {
 
                 });
             }
@@ -791,7 +751,7 @@ export class SteemEngine {
                     }
                 });
             } else {
-                this.steemConnectJson('active', transaction_data, () => {
+                steemConnectJson(this.user.name, 'active', transaction_data, () => {
 
                 });
             }
@@ -858,7 +818,7 @@ export class SteemEngine {
                     }
                 });
             } else {
-                this.steemConnectJson('active', transaction_data, () => {
+                steemConnectJson(this.user.name, 'active', transaction_data, () => {
 
                 });
             }
@@ -993,7 +953,7 @@ export class SteemEngine {
                 });
             }
         } else {
-            this.steemConnectJson('active', transaction_data, () => {
+            steemConnectJson(this.user.name, 'active', transaction_data, () => {
                 return true;
             });
         }
