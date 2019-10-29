@@ -1,16 +1,16 @@
 import { AuthService } from './../../src/services/auth-service';
-import { ToastService } from './../../src/services/toast-service';
 import { I18N } from 'aurelia-i18n';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { HttpClient } from 'aurelia-fetch-client';
 import { Container } from 'aurelia-framework';
 import { SteemEngine } from 'services/steem-engine';
+import * as functions from 'common/functions';
 
 jest.mock('sscjs');
 jest.mock('steem');
 
 describe('Steem Engine Service', () => {
-    let sut;
+    let sut: SteemEngine;
     let mockHttp = () => Container.instance.get(HttpClient);
     let mockEa = Container.instance.get(EventAggregator);
     let mockI18n = Container.instance.get(I18N);
