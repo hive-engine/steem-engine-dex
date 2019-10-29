@@ -19,8 +19,8 @@ import { loadTokens } from 'common/steem-engine';
 
 import { ToastService, ToastMessage } from './toast-service';
 import { queryParam, popupCenter, formatSteemAmount } from 'common/functions';
-import { SteemKeychain } from './steem-keychain';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { customJson, requestTransfer } from 'common/keychain';
 
 @connectTo()
 @autoinject()
@@ -49,7 +49,6 @@ export class SteemEngine {
         private ea: EventAggregator,
         private i18n: I18N,
         private toast: ToastService,
-        private keychain: SteemKeychain,
         private authService: AuthService) {
         this.accountsApi = getHttpClient();
         this.http = getHttpClient();
@@ -362,8 +361,8 @@ export class SteemEngine {
 			symbol
         };
         
-        if (this.keychain.useKeychain) {
-            const response = await this.keychain.customJson(username, 'scot_claim_token', 'Posting', JSON.stringify(claimData),`Claim ${calculated} ${symbol.toUpperCase()} Tokens`);
+        if (window && window.steem_keychain) {
+            const response = await customJson(username, 'scot_claim_token', 'Posting', JSON.stringify(claimData),`Claim ${calculated} ${symbol.toUpperCase()} Tokens`);
             
             if (response.success && response.result) {
 
@@ -395,8 +394,8 @@ export class SteemEngine {
             }
         };
 
-        if (this.keychain.useKeychain) {
-            const response = await this.keychain.customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Enable Token Staking');
+        if (window && window.steem_keychain) {
+            const response = await customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Enable Token Staking');
 
             if (response.success && response.result) {
                 this.checkTransaction(response.result.id, 3, tx => {
@@ -441,8 +440,8 @@ export class SteemEngine {
             }
         };
         
-        if (this.keychain.useKeychain) {
-            const response = await this.keychain.customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Stake Token');
+        if (window && window.steem_keychain) {
+            const response = await customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Stake Token');
 
             if (response.success && response.result) {
                 this.checkTransaction(response.result.id, 3, tx => {
@@ -487,8 +486,8 @@ export class SteemEngine {
             }
         };
         
-        if (this.keychain.useKeychain) {
-            const response = await this.keychain.customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Unstake Tokens');
+        if (window && window.steem_keychain) {
+            const response = await customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Unstake Tokens');
 
             if (response.success && response.result) {
                 this.checkTransaction(response.result.id, 3, tx => {
@@ -532,8 +531,8 @@ export class SteemEngine {
             }
         };
         
-        if (this.keychain.useKeychain) {
-            const response = await this.keychain.customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Cancel Unstake Tokens');
+        if (window && window.steem_keychain) {
+            const response = await customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Cancel Unstake Tokens');
 
             if (response.success && response.result) {
                 this.checkTransaction(response.result.id, 3, tx => {
@@ -982,7 +981,7 @@ export class SteemEngine {
         };
 
         if (window.steem_keychain) {
-            const withdraw = await this.keychain.customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Withdraw STEEM');
+            const withdraw = await customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Withdraw STEEM');
 
             if (withdraw && withdraw.success && withdraw.result) {
                 this.checkTransaction(withdraw.result.id, 3, tx => {
@@ -1036,7 +1035,7 @@ export class SteemEngine {
             };
     
             if (window.steem_keychain) {
-                const deposit = await this.keychain.requestTransfer(username, environment.STEEMP_ACCOUNT, amount, JSON.stringify(transaction_data), 'STEEM');
+                const deposit = await requestTransfer(username, environment.STEEMP_ACCOUNT, amount, JSON.stringify(transaction_data), 'STEEM');
     
                 if (deposit && deposit.success && deposit.result) {
                     this.checkTransaction(deposit.result.id, 3, tx => {

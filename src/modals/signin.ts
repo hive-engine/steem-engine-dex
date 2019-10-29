@@ -1,17 +1,14 @@
 import { Router } from 'aurelia-router';
 import { ToastMessage } from './../services/toast-service';
 import { I18N } from 'aurelia-i18n';
-import { Store, dispatchify } from 'aurelia-store';
+import { dispatchify } from 'aurelia-store';
 import { SteemEngine } from 'services/steem-engine';
 import { DialogController } from 'aurelia-dialog';
 import { autoinject } from 'aurelia-framework';
-import { State } from 'store/state';
-import { pluck } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { environment } from 'environment';
 import { ToastService } from 'services/toast-service';
 import { login } from 'store/actions';
-import { SteemKeychain } from 'services/steem-keychain';
 
 import styles from './signin.module.css';
 
@@ -24,11 +21,20 @@ export class SigninModal {
     private usePrivateKey = false;
     private username;
     private privateKey;
+    private useKeychain = false;
 
-    constructor(private controller: DialogController, private se: SteemEngine, private keychain: SteemKeychain, 
+    constructor(private controller: DialogController, private se: SteemEngine, 
         private i18n: I18N, private router: Router, private toast: ToastService) {
         this.controller.settings.lock = false;
         this.controller.settings.centerHorizontalOnly = true;
+    }
+
+    bind() {
+        if (window && window.steem_keychain) {
+            window.steem_keychain.requestHandshake(() => {
+                this.useKeychain = true;
+            });
+        }
     }
 
     async keychainSignIn() {
