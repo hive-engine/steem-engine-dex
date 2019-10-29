@@ -18,7 +18,7 @@ import { connectTo } from 'aurelia-store';
 import { loadTokens } from 'common/steem-engine';
 
 import { ToastService, ToastMessage } from './toast-service';
-import { queryParam, popupCenter, formatSteemAmount } from 'common/functions';
+import { queryParam, popupCenter, formatSteemAmount, getSteemPrice } from 'common/functions';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { customJson, requestTransfer } from 'common/keychain';
 
@@ -89,28 +89,6 @@ export class SteemEngine {
         return this.http.fetch(url, {
             method: 'GET'
         });
-    }
-
-    async loadSteemPrice() {
-        try {
-            const request = await this.http.fetch('https://postpromoter.net/api/prices', {
-                method: 'GET'
-            });
-    
-            const response = await request.json();
-
-            window.steem_price = parseFloat(response.steem_price);
-
-            this.steemPrice = window.steem_price;
-
-            this.ea.publish('steem:price:updated', window.steem_price);
-    
-            return window.steem_price;
-        } catch {
-            window.steem_price = 0;
-            
-            return 0;
-        }
     }
 
     async login(username: string, key?: string): Promise<any> {
@@ -595,7 +573,7 @@ export class SteemEngine {
             }
 		});
 
-		this.loadSteemPrice().then(() => {
+		getSteemPrice().then(() => {
 			if(++loaded >= 3) {
                 return this.params;
             }
