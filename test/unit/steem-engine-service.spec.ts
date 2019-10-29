@@ -22,6 +22,18 @@ describe('Steem Engine Service', () => {
         jest.clearAllMocks();
 
         sut = new SteemEngine(mockHttp, mockEa, mockI18n, mockToast, mockAuth);
+
+        (global as any).steem_keychain = {
+            requestCustomJson: jest.fn().mockImplementation((username, jsonId, keyType, jsonData, displayName, callback) => {
+                callback(jsonData);
+            }),
+            requestTransfer: jest.fn().mockImplementation((username, account, amount, memo, currency, callback) => {
+                callback(account);
+            }),
+            requestVerifyKey: jest.fn().mockImplementation((username, memo, type, callback) => {
+                callback(username);
+            })
+        }
     });
 
     it('should create defaults', () => {
@@ -62,5 +74,15 @@ describe('Steem Engine Service', () => {
 
         expect(user).toBe('beggars');
     });
+
+    // it ('login with keychain without providing any key', async (done) => {
+    //     try {
+    //         const login = await sut.login('beggars');
+    //     } catch (e) {
+    //         console.log(e);
+    //     } finally {
+    //         done();
+    //     }
+    // });
 
 });
