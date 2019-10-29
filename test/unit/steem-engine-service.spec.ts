@@ -75,6 +75,17 @@ describe('Steem Engine Service', () => {
         expect(user).toBe('beggars');
     });
 
+    it('loadParams makes required SSC calls', async () => {
+        sut.ssc.findOne.mockImplementation((table: string, name: string, {}, callback: any) => {{
+            callback(undefined, { param: 'beggars', param2: 'aggroed' });
+        }})
+
+        const params = await sut.loadParams();
+
+        expect(sut.ssc.findOne).toHaveBeenCalledTimes(2);
+        expect(sut.params).toEqual({ param: 'beggars', param2: 'aggroed' });
+    });
+
     // it ('login with keychain without providing any key', async (done) => {
     //     try {
     //         const login = await sut.login('beggars');
