@@ -21,7 +21,8 @@ export class Select2 {
     attached() {
         this.taskQueue.queueTask(() => {
             $(this.element.querySelector('select')).select2({
-                placeholder: this.placeholder
+                placeholder: this.placeholder,
+                theme: "classic"
             });
     
             $(this.element.querySelector('select')).on('select2:select select2:unselect', event => {
