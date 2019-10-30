@@ -10,15 +10,15 @@
 
         <div class="row">
             <div class="col-12">
-                <table class="table table-transparent" ref="tokenTable">
+                <table class="table table-dark" ref="tokenTable">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th class="no-sort"></th>
                             <th>Symbol</th>
                             <th>Name</th>
                             <th class="text-right">USD Value</th>
                             <th class="text-right">% Chg</th>
-                            <th>Staked</th>
+                            <th if.bind="state.loggedIn">Staked</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -26,14 +26,14 @@
                         <tr repeat.for="token of state.tokens">
                             <td></td>
                             <td>
-                                <button type="button" class="btn btn-icon btn-favourite ${token.isFavourite ? 'active' : ''}" click.delegate="favouriteToken(token)">
+                                <button if.bind="state.loggedIn" type="button" class="btn btn-icon btn-favourite ${token.isFavourite ? 'active' : ''}" click.delegate="favouriteToken(token)">
                                     <font-awesome-icon if.bind="token.isFavourite" icon.bind="['fas', 'star']"></font-awesome-icon>
                                     <font-awesome-icon else icon.bind="['far', 'star']"></font-awesome-icon>
                                 </button>${token.symbol}</td>
                             <td>${token.name}</td>
                             <td class="text-right">${token.usdValue}</td>
                             <td class="text-right">${token.priceChangePercent.toFixed(2)}%</td>
-                            <td>${token.stake >= 0 ? parseFloat(token.stake) : '--'}</td>
+                            <td if.bind="state.loggedIn">${token.stake >= 0 ? parseFloat(token.stake) : '--'}</td>
                             <td class="table-buttons"><a route-href="route: exchange; params.bind: { symbol: token.symbol }">Market</a></td>
                         </tr>
                     </tbody>

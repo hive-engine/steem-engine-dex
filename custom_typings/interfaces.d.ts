@@ -69,3 +69,54 @@ interface IReloadEventData {
     reloadSellBook: boolean;
     reloadTradeHistory: boolean; 
 }
+
+interface IToken {
+    _id: number;
+    circulatingSupply: string;
+    delegationEnabled: boolean;
+    highestBid: number;
+    issuer: string;
+    lastPrice: number;
+    lowestAsk: number;
+    marketCap: number;
+    maxSupply: number;
+    metadata: {
+        desc: string;
+        icon: string;
+        url: string;
+        hide_in_market?: boolean;
+    } | null;
+    name: string;
+    numberTransactions: number;
+    precision: number;
+    priceChangePercent: number;
+    priceChangeSteem: number;
+    stakingEnabled: boolean;
+    supply: number;
+    symbol: string;
+    totalStaked: string;
+    undelegationCooldown: number;
+    unstakingCooldown: number;
+    usdValue: string;
+    volume: number;
+}
+
+interface IMetric {
+    highestBid: string;
+    lastDayPrice: string;
+    lastDayPriceExpiration: number;
+    lastPrice: string;
+    lowestAsk: string;
+    priceChangePercent: string;
+    priceChangeSteem: string;
+    symbol: string;
+    volume: string;
+    volumeExpiration: number;
+}
+
+interface IBalance {
+    _id: number;
+    account: string;
+    balance: string;
+    symbol: string;
+}

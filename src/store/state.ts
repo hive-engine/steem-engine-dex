@@ -11,7 +11,7 @@ export interface State {
     firebaseUser: any;
     loggedIn: boolean;
     loading: boolean;
-    tokens: any[];
+    tokens: IToken[];
     buyBook: any[];
     sellBook: any[];
     tradeHistory: any[];
