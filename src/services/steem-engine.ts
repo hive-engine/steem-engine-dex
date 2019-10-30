@@ -1,6 +1,5 @@
 import { log } from './log';
 import { AuthService } from './auth-service';
-import { AuthType } from './../common/types';
 import { I18N } from 'aurelia-i18n';
 import { State } from 'store/state';
 import { HttpClient, json } from 'aurelia-fetch-client';
@@ -16,19 +15,20 @@ import steem from 'steem';
 import { connectTo } from 'aurelia-store';
 
 import { loadTokens, loadCoinPairs, loadCoins } from 'common/steem-engine';
+import { steemConnectJsonId, steemConnectJson, getAccount, steemConnectTransfer } from 'common/steem';
 
 import { ToastService, ToastMessage } from './toast-service';
-import { queryParam, popupCenter, formatSteemAmount } from 'common/functions';
-import { SteemKeychain } from './steem-keychain';
+import { queryParam, popupCenter, formatSteemAmount, getSteemPrice } from 'common/functions';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { customJson, requestTransfer } from 'common/keychain';
 
 @connectTo()
 @autoinject()
 export class SteemEngine {
-    private accountsApi: HttpClient;
-    private http: HttpClient;
+    public accountsApi: HttpClient;
+    public http: HttpClient;
     public ssc;
-    private state: State;
+    public state: State;
 
     public user = {
         name: '',
@@ -42,14 +42,13 @@ export class SteemEngine {
     public tokens = [];
     public scotTokens = {};
     public steemPrice = 0;
-    private _sc_callback;
+    public _sc_callback;
 
     constructor(
         @lazy(HttpClient) private getHttpClient: () => HttpClient,
         private ea: EventAggregator,
         private i18n: I18N,
         private toast: ToastService,
-        private keychain: SteemKeychain,
         private authService: AuthService) {
         this.accountsApi = getHttpClient();
         this.http = getHttpClient();
@@ -90,28 +89,6 @@ export class SteemEngine {
         return this.http.fetch(url, {
             method: 'GET'
         });
-    }
-
-    async loadSteemPrice() {
-        try {
-            const request = await this.http.fetch('https://postpromoter.net/api/prices', {
-                method: 'GET'
-            });
-    
-            const response = await request.json();
-
-            window.steem_price = parseFloat(response.steem_price);
-
-            this.steemPrice = window.steem_price;
-
-            this.ea.publish('steem:price:updated', window.steem_price);
-    
-            return window.steem_price;
-        } catch {
-            window.steem_price = 0;
-            
-            return 0;
-        }
     }
 
     async login(username: string, key?: string): Promise<any> {
@@ -166,7 +143,7 @@ export class SteemEngine {
                 }
     
                 try {
-                    const user = await steem.api.getAccountsAsync([username]);
+                    const user = await getAccount(username);
     
                     if (user && user.length > 0) {
                         try {
@@ -225,67 +202,6 @@ export class SteemEngine {
     logout() {
         firebase.auth().signOut();
         //dispatchify(logout)();
-    }
-
-    async steemConnectJson(auth_type: AuthType, data: any, callback) {
-        const username = localStorage.getItem('username');
-
-        let url = 'https://steemconnect.com/sign/custom-json?';
-
-        if (auth_type == 'active') {
-            url += 'required_posting_auths=' + encodeURI('[]');
-            url += '&required_auths=' + encodeURI('["' + username + '"]');
-        } else {
-            url += 'required_posting_auths=' + encodeURI('["' + username + '"]');
-        }
-
-        url += '&id=' + environment.CHAIN_ID;
-        url += '&json=' + encodeURI(JSON.stringify(data));
-
-        popupCenter(url, 'steemconnect', 500, 560);
-
-        this._sc_callback = callback;
-    }
-
-    async steemConnectJsonId(auth_type: AuthType, id: string, data: any, callback) {
-        const username = this.user.name;
-
-        let url = 'https://steemconnect.com/sign/custom-json?';
-
-        if (auth_type == 'active') {
-            url += 'required_posting_auths=' + encodeURI('[]');
-            url += '&required_auths=' + encodeURI('["' + username + '"]');
-        } else {
-            url += 'required_posting_auths=' + encodeURI('["' + username + '"]');
-        }
-
-        url += '&id=' + id;
-        url += '&json=' + encodeURI(JSON.stringify(data));
-
-        popupCenter(url, 'steemconnect', 500, 560);
-
-        this._sc_callback = callback;
-    }
-
-    steemConnectTransfer(from: string, to: string, amount: string, memo: string, callback: any) {
-        let url = 'https://steemconnect.com/sign/transfer?';
-		url += '&from=' + encodeURI(from);
-		url += '&to=' + encodeURI(to);
-		url += '&amount=' + encodeURI(amount);
-		url += '&memo=' + encodeURI(memo);
-
-		popupCenter(url, 'steemconnect', 500, 560);
-		window._sc_callback = callback;
-    }
-
-    async getAccount(username: string) {
-        try {
-            const user = await steem.api.getAccountsAsync([username]); 
-        
-            return user && user.length > 0 ? user[0] : null;
-        } catch (e) {
-            throw new Error(e);
-        }
     }
 
     async loadPendingUnstakes(account) {
@@ -362,14 +278,14 @@ export class SteemEngine {
 			symbol
         };
         
-        if (this.keychain.useKeychain) {
-            const response = await this.keychain.customJson(username, 'scot_claim_token', 'Posting', JSON.stringify(claimData),`Claim ${calculated} ${symbol.toUpperCase()} Tokens`);
+        if (window && window.steem_keychain) {
+            const response = await customJson(username, 'scot_claim_token', 'Posting', JSON.stringify(claimData),`Claim ${calculated} ${symbol.toUpperCase()} Tokens`);
             
             if (response.success && response.result) {
 
             }
         } else {
-            this.steemConnectJsonId('posting', 'scot_claim_token', claimData, () => {
+            steemConnectJsonId(this.user.name, 'posting', 'scot_claim_token', claimData, () => {
                 // Hide loading
             });
         }
@@ -395,8 +311,8 @@ export class SteemEngine {
             }
         };
 
-        if (this.keychain.useKeychain) {
-            const response = await this.keychain.customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Enable Token Staking');
+        if (window && window.steem_keychain) {
+            const response = await customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Enable Token Staking');
 
             if (response.success && response.result) {
                 this.checkTransaction(response.result.id, 3, tx => {
@@ -414,7 +330,7 @@ export class SteemEngine {
                 // Hide loading
             }
         } else {
-            this.steemConnectJson('active', transaction_data, () => {
+            steemConnectJson(this.user.name, 'active', transaction_data, () => {
                 // Hide loading
 
                 // Hide dialog
@@ -441,8 +357,8 @@ export class SteemEngine {
             }
         };
         
-        if (this.keychain.useKeychain) {
-            const response = await this.keychain.customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Stake Token');
+        if (window && window.steem_keychain) {
+            const response = await customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Stake Token');
 
             if (response.success && response.result) {
                 this.checkTransaction(response.result.id, 3, tx => {
@@ -460,7 +376,7 @@ export class SteemEngine {
                 // Hide loading
             }
         } else {
-            this.steemConnectJson('active', transaction_data, () => {
+            steemConnectJson(this.user.name, 'active', transaction_data, () => {
                 // Hide loading
 
                 // Hide dialog
@@ -487,8 +403,8 @@ export class SteemEngine {
             }
         };
         
-        if (this.keychain.useKeychain) {
-            const response = await this.keychain.customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Unstake Tokens');
+        if (window && window.steem_keychain) {
+            const response = await customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Unstake Tokens');
 
             if (response.success && response.result) {
                 this.checkTransaction(response.result.id, 3, tx => {
@@ -506,7 +422,7 @@ export class SteemEngine {
                 // Hide loading
             }
         } else {
-            this.steemConnectJson('active', transaction_data, () => {
+            steemConnectJson(this.user.name, 'active', transaction_data, () => {
                 // Hide loading
 
                 // Hide dialog
@@ -532,8 +448,8 @@ export class SteemEngine {
             }
         };
         
-        if (this.keychain.useKeychain) {
-            const response = await this.keychain.customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Cancel Unstake Tokens');
+        if (window && window.steem_keychain) {
+            const response = await customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Cancel Unstake Tokens');
 
             if (response.success && response.result) {
                 this.checkTransaction(response.result.id, 3, tx => {
@@ -551,7 +467,7 @@ export class SteemEngine {
                 // Hide loading
             }
         } else {
-            this.steemConnectJson('active', transaction_data, () => {
+            steemConnectJson(this.user.name, 'active', transaction_data, () => {
                 // Hide loading
 
                 // Hide dialog
@@ -596,7 +512,7 @@ export class SteemEngine {
             }
 		});
 
-		this.loadSteemPrice().then(() => {
+		getSteemPrice().then(() => {
 			if(++loaded >= 3) {
                 return this.params;
             }
@@ -659,7 +575,7 @@ export class SteemEngine {
                 }
               });
             } else {
-                this.steemConnectJson('active', transaction_data, () => {
+                steemConnectJson(this.user.name, 'active', transaction_data, () => {
 
                 });
             }
@@ -814,7 +730,7 @@ export class SteemEngine {
                     }
                 });
             } else {
-                this.steemConnectJson('active', transaction_data, () => {
+                steemConnectJson(this.user.name, 'active', transaction_data, () => {
 
                 });
             }
@@ -881,7 +797,7 @@ export class SteemEngine {
                     }
                 });
             } else {
-                this.steemConnectJson('active', transaction_data, () => {
+                steemConnectJson(this.user.name, 'active', transaction_data, () => {
 
                 });
             }
@@ -982,7 +898,7 @@ export class SteemEngine {
         };
 
         if (window.steem_keychain) {
-            const withdraw = await this.keychain.customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Withdraw STEEM');
+            const withdraw = await customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Withdraw STEEM');
 
             if (withdraw && withdraw.success && withdraw.result) {
                 this.checkTransaction(withdraw.result.id, 3, tx => {
@@ -1016,7 +932,7 @@ export class SteemEngine {
                 });
             }
         } else {
-            this.steemConnectJson('active', transaction_data, () => {
+            steemConnectJson(this.user.name, 'active', transaction_data, () => {
                 return true;
             });
         }
@@ -1036,7 +952,7 @@ export class SteemEngine {
             };
     
             if (window.steem_keychain) {
-                const deposit = await this.keychain.requestTransfer(username, environment.STEEMP_ACCOUNT, amount, JSON.stringify(transaction_data), 'STEEM');
+                const deposit = await requestTransfer(username, environment.STEEMP_ACCOUNT, amount, JSON.stringify(transaction_data), 'STEEM');
     
                 if (deposit && deposit.success && deposit.result) {
                     this.checkTransaction(deposit.result.id, 3, tx => {
@@ -1074,7 +990,7 @@ export class SteemEngine {
                     return resolve(false);
                 }
             } else {
-                this.steemConnectTransfer(username, environment.STEEMP_ACCOUNT, `${amount} STEEM`, JSON.stringify(transaction_data), () => {
+                steemConnectTransfer(username, environment.STEEMP_ACCOUNT, `${amount} STEEM`, JSON.stringify(transaction_data), () => {
                     resolve(true);
                 });
             }

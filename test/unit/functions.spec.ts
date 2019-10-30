@@ -1,4 +1,4 @@
-import { addCommas, usdFormat, largeNumber, formatSteemAmount, percentageOf, getSteemPrice, queryParam } from 'common/functions';
+import { addCommas, usdFormat, largeNumber, formatSteemAmount, percentageOf, getSteemPrice, queryParam, popupCenter, tryParse } from 'common/functions';
 
 describe('Functions', () => {
 
@@ -12,6 +12,7 @@ describe('Functions', () => {
 
         expect(returnedValue).toEqual('val1=123&value-two=gsdgsdg&goose=undefined');
     });
+
     it('queryParam should create params with array', () => {
         const returnedValue = queryParam({ val1: 123, 'val2': ['aggroed', 'beggars']});
 
@@ -138,6 +139,26 @@ describe('Functions', () => {
         const returnedValue = await getSteemPrice();
 
         expect(returnedValue).toEqual(0);
+    });
+
+    it('popupCenter works with valid values', () => {
+        (window as any).open = jest.fn().mockImplementation((url?: string, target?: string, features?: string, replace?: boolean) => {
+            return {
+                focus: jest.fn()
+            }
+        });
+        
+        const returnedValue = popupCenter('https://steemconnect.com', 'Testing', '100px', '300px');
+
+        expect(returnedValue).toEqual({ focus: expect.any(Function) });
+    });
+
+    it('tryParse should parse valid JSON string', () => {
+        expect(tryParse('{ "params": "test" }')).toEqual({ "params": "test" });
+    });
+    
+    it('tryParse should return null for invalid JSON string', () => {
+        expect(tryParse('invalid value')).toBeNull();
     });
 
 });
