@@ -66,11 +66,11 @@ export async function loadCoins(): Promise<ICoin[]> {
 
 export async function loadTokens(): Promise<any[]> {
     return new Promise((resolve) => {
-        ssc.find('tokens', 'tokens', { }, 1000, 0, [], (err, result: IsscToken[]) => {
+        ssc.find('tokens', 'tokens', { }, 1000, 0, [], (err, result: IToken[]) => {
 
             const tokens = result.filter(t => !environment.DISABLED_TOKENS.includes(t.symbol));
 
-            ssc.find('market', 'metrics', { }, 1000, 0, '', false).then(async (metrics: IsscMetric[]) => {
+            ssc.find('market', 'metrics', { }, 1000, 0, '', false).then(async (metrics: IMetric[]) => {
                 for (const token of tokens) {
                     token.highestBid = 0;
                     token.lastPrice = 0;
@@ -127,7 +127,7 @@ export async function loadTokens(): Promise<any[]> {
                     return (b.volume > 0 ? b.volume : b.marketCap / 1000000000) - (a.volume > 0 ? a.volume : a.marketCap / 1000000000);
                 });
 
-                const steemp_balance = await ssc.findOne('tokens', 'balances', { account: 'steem-peg', symbol: 'STEEMP' });
+                const steemp_balance = await ssc.findOne('tokens', 'balances', { account: 'steem-peg', symbol: 'STEEMP' }) as IBalance;
 
                 if (steemp_balance && steemp_balance.balance) {
                     const token = tokens.find(t => t.symbol === 'STEEMP');

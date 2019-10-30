@@ -45,7 +45,7 @@ export class Tokens {
         this.taskQueue.queueTask(() => {
             token.isFavourite = !token.isFavourite;
 
-            this.state.tokens.forEach(t => {
+            this.state.tokens.forEach((t: any) => {
                 if (t.isFavourite && !this.state.firebaseUser.favourites.includes(t.symbol)) {
                     this.state.firebaseUser.favourites.push(t.symbol);
                 } else if (!t.isFavourite && this.state.firebaseUser.favourites.includes(t.symbol)) {
