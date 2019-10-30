@@ -1,7 +1,11 @@
-import { request, loadTokenMarketHistory } from 'common/steem-engine';
+import { request, loadTokenMarketHistory, loadTokens } from 'common/steem-engine';
+import { ssc } from 'common/ssc';
 
 jest.mock('sscjs');
 jest.mock('steem');
+
+import tokensData from './mock-data/tokens';
+import metricsData from './mock-data/metrics';
 
 describe('Functions', () => {
 
@@ -54,6 +58,29 @@ describe('Functions', () => {
         const request = fetchMock.mock.calls[0][0][symbols[1]];
 
         expect(request.parsedURL).toMatchObject({path: `/history/marketHistory?symbol=${symbol}&timestampEnd=123456`});
+    });
+
+    it('loadTokens method should return tokens', async () => {
+        ssc.find.mockImplementation((table: string, name: string, {}, num1, num2, str, callback: any) => {{
+            if (table === 'tokens' && name === 'tokens') {
+                const tokens: IToken[] = tokensData as IToken[];
+
+                callback(undefined, tokens);
+            } else if (table === 'market' && name === 'metrics') {
+                const metrics: IMetric[] = metricsData as IMetric[];
+
+                return Promise.resolve(metrics);
+            }
+        }});
+
+        window.steem_price = 0.13694137258356862;
+
+        const tokens = await loadTokens();
+        const steempPreparsed = tokensData.find(t => t.symbol === 'ENG') as IToken;
+        const steempToken = tokens.find(t => t.symbol === 'ENG') as IToken;
+
+        expect(steempPreparsed.marketCap).toEqual(steempToken.marketCap);
+        expect(steempToken.usdValue).toBe('$0.116');
     });
 
 });
