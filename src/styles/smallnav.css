@@ -20,6 +20,8 @@
 @media only screen and (max-width: 468px) {
     .tab a {
         font-size: 8px;
+        padding: 0 5px 0 5px;
+        width: 20%;
     }
     .col-md-4 {
         margin-bottom: 14px;

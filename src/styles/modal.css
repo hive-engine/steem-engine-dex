@@ -8,8 +8,8 @@ ux-dialog-overlay {
 }
 
 ux-dialog-overlay.active {
-    background-color: #1F1F1F;
-    opacity: .8;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 1;
 }
 
 ux-dialog-container {
@@ -23,15 +23,16 @@ ux-dialog-container {
     margin: auto;
     outline: 0;
     width: 300px;
+    box-shadow: 0 20px 60px -2px rgba(27, 33, 58, 0.4) !important;
 }
 ux-dialog {
-    color: #FFF;
+    color: #000;
     display: table;
-    box-shadow: none;
+    box-shadow: 0 20px 60px -2px rgba(27, 33, 58, 0.4) !important;
     border: none;
     border-radius: 5px;
     padding: 0;
-    width: 95%;
+    width: 100%;
     height: fit-content;
     margin: auto;
     border-image-source: initial;
@@ -39,11 +40,16 @@ ux-dialog {
     border-image-width: initial;
     border-image-outset: initial;
     border-image-repeat: initial;
-    background: #003E49;
+    background: #fff;
 }
 ux-dialog > ux-dialog-header {
-    background: linear-gradient(280deg, #160033 0%, #008b80 51.72%, #00323e 100%);
-    color: #FFF;
+    background: linear-gradient(
+        280deg,
+        #0048b3 0%,
+        #a1b9e7 511.72%,
+        #0048b3 100%
+    );
+    color: #fff;
     display: block;
     font-size: 22px;
     font-weight: 300;
@@ -63,7 +69,7 @@ ux-dialog > ux-dialog-header h2 {
 ux-dialog > ux-dialog-header > button {
     float: right;
     border: none;
-    color: #FFF;
+    color: #fff;
     display: block;
     width: 32px;
     height: 32px;
@@ -82,10 +88,14 @@ ux-dialog > ux-dialog-header > button:focus {
 ux-dialog > ux-dialog-body {
     display: block;
     padding: 16px;
+    background: url("../images/se-standalone.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 ux-dialog > ux-dialog-body a {
-    color: #FFF;
+    color: #0048b3;
 }
 
 ux-dialog > ux-dialog-footer {
@@ -97,7 +107,39 @@ ux-dialog > ux-dialog-footer {
 ux-dialog > ux-dialog-footer button {
     margin-right: 15px;
 }
+.greenBtns {
+    margin-top: 0;
+    width: 30%;
 
+    padding: 0 !important;
+    background-color: #21be3d;
+    color: #fff !important;
+    font-weight: bold;
+    font-family: main-font-bold !important;
+    font-size: 16px;
+    line-height: 2.5;
+    border-radius: 0.25rem;
+    min-width: 76px;
+    display: inline-block;
+}
+.greenBtns:hover {
+    background-color: #1eac38;
+}
+.redBtn {
+    margin-top: 0;
+    padding: 0 !important;
+    background-color: #ca0505 !important;
+    color: #fff !important;
+    font-weight: bold;
+    font-family: main-font-bold !important;
+    font-size: 16px;
+    line-height: 2.5;
+    border-radius: 0.25rem;
+    min-width: 76px;
+}
+.redBtn:hover {
+    background-color: #e42020 !important;
+}
 ux-dialog > ux-dialog-footer button:last-child {
     margin-right: 0;
 }
@@ -119,5 +161,15 @@ ux-dialog > ux-dialog-footer button:last-child {
 
 .ux-dialog-open .note,
 .ux-dialog-open .note p {
-    color: #fff;
+    color: #0048b3;
+}
+
+.input-group-append {
+    padding-top: 6px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: -1px;
+    background: lightgray;
+    color: black;
+    min-width: 50px;
 }
