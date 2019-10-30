@@ -66,6 +66,7 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma} = 
         app: ['aurelia-bootstrapper']
     },
     mode: production ? 'production' : 'development',
+    stats: 'errors-only',
     output: {
         path: outDir,
         publicPath: baseUrl,
