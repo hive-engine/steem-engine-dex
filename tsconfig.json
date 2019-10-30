@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2018",
     "module": "esnext",
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
