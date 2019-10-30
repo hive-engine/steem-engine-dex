@@ -66,10 +66,11 @@ export async function loadCoins(): Promise<ICoin[]> {
 
 export async function loadTokens(): Promise<any[]> {
     return new Promise((resolve) => {
-        ssc.find('tokens', 'tokens', { }, 1000, 0, [], (err, result) => {
+        ssc.find('tokens', 'tokens', { }, 1000, 0, [], (err, result: IsscToken[]) => {
+
             const tokens = result.filter(t => !environment.DISABLED_TOKENS.includes(t.symbol));
 
-            ssc.find('market', 'metrics', { }, 1000, 0, '', false).then(async (metrics) => {
+            ssc.find('market', 'metrics', { }, 1000, 0, '', false).then(async (metrics: IsscMetric[]) => {
                 for (const token of tokens) {
                     token.highestBid = 0;
                     token.lastPrice = 0;
@@ -82,7 +83,11 @@ export async function loadTokens(): Promise<any[]> {
                     token.metadata = tryParse(token.metadata);
 
                     if (!token.metadata) {
-                        token.metadata = {};
+                        token.metadata = {
+                            desc: '',
+                            icon: '',
+                            url: ''
+                        };
                     }
 
                     if (!metrics) {
@@ -95,14 +100,14 @@ export async function loadTokens(): Promise<any[]> {
                         token.highestBid = parseFloat(metric.highestBid);
                         token.lastPrice = parseFloat(metric.lastPrice);
                         token.lowestAsk = parseFloat(metric.lowestAsk);
-                        token.marketCap = token.lastPrice * token.circulatingSupply;
+                        token.marketCap = token.lastPrice * parseFloat(token.circulatingSupply);
                         token.usdValue = usdFormat(token.lastPrice);
                         
                         if (Date.now() / 1000 < metric.volumeExpiration) {
                             token.volume = parseFloat(metric.volume);
                         }
 
-                        if(Date.now() / 1000 < metric.lastDayPriceExpiration) {
+                        if (Date.now() / 1000 < metric.lastDayPriceExpiration) {
                             token.priceChangePercent = parseFloat(metric.priceChangePercent);
                             token.priceChangeSteem = parseFloat(metric.priceChangeSteem);
                         }
@@ -128,14 +133,14 @@ export async function loadTokens(): Promise<any[]> {
                     const token = tokens.find(t => t.symbol === 'STEEMP');
 
                     token.supply -= parseFloat(steemp_balance.balance);
-                    token.circulatingSupply -= parseFloat(steemp_balance.balance);
+                    (token as any).circulatingSupply -= parseFloat(steemp_balance.balance);
                 }
 
                 if (steemp_balance && steemp_balance.balance) {
                     const token = tokens.find(t => t.symbol === 'STEEMP');
 
                     token.supply -= parseFloat(steemp_balance.balance);
-                    token.circulatingSupply -= parseFloat(steemp_balance.balance);
+                    (token as any).circulatingSupply -= parseFloat(steemp_balance.balance);
                 }
 
                 resolve(tokens);
