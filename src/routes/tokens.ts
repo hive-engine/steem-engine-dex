@@ -6,9 +6,12 @@ import firebase from 'firebase/app';
 import { connectTo, dispatchify } from 'aurelia-store';
 import { loadTokensList, getCurrentFirebaseUser } from 'store/actions';
 
+import styles from './tokens.module.css';
+
 @autoinject()
 @connectTo()
 export class Tokens {
+    private styles = styles;
     private tokenTable: HTMLTableElement;
     private state: State;
 
