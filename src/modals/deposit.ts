@@ -11,12 +11,17 @@ export class DepositModal {
     private token: any = null;
     private depositInfo: any = null;
     private loading = false;
+    private tokenList = [];
     
     private amount = '0.000';
 
     constructor(private controller: DialogController, private se: SteemEngine, private taskQueue: TaskQueue) {
         this.controller.settings.lock = false;
-        this.controller.settings.centerHorizontalOnly = true;
+        this.controller.settings.centerHorizontalOnly = true;        
+    }
+
+    async activate() {        
+        this.tokenList = await this.se.getTokenPairs();
     }
 
     tokenSelected() {

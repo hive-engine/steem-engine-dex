@@ -11,6 +11,7 @@
             </p>
 
             <div class="form-group" if.bind="!token">
+
                 <select
                     class="form-control"
                     value.bind="token"
@@ -24,6 +25,7 @@
                         repeat.for="t of environment.PEGGED_TOKENS"
                         >${t.name & t} (${t.symbol})</option
                     >
+
                 </select>
             </div>
 

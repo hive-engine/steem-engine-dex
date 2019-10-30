@@ -63,6 +63,10 @@ export function setTokens(state: State, tokens: any[]): State {
 export async function getCurrentFirebaseUser(state: State): Promise<State> {
     const newState = { ...state };
 
+    if (!newState.loggedIn) {
+        return newState;
+    }
+
     try {
         const doc = await firebase
             .firestore()
@@ -97,6 +101,10 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
 
 export async function loadAccountBalances(state: State): Promise<State> {
     const newState = { ...state };
+
+    if (!newState.loggedIn) {
+        return newState;
+    }
 
     try {
         newState.account.balances = await loadBalances(newState.account.name);

@@ -17,10 +17,12 @@
                 />
             </div>
 
+
             <div
                 class="form-group"
                 if.bind="!keychain.useKeychain || usePrivateKey"
             >
+
                 <input
                     type="text"
                     class="form-control auth-input"
@@ -29,6 +31,7 @@
                     placeholder="Active Key"
                 />
             </div>
+
 
             <template if.bind="keychain.useKeychain">
                 <button
@@ -54,6 +57,7 @@
                 >
                     ${'Sign In Using Private Key' & t}
                 </button>
+
             </template>
         </ux-dialog-body>
 

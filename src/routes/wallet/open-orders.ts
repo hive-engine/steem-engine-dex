@@ -1,3 +1,4 @@
+import { getUserOpenOrders, cancelMarketOrder } from 'common/market';
 import { Redirect } from 'aurelia-router';
 import { observable } from 'aurelia-binding';
 import { SteemEngine } from 'services/steem-engine';
@@ -16,7 +17,7 @@ export class OpenOrders {
         this.loadingOpenOrders = true;
 
         try {            
-            this.orders = await this.se.getUserOpenOrders();
+            this.orders = await getUserOpenOrders(this.se.getUser());
             console.log(this.orders);
         } catch {
             return false;
@@ -26,6 +27,6 @@ export class OpenOrders {
     }
 
     async cancelOrder(type: string, txId: string, symbol: string) {
-        const order = await this.se.cancelMarketOrder(type, txId, symbol);
+        const order = await cancelMarketOrder(this.se.getUser(), type, txId, symbol);
     }
 }

@@ -1,39 +1,36 @@
-import { I18N } from "aurelia-i18n";
-import { ToastMessage, ToastService } from "../../services/toast-service";
-import { BootstrapFormRenderer } from "../../resources/bootstrap-form-renderer";
-import { SteemEngine } from "../../services/steem-engine";
-import { autoinject, computedFrom, observable } from "aurelia-framework";
-import {
-    ValidationControllerFactory,
-    ValidationController,
-    ValidationRules,
-    ControllerValidateResult
-} from "aurelia-validation";
 
-import styles from "./exchange.module.css";
-import { environment } from "environment";
-import moment from "moment";
-import { find, uniq, fill } from "lodash";
+import { I18N } from 'aurelia-i18n';
+import { ToastMessage, ToastService } from '../../services/toast-service';
+import { BootstrapFormRenderer } from '../../resources/bootstrap-form-renderer';
+import { SteemEngine } from '../../services/steem-engine';
+import { autoinject, computedFrom, observable } from 'aurelia-framework';
+import { ValidationControllerFactory, ValidationController, ValidationRules, ControllerValidateResult } from 'aurelia-validation';
 
-import { loadTokenMarketHistory } from "common/steem-engine";
+import styles from './exchange.module.css'
+import { environment } from 'environment';
+import moment from 'moment';
+import { find, uniq, fill } from 'lodash';
 
-import { DepositModal } from "modals/deposit";
-import { WithdrawModal } from "modals/withdraw";
-import { MarketOrderModal } from "modals/market-order";
+import { loadTokenMarketHistory } from 'common/steem-engine';
 
-import { DialogService } from "aurelia-dialog";
-import { percentageOf } from "common/functions";
-import {
-    loadTokensList,
-    loadAccountBalances,
-    loadBuyBook,
-    loadSellBook,
-    loadTradeHistory
-} from "store/actions";
-import { dispatchify } from "aurelia-store";
-import { getStateOnce } from "store/store";
-import * as d3 from "d3";
-import { DateTime } from "luxon";
+import { DepositModal } from 'modals/deposit';
+import { WithdrawModal } from 'modals/withdraw';
+import { MarketOrderModal } from 'modals/market-order';
+
+import { DialogService } from 'aurelia-dialog';
+import { percentageOf } from 'common/functions';
+import { loadTokensList, loadAccountBalances, loadBuyBook, loadSellBook, loadTradeHistory } from 'store/actions';
+import { dispatchify } from 'aurelia-store';
+import { getStateOnce } from 'store/store';
+import * as d3 from 'd3';
+import { DateTime } from 'luxon';
+import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
+
+interface IOrderDataDisplay {
+    labels: [];
+    dataset: [];
+}
+
 
 @autoinject()
 export class Exchange {
@@ -46,6 +43,8 @@ export class Exchange {
     private styles = styles;
     private tokenData;
     private chartData: any = {};
+    private eventAggregator: EventAggregator;
+    private subscriber: Subscription;
 
     private userTokenBalance = [];
     private sellBook = [];
@@ -62,6 +61,7 @@ export class Exchange {
 
     private steempBalance = 0;
     private tokenBalance = 0;
+    private orderDataSetLength = 0;
 
     private currentExchangeMode = "buy";
     private bidQuantity = "";
@@ -72,12 +72,13 @@ export class Exchange {
         private dialogService: DialogService,
         private i18n: I18N,
         private controllerFactory: ValidationControllerFactory,
-        private toast: ToastService
-    ) {
+        private toast: ToastService,
+        private ea: EventAggregator) {
         this.controller = controllerFactory.createForCurrentScope();
-
+       
         this.renderer = new BootstrapFormRenderer();
         this.controller.addRenderer(this.renderer);
+        this.eventAggregator = ea;
     }
 
     async activate({ symbol }) {
@@ -99,89 +100,100 @@ export class Exchange {
 
         if (state.sellBook.length) {
             this.bestSellPrice = state.sellBook[0];
-        }
+        }        
 
-        this.buyBook = state.buyBook;
-        this.sellBook = state.sellBook;
+        const buyOrderDisplayData = await this.loadBuyOrders(state);
+        const sellOrderDisplayData = await this.loadSellOrders(state);
+
+
+        await this.loadTokenHistoryData(state, buyOrderDisplayData, sellOrderDisplayData);     
+    }   
+
+    async loadTokenHistoryData(state, buyOrderDisplayData, sellOrderDisplayData) {
         this.tradeHistory = state.tradeHistory;
 
-        let buyOrderLabels = uniq(this.buyBook.map(o => parseFloat(o.price)));
-        let buyOrderDataset = [];
-        let buyOrderCurrentVolume = 0;
-        buyOrderLabels.forEach(label => {
-            let matchingBuyOrders = this.buyBook.filter(
-                o => parseFloat(o.price) === label
-            );
-
-            if (matchingBuyOrders.length === 0) {
-                buyOrderDataset.push(null);
-            } else {
-                buyOrderCurrentVolume =
-                    buyOrderCurrentVolume +
-                    matchingBuyOrders.reduce(
-                        (acc, val) => acc + parseFloat(val.quantity),
-                        0
-                    );
-                buyOrderDataset.push(buyOrderCurrentVolume);
-            }
-        });
-        buyOrderLabels.reverse();
-        buyOrderDataset.reverse();
-
-        let sellOrderLabels = uniq(this.sellBook.map(o => parseFloat(o.price)));
-        let sellOrderDataset = fill(Array(buyOrderDataset.length), null);
-        let sellOrderCurrentVolume = 0;
-        sellOrderLabels.forEach(label => {
-            let matchingSellOrders = this.sellBook.filter(
-                o => parseFloat(o.price) === label
-            );
-
-            if (matchingSellOrders.length === 0) {
-                sellOrderDataset.push(null);
-            } else {
-                sellOrderCurrentVolume =
-                    sellOrderCurrentVolume +
-                    matchingSellOrders.reduce(
-                        (acc, val) => acc + parseFloat(val.quantity),
-                        0
-                    );
-                sellOrderDataset.push(sellOrderCurrentVolume);
-            }
-        });
 
         const tokenHistory = await loadTokenMarketHistory(this.currentToken);
         var limitCandleStick = 60;
 
         var candleStickData = tokenHistory.slice(0, limitCandleStick).map(x => {
             return {
-                t: moment.unix(x.timestamp).format("YYYY-MM-DD HH:mm:ss"), //x.timestamp * 1000,
+
+                t: moment.unix(x.timestamp).format('YYYY-MM-DD HH:mm:ss'),//x.timestamp * 1000,
+
                 o: x.openPrice,
                 h: x.highestPrice,
                 l: x.lowestPrice,
                 c: x.closePrice
-            };
+
+            }
+
         });
 
         this.chartData = {
-            labels: buyOrderLabels.concat(sellOrderLabels),
+            labels: buyOrderDisplayData.labels.concat(sellOrderDisplayData.labels),
             datasets: [
                 {
-                    label: "Buy",
-                    steppedLine: "after",
-                    borderColor: "#88e86b",
-                    backgroundColor: "#a9ea96",
-                    data: buyOrderDataset
+
+                    label: 'Buy',
+                    steppedLine: 'after',
+                    borderColor: '#88e86b',
+                    backgroundColor: '#a9ea96',
+                    data: buyOrderDisplayData.dataset
                 },
                 {
-                    label: "Sell",
-                    steppedLine: "before",
-                    borderColor: "#e45858",
-                    backgroundColor: "#e87f7f",
-                    data: sellOrderDataset
+                    label: 'Sell',
+                    steppedLine: 'before',
+                    borderColor: '#e45858',
+                    backgroundColor: '#e87f7f',
+                    data: sellOrderDisplayData.dataset
                 }
             ],
             ohlcData: candleStickData
-        };
+        };   
+    }
+
+    async loadSellOrders(state) {
+        this.sellBook = state.sellBook;
+        let sellOrderLabels = uniq(this.sellBook.map(o => parseFloat(o.price)));
+        let sellOrderDataset = fill(Array(this.orderDataSetLength), null);
+        let sellOrderCurrentVolume = 0;
+        sellOrderLabels.forEach(label => {
+            let matchingSellOrders = this.sellBook.filter(o => parseFloat(o.price) === label);
+
+            if (matchingSellOrders.length === 0) {
+                sellOrderDataset.push(null);
+            } else {
+                sellOrderCurrentVolume = sellOrderCurrentVolume + matchingSellOrders.reduce((acc, val) => acc + parseFloat(val.quantity), 0);
+                sellOrderDataset.push(sellOrderCurrentVolume);
+            }
+        });
+
+        return <IOrderDataDisplay>{ dataset: sellOrderDataset, labels: sellOrderLabels };
+    }
+
+    async loadBuyOrders(state) {
+        this.buyBook = state.buyBook;
+
+        let buyOrderLabels = uniq(this.buyBook.map(o => parseFloat(o.price)));
+        let buyOrderDataset = [];
+        let buyOrderCurrentVolume = 0;
+        buyOrderLabels.forEach(label => {
+            let matchingBuyOrders = this.buyBook.filter(o => parseFloat(o.price) === label);
+
+            if (matchingBuyOrders.length === 0) {
+                buyOrderDataset.push(null);
+            } else {
+                buyOrderCurrentVolume = buyOrderCurrentVolume + matchingBuyOrders.reduce((acc, val) => acc + parseFloat(val.quantity), 0);
+                buyOrderDataset.push(buyOrderCurrentVolume);
+            }
+        });
+        buyOrderLabels.reverse();
+        buyOrderDataset.reverse();
+
+        this.orderDataSetLength = buyOrderDataset.length;
+        return <IOrderDataDisplay>{ dataset: buyOrderDataset, labels: buyOrderLabels };
+
     }
 
     loadUserExchangeData() {
@@ -285,8 +297,40 @@ export class Exchange {
         this.loadUserExchangeData();
     }
 
-    attached() {
-        this.loadUserExchangeData();
+
+    async attached() {
+        this.loadUserExchangeData();        
+
+        this.subscriber = this.eventAggregator.subscribe('eventReload', response => {
+            this.catchReloadEvent(response);
+        })
+    }
+
+    async catchReloadEvent(response) {                
+        var data = <IReloadEventData>(response.data);
+        if (data.reloadBuyBook) {            
+            await dispatchify(loadBuyBook)(this.currentToken);
+
+            // fetch state after reloading 
+            const state = await getStateOnce();
+            await this.loadBuyOrders(state);
+        }
+        if (data.reloadSellBook) {
+            await dispatchify(loadSellBook)(this.currentToken);
+
+            // fetch state after reloading 
+            const state = await getStateOnce();            
+            await this.loadSellOrders(state);
+        }
+
+        if (data.reloadUserExchangeData) {            
+            this.loadUserExchangeData();
+        }
+    }
+
+    detached() {
+        this.subscriber.dispose();
+
     }
 
     deposit() {

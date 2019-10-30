@@ -8,7 +8,7 @@ export default (cb) => {
   let options = packageJson.jest;
 
   if (CLIOptions.hasFlag('watch')) {
-    Object.assign(options, { watchAll: true});
+    Object.assign(options, { watch: true});
   }
 
 

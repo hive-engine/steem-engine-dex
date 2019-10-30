@@ -1,9 +1,3 @@
-interface PeggedToken {
-    name: string;
-    symbol: string;
-    pegged_token_symbol: string;
-}
-
 interface EnvironmentInterface {
     debug: boolean;
     testing: boolean;
@@ -22,8 +16,7 @@ interface EnvironmentInterface {
     STEEMP_ACCOUNT: string;
     NATIVE_TOKEN: string;
     DISABLED_TOKENS: string[];
-    PEGGED_TOKEN: string;
-    PEGGED_TOKENS: PeggedToken[];
+    PEGGED_TOKEN: string;    
 }
 
 interface BalanceInterface {
@@ -50,4 +43,81 @@ interface IHistoryApiItem {
     openPrice: string;
     closePrice: string;
 
+}
+
+interface ICoinPair {
+    _id: number;
+    exchange_rate: string;
+    from_coin: string;
+    from_coin_symbol: string;
+    to_coin: string;
+    to_coin_symbol: string;
+    __str__: string;
+}
+
+interface ICoin {
+    symbol: string;
+    display_name: string;
+    our_account: string;
+    can_issue: boolean;
+    coin_type: string;
+    symbol_id: string;
+}
+
+interface IReloadEventData {
+    reloadUserExchangeData: boolean;
+    reloadBuyBook: boolean;
+    reloadSellBook: boolean;
+    reloadTradeHistory: boolean; 
+}
+
+interface IToken {
+    _id: number;
+    circulatingSupply: string;
+    delegationEnabled: boolean;
+    highestBid: number;
+    issuer: string;
+    lastPrice: number;
+    lowestAsk: number;
+    marketCap: number;
+    maxSupply: number;
+    metadata: {
+        desc: string;
+        icon: string;
+        url: string;
+        hide_in_market?: boolean;
+    } | null;
+    name: string;
+    numberTransactions: number;
+    precision: number;
+    priceChangePercent: number;
+    priceChangeSteem: number;
+    stakingEnabled: boolean;
+    supply: number;
+    symbol: string;
+    totalStaked: string;
+    undelegationCooldown: number;
+    unstakingCooldown: number;
+    usdValue: string;
+    volume: number;
+}
+
+interface IMetric {
+    highestBid: string;
+    lastDayPrice: string;
+    lastDayPriceExpiration: number;
+    lastPrice: string;
+    lowestAsk: string;
+    priceChangePercent: string;
+    priceChangeSteem: string;
+    symbol: string;
+    volume: string;
+    volumeExpiration: number;
+}
+
+interface IBalance {
+    _id: number;
+    account: string;
+    balance: string;
+    symbol: string;
 }
