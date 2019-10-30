@@ -78,7 +78,7 @@ describe('Steem Engine Service', () => {
     it('loadParams makes required SSC calls', async () => {
         sut.ssc.findOne.mockImplementation((table: string, name: string, {}, callback: any) => {{
             callback(undefined, { param: 'beggars', param2: 'aggroed' });
-        }})
+        }});
 
         const params = await sut.loadParams();
 
