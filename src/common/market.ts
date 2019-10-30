@@ -31,7 +31,8 @@ export async function getUserOpenOrders(account: string = null) {
             return o;
         });
 
-        let combinedOrders = [...buyOrders, ...sellOrders].sort((a, b) => b.timestamp - a.timestamp);
+        let combinedOrders = [...buyOrders, ...sellOrders]
+            .sort((a, b) => b.timestamp - a.timestamp);
 
         return combinedOrders;
     } catch(e) {
@@ -102,6 +103,71 @@ export async function sendMarketOrder(username: string, type: string, symbol: st
             });
         } else {
             steemConnectJson(username, 'active', transaction_data);
+        }
+    });
+}
+
+export async function cancelMarketOrder(username: string, type: string, orderId: string, symbol: string) {
+    return new Promise((resolve) => {
+        if (type !== 'buy' && type !== 'sell') {
+            log.error(`Invalid order type: ${type}`);
+            return;
+        }
+
+        if (!username) {
+            window.location.reload();
+            return;
+        }
+
+        const transaction_data = {
+            "contractName": "market",
+            "contractAction": "cancel",
+            "contractPayload": {
+                "type": type,
+                "id": orderId
+            }
+        };
+
+        log.debug(`Broadcasting cancel order: ${JSON.stringify(transaction_data)}`);
+
+        if (window.steem_keychain) {
+            steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), `Cancel ${type.toUpperCase()} Order`, async (response) => {
+                if (response.success && response.result) {
+                    try {
+                        const transaction = await checkTransaction(response.result.id, 3);
+
+                        const toast = new ToastMessage();
+
+                        toast.message = i18n.tr('orderCanceled', {
+                            ns: 'notifications',
+                            type,
+                            symbol
+                        });
+        
+                        toastService.success(toast);
+
+                        resolve(transaction);
+                    } catch (e) {
+                        const toast = new ToastMessage();
+
+                        toast.message = i18n.tr('errorCancelOrder', {
+                            ns: 'notifications',
+                            type,
+                            error: e
+                        });
+        
+                        toastService.error(toast);
+
+                        resolve(false);
+                    }
+                } else {
+                    resolve(response);
+                }
+            });
+        } else {
+            steemConnectJson(username, 'active', transaction_data, () => {
+
+            });
         }
     });
 }
