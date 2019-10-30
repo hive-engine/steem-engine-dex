@@ -1,7 +1,7 @@
+import { request, loadTokenMarketHistory } from 'common/steem-engine';
+
 jest.mock('sscjs');
 jest.mock('steem');
-
-import { request, loadTokenMarketHistory } from 'common/steem-engine';
 
 describe('Functions', () => {
 
