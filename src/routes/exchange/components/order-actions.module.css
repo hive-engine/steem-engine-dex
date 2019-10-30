@@ -1,3 +1,19 @@
 order-actions {
     color: #333;
 }
+.order-buttons {
+    margin-top: 8px;
+    margin-bottom: 15px !important;
+    border: none;
+}
+.font-12-no-margin {
+    font-size: 12px;
+    margin-bottom: 0;
+    margin-top: 6px;
+}
+.input-group-append {
+    margin-left: -1px;
+    background: lightgray;
+    color: black;
+    min-width: 50px;
+}

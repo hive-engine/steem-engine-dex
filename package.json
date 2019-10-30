@@ -64,7 +64,9 @@
         "@fortawesome/pro-duotone-svg-icons": "^5.11.2",
         "@fortawesome/pro-regular-svg-icons": "^5.11.2",
         "@fortawesome/pro-solid-svg-icons": "^5.11.2",
+
         "@types/jest": "^24.0.21",
+
         "@types/jquery": "^3.3.31",
         "@types/lodash": "^4.14.144",
         "@types/select2": "^4.0.48",
