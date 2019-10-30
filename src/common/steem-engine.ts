@@ -3,8 +3,6 @@ import { usdFormat, queryParam } from 'common/functions';
 import { environment } from './../environment';
 import { ssc } from './ssc';
 import { tryParse } from './functions';
-import { dispatchify } from 'aurelia-store';
-import { setTokens, setAccount } from 'store/actions';
 import { getStateOnce } from 'store/store';
 
 const http = new HttpClient();
