@@ -10,7 +10,6 @@ import { PLATFORM } from 'aurelia-pal';
 import { Router, RouterConfiguration } from 'aurelia-router';
 import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
-import { SteemKeychain } from 'services/steem-keychain';
 
 import firebase from 'firebase/app';
 import { login, logout } from 'store/actions';
@@ -23,7 +22,6 @@ export class App {
 
     constructor(
         private ea: EventAggregator,
-        private keychain: SteemKeychain,
         private store: Store<State>,
         private se: SteemEngine
     ) {
@@ -37,16 +35,6 @@ export class App {
                 this.loggedIn = s.loggedIn;
             }
         });
-    }
-
-    attached() {
-        setTimeout(() => {
-            if (window && window.steem_keychain) {
-                window.steem_keychain.requestHandshake(() => {
-                    this.keychain.useKeychain = true;
-                });
-            }
-        }, 500);
     }
 
     public configureRouter(config: RouterConfiguration, router: Router) {

@@ -82,7 +82,7 @@ export function popupCenter(url, title, w, h) {
     const top = (height - h) / 2 / systemZoom + dualScreenTop
     const newWindow = window.open(url, title, 'scrollbars=yes, width=' + w / systemZoom + ', height=' + h / systemZoom + ', top=' + top + ', left=' + left);
 
-	if (window.focus) {
+	if (newWindow.focus) {
 		newWindow.focus();
 	}
 
