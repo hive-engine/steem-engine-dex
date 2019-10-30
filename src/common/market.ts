@@ -69,9 +69,9 @@ export async function sendMarketOrder(username: string, type: string, symbol: st
         if (window.steem_keychain) {
             steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), `${type.toUpperCase()} Order`, async (response) => {
                 if (response.success && response.result) {
-                    const tx = await checkTransaction(response.result.id, 3);
+                    try {
+                        const tx = await checkTransaction(response.result.id, 3);
 
-                    if (tx.success) {
                         const toast = new ToastMessage();
                         
                         toast.message = i18n.tr('orderSuccess', {
@@ -83,19 +83,19 @@ export async function sendMarketOrder(username: string, type: string, symbol: st
                         toastService.success(toast);
 
                         resolve(tx);
-                    } else {
-                      const toast = new ToastMessage();
+                    } catch (e) {
+                        const toast = new ToastMessage();
 
                         toast.message = i18n.tr('orderError', {
                             ns: 'notifications',
                             type,
                             symbol,
-                            error: tx.error
+                            error: e
                         });
       
                         toastService.error(toast);
 
-                        resolve(false);
+                        resolve(false);       
                     }
                 } else {
                     resolve(response);
