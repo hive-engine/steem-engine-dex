@@ -30,6 +30,11 @@ export class Tokens {
     attached() {
         // @ts-ignore
         $(this.tokenTable).DataTable({
+            order: [],
+            columnDefs: [ {
+                targets  : 'no-sort',
+                orderable: false
+            }],
             bInfo: false,
             paging: false,
             searching: false
