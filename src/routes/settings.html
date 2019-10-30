@@ -73,7 +73,7 @@
 
                 <select2 placeholder="Select one or more tokens">
                     <select value.bind="state.firebaseUser.favourites" change.delegate="updateData()" multiple>
-                        <option value.bind="token.symbol" repeat.for="token of tokens">${token.name & t} (${token.symbol})</option>
+                        <option value.bind="token.symbol" repeat.for="token of state.tokens">${token.name & t} (${token.symbol})</option>
                     </select>
                 </select2>
             </section>
@@ -84,7 +84,7 @@
 
                 <select2 placeholder="Select one or more tokens" if.bind="selectedTab == 'hiddenTokens'">
                     <select value.bind="state.firebaseUser.hiddenTokens" change.delegate="updateData()" multiple>
-                        <option value.bind="token.symbol" repeat.for="token of tokens">${token.name & t} (${token.symbol})</option>
+                        <option value.bind="token.symbol" repeat.for="token of state.tokens">${token.name & t} (${token.symbol})</option>
                     </select>
                 </select2>
             </section>

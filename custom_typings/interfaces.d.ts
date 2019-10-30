@@ -42,6 +42,7 @@ interface IHistoryApiItem {
     highestPrice: string;
     openPrice: string;
     closePrice: string;
+
 }
 
 interface ICoinPair {

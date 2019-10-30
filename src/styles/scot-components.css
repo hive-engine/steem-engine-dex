@@ -39,7 +39,7 @@
     font-family: main-font-bold !important;
     font-size: 16px;
     border-radius: 0.25rem;
-    width: 100%;
+    width: 100% !important;
     margin-top: 30px;
 }
 .greenBtn:hover {
