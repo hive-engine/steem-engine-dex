@@ -1,23 +1,40 @@
+ux-dialog-container {
+    display: block;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    outline: 0;
+
+    box-shadow: 0 20px 60px -2px rgba(27, 33, 58, 0.4) !important;
+}
+ux-dialogue {
+    width: 100%;
+}
 .signin-text {
-    color: #FFF;
+    color: #0048b3;
     margin: 0 0 10px 0;
 }
 
 .auth-input {
-    color: #00AAAA;
-    font-family: 'Roboto', sans-serif;
+    color: #00aaaa;
+    font-family: "Roboto", sans-serif;
     font-size: 16px;
 }
 
 .keychain-btn {
-    background-image: url(../images/icon_keychain.svg), linear-gradient(280deg, #20835E 0%, #005552 51.72%, #533C81 100%);
+    background-image: url(../images/icon_keychain.svg),
+        linear-gradient(280deg, #0048b3 0%, #8562e7 51.72%, #0048b3 100%);
     background-position: 20px center, 0 0;
     background-repeat: no-repeat;
     border: none;
     color: rgba(255, 255, 255, 0.68);
     display: block;
     height: 56px;
-    font-family: 'Nunito', sans-serif;
+    font-family: "Nunito", sans-serif;
     font-size: 22px;
     font-weight: 400;
     line-height: 1;
@@ -25,13 +42,53 @@
     padding: 0 0 0 82px;
     position: relative;
     text-transform: uppercase;
-    width: 376px;
+    width: 100%;
 }
 
 .auth-link {
-    color: #76B9B9;
+    color: #0048b3;
     display: block;
     font-size: 12px;
     text-align: right;
     text-decoration: underline;
+}
+.active-key-btn {
+    color: white;
+    background: yellowgreen;
+    border: none;
+    padding: 11px;
+    width: 100%;
+}
+.greenBtns {
+    margin-top: 0;
+    width: 30%;
+
+    padding: 0 !important;
+    background-color: #21be3d;
+    color: #fff !important;
+    font-weight: bold;
+    font-family: main-font-bold !important;
+    font-size: 16px;
+    line-height: 2.5;
+    border-radius: 0.25rem;
+    min-width: 76px;
+    display: inline-block;
+}
+.greenBtns:hover {
+    background-color: #1eac38;
+}
+.redBtn {
+    margin-top: 0;
+    padding: 0 !important;
+    background-color: #ca0505 !important;
+    color: #fff !important;
+    font-weight: bold;
+    font-family: main-font-bold !important;
+    font-size: 16px;
+    line-height: 2.5;
+    border-radius: 0.25rem;
+    min-width: 76px;
+}
+.redBtn:hover {
+    background-color: #e42020 !important;
 }
