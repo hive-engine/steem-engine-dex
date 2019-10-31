@@ -62,13 +62,13 @@ export const auditAdminChanges = functions.firestore.document('admin/settings').
     const after  = change.after.data();
 
     if (after) {
-        const userId = context.auth?.uid;
+        const updatedBy = after.updatedBy;
 
         try {
             const ref = admin.firestore().collection('audit').doc();
             const id = ref.id;
             const createdAt = Date.now();
-            const data = {userId, before, after, id, createdAt, type: 'adminSettings'};
+            const data = {updatedBy, before, after, id, createdAt, type: 'adminSettings'};
 
             await ref.set(data)
         } catch (e) {
