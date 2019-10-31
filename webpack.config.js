@@ -79,7 +79,8 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma} = 
     performance: { hints: false },
     devServer: {
         contentBase: outDir,
-        historyApiFallback: true
+        historyApiFallback: true,
+        http2: true
     },
     optimization: {
         concatenateModules: false,

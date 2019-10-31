@@ -226,3 +226,9 @@ sellbook {
     min-height: 250px;
     position: relative;
 }
+
+.form-group p {
+    font-size: 12px;
+    margin: 0 0 10px 0;
+    color: #333;
+}
