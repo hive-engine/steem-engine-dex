@@ -9,4 +9,5 @@ export class TokenMetrics {
     @bindable token;
     @bindable deposit;
     @bindable withdraw;
+    @bindable hideButtons = false;
 }
