@@ -29,8 +29,8 @@ export class SigninModal {
         this.controller.settings.centerHorizontalOnly = true;
     }
 
-    bind() {
-        if (window && window.steem_keychain) {
+    attached() {
+        if (window.steem_keychain) {
             window.steem_keychain.requestHandshake(() => {
                 this.useKeychain = true;
             });
