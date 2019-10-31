@@ -12,28 +12,28 @@
 
                     <div class="form-group">
                         <label>Site name</label>
-                        <input type="text" class="form-control" value.bind="siteName">
+                        <input type="text" class="form-control" value.bind="settings.siteName">
                     </div>
 
                     <h4>Site Toggles</h4>
                     
                     <div class="form-group">
                         <div class="switch">
-                            <input type="checkbox" name="maintenanceMode" id="maintenanceMode">
+                            <input type="checkbox" name="maintenanceMode" id="maintenanceMode" checked.bind="settings.maintenanceMode">
                             <label for="maintenanceMode">${'Enable/Disable Maintenance Mode'}</label>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="switch">
-                            <input type="checkbox" name="depositToggle" id="depositToggle">
+                            <input type="checkbox" name="depositToggle" id="depositToggle" checked.bind="settings.disableDeposits">
                             <label for="depositToggle">${'Enable/Disable Deposits'}</label>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="switch">
-                            <input type="checkbox" name="withdrawalToggle" id="withdrawalToggle">
+                            <input type="checkbox" name="withdrawalToggle" id="withdrawalToggle" checked.bind="settings.disableWithdrawals">
                             <label for="withdrawalToggle">${'Enable/Disable Withdrawals'}</label>
                         </div>
                     </div>
