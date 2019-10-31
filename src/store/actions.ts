@@ -177,8 +177,8 @@ export async function loadTradeHistory(state: State, symbol: string, account: st
     const newState = { ...state };
 
     try {
-        const tradeHistory = await ssc.find('market', 'tradesHistory', { symbol, account }, 30, 0, [{ index: '_id', descending: false }], false);
-
+        const tradeHistory = await ssc.find('market', 'tradesHistory', { symbol, account }, 30, 0, [{ index: '_id', descending: true }], false);                
+        
         newState.tradeHistory = tradeHistory.map(o => {
             o.total = o.price * o.quantity;
             o.timestamp_string = moment
