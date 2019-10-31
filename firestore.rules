@@ -27,5 +27,9 @@ service cloud.firestore {
         allow update: if isAdmin() || isSuperAdmin();
         allow delete, create: if isSuperAdmin();
     }
+
+    match /audit/{database} {
+        allow read: if isSuperAdmin();
+    }
   }
 }
