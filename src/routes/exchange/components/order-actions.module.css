@@ -17,3 +17,6 @@ order-actions {
     color: black;
     min-width: 50px;
 }
+.h-100 {
+    height: 100%;
+}

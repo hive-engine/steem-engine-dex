@@ -36,7 +36,7 @@ tr td:last-child {
 }
 
 .exchange-chart {
-    background: #FFF;
+    background: #fff;
     display: block;
     margin-bottom: 20px;
     margin-top: 15px;
@@ -99,6 +99,8 @@ tr td:last-child {
 
 .input-group-text-dark {
     background: #0048b3;
+    height: 100%;
+    width: 100%;
     border: none;
     color: #fff;
     padding-left: 10px;
