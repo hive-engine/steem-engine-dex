@@ -10,6 +10,7 @@
     <div class="token-metrics-margin-top">
         <token-metrics
             token.bind="data"
+            hide-buttons.bind="!state.loggedIn"
             deposit.call="deposit()"
             withdraw.call="withdraw()"
         ></token-metrics>
