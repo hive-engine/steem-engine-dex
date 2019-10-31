@@ -12,28 +12,33 @@
 
                     <div class="form-group">
                         <label>Site name</label>
-                        <input type="text" class="form-control" value.bind="settings.siteName">
+                        <div class="input-group">
+                            <input type="text" class="form-control" value.bind="settings.siteName" input.delegate="fieldChanged('siteName', settings.siteName)">
+                            <div class="input-group-append input-button" if.bind="siteNameChanged">
+                                <button class="btn btn-outline-secondary" type="button" click.delegate="updateSettings('siteName')">${'Update' & t}</button>
+                            </div>
+                        </div>
                     </div>
 
                     <h4>Site Toggles</h4>
                     
                     <div class="form-group">
                         <div class="switch">
-                            <input type="checkbox" name="maintenanceMode" id="maintenanceMode" checked.bind="settings.maintenanceMode">
+                            <input type="checkbox" name="maintenanceMode" id="maintenanceMode" checked.bind="settings.maintenanceMode" change.delegate="updateSettings()">
                             <label for="maintenanceMode">${'Enable/Disable Maintenance Mode'}</label>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="switch">
-                            <input type="checkbox" name="depositToggle" id="depositToggle" checked.bind="settings.disableDeposits">
+                            <input type="checkbox" name="depositToggle" id="depositToggle" checked.bind="settings.disableDeposits" change.delegate="updateSettings()">
                             <label for="depositToggle">${'Enable/Disable Deposits'}</label>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="switch">
-                            <input type="checkbox" name="withdrawalToggle" id="withdrawalToggle" checked.bind="settings.disableWithdrawals">
+                            <input type="checkbox" name="withdrawalToggle" id="withdrawalToggle" checked.bind="settings.disableWithdrawals" change.delegate="updateSettings()">
                             <label for="withdrawalToggle">${'Enable/Disable Withdrawals'}</label>
                         </div>
                     </div>
