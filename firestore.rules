@@ -23,7 +23,8 @@ service cloud.firestore {
     }
 
     match /admin/{database} {
-        allow read, update: if isAdmin() || isSuperAdmin();
+        allow read: if true;
+        allow update: if isAdmin() || isSuperAdmin();
         allow delete, create: if isSuperAdmin();
     }
   }
