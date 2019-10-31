@@ -1,0 +1,26 @@
+<template>
+        <div class="container-fluid main-container sections">
+            <div class="row">
+                <section class="col-md-12">
+                    <h3>${'Tokens' & t}</h3>
+                    <p>Manage tokens in the Steem Engine DEX.</p>
+                </section>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <h4>Disable Tokens</h4>
+                        <p>Any tokens selected below will not show up in the DEX UI.</p>
+                        <select2 placeholder="Select one or more tokens">
+                            <select value.bind="settings.disabledTokens" change.delegate="updateSettings()" multiple>
+                                <option value.bind="token.symbol" repeat.for="token of state.tokens">${token.name & t} (${token.symbol})</option>
+                            </select>
+                        </select2>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+</template>
