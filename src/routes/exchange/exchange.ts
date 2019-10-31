@@ -1,3 +1,5 @@
+import { ChartComponent } from './../../components/chart/chart';
+import { State } from './../../store/state';
 
 import { I18N } from 'aurelia-i18n';
 import { ToastMessage, ToastService } from '../../services/toast-service';
@@ -20,10 +22,9 @@ import { MarketOrderModal } from 'modals/market-order';
 import { DialogService } from 'aurelia-dialog';
 import { percentageOf } from 'common/functions';
 import { loadTokensList, loadAccountBalances, loadBuyBook, loadSellBook, loadTradeHistory } from 'store/actions';
-import { dispatchify } from 'aurelia-store';
+import { dispatchify, Store } from 'aurelia-store';
+import { Subscription as StateSubscription } from 'rxjs';
 import { getStateOnce } from 'store/store';
-import * as d3 from 'd3';
-import { DateTime } from 'luxon';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 
 interface IOrderDataDisplay {
@@ -67,12 +68,18 @@ export class Exchange {
     private bidQuantity = "";
     private bidPrice = "";
 
+    private subscription: StateSubscription;
+    private state: State;
+
+    private chartRef: ChartComponent;
+
     constructor(
         private se: SteemEngine,
         private dialogService: DialogService,
         private i18n: I18N,
         private controllerFactory: ValidationControllerFactory,
         private toast: ToastService,
+        private store: Store<State>,
         private ea: EventAggregator) {
         this.controller = controllerFactory.createForCurrentScope();
        
@@ -81,60 +88,65 @@ export class Exchange {
         this.eventAggregator = ea;
     }
 
+    bind() {
+        this.subscription = this.store.state.subscribe(async (state: State) => {
+            this.state = state;
+        });
+    }
+
     async activate({ symbol }) {
         this.currentToken = symbol;
 
-        await dispatchify(loadTokensList)();
-        await dispatchify(loadAccountBalances)();
-        await dispatchify(loadBuyBook)(symbol);
-        await dispatchify(loadSellBook)(symbol);
-        await dispatchify(loadTradeHistory)(symbol);
+        const promises = [
+            dispatchify(loadTokensList)(),
+            dispatchify(loadAccountBalances)(),
+            dispatchify(loadBuyBook)(symbol),
+            dispatchify(loadSellBook)(symbol),
+            dispatchify(loadTradeHistory)(symbol)
+        ];
 
-        const state = await getStateOnce();
-
-        this.tokenData = state.tokens
+        Promise.all(promises).then(async () => {
+            this.tokenData = this.state.tokens
             .filter(t => t.symbol !== "STEEMP")
             .filter(t => t.metadata && !t.metadata.hide_in_market);
+    
+            this.data = this.tokenData.find(t => t.symbol === this.currentToken);
+        
+            if (this.state.sellBook.length) {
+                this.bestSellPrice = this.state.sellBook[0];
+            }        
+        
+            const buyOrderDisplayData = await this.loadBuyOrders(this.state);
+            const sellOrderDisplayData = await this.loadSellOrders(this.state);
+        
+        
+            await this.loadTokenHistoryData(this.state, buyOrderDisplayData, sellOrderDisplayData);
 
-        this.data = this.tokenData.find(t => t.symbol === symbol);
-
-        if (state.sellBook.length) {
-            this.bestSellPrice = state.sellBook[0];
-        }        
-
-        const buyOrderDisplayData = await this.loadBuyOrders(state);
-        const sellOrderDisplayData = await this.loadSellOrders(state);
-
-
-        await this.loadTokenHistoryData(state, buyOrderDisplayData, sellOrderDisplayData);     
+            this.chartRef.attached();
+        });
     }   
 
     async loadTokenHistoryData(state, buyOrderDisplayData, sellOrderDisplayData) {
         this.tradeHistory = state.tradeHistory;
-
 
         const tokenHistory = await loadTokenMarketHistory(this.currentToken);
         var limitCandleStick = 60;
 
         var candleStickData = tokenHistory.slice(0, limitCandleStick).map(x => {
             return {
-
                 t: moment.unix(x.timestamp).format('YYYY-MM-DD HH:mm:ss'),//x.timestamp * 1000,
 
                 o: x.openPrice,
                 h: x.highestPrice,
                 l: x.lowestPrice,
                 c: x.closePrice
-
             }
-
         });
 
         this.chartData = {
             labels: buyOrderDisplayData.labels.concat(sellOrderDisplayData.labels),
             datasets: [
                 {
-
                     label: 'Buy',
                     steppedLine: 'after',
                     borderColor: '#88e86b',
@@ -150,7 +162,7 @@ export class Exchange {
                 }
             ],
             ohlcData: candleStickData
-        };   
+        };
     }
 
     async loadSellOrders(state) {
