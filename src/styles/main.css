@@ -218,3 +218,11 @@ ul li {
     color: #FFE289;
 
 }
+
+
+buybook,
+sellbook {
+    display: block;
+    min-height: 250px;
+    position: relative;
+}
