@@ -1,84 +1,61 @@
-<div class="loader">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
+<div class="main-loader text-center">
+    <div class="text-center push-ups" style="padding-top: 18%">
+        <p>
+            <img
+                class="loader-bar-lg"
+                src="./src/images/se-stand-full-opacity.svg"
+                alt=""
+                style="opacity:0.5;"
+            />
+        </p>
+    </div>
 </div>
 
 <style>
     body {
-        background: #181F1F;
+        background: #fff;
         overflow: hidden;
-      }
-      
-      .loader {
-        background: #181F1F;
+        margin: 0;
+        padding: 0;
+        text-align: center !important;
+    }
+
+    .main-loader {
+        background: rgba(38, 0, 255, 0.034);
         display: block;
         height: 100vh;
-        left: 0;
         overflow: hidden;
         position: fixed;
-        top: 0;
         width: 100vw;
         z-index: 9999;
     }
-    
-    .loader span {
-        width: 8vmin;
-        height: 8vmin;
-        border-radius: 4vmin;
-        backface-visibility: hidden;
-        position: absolute;
-        animation-name: move;
-        animation-timing-function: cubic-bezier(0.4, 0, 1, 0.8);
-        animation-iteration-count: infinite;
-        animation-duration: 3s;
-        top: calc(50% - 4vmin);
+    .push-ups {
+        padding: 18%;
+    }
+    p {
+        margin-top: 0;
+        margin-bottom: 30px;
+    }
+    .loader-bar-lg {
         left: 50%;
-        transform-origin: -4vmin center;
+        -webkit-animation: spin 2s linear infinite;
+        -moz-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
     }
-    .loader span:nth-child(1) {
-        background: #c5f0a4;
-        animation-delay: -0.5s;
-        opacity: 0;
+    @keyframes spin {
+        from {
+            -ms-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        to {
+            -ms-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -webkit-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
     }
-    .loader span:nth-child(2) {
-        background: #35b0ab;
-        animation-delay: -1s;
-        opacity: 0;
-    }
-    .loader span:nth-child(3) {
-        background: #226b80;
-        animation-delay: -1.5s;
-        opacity: 0;
-    }
-    .loader span:nth-child(4) {
-        background: #c5f0a4;
-        animation-delay: -2s;
-        opacity: 0;
-    }
-    .loader span:nth-child(5) {
-        background: #226b80;
-        animation-delay: -2.5s;
-        opacity: 0;
-    }
-    .loader span:nth-child(6) {
-        background: #35b0ab;
-        animation-delay: -3s;
-        opacity: 0;
-    }
-    @keyframes move {
-        0% {
-            transform: scale(1) rotate(0deg) translate3d(0, 0, 1px);
-       }
-        30% {
-            opacity: 1;
-       }
-        100% {
-            z-index: 10;
-            transform: scale(0) rotate(360deg) translate3d(0, 0, 1px);
-       }
-    }    
 </style>
