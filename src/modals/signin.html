@@ -20,7 +20,7 @@
 
             <div
                 class="form-group"
-                if.bind="!keychain.useKeychain || usePrivateKey"
+                if.bind="!useKeychain || usePrivateKey"
             >
 
                 <input
@@ -33,7 +33,7 @@
             </div>
 
 
-            <template if.bind="keychain.useKeychain">
+            <template if.bind="useKeychain">
                 <button
                     type="button"
                     class="keychain-btn"
@@ -49,7 +49,7 @@
                 >
             </template>
 
-            <template if.bind="!keychain.useKeychain || usePrivateKey">
+            <template if.bind="useKeychain || usePrivateKey">
                 <button
                     class="active-key-btn"
                     type="button"
