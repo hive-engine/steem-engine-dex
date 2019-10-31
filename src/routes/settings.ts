@@ -73,8 +73,6 @@ export class Settings {
 
         const validate = await this.validationController.validate();
 
-        console.log(validate);
-
         if (validate.valid) {
             this.updateData();
         }
