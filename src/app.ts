@@ -1,30 +1,28 @@
 import { AuthorizeStep } from './resources/pipeline-steps/authorize';
 import { SteemEngine } from 'services/steem-engine';
-import { EventAggregator } from 'aurelia-event-aggregator';
+import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 import { Store, dispatchify } from 'aurelia-store';
 import { environment } from './environment';
 import { PostRenderStep } from './resources/pipeline-steps/postrender';
 import { PreRenderStep } from './resources/pipeline-steps/prerender';
 import { MaintenanceStep } from './resources/pipeline-steps/maintenance';
 import { PLATFORM } from 'aurelia-pal';
-import { Router, RouterConfiguration } from 'aurelia-router';
+import { Router, RouterConfiguration, RouterEvent } from 'aurelia-router';
 import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
 
 import firebase from 'firebase/app';
-import { login, logout } from 'store/actions';
+import { login, logout, loadSiteSettings } from 'store/actions';
 
 @autoinject()
 export class App {
     private loggedIn = false;
     private loading = false;
-    public router: Router;
 
-    constructor(
-        private ea: EventAggregator,
-        private store: Store<State>,
-        private se: SteemEngine
-    ) {
+    public router: Router;
+    public subscription: Subscription;
+
+    constructor(private ea: EventAggregator, private store: Store<State>, private se: SteemEngine) {
         authStateChanged();
     }
 
@@ -34,6 +32,10 @@ export class App {
                 this.loading = s.loading;
                 this.loggedIn = s.loggedIn;
             }
+        });
+
+        this.subscription = this.ea.subscribe(RouterEvent.Complete, () => {
+            dispatchify(loadSiteSettings)();
         });
     }
 

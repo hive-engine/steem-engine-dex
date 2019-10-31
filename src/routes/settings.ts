@@ -1,3 +1,5 @@
+import { BootstrapFormRenderer } from './../resources/bootstrap-form-renderer';
+import { ValidationControllerFactory, ValidationController, ValidationRules } from 'aurelia-validation';
 import { UploadType, FirebaseService } from './../services/firebase-service';
 import { Subscription } from 'rxjs';
 import { State } from 'store/state';
@@ -27,8 +29,14 @@ export class Settings {
     private selfieUploading = false;
     private passportUploading = false;
 
-    constructor(private se: SteemEngine, private firebase: FirebaseService, private store: Store<State>, private taskQueue: TaskQueue) {
+    private renderer: BootstrapFormRenderer;
+    private validationController: ValidationController;
 
+    constructor(private se: SteemEngine, private controllerFactory: ValidationControllerFactory, private firebase: FirebaseService, private store: Store<State>, private taskQueue: TaskQueue) {
+        this.validationController = controllerFactory.createForCurrentScope();
+
+        this.renderer = new BootstrapFormRenderer();
+        this.validationController.addRenderer(this.renderer);
     }
 
     bind() {
@@ -40,6 +48,8 @@ export class Settings {
             }
             
             this.user = { ...this.state.firebaseUser };
+
+            this.createValidationRules();
         });
     }
 
@@ -57,11 +67,15 @@ export class Settings {
         this.editMode = false;
     }
 
-    private saveProfile() {
+    private async saveProfile() {
         this.state.firebaseUser = { ...this.state.firebaseUser, ...this.user };
         this.editMode = false;
 
-        this.updateData();
+        const validate = await this.validationController.validate();
+
+        if (validate.valid) {
+            this.updateData();
+        }
     }
 
     handleEvent(e) {
@@ -193,5 +207,13 @@ export class Settings {
                 merge: true
             });
         });
+    }
+
+    private createValidationRules() {
+        const rules = ValidationRules
+            .ensure('email').email()
+        .rules;
+
+        this.validationController.addObject(this.user, rules);
     }
 }
