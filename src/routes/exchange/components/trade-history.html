@@ -1,15 +1,15 @@
-<template bindable="trades">
+<template bindable="trades, data">
     <div class="history">
         <table class="buy-table table-striped">
             <thead>
                 <tr>
                     <th width="135">${'Price' & t} (STEEMP)</th>
-                    <th>${'QTY' & t} (ENG)</th>
-                    <th>${'Time' & t}</th>
+                    <th class="text-right">${'QTY' & t} (${data.symbol & t})</th>
+                    <th class="text-right">${'Time' & t}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr repeat.for="trade of trades | slice:10">
+                <tr repeat.for="trade of trades | slice:20">
                     <td>${trade.price}</td>
                     <td>${trade.quantity}</td>
                     <td>${trade.timestamp_string}</td>
