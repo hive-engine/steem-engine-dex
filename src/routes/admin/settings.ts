@@ -32,6 +32,8 @@ export class AdminSettings {
 
         const settings = await firebase.firestore().collection('admin').doc('settings');
 
+        this.settings.updatedBy = firebase.auth().currentUser.uid;
+
         settings.update(this.settings);
     }
 }
