@@ -57,6 +57,16 @@ export class OrderActions {
         }
     }
 
+    async maxBuySell() {
+        if (this.mode == "buy") {
+            if (this.price > 0) {
+                this.quantity = this.steempBalance / this.price;
+            }
+        } else if (this.mode == "sell") {
+            this.quantity = this.tokenBalance;
+        }
+    }
+
     private createValidationRules() {
         const rules = ValidationRules
             .ensure('quantity')
