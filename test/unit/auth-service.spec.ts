@@ -1,5 +1,4 @@
 import { AuthService } from 'services/auth-service';
-import firebase from 'firebase/app';
 
 describe('AuthService', () => {
     let sut: AuthService;

@@ -3,8 +3,6 @@ import { usdFormat, queryParam } from 'common/functions';
 import { environment } from './../environment';
 import { ssc } from './ssc';
 import { tryParse } from './functions';
-import { dispatchify } from 'aurelia-store';
-import { setTokens, setAccount } from 'store/actions';
 import { getStateOnce } from 'store/store';
 
 const http = new HttpClient();
@@ -44,12 +42,33 @@ export async function loadTokenMarketHistory(symbol: string, timestampStart?: st
     return response.json() as Promise<IHistoryApiItem[]>;
 }
 
+export async function loadCoinPairs(): Promise<ICoinPair[]> {
+    let url = `${environment.CONVERTER_API}/pairs/`;
+
+    const response = await http.fetch(url, {
+        method: 'GET'
+    });    
+
+    return response.json() as Promise<ICoinPair[]>;
+}
+
+export async function loadCoins(): Promise<ICoin[]> {
+    let url = `${environment.CONVERTER_API}/coins/`;
+
+    const response = await http.fetch(url, {
+        method: 'GET'
+    });
+
+    return response.json() as Promise<ICoin[]>;
+}
+
 export async function loadTokens(): Promise<any[]> {
     return new Promise((resolve) => {
-        ssc.find('tokens', 'tokens', { }, 1000, 0, [], (err, result) => {
+        ssc.find('tokens', 'tokens', { }, 1000, 0, [], (err, result: IToken[]) => {
+
             const tokens = result.filter(t => !environment.DISABLED_TOKENS.includes(t.symbol));
 
-            ssc.find('market', 'metrics', { }, 1000, 0, '', false).then(async (metrics) => {
+            ssc.find('market', 'metrics', { }, 1000, 0, '', false).then(async (metrics: IMetric[]) => {
                 for (const token of tokens) {
                     token.highestBid = 0;
                     token.lastPrice = 0;
@@ -62,7 +81,11 @@ export async function loadTokens(): Promise<any[]> {
                     token.metadata = tryParse(token.metadata);
 
                     if (!token.metadata) {
-                        token.metadata = {};
+                        token.metadata = {
+                            desc: '',
+                            icon: '',
+                            url: ''
+                        };
                     }
 
                     if (!metrics) {
@@ -75,14 +98,14 @@ export async function loadTokens(): Promise<any[]> {
                         token.highestBid = parseFloat(metric.highestBid);
                         token.lastPrice = parseFloat(metric.lastPrice);
                         token.lowestAsk = parseFloat(metric.lowestAsk);
-                        token.marketCap = token.lastPrice * token.circulatingSupply;
+                        token.marketCap = token.lastPrice * parseFloat(token.circulatingSupply);
                         token.usdValue = usdFormat(token.lastPrice);
                         
                         if (Date.now() / 1000 < metric.volumeExpiration) {
                             token.volume = parseFloat(metric.volume);
                         }
 
-                        if(Date.now() / 1000 < metric.lastDayPriceExpiration) {
+                        if (Date.now() / 1000 < metric.lastDayPriceExpiration) {
                             token.priceChangePercent = parseFloat(metric.priceChangePercent);
                             token.priceChangeSteem = parseFloat(metric.priceChangeSteem);
                         }
@@ -102,20 +125,20 @@ export async function loadTokens(): Promise<any[]> {
                     return (b.volume > 0 ? b.volume : b.marketCap / 1000000000) - (a.volume > 0 ? a.volume : a.marketCap / 1000000000);
                 });
 
-                const steemp_balance = await ssc.findOne('tokens', 'balances', { account: 'steem-peg', symbol: 'STEEMP' });
+                const steemp_balance = await ssc.findOne('tokens', 'balances', { account: 'steem-peg', symbol: 'STEEMP' }) as IBalance;
 
                 if (steemp_balance && steemp_balance.balance) {
                     const token = tokens.find(t => t.symbol === 'STEEMP');
 
                     token.supply -= parseFloat(steemp_balance.balance);
-                    token.circulatingSupply -= parseFloat(steemp_balance.balance);
+                    (token as any).circulatingSupply -= parseFloat(steemp_balance.balance);
                 }
 
                 if (steemp_balance && steemp_balance.balance) {
                     const token = tokens.find(t => t.symbol === 'STEEMP');
 
                     token.supply -= parseFloat(steemp_balance.balance);
-                    token.circulatingSupply -= parseFloat(steemp_balance.balance);
+                    (token as any).circulatingSupply -= parseFloat(steemp_balance.balance);
                 }
 
                 resolve(tokens);

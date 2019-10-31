@@ -10,6 +10,7 @@
     <div class="token-metrics-margin-top">
         <token-metrics
             token.bind="data"
+            hide-buttons.bind="!state.loggedIn"
             deposit.call="deposit()"
             withdraw.call="withdraw()"
         ></token-metrics>
@@ -37,7 +38,7 @@
             </div>
 
             <div class="col-lg-6 col-md-12 col-sm-12 chart-col">
-                <chart class="exchange-chart" data.bind="chartData"></chart>
+                <chart class="exchange-chart" data.bind="chartData" view-model.ref="chartRef"></chart>
 
                 <div class="row">
                     <div class="col-md-6">

@@ -1,73 +1,123 @@
 <template>
     <ux-dialog>
-        
         <loader mode="tiny" loading.bind="loading"></loader>
 
         <ux-dialog-header>
             <h2>${'Deposit' & t}</h2>
         </ux-dialog-header>
         <ux-dialog-body>
-            <p class="note mb-4">${'There is a 1% fee on deposits and withdrawals' & t}</p>
+            <p class="note mb-4">
+                ${'There is a 1% fee on deposits and withdrawals' & t}
+            </p>
 
             <div class="form-group" if.bind="!token">
-                <select class="form-control" value.bind="token" change.delegate="tokenSelected()">
-                    <option model.bind="null">${'Please select a token...' & t}</option>
-                    <option value.bind="t.symbol" repeat.for="t of environment.PEGGED_TOKENS">${t.name & t} (${t.symbol})</option>
+
+                <select
+                    class="form-control"
+                    value.bind="token"
+                    change.delegate="tokenSelected()"
+                >
+                    <option model.bind="null"
+                        >${'Please select a token...' & t}</option
+                    >
+                    <option
+                        value.bind="t.symbol"
+                        repeat.for="t of tokenList"
+                        >${t.name & t} (${t.symbol})</option
+                    >
+
                 </select>
             </div>
 
             <div if.bind="token && token == 'STEEM'">
                 <div class="form-group">
-                    <h4>${'Current STEEMP Balance' & t}</h4>
+                    <h4>${'STEEMP Balance' & t}</h4>
                     <p class="mb-4">${tokenBalance | comma}</p>
                 </div>
 
                 <div class="form-group">
                     <label>${'Deposit Amount' & t}</label>
                     <div class="input-group">
-                        <input class="form-control" type="text" placeholder="0.000" value.bind="amount">
+                        <input
+                            class="form-control"
+                            type="text"
+                            placeholder="0.000"
+                            value.bind="amount"
+                        />
                         <div class="input-group-append">${'STEEM' & t}</div>
                         <div class="invalid-tooltip">
-                            ${'errors:Please enter an amount greater than 0' & t}
+                            ${'errors:Please enter an amount greater than 0' &
+                            t}
                         </div>
                     </div>
                 </div>
 
-                <div class="ssc-cost">You will receive: <span id="receive_amt">${amount * 0.99 | toFixed: 3}</span> STEEMP</div>
+                <div class="ssc-cost">
+                    You will receive:
+                    <span id="receive_amt">${amount * 0.99 | toFixed: 3}</span>
+                    STEEMP
+                </div>
             </div>
 
             <div if.bind="token && token !== 'STEEM' && depositInfo">
                 <div class="note mb-4">
-                    Please send any amount of ${token} to the following address and you will receive an equal amount of ${depositInfo.pegged_token_symbol} in the @${user.name} account once the transaction has received the required number of confirmations on the external chain.
+                    Please send any amount of ${token} to the following address
+                    and you will receive an equal amount of
+                    ${depositInfo.pegged_token_symbol} in the @${user.name}
+                    account once the transaction has received the required
+                    number of confirmations on the external chain.
                 </div>
-                
+
                 <div if.bind="depositInfo.address" class="deposit-address">
                     <div class="form-group">
                         <label>${'Deposit Address' & t}</label>
-                        <input class="form-control" type="text" readonly value.bind="depositInfo.address">
+                        <input
+                            class="form-control"
+                            type="text"
+                            readonly
+                            value.bind="depositInfo.address"
+                        />
                     </div>
                 </div>
 
                 <div if.bind="depositInfo.account && depositInfo.memo">
                     <div class="form-group">
                         <label>${'Account' & t}</label>
-                        <input class="form-control" type="text" readonly value.bind="depositInfo.account">
+                        <input
+                            class="form-control"
+                            type="text"
+                            readonly
+                            value.bind="depositInfo.account"
+                        />
                     </div>
                     <div class="form-group">
                         <label>${'Memo' & t}</label>
-                        <input class="form-control" type="text" readonly value.bind="depositInfo.memo">
+                        <input
+                            class="form-control"
+                            type="text"
+                            readonly
+                            value.bind="depositInfo.memo"
+                        />
                     </div>
                 </div>
             </div>
-
         </ux-dialog-body>
 
         <ux-dialog-footer>
-            <button class="btn btn-lg btn-secondary" click.trigger="controller.cancel()">
+            <button
+                class="btn btn-lg redBtn"
+                click.trigger="controller.cancel()"
+            >
                 ${'Close' & t}
             </button>
-            
-            <button class="btn btn-lg btn-primary" click.trigger="depositSteem()" if.bind="token && token == 'STEEM'">${'Deposit' & t} ${token & t}</button>
+
+            <button
+                class="btn btn-lg greenBtns"
+                click.trigger="depositSteem()"
+                if.bind="token && token == 'STEEM'"
+            >
+                ${'Deposit' & t} ${token & t}
+            </button>
         </ux-dialog-footer>
     </ux-dialog>
 </template>

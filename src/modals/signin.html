@@ -1,6 +1,5 @@
 <template>
     <ux-dialog>
-        
         <loader mode="tiny" loading.bind="loading"></loader>
 
         <ux-dialog-header>
@@ -14,34 +13,69 @@
                     class="form-control auth-input"
                     value.bind="username"
                     id="inputUsername"
-                    placeholder="Username">
+                    placeholder="Username"
+                />
             </div>
 
-            <div class="form-group" if.bind="!keychain.useKeychain || usePrivateKey">
+
+            <div
+                class="form-group"
+                if.bind="!useKeychain || usePrivateKey"
+            >
+
                 <input
                     type="text"
                     class="form-control auth-input"
                     value.bind="privateKey"
                     id="inputActiveKey"
-                    placeholder="Active Key">
+                    placeholder="Active Key"
+                />
             </div>
-            
-            <template if.bind="keychain.useKeychain">
-                <button type="button" class="keychain-btn" click.delegate="keychainSignIn()">${'Sign In With Keychain' & t}</button>
-                <a href="javascript:void(0);" class="auth-link" click.delegate="usePrivateKey = !usePrivateKey">${'Sign In with Private Key' & t}</a>
+
+
+            <template if.bind="useKeychain">
+                <button
+                    type="button"
+                    class="keychain-btn"
+                    click.delegate="keychainSignIn()"
+                >
+                    ${'Sign In With Keychain' & t}
+                </button>
+                <a
+                    href="javascript:void(0);"
+                    class="auth-link"
+                    click.delegate="usePrivateKey = !usePrivateKey"
+                    >${'Sign In with Private Key' & t}</a
+                >
             </template>
 
-            <template if.bind="!keychain.useKeychain || usePrivateKey">
-                <button type="button" click.delegate="keySignIn()">${'Sign In Using Private Key' & t}</button>
+            <template if.bind="useKeychain || usePrivateKey">
+                <button
+                    class="active-key-btn"
+                    type="button"
+                    click.delegate="keySignIn()"
+                >
+                    ${'Sign In Using Private Key' & t}
+                </button>
+
             </template>
         </ux-dialog-body>
 
         <ux-dialog-footer>
-            <button class="btn btn-lg btn-secondary" click.trigger="controller.cancel()">
+            <button
+                class="btn btn-lg redBtn"
+                click.trigger="controller.cancel()"
+            >
                 ${'Close' & t}
             </button>
-            
-            <button class="btn btn-lg btn-primary" click.trigger="depositSteem()" if.bind="token && token == 'STEEM'">${'Deposit' & t} ${token & t}</button>
+
+            <button
+                class="btn btn-lg btn-primary"
+                click.trigger="depositSteem()"
+                if.bind="token && token == 'STEEM'"
+            >
+                ${'Deposit' & t} ${token & t}
+            </button>
         </ux-dialog-footer>
     </ux-dialog>
 </template>

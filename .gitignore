@@ -75,3 +75,6 @@ steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json
 functions/lib/
 test/coverage-jest/
 
+
+.npmrc
+
