@@ -133,8 +133,7 @@ export class Exchange {
 
         var candleStickData = tokenHistory.slice(0, limitCandleStick).map(x => {
             return {
-                t: moment.unix(x.timestamp).format('YYYY-MM-DD HH:mm:ss'),//x.timestamp * 1000,
-
+                t: moment.unix(x.timestamp).format('YYYY-MM-DD HH:mm:ss'), //x.timestamp * 1000,
                 o: x.openPrice,
                 h: x.highestPrice,
                 l: x.lowestPrice,
@@ -189,6 +188,7 @@ export class Exchange {
         let buyOrderLabels = uniq(this.buyBook.map(o => parseFloat(o.price)));
         let buyOrderDataset = [];
         let buyOrderCurrentVolume = 0;
+
         buyOrderLabels.forEach(label => {
             let matchingBuyOrders = this.buyBook.filter(o => parseFloat(o.price) === label);
 
