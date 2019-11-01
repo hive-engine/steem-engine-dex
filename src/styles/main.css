@@ -9,10 +9,12 @@
 @font-face {
     font-family: main-font;
     src: url("../fonts/main-font-regular.woff");
+    font-display: fallback;
 }
 @font-face {
     font-family: main-font-bold;
     src: url("../fonts/main-font-bold-c.woff");
+    font-display: fallback;
 }
 
 body {
