@@ -30,6 +30,7 @@ export function logout(state: State): State {
 
     newState.account = {
         name: '',
+        token: {},
         account: {},
         balances: [],
         scotTokens: [],

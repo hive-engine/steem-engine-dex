@@ -12,15 +12,17 @@ import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
 
 import firebase from 'firebase/app';
-import { login, logout, loadSiteSettings } from 'store/actions';
+import { login, logout, loadSiteSettings, setAccount } from 'store/actions';
 
 @autoinject()
 export class App {
     private loggedIn = false;
     private loading = false;
+    private claims;
 
     public router: Router;
     public subscription: Subscription;
+    private state: State;
 
     constructor(private ea: EventAggregator, private store: Store<State>, private se: SteemEngine) {
         authStateChanged();
@@ -29,8 +31,11 @@ export class App {
     bind() {
         this.store.state.subscribe((s: State) => {
             if (s) {
+                this.state = s;
+
                 this.loading = s.loading;
                 this.loggedIn = s.loggedIn;
+                this.claims = s?.account?.token?.claims;
             }
         });
 
@@ -177,7 +182,7 @@ export class App {
                 route: 'admin',
                 name: 'admin',
                 moduleId: PLATFORM.moduleName('./routes/admin/admin'),
-                nav: false,
+                nav: true,
                 auth: true,
                 title: 'Admin',
                 settings: {
@@ -193,8 +198,13 @@ export class App {
 async function authStateChanged() {
     return new Promise(resolve => {
         firebase.auth().onAuthStateChanged(async user => {
+            const token = await firebase.auth()?.currentUser?.getIdTokenResult(true);
+
             if (user) {
                 dispatchify(login)(user.uid);
+                if (token) {
+                    dispatchify(setAccount)({token});
+                }
                 resolve();
             } else {
                 dispatchify(logout)();

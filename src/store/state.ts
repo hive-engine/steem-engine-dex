@@ -4,6 +4,7 @@ export interface AccountInterface {
     balances: any[];
     scotTokens: any[];
     pendingUnstakes: any[];
+    token: any;
 }
 
 export interface ISettings {
@@ -31,6 +32,7 @@ export interface State {
 export const initialState: State = {
     account: {
         name: '',
+        token: {},
         account: {},
         balances: [],
         scotTokens: [],
