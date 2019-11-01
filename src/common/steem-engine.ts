@@ -1,3 +1,4 @@
+import { State } from 'store/state';
 import { HttpClient } from 'aurelia-fetch-client';
 import { usdFormat, queryParam } from 'common/functions';
 import { environment } from './../environment';
@@ -61,6 +62,82 @@ export async function loadCoins(): Promise<ICoin[]> {
     });
 
     return response.json() as Promise<ICoin[]>;
+}
+
+export function parseTokens(data: any): State {
+    const tokens = data.tokens.filter(t => !environment.DISABLED_TOKENS.includes(t.symbol));
+
+    for (const token of tokens) {
+        token.highestBid = 0;
+        token.lastPrice = 0;
+        token.lowestAsk = 0;
+        token.marketCap = 0;
+        token.volume = 0;
+        token.priceChangePercent = 0;
+        token.priceChangeSteem = 0;
+
+        token.metadata = tryParse(token.metadata);
+
+        if (!token.metadata) {
+            token.metadata = {
+                desc: '',
+                icon: '',
+                url: ''
+            };
+        }
+
+        if (!data.metrics) {
+            return;
+        }
+
+        const metric = data.metrics.find(m => token.symbol == m.symbol);
+
+        if (metric) {
+            token.highestBid = parseFloat(metric.highestBid);
+            token.lastPrice = parseFloat(metric.lastPrice);
+            token.lowestAsk = parseFloat(metric.lowestAsk);
+            token.marketCap = token.lastPrice * parseFloat(token.circulatingSupply);
+            token.usdValue = usdFormat(token.lastPrice);
+            
+            if (Date.now() / 1000 < metric.volumeExpiration) {
+                token.volume = parseFloat(metric.volume);
+            }
+
+            if (Date.now() / 1000 < metric.lastDayPriceExpiration) {
+                token.priceChangePercent = parseFloat(metric.priceChangePercent);
+                token.priceChangeSteem = parseFloat(metric.priceChangeSteem);
+            }
+
+            // if (token.symbol == 'AFIT') {
+            //     const afit_data = await ssc.find('market', 'tradesHistory', { symbol: 'AFIT' }, 100, 0, [{ index: '_id', descending: false }], false);
+            //     token.volume = (afit_data) ? afit_data.reduce((t, v) => t += parseFloat(v.price) * parseFloat(v.quantity), 0) : 0;
+            // }
+        }
+
+        if (token.symbol === 'STEEMP') {
+            token.lastPrice = 1;
+        }
+    };
+
+    tokens.sort((a, b) => {
+        return (b.volume > 0 ? b.volume : b.marketCap / 1000000000) - (a.volume > 0 ? a.volume : a.marketCap / 1000000000);
+    });
+
+    if (data.steempBalance && data.steempBalance.balance) {
+        const token = tokens.find(t => t.symbol === 'STEEMP');
+
+        token.supply -= parseFloat(data.steempBalance.balance);
+        (token as any).circulatingSupply -= parseFloat(data.steempBalance.balance);
+    }
+
+    if (data.steempBalance && data.steempBalance.balance) {
+        const token = tokens.find(t => t.symbol === 'STEEMP');
+
+        token.supply -= parseFloat(data.steempBalance.balance);
+        (token as any).circulatingSupply -= parseFloat(data.steempBalance.balance);
+    }
+
+    return tokens;
 }
 
 export async function loadTokens(): Promise<any[]> {
