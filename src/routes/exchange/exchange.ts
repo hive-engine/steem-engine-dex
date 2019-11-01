@@ -21,7 +21,7 @@ import { MarketOrderModal } from 'modals/market-order';
 
 import { DialogService } from 'aurelia-dialog';
 import { percentageOf } from 'common/functions';
-import { loadTokensList, loadAccountBalances, loadBuyBook, loadSellBook, loadTradeHistory } from 'store/actions';
+import { loadTokensList, loadAccountBalances, loadBuyBook, loadSellBook, loadTradeHistory, exchangeData } from 'store/actions';
 import { dispatchify, Store } from 'aurelia-store';
 import { Subscription as StateSubscription } from 'rxjs';
 import { getStateOnce } from 'store/store';
@@ -97,15 +97,7 @@ export class Exchange {
     async activate({ symbol }) {
         this.currentToken = symbol;
 
-        const promises = [
-            dispatchify(loadTokensList)(),
-            dispatchify(loadAccountBalances)(),
-            dispatchify(loadBuyBook)(symbol),
-            dispatchify(loadSellBook)(symbol),
-            dispatchify(loadTradeHistory)(symbol)
-        ];
-
-        Promise.all(promises).then(async () => {
+        dispatchify(exchangeData)(symbol).then(async () => {
             this.tokenData = this.state.tokens
             .filter(t => t.symbol !== "STEEMP")
             .filter(t => t.metadata && !t.metadata.hide_in_market);
@@ -119,11 +111,18 @@ export class Exchange {
             const buyOrderDisplayData = await this.loadBuyOrders(this.state);
             const sellOrderDisplayData = await this.loadSellOrders(this.state);
         
-        
             await this.loadTokenHistoryData(this.state, buyOrderDisplayData, sellOrderDisplayData);
-
+    
             this.chartRef.attached();
         });
+
+        // const promises = [
+        //     //dispatchify(loadTokensList)(),
+        //     //dispatchify(loadAccountBalances)(),
+        //     dispatchify(loadBuyBook)(symbol),
+        //     dispatchify(loadSellBook)(symbol),
+        //     dispatchify(loadTradeHistory)(symbol)
+        // ];
     }   
 
     async loadTokenHistoryData(state, buyOrderDisplayData, sellOrderDisplayData) {
