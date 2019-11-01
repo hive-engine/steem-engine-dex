@@ -21,8 +21,10 @@ export class ChartComponent {
     private chartRefCandle: HTMLCanvasElement;
     private chart;
     private chartCandle;
-    private created = false;    
+    private created = false;  
+    private iteration = 1;  
 
+    @bindable loading = true;
     @bindable type = 'candlestick';
     @bindable options: any = {};
     @bindable data: any = {};
@@ -38,6 +40,11 @@ export class ChartComponent {
 
             this.created = true;
         });
+    }
+
+    dataChanged() {
+        this.iteration += 1;
+        this.loading = (this.iteration === 2);
     }
 
     detached() {

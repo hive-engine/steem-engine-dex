@@ -1,16 +1,16 @@
-<template>
+<template bindable="selected">
     <div class="tab">
         <div class="text-center">
-            <a class="tablinks" route-href="route:offerings">
+            <a class="tablinks" class.one-time="selected === 'offerings' ? 'active' : ''" route-href="route:offerings">
                 Offerings
             </a>
-            <a class="tablinks" route-href="route:tribes">
+            <a class="tablinks" class.one-time="selected === 'tribes' ? 'active' : ''" route-href="route:tribes">
                 Tribes
             </a>
-            <a class="tablinks" route-href="route:scotbot">
+            <a class="tablinks" class.one-time="selected === 'scotbot' ? 'active' : ''" route-href="route:scotbot">
                 Scotbot
             </a>
-            <a class="tablinks" route-href="route:legal-services">
+            <a class="tablinks" class.one-time="selected === 'legal-services' ? 'active' : ''" route-href="route:legal-services">
                 Legal Services
             </a>
         </div>
