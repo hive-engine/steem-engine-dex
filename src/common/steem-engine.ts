@@ -1,9 +1,11 @@
+import { State } from 'store/state';
 import { HttpClient } from 'aurelia-fetch-client';
 import { usdFormat, queryParam } from 'common/functions';
 import { environment } from './../environment';
 import { ssc } from './ssc';
 import { tryParse } from './functions';
 import { getStateOnce } from 'store/store';
+import { query } from 'common/apollo';
 
 const http = new HttpClient();
 
@@ -62,89 +64,374 @@ export async function loadCoins(): Promise<ICoin[]> {
     return response.json() as Promise<ICoin[]>;
 }
 
-export async function loadTokens(): Promise<any[]> {
-    return new Promise((resolve) => {
-        ssc.find('tokens', 'tokens', { }, 1000, 0, [], (err, result: IToken[]) => {
+export function parseTokens(data: any): State {
+    const tokens = data.tokens.filter(t => !environment.DISABLED_TOKENS.includes(t.symbol));
 
-            const tokens = result.filter(t => !environment.DISABLED_TOKENS.includes(t.symbol));
+    for (const token of tokens) {
+        token.highestBid = 0;
+        token.lastPrice = 0;
+        token.lowestAsk = 0;
+        token.marketCap = 0;
+        token.volume = 0;
+        token.priceChangePercent = 0;
+        token.priceChangeSteem = 0;
 
-            ssc.find('market', 'metrics', { }, 1000, 0, '', false).then(async (metrics: IMetric[]) => {
-                for (const token of tokens) {
-                    token.highestBid = 0;
-                    token.lastPrice = 0;
-                    token.lowestAsk = 0;
-                    token.marketCap = 0;
-                    token.volume = 0;
-                    token.priceChangePercent = 0;
-                    token.priceChangeSteem = 0;
+        token.metadata = tryParse(token.metadata);
 
-                    token.metadata = tryParse(token.metadata);
+        if (!token.metadata) {
+            token.metadata = {
+                desc: '',
+                icon: '',
+                url: ''
+            };
+        }
 
-                    if (!token.metadata) {
-                        token.metadata = {
-                            desc: '',
-                            icon: '',
-                            url: ''
-                        };
-                    }
+        if (!data.metrics) {
+            return;
+        }
 
-                    if (!metrics) {
-                        return;
-                    }
+        const metric = data.metrics.find(m => token.symbol == m.symbol);
 
-                    const metric = metrics.find(m => token.symbol == m.symbol);
+        if (metric) {
+            token.highestBid = parseFloat(metric.highestBid);
+            token.lastPrice = parseFloat(metric.lastPrice);
+            token.lowestAsk = parseFloat(metric.lowestAsk);
+            token.marketCap = token.lastPrice * parseFloat(token.circulatingSupply);
+            token.usdValue = usdFormat(token.lastPrice);
+            
+            if (Date.now() / 1000 < metric.volumeExpiration) {
+                token.volume = parseFloat(metric.volume);
+            }
 
-                    if (metric) {
-                        token.highestBid = parseFloat(metric.highestBid);
-                        token.lastPrice = parseFloat(metric.lastPrice);
-                        token.lowestAsk = parseFloat(metric.lowestAsk);
-                        token.marketCap = token.lastPrice * parseFloat(token.circulatingSupply);
-                        token.usdValue = usdFormat(token.lastPrice);
-                        
-                        if (Date.now() / 1000 < metric.volumeExpiration) {
-                            token.volume = parseFloat(metric.volume);
-                        }
+            if (Date.now() / 1000 < metric.lastDayPriceExpiration) {
+                token.priceChangePercent = parseFloat(metric.priceChangePercent);
+                token.priceChangeSteem = parseFloat(metric.priceChangeSteem);
+            }
 
-                        if (Date.now() / 1000 < metric.lastDayPriceExpiration) {
-                            token.priceChangePercent = parseFloat(metric.priceChangePercent);
-                            token.priceChangeSteem = parseFloat(metric.priceChangeSteem);
-                        }
+            // if (token.symbol == 'AFIT') {
+            //     const afit_data = await ssc.find('market', 'tradesHistory', { symbol: 'AFIT' }, 100, 0, [{ index: '_id', descending: false }], false);
+            //     token.volume = (afit_data) ? afit_data.reduce((t, v) => t += parseFloat(v.price) * parseFloat(v.quantity), 0) : 0;
+            // }
+        }
 
-                        if (token.symbol == 'AFIT') {
-                            const afit_data = await ssc.find('market', 'tradesHistory', { symbol: 'AFIT' }, 100, 0, [{ index: '_id', descending: false }], false);
-                            token.volume = (afit_data) ? afit_data.reduce((t, v) => t += parseFloat(v.price) * parseFloat(v.quantity), 0) : 0;
-                        }
-                    }
+        if (token.symbol === 'STEEMP') {
+            token.lastPrice = 1;
+        }
+    };
 
-                    if (token.symbol === 'STEEMP') {
-                        token.lastPrice = 1;
-                    }
-                };
-
-                tokens.sort((a, b) => {
-                    return (b.volume > 0 ? b.volume : b.marketCap / 1000000000) - (a.volume > 0 ? a.volume : a.marketCap / 1000000000);
-                });
-
-                const steemp_balance = await ssc.findOne('tokens', 'balances', { account: 'steem-peg', symbol: 'STEEMP' }) as IBalance;
-
-                if (steemp_balance && steemp_balance.balance) {
-                    const token = tokens.find(t => t.symbol === 'STEEMP');
-
-                    token.supply -= parseFloat(steemp_balance.balance);
-                    (token as any).circulatingSupply -= parseFloat(steemp_balance.balance);
-                }
-
-                if (steemp_balance && steemp_balance.balance) {
-                    const token = tokens.find(t => t.symbol === 'STEEMP');
-
-                    token.supply -= parseFloat(steemp_balance.balance);
-                    (token as any).circulatingSupply -= parseFloat(steemp_balance.balance);
-                }
-
-                resolve(tokens);
-            });
-        });
+    tokens.sort((a, b) => {
+        return (b.volume > 0 ? b.volume : b.marketCap / 1000000000) - (a.volume > 0 ? a.volume : a.marketCap / 1000000000);
     });
+
+    if (data.steempBalance && data.steempBalance.balance) {
+        const token = tokens.find(t => t.symbol === 'STEEMP');
+
+        token.supply -= parseFloat(data.steempBalance.balance);
+        (token as any).circulatingSupply -= parseFloat(data.steempBalance.balance);
+    }
+
+    if (data.steempBalance && data.steempBalance.balance) {
+        const token = tokens.find(t => t.symbol === 'STEEMP');
+
+        token.supply -= parseFloat(data.steempBalance.balance);
+        (token as any).circulatingSupply -= parseFloat(data.steempBalance.balance);
+    }
+
+    return tokens;
+}
+
+export async function loadTokens(): Promise<any[]> {
+    const callQl = await query(`query {
+        tokens(limit: 1000, offset: 0) {
+            issuer,
+            symbol,
+            name,
+            metadata {
+                url,
+            icon,
+            desc
+            },
+            precision,
+            maxSupply,
+            supply,
+            circulatingSupply
+        },
+        metrics(limit: 1000, offset: 0) {
+            symbol,
+            volume,
+            volumeExpiration,
+            lastPrice,
+            lowestAsk,
+            highestBid,
+            lastDayPrice,
+            lastDayPriceExpiration,
+            priceChangeSteem,
+            priceChangePercent
+        },
+        steempBalance {
+            account,
+            symbol,
+            balance
+        }
+    }
+    `);
+
+    const { tokens, metrics, steempBalance } = callQl.data as { tokens: IToken[], metrics: IMetric[], steempBalance: IBalance };
+
+    const finalTokens = tokens.filter(t => !environment.DISABLED_TOKENS.includes(t.symbol));
+
+    for (const token of finalTokens) {
+        token.highestBid = 0;
+        token.lastPrice = 0;
+        token.lowestAsk = 0;
+        token.marketCap = 0;
+        token.volume = 0;
+        token.priceChangePercent = 0;
+        token.priceChangeSteem = 0;
+
+        token.metadata = tryParse(token.metadata);
+
+        if (!token.metadata) {
+            token.metadata = {
+                desc: '',
+                icon: '',
+                url: ''
+            };
+        }
+
+        if (!metrics) {
+            return;
+        }
+
+        const metric = metrics.find(m => token.symbol == m.symbol);
+
+        if (metric) {
+            token.highestBid = parseFloat(metric.highestBid);
+            token.lastPrice = parseFloat(metric.lastPrice);
+            token.lowestAsk = parseFloat(metric.lowestAsk);
+            token.marketCap = token.lastPrice * parseFloat(token.circulatingSupply);
+            token.usdValue = usdFormat(token.lastPrice);
+            
+            if (Date.now() / 1000 < metric.volumeExpiration) {
+                token.volume = parseFloat(metric.volume);
+            }
+
+            if (Date.now() / 1000 < metric.lastDayPriceExpiration) {
+                token.priceChangePercent = parseFloat(metric.priceChangePercent);
+                token.priceChangeSteem = parseFloat(metric.priceChangeSteem);
+            }
+
+            // if (token.symbol == 'AFIT') {
+            //     const afit_data = await ssc.find('market', 'tradesHistory', { symbol: 'AFIT' }, 100, 0, [{ index: '_id', descending: false }], false);
+            //     token.volume = (afit_data) ? afit_data.reduce((t, v) => t += parseFloat(v.price) * parseFloat(v.quantity), 0) : 0;
+            // }
+        }
+
+        if (token.symbol === 'STEEMP') {
+            token.lastPrice = 1;
+        }
+    };
+
+    finalTokens.sort((a, b) => {
+        return (b.volume > 0 ? b.volume : b.marketCap / 1000000000) - (a.volume > 0 ? a.volume : a.marketCap / 1000000000);
+    });
+
+    if (steempBalance && steempBalance.balance) {
+        const token = finalTokens.find(t => t.symbol === 'STEEMP');
+
+        token.supply -= parseFloat(steempBalance.balance);
+        (token as any).circulatingSupply -= parseFloat(steempBalance.balance);
+    }
+
+    if (steempBalance && steempBalance.balance) {
+        const token = finalTokens.find(t => t.symbol === 'STEEMP');
+
+        token.supply -= parseFloat(steempBalance.balance);
+        (token as any).circulatingSupply -= parseFloat(steempBalance.balance);
+    }
+
+    return finalTokens;
+}
+
+export async function loadExchangeUiLoggedIn(account, symbol) {
+    const callQl = await query(`query {
+        tokens(limit: 1000, offset: 0) {
+            issuer,
+            symbol,
+            name,
+            metadata {
+                url,
+            icon,
+            desc
+            },
+            precision,
+            maxSupply,
+            supply,
+            circulatingSupply
+        },
+        metrics(limit: 1000, offset: 0) {
+            symbol,
+            volume,
+            volumeExpiration,
+            lastPrice,
+            lowestAsk,
+            highestBid,
+            lastDayPrice,
+            lastDayPriceExpiration,
+            priceChangeSteem,
+            priceChangePercent
+        },
+        steempBalance {
+            account,
+            symbol,
+            balance
+        },
+        userBalances: balances(account: "${account}", limit: 1000, offset: 0) {
+            account,
+            symbol,
+            balance
+        },
+        buyBook(symbol: "${symbol}", limit: 200, offset: 0) {
+            txId,
+            timestamp,
+            account,
+            symbol,
+            quantity,
+            price,
+            tokensLocked,
+            expiration
+          },
+          sellBook(symbol: "${symbol}", limit: 200, offset: 0) {
+            txId,
+            timestamp,
+            account,
+            symbol,
+            quantity,
+            price,
+            expiration
+          },
+          tradesHistory(symbol: "${symbol}", limit: 30, offset: 0) {
+            type,
+            symbol,
+            quantity,
+            price,
+            timestamp
+          },
+          userBuyBook: buyBook(symbol: "${symbol}", account: "${account}", limit: 100, offset: 0) {
+            txId,
+            timestamp,
+            account,
+            symbol,
+            quantity,
+            price,
+            tokensLocked,
+            expiration
+          },
+          userSellBook: sellBook(symbol: "${symbol}", account: "${account}", limit: 100, offset: 0) {
+            txId,
+            timestamp,
+            account,
+            symbol,
+            quantity,
+            price,
+            expiration
+          },
+          tokenBalance(symbol: "${symbol}", account: "${account}") {
+            account,
+            symbol,
+            balance
+          }
+    }
+    `);
+
+    return callQl?.data as { 
+        tokens: IToken[], 
+        metrics: IMetric[], 
+        steempBalance: IBalance, 
+        userBalances: IBalance[],
+        buyBook: any,
+        sellBook: any,
+        tradesHistory: any,
+        userBuyBook: any,
+        userSellBook: any,
+        tokenBalance: any
+    };
+}
+
+export async function loadExchangeUiLoggedOut(symbol) {
+    const callQl = await query(`query {
+        tokens(limit: 1000, offset: 0) {
+            issuer,
+            symbol,
+            name,
+            metadata {
+                url,
+            icon,
+            desc
+            },
+            precision,
+            maxSupply,
+            supply,
+            circulatingSupply
+        },
+        metrics(limit: 1000, offset: 0) {
+            symbol,
+            volume,
+            volumeExpiration,
+            lastPrice,
+            lowestAsk,
+            highestBid,
+            lastDayPrice,
+            lastDayPriceExpiration,
+            priceChangeSteem,
+            priceChangePercent
+        },
+        steempBalance {
+            account,
+            symbol,
+            balance
+        },
+        buyBook(symbol: "${symbol}", limit: 200, offset: 0) {
+            txId,
+            timestamp,
+            account,
+            symbol,
+            quantity,
+            price,
+            tokensLocked,
+            expiration
+          },
+          sellBook(symbol: "${symbol}", limit: 200, offset: 0) {
+            txId,
+            timestamp,
+            account,
+            symbol,
+            quantity,
+            price,
+            expiration
+          },
+          tradesHistory(symbol: "${symbol}", limit: 30, offset: 0) {
+            type,
+            symbol,
+            quantity,
+            price,
+            timestamp
+          }
+    }
+    `);
+
+    return callQl?.data as { 
+        tokens: IToken[], 
+        metrics: IMetric[], 
+        steempBalance: IBalance, 
+        userBalances: IBalance[],
+        buyBook: any,
+        sellBook: any,
+        tradesHistory: any,
+        userBuyBook: any,
+        userSellBook: any,
+        tokenBalance: any
+    };
 }
 
 export async function loadBalances(account: string): Promise<BalanceInterface[]> {
