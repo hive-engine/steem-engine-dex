@@ -3,7 +3,7 @@ import store, { getCurrentState } from './store';
 
 import firebase from 'firebase/app';
 import { log } from 'services/log';
-import { loadBalances, loadTokens } from 'common/steem-engine';
+import { loadBalances, loadTokens, loadExchangeUiLoggedIn, loadExchangeUiLoggedOut, parseTokens } from 'common/steem-engine';
 import { ssc } from 'common/ssc';
 import moment from 'moment';
 
@@ -205,6 +205,70 @@ export async function loadTokensList(state: State): Promise<State> {
     return newState;
 }
 
+export async function exchangeData(state: State, symbol: string): Promise<State> {
+    const newState = { ...state };
+
+    try {
+        if (newState.loggedIn) {
+            const data = await loadExchangeUiLoggedIn(newState.account.name, symbol);
+
+            newState.tokens = parseTokens(data) as any;
+
+            newState.buyBook = data.buyBook.map(o => {
+                newState.buyTotal += o.quantity * o.price;
+                o.total = newState.buyTotal;
+                o.amountLocked = o.quantity * o.price;
+                return o;
+            });
+
+            newState.sellBook = data.sellBook.map(o => {
+                newState.sellTotal += o.quantity * o.price;
+                o.total = newState.sellTotal;
+                o.amountLocked = o.quantity * o.price;
+                return o;
+            });
+
+            newState.tradeHistory = data.tradesHistory.map(o => {
+                o.total = o.price * o.quantity;
+                o.timestamp_string = moment
+                    .unix(o.timestamp)
+                    .format('YYYY-M-DD HH:mm:ss');
+                return o;
+            });
+        } else {
+            const data = await loadExchangeUiLoggedOut(symbol);
+
+            newState.tokens = parseTokens(data) as any;
+
+            newState.buyBook = data.buyBook.map(o => {
+                newState.buyTotal += o.quantity * o.price;
+                o.total = newState.buyTotal;
+                o.amountLocked = o.quantity * o.price;
+                return o;
+            });
+
+            newState.sellBook = data.sellBook.map(o => {
+                newState.sellTotal += o.quantity * o.price;
+                o.total = newState.sellTotal;
+                o.amountLocked = o.quantity * o.price;
+                return o;
+            });
+
+            newState.tradeHistory = data.tradesHistory.map(o => {
+                o.total = o.price * o.quantity;
+                o.timestamp_string = moment
+                    .unix(o.timestamp)
+                    .format('YYYY-M-DD HH:mm:ss');
+                return o;
+            });
+        }
+    } catch (e) {
+        console.log(e);
+    }
+
+    return newState;
+}
+
 store.registerAction('loading', loading);
 store.registerAction('login', login);
 store.registerAction('logout', logout);
@@ -217,3 +281,4 @@ store.registerAction('loadTokensList', loadTokensList);
 store.registerAction('loadBuyBook', loadBuyBook);
 store.registerAction('loadSellBook', loadSellBook);
 store.registerAction('loadTradeHistory', loadTradeHistory);
+store.registerAction('exchangeData', exchangeData);

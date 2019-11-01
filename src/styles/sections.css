@@ -2,14 +2,6 @@
     background: rgb(210, 209, 212) !important;
 }
 
-@font-face {
-    font-family: main-font;
-    src: url("../fonts/main-font-regular.woff");
-}
-@font-face {
-    font-family: main-font-bold;
-    src: url("../fonts/main-font-bold-c.woff");
-}
 .section-light {
     background: #fefefe;
     color: #181f1f;

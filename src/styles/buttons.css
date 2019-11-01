@@ -1,12 +1,3 @@
-@font-face {
-    font-family: main-font;
-    src: url('../fonts/main-font-regular.woff');
-}
-@font-face {
-    font-family: main-font-bold;
-    src: url('../fonts/main-font-bold-c.woff')
-}
-
 .btn {
     font-family: 'main-font', sans-serif;
 }
