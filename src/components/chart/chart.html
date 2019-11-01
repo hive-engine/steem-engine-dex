@@ -1,4 +1,5 @@
 <template>
+    <loader loading.bind="loading" mode="tiny"></loader>
     <div class="chart-container">
         <canvas ref="chartRef" show.bind="type == 'line'"></canvas>
         <canvas ref="chartRefCandle" show.bind="type == 'candlestick'"></canvas>
