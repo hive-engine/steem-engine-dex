@@ -14,6 +14,7 @@ import { faWallet } from '@fortawesome/pro-duotone-svg-icons'
 export class NavBar {
     @bindable router;
     @bindable loggedIn;
+    @bindable claims;
     @bindable iconWallet = faWallet;
 
     private state: State;
