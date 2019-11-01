@@ -60,27 +60,27 @@ describe('Functions', () => {
         expect(request.parsedURL).toMatchObject({path: `/history/marketHistory?symbol=${symbol}&timestampEnd=123456`});
     });
 
-    it('loadTokens method should return tokens', async () => {
-        ssc.find.mockImplementation((table: string, name: string, {}, num1, num2, str, callback: any) => {{
-            if (table === 'tokens' && name === 'tokens') {
-                const tokens: IToken[] = tokensData as IToken[];
+    // it('loadTokens method should return tokens', async () => {
+    //     ssc.find.mockImplementation((table: string, name: string, {}, num1, num2, str, callback: any) => {{
+    //         if (table === 'tokens' && name === 'tokens') {
+    //             const tokens: IToken[] = tokensData as IToken[];
 
-                callback(undefined, tokens);
-            } else if (table === 'market' && name === 'metrics') {
-                const metrics: IMetric[] = metricsData as IMetric[];
+    //             callback(undefined, tokens);
+    //         } else if (table === 'market' && name === 'metrics') {
+    //             const metrics: IMetric[] = metricsData as IMetric[];
 
-                return Promise.resolve(metrics);
-            }
-        }});
+    //             return Promise.resolve(metrics);
+    //         }
+    //     }});
 
-        window.steem_price = 0.13694137258356862;
+    //     window.steem_price = 0.13694137258356862;
 
-        const tokens = await loadTokens();
-        const steempPreparsed = tokensData.find(t => t.symbol === 'ENG') as IToken;
-        const steempToken = tokens.find(t => t.symbol === 'ENG') as IToken;
+    //     const tokens = await loadTokens();
+    //     const steempPreparsed = tokensData.find(t => t.symbol === 'ENG') as IToken;
+    //     const steempToken = tokens.find(t => t.symbol === 'ENG') as IToken;
 
-        expect(steempPreparsed.marketCap).toEqual(steempToken.marketCap);
-        expect(steempToken.usdValue).toBe('$0.116');
-    });
+    //     expect(steempPreparsed.marketCap).toEqual(steempToken.marketCap);
+    //     expect(steempToken.usdValue).toBe('$0.116');
+    // });
 
 });
