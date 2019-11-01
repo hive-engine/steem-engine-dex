@@ -2,8 +2,8 @@
     <require from="./components/balances"></require>
     <require from="./components/buybook"></require>
     <require from="./components/sellbook"></require>
+    <require from="./components/trade-history"></require>
     <require from="./components/best-price.html"></require>
-    <require from="./components/trade-history.html"></require>
     <require from="./components/token-metrics"></require>
     <require from="./components/order-actions"></require>
 
@@ -19,9 +19,9 @@
         <div class="row exchange-columns h100">
             <div class="col-lg-3 col-md-12 col-sm-12">
                 <div class="exchange-header">
-                    <h2>Sell Orders</h2>
+                    <h2>${'Sell Orders' & t}</h2>
                 </div>
-                <sellbook loading.bind="loadingUserSellBook"
+                <sellbook
                           sell-book.bind="sellBook"
                           data.bind="data"
                           price.bind="bidPrice"
@@ -30,7 +30,7 @@
                 <div class="exchange-header">
                     <h2>Buy Orders</h2>
                 </div>
-                <buybook loading.bind="loadingUserBuyBook"
+                <buybook
                          buy-book.bind="buyBook"
                          data.bind="data"
                          price.bind="bidPrice"
@@ -70,7 +70,8 @@
                 <div class="exchange-header">
                     <h2>Transaction History</h2>
                 </div>
-                <trade-history trades.bind="tradeHistory"></trade-history>
+                <trade-history trades.bind="tradeHistory"
+                               data.bind="data"></trade-history>
             </div>
         </div>
     </div>

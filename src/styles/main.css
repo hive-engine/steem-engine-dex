@@ -9,10 +9,12 @@
 @font-face {
     font-family: main-font;
     src: url("../fonts/main-font-regular.woff");
+    font-display: fallback;
 }
 @font-face {
     font-family: main-font-bold;
     src: url("../fonts/main-font-bold-c.woff");
+    font-display: fallback;
 }
 
 body {
@@ -225,4 +227,10 @@ sellbook {
     display: block;
     min-height: 250px;
     position: relative;
+}
+
+.form-group p {
+    font-size: 12px;
+    margin: 0 0 10px 0;
+    color: #333;
 }

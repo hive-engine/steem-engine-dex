@@ -57,6 +57,26 @@ export const createUserRoles = functions.auth.user().onCreate((user) => {
     return admin.auth().setCustomUserClaims(user.uid, customClaims);
 });
 
+export const auditAdminChanges = functions.firestore.document('admin/settings').onUpdate(async (change, context) => {
+    const before = change.before.data();
+    const after  = change.after.data();
+
+    if (after) {
+        const updatedBy = after.updatedBy;
+
+        try {
+            const ref = admin.firestore().collection('audit').doc();
+            const id = ref.id;
+            const createdAt = Date.now();
+            const data = {updatedBy, before, after, id, createdAt, type: 'adminSettings'};
+
+            await ref.set(data)
+        } catch (e) {
+            console.error('Error adding audit change', e);
+        }
+    }
+});
+
 export const api = functions
     .runWith({ memory: '1GB', timeoutSeconds: 120 })
     .https

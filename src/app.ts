@@ -1,39 +1,46 @@
 import { AuthorizeStep } from './resources/pipeline-steps/authorize';
 import { SteemEngine } from 'services/steem-engine';
-import { EventAggregator } from 'aurelia-event-aggregator';
+import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 import { Store, dispatchify } from 'aurelia-store';
 import { environment } from './environment';
 import { PostRenderStep } from './resources/pipeline-steps/postrender';
 import { PreRenderStep } from './resources/pipeline-steps/prerender';
 import { MaintenanceStep } from './resources/pipeline-steps/maintenance';
 import { PLATFORM } from 'aurelia-pal';
-import { Router, RouterConfiguration } from 'aurelia-router';
+import { Router, RouterConfiguration, RouterEvent } from 'aurelia-router';
 import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
 
 import firebase from 'firebase/app';
-import { login, logout } from 'store/actions';
+import { login, logout, loadSiteSettings, setAccount } from 'store/actions';
 
 @autoinject()
 export class App {
     private loggedIn = false;
     private loading = false;
-    public router: Router;
+    private claims;
 
-    constructor(
-        private ea: EventAggregator,
-        private store: Store<State>,
-        private se: SteemEngine
-    ) {
+    public router: Router;
+    public subscription: Subscription;
+    private state: State;
+
+    constructor(private ea: EventAggregator, private store: Store<State>, private se: SteemEngine) {
         authStateChanged();
     }
 
     bind() {
         this.store.state.subscribe((s: State) => {
             if (s) {
+                this.state = s;
+
                 this.loading = s.loading;
                 this.loggedIn = s.loggedIn;
+                this.claims = s?.account?.token?.claims;
             }
+        });
+
+        this.subscription = this.ea.subscribe(RouterEvent.Complete, () => {
+            dispatchify(loadSiteSettings)();
         });
     }
 
@@ -175,7 +182,7 @@ export class App {
                 route: 'admin',
                 name: 'admin',
                 moduleId: PLATFORM.moduleName('./routes/admin/admin'),
-                nav: false,
+                nav: true,
                 auth: true,
                 title: 'Admin',
                 settings: {
@@ -191,8 +198,13 @@ export class App {
 async function authStateChanged() {
     return new Promise(resolve => {
         firebase.auth().onAuthStateChanged(async user => {
+            const token = await firebase.auth()?.currentUser?.getIdTokenResult(true);
+
             if (user) {
                 dispatchify(login)(user.uid);
+                if (token) {
+                    dispatchify(setAccount)({token});
+                }
                 resolve();
             } else {
                 dispatchify(logout)();

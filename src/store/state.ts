@@ -4,10 +4,20 @@ export interface AccountInterface {
     balances: any[];
     scotTokens: any[];
     pendingUnstakes: any[];
+    token: any;
+}
+
+export interface ISettings {
+    disableDeposits: boolean;
+    disableWithdrawals: boolean;
+    disabledTokens: string[];
+    maintenanceMode: boolean;
+    siteName: string;
 }
 
 export interface State {
     account: AccountInterface;
+    settings: ISettings;
     firebaseUser: any;
     loggedIn: boolean;
     loading: boolean;
@@ -22,10 +32,18 @@ export interface State {
 export const initialState: State = {
     account: {
         name: '',
+        token: {},
         account: {},
         balances: [],
         scotTokens: [],
         pendingUnstakes: []
+    },
+    settings: {
+        disableDeposits: false,
+        disableWithdrawals: false,
+        disabledTokens: [],
+        maintenanceMode: false,
+        siteName: 'Steem Engine'
     },
     firebaseUser: {},
     loggedIn: false,

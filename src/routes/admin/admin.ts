@@ -28,12 +28,19 @@ export class AdminAdmin {
                 title: 'Users'
             },
             {
+                route: 'tokens',
+                name: 'adminTokens',
+                moduleId: PLATFORM.moduleName('./tokens'),
+                nav: true,
+                title: 'Tokens'
+            },
+            {
                 route: 'settings',
                 name: 'adminSettings',
                 moduleId: PLATFORM.moduleName('./settings'),
                 nav: true,
                 title: 'Settings'
-            }
+            },
         ]);
 
         this.router = router;
