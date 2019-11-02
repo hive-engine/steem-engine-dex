@@ -53,20 +53,37 @@
 .banner-btn {
     border-radius: 3px;
     color: white;
-    width: 216px;
-    height: 44px;
     font-size: 25px;
+    width: 216px;
     margin-top: 4px;
-    padding: 5px 8px;
-    border: 1px solid white;
+    padding: 8px 22px;
+    border: 1px solid rgb(211, 205, 205);
 }
 
 .btn-view-markets {
-    background-color: transparent;
+    background-color: #0048b3;
     color: white;
 }
+.btn-view-markets:hover {
+    background-color: #042475;
+    color: white!important;
+}
 .btn-get-started {
-    background-color: rgb(50, 26, 94);
+    background-color: #21be3d;
+    color: #fff;
+    margin-right: 28px;
+}
+@media only screen and (max-device-width: 480px) {
+    .btn-get-started {
+        margin-right: 0!important;
+        margin-bottom: 12px;
+    }
+}
+@media only screen and (max-device-width: 769px) {
+    .btn-get-started {
+        margin-right: 0!important;
+        margin-bottom: 12px;
+    }
 }
 
 .banner-content .subs-form .input-box {
