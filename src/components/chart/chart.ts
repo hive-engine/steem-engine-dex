@@ -3,6 +3,7 @@ import { customElement, bindable, TaskQueue, autoinject, DOM } from 'aurelia-fra
 import Chart from 'chart.js';
 import './../../../custom_scripts/chartjs-chart-financial/scale.financialLinear.js';
 import './../../../custom_scripts/chartjs-chart-financial/controller.candlestick.js';
+import { faWallet } from '@fortawesome/pro-duotone-svg-icons'
 
 const DefaultChartOptions = {
     options: {
@@ -26,6 +27,7 @@ export class ChartComponent {
     @bindable type = 'candlestick';
     @bindable options: any = {};
     @bindable data: any = {};
+    @bindable iconWallet = faWallet;
 
     constructor(private element: Element, private taskQueue: TaskQueue) {
 
