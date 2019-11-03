@@ -3,6 +3,7 @@ import { customElement, bindable, TaskQueue, autoinject, DOM } from 'aurelia-fra
 import Chart from 'chart.js';
 import './../../../custom_scripts/chartjs-chart-financial/scale.financialLinear.js';
 import './../../../custom_scripts/chartjs-chart-financial/controller.candlestick.js';
+import { faWallet } from '@fortawesome/pro-duotone-svg-icons'
 
 const DefaultChartOptions = {
     options: {
@@ -21,11 +22,14 @@ export class ChartComponent {
     private chartRefCandle: HTMLCanvasElement;
     private chart;
     private chartCandle;
-    private created = false;    
+    private created = false;  
+    private iteration = 1;  
 
+    @bindable loading = true;
     @bindable type = 'candlestick';
     @bindable options: any = {};
     @bindable data: any = {};
+    @bindable iconWallet = faWallet;
 
     constructor(private element: Element, private taskQueue: TaskQueue) {
 
@@ -38,6 +42,11 @@ export class ChartComponent {
 
             this.created = true;
         });
+    }
+
+    dataChanged() {
+        this.iteration += 1;
+        this.loading = (this.iteration === 2);
     }
 
     detached() {

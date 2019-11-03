@@ -1,8 +1,58 @@
 <template>
+    <loader loading.bind="loading" mode="tiny"></loader>
     <div class="chart-container">
+        <div class="chart-header">
+            <div class="chart-options">
+                <div class="chart-options-buttons text-center">
+                    <button
+                        class="btn chart-icon"
+                        click.delegate="setChartType('candlestick')"
+                    >
+                        <img
+                            src="./../../images//candlestick-chart.svg"
+                            alt="cs-icon"
+                            width="20px"
+                        /><span>Candlestick</span>
+                    </button>
+                    <button
+                        class="btn chart-icon"
+                        click.delegate="setChartType('line')"
+                    >
+                        <img
+                            src="./../../images/area-chart.svg"
+                            alt="ac-icon"
+                            width="20px"
+                        /><span>Depth</span>
+                    </button>
+                </div>
+            </div>
+        </div>
         <canvas ref="chartRef" show.bind="type == 'line'"></canvas>
         <canvas ref="chartRefCandle" show.bind="type == 'candlestick'"></canvas>
-        <button class="btn btn-danger" click.delegate="setChartType('candlestick')">Candlestick</button>
-        <button class="btn btn-success" click.delegate="setChartType('line')">Depth</button>
     </div>
+
+    <style>
+        .chart-icon {
+            padding: 6px 4px;
+        }
+
+        .chart-icon:hover > span {
+            color: #129cf3;
+        }
+        .chart-icon:focus,
+        .chart-icon:active > span {
+            color: #129cf3;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        .chart-icon span {
+            padding: 10px 10px;
+            padding-bottom: 0;
+            font-size: 12px;
+            transition: 0.3s all ease-out;
+            -o-transition: 0.3s all ease-out;
+            -moz-transition: 0.3s all ease-out;
+            -webkit-transition: 0.3s all ease-out;
+        }
+    </style>
 </template>
