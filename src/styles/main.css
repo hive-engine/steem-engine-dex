@@ -193,18 +193,18 @@ legend {
 .table-dark td,
 .table-dark th,
 .table-dark thead th {
-    background: #1c212a;
-    border-color: #39455f;
-    color: #fff;
+    background: #fefefe;
+    border-color: #b4b4b4;
+    color: #000;
 }
 
 .table-dark thead th {
-    border-bottom: 1px solid #39455f;
+    border-bottom: 1px solid #c5c5c5;
     border-top: 0;
 }
 
 .table-dark tbody td {
-    border-bottom: 1px solid #262e3f;
+    border-bottom: 1px solid #c5c5c5;
     border-top: 0;
 }
 
@@ -213,14 +213,12 @@ ul li {
 }
 
 .green-text {
-    color: #21BE3D;
+    color: #21be3d;
 }
 
 .yellow-text {
-    color: #FFE289;
-
+    color: #ffe289;
 }
-
 
 buybook,
 sellbook {

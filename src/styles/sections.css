@@ -94,7 +94,6 @@
     padding: 0 30px;
 }
 
-
 /*.section-divider {
     margin-top: 100px;
     margin-bottom: 100px;
@@ -107,7 +106,7 @@
 .section-title h2 {
     border-bottom: 2px solid black;
     font-size: 50px;
-color: #253859 !important;
+    color: #253859 !important;
     line-height: 1.3em;
     font-style: arial;
 }
@@ -303,9 +302,15 @@ color: #253859 !important;
         height: 250px;
     }
 }
-
+.footer-header {
+    color: rgba(3, 27, 78, 0.7) !important;
+    padding: 15px;
+}
 .margin-top-40 {
     margin-top: 40px;
+}
+.footer-ul {
+    padding: 10px 0 !important;
 }
 
 .p-footer {
@@ -313,8 +318,16 @@ color: #253859 !important;
     font-size: 14px;
     line-height: 28px;
 }
+.p-footer:hover {
+    color: #0c0b0b !important;
+    cursor: pointer !important;
+}
 .social-display {
-    display: inline-flex;
+    display: flex !important;
+}
+
+.social-logo {
+    padding: 15px;
 }
 /* ======================== Gear SVG ==============*/
 
