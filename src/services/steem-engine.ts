@@ -215,25 +215,43 @@ export class SteemEngine {
     }
 
     async getScotUsertokens(account) {
+        var tokens: IScotToken[] = [];
         if (!account && this.user) {
             account = this.user.name;
         }
 
-        const req = await this.request(`${environment.SCOT_API}@${account}`);
-        const scotTokens = await req.json();
+        if (account) {
+            let url = `${environment.SCOT_API}@${account}?`;
+            const req = await this.request(url);            
+            const results = await req.json();
 
-        if (scotTokens) {
-            this.user.scotTokens = scotTokens;
+            if (results) {
+                for (const key in results) {
+                    var token = results[key];
+                    tokens.push(<IScotToken>token);
+                }
+            }
+
+            if (tokens) {
+                this.user.scotTokens = tokens;
+            }
+
+            return tokens;
         }
 
-        return Object.entries(scotTokens);
+        return [];
     }
 
     async claimToken(symbol: string) {
-        const token = this.tokens.find(t => t.symbol === symbol);
-        const username = this.user.name;
-        const amount = this.user.scotTokens[symbol].pending_token;
-        const factor = Math.pow(10, token.precision);
+        var claimTokenResult = false;
+
+        var username = this.user.name;                
+        if (username === "")
+            username = this.getUser();
+
+        var scotToken = this.user.scotTokens.find(function (x) { return x.symbol === symbol });         
+        const amount = scotToken.pending_token;
+        const factor = Math.pow(10, scotToken.precision);
         const calculated = amount / factor;
         
         const claimData = {
@@ -244,13 +262,15 @@ export class SteemEngine {
             const response = await customJson(username, 'scot_claim_token', 'Posting', JSON.stringify(claimData),`Claim ${calculated} ${symbol.toUpperCase()} Tokens`);
             
             if (response.success && response.result) {
-
+                claimTokenResult = true;
             }
         } else {
             steemConnectJsonId(this.user.name, 'posting', 'scot_claim_token', claimData, () => {
                 // Hide loading
             });
         }
+
+        return claimTokenResult;
     }
 
     async enableStaking(symbol, unstakingCooldown, numberTransactions) {
