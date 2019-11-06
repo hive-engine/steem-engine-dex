@@ -1,6 +1,6 @@
-import { BootstrapFormRenderer } from './../resources/bootstrap-form-renderer';
+import { BootstrapFormRenderer } from './../../resources/bootstrap-form-renderer';
 import { ValidationControllerFactory, ValidationController, ValidationRules } from 'aurelia-validation';
-import { UploadType, FirebaseService } from './../services/firebase-service';
+import { UploadType, FirebaseService } from './../../services/firebase-service';
 import { Subscription } from 'rxjs';
 import { State } from 'store/state';
 import { loadTokensList, getCurrentFirebaseUser } from 'store/actions';
