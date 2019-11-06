@@ -32,7 +32,7 @@ export class App {
         this.store.state.subscribe((s: State) => {
             if (s) {
                 this.state = s;
-
+                                
                 this.loading = s.loading;
                 this.loggedIn = s.loggedIn;
                 this.claims = s?.account?.token?.claims;
@@ -103,7 +103,7 @@ export class App {
             {
                 route: 'rewards',
                 name: 'rewards',
-                moduleId: PLATFORM.moduleName('./routes/rewards'),
+                moduleId: PLATFORM.moduleName('./routes/account/rewards'),
                 nav: false,
                 auth: true,
                 title: 'Rewards'
@@ -119,7 +119,7 @@ export class App {
             {
                 route: 'settings',
                 name: 'settings',
-                moduleId: PLATFORM.moduleName('./routes/settings'),
+                moduleId: PLATFORM.moduleName('./routes/account/settings'),
                 nav: false,
                 auth: true,
                 title: 'Settings'
