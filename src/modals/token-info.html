@@ -1,0 +1,61 @@
+<template>
+    <ux-dialog>
+        <loader mode="tiny" loading.bind="loading"></loader>
+
+        <ux-dialog-header>
+            <h2>${'Token information' & t}</h2>
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <div if.bind="token">
+                <div class="form-group">                    
+                    <img class="tokenInfoIcon" src="${token.metadata.icon}" alt="${token.symbol}" title="${token.symbol}" />
+                    <h1 class="tokenInfoTitle">${token.symbol}</h1>
+                </div>
+
+                <div class="form-group">
+                    <h4>${'Token Name' & t}</h4>
+                    <h3>${token.name}</h3>
+                </div>
+
+                <div class="form-group">
+                    <h4>${'Supply (Circulating / Total / Max)' & t}</h4>
+                    <h3>${token.circulatingSupply} / ${token.supply} / ${token.maxSupply}</h3>
+                </div>
+
+                <div class="form-group">
+                    <h4>${'Issuer' & t}</h4>
+                    <h3>
+                        <a href="${'https://steempeak.com/@' + token.issuer}" target="_blank">
+                            ${token.issuer}
+                            <font-awesome-icon icon.bind="['fas', 'external-link']"></font-awesome-icon>
+                        </a>
+                    </h3>
+                </div>
+
+                <div class="form-group">
+                    <h4>${'Website URL' & t}</h4>
+                    <h3>
+                        <a href="${token.metadata.url}" target="_blank">
+                            ${token.metadata.url}
+                            <font-awesome-icon icon.bind="['fas', 'external-link']"></font-awesome-icon>
+                        </a>
+                    </h3>
+                </div>
+
+                <div class="form-group">
+                    <h4>${'Description' & t}</h4>
+                    <h5>${token.metadata.desc}</h5>
+                </div>
+            </div>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <button
+                class="btn btn-lg redBtn"
+                click.trigger="controller.cancel()"
+            >
+                ${'Close' & t}
+            </button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>
