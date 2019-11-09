@@ -1,9 +1,8 @@
 export class ArrayFilterValueConverter {
-    toView(array, value, cols, showResults=false) {
+    toView(array, value, cols) {
         if (!value) { return array; };
 
-        const arrayOut = array.filter(
-            function(arrayIn) {
+        const arrayOut = array.filter((arrayIn) => {
                 for (const col in arrayIn) {
                     if (arrayIn.hasOwnProperty(col)) {
                         if (cols.indexOf(col) != -1 && arrayIn[col].toLowerCase()
