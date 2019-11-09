@@ -1,6 +1,6 @@
 import { Capitalise } from './../../../src/resources/value-converters/capitalise';
 
-describe('Auth Filter', () => {
+describe('Capitalise Filter', () => {
     let sut: Capitalise;
 
     beforeEach(() => {
