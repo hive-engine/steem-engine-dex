@@ -154,7 +154,9 @@ export async function loadTokens(): Promise<any[]> {
             precision,
             maxSupply,
             supply,
-            circulatingSupply
+            circulatingSupply,
+            stakingEnabled,
+            delegationEnabled
         },
         metrics(limit: 1000, offset: 0) {
             symbol,
@@ -180,7 +182,7 @@ export async function loadTokens(): Promise<any[]> {
 
     const finalTokens = tokens.filter(t => !environment.DISABLED_TOKENS.includes(t.symbol));
 
-    for (const token of finalTokens) {
+    for (var token of finalTokens) {        
         token.highestBid = 0;
         token.lastPrice = 0;
         token.lowestAsk = 0;
@@ -189,8 +191,6 @@ export async function loadTokens(): Promise<any[]> {
         token.priceChangePercent = 0;
         token.priceChangeSteem = 0;
 
-        token.metadata = tryParse(token.metadata);
-
         if (!token.metadata) {
             token.metadata = {
                 desc: '',
@@ -198,13 +198,13 @@ export async function loadTokens(): Promise<any[]> {
                 url: ''
             };
         }
-
+        
         if (!metrics) {
             return;
         }
 
         const metric = metrics.find(m => token.symbol == m.symbol);
-
+        
         if (metric) {
             token.highestBid = parseFloat(metric.highestBid);
             token.lastPrice = parseFloat(metric.lastPrice);
@@ -267,7 +267,9 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
             precision,
             maxSupply,
             supply,
-            circulatingSupply
+            circulatingSupply,
+            stakingEnabled,
+            delegationEnabled
         },
         metrics(limit: 1000, offset: 0) {
             symbol,
@@ -372,7 +374,9 @@ export async function loadExchangeUiLoggedOut(symbol) {
             precision,
             maxSupply,
             supply,
-            circulatingSupply
+            circulatingSupply,
+            stakingEnabled,
+            delegationEnabled
         },
         metrics(limit: 1000, offset: 0) {
             symbol,
@@ -439,11 +443,11 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
 
     if (loadedBalances.length) {
         const state = await getStateOnce();
-
+        const tokens = state.tokens;                
+        
         const balances = loadedBalances
             .filter(b => !environment.DISABLED_TOKENS.includes(b.symbol))
-            .map(d => {
-                const tokens = state.tokens;
+            .map(d => {                
                 const token = tokens.find(t => t.symbol === d.symbol);
                 const scotConfig = (state.account.name && Object.keys(state.account.scotTokens).length && typeof state.account.scotTokens[token.symbol] !== 'undefined') 
                 ? state.account.scotTokens[token.symbol] : null;
@@ -453,11 +457,15 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
                     lastPrice: token.lastPrice,
                     priceChangePercent: token.priceChangePercent,
                     usdValue: usdFormat(parseFloat(d.balance) * token.lastPrice, 2),
+                    stakingEnabled: token.stakingEnabled,
+                    delegationEnabled: token.delegationEnabled,
+                    issuer: token.issuer,
+                    metadata: token.metadata,
                     scotConfig
                 } };
-            });
+            });        
 
-        balances.sort((a, b) => parseFloat(b.balance) * b.lastPrice * window.steem_price - parseFloat(b.balance) * a.lastPrice * window.steem_price);
+        balances.sort((a, b) => parseFloat(b.balance) * b.lastPrice * window.steem_price - parseFloat(b.balance) * a.lastPrice * window.steem_price);        
 
         return balances;
     } else {
