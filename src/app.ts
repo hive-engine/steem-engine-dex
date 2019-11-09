@@ -86,6 +86,14 @@ export class App {
                 title: 'Tokens'
             },
             {
+                route: 'token-history/:symbol?',
+                href: `token-history/${environment.NATIVE_TOKEN}`,
+                name: 'token-history',
+                moduleId: PLATFORM.moduleName('./routes/wallet/token-history'),
+                nav: false,
+                title: 'Token History'
+            },
+            {
                 route: 'exchange/:symbol?',
                 href: `exchange/${environment.NATIVE_TOKEN}`,
                 name: 'exchange',

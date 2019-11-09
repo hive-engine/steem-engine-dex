@@ -153,3 +153,18 @@ interface IRewardToken {
     symbol: string;
     amount: number;
 }
+
+interface ITokenHistoryTransaction {
+    block: string;
+    from: string;
+    from_type: string;
+    memo: string;
+    quantity: string;
+    symbol: string;
+    timestamp: string;
+    to: string;
+    to_type: string;
+    txid: string;
+    balance: string;
+    timestamp_string: string;
+}
