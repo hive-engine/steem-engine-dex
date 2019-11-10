@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { State } from 'store/state';
 import { HttpClient } from 'aurelia-fetch-client';
 import { usdFormat, queryParam } from 'common/functions';
@@ -45,7 +47,7 @@ export async function loadTokenMarketHistory(symbol: string, timestampStart?: st
 }
 
 export async function loadCoinPairs(): Promise<ICoinPair[]> {
-    let url = `${environment.CONVERTER_API}/pairs/`;
+    const url = `${environment.CONVERTER_API}/pairs/`;
 
     const response = await http.fetch(url, {
         method: 'GET'
@@ -55,7 +57,7 @@ export async function loadCoinPairs(): Promise<ICoinPair[]> {
 }
 
 export async function loadCoins(): Promise<ICoin[]> {
-    let url = `${environment.CONVERTER_API}/coins/`;
+    const url = `${environment.CONVERTER_API}/coins/`;
 
     const response = await http.fetch(url, {
         method: 'GET'
@@ -182,7 +184,7 @@ export async function loadTokens(): Promise<any[]> {
 
     const finalTokens = tokens.filter(t => !environment.DISABLED_TOKENS.includes(t.symbol));
 
-    for (var token of finalTokens) {        
+    for (const token of finalTokens) {        
         token.highestBid = 0;
         token.lastPrice = 0;
         token.lowestAsk = 0;
@@ -485,8 +487,8 @@ export async function loadPendingUnstakes(account: string) {
 
 const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
-const getTransactionInfo = (trx_id) => new Promise((resolve, reject) => {
-    ssc.getTransactionInfo(trx_id, async (err, result) => {
+const getTransactionInfo = (trxId: string) => new Promise((resolve, reject) => {
+    ssc.getTransactionInfo(trxId, async (err, result) => {
         if (result) {
             if (result.logs) {
                 const logs = JSON.parse(result.logs);
@@ -506,13 +508,13 @@ const getTransactionInfo = (trx_id) => new Promise((resolve, reject) => {
     });
 });
 
-export async function checkTransaction(trx_id: string, retries: number) {
+export async function checkTransaction(trxId: string, retries: number) {
     try {
-        return await getTransactionInfo(trx_id);
+        return await getTransactionInfo(trxId);
     } catch (e) {
         if (retries > 0) {
             await delay(5000);
-            return await checkTransaction(trx_id, retries - 1);
+            return await checkTransaction(trxId, retries - 1);
         } else {
             throw new Error('Transaction not found.');
         }

@@ -61,29 +61,4 @@ describe('Functions', () => {
         expect(request.parsedURL).toMatchObject({path: `/history/marketHistory?symbol=${symbol}&timestampEnd=123456`});
     });
 
-    it('loadTokens method should return tokens', async () => {
-        // eslint-disable-next-line no-empty-pattern
-        ssc.find.mockImplementation((table: string, name: string, {}, num1, num2, str, callback: Function) => {{
-            if (table === 'tokens' && name === 'tokens') {
-                const tokens: IToken[] = tokensData as IToken[];
-
-                callback(undefined, tokens);
-            } else if (table === 'market' && name === 'metrics') {
-                const metrics: IMetric[] = metricsData as IMetric[];
-
-                return Promise.resolve(metrics);
-            }
-        }});
-
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        window.steem_price = 0.13694137258356862;
-
-        const tokens = await loadTokens();
-        const steempPreparsed = tokensData.find(t => t.symbol === 'ENG') as IToken;
-        const steempToken = tokens.find(t => t.symbol === 'ENG') as IToken;
-
-        expect(steempPreparsed.marketCap).toEqual(steempToken.marketCap);
-        expect(steempToken.usdValue).toBe('$0.116');
-    });
-
 });

@@ -89,6 +89,7 @@ export class SteemEngine {
     }
 
     async login(username: string, key?: string): Promise<unknown> {
+        // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve) => {
             if (window.steem_keychain && !key) {
                 // Get an encrypted memo only the user can decrypt with their private key
