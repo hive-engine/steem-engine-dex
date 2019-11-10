@@ -1,5 +1,5 @@
 export class ArrayFilterValueConverter {
-    toView(array, config: { search: string, term: string, caseSensitive?: boolean, sort?: { key: string, value: string } }) {
+    toView(array, config: { search: string, term: string, caseSensitive?: boolean, sort?: { key: string, direction?: string } }) {
         if (!array) {
             return array;
         }
@@ -19,19 +19,18 @@ export class ArrayFilterValueConverter {
 
                 return foundItem.indexOf(term) >= 0;
             } else {
-                return item;
+                return false;
             }
         });
 
-        return (!config.sort) ? filtered : filtered.filter(item => {
+        return (!config.sort) ? filtered : filtered.sort((a, b) => {
             const sortKey = config.sort.key;
-            const sortVal = config.sort.value;
+            // eslint-disable-next-line no-undef
+            const sortDir = config.sort?.direction ?? 'asc';
+            const order1 = sortDir === 'asc' ? 1 : -1;
+            const order2 = sortDir === 'asc' ? -1 : 1;
 
-            if (sortVal === '') {
-                return item;
-            } else {
-                return (item[sortKey] == sortVal);
-            }
+            return (a[sortKey] > b[sortKey]) ? order1 : order2;
         });
     }
 }
