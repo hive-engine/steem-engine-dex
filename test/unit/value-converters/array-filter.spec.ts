@@ -44,7 +44,7 @@ describe('Array Filter', () => {
 
         const result = sut.toView(mockData, { search: 'username', term: '' });
 
-        expect(result).toHaveLength(0);
+        expect(result).toHaveLength(3);
     });
 
     test('filter array and sort array with no provided sort order', () => {
