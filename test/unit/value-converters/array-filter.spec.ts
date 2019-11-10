@@ -32,7 +32,7 @@ describe('Array Filter', () => {
 
         const result = sut.toView(mockData, { search: 'username', term: 'BEGGARS', caseSensitive: true });
 
-        expect(result).toEqual([{ username: 'beggars', blockchain: 'steem' }]);
+        expect(result).toHaveLength(0);
     });
 
 });
