@@ -3,13 +3,13 @@ export class ArrayFilterValueConverter {
         if (!array) {
             return array;
         }
-        
+
         const prop = config.search;
         let term = config.term.trim();
         const caseSensitive = config.caseSensitive || false;
 
         const filtered = array.filter(item => {
-            if (term) {
+            if (typeof term === 'string' && term.length > 0) {
                 let foundItem = item[prop];
 
                 if (!caseSensitive) {
