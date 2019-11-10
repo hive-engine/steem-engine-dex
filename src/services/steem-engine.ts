@@ -639,17 +639,16 @@ export class SteemEngine {
         return this.tokens;
     }
 
-    async showHistory(symbol: string) {
-
+    async showHistory(symbol: string, username: string) {        
         try {
-            const history = await this.request('/history', { 
-                account: this.state.account, 
-                limit: 100, 
-                offset: 0, 
-                type: 'user', 
-                symbol: symbol 
+            const history = await this.request('/history?', {
+                account: username,
+                limit: 100,
+                offset: 0,
+                type: 'user',
+                symbol: symbol
             });
-    
+
             return history.json();
         } catch (e) {
             return [];

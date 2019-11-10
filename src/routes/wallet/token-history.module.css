@@ -1,0 +1,29 @@
+.tokenHistoryIcon {
+    width: 64px;
+    height: 64px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.tokenHistoryHeadings {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.tokenHistorySubHeader{
+    margin-bottom: 20px;
+}
+
+.transactionsTable tr {
+    cursor: pointer;
+}
+
+.tokenHistoryBalance h3
+{
+    margin-right: 20px;
+}
+
+.tokenHistoryBalance h3,
+.tokenHistoryBalance button {
+    display: inline-block;
+}
