@@ -11,17 +11,17 @@ export class AuthorizeStep {
     }
 
     run(navigationInstruction, next) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             firebase.auth().onAuthStateChanged(async (user) => {        
-                let currentRoute: RouteConfig = navigationInstruction.config;
+                const currentRoute: RouteConfig = navigationInstruction.config;
                 
-                let loginRequired = currentRoute.auth === true;
+                const loginRequired = currentRoute.auth === true;
                 
                 if (!user && loginRequired === true) {
                     return resolve(next.cancel(new Redirect('')));
                 }
                 
-                let publicOnly = currentRoute.publicOnly === true;
+                const publicOnly = currentRoute.publicOnly === true;
         
                 if (user && publicOnly === true) {
                     return resolve(next.cancel(new Redirect('wallet')));

@@ -1,7 +1,7 @@
 import { addCommas } from 'common/functions';
 
 export class CommaValueConverter {
-    toView(value, currency?) {
+    toView(value: string, currency?: string) {
         if (!value) {
             return value;
         }
