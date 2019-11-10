@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { AuthService } from 'services/auth-service';
 
 describe('AuthService', () => {
@@ -26,11 +27,7 @@ describe('AuthService', () => {
     it('getUserAuthMemo fails', async () => {
         fetchMock.mockRejectOnce(new Error('fake error message'));
 
-        try {
-            await sut.getUserAuthMemo('beggars');
-        } catch (e) {
-            expect(e).toEqual(new Error('fake error message'));
-        }
+        await expect(sut.getUserAuthMemo('beggars')).rejects.toThrow('fake error message');
     });
 
     it('verifyUserAuthMemo returns token', async () => {
@@ -44,11 +41,7 @@ describe('AuthService', () => {
     it('verifyUserAuthMemo fails', async () => {
         fetchMock.mockRejectOnce(new Error('fake error message'));
 
-        try {
-            await sut.verifyUserAuthMemo('beggars', '12345678');
-        } catch (e) {
-            expect(e).toEqual(new Error('fake error message'));
-        }
+        await expect(sut.verifyUserAuthMemo('beggars', '12345678')).rejects.toThrow('fake error message')
     });
 
 });

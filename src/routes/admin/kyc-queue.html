@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <h3>KYC Approval Queue</h3>
 
-            <ul>
+            <ul class="list-unstyled">
                 <li repeat.for="kyc of kycItems"><a route-href="route: adminKycView; params.bind: { uid: kyc.id };">${kyc.id}</a></li>
             </ul>
         </div>

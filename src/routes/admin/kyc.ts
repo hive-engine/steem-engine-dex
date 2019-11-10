@@ -18,7 +18,7 @@ export class AdminKyc {
                 name: 'adminKycView',
                 moduleId: PLATFORM.moduleName('./kyc-view'),
                 nav: false,
-                title: 'Kyc View'
+                title: 'View'
             },
         ]);
 

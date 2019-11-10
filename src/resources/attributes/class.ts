@@ -1,4 +1,4 @@
-import { inject, Parent, View, getContextFor, Scope } from 'aurelia-framework';
+import { inject, Parent, getContextFor } from 'aurelia-framework';
 
 const removeClassList = (element, val) => {
   if (!val) {
@@ -16,6 +16,7 @@ const addClassList = (element, val) => {
   element.classList.add(val);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-use-before-define
 @inject(Element, Parent.of(ClassCustomAttribute))
 export class ClassCustomAttribute {
   value: string;
@@ -47,7 +48,7 @@ export class ClassCustomAttribute {
         
         // Filter out any classes that do not have substitutes found in the bindingContext styles property
         // this prevents them being removed and allows for use-cases where :global {} is being used
-        const values = this.value.split(' ').filter((val, index) => {
+        const values = this.value.split(' ').filter((val) => {
             return this.bindingContext.styles[val];
         });
     

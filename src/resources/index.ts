@@ -15,5 +15,6 @@ export function configure(config: FrameworkConfiguration) {
         PLATFORM.moduleName('./value-converters/float'),
         PLATFORM.moduleName('./value-converters/array-filter'),
         PLATFORM.moduleName('./value-converters/auth-filter'),
+        PLATFORM.moduleName('./value-converters/server-date')
     ]);
 }

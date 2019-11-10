@@ -1,11 +1,12 @@
-import { Redirect } from 'aurelia-router';
+import { log } from './../../services/log';
+import { Redirect, RouteConfig, NavigationInstruction } from 'aurelia-router';
 
 import firebase from 'firebase/app';
 
 export class AdminKycView {
     private user;
 
-    async canActivate(params) {
+    async canActivate(params: { uid: string }, routeConfig: RouteConfig) {
         if (!params.uid) {
             return new Redirect('admin');
         }
@@ -15,7 +16,9 @@ export class AdminKycView {
         if (user.exists) {
             this.user = { id: user.id, ...user.data() };
 
-            console.log(this.user);
+            routeConfig.navModel.setTitle(`KYC > ${this.user.id}`);
+            
+            console.info(`KYC View`, this.user);
         }
     }
 }

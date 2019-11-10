@@ -1,6 +1,5 @@
 import * as admin from 'firebase-admin';
 import * as express from 'express';
-import { format } from 'util';
 
 import { uploadMiddleware } from '../upload-middleware';
 
@@ -29,10 +28,17 @@ const uploadUserFile = async (filename: string, mimetype: string, buffer: Buffer
         });
 
         stream.on('error', (err) => reject(err));
-        stream.on('finish', () => {
-            const publicUrl = format(`https://storage.googleapis.com/${userDocs.name}/${file.name}`);
+        stream.on('finish', async () => {
+            //const publicUrl = format(`https://storage.googleapis.com/${userDocs.name}/${file.name}`);
 
-            resolve(publicUrl);
+            const config: any = {
+                action: 'read',
+                expires: '03-01-2500',
+            };
+
+            const signedUrl = file.getSignedUrl(config) as any;
+
+            resolve(signedUrl[0]);
         });
         stream.end(buffer);
     });
@@ -63,7 +69,7 @@ kycRouter.post('/upload', uploadMiddleware, async (req: express.Request, res: ex
                         throw new Error('Invalid mimetype. Only JPG and PDF files are supported.');
                     }
 
-                    await uploadUserFile(`${username.toString().toLowerCase()}/${originalname}`, mimetype, buffer);
+                    const url = await uploadUserFile(`${username.toString().toLowerCase()}/${originalname}`, mimetype, buffer);
 
                     const usersRef = firestore.collection('users');
                     const user = await usersRef.doc(username).get();
@@ -75,7 +81,8 @@ kycRouter.post('/upload', uploadMiddleware, async (req: express.Request, res: ex
                         },
                         [type]: {
                             dateUploaded: new Date(),
-                            filename: originalname
+                            filename: originalname,
+                            url
                         }
                     };
 
