@@ -9,6 +9,9 @@ import { TokenInfoModal } from 'modals/token-info';
 import { SendTokensModal } from 'modals/send-tokens';
 import { StakeModal } from 'modals/stake';
 import { UnstakeModal } from 'modals/unstake';
+import { DelegateModal } from 'modals/delegate';
+import { UndelegateModal } from 'modals/undelegate';
+import { EnableDelegationModal } from 'modals/enable-delegation';
 
 import firebase from 'firebase/app';
 import { dispatchify, Store } from 'aurelia-store';
@@ -156,6 +159,24 @@ export class Balances {
     unstakeTokens(symbol) {
         this.dialogService
             .open({ viewModel: UnstakeModal, model: symbol })
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    delegateTokens(symbol) {
+        this.dialogService
+            .open({ viewModel: DelegateModal, model: symbol })
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    undelegateTokens(symbol) {
+        this.dialogService
+            .open({ viewModel: UndelegateModal, model: symbol })
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    enableDelegation(symbol) {
+        this.dialogService
+            .open({ viewModel: EnableDelegationModal, model: symbol })
             .whenClosed(x => this.walletDialogCloseResponse(x));
     }
 

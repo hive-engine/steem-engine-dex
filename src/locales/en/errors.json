@@ -5,5 +5,13 @@
     "insufficientSteemForOrder": "You do not have enough STEEMP. Your balance is: {{balance}} and your order totalled: {{total}}",
     "sendTokenAmountRequired": "Please enter an amount",
     "sendTokenUsernameRequired": "Please enter a username",
-    "insufficientBalanceForSendToken":  "You do not have enough {{symbol}}. Your balance is: {{balance}}"
+    "insufficientBalanceForSendToken": "You do not have enough {{symbol}}. Your balance is: {{balance}}",
+    "insufficientBalanceForStake": "You do not have enough {{symbol}} to stake entered amount. Your balance is: {{balance}}",
+    "insufficientBalanceForUnstake": "You do not have enough {{symbol}} to unstake entered amount. Your staking balance is: {{balance}}",
+    "insufficientBalanceForDelegate": "You do not have enough {{symbol}} to delegate entered amount. Your staking balance is: {{stake}}",
+    "insufficientBalanceForUndelegate": "You do not have enough {{symbol}} to undelegate entered amount. Your delegated balance is: {{delegationsOut}}",
+    "usernameRequired": "Please enter a username",
+    "amountRequired": "Please enter an amount",
+    "undelegationCooldownRequired": "Number of days required for undelegation cooldown",
+    "undelegationCooldownInvalidRange": "Undelegation cooldown range is between 1 and 365"
 }

@@ -82,20 +82,16 @@
                                             route-href="route: exchange; params.bind: { symbol: token.symbol }" title="View pending unstakes">
                                         <font-awesome-icon icon.bind="['fas', 'eye']"></font-awesome-icon>
                                     </button>
-                                    <button if.bind="token.pendingUndelegations > 0"
-                                            route-href="route: exchange; params.bind: { symbol: token.symbol }" title="Pending undelegations">
+                                    <a if.bind="token.pendingUndelegations > 0" route-href="route: pending-undelegations" title="Pending undelegations">
                                         <font-awesome-icon icon.bind="['fas', 'divide']"></font-awesome-icon>
-                                    </button>
-                                    <button if.bind="token.delegationEnabled && token.stakingEnabled && token.stake > 0"
-                                            route-href="route: exchange; params.bind: { symbol: token.symbol }" title="Delegate ${token.stake} tokens">
+                                    </a>
+                                    <button if.bind="token.delegationEnabled && token.stakingEnabled && token.stake > 0" click.delegate="delegateTokens(token.symbol)" title="Delegate tokens">
                                         <font-awesome-icon icon.bind="['fas', 'arrows-alt-h']"></font-awesome-icon>
                                     </button>
-                                    <button if.bind="token.issuer === token.account && !token.delegationEnabled && token.stakingEnabled"
-                                            route-href="route: exchange; params.bind: { symbol: token.symbol }" title="Enable delegation">
+                                    <button click.delegate="enableDelegation(token.symbol)" title="Enable delegation">
                                         <font-awesome-icon icon.bind="['fas', 'dolly']"></font-awesome-icon>
                                     </button>
-                                    <button if.bind="token.delegationEnabled && token.delegationsOut > 0"
-                                            route-href="route: exchange; params.bind: { symbol: token.symbol }" title="Undelegate tokens">
+                                    <button if.bind="token.delegationEnabled && token.delegationsOut > 0"  click.delegate="undelegateTokens(token.symbol)" title="Undelegate tokens">
                                         <font-awesome-icon icon.bind="['fas', 'folder-minus']"></font-awesome-icon>
                                     </button>
                                 </td>

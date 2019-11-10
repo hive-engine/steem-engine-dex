@@ -168,3 +168,12 @@ interface ITokenHistoryTransaction {
     balance: string;
     timestamp_string: string;
 }
+
+interface IPendingUndelegationTransaction {
+    account: string;
+    completeTimestamp: number;
+    quantity: string;
+    txID: string;
+    symbol: string;
+    timestamp_string: string;
+}
