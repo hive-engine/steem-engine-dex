@@ -27,8 +27,8 @@ describe('Store', () => {
         expect(state.username).toBe('aggroed');
     });
 
-    test('get current state object directly', () => {
-        store.dispatch('test', 'aggroed');
+    test('get current state object directly', async () => {
+        await store.dispatch('test', 'aggroed');
 
         expect(getCurrentState()).toEqual({username: 'aggroed', property: 'something'});
     })
