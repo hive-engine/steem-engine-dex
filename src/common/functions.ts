@@ -5,7 +5,7 @@ const http: HttpClient = new HttpClient();
 export function queryParam( ary ) {
     return Object.keys( ary ).map( function( key ) {
         if ( Array.isArray( ary[key] ) ) {
-            let arrayParts = [];
+            const arrayParts = [];
 
             for (let i = 0; i < ary[key].length; i++ ) {
                 arrayParts.push( encodeURIComponent( key + '[]' ) + '=' + encodeURIComponent( ary[key][i] ) );
@@ -23,7 +23,7 @@ export function addCommas(nStr, currency?) {
 	const x = nStr.split('.');
 	let x1 = x[0];
 	let x2 = x.length > 1 ? '.' + x[1] : '';
-    let rgx = /(\d+)(\d{3})/;
+    const rgx = /(\d+)(\d{3})/;
     
 	while (rgx.test(x1)) {
 		x1 = x1.replace(rgx, '$1' + ',' + '$2');
