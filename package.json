@@ -168,7 +168,13 @@
             "!**/*.spec.{js,ts}",
             "!**/node_modules/**",
             "!**/test/**",
-            "!wallaby.js"
+            "!wallaby.js",
+            "!aurelia_project/**/*.ts",
+            "!src/app.ts",
+            "!src/main.ts",
+            "!src/common/firebase.ts",
+            "!src/components/index.ts",
+            "!src/store/state.ts"
         ],
         "coverageDirectory": "<rootDir>/test/coverage-jest",
         "coverageReporters": [
