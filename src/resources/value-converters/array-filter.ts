@@ -1,30 +1,30 @@
 export class ArrayFilterValueConverter {
     toView(array, config: { search: string, term: string, caseSensitive?: boolean, sort?: { key: string, direction?: string } }) {
-        if (!array) {
+        let term = config.term != null ? config.term.trim() : '';
+
+        if (!array || term === '') {
             return array;
         }
 
         const prop = config.search;
-        let term = config.term != null ? config.term.trim() : "";
         const caseSensitive = config.caseSensitive || false;
 
-        var filtered = array;
-        if (term != "") {
-            filtered = array.filter(item => {
-                if (typeof term === 'string' && term.length > 0) {
-                    let foundItem = item[prop];
+        let filtered = array;
 
-                    if (!caseSensitive) {
-                        foundItem = foundItem.toLowerCase();
-                        term = term.toLowerCase();
-                    }
+        filtered = array.filter(item => {
+            if (typeof term === 'string' && term.length > 0) {
+                let foundItem = item[prop];
 
-                    return foundItem.indexOf(term) >= 0;
-                } else {
-                    return false;
+                if (!caseSensitive) {
+                    foundItem = foundItem.toLowerCase();
+                    term = term.toLowerCase();
                 }
-            });
-        }
+
+                return foundItem.indexOf(term) >= 0;
+            } else {
+                return false;
+            }
+        });
 
         return (!config.sort) ? filtered : filtered.sort((a, b) => {
             const sortKey = config.sort.key;
