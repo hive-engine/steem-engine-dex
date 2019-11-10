@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { State } from 'store/state';
 import { HttpClient } from 'aurelia-fetch-client';
 import { usdFormat, queryParam } from 'common/functions';

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Router } from 'aurelia-router';
 import { ToastMessage } from './../services/toast-service';
 import { I18N } from 'aurelia-i18n';
