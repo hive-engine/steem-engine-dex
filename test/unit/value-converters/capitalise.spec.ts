@@ -12,7 +12,7 @@ describe('Capitalise Filter', () => {
     });
 
     test('number passed instead of string should return empty string', () => {
-        expect(sut.toView(1234)).toBe('');
+        expect(sut.toView(1234 as unknown as string)).toBe('');
     });
 
     test('should capitalise only first letter', () => {

@@ -1,5 +1,5 @@
 import { AuthService } from './auth-service';
-import { autoinject, newInstance } from 'aurelia-framework';
+import { autoinject } from 'aurelia-framework';
 import { HttpClient, json } from 'aurelia-fetch-client';
 import { environment } from 'environment';
 import firebase from 'firebase/app';

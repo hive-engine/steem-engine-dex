@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-undef */
 import { AuthService } from './../../src/services/auth-service';
 import { I18N } from 'aurelia-i18n';
 import { EventAggregator } from 'aurelia-event-aggregator';
@@ -11,19 +13,20 @@ jest.mock('steem');
 
 describe('Steem Engine Service', () => {
     let sut: SteemEngine;
-    let mockHttp = () => Container.instance.get(HttpClient);
-    let mockEa = Container.instance.get(EventAggregator);
-    let mockI18n = Container.instance.get(I18N);
-    let mockToast: any = {};
-    let mockAuth = Container.instance.get(AuthService);
+    const mockHttp = () => Container.instance.get(HttpClient);
+    const mockI18n = Container.instance.get(I18N);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const mockToast: any = {};
+    const mockAuth = Container.instance.get(AuthService);
 
     beforeEach(() => {
         fetchMock.resetMocks();
         jest.clearAllMocks();
 
-        sut = new SteemEngine(mockHttp, mockEa, mockI18n, mockToast, mockAuth);
+        sut = new SteemEngine(mockHttp, mockI18n, mockToast, mockAuth);
 
-        (global as any).steem_keychain = {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        (window as any).steem_keychain = {
             requestCustomJson: jest.fn().mockImplementation((username, jsonId, keyType, jsonData, displayName, callback) => {
                 callback(jsonData);
             }),
@@ -80,20 +83,10 @@ describe('Steem Engine Service', () => {
             callback(undefined, { param: 'beggars', param2: 'aggroed' });
         }});
 
-        const params = await sut.loadParams();
+        await sut.loadParams();
 
         expect(sut.ssc.findOne).toHaveBeenCalledTimes(2);
         expect(sut.params).toEqual({ param: 'beggars', param2: 'aggroed' });
     });
-
-    // it ('login with keychain without providing any key', async (done) => {
-    //     try {
-    //         const login = await sut.login('beggars');
-    //     } catch (e) {
-    //         console.log(e);
-    //     } finally {
-    //         done();
-    //     }
-    // });
 
 });

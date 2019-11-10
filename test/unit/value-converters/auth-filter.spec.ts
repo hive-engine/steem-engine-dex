@@ -1,3 +1,4 @@
+import { RouteConfig } from 'aurelia-router';
 import { AuthFilter } from './../../../src/resources/value-converters/auth-filter';
 
 describe('Auth Filter', () => {
@@ -15,7 +16,7 @@ describe('Auth Filter', () => {
             { name: 'test4', config: { auth: false } }
         ];
 
-        const result = sut.toView(mockRoutes, false, {});
+        const result = sut.toView(mockRoutes as unknown as RouteConfig[], false, {});
 
         expect(result).toHaveLength(2);
     });
@@ -28,7 +29,7 @@ describe('Auth Filter', () => {
             { name: 'test4', config: { auth: false } }
         ];
 
-        const result = sut.toView(mockRoutes, true, {});
+        const result = sut.toView(mockRoutes as unknown as RouteConfig[], true, {});
 
         expect(result).toHaveLength(4);
     });
@@ -41,7 +42,7 @@ describe('Auth Filter', () => {
             { name: 'test4', config: { auth: false, publicOnly: true } }
         ];
 
-        const result = sut.toView(mockRoutes, true, {});
+        const result = sut.toView(mockRoutes as unknown as RouteConfig[], true, {});
 
         expect(result).toHaveLength(2);
     });
@@ -59,7 +60,7 @@ describe('Auth Filter', () => {
             member: true
         };
 
-        const result = sut.toView(mockRoutes, true, mockClaims);
+        const result = sut.toView(mockRoutes as unknown as RouteConfig[], true, mockClaims);
 
         expect(result).toHaveLength(1);
     });
@@ -78,7 +79,7 @@ describe('Auth Filter', () => {
             admin: true
         };
 
-        const result = sut.toView(mockRoutes, true, mockClaims);
+        const result = sut.toView(mockRoutes as unknown as RouteConfig[], true, mockClaims);
 
         expect(result).toHaveLength(2);
     });
@@ -98,7 +99,7 @@ describe('Auth Filter', () => {
             super: true
         };
 
-        const result = sut.toView(mockRoutes, true, mockClaims);
+        const result = sut.toView(mockRoutes as unknown as RouteConfig[], true, mockClaims);
 
         expect(result).toHaveLength(3);
     });
@@ -118,7 +119,7 @@ describe('Auth Filter', () => {
             super: false
         };
 
-        const result = sut.toView(mockRoutes, true, mockClaims);
+        const result = sut.toView(mockRoutes as unknown as RouteConfig[], true, mockClaims);
 
         expect(result).toHaveLength(3);
     });
@@ -132,7 +133,7 @@ describe('Auth Filter', () => {
             { name: 'test5', config: { auth: false, publicOnly: true } }
         ];
 
-        const result = sut.toView(mockRoutes, true, {});
+        const result = sut.toView(mockRoutes as unknown as RouteConfig[], true, {});
 
         expect(result).toHaveLength(1);
     });

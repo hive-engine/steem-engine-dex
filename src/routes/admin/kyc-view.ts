@@ -6,7 +6,7 @@ import firebase from 'firebase/app';
 export class AdminKycView {
     private user;
 
-    async canActivate(params: { uid: string }, routeConfig: RouteConfig, navigationInstruction: NavigationInstruction) {
+    async canActivate(params: { uid: string }, routeConfig: RouteConfig) {
         if (!params.uid) {
             return new Redirect('admin');
         }

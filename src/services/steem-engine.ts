@@ -1,11 +1,9 @@
-import { log } from './log';
 import { AuthService } from './auth-service';
 import { I18N } from 'aurelia-i18n';
 import { State } from 'store/state';
 import { HttpClient, json } from 'aurelia-fetch-client';
 import { lazy, autoinject } from 'aurelia-framework';
 import { environment } from 'environment';
-import moment from 'moment';
 
 import firebase from 'firebase/app';
 
@@ -18,8 +16,7 @@ import { loadTokens, loadCoinPairs, loadCoins, checkTransaction } from 'common/s
 import { steemConnectJsonId, steemConnectJson, getAccount, steemConnectTransfer } from 'common/steem';
 
 import { ToastService, ToastMessage } from './toast-service';
-import { queryParam, popupCenter, formatSteemAmount, getSteemPrice } from 'common/functions';
-import { EventAggregator } from 'aurelia-event-aggregator';
+import { queryParam, formatSteemAmount, getSteemPrice } from 'common/functions';
 import { customJson, requestTransfer } from 'common/keychain';
 
 @connectTo()
@@ -45,8 +42,7 @@ export class SteemEngine {
     public _sc_callback;
 
     constructor(
-        @lazy(HttpClient) private getHttpClient: () => HttpClient,
-        private ea: EventAggregator,
+        @lazy(HttpClient) getHttpClient: () => HttpClient,
         private i18n: I18N,
         private toast: ToastService,
         private authService: AuthService) {
@@ -80,6 +76,7 @@ export class SteemEngine {
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     request(url: string, params: any = {}) {
         // Cache buster
         params.v = new Date().getTime();
@@ -91,13 +88,13 @@ export class SteemEngine {
         });
     }
 
-    async login(username: string, key?: string): Promise<any> {
+    async login(username: string, key?: string): Promise<unknown> {
         return new Promise(async (resolve) => {
             if (window.steem_keychain && !key) {
                 // Get an encrypted memo only the user can decrypt with their private key
-                const encryptedMemo = await this.authService.getUserAuthMemo(username);
+                const encryptedMemo = await this.authService.getUserAuthMemo(username) as string;
 
-                steem_keychain.requestVerifyKey(username, encryptedMemo, 'Posting', async response => {
+                window.steem_keychain.requestVerifyKey(username, encryptedMemo, 'Posting', async response => {
                     if (response.error) {
                         const toast = new ToastMessage();
 
@@ -111,7 +108,7 @@ export class SteemEngine {
                         const signedKey = (response.result as unknown as string).substring(1);
 
                         // The decrypted memo is an encrypted string, so pass this to the server to get back refresh and access tokens
-                        const token = await this.authService.verifyUserAuthMemo(response.data.username, signedKey);
+                        const token = await this.authService.verifyUserAuthMemo(response.data.username, signedKey) as string;
 
                         if (token) {
                             const signin = await firebase.auth().signInWithCustomToken(token);
@@ -155,7 +152,7 @@ export class SteemEngine {
                                 const signedKey = steem.memo.decode(key, encryptedMemo).substring(1);
 
                                 // The decrypted memo is an encrypted string, so pass this to the server to get back refresh and access tokens
-                                const token = await this.authService.verifyUserAuthMemo(username, signedKey);
+                                const token = await this.authService.verifyUserAuthMemo(username, signedKey) as string;
 
                                 if (token) {
                                     const signin = await firebase.auth().signInWithCustomToken(token);
@@ -215,20 +212,20 @@ export class SteemEngine {
     }
 
     async getScotUsertokens(account) {
-        var tokens: IScotToken[] = [];
+        const tokens: IScotToken[] = [];
         if (!account && this.user) {
             account = this.user.name;
         }
 
         if (account) {
-            let url = `${environment.SCOT_API}@${account}?`;
+            const url = `${environment.SCOT_API}@${account}?`;
             const req = await this.request(url);            
             const results = await req.json();
 
             if (results) {
                 for (const key in results) {
-                    var token = results[key];
-                    tokens.push(<IScotToken>token);
+                    const token: IScotToken = results[key];
+                    tokens.push(token);
                 }
             }
 
@@ -243,13 +240,13 @@ export class SteemEngine {
     }
 
     async claimToken(symbol: string) {
-        var claimTokenResult = false;
+        let claimTokenResult = false;
 
-        var username = this.user.name;                
+        let username = this.user.name;                
         if (username === "")
             username = this.getUser();
 
-        var scotToken = this.user.scotTokens.find(function (x) { return x.symbol === symbol });         
+        const scotToken = this.user.scotTokens.find(function (x) { return x.symbol === symbol });         
         const amount = scotToken.pending_token;
         const factor = Math.pow(10, scotToken.precision);
         const calculated = amount / factor;
@@ -283,7 +280,7 @@ export class SteemEngine {
             return;
         }
 
-        const transaction_data = {
+        const transactionData = {
             contractName: 'tokens',
             contractAction: 'enableStaking',
             contractPayload: {
@@ -294,7 +291,7 @@ export class SteemEngine {
         };
 
         if (window && window.steem_keychain) {
-            const response = await customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Enable Token Staking');
+            const response = await customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transactionData), 'Enable Token Staking');
 
             if (response.success && response.result) {
                 try {
@@ -308,7 +305,7 @@ export class SteemEngine {
                 // Hide loading
             }
         } else {
-            steemConnectJson(this.user.name, 'active', transaction_data, () => {
+            steemConnectJson(this.user.name, 'active', transactionData, () => {
                 // Hide loading
 
                 // Hide dialog
@@ -316,8 +313,8 @@ export class SteemEngine {
         }
     }
 
-    async stake(symbol: string, quantity: string, to: string): Promise<any> {
-        return new Promise((resolve, reject) => {
+    async stake(symbol: string, quantity: string, to: string): Promise<unknown> {
+        return new Promise((resolve) => {
             // Show loading
             const username = localStorage.getItem('username');
 
@@ -326,7 +323,7 @@ export class SteemEngine {
                 return;
             }
 
-            const transaction_data = {
+            const transactionData = {
                 contractName: "tokens",
                 contractAction: "stake",
                 contractPayload: {
@@ -337,7 +334,7 @@ export class SteemEngine {
             };
 
             if (window && window.steem_keychain) {
-                steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Stake Token', async (response) => {
+                steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transactionData), 'Stake Token', async (response) => {
 
                     if (response.success && response.result) {
                         try {
@@ -380,15 +377,15 @@ export class SteemEngine {
                     }                
                 });
             } else {
-                steemConnectJson(this.user.name, 'active', transaction_data, () => {
+                steemConnectJson(this.user.name, 'active', transactionData, () => {
                     resolve(true);
                 });
             }
         });
     }
 
-    async unstake(symbol: string, quantity: string): Promise<any> {
-        return new Promise((resolve, reject) => {
+    async unstake(symbol: string, quantity: string): Promise<unknown> {
+        return new Promise((resolve) => {
             // Show loading
 
             const username = localStorage.getItem('username');
@@ -539,7 +536,7 @@ export class SteemEngine {
     }
 
     async sendToken(symbol: string, to: string, quantity: number, memo: string): Promise<any> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             const username = localStorage.getItem('username');
     
             if (!username) {
@@ -608,7 +605,7 @@ export class SteemEngine {
     }
 
     async getBalance(t) {
-        var balanceVal = 0;
+        let balanceVal = 0;
         
         if (this.user && this.user.balances) {
             const username = this.getUser();
@@ -642,7 +639,6 @@ export class SteemEngine {
     }
 
     async showHistory(symbol: string) {
-        let token =  this.getToken(symbol);
 
         try {
             const history = await this.request('/history', { 
@@ -737,15 +733,6 @@ export class SteemEngine {
     }
 
     issueToken(symbol, to, quantity) {
-        const transaction_data = {
-            'contractName': 'tokens',
-            'contractAction': 'issue',
-            'contractPayload': {
-                'symbol': symbol,
-                'to': to,
-                'quantity': quantity
-            }
-        };
     }
 
     async withdrawSteem(amount: string) {
@@ -768,7 +755,6 @@ export class SteemEngine {
             if (withdraw && withdraw.success && withdraw.result) {
                 
                 try {
-                    const transaction = await checkTransaction(withdraw.result.id, 3);
 
                     const toast = new ToastMessage();
 
@@ -864,7 +850,7 @@ export class SteemEngine {
     }
 
     async getDepositAddress(symbol) {
-        var tokenPairs = await this.getTokenPairs();
+        const tokenPairs = await this.getTokenPairs();
         const peggedToken = tokenPairs.find(p => p.symbol === symbol);
 
         if (!peggedToken) {
@@ -872,7 +858,7 @@ export class SteemEngine {
         }
 
         try {
-            var userName = this.user.name != "" ? this.user.name : this.getUser();
+            const userName = this.user.name != "" ? this.user.name : this.getUser();
             if (userName == null || userName == '')
                 throw new Error("User is unknown");
 
@@ -891,7 +877,7 @@ export class SteemEngine {
     }
 
     async getWithdrawalAddress(symbol, address) {
-        var tokenPairs = await this.getTokenPairs();
+        const tokenPairs = await this.getTokenPairs();
         const peggedToken = tokenPairs.find(p => p.symbol === symbol);
 
         if (!peggedToken) {
@@ -913,21 +899,21 @@ export class SteemEngine {
     }
 
     async getTokenPairs() {
-        var coins = await loadCoins();
-        var coinPairs = await loadCoinPairs();
+        const coins = await loadCoins();
+        const coinPairs = await loadCoinPairs();
 
-        var tokenPairs = [];
-        var nonPeggedCoins = coins.filter(x => x.coin_type != "steemengine");
+        let tokenPairs = [];
+        const nonPeggedCoins = coins.filter(x => x.coin_type != "steemengine");
 
         // add steem as first item
-        var steem = { name: 'STEEM', symbol: 'STEEM', pegged_token_symbol: 'STEEMP' };
+        const steem = { name: 'STEEM', symbol: 'STEEM', pegged_token_symbol: 'STEEMP' };
         tokenPairs.push(steem);
 
         nonPeggedCoins.forEach(x => {
             // find pegged coin for each non-pegged coin
-            var coinFound = coinPairs.find(y => y.from_coin_symbol == x.symbol);
+            const coinFound = coinPairs.find(y => y.from_coin_symbol == x.symbol);
             if (coinFound) {
-                var tp = {
+                const tp = {
                     name: x.display_name,
                     symbol: x.symbol,
                     pegged_token_symbol: coinFound.to_coin_symbol

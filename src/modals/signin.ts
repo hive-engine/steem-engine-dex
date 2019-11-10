@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Router } from 'aurelia-router';
 import { ToastMessage } from './../services/toast-service';
 import { I18N } from 'aurelia-i18n';
@@ -41,7 +42,7 @@ export class SigninModal {
         try {
             this.loading = true;
 
-            const { username } = await this.se.login(this.username.trim().toLowerCase());
+            const { username } = await this.se.login(this.username.trim().toLowerCase()) as any;
 
             if (username) {
                 const toast = new ToastMessage();
@@ -67,7 +68,7 @@ export class SigninModal {
         try {
             this.loading = true;
 
-            const { username } = await this.se.login(this.username.trim().toLowerCase(), this.privateKey.trim());
+            const { username } = await this.se.login(this.username.trim().toLowerCase(), this.privateKey.trim()) as any;
         
             if (username) {
                 const toast = new ToastMessage();
