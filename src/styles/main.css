@@ -232,3 +232,13 @@ sellbook {
     margin: 0 0 10px 0;
     color: #333;
 }
+
+.list-unstyled {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.list-unstyled li {
+    margin: 0 0 10px 0;
+}

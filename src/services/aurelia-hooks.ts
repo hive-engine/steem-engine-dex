@@ -31,7 +31,7 @@ export class AureliaHooks {
     return this.filters[name];
   }
 
-  removeAction(name: string, callback) {
+  removeAction(name: string, callback): void {
     if (this.actions[name]) {
       this.actions[name] = this.actions[name].filter(val => val.callback.name !== callback.name);
 
@@ -41,7 +41,7 @@ export class AureliaHooks {
     }
   }
 
-  removeFilter(name: string, callback) {
+  removeFilter(name: string, callback): void {
     if (this.filters[name]) {
       this.filters[name] = this.filters[name].filter(val => val.callback.name !== callback.name);
 
@@ -51,7 +51,7 @@ export class AureliaHooks {
     }
   }
 
-  doAction(name: string, ...args) {
+  doAction(name: string, ...args): void {
     if (this.actions[name] && this.actions[name].length) {
       const actions = [];
 
@@ -68,7 +68,7 @@ export class AureliaHooks {
     }
   }
 
-  applyFilter(name: string, value: unknown, ...args): any {
+  applyFilter(name: string, value: unknown, ...args): unknown {
     if (this.filters[name] && this.filters[name].length) {
       const filters = [];
 

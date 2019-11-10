@@ -53,7 +53,6 @@ export class Balances {
 
     attached() {        
         this.loadTable();
-        console.log(this.balances);
     }
 
     loadTable() {

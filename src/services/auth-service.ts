@@ -19,14 +19,14 @@ export class AuthService {
         return firebase.auth().currentUser.getIdToken();
     }
 
-    async getUserAuthMemo(username: string) {
+    async getUserAuthMemo(username: string): Promise<string> {
         const res = await http.fetch(`getUserAuthMemo/${username}/`);
         const obj = await res.json();
 
         return obj.memo;
     }
 
-    async verifyUserAuthMemo(username, signedKey) {
+    async verifyUserAuthMemo(username, signedKey): Promise<unknown> {
         const res = await http.fetch('verifyUserAuthMemo/', {
             method: 'POST',
             body: json({

@@ -1,6 +1,6 @@
 import { valueConverter } from 'aurelia-binding';
 
-const capitalise = (s) => {
+const capitalise = (s: string) => {
     if (typeof s !== 'string') {
         return '';
     }
@@ -10,7 +10,7 @@ const capitalise = (s) => {
 
 @valueConverter('capitalise')
 export class Capitalise {
-    toView(value) {
+    toView(value: string) {
         if (!value) {
             return value;
         }
