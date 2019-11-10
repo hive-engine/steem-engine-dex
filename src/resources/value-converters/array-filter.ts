@@ -29,7 +29,7 @@ export class ArrayFilterValueConverter {
         return (!config.sort) ? filtered : filtered.sort((a, b) => {
             const sortKey = config.sort.key;
             // eslint-disable-next-line no-undef
-            const sortDir = config.sort?.direction ?? 'asc';
+            const sortDir = config.sort ?.direction ?? 'asc';
             const order1 = sortDir === 'asc' ? 1 : -1;
             const order2 = sortDir === 'asc' ? -1 : 1;
 

@@ -55,7 +55,7 @@ export class UnstakeModal {
         const rules = ValidationRules
             .ensure('amount')
                 .required()
-                    .withMessageKey('errors:sendTokenAmountRequired')
+                    .withMessageKey('errors:amountRequired')
                 .then()
                     .satisfies((value: any, object: any) => parseFloat(value) > 0)
                     .withMessageKey('errors:amountGreaterThanZero')
@@ -64,7 +64,7 @@ export class UnstakeModal {
 
                         return (amount <= object.token.stake);
                     })
-                    .withMessageKey('errors:insufficientBalanceForSendToken')
+                    .withMessageKey('errors:insufficientBalanceForUnstake')
             .rules;
 
         this.validationController.addObject(this, rules);
