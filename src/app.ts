@@ -94,6 +94,14 @@ export class App {
                 title: 'Token History'
             },
             {
+                route: 'pending-undelegations/:symbol?',
+                href: `pending-undelegations`,
+                name: 'pending-undelegations',
+                moduleId: PLATFORM.moduleName('./routes/wallet/pending-undelegations'),
+                nav: false,
+                title: 'Pending undelegations'
+            },
+            {
                 route: 'exchange/:symbol?',
                 href: `exchange/${environment.NATIVE_TOKEN}`,
                 name: 'exchange',

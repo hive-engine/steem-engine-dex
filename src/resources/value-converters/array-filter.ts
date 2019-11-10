@@ -5,28 +5,31 @@ export class ArrayFilterValueConverter {
         }
 
         const prop = config.search;
-        let term = config.term.trim();
+        let term = config.term != null ? config.term.trim() : "";
         const caseSensitive = config.caseSensitive || false;
 
-        const filtered = array.filter(item => {
-            if (typeof term === 'string' && term.length > 0) {
-                let foundItem = item[prop];
+        var filtered = array;
+        if (term != "") {
+            filtered = array.filter(item => {
+                if (typeof term === 'string' && term.length > 0) {
+                    let foundItem = item[prop];
 
-                if (!caseSensitive) {
-                    foundItem = foundItem.toLowerCase();
-                    term = term.toLowerCase();
+                    if (!caseSensitive) {
+                        foundItem = foundItem.toLowerCase();
+                        term = term.toLowerCase();
+                    }
+
+                    return foundItem.indexOf(term) >= 0;
+                } else {
+                    return false;
                 }
-
-                return foundItem.indexOf(term) >= 0;
-            } else {
-                return false;
-            }
-        });
+            });
+        }
 
         return (!config.sort) ? filtered : filtered.sort((a, b) => {
             const sortKey = config.sort.key;
             // eslint-disable-next-line no-undef
-            const sortDir = config.sort?.direction ?? 'asc';
+            const sortDir = config.sort ?.direction ?? 'asc';
             const order1 = sortDir === 'asc' ? 1 : -1;
             const order2 = sortDir === 'asc' ? -1 : 1;
 

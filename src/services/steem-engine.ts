@@ -18,6 +18,7 @@ import { steemConnectJsonId, steemConnectJson, getAccount, steemConnectTransfer 
 import { ToastService, ToastMessage } from './toast-service';
 import { queryParam, formatSteemAmount, getSteemPrice } from 'common/functions';
 import { customJson, requestTransfer } from 'common/keychain';
+import moment from 'moment';
 
 @connectTo()
 @autoinject()
@@ -32,7 +33,8 @@ export class SteemEngine {
         account: {},
         balances: [],
         scotTokens: [],
-        pendingUnstakes: []
+        pendingUnstakes: [],
+        pendingUndelegations: []
     };
 
     public params = {};
@@ -212,6 +214,23 @@ export class SteemEngine {
         return result;
     }
 
+    async loadPendingUndelegations(account) {
+        var result: IPendingUndelegationTransaction[] = await this.ssc.find('tokens', 'pendingUndelegations', { account: account }, 1000, 0, '', false);
+
+        if (result != null) {
+            result = result.map(o => {
+                o.timestamp_string = moment.unix(o.completeTimestamp / 1000).format('YYYY-M-DD HH:mm:ss');
+                return o;
+            });
+        }
+
+        if (this.user && account === this.user.name) {                 
+            this.user.pendingUndelegations = result;
+        }
+
+        return result;
+    }
+
     async getScotUsertokens(account) {
         const tokens: IScotToken[] = [];
         if (!account && this.user) {
@@ -269,6 +288,71 @@ export class SteemEngine {
         }
 
         return claimTokenResult;
+    }
+
+    async enableDelegation(symbol: string, undelegationCooldown: number): Promise<unknown> {
+        return new Promise((resolve) => {
+            // Show loading
+
+            const username = localStorage.getItem('username');
+
+            if (!username) {
+                window.location.reload();
+                return;
+            }
+
+            const transaction_data = {
+                contractName: "tokens",
+                contractAction: "enableDelegation",
+                contractPayload: {
+                    "symbol": symbol,
+                    "undelegationCooldown": undelegationCooldown
+                }
+            };
+
+            if (window && window.steem_keychain) {
+                steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Enable Token Delegation', async (response) => {
+
+                    if (response.success && response.result) {
+                        try {
+                            await checkTransaction(response.result.id, 3);
+
+                            const toast = new ToastMessage();
+
+                            toast.message = this.i18n.tr('enableDelegationSucceeded', {
+                                symbol,
+                                undelegationCooldown,
+                                ns: 'notifications'
+                            });
+
+                            this.toast.success(toast);
+
+                            resolve(true);
+
+                            // Show "Tokens successfully unstaked" toastr
+                        } catch (e) {
+                            // Show error toastr: 'An error occurred attempting to unstake tokens: ' + tx.error
+                            const toast = new ToastMessage();
+
+                            toast.message = this.i18n.tr('errorSubmittedTransfer', {
+                                ns: 'errors',
+                                error: e
+                            });
+
+                            this.toast.error(toast);
+
+                            resolve(false);
+                        }
+                    } else {
+                        resolve(false);
+                    }
+                });
+            } else {
+                steemConnectJson(this.user.name, 'active', transaction_data, () => {
+                    resolve(true);
+                });
+            }
+        });
     }
 
     async enableStaking(symbol, unstakingCooldown, numberTransactions) {
@@ -930,6 +1014,148 @@ export class SteemEngine {
         tokenPairs = tokenPairs.sort((a, b) => a.name.localeCompare(b.name));        
 
         return tokenPairs;
+    }
+
+    async delegate(symbol: string, quantity: string, to: string): Promise<unknown> {
+        return new Promise((resolve) => {
+            // Show loading
+            const username = localStorage.getItem('username');
+
+            if (!username) {
+                window.location.reload();
+                return;
+            }
+
+            const transactionData = {
+                contractName: "tokens",
+                contractAction: "delegate",
+                contractPayload: {
+                    "to": to,
+                    "symbol": symbol,
+                    "quantity": quantity
+                }
+            };
+
+            if (window && window.steem_keychain) {
+                steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transactionData), 'Delegate Token', async (response) => {
+
+                    if (response.success && response.result) {
+                        try {
+                            await checkTransaction(response.result.id, 3);
+
+                            const toast = new ToastMessage();
+
+                            toast.message = this.i18n.tr('delegateSucceeded', {
+                                quantity,
+                                symbol,
+                                username,
+                                ns: 'notifications'
+                            });
+
+                            this.toast.success(toast);
+
+                            resolve(true);
+
+                            // Show "Token successfully staked" toastr
+                        } catch (e) {
+                            // Show error toastr: 'An error occurred attempting to enable stake token: ' + tx.error
+                            const toast = new ToastMessage();
+
+                            toast.message = this.i18n.tr('errorSubmittedTransfer', {
+                                ns: 'errors',
+                                error: e
+                            });
+
+                            this.toast.error(toast);
+
+                            // this.loadBalances(username).then(() => {
+                            //     this.showHistory(symbol);
+                            // });
+
+                            resolve(false);
+                        }
+                    } else {
+                        resolve(false);
+                        // Hide loading
+                    }
+                });
+            } else {
+                steemConnectJson(this.user.name, 'active', transactionData, () => {
+                    resolve(true);
+                });
+            }
+        });
+    }
+
+    async undelegate(symbol: string, quantity: string, from: string): Promise<unknown> {
+        return new Promise((resolve) => {
+            // Show loading
+            const username = localStorage.getItem('username');
+
+            if (!username) {
+                window.location.reload();
+                return;
+            }
+
+            const transactionData = {
+                contractName: "tokens",
+                contractAction: "undelegate",
+                contractPayload: {
+                    "from": from,
+                    "symbol": symbol,
+                    "quantity": quantity
+                }
+            };
+
+            if (window && window.steem_keychain) {
+                steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transactionData), 'Undelegate Token', async (response) => {
+
+                    if (response.success && response.result) {
+                        try {
+                            await checkTransaction(response.result.id, 3);
+
+                            const toast = new ToastMessage();
+
+                            toast.message = this.i18n.tr('undelegateSucceeded', {
+                                quantity,
+                                symbol,
+                                username,
+                                ns: 'notifications'
+                            });
+
+                            this.toast.success(toast);
+
+                            resolve(true);
+
+                            // Show "Token successfully staked" toastr
+                        } catch (e) {
+                            // Show error toastr: 'An error occurred attempting to enable stake token: ' + tx.error
+                            const toast = new ToastMessage();
+
+                            toast.message = this.i18n.tr('errorSubmittedTransfer', {
+                                ns: 'errors',
+                                error: e
+                            });
+
+                            this.toast.error(toast);
+
+                            // this.loadBalances(username).then(() => {
+                            //     this.showHistory(symbol);
+                            // });
+
+                            resolve(false);
+                        }
+                    } else {
+                        resolve(false);
+                        // Hide loading
+                    }
+                });
+            } else {
+                steemConnectJson(this.user.name, 'active', transactionData, () => {
+                    resolve(true);
+                });
+            }
+        });
     }
 
 }
