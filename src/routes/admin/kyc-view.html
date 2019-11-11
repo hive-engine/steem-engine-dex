@@ -6,12 +6,16 @@
                 <div class="row mt-5">
                     <div class="col-md-6">
                         <h4>Selfie</h4>
-                        <p><small>Uploaded: <strong>${user.selfie.dateUploaded.seconds | serverDate}</strong></small></p>
+                        <p class="mb-2"><small>Uploaded: <strong>${user.selfie.dateUploaded.seconds | serverDate}</strong></small></p>
+
+                        <a href="${selfieImage}" target="_blank" title="Download selfie image"><img src="${selfieImage}" class="img-fluid"></a>
                     </div>
 
                     <div class="col-md-6">
                         <h4>Passport</h4>
-                        <p><small>Uploaded: <strong>${user.passport.dateUploaded.seconds | serverDate}</strong></small></p>
+                        <p class="mb-2"><small>Uploaded: <strong>${user.passport.dateUploaded.seconds | serverDate}</strong></small></p>
+
+                        <a href="${passportImage}" target="_blank" title="Download passport image"><img src="${passportImage}" class="img-fluid"></a>
                     </div>
                 </div>
             </div>
