@@ -15,7 +15,8 @@ export class SendNotification {
     private notification = {
         type: 'info',
         message: '',
-        date: new Date()
+        date: new Date(),
+        read: false
     };
 
     constructor(private controllerFactory: ValidationControllerFactory, private controller: DialogController) {
@@ -32,7 +33,8 @@ export class SendNotification {
         this.notification = {
             type: 'info',
             message: '',
-            date: new Date()
+            date: new Date(),
+            read: false
         };
 
         const user = await firebase.firestore().collection('users').doc(userId).get();
