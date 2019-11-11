@@ -1,10 +1,6 @@
 import firebase from 'firebase/app';
 
-import styles from './users.module.css';
-
-export class AdminUsers {
-    private styles = styles;
-
+export class UsersList {
     private users = [];
 
     async activate() {

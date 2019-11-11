@@ -23,7 +23,7 @@ export class AdminAdmin {
             {
                 route: 'users',
                 name: 'adminUsers',
-                moduleId: PLATFORM.moduleName('./users'),
+                moduleId: PLATFORM.moduleName('./users/users'),
                 nav: true,
                 title: 'Users'
             },

@@ -1,0 +1,42 @@
+<template>
+        <div class="container-fluid main-container sections">
+            <div class="col-md-12">
+                <h3>User ${user.id}</h3>
+
+                <div class="row mt-5">
+                    <div class="col-md-6">
+                        <form>
+                            <div class="form-group">
+                                <label>First name</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.firstName">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.email & validate">
+                            </div>
+                            <div class="form-group">
+                                <label>Address line 1</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.addressLine1">
+                            </div>
+                            <div class="form-group">
+                                <label>Country</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.country">
+                            </div>
+                            <div class="form-group">
+                                <label>Last name</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.lastName">
+                            </div>
+                            <div class="form-group">
+                                <label>Address line 2</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.addressLine2">
+                            </div>
+                            <div class="form-group">
+                                <label>State</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.state">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
