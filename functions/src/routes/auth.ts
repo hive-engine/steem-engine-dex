@@ -4,7 +4,7 @@ import * as shortid from 'shortid';
 
 import { Auth } from '../auth';
 
-export let authRouter = express.Router();
+export const authRouter = express.Router();
 
 const createUserToken = (username: string) => admin.auth().createCustomToken(username);
 
@@ -82,6 +82,7 @@ authRouter.post('/verifyUserAuthMemo', async (req: express.Request, res: express
                     zipCode: '',
                     favourites: [],
                     hiddenTokens: [],
+                    notifications: [],
                     kyc: {
                         passportPending: false,
                         passportVerified: false,
