@@ -113,15 +113,7 @@ export class SteemEngine {
                         // The decrypted memo is an encrypted string, so pass this to the server to get back refresh and access tokens
                         const token = await this.authService.verifyUserAuthMemo(response.data.username, signedKey) as string;
 
-                        if (token) {
-                            const signin = await firebase.auth().signInWithCustomToken(token);
-
-                            const idToken = await this.authService.getIdToken();
-                            console.log(idToken);
-
-                            // Store the username, access token and refresh token
-                            localStorage.setItem('username', signin.user.uid);
-                        }
+                        await firebase.auth().signInWithCustomToken(token);
 
                         resolve({username, token});
                     }
@@ -157,12 +149,7 @@ export class SteemEngine {
                                 // The decrypted memo is an encrypted string, so pass this to the server to get back refresh and access tokens
                                 const token = await this.authService.verifyUserAuthMemo(username, signedKey) as string;
 
-                                if (token) {
-                                    const signin = await firebase.auth().signInWithCustomToken(token);
-
-                                    // Store the username, access token and refresh token
-                                    localStorage.setItem('username', signin.user.uid);
-                                }
+                                await firebase.auth().signInWithCustomToken(token);
 
                                 resolve({username, token});
                             } else {
