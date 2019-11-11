@@ -2,11 +2,11 @@ import { ChartComponent } from './../../components/chart/chart';
 import { State } from './../../store/state';
 
 import { I18N } from 'aurelia-i18n';
-import { ToastMessage, ToastService } from '../../services/toast-service';
+import { ToastService } from '../../services/toast-service';
 import { BootstrapFormRenderer } from '../../resources/bootstrap-form-renderer';
 import { SteemEngine } from '../../services/steem-engine';
 import { autoinject, computedFrom, observable } from 'aurelia-framework';
-import { ValidationControllerFactory, ValidationController, ValidationRules, ControllerValidateResult } from 'aurelia-validation';
+import { ValidationControllerFactory, ValidationController } from 'aurelia-validation';
 
 import styles from './exchange.module.css'
 import { environment } from 'environment';
@@ -21,7 +21,7 @@ import { MarketOrderModal } from 'modals/market-order';
 
 import { DialogService } from 'aurelia-dialog';
 import { percentageOf } from 'common/functions';
-import { loadTokensList, loadAccountBalances, loadBuyBook, loadSellBook, loadTradeHistory, exchangeData } from 'store/actions';
+import { loadBuyBook, loadSellBook, exchangeData } from 'store/actions';
 import { dispatchify, Store } from 'aurelia-store';
 import { Subscription as StateSubscription } from 'rxjs';
 import { getStateOnce } from 'store/store';
@@ -82,7 +82,7 @@ export class Exchange {
         private store: Store<State>,
         private ea: EventAggregator) {
         this.controller = controllerFactory.createForCurrentScope();
-       
+
         this.renderer = new BootstrapFormRenderer();
         this.controller.addRenderer(this.renderer);
         this.eventAggregator = ea;
@@ -99,20 +99,20 @@ export class Exchange {
 
         dispatchify(exchangeData)(symbol).then(async () => {
             this.tokenData = this.state.tokens
-            .filter(t => t.symbol !== "STEEMP")
-            .filter(t => t.metadata && !t.metadata.hide_in_market);
-    
+                .filter(t => t.symbol !== "STEEMP")
+                .filter(t => t.metadata && !t.metadata.hide_in_market);
+
             this.data = this.tokenData.find(t => t.symbol === this.currentToken);
-        
+
             if (this.state.sellBook.length) {
                 this.bestSellPrice = this.state.sellBook[0];
-            }        
-        
+            }
+
             const buyOrderDisplayData = await this.loadBuyOrders(this.state);
             const sellOrderDisplayData = await this.loadSellOrders(this.state);
-        
+
             await this.loadTokenHistoryData(this.state, buyOrderDisplayData, sellOrderDisplayData);
-    
+
             this.chartRef.attached();
         });
 
@@ -123,15 +123,15 @@ export class Exchange {
         //     dispatchify(loadSellBook)(symbol),
         //     dispatchify(loadTradeHistory)(symbol)
         // ];
-    }   
+    }
 
     async loadTokenHistoryData(state, buyOrderDisplayData, sellOrderDisplayData) {
         this.tradeHistory = state.tradeHistory;
 
         const tokenHistory = await loadTokenMarketHistory(this.currentToken);
-        var limitCandleStick = 60;
+        const limitCandleStick = 60;
 
-        var candleStickData = tokenHistory.slice(0, limitCandleStick).map(x => {
+        const candleStickData = tokenHistory.slice(0, limitCandleStick).map(x => {
             return {
                 t: moment.unix(x.timestamp).format('YYYY-MM-DD HH:mm:ss'), //x.timestamp * 1000,
                 o: x.openPrice,
@@ -165,11 +165,11 @@ export class Exchange {
 
     async loadSellOrders(state) {
         this.sellBook = state.sellBook;
-        let sellOrderLabels = uniq(this.sellBook.map(o => parseFloat(o.price)));
-        let sellOrderDataset = fill(Array(this.orderDataSetLength), null);
+        const sellOrderLabels = uniq(this.sellBook.map(o => parseFloat(o.price)));
+        const sellOrderDataset = fill(Array(this.orderDataSetLength), null);
         let sellOrderCurrentVolume = 0;
         sellOrderLabels.forEach(label => {
-            let matchingSellOrders = this.sellBook.filter(o => parseFloat(o.price) === label);
+            const matchingSellOrders = this.sellBook.filter(o => parseFloat(o.price) === label);
 
             if (matchingSellOrders.length === 0) {
                 sellOrderDataset.push(null);
@@ -185,12 +185,12 @@ export class Exchange {
     async loadBuyOrders(state) {
         this.buyBook = state.buyBook;
 
-        let buyOrderLabels = uniq(this.buyBook.map(o => parseFloat(o.price)));
-        let buyOrderDataset = [];
+        const buyOrderLabels = uniq(this.buyBook.map(o => parseFloat(o.price)));
+        const buyOrderDataset = [];
         let buyOrderCurrentVolume = 0;
 
         buyOrderLabels.forEach(label => {
-            let matchingBuyOrders = this.buyBook.filter(o => parseFloat(o.price) === label);
+            const matchingBuyOrders = this.buyBook.filter(o => parseFloat(o.price) === label);
 
             if (matchingBuyOrders.length === 0) {
                 buyOrderDataset.push(null);
@@ -310,16 +310,16 @@ export class Exchange {
 
 
     async attached() {
-        this.loadUserExchangeData();        
+        this.loadUserExchangeData();
 
         this.subscriber = this.eventAggregator.subscribe('eventReload', response => {
             this.catchReloadEvent(response);
         })
     }
 
-    async catchReloadEvent(response) {                
-        var data = <IReloadEventData>(response.data);
-        if (data.reloadBuyBook) {            
+    async catchReloadEvent(response) {
+        const data = <IReloadEventData>(response.data);
+        if (data.reloadBuyBook) {
             await dispatchify(loadBuyBook)(this.currentToken);
 
             // fetch state after reloading 
@@ -330,11 +330,11 @@ export class Exchange {
             await dispatchify(loadSellBook)(this.currentToken);
 
             // fetch state after reloading 
-            const state = await getStateOnce();            
+            const state = await getStateOnce();
             await this.loadSellOrders(state);
         }
 
-        if (data.reloadUserExchangeData) {            
+        if (data.reloadUserExchangeData) {
             this.loadUserExchangeData();
         }
     }
