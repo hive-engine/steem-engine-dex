@@ -4,7 +4,6 @@ import { Redirect } from 'aurelia-router';
 import { observable } from 'aurelia-binding';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
-import { loadTokens, loadBalances } from 'common/steem-engine';
 import { TokenInfoModal } from 'modals/wallet/token-info';
 import { SendTokensModal } from 'modals/wallet/send-tokens';
 import { StakeModal } from 'modals/wallet/stake';
@@ -36,14 +35,14 @@ export class Balances {
     private tokenTable: HTMLTableElement;
 
     @observable() private hideZeroBalances = false;
-    
+
     constructor(private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue, private dialogService: DialogService) {
         this.subscription = this.store.state.subscribe((state: State) => {
             if (state) {
                 this.state = state;
 
-                this.balancesCopy = [ ...state.account.balances ];
-                this.balances = [ ...state.account.balances ];
+                this.balancesCopy = [...state.account.balances];
+                this.balances = [...state.account.balances];
                 this.user = { ...state.firebaseUser };
             }
         });
@@ -55,7 +54,7 @@ export class Balances {
         }
     }
 
-    attached() {        
+    attached() {
         this.loadTable();
     }
 
@@ -68,9 +67,9 @@ export class Balances {
         });
     }
 
-    async loadAccountScotUserTokens() {        
+    async loadAccountScotUserTokens() {
         this.state.account.scotTokens = await this.se.getScotUsertokens(this.state.account.name);
-    }    
+    }
 
     async canActivate() {
         try {
@@ -90,7 +89,7 @@ export class Balances {
                 if (this.user.wallet.hideZeroBalances) {
                     this.balances = this.balances.filter(t => parseFloat(t.balance) > 0);
                 } else {
-                    this.balances = this.balancesCopy;                    
+                    this.balances = this.balancesCopy;
                 }
 
                 this.updateUser();
@@ -106,7 +105,7 @@ export class Balances {
                 } else {
                     this.balances = this.balancesCopy;
                 }
-                
+
                 this.updateUser();
             }
         });
@@ -137,7 +136,7 @@ export class Balances {
         });
     }
 
-    showTokenInfo(symbol) {        
+    showTokenInfo(symbol) {
         this.dialogService
             .open({ viewModel: TokenInfoModal, model: symbol })
             .whenClosed(response => {
