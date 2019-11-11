@@ -1,12 +1,11 @@
+import { State } from 'store/state';
 import { Store, StoreOptions, StateHistory } from 'aurelia-store';
 import { Aurelia, PLATFORM } from 'aurelia-framework';
 import { Backend, TCustomAttribute } from 'aurelia-i18n';
 import { ComponentTester, StageComponent } from 'aurelia-testing';
 
 export function stageComponent(view: string, resources: string[] = [], viewModel = {}) {
-    let component: ComponentTester;
-  
-    component = StageComponent.withResources(resources)
+    const component: ComponentTester = StageComponent.withResources(resources)
       .boundTo(viewModel)
       .inView(view);
   
@@ -52,7 +51,7 @@ export function stageComponent(view: string, resources: string[] = [], viewModel
     return component;
   }
 
-export function createStore<T>(state: T, withUndo = false) {
+export function createStore<T>(state: T, withUndo = false): Store<T> {
   const options = withUndo ? { history: { undoable: true } } : {};
   return new Store<T>(state, options);
 }

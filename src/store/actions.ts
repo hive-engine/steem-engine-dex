@@ -1,5 +1,5 @@
 import { State, ISettings } from './state';
-import store, { getCurrentState } from './store';
+import store from './store';
 
 import firebase from 'firebase/app';
 import { log } from 'services/log';
@@ -16,7 +16,7 @@ export function loading(state: State, boolean: boolean) {
 }
 
 export function login(state: State, username: string): State {
-    let newState = { ...state };
+    const newState = { ...state };
 
     newState.account.name = username;
 
@@ -255,7 +255,7 @@ export async function exchangeData(state: State, symbol: string): Promise<State>
                 return o;
             });
 
-            newState.tradeHistory = data.tradesHistory.map(o => {
+            newState.tradeHistory = data.tradesHistory.map((o: { total: number; price: number; quantity: number; timestamp_string: string; timestamp: number; }) => {
                 o.total = o.price * o.quantity;
                 o.timestamp_string = moment
                     .unix(o.timestamp)

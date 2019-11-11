@@ -87,8 +87,8 @@ export class Settings {
         e.preventDefault();
         e.stopPropagation();
 
-        let dt = e.dataTransfer;
-        let files: FileList = dt.files;
+        const dt = e.dataTransfer;
+        const files: FileList = dt.files;
 
         if (files.length) {
             this.uploadDocument(files[0], 'selfie');
@@ -99,8 +99,8 @@ export class Settings {
         e.preventDefault();
         e.stopPropagation();
 
-        let dt = e.dataTransfer;
-        let files: FileList = dt.files;
+        const dt = e.dataTransfer;
+        const files: FileList = dt.files;
 
         if (files.length) {
             this.uploadDocument(files[0], 'passport');
