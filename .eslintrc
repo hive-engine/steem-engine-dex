@@ -23,6 +23,7 @@
         "@typescript-eslint/camelcase": 0,
         "@typescript-eslint/ban-ts-ignore": 0,
         "@typescript-eslint/interface-name-prefix": 2,
+        "require-atomic-updates": 0,
         "jest/no-disabled-tests": "warn",
         "jest/no-focused-tests": "error",
         "jest/no-identical-title": "error",
