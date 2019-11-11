@@ -34,7 +34,8 @@ export function logout(state: State): State {
         account: {},
         balances: [],
         scotTokens: [],
-        pendingUnstakes: []
+        pendingUnstakes: [],
+        notifications: []
     };
 
     newState.loggedIn = false;
@@ -75,7 +76,8 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
         if (doc.exists) {
             newState.firebaseUser = doc.data();
 
-            if (newState.firebaseUser.favourites) {
+            // eslint-disable-next-line no-undef
+            if (newState?.firebaseUser?.favourites) {
                 newState.account.balances.map((token: any) => {
                     if (newState.firebaseUser.favourites.includes(token.symbol)) {
                         token.isFavourite = true;

@@ -250,3 +250,15 @@ sellbook {
 .sections {
     color: #333;
 }
+
+.notifications-bar {
+    position: fixed;
+    top: 100px;
+    width: 100%;
+    z-index: 1000;
+}
+
+.notifications-bar .alert {
+    border-radius: 0;
+    opacity: 0.85;
+}

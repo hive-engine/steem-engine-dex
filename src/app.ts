@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { AuthorizeStep } from './resources/pipeline-steps/authorize';
 import { SteemEngine } from 'services/steem-engine';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
@@ -12,13 +13,14 @@ import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
 
 import firebase from 'firebase/app';
-import { login, logout, loadSiteSettings, setAccount } from 'store/actions';
+import { login, logout, loadSiteSettings, getCurrentFirebaseUser, setAccount } from 'store/actions';
 
 @autoinject()
 export class App {
     private loggedIn = false;
     private loading = false;
     private claims;
+    private notifications = [];
 
     public router: Router;
     public subscription: Subscription;
@@ -36,11 +38,13 @@ export class App {
                 this.loading = s.loading;
                 this.loggedIn = s.loggedIn;
                 this.claims = s?.account?.token?.claims;
+                this.notifications = s?.firebaseUser?.notifications ?? [];
             }
         });
 
         this.subscription = this.ea.subscribe(RouterEvent.Complete, () => {
             dispatchify(loadSiteSettings)();
+            dispatchify(getCurrentFirebaseUser)();
         });
     }
 
@@ -214,6 +218,7 @@ export class App {
 async function authStateChanged() {
     return new Promise(resolve => {
         firebase.auth().onAuthStateChanged(async user => {
+            // eslint-disable-next-line no-undef
             const token = await firebase.auth()?.currentUser?.getIdTokenResult(true);
 
             if (user) {
