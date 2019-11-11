@@ -1,15 +1,14 @@
 import { Container } from 'aurelia-framework';
 import { Store } from 'aurelia-store';
 import { State } from './state';
+import { first } from 'rxjs/operators';
 
 const store: Store<State> = Container.instance.get(Store) as Store<State>;
 
 export async function getStateOnce(): Promise<State> {
-    let subscription;
-    return new Promise(async (resolve) => {
-        subscription = await store.state.subscribe((innerState) => {
-            resolve(innerState);
-        }).unsubscribe();
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
+        store.state.pipe(first()).subscribe((state: State) => resolve(state), (e) => reject(e));
     });
 }
 

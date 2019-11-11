@@ -233,6 +233,10 @@ sellbook {
     color: #333;
 }
 
+.text-sixteen {
+    font-size: 16px;
+}
+
 .list-unstyled {
     list-style: none;
     margin: 0;
