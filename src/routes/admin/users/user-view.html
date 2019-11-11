@@ -3,7 +3,13 @@
             <div class="col-md-12">
                 <h3>User ${user.id}</h3>
 
-                <div class="row mt-5">
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-sm btn-primary" click.delegate="notifyModal()">${'Notify' & t}</button>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
                     <div class="col-md-6">
                         <form>
                             <div class="form-group">
@@ -33,6 +39,16 @@
                             <div class="form-group">
                                 <label>State</label>
                                 <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.state">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <form>
+                            <div class="form-group">
+                                <div class="switch">
+                                    <input type="checkbox" name="disableUser" id="disableUser" checked.bind="user.disable" change.delegate="updateSettings()">
+                                    <label for="disableUser">${'Enable or disable user'}</label>
+                                </div>
                             </div>
                         </form>
                     </div>

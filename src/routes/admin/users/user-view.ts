@@ -1,3 +1,5 @@
+import { SendNotification } from './modals/send';
+import { DialogService } from 'aurelia-dialog';
 import { BootstrapFormRenderer } from './../../../resources/bootstrap-form-renderer';
 import { ValidationControllerFactory, ValidationController } from 'aurelia-validation';
 import { SteemEngine } from 'services/steem-engine';
@@ -13,7 +15,7 @@ export class AdminKycView {
     private validationController: ValidationController;
     private user;
 
-    constructor(private se: SteemEngine, private controllerFactory: ValidationControllerFactory, private router: AppRouter) {
+    constructor(private se: SteemEngine, private controllerFactory: ValidationControllerFactory, private router: AppRouter, private dialogService: DialogService) {
         this.validationController = controllerFactory.createForCurrentScope();
 
         this.renderer = new BootstrapFormRenderer();
@@ -32,5 +34,15 @@ export class AdminKycView {
 
             routeConfig.navModel.setTitle(`User ${this.user.id}`);
         }
+    }
+
+    notifyModal() {
+        this.dialogService.open({ viewModel: SendNotification, model: { userId: this.user.id } }).whenClosed(response => {
+            console.log(response);
+        });
+    }
+
+    updateSettings() {
+
     }
 }
