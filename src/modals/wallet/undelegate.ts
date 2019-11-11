@@ -6,14 +6,15 @@ import { environment } from 'environment';
 import { Subscription } from 'rxjs';
 import { State, AccountInterface } from 'store/state';
 import { ValidationControllerFactory, ControllerValidateResult, ValidationRules } from 'aurelia-validation';
-import { ToastService, ToastMessage } from '../services/toast-service';
-import { BootstrapFormRenderer } from '../resources/bootstrap-form-renderer';
+import { ToastService, ToastMessage } from '../../services/toast-service';
+import { BootstrapFormRenderer } from '../../resources/bootstrap-form-renderer';
 import { I18N } from 'aurelia-i18n';
-import styles from './enable-delegation.module.css';
+import styles from './undelegate.module.css';
 
 @autoinject()
-export class EnableDelegationModal {
-    @bindable undelegationCooldown: number;
+export class UndelegateModal {
+    @bindable amount;
+    @bindable username;
 
     private styles = styles;
     private loading = false;
@@ -43,25 +44,30 @@ export class EnableDelegationModal {
     }
 
     async activate(symbol) {        
-        this.token = this.state.account.balances.find(x => x.symbol === symbol);        
+        this.token = this.state.account.balances.find(x => x.symbol === symbol);
+    }
+
+    balanceClicked() {
+        this.amount = this.token.delegationsOut;
     }
 
     private createValidationRules() {
-        ValidationRules.customRule(
-            'integerRange',
-            (value, obj, min, max) => value === null || value === undefined
-                || Number.isInteger(1 * value) && value >= min && value <= max,
-            `\${$displayName} must be an integer between \${$config.min} and \${$config.max}.`,
-            (min, max) => ({ min, max })
-        );
-
         const rules = ValidationRules
-            .ensure('undelegationCooldown')
+            .ensure('amount')
                 .required()
-                    .withMessageKey('errors:undelegationCooldownRequired')
-            .then()
-            .satisfiesRule('integerRange', 1, 365)
-            .withMessageKey('errors:undelegationCooldownInvalidRange')
+                    .withMessageKey('errors:amountRequired')
+                .then()
+                    .satisfies((value: any, object: any) => parseFloat(value) > 0)
+                    .withMessageKey('errors:amountGreaterThanZero')
+                    .satisfies((value: any, object: UndelegateModal) => {
+                        const amount = parseFloat(value);
+
+                        return (amount <= object.token.delegationsOut);
+                    })
+                    .withMessageKey('errors:insufficientBalanceForUndelegate')            
+            .ensure('username')
+                .required()
+                    .withMessageKey('errors:usernameRequired')
             .rules;
 
         this.validationController.addObject(this, rules);
@@ -77,7 +83,7 @@ export class EnableDelegationModal {
                 const toast = new ToastMessage();
 
                 toast.message = this.i18n.tr(result.rule.messageKey, {
-                    undelegationCooldown: this.undelegationCooldown,
+                    delegationsOut: this.token.delegationsOut,
                     symbol: this.token.symbol,
                     ns: 'errors'
                 });
@@ -88,7 +94,7 @@ export class EnableDelegationModal {
 
         if (validationResult.valid) {                       
 
-            const result = await this.se.enableDelegation(this.token.symbol, this.undelegationCooldown);
+            const result = await this.se.undelegate(this.token.symbol, this.amount, this.username);
 
             if (result) {
                 this.controller.ok();

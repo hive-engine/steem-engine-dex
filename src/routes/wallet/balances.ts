@@ -5,13 +5,14 @@ import { observable } from 'aurelia-binding';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 import { loadTokens, loadBalances } from 'common/steem-engine';
-import { TokenInfoModal } from 'modals/token-info';
-import { SendTokensModal } from 'modals/send-tokens';
-import { StakeModal } from 'modals/stake';
-import { UnstakeModal } from 'modals/unstake';
-import { DelegateModal } from 'modals/delegate';
-import { UndelegateModal } from 'modals/undelegate';
-import { EnableDelegationModal } from 'modals/enable-delegation';
+import { TokenInfoModal } from 'modals/wallet/token-info';
+import { SendTokensModal } from 'modals/wallet/send-tokens';
+import { StakeModal } from 'modals/wallet/stake';
+import { UnstakeModal } from 'modals/wallet/unstake';
+import { DelegateModal } from 'modals/wallet/delegate';
+import { UndelegateModal } from 'modals/wallet/undelegate';
+import { EnableDelegationModal } from 'modals/wallet/enable-delegation';
+import { EnableStakingModal } from 'modals/wallet/enable-staking';
 
 import firebase from 'firebase/app';
 import { dispatchify, Store } from 'aurelia-store';
@@ -177,6 +178,12 @@ export class Balances {
     enableDelegation(symbol) {
         this.dialogService
             .open({ viewModel: EnableDelegationModal, model: symbol })
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    enableStaking(symbol) {
+        this.dialogService
+            .open({ viewModel: EnableStakingModal, model: symbol })
             .whenClosed(x => this.walletDialogCloseResponse(x));
     }
 

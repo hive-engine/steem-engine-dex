@@ -13,5 +13,9 @@
     "usernameRequired": "Please enter a username",
     "amountRequired": "Please enter an amount",
     "undelegationCooldownRequired": "Number of days required for undelegation cooldown",
-    "undelegationCooldownInvalidRange": "Undelegation cooldown range is between 1 and 365"
+    "undelegationCooldownInvalidRange": "Undelegation cooldown range is between 1 and 365",
+    "unstakeCooldownRequired": "Number of days required for unstake cooldown",
+    "unstakeTransactionsRequired": "Number of transactions unstake will be divided in is required",
+    "unstakeCooldownInvalidRange": "Unstaking cooldown range is between 1 and 365",
+    "unstakeTransactionsInvalidRange": "Unstaking number of transactions range is between 1 and 365"
 }
