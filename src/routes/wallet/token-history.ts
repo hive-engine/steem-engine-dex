@@ -5,7 +5,8 @@ import { observable } from 'aurelia-binding';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 import { loadTokens, loadBalances } from 'common/steem-engine';
-import { TokenHistoryTransactionModal } from 'modals/token-history-transaction';
+import { TokenHistoryTransactionModal } from 'modals/wallet/token-history-transaction';
+import { SendTokensModal } from 'modals/wallet/send-tokens';
 
 import firebase from 'firebase/app';
 import { dispatchify, Store } from 'aurelia-store';
@@ -13,7 +14,7 @@ import { getCurrentFirebaseUser, loadAccountBalances, loadTokensList } from 'sto
 import styles from "./token-history.module.css";
 import { DialogService, DialogCloseResult } from 'aurelia-dialog';
 import moment from 'moment';
-import { SendTokensModal } from '../../modals/send-tokens';
+
 
 
 @autoinject()

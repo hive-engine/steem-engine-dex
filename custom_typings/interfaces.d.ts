@@ -177,3 +177,15 @@ interface IPendingUndelegationTransaction {
     symbol: string;
     timestamp_string: string;
 }
+
+interface IPendingUnstakeTransaction {
+    account: string;
+    nextTransactionTimestamp: number;
+    quantity: string;
+    quantityLeft: string;
+    numberTransactionsLeft: string;
+    txID: string;
+    symbol: string;
+    timestamp_string: string;
+    millisecPerPeriod: string;
+}

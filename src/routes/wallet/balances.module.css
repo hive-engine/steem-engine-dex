@@ -11,3 +11,16 @@
     width: 24px;
     height: 24px;
 }
+
+.changePercentCol .red,
+.changePercentCol .green {
+    font-weight: bold;
+}
+
+.changePercentCol .red {
+    color: red;
+}
+
+.changePercentCol .green {
+    color: green;
+}

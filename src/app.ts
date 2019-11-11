@@ -94,12 +94,20 @@ export class App {
                 title: 'Token History'
             },
             {
-                route: 'pending-undelegations/:symbol?',
+                route: 'pending-undelegations',
                 href: `pending-undelegations`,
                 name: 'pending-undelegations',
                 moduleId: PLATFORM.moduleName('./routes/wallet/pending-undelegations'),
                 nav: false,
                 title: 'Pending undelegations'
+            },
+            {
+                route: 'pending-unstakes',
+                href: `pending-unstakes`,
+                name: 'pending-unstakes',
+                moduleId: PLATFORM.moduleName('./routes/wallet/pending-unstakes'),
+                nav: false,
+                title: 'Pending unstakes'
             },
             {
                 route: 'exchange/:symbol?',

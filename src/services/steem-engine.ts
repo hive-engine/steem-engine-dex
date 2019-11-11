@@ -205,7 +205,14 @@ export class SteemEngine {
     }
 
     async loadPendingUnstakes(account) {
-        const result = await this.ssc.find('tokens', 'pendingUnstakes', { account: account }, 1000, 0, '', false);
+        var result: IPendingUnstakeTransaction[] = await this.ssc.find('tokens', 'pendingUnstakes', { account: account }, 1000, 0, '', false);        
+
+        if (result != null) {
+            result = result.map(o => {
+                o.timestamp_string = moment.unix(o.nextTransactionTimestamp / 1000).format('YYYY-M-DD HH:mm:ss');
+                return o;
+            });
+        }
 
         if (this.user && account === this.user.name) {
             this.user.pendingUnstakes = result;
@@ -290,7 +297,7 @@ export class SteemEngine {
         return claimTokenResult;
     }
 
-    async enableDelegation(symbol: string, undelegationCooldown: number): Promise<unknown> {
+    async enableDelegation(symbol: string, undelegationCooldown: string): Promise<unknown> {
         return new Promise((resolve) => {
             // Show loading
 
@@ -306,7 +313,7 @@ export class SteemEngine {
                 contractAction: "enableDelegation",
                 contractPayload: {
                     "symbol": symbol,
-                    "undelegationCooldown": undelegationCooldown
+                    "undelegationCooldown": parseInt(undelegationCooldown, 10)
                 }
             };
 
@@ -328,8 +335,6 @@ export class SteemEngine {
                             this.toast.success(toast);
 
                             resolve(true);
-
-                            // Show "Tokens successfully unstaked" toastr
                         } catch (e) {
                             // Show error toastr: 'An error occurred attempting to unstake tokens: ' + tx.error
                             const toast = new ToastMessage();
@@ -355,47 +360,69 @@ export class SteemEngine {
         });
     }
 
-    async enableStaking(symbol, unstakingCooldown, numberTransactions) {
-        // Show loading
+    async enableStaking(symbol, unstakingCooldown, numberTransactions): Promise<unknown> {
+        return new Promise((resolve) => {
+            // Show loading
 
-        const username = localStorage.getItem('username');
+            const username = localStorage.getItem('username');
 
-        if (!username) {
-            window.location.reload();
-            return;
-        }
-
-        const transactionData = {
-            contractName: 'tokens',
-            contractAction: 'enableStaking',
-            contractPayload: {
-                symbol,
-                unstakingCooldown,
-                numberTransactions
+            if (!username) {
+                window.location.reload();
+                return;
             }
-        };
 
-        if (window && window.steem_keychain) {
-            const response = await customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transactionData), 'Enable Token Staking');
-
-            if (response.success && response.result) {
-                try {
-                    await checkTransaction(response.result.id, 3);
-
-                    // Show "Token staking enabled" toastr
-                } catch (e) {
-                    // Show error toastr: 'An error occurred attempting to enable staking on your token: ' + tx.error
+            const transactionData = {
+                contractName: 'tokens',
+                contractAction: 'enableStaking',
+                contractPayload: {
+                    "symbol": symbol,
+                    "unstakingCooldown": parseInt(unstakingCooldown, 10),
+                    "numberTransactions": parseInt(numberTransactions, 10)
                 }
-            } else {
-                // Hide loading
-            }
-        } else {
-            steemConnectJson(this.user.name, 'active', transactionData, () => {
-                // Hide loading
+            };
 
-                // Hide dialog
-            });
-        }
+            if (window && window.steem_keychain) {
+                steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transactionData), 'Enable Token Staking', async (response) => {
+
+                    if (response.success && response.result) {
+                        try {
+                            await checkTransaction(response.result.id, 3);
+
+                            const toast = new ToastMessage();
+
+                            toast.message = this.i18n.tr('enableStakingSucceeded', {
+                                symbol,
+                                unstakingCooldown,
+                                numberTransactions,
+                                ns: 'notifications'
+                            });
+
+                            this.toast.success(toast);
+
+                            resolve(true);
+                        } catch (e) {
+                            // Show error toastr: 'An error occurred attempting to unstake tokens: ' + tx.error
+                            const toast = new ToastMessage();
+
+                            toast.message = this.i18n.tr('errorSubmittedTransfer', {
+                                ns: 'errors',
+                                error: e
+                            });
+
+                            this.toast.error(toast);
+
+                            resolve(false);
+                        }
+                    } else {
+                        resolve(false);
+                    }
+                });
+            } else {
+                steemConnectJson(this.user.name, 'active', transactionData, () => {
+                    resolve(true);
+                });
+            }
+        });
     }
 
     async stake(symbol: string, quantity: string, to: string): Promise<unknown> {
@@ -535,45 +562,64 @@ export class SteemEngine {
         });
     }
 
-    async cancelUnstake(txID) {
-        // Show loading
+    async cancelUnstake(txID): Promise<any> {
+        return new Promise((resolve) => {
+            // Show loading
 
-        const username = localStorage.getItem('username');
+            const username = localStorage.getItem('username');
 
-        if (!username) {
-          window.location.reload();
-          return;
-        }
-
-        const transaction_data = {
-            contractName: "tokens",
-            contractAction: "cancelUnstake",
-            contractPayload: {
-                txID
+            if (!username) {
+              window.location.reload();
+              return;
             }
-        };
-        
-        if (window && window.steem_keychain) {
-            const response = await customJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Cancel Unstake Tokens');
 
-            if (response.success && response.result) {
-                try {
-                    await checkTransaction(response.result.id, 3);
-
-                    // Show "Token unstaking cancelled" toastr
-                } catch (e) {
-                    // Show error toastr: 'An error occurred attempting cancel staked tokens : ' + tx.error
+            const transaction_data = {
+                contractName: "tokens",
+                contractAction: "cancelUnstake",
+                contractPayload: {
+                    txID
                 }
-            } else {
-                // Hide loading
-            }
-        } else {
-            steemConnectJson(this.user.name, 'active', transaction_data, () => {
-                // Hide loading
+            };
+        
+            if (window && window.steem_keychain) {
+                steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Cancel Unstake Tokens', async (response) => {            
+                    if (response.success && response.result) {
+                        try {
+                            await checkTransaction(response.result.id, 3);
 
-                // Hide dialog
-            });
-        }
+                            const toast = new ToastMessage();
+
+                            toast.message = this.i18n.tr('unstakeCancelled', {
+                                ns: 'notifications'
+                            });
+
+                            this.toast.success(toast);
+
+                            resolve(true);
+
+                            // Show "Token unstaking cancelled" toastr
+                        } catch (e) {
+                            const toast = new ToastMessage();
+
+                            toast.message = this.i18n.tr('errorSubmittedTransfer', {
+                                ns: 'errors',
+                                error: e
+                            });
+
+                            this.toast.error(toast);
+
+                            resolve(false);
+                        }
+                    } else {
+                        resolve(false);
+                    }
+                });
+            } else {
+                steemConnectJson(this.user.name, 'active', transaction_data, () => {
+                    resolve(true);
+                });
+            }
+        });
     }
 
     steemConnectCallback() {
