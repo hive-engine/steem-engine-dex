@@ -137,9 +137,9 @@ export class SteemEngine {
                 try {
                     const user = await getAccount(username);
     
-                    if (user && user.length > 0) {
+                    if (user) {
                         try {
-                            if (steem.auth.wifToPublic(key) == user[0].memo_key || steem.auth.wifToPublic(key) === user[0].posting.key_auths[0][0]) {
+                            if (steem.auth.wifToPublic(key) == user.memo_key || steem.auth.wifToPublic(key) === user.posting.key_auths[0][0]) {
                                 // Get an encrypted memo only the user can decrypt with their private key
                                 const encryptedMemo = await this.authService.getUserAuthMemo(username);
 
