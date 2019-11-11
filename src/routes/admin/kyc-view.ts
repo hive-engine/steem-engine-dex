@@ -1,5 +1,4 @@
-import { log } from './../../services/log';
-import { Redirect, RouteConfig, NavigationInstruction } from 'aurelia-router';
+import { Redirect, RouteConfig } from 'aurelia-router';
 
 import firebase from 'firebase/app';
 
@@ -17,7 +16,7 @@ export class AdminKycView {
             this.user = { id: user.id, ...user.data() };
 
             routeConfig.navModel.setTitle(`KYC > ${this.user.id}`);
-            
+
             console.info(`KYC View`, this.user);
         }
     }
