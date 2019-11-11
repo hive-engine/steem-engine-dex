@@ -7,5 +7,6 @@
     {"language":  "typescriptreact",  "autoFix":  true  }
   ],
   "html.suggest.angular1": false,
-  "html.suggest.ionic": false
+  "html.suggest.ionic": false,
+  "eslint.enable": true
 }

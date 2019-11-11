@@ -3,7 +3,7 @@ import * as express from 'express';
 
 import { uploadMiddleware } from '../upload-middleware';
 
-export let kycRouter = express.Router();
+export const kycRouter = express.Router();
 
 import { Storage } from '@google-cloud/storage';
 const storage = new Storage();
@@ -16,7 +16,8 @@ const firestore = admin.firestore();
 
 // @ts-ignore
 const uploadUserFile = async (filename: string, mimetype: string, buffer: Buffer) => {
-    return new Promise((resolve, reject) => {
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
         const formatedFilename = `user-uploads/${filename}`;
         
         const file = userDocs.file(formatedFilename);
@@ -31,14 +32,7 @@ const uploadUserFile = async (filename: string, mimetype: string, buffer: Buffer
         stream.on('finish', async () => {
             //const publicUrl = format(`https://storage.googleapis.com/${userDocs.name}/${file.name}`);
 
-            const config: any = {
-                action: 'read',
-                expires: '03-01-2500',
-            };
-
-            const signedUrl = file.getSignedUrl(config) as any;
-
-            resolve(signedUrl[0]);
+            resolve(file.name);
         });
         stream.end(buffer);
     });
@@ -48,7 +42,7 @@ kycRouter.post('/upload', uploadMiddleware, async (req: express.Request, res: ex
     const authToken = req.headers.authorization || '';
     const type = req.body.type;
     const kycFields = ['selfie', 'passport'];
-    const allowedMimeTypes = ['image/jpeg', 'application/pdf'];
+    const allowedMimeTypes = ['image/jpeg', 'application/pdf', 'image/png'];
 
     try {
         const decodedToken = await admin.auth().verifyIdToken(authToken);
