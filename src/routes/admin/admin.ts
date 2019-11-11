@@ -16,7 +16,7 @@ export class AdminAdmin {
             {
                 route: 'kyc',
                 name: 'adminKyc',
-                moduleId: PLATFORM.moduleName('./kyc'),
+                moduleId: PLATFORM.moduleName('./kyc/kyc'),
                 nav: true,
                 title: 'Kyc'
             },
