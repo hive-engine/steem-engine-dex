@@ -13,7 +13,27 @@ import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
 
 import firebase from 'firebase/app';
-import { login, logout, loadSiteSettings, getCurrentFirebaseUser, setAccount } from 'store/actions';
+import { login, logout, loadSiteSettings, getCurrentFirebaseUser, setAccount, markNotificationsRead } from 'store/actions';
+
+async function authStateChanged() {
+    return new Promise(resolve => {
+        firebase.auth().onAuthStateChanged(async user => {
+            // eslint-disable-next-line no-undef
+            const token = await firebase.auth()?.currentUser?.getIdTokenResult(true);
+
+            if (user) {
+                dispatchify(login)(user.uid);
+                if (token) {
+                    dispatchify(setAccount)({token});
+                }
+                resolve();
+            } else {
+                dispatchify(logout)();
+                resolve();
+            }
+        });
+    });
+}
 
 @autoinject()
 export class App {
@@ -45,6 +65,7 @@ export class App {
         this.subscription = this.ea.subscribe(RouterEvent.Complete, () => {
             dispatchify(loadSiteSettings)();
             dispatchify(getCurrentFirebaseUser)();
+            dispatchify(markNotificationsRead)();
         });
     }
 
@@ -213,24 +234,4 @@ export class App {
 
         this.router = router;
     }
-}
-
-async function authStateChanged() {
-    return new Promise(resolve => {
-        firebase.auth().onAuthStateChanged(async user => {
-            // eslint-disable-next-line no-undef
-            const token = await firebase.auth()?.currentUser?.getIdTokenResult(true);
-
-            if (user) {
-                dispatchify(login)(user.uid);
-                if (token) {
-                    dispatchify(setAccount)({token});
-                }
-                resolve();
-            } else {
-                dispatchify(logout)();
-                resolve();
-            }
-        });
-    });
 }
