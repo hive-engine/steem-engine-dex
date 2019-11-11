@@ -1,3 +1,5 @@
+import { State } from 'store/state';
+import { Store } from 'aurelia-store';
 /* eslint-disable no-empty-pattern */
 /* eslint-disable no-undef */
 import { AuthService } from './../../src/services/auth-service';
@@ -16,12 +18,13 @@ describe('Steem Engine Service', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mockToast: any = {};
     const mockAuth = Container.instance.get(AuthService);
+    const store = Container.instance.get(Store) as Store<State>;
 
     beforeEach(() => {
         fetchMock.resetMocks();
         jest.clearAllMocks();
 
-        sut = new SteemEngine(mockHttp, mockI18n, mockToast, mockAuth);
+        sut = new SteemEngine(mockHttp, mockI18n, store, mockToast, mockAuth);
 
         (window as any).steem_keychain = {
             requestCustomJson: jest

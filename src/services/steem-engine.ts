@@ -10,7 +10,8 @@ import firebase from 'firebase/app';
 import SSC from 'sscjs';
 import steem from 'steem';
 
-import { connectTo } from 'aurelia-store';
+import { Store } from 'aurelia-store';
+import { Subscription } from 'rxjs';
 
 import { loadTokens, loadCoinPairs, loadCoins, checkTransaction } from 'common/steem-engine';
 import { steemConnectJsonId, steemConnectJson, getAccount, steemConnectTransfer } from 'common/steem';
@@ -20,7 +21,6 @@ import { queryParam, formatSteemAmount, getSteemPrice } from 'common/functions';
 import { customJson, requestTransfer } from 'common/keychain';
 import moment from 'moment';
 
-@connectTo()
 @autoinject()
 export class SteemEngine {
     public accountsApi: HttpClient;
@@ -41,13 +41,23 @@ export class SteemEngine {
     public tokens = [];
     public scotTokens = {};
     public steemPrice = 0;
+    public storeSubscription: Subscription;
     public _sc_callback;
 
     constructor(
         @lazy(HttpClient) getHttpClient: () => HttpClient,
         private i18n: I18N,
+        private store: Store<State>,
         private toast: ToastService,
         private authService: AuthService) {
+            this.storeSubscription = this.store.state.subscribe(state => {
+                if (state) {
+                    this.state = state;
+
+                    this.user = state.account as any;
+                }
+            });
+
         this.accountsApi = getHttpClient();
         this.http = getHttpClient();
 
@@ -60,6 +70,10 @@ export class SteemEngine {
         });
 
         this.http.configure(config => config.useStandardConfiguration());
+    }
+
+    unbind() {
+        this.storeSubscription.unsubscribe();
     }
 
     getUser() {
