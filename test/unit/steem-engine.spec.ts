@@ -108,6 +108,22 @@ describe('Functions', () => {
         await expect(functions.getTransactionInfo('gdfkjgkdfljg1234')).resolves.toEqual({ logs: jsonData });
     });
 
+    test('loadPendingUnstakes succeeds', async () => {
+        jest.spyOn(ssc, 'find').mockImplementation(() => {
+            return Promise.resolve([1, 2, 3, 4]);
+        });
+
+        await expect(functions.loadPendingUnstakes('beggars')).resolves.toEqual([1, 2, 3, 4]);
+    });
+
+    test('loadPendingUnstakes fails', async () => {
+        jest.spyOn(ssc, 'find').mockImplementation(() => {
+            return Promise.reject();
+        });
+
+        await expect(functions.loadPendingUnstakes('beggars')).resolves.toEqual([]);
+    });
+
     test('getTransactionInfo fails', async () => {
         const jsonData = JSON.stringify({ "errors": ["some error"] });
 
