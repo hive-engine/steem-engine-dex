@@ -464,10 +464,6 @@ export class SteemEngine {
 
                             this.toast.error(toast);
 
-                            // this.loadBalances(username).then(() => {
-                            //     this.showHistory(symbol);
-                            // });
-
                             resolve(false);
                         }
                     } else {
@@ -702,10 +698,6 @@ export class SteemEngine {
                             });
 
                             this.toast.error(toast);
-
-                            // this.loadBalances(username).then(() => {
-                            //     this.showHistory(symbol);
-                            // });
 
                             resolve(false);
                         }

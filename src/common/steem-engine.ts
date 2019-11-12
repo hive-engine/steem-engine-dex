@@ -112,11 +112,6 @@ export function parseTokens(data: any): State {
                 token.priceChangePercent = parseFloat(metric.priceChangePercent);
                 token.priceChangeSteem = parseFloat(metric.priceChangeSteem);
             }
-
-            // if (token.symbol == 'AFIT') {
-            //     const afit_data = await ssc.find('market', 'tradesHistory', { symbol: 'AFIT' }, 100, 0, [{ index: '_id', descending: false }], false);
-            //     token.volume = (afit_data) ? afit_data.reduce((t, v) => t += parseFloat(v.price) * parseFloat(v.quantity), 0) : 0;
-            // }
         }
 
         if (token.symbol === 'STEEMP') {
@@ -231,11 +226,6 @@ export async function loadTokens(): Promise<any[]> {
                 token.priceChangePercent = parseFloat(metric.priceChangePercent);
                 token.priceChangeSteem = parseFloat(metric.priceChangeSteem);
             }
-
-            // if (token.symbol == 'AFIT') {
-            //     const afit_data = await ssc.find('market', 'tradesHistory', { symbol: 'AFIT' }, 100, 0, [{ index: '_id', descending: false }], false);
-            //     token.volume = (afit_data) ? afit_data.reduce((t, v) => t += parseFloat(v.price) * parseFloat(v.quantity), 0) : 0;
-            // }
         }
 
         if (token.symbol === 'STEEMP') {
