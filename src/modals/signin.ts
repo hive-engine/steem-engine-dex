@@ -43,21 +43,11 @@ export class SigninModal {
 
             const { username } = await this.se.login(this.username.trim().toLowerCase()) as any;
 
-            if (username) {
-                const toast = new ToastMessage();
-        
-                toast.message = this.i18n.tr('signinSuccess', { ns: 'notifications' });
-    
-                toast.overrideOptions.onClosing = () => {
-                    this.controller.close(true);
-                    this.loading = false;
-                    this.router.navigateToRoute('home');
-                }
-    
-                this.toast.success(toast);
-    
-                await dispatchify(login)(username);
-            }
+            await dispatchify(login)(username);
+
+            this.controller.close(true);
+
+            this.loading = false;
         } catch (e) {
             this.loading = false;
         }
@@ -69,22 +59,11 @@ export class SigninModal {
 
             const { username } = await this.se.login(this.username.trim().toLowerCase(), this.privateKey.trim()) as any;
         
-            if (username) {
-                const toast = new ToastMessage();
-        
-                toast.message = this.i18n.tr('signinSuccess', { ns: 'notifications' });
-    
-                toast.overrideOptions.onClosing = () => {
-                    this.controller.close(true);
-                    this.router.navigateToRoute('home');
-                }
-    
-                this.toast.success(toast);
-    
-                await dispatchify(login)(username);
+            await dispatchify(login)(username);
 
-                this.loading = false;
-            }
+            this.controller.close(true);
+
+            this.loading = false;
         } catch (e) {
             this.loading = false;
         }

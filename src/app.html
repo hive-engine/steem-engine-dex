@@ -2,6 +2,12 @@
 <require from = './components/footer/footer-component.html'></require>
   <nav-bar router.bind="router" logged-in.bind="loggedIn" claims.bind="claims"></nav-bar>
 
+  <div class="notifications-bar" if.bind="notifications.length">
+    <div class="alert alert-${notification.type}" role="alert" repeat.for="notification of notifications">
+        ${notification.message}
+    </div>
+  </div>
+
   <router-view class="space-navbar"></router-view>
 
   <footer-component></footer-component>

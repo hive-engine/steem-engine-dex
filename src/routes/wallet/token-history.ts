@@ -4,13 +4,11 @@ import { Redirect } from 'aurelia-router';
 import { observable } from 'aurelia-binding';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
-import { loadTokens, loadBalances } from 'common/steem-engine';
 import { TokenHistoryTransactionModal } from 'modals/wallet/token-history-transaction';
 import { SendTokensModal } from 'modals/wallet/send-tokens';
 
-import firebase from 'firebase/app';
 import { dispatchify, Store } from 'aurelia-store';
-import { getCurrentFirebaseUser, loadAccountBalances, loadTokensList } from 'store/actions';
+import { loadAccountBalances, loadTokensList } from 'store/actions';
 import styles from "./token-history.module.css";
 import { DialogService, DialogCloseResult } from 'aurelia-dialog';
 import moment from 'moment';
@@ -21,7 +19,7 @@ import moment from 'moment';
 export class TokenHistory {
     private searchValue = '';
     private columns = ['symbol'];
-        
+
     private token: IToken;
     private transactions: ITokenHistoryTransaction[] = [];
     private username: any;
@@ -33,7 +31,7 @@ export class TokenHistory {
     private transactionsTable: HTMLTableElement;
 
     @observable() private hideZeroBalances = false;
-    
+
     constructor(private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue, private dialogService: DialogService) {
         this.subscription = this.store.state.subscribe((state: State) => {
             if (state) {
@@ -48,8 +46,8 @@ export class TokenHistory {
         }
     }
 
-    attached() {        
-        this.loadTable();        
+    attached() {
+        this.loadTable();
     }
 
     loadTable() {
@@ -69,16 +67,19 @@ export class TokenHistory {
         }
 
         this.token = this.state.tokens.find(x => x.symbol == symbol);
+
         this.username = this.state.account.name;
-        var history = await this.se.showHistory(symbol, this.state.account.name) as ITokenHistoryTransaction[];
+
+        const history = await this.se.showHistory(symbol, this.state.account.name) as ITokenHistoryTransaction[];
 
         this.tokenBalance = await this.se.getBalance(symbol);
 
-        var runningBalance = this.tokenBalance;
+        let runningBalance = this.tokenBalance;
+
         history.forEach(x => {
             x.balance = runningBalance.toFixed(this.token.precision);
             runningBalance = (x.to == this.username) ? runningBalance - parseFloat(x.quantity) : runningBalance + parseFloat(x.quantity);
-            var dt = new Date(x.timestamp);
+            const dt = new Date(x.timestamp);
             x.timestamp_string = moment(dt).format('YYYY-M-DD HH:mm:ss');
         })
 
@@ -87,7 +88,7 @@ export class TokenHistory {
 
     async canActivate({ symbol }) {
         try {
-            await this.loadHistoryData(symbol);            
+            await this.loadHistoryData(symbol);
         } catch {
             return new Redirect('');
         }

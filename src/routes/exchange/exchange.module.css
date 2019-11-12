@@ -32,7 +32,8 @@ tr td:last-child {
 }
 
 .best-price > div:last-child {
-    color: red;
+    color: #FFF;
+    font-weight: bold;
 }
 
 .exchange-chart {
