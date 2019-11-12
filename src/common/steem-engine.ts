@@ -142,9 +142,9 @@ export function parseTokens(data: any): State {
     return tokens;
 }
 
-export async function loadTokens(): Promise<any[]> {
+export async function loadTokens(limit = 1000, offset = 0): Promise<any[]> {
     const callQl = await query(`query {
-        tokens(limit: 1000, offset: 0) {
+        tokens(limit: ${limit}, offset: ${offset}) {
             issuer,
             symbol,
             name,
@@ -160,7 +160,7 @@ export async function loadTokens(): Promise<any[]> {
             stakingEnabled,
             delegationEnabled
         },
-        metrics(limit: 1000, offset: 0) {
+        metrics(limit: ${limit}, offset: ${offset}) {
             symbol,
             volume,
             volumeExpiration,
