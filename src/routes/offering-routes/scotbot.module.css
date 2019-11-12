@@ -97,7 +97,11 @@
     list-style: none;
 }
 .category li {
-    border-bottom: 2px solid #0048b3;
+    border-bottom: 2px dashed #ececec;
+    padding: 10px;
+}
+.category li:last-child {
+    border-bottom: none;
     padding: 10px;
 }
 
