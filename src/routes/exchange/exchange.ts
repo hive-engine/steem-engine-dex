@@ -1,3 +1,4 @@
+import { Redirect } from 'aurelia-router';
 import { ChartComponent } from './../../components/chart/chart';
 import { State } from './../../store/state';
 
@@ -92,6 +93,12 @@ export class Exchange {
         this.subscription = this.store.state.subscribe(async (state: State) => {
             this.state = state;
         });
+    }
+
+    canActivate({ symbol }) {
+        if (!symbol) {
+            return new Redirect('/exchange/ENG')
+        }
     }
 
     async activate({ symbol }) {
