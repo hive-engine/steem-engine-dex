@@ -1,6 +1,6 @@
 export class ArrayFilterValueConverter {
-    toView(array, config: { search: string, term: string, caseSensitive?: boolean, sort?: { key: string, direction?: string } }) {
-        let term = config.term !== null ? config.term.trim() : '';
+    toView(array, config: { search: string, term: string, caseSensitive?: boolean, sort?: { key: string, direction?: string } }) {                
+        let term = config.term ? config.term.trim() : '';
 
         if (!array || term === '') {
             return array;
