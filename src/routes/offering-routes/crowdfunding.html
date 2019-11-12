@@ -1,16 +1,573 @@
 ﻿<template>
     <require from="./offering-nav/smallnav.html"></require>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="crowdfunding-header text-center">
-                    <smallnav></smallnav>
-                    <h1>Crowdfunding</h1>
-                    <p>
-                        ...
-                    </p>
+    <div class="crowdfunding-banner">
+        <div class="crowdfunding-banner-wrapper">
+            <div class="container">
+                <smallnav selected="crowdfunding"></smallnav>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="crowdfunding-header text-center">
+                            <h1>An ultimate funding solution</h1>
+                            <p>
+                                Join the number of founders and backers bringing
+                                their ideas to live on STEEM ENGINE.
+                            </p>
+                            <a href="" class="greenBtn">Get Started</a>
+                        </div>
+                        <div class="crowdfunding-img text-center">
+                            <img
+                                src="../../images/screen.png"
+                                alt=""
+                                width="80%"
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <section class="div-wave"></section>
+
+    <section class="are-you">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center typewriter">
+                    <h2>Are you a <span>project owner</span>?</h2>
+                    <p>
+                        Join a platform where people from all over the world
+                        support and kick-start project ideas until it becomes
+                        reality.
+                    </p>
+                    <a href="" class="greenBtn">Get Invoved</a>
+                    <div class="collab-img" id="img1">
+                        <img
+                            src="../../images/collab.svg"
+                            alt="collaborate"
+                            width="80%"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider" />
+
+    <section class="big-news">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 text-center offset-md-1">
+                    <h2 class="section-header">
+                        How would you like to be a part of the next big news on
+                        the blockchain?
+                    </h2>
+
+                    <p class="section-desc">
+                        Steem Engine Crowdfunding program help project owners
+                        secure funds from contributions in all regions of the
+                        world.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="cards-wrapper">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card1 raise-back text-center">
+                                    <h3 class="crowd-card-header">
+                                        Create a project
+                                    </h3>
+
+                                    <p class="section-desc">
+                                        Do you have an idea or are you feeling
+                                        inspired? Here is a good place to start
+                                        while leveraging on investment from
+                                        different parts of the world.
+                                    </p>
+                                    <a href="" class="tranBtn"
+                                        >Start an initiative</a
+                                    >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card2 raise-back text-center">
+                                    <h3 class="crowd-card-header">
+                                        Fund a project
+                                    </h3>
+
+                                    <p class="section-desc">
+                                        Do you find any project interesting or
+                                        worthy of investing in? Start now by
+                                        helping the founder achieve their dreams
+                                        alongside yours.
+                                    </p>
+                                    <a href="" class="tran2Btn"
+                                        >Back an initiative</a
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="explore">
+        <div class="explore-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 offset-md-1">
+                        <div class="explore-header text-center">
+                            <h2>Here are some of our top raises so far</h2>
+                            <p>
+                                We crowdfund for projects of different
+                                categories on the blockchain
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="explore-cards exploration-cards row">
+                        <div>
+                            <div class="explore-card">
+                                <div class="explore-card-img">
+                                    <img
+                                        src="https://picsum.photos/640/360"
+                                        alt="explore image"
+                                        class="explore-img"
+                                    />
+                                </div>
+                                <div class="explore-card-body">
+                                    <div class="explore-pfa">
+                                        <p class="what">
+                                            Fund
+                                        </p>
+                                        <span class="heart-icon"
+                                            ><font-awesome-icon
+                                                class="font-awesome-icons"
+                                                icon="heart"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </div>
+                                    <h4 class="explore-title">
+                                        A decentralized sport blogging platform
+                                    </h4>
+                                    <p class="explore-desc">
+                                        Lorem ipsum dolor sit amet consectetur
+                                        adipisicing elit. Ipsum itaque, illo,
+                                        libero tempore voluptatibus.
+                                    </p>
+                                    <p class="project-category">Social</p>
+                                    <div class="explore-pfa">
+                                        <p class="explore-goal">
+                                            $ ${'400' & t} of $ ${'2,500' & t}
+                                        </p>
+                                    </div>
+                                    <div class="progress" style="height: 3px;">
+                                        <div
+                                            class="progress-bar"
+                                            role="progressbar"
+                                            style="width: 25%;"
+                                            aria-valuenow="25"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                        ></div>
+                                    </div>
+                                    <div class="time-left">
+                                        <font-awesome-icon
+                                            style="color: #6a6a6a;"
+                                            icon.bind="iconClock"
+                                        ></font-awesome-icon>
+                                        <span class="time-left-span"
+                                            >30 days left</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="explore-card">
+                                <div class="explore-card-img">
+                                    <img
+                                        src="https://picsum.photos/640/360"
+                                        alt="explore image"
+                                        class="explore-img"
+                                    />
+                                </div>
+                                <div class="explore-card-body">
+                                    <div class="explore-pfa">
+                                        <p class="what">
+                                            Fund
+                                        </p>
+                                        <span class="heart-icon"
+                                            ><font-awesome-icon
+                                                class="font-awesome-icons"
+                                                icon="heart"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </div>
+                                    <h4 class="explore-title">
+                                        A decentralized sport blogging platform
+                                    </h4>
+                                    <p class="explore-desc">
+                                        Lorem ipsum dolor sit amet consectetur
+                                        adipisicing elit. Ipsum itaque, illo,
+                                        libero tempore voluptatibus.
+                                    </p>
+                                    <p class="project-category">Social</p>
+                                    <div class="explore-pfa">
+                                        <p class="explore-goal">
+                                            $ ${'400' & t} of $ ${'2,500' & t}
+                                        </p>
+                                    </div>
+                                    <div class="progress" style="height: 3px;">
+                                        <div
+                                            class="progress-bar"
+                                            role="progressbar"
+                                            style="width: 25%;"
+                                            aria-valuenow="25"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                        ></div>
+                                    </div>
+                                    <div class="time-left">
+                                        <font-awesome-icon
+                                            style="color: #6a6a6a;"
+                                            icon.bind="iconClock"
+                                        ></font-awesome-icon>
+                                        <span class="time-left-span"
+                                            >30 days left</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="explore-card">
+                                <div class="explore-card-img">
+                                    <img
+                                        src="https://picsum.photos/640/360"
+                                        alt="explore image"
+                                        class="explore-img"
+                                    />
+                                </div>
+                                <div class="explore-card-body">
+                                    <div class="explore-pfa">
+                                        <p class="what">
+                                            Fund
+                                        </p>
+                                        <span class="heart-icon"
+                                            ><font-awesome-icon
+                                                class="font-awesome-icons"
+                                                icon="heart"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </div>
+                                    <h4 class="explore-title">
+                                        A decentralized sport blogging platform
+                                    </h4>
+                                    <p class="explore-desc">
+                                        Lorem ipsum dolor sit amet consectetur
+                                        adipisicing elit. Ipsum itaque, illo,
+                                        libero tempore voluptatibus.
+                                    </p>
+                                    <p class="project-category">Social</p>
+                                    <div class="explore-pfa">
+                                        <p class="explore-goal">
+                                            $ ${'400' & t} of $ ${'2,500' & t}
+                                        </p>
+                                    </div>
+                                    <div class="progress" style="height: 3px;">
+                                        <div
+                                            class="progress-bar"
+                                            role="progressbar"
+                                            style="width: 25%;"
+                                            aria-valuenow="25"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                        ></div>
+                                    </div>
+                                    <div class="time-left">
+                                        <font-awesome-icon
+                                            style="color: #6a6a6a;"
+                                            icon.bind="iconClock"
+                                        ></font-awesome-icon>
+                                        <span class="time-left-span"
+                                            >30 days left</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="explore-card">
+                                <div class="explore-card-img">
+                                    <img
+                                        src="https://picsum.photos/640/360"
+                                        alt="explore image"
+                                        class="explore-img"
+                                    />
+                                </div>
+                                <div class="explore-card-body">
+                                    <div class="explore-pfa">
+                                        <p class="what">
+                                            Fund
+                                        </p>
+                                        <span class="heart-icon"
+                                            ><font-awesome-icon
+                                                class="font-awesome-icons"
+                                                icon="heart"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </div>
+                                    <h4 class="explore-title">
+                                        A decentralized sport blogging platform
+                                    </h4>
+                                    <p class="explore-desc">
+                                        Lorem ipsum dolor sit amet consectetur
+                                        adipisicing elit. Ipsum itaque, illo,
+                                        libero tempore voluptatibus.
+                                    </p>
+                                    <p class="project-category">Social</p>
+                                    <div class="explore-pfa">
+                                        <p class="explore-goal">
+                                            $ ${'400' & t} of $ ${'2,500' & t}
+                                        </p>
+                                    </div>
+                                    <div class="progress" style="height: 3px;">
+                                        <div
+                                            class="progress-bar"
+                                            role="progressbar"
+                                            style="width: 25%;"
+                                            aria-valuenow="25"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                        ></div>
+                                    </div>
+                                    <div class="time-left">
+                                        <font-awesome-icon
+                                            style="color: #6a6a6a;"
+                                            icon.bind="iconClock"
+                                        ></font-awesome-icon>
+                                        <span class="time-left-span"
+                                            >30 days left</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="explore-card">
+                                <div class="explore-card-img">
+                                    <img
+                                        src="https://picsum.photos/640/360"
+                                        alt="explore image"
+                                        class="explore-img"
+                                    />
+                                </div>
+                                <div class="explore-card-body">
+                                    <div class="explore-pfa">
+                                        <p class="what">
+                                            Fund
+                                        </p>
+                                        <span class="heart-icon"
+                                            ><font-awesome-icon
+                                                class="font-awesome-icons"
+                                                icon="heart"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </div>
+                                    <h4 class="explore-title">
+                                        A decentralized sport blogging platform
+                                    </h4>
+                                    <p class="explore-desc">
+                                        Lorem ipsum dolor sit amet consectetur
+                                        adipisicing elit. Ipsum itaque, illo,
+                                        libero tempore voluptatibus.
+                                    </p>
+                                    <p class="project-category">Social</p>
+                                    <div class="explore-pfa">
+                                        <p class="explore-goal">
+                                            $ ${'400' & t} of $ ${'2,500' & t}
+                                        </p>
+                                    </div>
+                                    <div class="progress" style="height: 3px;">
+                                        <div
+                                            class="progress-bar"
+                                            role="progressbar"
+                                            style="width: 25%;"
+                                            aria-valuenow="25"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                        ></div>
+                                    </div>
+                                    <div class="time-left">
+                                        <font-awesome-icon
+                                            style="color: #6a6a6a;"
+                                            icon.bind="iconClock"
+                                        ></font-awesome-icon>
+                                        <span class="time-left-span"
+                                            >30 days left</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-light section-why">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 offset-md-1">
+                    <div class="section-header">
+                        <h2 class="section-title text-center">
+                            ${'Why choose our Crowdfunding?'}
+                        </h2>
+                    </div>
+                    <div class="desc">
+                        <p class="desc-text text-center">
+                            Join the league of the numerous projects enjoying our amazing Crowdfunding plans.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-xs-12">
+                    <div class="why-card">
+                        <div class="why-wrapper text-center">
+                            <div class="why-icon-wrapper">
+                                <img class="why-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAABmJLR0QA/wD/AP+gvaeTAAAB1UlEQVR4nO3cQU7CQBjF8Vdqr2DiDVjgEXABRhuSbjiomy6oJJoYwwlg4Q1M4AiNrQujkSaC8ub7MMP7bVzRIZPhP502ERARERERkT9LqE/nZRvoe4TwgjYb4T5/9Ry05zmYsT6S+hG31YXnoGFWYFVw12Ft/xJcV2JMKxBIsALQR6+e4+bu3GNImwnMywXy8tnk2ru81WMkWKHFAGn24DGJViuwAeC/wcyna+9JtJnAqhiiKq5Mrr3PfLoG0hGAJVoM0MueLDeWuBr4aTbZIEnHAJYw3p3jauB3s8kGTX1tvbHE1cAuhybG18Au4ybG2cAuwybG28AuoybG3cAugyaehfpuW6piaHLdfX77dKj9+vsxicDloUOeRgN3aTFgPm6zAvNyAaBxW4mHPg0K8DzztBpoIK4GHoEaSDqd+0AjaiBJDSSpgSQ1kGTzE97VQM+X8Q6vW9VAktUK/NmxX8IHpgaSdB9IUgNJ/g203IWP0Fc1kOR/HxjZLqwGknQWJqmBJJ2FSWogSWdhkhpI0lmYpAaSdBYmqYEknYVJaiBJZ2GSGkjSfSBJDSSpgSQ1kKQGktRAkhpIUgNJaiBJDSSpgaQwK/B//Q8tV1qBIiIiIiLi7x3M5NkaaB3VpAAAAABJRU5ErkJggg==">
+                            </div>
+                            <div class="feature-header">
+                                <h3 class="feature-title">Transparent</h3>
+                            </div>
+                            <p class="feature-desc why-desc">
+                                STEEM Engine offers an amazing crowdfunding 
+                                strategy that leverages on the immutable power 
+                                of the STEEM Blockchain to ensure maximum transparency.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12 col-xs-12">
+                    <div class="why-card">
+                        <div class="why-wrapper text-center">
+                            <div class="why-icon-wrapper">
+                                <img class="why-icon" src="data:image/png;base64,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">
+                            </div>
+                            <div class="feature-header">
+                                <h3 class="feature-title">Speed</h3>
+                            </div>
+                            <p class="feature-desc why-desc">
+                                Carry out your crowdfunding campaign without any form of delay while leveraging on the
+                                strength of a highly competent team that ensures that your crowdfunding campaign
+                                becomes a success.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12 col-xs-12">
+                    <div class="why-card">
+                        <div class="why-wrapper text-center">
+                            <div class="why-icon-wrapper">
+                                <svg class="why-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                    width="80" height="80"
+                                    viewBox="0 0 172 172"
+                                    style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#e74c3c"><path d="M81.7,8.6c-15.41016,0 -27.95,12.53984 -27.95,27.95c0,3.77922 0.78968,7.36923 2.1542,10.66182c-16.64611,7.90882 -29.31686,22.36303 -34.26143,38.79238c-0.04753,-0.00298 -0.09515,-0.00438 -0.14277,-0.0042c-3.58724,0 -6.45,-2.86276 -6.45,-6.45c0,-2.19382 1.08232,-4.10596 2.73789,-5.27422c0.79908,-0.54549 1.13542,-1.55751 0.82183,-2.4728c-0.31359,-0.91529 -1.19987,-1.50842 -2.16558,-1.44927c-0.41047,0.02417 -0.80541,0.16553 -1.13799,0.40732c-2.75623,1.94494 -4.55615,5.17348 -4.55615,8.78897c0,5.59156 4.32969,10.2189 9.80098,10.70381c-0.76125,3.54544 -1.20098,7.15319 -1.20098,10.79619c0,18.2502 10.31353,32.92412 25.8,41.82842v7.62158c0,3.53669 2.91331,6.45 6.45,6.45h10.75c3.30516,0 5.85496,-2.634 6.20225,-5.85371c4.93506,0.88599 9.99451,1.55371 15.29775,1.55371c6.02149,0 11.79426,-0.70054 17.33018,-1.83506c0.19171,3.37027 2.90533,6.13506 6.31982,6.13506h10.75c3.53669,0 6.45,-2.91331 6.45,-6.45v-8.84775c9.22595,-5.80278 16.33219,-13.76383 20.23184,-23.40225h5.56816c3.53669,0 6.45,-2.91331 6.45,-6.45v-25.8c0,-3.53669 -2.91331,-6.45 -6.45,-6.45h-7.67197c-2.22129,-4.5465 -5.07598,-8.94755 -8.44883,-13.09316l17.34697,-17.34277l-2.18359,-1.45293c0,0 -4.76423,-3.17655 -11.69062,-4.45537c-1.7316,-0.31971 -3.61679,-0.51802 -5.60596,-0.5207c-5.59513,-0.00752 -12.01743,1.71245 -18.23721,6.47099c-1.96547,-1.11313 -3.98501,-2.14286 -6.05527,-3.07803c1.08279,-2.97908 1.69648,-6.1809 1.69648,-9.52803c0,-15.41016 -12.53984,-27.95 -27.95,-27.95zM81.7,12.9c13.08594,0 23.65,10.56406 23.65,23.65c0,6.80332 -2.88297,12.8875 -7.47041,17.2h-32.36338c-4.58452,-4.31482 -7.46621,-10.39769 -7.46621,-17.2c0,-13.08594 10.56406,-23.65 23.65,-23.65zM81.7,17.2c-1.18741,0 -2.15,0.96259 -2.15,2.15c0,1.18741 0.96259,2.15 2.15,2.15c1.18741,0 2.15,-0.96259 2.15,-2.15c0,-1.18741 -0.96259,-2.15 -2.15,-2.15zM73.04961,19.50537c-0.36043,0.00914 -0.71277,0.10878 -1.02461,0.28975c-1.02822,0.5928 -1.38158,1.90665 -0.78945,2.93525c0.2854,0.49421 0.75558,0.85467 1.30695,1.00197c0.55136,0.14729 1.13867,0.06933 1.63251,-0.21671c1.02669,-0.59424 1.37809,-1.90775 0.78525,-2.93525c-0.39263,-0.68051 -1.12519,-1.09268 -1.91064,-1.075zM90.19502,19.50957c-0.73043,0.0345 -1.39324,0.43788 -1.75947,1.0708c-0.28569,0.49435 -0.36302,1.08204 -0.21492,1.63346c0.1481,0.55142 0.50945,1.02129 1.00437,1.30599c1.0286,0.59213 2.34245,0.23876 2.93525,-0.78945c0.59284,-1.0275 0.24144,-2.34101 -0.78525,-2.93525c-0.35773,-0.20656 -0.76739,-0.3057 -1.17998,-0.28555zM96.54004,25.8c-0.35863,0.00856 -0.70942,0.10672 -1.02041,0.28555c-0.49492,0.2847 -0.85628,0.75457 -1.00437,1.30599c-0.1481,0.55142 -0.07077,1.13911 0.21492,1.63346c0.2854,0.49421 0.75558,0.85467 1.30695,1.00197c0.55136,0.14729 1.13867,0.06933 1.63251,-0.21671c1.02669,-0.59424 1.37809,-1.90775 0.78526,-2.93525c-0.39336,-0.68186 -1.1279,-1.09423 -1.91484,-1.075zM66.70459,25.8042c-0.73194,0.0331 -1.39664,0.43667 -1.76367,1.0708c-0.59213,1.0286 -0.23876,2.34245 0.78945,2.93525c1.0275,0.59283 2.34101,0.24144 2.93525,-0.78525c0.59283,-1.0275 0.24144,-2.34101 -0.78525,-2.93525c-0.35651,-0.20578 -0.7646,-0.30488 -1.17578,-0.28555zM81.7,30.1c-1.18741,0 -2.15,0.96259 -2.15,2.15c0,1.18741 0.96259,2.15 2.15,2.15c1.18741,0 2.15,-0.96259 2.15,-2.15c0,-1.18741 -0.96259,-2.15 -2.15,-2.15zM64.5,34.4c-1.18741,0 -2.15,0.96259 -2.15,2.15c0,1.18741 0.96259,2.15 2.15,2.15c1.18741,0 2.15,-0.96259 2.15,-2.15c0,-1.18741 -0.96259,-2.15 -2.15,-2.15zM98.9,34.4c-1.18741,0 -2.15,0.96259 -2.15,2.15c0,1.18741 0.96259,2.15 2.15,2.15c1.18741,0 2.15,-0.96259 2.15,-2.15c0,-1.18741 -0.96259,-2.15 -2.15,-2.15zM81.7,38.7c-1.18741,0 -2.15,0.96259 -2.15,2.15c0,1.18741 0.96259,2.15 2.15,2.15c1.18741,0 2.15,-0.96259 2.15,-2.15c0,-1.18741 -0.96259,-2.15 -2.15,-2.15zM66.75078,43c-0.36006,0.00786 -0.71238,0.10605 -1.02461,0.28555c-0.49421,0.2854 -0.85467,0.75558 -1.00197,1.30695c-0.14729,0.55136 -0.06933,1.13867 0.21671,1.63251c0.59424,1.02669 1.90775,1.37809 2.93525,0.78525c1.02822,-0.5928 1.38158,-1.90665 0.78945,-2.93525c-0.39336,-0.68186 -1.1279,-1.09423 -1.91484,-1.075zM96.49385,43.0042c-0.73127,0.03539 -1.39427,0.44047 -1.75947,1.075c-0.59284,1.0275 -0.24144,2.34101 0.78525,2.93526c1.02751,0.59284 2.34101,0.24144 2.93526,-0.78526c0.28604,-0.49384 0.36401,-1.08114 0.21671,-1.63251c-0.14729,-0.55136 -0.50776,-1.02154 -1.00197,-1.30694c-0.35651,-0.20578 -0.7646,-0.30488 -1.17578,-0.28555zM132.2502,46.95986c1.69563,0.01517 3.31212,0.19598 4.8207,0.47451c3.46305,0.63939 5.95127,1.66446 7.71816,2.53633l-16.17539,16.17119l0.38633,0.44932c-0.00027,0.0196 -0.00027,0.03919 0,0.05879c-0.00027,1.05954 0.77141,1.96132 1.81826,2.1248c3.60157,4.36649 6.59759,9.05001 8.79736,13.82383l0.57529,1.25137h10.30908c1.21481,0 2.15,0.93519 2.15,2.15v25.8c0,1.21481 -0.93519,2.15 -2.15,2.15h-8.42363l-0.5165,1.41514c-3.51457,9.65794 -10.58987,17.6225 -20.11426,23.33506l-1.04561,0.62568v11.17412c0,1.21481 -0.93519,2.15 -2.15,2.15h-10.75c-1.21481,0 -2.15,-0.93519 -2.15,-2.15v-4.93828l-2.64551,0.62568c-5.92593,1.40725 -12.26076,2.1626 -18.85449,2.1626c-5.8228,0 -11.44409,-0.58954 -16.76328,-1.69648l-2.58672,-0.5417v4.38818c0,1.21481 -0.93519,2.15 -2.15,2.15h-10.75c-1.21481,0 -2.15,-0.93519 -2.15,-2.15v-9.99834l-1.12119,-0.61309c-15.08379,-8.22884 -24.67881,-21.74106 -24.67881,-38.83857c0,-19.91431 13.29861,-39.46878 32.7665,-49.30303c-0.31847,0.60045 -0.5165,1.27567 -0.5165,2.00303c0,2.37575 1.92425,4.3 4.3,4.3h43c2.37575,0 4.3,-1.92425 4.3,-4.3c0,-1.33743 -0.62202,-2.51628 -1.57891,-3.30478c0.08763,-0.1524 0.16293,-0.31192 0.24775,-0.46611c2.36121,1.03364 4.66964,2.18007 6.87832,3.48955l1.31436,0.77686l1.16738,-0.98262c5.82517,-4.88997 11.63439,-6.34855 16.72129,-6.30303zM124.7,70.95c-1.18741,0 -2.15,0.96259 -2.15,2.15c0,1.18741 0.96259,2.15 2.15,2.15c1.18741,0 2.15,-0.96259 2.15,-2.15c0,-1.18741 -0.96259,-2.15 -2.15,-2.15zM118.25,77.4c-1.18741,0 -2.15,0.96259 -2.15,2.15c0,1.18741 0.96259,2.15 2.15,2.15c1.18741,0 2.15,-0.96259 2.15,-2.15c0,-1.18741 -0.96259,-2.15 -2.15,-2.15zM144.05,88.15c-1.18741,0 -2.15,0.96259 -2.15,2.15c0,1.18741 0.96259,2.15 2.15,2.15c1.18741,0 2.15,-0.96259 2.15,-2.15c0,-1.18741 -0.96259,-2.15 -2.15,-2.15zM144.05,96.75c-1.18741,0 -2.15,0.96259 -2.15,2.15c0,1.18741 0.96259,2.15 2.15,2.15c1.18741,0 2.15,-0.96259 2.15,-2.15c0,-1.18741 -0.96259,-2.15 -2.15,-2.15zM144.05,105.35c-1.18741,0 -2.15,0.96259 -2.15,2.15c0,1.18741 0.96259,2.15 2.15,2.15c1.18741,0 2.15,-0.96259 2.15,-2.15c0,-1.18741 -0.96259,-2.15 -2.15,-2.15zM66.65,129c-1.18741,0 -2.15,0.96259 -2.15,2.15c0,1.18741 0.96259,2.15 2.15,2.15c1.18741,0 2.15,-0.96259 2.15,-2.15c0,-1.18741 -0.96259,-2.15 -2.15,-2.15zM103.2,129c-1.18741,0 -2.15,0.96259 -2.15,2.15c0,1.18741 0.96259,2.15 2.15,2.15c1.18741,0 2.15,-0.96259 2.15,-2.15c0,-1.18741 -0.96259,-2.15 -2.15,-2.15zM66.65,137.6c-1.18741,0 -2.15,0.96259 -2.15,2.15c0,1.18741 0.96259,2.15 2.15,2.15c1.18741,0 2.15,-0.96259 2.15,-2.15c0,-1.18741 -0.96259,-2.15 -2.15,-2.15zM103.2,137.6c-1.18741,0 -2.15,0.96259 -2.15,2.15c0,1.18741 0.96259,2.15 2.15,2.15c1.18741,0 2.15,-0.96259 2.15,-2.15c0,-1.18741 -0.96259,-2.15 -2.15,-2.15z"></path></g></g></svg>
+                            </div>
+                            <div class="feature-header">
+                                <h3 class="feature-title">Transparent</h3>
+                            </div>
+                            <p class="feature-desc why-desc">
+                                Reach your goal and kick-start your project with STEEM Engine.
+                                We help you reach your set liquidity target with the help of the ever-active
+                                STEEM ecosystem. Funds are donated without third-party inteference.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section class="participate">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="participate-wrapper">
+                        <div class="participate-overlay text-center">
+                            <a class="participate-anchor" href="">
+                                <div class="participate-title text-center">
+                                    <h2>Found a cause you believe in?</h2>
+                                    <p>
+                                        STEEM ENGINE is your desired choice for
+                                        finding innovations in the blockchain
+                                        space, often providing special offers to
+                                        early adopter. Back a project, share
+                                        your ideas and feedback with the core
+                                        project team - and join the
+                                        risks-rewards curve of bringing new
+                                        products and ideas to life. Start
+                                        contributing towards the success of any
+                                        project you find fascinating today.
+                                    </p>
+                                </div>
+                                <div class="learn text-center">Learn about what we do 
+                                    <span>
+                                        <font-awsome-icons icon="greater-than" ></font-awsome-icons>
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="inspired">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="inspired-wrapper text-center">
+                        <h2 style="margin-bottom: 15px; margin-top: 25px;">
+                            Are you feeling inspired?
+                        </h2>
+                        <a class="greenBtn">Start a Campaign</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ask-us">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ask-us-wrapper text-center">
+                        <h2 style="margin-bottom: 15px; margin-top: 25px;">
+                            Got a question?
+                        </h2>
+                        <a class="askBtn">Ask us now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </template>
