@@ -12,6 +12,7 @@
     "LOW": "低",
     "VOLUME": "体积",
     "Favorites": "最爱",
+    "Profile": "轮廓",
     "Hidden Tokens": "隐藏的令牌",
     "Preferences": "喜好",
     "Settings": "设置",
@@ -35,5 +36,15 @@
     "Symbol": "符号",
     "USD Value": "美元价值",
     "Staked": "ked",
-    "Market": "市场"
+    "Market": "市场",
+    "Your Profile": "您的个人资料",
+    "Some of these fields are required if you want to verify yourself via the KYC process.": "如果您想通过KYC流程进行验证，则其中的某些字段是必填字段。",
+    "First name": "名字",
+    "Last name": "姓",
+    "Email": "电子邮件",
+    "Address line 1": "地址第一行",
+    "Address line 2": "地址行2",
+    "State": "州",
+    "Country": "国家",
+    "Edit": "编辑"
 }
