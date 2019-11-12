@@ -452,15 +452,14 @@ export async function loadExchangeUiLoggedOut(symbol) {
 }
 
 export async function loadBalances(account: string): Promise<BalanceInterface[]> {
-    const loadedBalances: BalanceInterface[] = await ssc.find(
-        'tokens',
-        'balances',
-        { account: account },
-        1000,
-        0,
-        '',
-        false,
-    );
+    const getUserBalances = await query(`query {
+        balances(account: "${account}", limit: 1000, offset: 0) {
+            symbol,
+            balance
+        }
+    }`);
+    
+    const loadedBalances: BalanceInterface[] = getUserBalances.data.balances;
 
     if (loadedBalances.length) {
         const state = await getStateOnce();
