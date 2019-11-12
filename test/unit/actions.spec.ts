@@ -1,6 +1,12 @@
+/* eslint-disable no-undef */
 import { loading, login, logout, setAccount, setTokens } from 'store/actions';
 
 describe('Actions', () => {
+
+    beforeEach(() => {
+        fetchMock.resetMocks();
+        jest.clearAllMocks();
+    });
 
     it('loading action should set to true', () => {
         const result = loading({loading: false} as any, true);

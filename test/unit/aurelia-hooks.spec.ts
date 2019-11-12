@@ -4,6 +4,7 @@ describe('Aurelia Hooks', () => {
   let sut: AureliaHooks;
 
   beforeEach(() => {
+    jest.clearAllMocks();
     sut = new AureliaHooks();
   });
 

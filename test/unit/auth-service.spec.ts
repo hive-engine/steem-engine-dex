@@ -6,6 +6,7 @@ describe('AuthService', () => {
 
     beforeEach(() => {
         fetchMock.resetMocks();
+        jest.clearAllMocks()
 
         sut = new AuthService();
     });

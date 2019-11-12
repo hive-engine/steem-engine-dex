@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { Store } from 'aurelia-store';
 import { Container } from 'aurelia-framework';
 import { createStore } from './helpers';
@@ -17,6 +18,11 @@ store.registerAction('test', (state: any, username: string) => {
 import { getStateOnce, getCurrentState } from 'store/store';
 
 describe('Store', () => {
+    beforeEach(() => {
+        fetchMock.resetMocks();
+        jest.clearAllMocks();
+    });
+
     test('gets state once', async () => {
         const state: any = await getStateOnce();
 

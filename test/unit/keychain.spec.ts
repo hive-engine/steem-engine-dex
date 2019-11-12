@@ -1,7 +1,11 @@
+/* eslint-disable no-undef */
 import { customJson, requestTransfer } from 'common/keychain';
 
 describe('Steem Keychain', () => {
     beforeEach(() => {
+        fetchMock.resetMocks();
+        jest.clearAllMocks();
+
         (window as any).steem_keychain = {
             requestCustomJson: jest
                 .fn()

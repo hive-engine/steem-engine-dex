@@ -1,10 +1,11 @@
+/* eslint-disable no-undef */
 import { addCommas, usdFormat, largeNumber, formatSteemAmount, percentageOf, getSteemPrice, queryParam, popupCenter, tryParse } from 'common/functions';
 
 describe('Functions', () => {
 
     beforeEach(() => {
-        // @ts-ignore
-        fetch.resetMocks();
+        fetchMock.resetMocks();
+        jest.clearAllMocks();
     });
 
     it('queryParam should create params', () => {
