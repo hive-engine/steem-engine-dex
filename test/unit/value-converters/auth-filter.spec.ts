@@ -140,7 +140,7 @@ describe('Auth Filter', () => {
             { name: 'test5', config: { auth: false, publicOnly: true } }
         ];
 
-        const result = sut.toView(mockRoutes as unknown as RouteConfig[], true, {});
+        const result = sut.toView(mockRoutes as unknown as RouteConfig[], true, null);
 
         expect(result).toHaveLength(1);
     });
