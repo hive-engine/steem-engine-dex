@@ -34,7 +34,8 @@ export function logout(state: State): State {
         account: {},
         balances: [],
         scotTokens: [],
-        pendingUnstakes: []
+        pendingUnstakes: [],
+        notifications: []
     };
 
     newState.loggedIn = false;
@@ -75,7 +76,10 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
         if (doc.exists) {
             newState.firebaseUser = doc.data();
 
-            if (newState.firebaseUser.favourites) {
+            newState.firebaseUser.notifications = newState.firebaseUser.notifications.filter(notification => !notification.read);
+
+            // eslint-disable-next-line no-undef
+            if (newState?.firebaseUser?.favourites) {
                 newState.account.balances.map((token: any) => {
                     if (newState.firebaseUser.favourites.includes(token.symbol)) {
                         token.isFavourite = true;
@@ -270,6 +274,24 @@ export async function exchangeData(state: State, symbol: string): Promise<State>
     return newState;
 }
 
+export async function markNotificationsRead(state: State) {
+    const newState = { ...state };
+
+    if (newState.loggedIn) {
+        const userRef = firebase.firestore().collection('users').doc(newState.account.name);
+
+        newState.firebaseUser.notifications = newState.firebaseUser.notifications.map(notification => {
+            notification.read = true;
+    
+            return notification;
+        });
+    
+        userRef.update({ notifications: newState.firebaseUser.notifications });
+    }
+
+    return newState;
+}
+
 store.registerAction('loading', loading);
 store.registerAction('login', login);
 store.registerAction('logout', logout);
@@ -283,3 +305,4 @@ store.registerAction('loadBuyBook', loadBuyBook);
 store.registerAction('loadSellBook', loadSellBook);
 store.registerAction('loadTradeHistory', loadTradeHistory);
 store.registerAction('exchangeData', exchangeData);
+store.registerAction('markNotificationsRead', markNotificationsRead);

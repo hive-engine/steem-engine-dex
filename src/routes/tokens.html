@@ -14,11 +14,11 @@
                     <thead>
                         <tr>
                             <th class="no-sort"></th>
-                            <th>Symbol</th>
-                            <th>Name</th>
-                            <th class="text-right">USD Value</th>
-                            <th class="text-right">% Chg</th>
-                            <th if.bind="state.loggedIn">Staked</th>
+                            <th>${'Symbol' & t}</th>
+                            <th>${'Name' & t}</th>
+                            <th class="text-right">${'USD Value' & t}</th>
+                            <th class="text-right">${'% Chg' & t}</th>
+                            <th if.bind="state.loggedIn">${'Staked' & t}</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -34,7 +34,7 @@
                             <td class="text-right">${token.usdValue}</td>
                             <td class="text-right">${token.priceChangePercent.toFixed(2)}%</td>
                             <td if.bind="state.loggedIn">${token.stake >= 0 ? parseFloat(token.stake) : '--'}</td>
-                            <td class="table-buttons"><a route-href="route: exchange; params.bind: { symbol: token.symbol }">Market</a></td>
+                            <td class="table-buttons"><a route-href="route: exchange; params.bind: { symbol: token.symbol }">${'Market' & t}</a></td>
                         </tr>
                     </tbody>
                 </table>

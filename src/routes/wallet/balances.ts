@@ -4,14 +4,14 @@ import { Redirect } from 'aurelia-router';
 import { observable } from 'aurelia-binding';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
-import { loadTokens, loadBalances } from 'common/steem-engine';
-import { TokenInfoModal } from 'modals/token-info';
-import { SendTokensModal } from 'modals/send-tokens';
-import { StakeModal } from 'modals/stake';
-import { UnstakeModal } from 'modals/unstake';
-import { DelegateModal } from 'modals/delegate';
-import { UndelegateModal } from 'modals/undelegate';
-import { EnableDelegationModal } from 'modals/enable-delegation';
+import { TokenInfoModal } from 'modals/wallet/token-info';
+import { SendTokensModal } from 'modals/wallet/send-tokens';
+import { StakeModal } from 'modals/wallet/stake';
+import { UnstakeModal } from 'modals/wallet/unstake';
+import { DelegateModal } from 'modals/wallet/delegate';
+import { UndelegateModal } from 'modals/wallet/undelegate';
+import { EnableDelegationModal } from 'modals/wallet/enable-delegation';
+import { EnableStakingModal } from 'modals/wallet/enable-staking';
 
 import firebase from 'firebase/app';
 import { dispatchify, Store } from 'aurelia-store';
@@ -35,14 +35,14 @@ export class Balances {
     private tokenTable: HTMLTableElement;
 
     @observable() private hideZeroBalances = false;
-    
+
     constructor(private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue, private dialogService: DialogService) {
         this.subscription = this.store.state.subscribe((state: State) => {
             if (state) {
                 this.state = state;
 
-                this.balancesCopy = [ ...state.account.balances ];
-                this.balances = [ ...state.account.balances ];
+                this.balancesCopy = [...state.account.balances];
+                this.balances = [...state.account.balances];
                 this.user = { ...state.firebaseUser };
             }
         });
@@ -54,7 +54,7 @@ export class Balances {
         }
     }
 
-    attached() {        
+    attached() {
         this.loadTable();
     }
 
@@ -67,9 +67,9 @@ export class Balances {
         });
     }
 
-    async loadAccountScotUserTokens() {        
+    async loadAccountScotUserTokens() {
         this.state.account.scotTokens = await this.se.getScotUsertokens(this.state.account.name);
-    }    
+    }
 
     async canActivate() {
         try {
@@ -89,7 +89,7 @@ export class Balances {
                 if (this.user.wallet.hideZeroBalances) {
                     this.balances = this.balances.filter(t => parseFloat(t.balance) > 0);
                 } else {
-                    this.balances = this.balancesCopy;                    
+                    this.balances = this.balancesCopy;
                 }
 
                 this.updateUser();
@@ -105,7 +105,7 @@ export class Balances {
                 } else {
                     this.balances = this.balancesCopy;
                 }
-                
+
                 this.updateUser();
             }
         });
@@ -136,7 +136,7 @@ export class Balances {
         });
     }
 
-    showTokenInfo(symbol) {        
+    showTokenInfo(symbol) {
         this.dialogService
             .open({ viewModel: TokenInfoModal, model: symbol })
             .whenClosed(response => {
@@ -177,6 +177,12 @@ export class Balances {
     enableDelegation(symbol) {
         this.dialogService
             .open({ viewModel: EnableDelegationModal, model: symbol })
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    enableStaking(symbol) {
+        this.dialogService
+            .open({ viewModel: EnableStakingModal, model: symbol })
             .whenClosed(x => this.walletDialogCloseResponse(x));
     }
 

@@ -1,3 +1,6 @@
+import { State } from 'store/state';
+import { Store } from 'aurelia-store';
+/* eslint-disable no-empty-pattern */
 /* eslint-disable no-undef */
 import { AuthService } from './../../src/services/auth-service';
 import { I18N } from 'aurelia-i18n';
@@ -15,12 +18,13 @@ describe('Steem Engine Service', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mockToast: any = {};
     const mockAuth = Container.instance.get(AuthService);
+    const store = Container.instance.get(Store) as Store<State>;
 
     beforeEach(() => {
         fetchMock.resetMocks();
         jest.clearAllMocks();
 
-        sut = new SteemEngine(mockHttp, mockI18n, mockToast, mockAuth);
+        sut = new SteemEngine(mockHttp, mockI18n, store, mockToast, mockAuth);
 
         (window as any).steem_keychain = {
             requestCustomJson: jest
@@ -42,14 +46,6 @@ describe('Steem Engine Service', () => {
         expect(sut.ssc).not.toBeNull();
     });
 
-    it('getUser returns username from localstorage', () => {
-        (global as any).localStorage.setItem('username', 'beggars');
-
-        const user = sut.getUser();
-
-        expect(user).toBe('beggars');
-    });
-
     it('getUser returns null', () => {
         (global as any).localStorage.removeItem('username');
         sut.user = null;
@@ -57,15 +53,6 @@ describe('Steem Engine Service', () => {
         const user = sut.getUser();
 
         expect(user).toBeNull();
-    });
-
-    it('getUser returns localstorage value if class user object name is empty', () => {
-        (global as any).localStorage.setItem('username', 'beggars');
-        sut.user.name = '';
-
-        const user = sut.getUser();
-
-        expect(user).toBe('beggars');
     });
 
     it('getUser returns class user object name if not empty', () => {

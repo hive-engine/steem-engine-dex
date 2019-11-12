@@ -5,7 +5,7 @@ import { popupCenter } from './functions';
 
 export async function getAccount(username: string) {
     try {
-        const user = await steem.api.getAccountsAsync([username]); 
+        const user = await steem.api.getAccountsAsync([username]);
     
         return user && user.length > 0 ? user[0] : null;
     } catch (e) {

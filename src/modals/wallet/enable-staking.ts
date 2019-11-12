@@ -6,14 +6,15 @@ import { environment } from 'environment';
 import { Subscription } from 'rxjs';
 import { State, AccountInterface } from 'store/state';
 import { ValidationControllerFactory, ControllerValidateResult, ValidationRules } from 'aurelia-validation';
-import { ToastService, ToastMessage } from '../services/toast-service';
-import { BootstrapFormRenderer } from '../resources/bootstrap-form-renderer';
+import { ToastService, ToastMessage } from '../../services/toast-service';
+import { BootstrapFormRenderer } from '../../resources/bootstrap-form-renderer';
 import { I18N } from 'aurelia-i18n';
-import styles from './enable-delegation.module.css';
+import styles from './enable-staking.module.css';
 
 @autoinject()
-export class EnableDelegationModal {
-    @bindable undelegationCooldown: number;
+export class EnableStakingModal {
+    @bindable unstakingCooldown: number;
+    @bindable numberTransactions: number;
 
     private styles = styles;
     private loading = false;
@@ -56,12 +57,18 @@ export class EnableDelegationModal {
         );
 
         const rules = ValidationRules
-            .ensure('undelegationCooldown')
+            .ensure('unstakingCooldown')
                 .required()
-                    .withMessageKey('errors:undelegationCooldownRequired')
-            .then()
-            .satisfiesRule('integerRange', 1, 365)
-            .withMessageKey('errors:undelegationCooldownInvalidRange')
+                    .withMessageKey('errors:unstakeCooldownRequired')
+                .then()
+                .satisfiesRule('integerRange', 1, 365)
+                .withMessageKey('errors:unstakeCooldownInvalidRange')
+            .ensure('numberTransactions')
+                .required()
+                    .withMessageKey('errors:unstakeTransactionsRequired')
+                .then()
+                .satisfiesRule('integerRange', 1, 365)
+                .withMessageKey('errors:unstakeTransactionsInvalidRange')
             .rules;
 
         this.validationController.addObject(this, rules);
@@ -77,7 +84,8 @@ export class EnableDelegationModal {
                 const toast = new ToastMessage();
 
                 toast.message = this.i18n.tr(result.rule.messageKey, {
-                    undelegationCooldown: this.undelegationCooldown,
+                    unstakingCooldown: this.unstakingCooldown,
+                    numberTransactions: this.numberTransactions,
                     symbol: this.token.symbol,
                     ns: 'errors'
                 });
@@ -88,7 +96,7 @@ export class EnableDelegationModal {
 
         if (validationResult.valid) {                       
 
-            const result = await this.se.enableDelegation(this.token.symbol, this.undelegationCooldown);
+            const result = await this.se.enableStaking(this.token.symbol, this.unstakingCooldown, this.numberTransactions);
 
             if (result) {
                 this.controller.ok();

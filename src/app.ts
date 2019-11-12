@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { AuthorizeStep } from './resources/pipeline-steps/authorize';
 import { SteemEngine } from 'services/steem-engine';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
@@ -12,13 +13,34 @@ import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
 
 import firebase from 'firebase/app';
-import { login, logout, loadSiteSettings, setAccount } from 'store/actions';
+import { login, logout, loadSiteSettings, getCurrentFirebaseUser, setAccount, markNotificationsRead } from 'store/actions';
+
+async function authStateChanged() {
+    return new Promise(resolve => {
+        firebase.auth().onAuthStateChanged(async user => {
+            // eslint-disable-next-line no-undef
+            const token = await firebase.auth()?.currentUser?.getIdTokenResult(true);
+
+            if (user) {
+                dispatchify(login)(user.uid);
+                if (token) {
+                    dispatchify(setAccount)({token});
+                }
+                resolve();
+            } else {
+                dispatchify(logout)();
+                resolve();
+            }
+        });
+    });
+}
 
 @autoinject()
 export class App {
     private loggedIn = false;
     private loading = false;
     private claims;
+    private notifications = [];
 
     public router: Router;
     public subscription: Subscription;
@@ -36,11 +58,14 @@ export class App {
                 this.loading = s.loading;
                 this.loggedIn = s.loggedIn;
                 this.claims = s?.account?.token?.claims;
+                this.notifications = s?.firebaseUser?.notifications ?? [];
             }
         });
 
         this.subscription = this.ea.subscribe(RouterEvent.Complete, () => {
             dispatchify(loadSiteSettings)();
+            dispatchify(getCurrentFirebaseUser)();
+            dispatchify(markNotificationsRead)();
         });
     }
 
@@ -94,12 +119,20 @@ export class App {
                 title: 'Token History'
             },
             {
-                route: 'pending-undelegations/:symbol?',
+                route: 'pending-undelegations',
                 href: `pending-undelegations`,
                 name: 'pending-undelegations',
                 moduleId: PLATFORM.moduleName('./routes/wallet/pending-undelegations'),
                 nav: false,
                 title: 'Pending undelegations'
+            },
+            {
+                route: 'pending-unstakes',
+                href: `pending-unstakes`,
+                name: 'pending-unstakes',
+                moduleId: PLATFORM.moduleName('./routes/wallet/pending-unstakes'),
+                nav: false,
+                title: 'Pending unstakes'
             },
             {
                 route: 'exchange/:symbol?',
@@ -209,23 +242,4 @@ export class App {
 
         this.router = router;
     }
-}
-
-async function authStateChanged() {
-    return new Promise(resolve => {
-        firebase.auth().onAuthStateChanged(async user => {
-            const token = await firebase.auth()?.currentUser?.getIdTokenResult(true);
-
-            if (user) {
-                dispatchify(login)(user.uid);
-                if (token) {
-                    dispatchify(setAccount)({token});
-                }
-                resolve();
-            } else {
-                dispatchify(logout)();
-                resolve();
-            }
-        });
-    });
 }

@@ -28,7 +28,7 @@
                 ></sellbook>
                 <best-price order.bind="bestSellPrice"></best-price>
                 <div class="exchange-header">
-                    <h2>Buy Orders</h2>
+                    <h2>${'Buy Orders' & t}</h2>
                 </div>
                 <buybook
                          buy-book.bind="buyBook"
@@ -68,7 +68,7 @@
 
             <div class="col-lg-3 col-md-12 col-sm-12">
                 <div class="exchange-header">
-                    <h2>Transaction History</h2>
+                    <h2>${'Transaction History' & t}</h2>
                 </div>
                 <trade-history trades.bind="tradeHistory"
                                data.bind="data"></trade-history>

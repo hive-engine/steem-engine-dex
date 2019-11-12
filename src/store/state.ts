@@ -5,6 +5,7 @@ export interface AccountInterface {
     scotTokens: any[];
     pendingUnstakes: any[];
     token: any;
+    notifications: any[];
 }
 
 export interface ISettings {
@@ -36,7 +37,8 @@ export const initialState: State = {
         account: {},
         balances: [],
         scotTokens: [],
-        pendingUnstakes: []
+        pendingUnstakes: [],
+        notifications: []
     },
     settings: {
         disableDeposits: false,

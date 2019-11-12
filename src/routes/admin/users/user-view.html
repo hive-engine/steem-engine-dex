@@ -1,0 +1,58 @@
+<template>
+        <div class="container-fluid main-container sections">
+            <div class="col-md-12">
+                <h3>User ${user.id}</h3>
+
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-sm btn-primary" click.delegate="notifyModal()">${'Notify' & t}</button>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <form>
+                            <div class="form-group">
+                                <label>First name</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.firstName">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.email & validate">
+                            </div>
+                            <div class="form-group">
+                                <label>Address line 1</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.addressLine1">
+                            </div>
+                            <div class="form-group">
+                                <label>Country</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.country">
+                            </div>
+                            <div class="form-group">
+                                <label>Last name</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.lastName">
+                            </div>
+                            <div class="form-group">
+                                <label>Address line 2</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.addressLine2">
+                            </div>
+                            <div class="form-group">
+                                <label>State</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.state">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <form>
+                            <div class="form-group">
+                                <div class="switch">
+                                    <input type="checkbox" name="disableUser" id="disableUser" checked.bind="user.disable" change.delegate="updateSettings()">
+                                    <label for="disableUser">${'Enable or disable user'}</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
