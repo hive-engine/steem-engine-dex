@@ -20,6 +20,7 @@ import { getStateOnce, getCurrentState } from 'store/store';
 describe('Store', () => {
     afterEach(() => {
         jest.resetAllMocks();
+        jest.restoreAllMocks();
         fetchMock.resetMocks();
     });
 

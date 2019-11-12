@@ -38,6 +38,7 @@ describe('Market', () => {
 
     afterEach(() => {
         jest.resetAllMocks();
+        jest.restoreAllMocks();
         fetchMock.resetMocks();
     });
 

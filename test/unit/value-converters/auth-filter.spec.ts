@@ -11,6 +11,7 @@ describe('Auth Filter', () => {
 
     afterEach(() => {
         jest.resetAllMocks();
+        jest.restoreAllMocks();
         fetchMock.resetMocks();
     });
 

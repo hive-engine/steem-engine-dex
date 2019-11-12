@@ -10,6 +10,7 @@ describe('Array Filter', () => {
 
     afterEach(() => {
         jest.resetAllMocks();
+        jest.restoreAllMocks();
         fetchMock.resetMocks();
     });
 

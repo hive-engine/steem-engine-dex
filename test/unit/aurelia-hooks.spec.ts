@@ -10,6 +10,7 @@ describe('Aurelia Hooks', () => {
 
     afterEach(() => {
         jest.resetAllMocks();
+        jest.restoreAllMocks();
         fetchMock.resetMocks();
     });
 

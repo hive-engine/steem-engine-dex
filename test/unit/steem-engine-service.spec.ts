@@ -40,6 +40,7 @@ describe('Steem Engine Service', () => {
 
     afterEach(() => {
         jest.resetAllMocks();
+        jest.restoreAllMocks();
         fetchMock.resetMocks();
     });
 

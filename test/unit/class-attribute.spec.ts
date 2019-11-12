@@ -30,6 +30,7 @@ describe('Stage "class-attribute"', () => {
 
     afterEach(() => {
         jest.resetAllMocks();
+        jest.restoreAllMocks();
         fetchMock.resetMocks();
     });
 

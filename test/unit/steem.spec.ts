@@ -9,6 +9,7 @@ jest.mock('steem');
 describe('Steem', () => {
     afterEach(() => {
         jest.resetAllMocks();
+        jest.restoreAllMocks();
         fetchMock.resetMocks();
     });
 

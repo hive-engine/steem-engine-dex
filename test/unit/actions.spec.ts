@@ -4,6 +4,7 @@ import { loading, login, logout, setAccount, setTokens } from 'store/actions';
 describe('Actions', () => {
     afterEach(() => {
         jest.resetAllMocks();
+        jest.restoreAllMocks();
         fetchMock.resetMocks();
     });
 

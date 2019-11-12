@@ -10,6 +10,7 @@ describe('Capitalise Filter', () => {
 
     afterEach(() => {
         jest.resetAllMocks();
+        jest.restoreAllMocks();
         fetchMock.resetMocks();
     });
 

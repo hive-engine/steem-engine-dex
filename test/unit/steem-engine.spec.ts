@@ -10,6 +10,7 @@ import { ssc } from 'common/ssc';
 describe('Functions', () => {
     afterEach(() => {
         jest.resetAllMocks();
+        jest.restoreAllMocks();
         fetchMock.resetMocks();
     });
 
