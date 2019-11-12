@@ -12,7 +12,7 @@ import { ValidationControllerFactory, ValidationController } from 'aurelia-valid
 import styles from './exchange.module.css'
 import { environment } from 'environment';
 import moment from 'moment';
-import { find, uniq, fill } from 'lodash';
+import { uniq, fill } from 'lodash';
 
 import { loadTokenMarketHistory } from 'common/steem-engine';
 
@@ -91,6 +91,11 @@ export class Exchange {
 
     bind() {
         this.subscription = this.store.state.subscribe(async (state: State) => {
+            // eslint-disable-next-line no-undef
+            if (state.$action.name === 'login' || state.$action.name === 'logout') {
+                this.loadUserExchangeData();
+            }
+
             this.state = state;
         });
     }
@@ -104,32 +109,10 @@ export class Exchange {
     async activate({ symbol }) {
         this.currentToken = symbol;
 
-        dispatchify(exchangeData)(symbol).then(async () => {
-            this.tokenData = this.state.tokens
-                .filter(t => t.symbol !== "STEEMP")
-                .filter(t => t.metadata && !t.metadata.hide_in_market);
-
-            this.data = this.tokenData.find(t => t.symbol === this.currentToken);
-
-            if (this.state.sellBook.length) {
-                this.bestSellPrice = this.state.sellBook[0];
-            }
-
-            const buyOrderDisplayData = await this.loadBuyOrders(this.state);
-            const sellOrderDisplayData = await this.loadSellOrders(this.state);
-
-            await this.loadTokenHistoryData(this.state, buyOrderDisplayData, sellOrderDisplayData);
-
-            this.chartRef.attached();
-        });
-
-        // const promises = [
-        //     //dispatchify(loadTokensList)(),
-        //     //dispatchify(loadAccountBalances)(),
-        //     dispatchify(loadBuyBook)(symbol),
-        //     dispatchify(loadSellBook)(symbol),
-        //     dispatchify(loadTradeHistory)(symbol)
-        // ];
+        // eslint-disable-next-line no-undef
+        if (!this?.state?.loggedIn) {
+            this.loadUserExchangeData();
+        }
     }
 
     async loadTokenHistoryData(state, buyOrderDisplayData, sellOrderDisplayData) {
@@ -186,7 +169,7 @@ export class Exchange {
             }
         });
 
-        return <IOrderDataDisplay>{ dataset: sellOrderDataset, labels: sellOrderLabels };
+        return { dataset: sellOrderDataset, labels: sellOrderLabels } as IOrderDataDisplay;
     }
 
     async loadBuyOrders(state) {
@@ -210,122 +193,42 @@ export class Exchange {
         buyOrderDataset.reverse();
 
         this.orderDataSetLength = buyOrderDataset.length;
-        return <IOrderDataDisplay>{ dataset: buyOrderDataset, labels: buyOrderLabels };
+        return { dataset: buyOrderDataset, labels: buyOrderLabels } as IOrderDataDisplay;
 
     }
 
     loadUserExchangeData() {
-        const symbol = this.currentToken;
-        const account = this.se.getUser();
+        dispatchify(exchangeData)(this.currentToken).then(async () => {
+            this.tokenData = this.state.tokens
+                .filter(t => t.symbol !== "STEEMP")
+                .filter(t => t.metadata && !t.metadata.hide_in_market);
 
-        if (account) {
-            this.loadingUserBuyBook = true;
-            this.loadingUserSellBook = true;
-            this.loadingUserBalances = true;
+            this.data = this.tokenData.find(t => t.symbol === this.currentToken);
 
-            this.se.ssc
-                .find(
-                    "market",
-                    "buyBook",
-                    { symbol: symbol, account: account },
-                    100,
-                    0,
-                    [{ index: "_id", descending: true }],
-                    false
-                )
-                .then(result => {
-                    this.loadingUserBuyBook = false;
+            if (this.state.sellBook.length) {
+                this.bestSellPrice = this.state.sellBook[0];
+            }
 
-                    this.userBuyOrders = result.map(o => {
-                        o.type = "buy";
-                        o.total = o.price * o.quantity;
-                        o.timestamp_string = moment
-                            .unix(o.timestamp)
-                            .format("YYYY-M-DD HH:mm:ss");
-                        return o;
-                    });
+            // eslint-disable-next-line no-undef
+            this.steempBalance = this.state.account.balances.find(token => token.symbol === 'STEEMP')?.balance;
 
-                    this.se.ssc
-                        .find(
-                            "market",
-                            "sellBook",
-                            { symbol: symbol, account: account },
-                            100,
-                            0,
-                            [{ index: "_id", descending: true }],
-                            false
-                        )
-                        .then(result => {
-                            this.loadingUserSellBook = false;
+            const buyOrderDisplayData = await this.loadBuyOrders(this.state);
+            const sellOrderDisplayData = await this.loadSellOrders(this.state);
 
-                            this.userSellOrders = result.map(o => {
-                                o.type = "sell";
-                                o.total = o.price * o.quantity;
-                                o.timestamp_string = moment
-                                    .unix(o.timestamp)
-                                    .format("YYYY-M-DD HH:mm:ss");
-                                return o;
-                            });
+            await this.loadTokenHistoryData(this.state, buyOrderDisplayData, sellOrderDisplayData);
 
-                            this.userOrders = this.userBuyOrders.concat(
-                                this.userSellOrders
-                            );
-                            this.userOrders.sort(
-                                (a, b) => b.timestamp - a.timestamp
-                            );
-                        });
-                });
-
-            this.se.ssc
-                .find(
-                    "tokens",
-                    "balances",
-                    { account: account, symbol: { $in: [symbol, "STEEMP"] } },
-                    2,
-                    0,
-                    "",
-                    false
-                )
-                .then(result => {
-                    this.loadingUserBalances = false;
-
-                    if (result) {
-                        for (const token of result) {
-                            if (token.symbol === "STEEMP") {
-                                this.steempBalance = token.balance;
-                            }
-
-                            if (token.symbol === symbol) {
-                                this.tokenBalance = token.balance;
-                            }
-                        }
-                    }
-
-                    this.userTokenBalance.push(
-                        find(result, balance => balance.symbol === symbol)
-                    );
-                    this.userTokenBalance.push(
-                        find(result, balance => balance.symbol === "STEEMP")
-                    );
-                });
-        }
+            this.chartRef.attached();
+        });
     }
-
-    currentTokenChanged(newValue, oldValue) {
-        this.loadUserExchangeData();
-    }
-
 
     async attached() {
-        this.loadUserExchangeData();
-
         this.subscriber = this.eventAggregator.subscribe('eventReload', response => {
             this.catchReloadEvent(response);
-        })
+        });
     }
 
     async catchReloadEvent(response) {
-        const data = <IReloadEventData>(response.data);
+        const data = response.data as IReloadEventData;
         if (data.reloadBuyBook) {
             await dispatchify(loadBuyBook)(this.currentToken);
 

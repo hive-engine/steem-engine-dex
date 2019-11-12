@@ -17,6 +17,7 @@ export interface ISettings {
 }
 
 export interface State {
+    $action: any;
     account: AccountInterface;
     settings: ISettings;
     firebaseUser: any;
@@ -31,6 +32,10 @@ export interface State {
 }
 
 export const initialState: State = {
+    $action: {
+        name: '',
+        params: {}
+    },
     account: {
         name: '',
         token: {},
