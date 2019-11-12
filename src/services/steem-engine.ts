@@ -569,7 +569,7 @@ export class SteemEngine {
             };
 
             if (window && window.steem_keychain) {
-                steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Cancel Unstake Tokens', async (response) => {
+                window.steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Cancel Unstake Tokens', async (response) => {
                     if (response.success && response.result) {
                         try {
                             await checkTransaction(response.result.id, 3);
@@ -676,7 +676,7 @@ export class SteemEngine {
             console.log('SENDING: ' + symbol);
 
             if (window.steem_keychain) {
-                steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Token Transfer: ' + symbol, async (response) => {
+                window.steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), 'Token Transfer: ' + symbol, async (response) => {
                     if (response.success && response.result) {
                         try {
                             await checkTransaction(response.result.id, 3);
