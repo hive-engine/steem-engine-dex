@@ -15,7 +15,7 @@ jest.mock('moment', () => {
     }
 });
 
-import { getUserOpenOrders, sendMarketOrder } from 'common/market';
+import { getUserOpenOrders, sendMarketOrder, cancelMarketOrder } from 'common/market';
 import { ssc } from 'common/ssc';
 
 describe('Market', () => {
@@ -62,9 +62,23 @@ describe('Market', () => {
     });
 
     test('sendmarket order', async () => {
-        sendMarketOrder('beggars', 'sell', 'ENG', '500', '0.90');
+        await sendMarketOrder('beggars', 'sell', 'ENG', '500', '0.90');
 
         expect(window.steem_keychain.requestCustomJson).toHaveBeenCalledWith('beggars', 'ssc-mainnet1', 'Active', expect.stringContaining('contractAction'), 'SELL Order', expect.any(Function));
+    });
+
+    test('sendmarket order invalid action', async () => {
+        await expect(sendMarketOrder('beggars', 'invalid', 'ENG', '500', '0.90')).rejects.toBe('Invalid order type: invalid');
+    });
+
+    test('cancelmarket order', async () => {
+        cancelMarketOrder('beggars', 'sell', '898fdsfkjk', 'ENG');
+
+        expect(window.steem_keychain.requestCustomJson).toHaveBeenCalledWith('beggars', 'ssc-mainnet1', 'Active', expect.stringContaining('cancel'), 'Cancel SELL Order', expect.any(Function));
+    });
+
+    test('cancelmarket order invalid action', async () => {
+        await expect(cancelMarketOrder('beggars', 'invalid', '898fdsfkjk', 'ENG')).rejects.toBe('Invalid order type: invalid');
     });
 
 });
