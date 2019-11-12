@@ -1,3 +1,4 @@
+import { CallingAction, MiddlewarePlacement } from 'aurelia-store';
 /* eslint-disable no-undef */
 import { AuthorizeStep } from './resources/pipeline-steps/authorize';
 import { SteemEngine } from 'services/steem-engine';
@@ -14,6 +15,15 @@ import { autoinject } from 'aurelia-framework';
 
 import firebase from 'firebase/app';
 import { login, logout, loadSiteSettings, getCurrentFirebaseUser, setAccount, markNotificationsRead } from 'store/actions';
+
+function lastCalledActionMiddleware(state: State, originalState: State, settings = {}, action: CallingAction) {
+    state.$action = {
+        name: action.name,
+        params: action.params ?? {}
+    };
+
+    return state;
+}
 
 async function authStateChanged() {
     return new Promise(resolve => {
@@ -48,6 +58,8 @@ export class App {
 
     constructor(private ea: EventAggregator, private store: Store<State>, private se: SteemEngine) {
         authStateChanged();
+
+        this.store.registerMiddleware(lastCalledActionMiddleware, MiddlewarePlacement.After);
     }
 
     bind() {

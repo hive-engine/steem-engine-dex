@@ -219,6 +219,8 @@ export async function exchangeData(state: State, symbol: string): Promise<State>
 
             newState.tokens = parseTokens(data) as any;
 
+            newState.account.balances = data.userBalances;
+
             newState.buyBook = data.buyBook.map(o => {
                 newState.buyTotal += o.quantity * o.price;
                 o.total = newState.buyTotal;

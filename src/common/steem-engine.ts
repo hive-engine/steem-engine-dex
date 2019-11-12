@@ -142,9 +142,9 @@ export function parseTokens(data: any): State {
     return tokens;
 }
 
-export async function loadTokens(): Promise<any[]> {
+export async function loadTokens(limit = 1000, offset = 0): Promise<any[]> {
     const callQl = await query(`query {
-        tokens(limit: 1000, offset: 0) {
+        tokens(limit: ${limit}, offset: ${offset}) {
             issuer,
             symbol,
             name,
@@ -160,7 +160,7 @@ export async function loadTokens(): Promise<any[]> {
             stakingEnabled,
             delegationEnabled
         },
-        metrics(limit: 1000, offset: 0) {
+        metrics(limit: ${limit}, offset: ${offset}) {
             symbol,
             volume,
             volumeExpiration,
@@ -258,7 +258,7 @@ export async function loadTokens(): Promise<any[]> {
 
 export async function loadExchangeUiLoggedIn(account, symbol) {
     const callQl = await query(`query {
-        tokens(limit: 1000, offset: 0) {
+        tokens(symbols: ["${symbol}", "STEEMP"]) {
             issuer,
             symbol,
             name,
@@ -274,7 +274,7 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
             stakingEnabled,
             delegationEnabled
         },
-        metrics(limit: 1000, offset: 0) {
+        metrics(symbols: ["${symbol}", "STEEMP"]) {
             symbol,
             volume,
             volumeExpiration,
@@ -365,7 +365,7 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
 
 export async function loadExchangeUiLoggedOut(symbol) {
     const callQl = await query(`query {
-        tokens(limit: 1000, offset: 0) {
+        tokens(symbols: ["${symbol}", "STEEMP"]) {
             issuer,
             symbol,
             name,
@@ -381,7 +381,7 @@ export async function loadExchangeUiLoggedOut(symbol) {
             stakingEnabled,
             delegationEnabled
         },
-        metrics(limit: 1000, offset: 0) {
+        metrics(symbols: ["${symbol}", "STEEMP"]) {
             symbol,
             volume,
             volumeExpiration,
