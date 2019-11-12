@@ -16,14 +16,14 @@ export class AdminAdmin {
             {
                 route: 'kyc',
                 name: 'adminKyc',
-                moduleId: PLATFORM.moduleName('./kyc'),
+                moduleId: PLATFORM.moduleName('./kyc/kyc'),
                 nav: true,
                 title: 'Kyc'
             },
             {
                 route: 'users',
                 name: 'adminUsers',
-                moduleId: PLATFORM.moduleName('./users'),
+                moduleId: PLATFORM.moduleName('./users/users'),
                 nav: true,
                 title: 'Users'
             },

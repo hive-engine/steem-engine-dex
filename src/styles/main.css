@@ -124,7 +124,7 @@ legend {
 }
 
 .route--exchange h2 {
-    font-size: 24px;
+    font-size: 18px;
 }
 
 .h100 {
@@ -232,4 +232,34 @@ sellbook {
     font-size: 12px;
     margin: 0 0 10px 0;
     color: #333;
+}
+
+.text-sixteen {
+    font-size: 16px;
+}
+
+.list-unstyled {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.list-unstyled li {
+    margin: 0 0 10px 0;
+}
+
+.sections {
+    color: #333;
+}
+
+.notifications-bar {
+    position: fixed;
+    top: 100px;
+    width: 100%;
+    z-index: 1000;
+}
+
+.notifications-bar .alert {
+    border-radius: 0;
+    opacity: 0.85;
 }

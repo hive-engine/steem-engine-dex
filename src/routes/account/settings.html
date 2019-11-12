@@ -20,49 +20,49 @@
         <div class="row">
             <section class="col-md-12" show.bind="selectedTab == 'profile'">
                     <h3>${'Your Profile' & t}</h3>
-                    <p>Some of these fields are required if you want to verify yourself via the KYC process.</p>
+                    <p>${'Some of these fields are required if you want to verify yourself via the KYC process.' & t}</p>
 
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-lg-3">
                             <div class="form-group">
-                                <label>First name</label>
+                                <label>${'First name' & t}</label>
                                 <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.firstName">
                             </div>
                             <div class="form-group">
-                                <label>Email</label>
+                                <label>${'Email' & t}</label>
                                 <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.email & validate">
                             </div>
                             <div class="form-group">
-                                <label>Address line 2</label>
+                                <label>${'Address line 2' & t}</label>
                                 <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.addressLine2">
                             </div>
                             <div class="form-group">
-                                <label>Country</label>
+                                <label>${'Country' & t}</label>
                                 <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.country">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-3">
                             <div class="form-group">
-                                <label>Last name</label>
+                                <label>${'Last name' & t}</label>
                                 <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.lastName">
                             </div>
                             <div class="form-group">
-                                <label>Address line 1</label>
+                                <label>${'Address line 1' & t}</label>
                                 <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.addressLine1">
                             </div>
                             <div class="form-group">
-                                <label>State</label>
+                                <label>${'State' & t}</label>
                                 <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.state">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12" if.bind="editMode">
-                            <button type="button" click.delegate="resetUser()" class="btn btn-secondary">${'Cancel'}</button>
-                            <button type="button" click.delegate="saveProfile()" class="btn btn-primary">${'Save'}</button>
+                            <button type="button" click.delegate="resetUser()" class="btn btn-secondary">${'Cancel' & t}</button>
+                            <button type="button" click.delegate="saveProfile()" class="btn btn-primary">${'Save' & t}</button>
                         </div>
                         <div class="col-md-12" else>
-                            <button type="button" click.delegate="editMode = true" class="btn btn-primary">${'Edit'}</button>
+                            <button type="button" click.delegate="editMode = true" class="btn btn-primary">${'Edit' & t}</button>
                         </div>
                     </div>
                 </section>
@@ -119,9 +119,9 @@
 
                     <div class="row">
                         <div class="col-md-4 kyc-box">
-                            <h4 class="${selfieVerified ? 'green-text' : ''}">Selfie <span class="verified-label ${selfieVerified ? 'verified' : ''} ${selfiePending ? 'pending' : ''}"><font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${selfieStatusText}</span></h4>
-                            <p if.bind="!selfieVerified">Upload a selfie that is well lit. You should be holding a piece of paper with "steem-engine.com" written on it, with todays date and your special verfication code: ${state.firebaseUser.kyc.token}</p>
-                            <p else class="green-text">Your selfie has been verified</p>
+                            <h4 class="${selfieVerified ? 'green-text' : ''}">${'Selfie' & t} <span class="verified-label ${selfieVerified ? 'verified' : ''} ${selfiePending ? 'pending' : ''}"><font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${selfieStatusText}</span></h4>
+                            <p if.bind="!selfieVerified">${'Upload a selfie that is well lit. You should be holding a piece of paper with "steem-engine.com" written on it, with todays date and your special verfication code:' & t} ${state.firebaseUser.kyc.token}</p>
+                            <p else class="green-text">${'Your selfie has been verified' & t}</p>
 
                             <div class="upload-box" if.bind="!selfieVerified && !selfiePending" drop.trigger="handleSelfieDrop($event)" dragover.trigger="handleEvent($event)">
                                 <loader loading.bind="selfieUploading" mode="tiny"></loader>
@@ -130,9 +130,9 @@
                         </div>
 
                         <div class="col-md-4 kyc-box">
-                            <h4 class="${passportVerified ? 'green-text' : ''}">Passport <span class="verified-label ${passportVerified ? 'verified' : ''} ${passportPending ? 'pending' : ''}"><font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${passportStatusText}</span></h4>
+                            <h4 class="${passportVerified ? 'green-text' : ''}">${'Passport' & t} <span class="verified-label ${passportVerified ? 'verified' : ''} ${passportPending ? 'pending' : ''}"><font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${passportStatusText}</span></h4>
                             <p if.bind="!passportVerified">Upload a scanned copy of your passport. Your name, image and citizenship details should be clearly visible.</p>
-                            <p else class="green-text">Your passport has been verified.</p>
+                            <p else class="green-text">${'Your passport has been verified.' & t}</p>
 
                             <div class="upload-box" if.bind="!passportVerified && !passportPending" drop.trigger="handlePassportDrop($event)" dragover.trigger="handleEvent($event)">
                                 <loader loading.bind="passportUploading" mode="tiny"></loader>
@@ -142,7 +142,7 @@
                     </div>
                 </template>
                 <template else>
-                    <p>${state.firebaseUser.kyc.verified ? 'You have been verified.' : 'Please complete your profile details before undergoing the KYC process.'}</p>
+                    <p>${state.firebaseUser.kyc.verified ? 'You have been verified.' : 'Please complete your profile details before undergoing the KYC process.' & t}</p>
                 </template>
             </section>
         </div>    

@@ -16,7 +16,7 @@ export async function getUserOpenOrders(account: string = null) {
     try {
         let buyOrders = await ssc.find('market', 'buyBook', { account: account }, 100, 0, [{ index: '_id', descending: true }], false);
         let sellOrders = await ssc.find('market', 'sellBook', { account: account }, 100, 0, [{ index: '_id', descending: true }], false);
-        
+
         buyOrders = buyOrders.map(o => {
             o.type = 'buy';
             o.total = o.price * o.quantity;
@@ -31,11 +31,11 @@ export async function getUserOpenOrders(account: string = null) {
             return o;
         });
 
-        let combinedOrders = [...buyOrders, ...sellOrders]
+        const combinedOrders = [...buyOrders, ...sellOrders]
             .sort((a, b) => b.timestamp - a.timestamp);
 
         return combinedOrders;
-    } catch(e) {
+    } catch (e) {
         const toast = new ToastMessage();
 
         toast.message = i18n.tr(e);
@@ -67,19 +67,19 @@ export async function sendMarketOrder(username: string, type: string, symbol: st
         log.debug(`Broadcasting cancel order: ${JSON.stringify(transaction_data)}`);
 
         if (window.steem_keychain) {
-            steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), `${type.toUpperCase()} Order`, async (response) => {
+            window.steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), `${type.toUpperCase()} Order`, async (response) => {
                 if (response.success && response.result) {
                     try {
                         const tx = await checkTransaction(response.result.id, 3);
 
                         const toast = new ToastMessage();
-                        
+
                         toast.message = i18n.tr('orderSuccess', {
                             ns: 'notifications',
                             type,
                             symbol
                         });
-        
+
                         toastService.success(toast);
 
                         resolve(tx);
@@ -92,10 +92,10 @@ export async function sendMarketOrder(username: string, type: string, symbol: st
                             symbol,
                             error: e
                         });
-      
+
                         toastService.error(toast);
 
-                        resolve(false);       
+                        resolve(false);
                     }
                 } else {
                     resolve(response);
@@ -131,7 +131,7 @@ export async function cancelMarketOrder(username: string, type: string, orderId:
         log.debug(`Broadcasting cancel order: ${JSON.stringify(transaction_data)}`);
 
         if (window.steem_keychain) {
-            steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), `Cancel ${type.toUpperCase()} Order`, async (response) => {
+            window.steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), `Cancel ${type.toUpperCase()} Order`, async (response) => {
                 if (response.success && response.result) {
                     try {
                         const transaction = await checkTransaction(response.result.id, 3);
@@ -143,7 +143,7 @@ export async function cancelMarketOrder(username: string, type: string, orderId:
                             type,
                             symbol
                         });
-        
+
                         toastService.success(toast);
 
                         resolve(transaction);
@@ -155,7 +155,7 @@ export async function cancelMarketOrder(username: string, type: string, orderId:
                             type,
                             error: e
                         });
-        
+
                         toastService.error(toast);
 
                         resolve(false);

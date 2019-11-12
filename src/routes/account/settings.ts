@@ -1,6 +1,6 @@
-import { BootstrapFormRenderer } from './../resources/bootstrap-form-renderer';
+import { BootstrapFormRenderer } from './../../resources/bootstrap-form-renderer';
 import { ValidationControllerFactory, ValidationController, ValidationRules } from 'aurelia-validation';
-import { UploadType, FirebaseService } from './../services/firebase-service';
+import { UploadType, FirebaseService } from './../../services/firebase-service';
 import { Subscription } from 'rxjs';
 import { State } from 'store/state';
 import { loadTokensList, getCurrentFirebaseUser } from 'store/actions';
@@ -87,8 +87,8 @@ export class Settings {
         e.preventDefault();
         e.stopPropagation();
 
-        let dt = e.dataTransfer;
-        let files: FileList = dt.files;
+        const dt = e.dataTransfer;
+        const files: FileList = dt.files;
 
         if (files.length) {
             this.uploadDocument(files[0], 'selfie');
@@ -99,8 +99,8 @@ export class Settings {
         e.preventDefault();
         e.stopPropagation();
 
-        let dt = e.dataTransfer;
-        let files: FileList = dt.files;
+        const dt = e.dataTransfer;
+        const files: FileList = dt.files;
 
         if (files.length) {
             this.uploadDocument(files[0], 'passport');

@@ -1,5 +1,5 @@
 import { State, ISettings } from './state';
-import store, { getCurrentState } from './store';
+import store from './store';
 
 import firebase from 'firebase/app';
 import { log } from 'services/log';
@@ -16,7 +16,7 @@ export function loading(state: State, boolean: boolean) {
 }
 
 export function login(state: State, username: string): State {
-    let newState = { ...state };
+    const newState = { ...state };
 
     newState.account.name = username;
 
@@ -34,7 +34,8 @@ export function logout(state: State): State {
         account: {},
         balances: [],
         scotTokens: [],
-        pendingUnstakes: []
+        pendingUnstakes: [],
+        notifications: []
     };
 
     newState.loggedIn = false;
@@ -75,7 +76,10 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
         if (doc.exists) {
             newState.firebaseUser = doc.data();
 
-            if (newState.firebaseUser.favourites) {
+            newState.firebaseUser.notifications = newState.firebaseUser.notifications.filter(notification => !notification.read);
+
+            // eslint-disable-next-line no-undef
+            if (newState?.firebaseUser?.favourites) {
                 newState.account.balances.map((token: any) => {
                     if (newState.firebaseUser.favourites.includes(token.symbol)) {
                         token.isFavourite = true;
@@ -215,6 +219,8 @@ export async function exchangeData(state: State, symbol: string): Promise<State>
 
             newState.tokens = parseTokens(data) as any;
 
+            newState.account.balances = data.userBalances;
+
             newState.buyBook = data.buyBook.map(o => {
                 newState.buyTotal += o.quantity * o.price;
                 o.total = newState.buyTotal;
@@ -255,7 +261,7 @@ export async function exchangeData(state: State, symbol: string): Promise<State>
                 return o;
             });
 
-            newState.tradeHistory = data.tradesHistory.map(o => {
+            newState.tradeHistory = data.tradesHistory.map((o: { total: number; price: number; quantity: number; timestamp_string: string; timestamp: number; }) => {
                 o.total = o.price * o.quantity;
                 o.timestamp_string = moment
                     .unix(o.timestamp)
@@ -265,6 +271,24 @@ export async function exchangeData(state: State, symbol: string): Promise<State>
         }
     } catch (e) {
         console.log(e);
+    }
+
+    return newState;
+}
+
+export async function markNotificationsRead(state: State) {
+    const newState = { ...state };
+
+    if (newState.loggedIn) {
+        const userRef = firebase.firestore().collection('users').doc(newState.account.name);
+
+        newState.firebaseUser.notifications = newState.firebaseUser.notifications.map(notification => {
+            notification.read = true;
+    
+            return notification;
+        });
+    
+        userRef.update({ notifications: newState.firebaseUser.notifications });
     }
 
     return newState;
@@ -283,3 +307,4 @@ store.registerAction('loadBuyBook', loadBuyBook);
 store.registerAction('loadSellBook', loadSellBook);
 store.registerAction('loadTradeHistory', loadTradeHistory);
 store.registerAction('exchangeData', exchangeData);
+store.registerAction('markNotificationsRead', markNotificationsRead);

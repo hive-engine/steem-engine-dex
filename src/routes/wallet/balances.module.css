@@ -1,0 +1,26 @@
+.wallet-actions a,
+.wallet-actions button {
+    font-size: 20px;
+    padding: 2px 5px;
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.walletTokenIcon {
+    width: 24px;
+    height: 24px;
+}
+
+.changePercentCol .red,
+.changePercentCol .green {
+    font-weight: bold;
+}
+
+.changePercentCol .red {
+    color: red;
+}
+
+.changePercentCol .green {
+    color: green;
+}

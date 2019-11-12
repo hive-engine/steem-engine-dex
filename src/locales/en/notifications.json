@@ -8,5 +8,13 @@
     "orderError": "There was an error attempting to {{type}} {{symbol}}: {{error}}",
     "orderSuccess": "Your {{type}} order for {{symbol}} was successful",
     "errorCancelOrder": "There was an error attempting to cancel your {{type}} order: {{error}}",
-    "orderCanceled": "Your {{type}} order was successfully cancelled"
+    "orderCanceled": "Your {{type}} order was successfully cancelled",
+    "tokensSent": "Tokens sent successfully",
+    "stakingSucceeded": "Tokens successfully sent for staking",
+    "unstakingSucceeded": "Tokens successfully unstaked",
+    "delegateSucceeded": "Tokens successfully delegated",
+    "undelegateSucceeded": "Tokens successfully undelegated",
+    "enableDelegationSucceeded": "Enable delegation succeeded for {{symbol}} with undelegation cooldown of {{undelegationCooldown}} days",
+    "unstakeCancelled": "Unstaking cancelled successfully",
+    "enableStakingSucceeded":  "Token Staking Enabled"
 }

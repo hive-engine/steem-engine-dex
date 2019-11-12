@@ -1,3 +1,5 @@
+import { CallingAction, MiddlewarePlacement } from 'aurelia-store';
+/* eslint-disable no-undef */
 import { AuthorizeStep } from './resources/pipeline-steps/authorize';
 import { SteemEngine } from 'services/steem-engine';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
@@ -12,13 +14,43 @@ import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
 
 import firebase from 'firebase/app';
-import { login, logout, loadSiteSettings, setAccount } from 'store/actions';
+import { login, logout, loadSiteSettings, getCurrentFirebaseUser, setAccount, markNotificationsRead } from 'store/actions';
+
+function lastCalledActionMiddleware(state: State, originalState: State, settings = {}, action: CallingAction) {
+    state.$action = {
+        name: action.name,
+        params: action.params ?? {}
+    };
+
+    return state;
+}
+
+async function authStateChanged() {
+    return new Promise(resolve => {
+        firebase.auth().onAuthStateChanged(async user => {
+            // eslint-disable-next-line no-undef
+            const token = await firebase.auth()?.currentUser?.getIdTokenResult(true);
+
+            if (user) {
+                dispatchify(login)(user.uid);
+                if (token) {
+                    dispatchify(setAccount)({token});
+                }
+                resolve();
+            } else {
+                dispatchify(logout)();
+                resolve();
+            }
+        });
+    });
+}
 
 @autoinject()
 export class App {
     private loggedIn = false;
     private loading = false;
     private claims;
+    private notifications = [];
 
     public router: Router;
     public subscription: Subscription;
@@ -26,21 +58,26 @@ export class App {
 
     constructor(private ea: EventAggregator, private store: Store<State>, private se: SteemEngine) {
         authStateChanged();
+
+        this.store.registerMiddleware(lastCalledActionMiddleware, MiddlewarePlacement.After);
     }
 
     bind() {
         this.store.state.subscribe((s: State) => {
             if (s) {
                 this.state = s;
-
+                                
                 this.loading = s.loading;
                 this.loggedIn = s.loggedIn;
                 this.claims = s?.account?.token?.claims;
+                this.notifications = s?.firebaseUser?.notifications ?? [];
             }
         });
 
         this.subscription = this.ea.subscribe(RouterEvent.Complete, () => {
             dispatchify(loadSiteSettings)();
+            dispatchify(getCurrentFirebaseUser)();
+            dispatchify(markNotificationsRead)();
         });
     }
 
@@ -86,6 +123,30 @@ export class App {
                 title: 'Tokens'
             },
             {
+                route: 'token-history/:symbol?',
+                href: `token-history/${environment.NATIVE_TOKEN}`,
+                name: 'token-history',
+                moduleId: PLATFORM.moduleName('./routes/wallet/token-history'),
+                nav: false,
+                title: 'Token History'
+            },
+            {
+                route: 'pending-undelegations',
+                href: `pending-undelegations`,
+                name: 'pending-undelegations',
+                moduleId: PLATFORM.moduleName('./routes/wallet/pending-undelegations'),
+                nav: false,
+                title: 'Pending undelegations'
+            },
+            {
+                route: 'pending-unstakes',
+                href: `pending-unstakes`,
+                name: 'pending-unstakes',
+                moduleId: PLATFORM.moduleName('./routes/wallet/pending-unstakes'),
+                nav: false,
+                title: 'Pending unstakes'
+            },
+            {
                 route: 'exchange/:symbol?',
                 href: `exchange/${environment.NATIVE_TOKEN}`,
                 name: 'exchange',
@@ -103,7 +164,7 @@ export class App {
             {
                 route: 'rewards',
                 name: 'rewards',
-                moduleId: PLATFORM.moduleName('./routes/rewards'),
+                moduleId: PLATFORM.moduleName('./routes/account/rewards'),
                 nav: false,
                 auth: true,
                 title: 'Rewards'
@@ -119,7 +180,7 @@ export class App {
             {
                 route: 'settings',
                 name: 'settings',
-                moduleId: PLATFORM.moduleName('./routes/settings'),
+                moduleId: PLATFORM.moduleName('./routes/account/settings'),
                 nav: false,
                 auth: true,
                 title: 'Settings'
@@ -193,23 +254,4 @@ export class App {
 
         this.router = router;
     }
-}
-
-async function authStateChanged() {
-    return new Promise(resolve => {
-        firebase.auth().onAuthStateChanged(async user => {
-            const token = await firebase.auth()?.currentUser?.getIdTokenResult(true);
-
-            if (user) {
-                dispatchify(login)(user.uid);
-                if (token) {
-                    dispatchify(setAccount)({token});
-                }
-                resolve();
-            } else {
-                dispatchify(logout)();
-                resolve();
-            }
-        });
-    });
 }

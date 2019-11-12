@@ -4,11 +4,21 @@ import { Redirect } from 'aurelia-router';
 import { observable } from 'aurelia-binding';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
-import { loadTokens, loadBalances } from 'common/steem-engine';
+import { TokenInfoModal } from 'modals/wallet/token-info';
+import { SendTokensModal } from 'modals/wallet/send-tokens';
+import { StakeModal } from 'modals/wallet/stake';
+import { UnstakeModal } from 'modals/wallet/unstake';
+import { DelegateModal } from 'modals/wallet/delegate';
+import { UndelegateModal } from 'modals/wallet/undelegate';
+import { EnableDelegationModal } from 'modals/wallet/enable-delegation';
+import { EnableStakingModal } from 'modals/wallet/enable-staking';
 
 import firebase from 'firebase/app';
 import { dispatchify, Store } from 'aurelia-store';
 import { getCurrentFirebaseUser, loadAccountBalances, loadTokensList } from 'store/actions';
+import styles from "./balances.module.css";
+import { DialogService, DialogCloseResult } from 'aurelia-dialog';
+
 
 @autoinject()
 export class Balances {
@@ -20,18 +30,19 @@ export class Balances {
     private user;
     private state: State;
     private subscription: Subscription;
+    private styles = styles;
 
     private tokenTable: HTMLTableElement;
 
     @observable() private hideZeroBalances = false;
-    
-    constructor(private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue) {
+
+    constructor(private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue, private dialogService: DialogService) {
         this.subscription = this.store.state.subscribe((state: State) => {
             if (state) {
                 this.state = state;
 
-                this.balancesCopy = [ ...state.account.balances ];
-                this.balances = [ ...state.account.balances ];
+                this.balancesCopy = [...state.account.balances];
+                this.balances = [...state.account.balances];
                 this.user = { ...state.firebaseUser };
             }
         });
@@ -44,6 +55,10 @@ export class Balances {
     }
 
     attached() {
+        this.loadTable();
+    }
+
+    loadTable() {
         // @ts-ignore
         $(this.tokenTable).DataTable({
             bInfo: false,
@@ -52,14 +67,17 @@ export class Balances {
         });
     }
 
+    async loadAccountScotUserTokens() {
+        this.state.account.scotTokens = await this.se.getScotUsertokens(this.state.account.name);
+    }
+
     async canActivate() {
         try {
             await dispatchify(loadTokensList)();
             await dispatchify(loadAccountBalances)();
             await dispatchify(getCurrentFirebaseUser)();
 
-            this.hideZeroBalancesChanged();
-            this.onlyShowFavourites();
+            this.filterData();
         } catch {
             return new Redirect('');
         }
@@ -73,7 +91,7 @@ export class Balances {
                 } else {
                     this.balances = this.balancesCopy;
                 }
-                
+
                 this.updateUser();
             }
         });
@@ -87,7 +105,7 @@ export class Balances {
                 } else {
                     this.balances = this.balancesCopy;
                 }
-                
+
                 this.updateUser();
             }
         });
@@ -116,5 +134,70 @@ export class Balances {
         userRef.set(this.user, {
             merge: true
         });
+    }
+
+    showTokenInfo(symbol) {
+        this.dialogService
+            .open({ viewModel: TokenInfoModal, model: symbol })
+            .whenClosed(response => {
+                //console.log(response);
+            });
+    }
+
+    sendTokens(symbol) {
+        this.dialogService
+            .open({ viewModel: SendTokensModal, model: symbol })
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    stakeTokens(symbol) {
+        this.dialogService
+            .open({ viewModel: StakeModal, model: symbol })
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    unstakeTokens(symbol) {
+        this.dialogService
+            .open({ viewModel: UnstakeModal, model: symbol })
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    delegateTokens(symbol) {
+        this.dialogService
+            .open({ viewModel: DelegateModal, model: symbol })
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    undelegateTokens(symbol) {
+        this.dialogService
+            .open({ viewModel: UndelegateModal, model: symbol })
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    enableDelegation(symbol) {
+        this.dialogService
+            .open({ viewModel: EnableDelegationModal, model: symbol })
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    enableStaking(symbol) {
+        this.dialogService
+            .open({ viewModel: EnableStakingModal, model: symbol })
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    filterData() {
+        this.hideZeroBalancesChanged();
+        this.onlyShowFavourites();
+    }
+
+    async walletDialogCloseResponse(response: DialogCloseResult) {
+        console.log(response);
+        // reload balances if dialog response was success
+        if (!response.wasCancelled) {
+            await dispatchify(loadAccountBalances)();
+
+            this.filterData();
+        }
     }
 }

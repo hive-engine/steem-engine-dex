@@ -5,6 +5,7 @@ export interface AccountInterface {
     scotTokens: any[];
     pendingUnstakes: any[];
     token: any;
+    notifications: any[];
 }
 
 export interface ISettings {
@@ -16,6 +17,7 @@ export interface ISettings {
 }
 
 export interface State {
+    $action: any;
     account: AccountInterface;
     settings: ISettings;
     firebaseUser: any;
@@ -30,13 +32,18 @@ export interface State {
 }
 
 export const initialState: State = {
+    $action: {
+        name: '',
+        params: {}
+    },
     account: {
         name: '',
         token: {},
         account: {},
         balances: [],
         scotTokens: [],
-        pendingUnstakes: []
+        pendingUnstakes: [],
+        notifications: []
     },
     settings: {
         disableDeposits: false,
