@@ -112,11 +112,6 @@ export function parseTokens(data: any): State {
                 token.priceChangePercent = parseFloat(metric.priceChangePercent);
                 token.priceChangeSteem = parseFloat(metric.priceChangeSteem);
             }
-
-            // if (token.symbol == 'AFIT') {
-            //     const afit_data = await ssc.find('market', 'tradesHistory', { symbol: 'AFIT' }, 100, 0, [{ index: '_id', descending: false }], false);
-            //     token.volume = (afit_data) ? afit_data.reduce((t, v) => t += parseFloat(v.price) * parseFloat(v.quantity), 0) : 0;
-            // }
         }
 
         if (token.symbol === 'STEEMP') {
@@ -231,11 +226,6 @@ export async function loadTokens(): Promise<any[]> {
                 token.priceChangePercent = parseFloat(metric.priceChangePercent);
                 token.priceChangeSteem = parseFloat(metric.priceChangeSteem);
             }
-
-            // if (token.symbol == 'AFIT') {
-            //     const afit_data = await ssc.find('market', 'tradesHistory', { symbol: 'AFIT' }, 100, 0, [{ index: '_id', descending: false }], false);
-            //     token.volume = (afit_data) ? afit_data.reduce((t, v) => t += parseFloat(v.price) * parseFloat(v.quantity), 0) : 0;
-            // }
         }
 
         if (token.symbol === 'STEEMP') {
@@ -452,15 +442,14 @@ export async function loadExchangeUiLoggedOut(symbol) {
 }
 
 export async function loadBalances(account: string): Promise<BalanceInterface[]> {
-    const loadedBalances: BalanceInterface[] = await ssc.find(
-        'tokens',
-        'balances',
-        { account: account },
-        1000,
-        0,
-        '',
-        false,
-    );
+    const getUserBalances = await query(`query {
+        balances(account: "${account}", limit: 1000, offset: 0) {
+            symbol,
+            balance
+        }
+    }`);
+    
+    const loadedBalances: BalanceInterface[] = getUserBalances.data.balances;
 
     if (loadedBalances.length) {
         const state = await getStateOnce();

@@ -1,0 +1,44 @@
+﻿<template>
+    <loader mode="tiny" loading.bind="loading"></loader>
+
+    <header class="main-header">
+        <div class="container-fluid main-container d-flex flex-column justify-content-end">
+            <div class="row">
+                <h2>${'Pending unstakes' & t}</h2>
+            </div>
+        </div>
+    </header>
+
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <table class="table table-striped transactionsTable table-hover" ref="transactionsTable">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Transaction ID</th>
+                        <th class="text-right">Quantity</th>
+                        <th class="text-right">Quantity Left</th>
+                        <th>Next Transaction</th>
+                        <th>Transactions Left</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="tx of transactions">
+                        <td>${tx.symbol}</td>
+                        <td>${tx.txID}</td>
+                        <td class="text-right">${tx.quantity}</td>
+                        <td class="text-right">${tx.quantityLeft}</td>
+                        <td>${tx.timestamp_string}</td>
+                        <td>${tx.numberTransactionsLeft}</td>
+                        <td>
+                            <button click.delegate="cancelUnstake(tx.txID)" class="btn btn-danger">Cancel</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</template>

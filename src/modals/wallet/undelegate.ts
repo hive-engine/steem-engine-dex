@@ -6,16 +6,15 @@ import { environment } from 'environment';
 import { Subscription } from 'rxjs';
 import { State, AccountInterface } from 'store/state';
 import { ValidationControllerFactory, ControllerValidateResult, ValidationRules } from 'aurelia-validation';
-import { ToastService, ToastMessage } from '../services/toast-service';
-import { BootstrapFormRenderer } from '../resources/bootstrap-form-renderer';
+import { ToastService, ToastMessage } from '../../services/toast-service';
+import { BootstrapFormRenderer } from '../../resources/bootstrap-form-renderer';
 import { I18N } from 'aurelia-i18n';
-import styles from './send-tokens.module.css';
+import styles from './undelegate.module.css';
 
 @autoinject()
-export class SendTokensModal {
+export class UndelegateModal {
     @bindable amount;
     @bindable username;
-    @bindable memo;
 
     private styles = styles;
     private loading = false;
@@ -49,26 +48,26 @@ export class SendTokensModal {
     }
 
     balanceClicked() {
-        this.amount = this.token.balance;
+        this.amount = this.token.delegationsOut;
     }
 
     private createValidationRules() {
         const rules = ValidationRules
             .ensure('amount')
                 .required()
-                    .withMessageKey('errors:sendTokenAmountRequired')
+                    .withMessageKey('errors:amountRequired')
                 .then()
                     .satisfies((value: any, object: any) => parseFloat(value) > 0)
                     .withMessageKey('errors:amountGreaterThanZero')
-                    .satisfies((value: any, object: SendTokensModal) => {
+                    .satisfies((value: any, object: UndelegateModal) => {
                         const amount = parseFloat(value);
 
-                        return (amount <= object.token.balance);
+                        return (amount <= object.token.delegationsOut);
                     })
-                    .withMessageKey('errors:insufficientBalanceForSendToken')            
+                    .withMessageKey('errors:insufficientBalanceForUndelegate')            
             .ensure('username')
                 .required()
-                    .withMessageKey('errors:sendTokenUsernameRequired')
+                    .withMessageKey('errors:usernameRequired')
             .rules;
 
         this.validationController.addObject(this, rules);
@@ -84,7 +83,7 @@ export class SendTokensModal {
                 const toast = new ToastMessage();
 
                 toast.message = this.i18n.tr(result.rule.messageKey, {
-                    balance: this.token.balance,
+                    delegationsOut: this.token.delegationsOut,
                     symbol: this.token.symbol,
                     ns: 'errors'
                 });
@@ -95,7 +94,7 @@ export class SendTokensModal {
 
         if (validationResult.valid) {                       
 
-            const result = await this.se.sendToken(this.token.symbol, this.username, this.amount, this.memo);
+            const result = await this.se.undelegate(this.token.symbol, this.amount, this.username);
 
             if (result) {
                 this.controller.ok();

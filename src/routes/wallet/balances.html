@@ -52,8 +52,16 @@
                                 </td>
                                 <td class="text-left">${token.name}</td>
                                 <td class="text-right">${token.balance | comma}</td>
-                                <td class="text-right">${token.usdValue}</td>
-                                <td class="text-right">${token.priceChangePercent.toFixed(2)}%</td>
+                                <td class="text-right changePercentCol">
+                                    <span class="changePercent ${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}">
+                                        ${token.usdValue}
+                                    </span>
+                                </td>
+                                <td class="text-right changePercentCol">
+                                    <span class="changePercent ${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}">
+                                        ${token.priceChangePercent.toFixed(2)}%
+                                    </span>
+                                </td>
                                 <td class="text-right">${token.stake >= 0 ? token.stake : '--'} (${token.pendingUnstake > 0 ? token.pendingUnstake : 0})</td>
                                 <td class="table-buttons wallet-actions text-left">
                                     <button click.delegate="showTokenInfo(token.symbol)" title="Token information">
@@ -74,21 +82,19 @@
                                     <button if.bind="token.stakingEnabled && token.stake > 0" click.delegate="unstakeTokens(token.symbol)" title="Unstake tokens">
                                         <font-awesome-icon icon.bind="['fas', 'unlock']"></font-awesome-icon>
                                     </button>
-                                    <button if.bind="token.issuer === token.account"
-                                            route-href="route: exchange; params.bind: { symbol: token.symbol }" title="Enable staking">
+                                    <button if.bind="token.issuer === token.account" click.delegate="enableStaking(token.symbol)" title="Enable staking">
                                         <font-awesome-icon icon.bind="['fas', 'gem']"></font-awesome-icon>
                                     </button>
-                                    <button if.bind="token.pendingUnstake > 0"
-                                            route-href="route: exchange; params.bind: { symbol: token.symbol }" title="View pending unstakes">
+                                    <a if.bind="token.pendingUnstake > 0" route-href="route: pending-unstakes" title="View pending unstakes">
                                         <font-awesome-icon icon.bind="['fas', 'eye']"></font-awesome-icon>
-                                    </button>
+                                    </a>
                                     <a if.bind="token.pendingUndelegations > 0" route-href="route: pending-undelegations" title="Pending undelegations">
                                         <font-awesome-icon icon.bind="['fas', 'divide']"></font-awesome-icon>
                                     </a>
                                     <button if.bind="token.delegationEnabled && token.stakingEnabled && token.stake > 0" click.delegate="delegateTokens(token.symbol)" title="Delegate tokens">
                                         <font-awesome-icon icon.bind="['fas', 'arrows-alt-h']"></font-awesome-icon>
                                     </button>
-                                    <button click.delegate="enableDelegation(token.symbol)" title="Enable delegation">
+                                    <button if.bind="token.issuer === token.account && !token.delegationEnabled && token.stakingEnabled" click.delegate="enableDelegation(token.symbol)" title="Enable delegation">
                                         <font-awesome-icon icon.bind="['fas', 'dolly']"></font-awesome-icon>
                                     </button>
                                     <button if.bind="token.delegationEnabled && token.delegationsOut > 0"  click.delegate="undelegateTokens(token.symbol)" title="Undelegate tokens">

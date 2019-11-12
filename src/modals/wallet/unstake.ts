@@ -6,8 +6,8 @@ import { environment } from 'environment';
 import { Subscription } from 'rxjs';
 import { State, AccountInterface } from 'store/state';
 import { ValidationControllerFactory, ControllerValidateResult, ValidationRules } from 'aurelia-validation';
-import { ToastService, ToastMessage } from '../services/toast-service';
-import { BootstrapFormRenderer } from '../resources/bootstrap-form-renderer';
+import { ToastService, ToastMessage } from '../../services/toast-service';
+import { BootstrapFormRenderer } from '../../resources/bootstrap-form-renderer';
 import { I18N } from 'aurelia-i18n';
 import styles from './unstake.module.css';
 

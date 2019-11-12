@@ -14,5 +14,7 @@
     "unstakingSucceeded": "Tokens successfully unstaked",
     "delegateSucceeded": "Tokens successfully delegated",
     "undelegateSucceeded": "Tokens successfully undelegated",
-    "enableDelegationSucceeded": "Enable delegation succeeded for {{symbol}} with undelegation cooldown of {{undelegationCooldown}} days"
+    "enableDelegationSucceeded": "Enable delegation succeeded for {{symbol}} with undelegation cooldown of {{undelegationCooldown}} days",
+    "unstakeCancelled": "Unstaking cancelled successfully",
+    "enableStakingSucceeded":  "Token Staking Enabled"
 }

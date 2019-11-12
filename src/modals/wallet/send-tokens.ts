@@ -6,15 +6,16 @@ import { environment } from 'environment';
 import { Subscription } from 'rxjs';
 import { State, AccountInterface } from 'store/state';
 import { ValidationControllerFactory, ControllerValidateResult, ValidationRules } from 'aurelia-validation';
-import { ToastService, ToastMessage } from '../services/toast-service';
-import { BootstrapFormRenderer } from '../resources/bootstrap-form-renderer';
+import { ToastService, ToastMessage } from '../../services/toast-service';
+import { BootstrapFormRenderer } from '../../resources/bootstrap-form-renderer';
 import { I18N } from 'aurelia-i18n';
-import styles from './delegate.module.css';
+import styles from './send-tokens.module.css';
 
 @autoinject()
-export class DelegateModal {
+export class SendTokensModal {
     @bindable amount;
     @bindable username;
+    @bindable memo;
 
     private styles = styles;
     private loading = false;
@@ -44,30 +45,30 @@ export class DelegateModal {
     }
 
     async activate(symbol) {        
-        this.token = this.state.account.balances.find(x => x.symbol === symbol);        
+        this.token = this.state.account.balances.find(x => x.symbol === symbol);
     }
 
     balanceClicked() {
-        this.amount = this.token.stake;
+        this.amount = this.token.balance;
     }
 
     private createValidationRules() {
         const rules = ValidationRules
             .ensure('amount')
                 .required()
-                    .withMessageKey('errors:amountRequired')
+                    .withMessageKey('errors:sendTokenAmountRequired')
                 .then()
                     .satisfies((value: any, object: any) => parseFloat(value) > 0)
                     .withMessageKey('errors:amountGreaterThanZero')
-                    .satisfies((value: any, object: DelegateModal) => {
+                    .satisfies((value: any, object: SendTokensModal) => {
                         const amount = parseFloat(value);
 
-                        return (amount <= object.token.stake);
+                        return (amount <= object.token.balance);
                     })
-                    .withMessageKey('errors:insufficientBalanceForDelegate')            
+                    .withMessageKey('errors:insufficientBalanceForSendToken')            
             .ensure('username')
                 .required()
-                    .withMessageKey('errors:usernameRequired')
+                    .withMessageKey('errors:sendTokenUsernameRequired')
             .rules;
 
         this.validationController.addObject(this, rules);
@@ -83,7 +84,7 @@ export class DelegateModal {
                 const toast = new ToastMessage();
 
                 toast.message = this.i18n.tr(result.rule.messageKey, {
-                    stake: this.token.stake,
+                    balance: this.token.balance,
                     symbol: this.token.symbol,
                     ns: 'errors'
                 });
@@ -94,7 +95,7 @@ export class DelegateModal {
 
         if (validationResult.valid) {                       
 
-            const result = await this.se.delegate(this.token.symbol, this.amount, this.username);
+            const result = await this.se.sendToken(this.token.symbol, this.username, this.amount, this.memo);
 
             if (result) {
                 this.controller.ok();
