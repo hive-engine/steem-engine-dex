@@ -1,0 +1,150 @@
+<template>
+    <header class="main-header">
+        <div class="container-fluid main-container d-flex flex-column justify-content-end">
+            <div class="row">
+                <div class="col-6">
+                    <h1>${'Settings' & t}</h1>
+                </div>
+            </div>
+            <nav class="nav tabs mt-3">
+                <a class="${selectedTab == 'profile' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);" click.delegate="tabChanged('profile')">${'Profile' & t}</a>
+                <a class="${selectedTab == 'favorites' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);" click.delegate="tabChanged('favorites')">${'Favorites' & t}</a>
+                <a class="${selectedTab == 'hiddenTokens' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);" click.delegate="tabChanged('hiddenTokens')">${'Hidden Tokens' & t}</a>
+                <a class="${selectedTab == 'preferences' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);" click.delegate="tabChanged('preferences')">${'Preferences' & t}</a>
+                <a class="${selectedTab == 'kyc' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);" click.delegate="tabChanged('kyc')">${'KYC' & t}</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container-fluid main-container sections">
+        <div class="row">
+            <section class="col-md-12" show.bind="selectedTab == 'profile'">
+                    <h3>${'Your Profile' & t}</h3>
+                    <p>${'Some of these fields are required if you want to verify yourself via the KYC process.' & t}</p>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-3">
+                            <div class="form-group">
+                                <label>${'First name' & t}</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.firstName">
+                            </div>
+                            <div class="form-group">
+                                <label>${'Email' & t}</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.email & validate">
+                            </div>
+                            <div class="form-group">
+                                <label>${'Address line 2' & t}</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.addressLine2">
+                            </div>
+                            <div class="form-group">
+                                <label>${'Country' & t}</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.country">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-3">
+                            <div class="form-group">
+                                <label>${'Last name' & t}</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.lastName">
+                            </div>
+                            <div class="form-group">
+                                <label>${'Address line 1' & t}</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.addressLine1">
+                            </div>
+                            <div class="form-group">
+                                <label>${'State' & t}</label>
+                                <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.state">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" if.bind="editMode">
+                            <button type="button" click.delegate="resetUser()" class="btn btn-secondary">${'Cancel' & t}</button>
+                            <button type="button" click.delegate="saveProfile()" class="btn btn-primary">${'Save' & t}</button>
+                        </div>
+                        <div class="col-md-12" else>
+                            <button type="button" click.delegate="editMode = true" class="btn btn-primary">${'Edit' & t}</button>
+                        </div>
+                    </div>
+                </section>
+
+            <section class="col-md-12" show.bind="selectedTab == 'favorites'">
+                <h3>${'Favorites' & t}</h3>
+                <p if.bind="!user.favourites.length">${'You have no favorited tokens' & t}.</p>
+
+                <select2 placeholder="Select one or more tokens">
+                    <select value.bind="state.firebaseUser.favourites" change.delegate="updateData()" multiple>
+                        <option value.bind="token.symbol" repeat.for="token of state.tokens">${token.name & t} (${token.symbol})</option>
+                    </select>
+                </select2>
+            </section>
+
+            <section class="col-md-12" show.bind="selectedTab == 'hiddenTokens'">
+                <h3>${'Hidden Tokens' & t}</h3>
+                <p if.bind="!state.firebaseUser.hiddenTokens.length">${'You have no hidden tokens' & t}.</p>
+
+                <select2 placeholder="Select one or more tokens" if.bind="selectedTab == 'hiddenTokens'">
+                    <select value.bind="state.firebaseUser.hiddenTokens" change.delegate="updateData()" multiple>
+                        <option value.bind="token.symbol" repeat.for="token of state.tokens">${token.name & t} (${token.symbol})</option>
+                    </select>
+                </select2>
+            </section>
+
+            <section class="col-md-12" show.bind="selectedTab == 'preferences'">
+                <h3>${'Preferences' & t}</h3>
+                <p if.bind="!state.firebaseUser.hiddenTokens.length">${'Configure exchange preferences here' & t}.</p>
+
+                <fieldset class="mt-5">
+                    <legend class="mb-4">${'Wallet' & t}</legend>
+
+                    <div class="form-group">
+                        <span class="switch">
+                            <input type="checkbox" class="switch" id="hideZeroBalances" checked.bind="state.firebaseUser.wallet.hideZeroBalances" change.delegate="updateData()">
+                            <label for="hideZeroBalances">${'Hide zero balances' & t}</label>
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="switch">
+                            <input type="checkbox" class="switch" id="onlyShowFavourites" checked.bind="state.firebaseUser.wallet.onlyShowFavourites" change.delegate="updateData()">
+                            <label for="onlyShowFavourites">${'Only show favourites' & t}</label>
+                        </span>
+                    </div>
+                </fieldset>
+            </section>
+
+            <section class="col-md-12" show.bind="selectedTab == 'kyc'">
+                <h3>${'KYC' & t}</h3>
+                <template if.bind="!state.firebaseUser.kyc.verified && canUploadKycDocuments">
+                    <p>${'Verify your account' & t}.</p>
+
+                    <div class="row">
+                        <div class="col-md-4 kyc-box">
+                            <h4 class="${selfieVerified ? 'green-text' : ''}">${'Selfie' & t} <span class="verified-label ${selfieVerified ? 'verified' : ''} ${selfiePending ? 'pending' : ''}"><font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${selfieStatusText}</span></h4>
+                            <p if.bind="!selfieVerified">${'Upload a selfie that is well lit. You should be holding a piece of paper with "steem-engine.com" written on it, with todays date and your special verfication code:' & t} ${state.firebaseUser.kyc.token}</p>
+                            <p else class="green-text">${'Your selfie has been verified' & t}</p>
+
+                            <div class="upload-box" if.bind="!selfieVerified && !selfiePending" drop.trigger="handleSelfieDrop($event)" dragover.trigger="handleEvent($event)">
+                                <loader loading.bind="selfieUploading" mode="tiny"></loader>
+                                <font-awesome-icon icon.bind="polaroidIcon"></font-awesome-icon>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 kyc-box">
+                            <h4 class="${passportVerified ? 'green-text' : ''}">${'Passport' & t} <span class="verified-label ${passportVerified ? 'verified' : ''} ${passportPending ? 'pending' : ''}"><font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${passportStatusText}</span></h4>
+                            <p if.bind="!passportVerified">Upload a scanned copy of your passport. Your name, image and citizenship details should be clearly visible.</p>
+                            <p else class="green-text">${'Your passport has been verified.' & t}</p>
+
+                            <div class="upload-box" if.bind="!passportVerified && !passportPending" drop.trigger="handlePassportDrop($event)" dragover.trigger="handleEvent($event)">
+                                <loader loading.bind="passportUploading" mode="tiny"></loader>
+                                <font-awesome-icon icon.bind="passportIcon"></font-awesome-icon>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <template else>
+                    <p>${state.firebaseUser.kyc.verified ? 'You have been verified.' : 'Please complete your profile details before undergoing the KYC process.' & t}</p>
+                </template>
+            </section>
+        </div>    
+    </div>
+</template>

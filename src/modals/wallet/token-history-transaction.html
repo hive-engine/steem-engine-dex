@@ -1,0 +1,48 @@
+<template>
+    <ux-dialog>
+        <loader mode="tiny" loading.bind="loading"></loader>
+
+        <ux-dialog-header>
+            <h2>${'Transaction' & t}</h2>
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <p class="note mb-4">
+                ${transaction.timestamp_string}
+            </p>
+
+            <div>
+                <div class="form-group">
+                    <h4>${'Transaction ID' & t}</h4>
+                    <h4>${transaction.txid}</h4>
+                </div>
+
+                <div class="form-group">
+                    <h4>${'Sidechain Block' & t}</h4>
+                    <h4>${transaction.block}</h4>
+                </div>
+
+                <div class="form-group">
+                    <h4>${'From' & t}</h4>
+                    <h4>@${transaction.from}</h4>
+                </div>
+
+                <div class="form-group">
+                    <h4>${'To' & t}</h4>
+                    <h4>@${transaction.to}</h4>
+                </div>
+
+                <div class="form-group">
+                    <h4>${'Amount' & t}</h4>
+                    <h4>${transaction.to == username ? '+' : '-'} ${transaction.quantity}</h4>
+                </div>
+            </div>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <button class="btn btn-lg redBtn"
+                    click.trigger="controller.cancel()">
+                ${'OK' & t}
+            </button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>

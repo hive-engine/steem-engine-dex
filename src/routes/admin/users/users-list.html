@@ -1,0 +1,11 @@
+<template>
+    <div class="container-fluid main-container sections">
+        <div class="col-md-12">
+            <h3>Users</h3>
+
+            <ul class="list-unstyled">
+                <li repeat.for="user of users"><a route-href="route: adminUserView; params.bind: { uid: user.id }">${user.id}</a></li>
+            </ul>
+        </div>
+    </div>
+</template>

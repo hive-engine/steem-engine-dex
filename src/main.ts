@@ -20,15 +20,13 @@ import modalCss from './styles/modal.css';
 
 import 'sscjs/dist/ssc';
 
-import { SteemEngine } from 'services/steem-engine';
 import { AppRouter } from 'aurelia-router';
-import { Aurelia, Container, LogManager } from 'aurelia-framework';
+import { Aurelia, LogManager } from 'aurelia-framework';
 import { ConsoleAppender } from 'aurelia-logging-console';
 import { environment } from './environment';
 import { PLATFORM } from 'aurelia-pal';
 import { initialState } from './store/state';
-import { TCustomAttribute, I18N } from 'aurelia-i18n';
-import { ValidationMessageProvider } from 'aurelia-validation';
+import { TCustomAttribute } from 'aurelia-i18n';
 import Backend from 'i18next-xhr-backend';
 
 import Mousetrap from 'mousetrap';
@@ -46,7 +44,6 @@ library.add(fas, far, fad);
 // Disable connect queue to speed up application
 import { disableConnectQueue } from 'aurelia-binding';
 import { getSteemPrice } from 'common/functions';
-import { dispatchify } from 'aurelia-store';
 disableConnectQueue();
 
 Mousetrap.bind('ctrl+shift+f10', () => {
@@ -92,7 +89,7 @@ export async function configure(aurelia: Aurelia) {
     });
 
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-i18n'), (instance) => {
-        let aliases = ['t', 'i18n'];
+        const aliases = ['t', 'i18n'];
         TCustomAttribute.configureAliases(aliases);
   
         // register backend plugin

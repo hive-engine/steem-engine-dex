@@ -1,86 +1,159 @@
-import { request, loadTokenMarketHistory, loadTokens } from 'common/steem-engine';
-import { ssc } from 'common/ssc';
+/* eslint-disable no-undef */
+import * as functions from 'common/steem-engine';
+//import { request, loadTokenMarketHistory, checkTransaction } from 'common/steem-engine';
 
 jest.mock('sscjs');
 jest.mock('steem');
 
-import tokensData from './mock-data/tokens';
-import metricsData from './mock-data/metrics';
+import { ssc } from 'common/ssc';
 
 describe('Functions', () => {
-
-    beforeEach(() => {
+    afterEach(() => {
+        jest.resetAllMocks();
+        jest.restoreAllMocks();
         fetchMock.resetMocks();
     });
 
-    it('request should make a request with a version value on the end of the url', async () => {
+    test('request should make a request with a version value on the end of the url', async () => {
         const url = 'testEndpoint';
         const paramsObject: any = {};
 
-        await request(url, paramsObject);
+        await functions.request(url, paramsObject);
 
         expect(paramsObject.v).not.toBeUndefined();
     });
 
-    it('loadTokenMarketHistory should return history for token', async () => {
+    test('loadTokenMarketHistory should return history for token', async () => {
         const symbol = 'ENG';
 
-        const resultData = [{"_id":"5dace26d3415dd328fef94dd","timestamp":1555286400,"symbol":"ENG","volumeSteem":"987.53000000","volumeToken":"1156.1946","lowestPrice":"0.81599681","highestPrice":"0.94927172","openPrice":"0.83000000","closePrice":"0.92700000"},{"_id":"5dace24a3415dd328fef8ded","timestamp":1555200000,"symbol":"ENG","volumeSteem":"582.23100000","volumeToken":"675.1977","lowestPrice":"0.82100000","highestPrice":"0.92000296","openPrice":"0.90001347","closePrice":"0.82100000"},{"_id":"5dace22b3415dd328fef87d9","timestamp":1555113600,"symbol":"ENG","volumeSteem":"397.11400000","volumeToken":"423.04","lowestPrice":"0.90000000","highestPrice":"0.95006803","openPrice":"0.93775934","closePrice":"0.90000000"}];
+        const resultData = [
+            {
+                _id: '5dace26d3415dd328fef94dd',
+                timestamp: 1555286400,
+                symbol: 'ENG',
+                volumeSteem: '987.53000000',
+                volumeToken: '1156.1946',
+                lowestPrice: '0.81599681',
+                highestPrice: '0.94927172',
+                openPrice: '0.83000000',
+                closePrice: '0.92700000',
+            },
+            {
+                _id: '5dace24a3415dd328fef8ded',
+                timestamp: 1555200000,
+                symbol: 'ENG',
+                volumeSteem: '582.23100000',
+                volumeToken: '675.1977',
+                lowestPrice: '0.82100000',
+                highestPrice: '0.92000296',
+                openPrice: '0.90001347',
+                closePrice: '0.82100000',
+            },
+            {
+                _id: '5dace22b3415dd328fef87d9',
+                timestamp: 1555113600,
+                symbol: 'ENG',
+                volumeSteem: '397.11400000',
+                volumeToken: '423.04',
+                lowestPrice: '0.90000000',
+                highestPrice: '0.95006803',
+                openPrice: '0.93775934',
+                closePrice: '0.90000000',
+            },
+        ];
 
         fetchMock.mockResponseOnce(JSON.stringify(resultData));
 
-        const response = await loadTokenMarketHistory(symbol);
+        const response = await functions.loadTokenMarketHistory(symbol);
 
         expect(response).toMatchObject(resultData);
     });
 
-    it('loadTokenMarketHistory should append timestampStart to url', async () => {
+    test('loadTokenMarketHistory should append timestampStart to url', async () => {
         const symbol = 'ENG';
 
         fetchMock.mockResponseOnce(JSON.stringify({}));
 
-        const response = await loadTokenMarketHistory(symbol, '123456');
-        
+        await functions.loadTokenMarketHistory(symbol, '123456');
+
         const symbols = Object.getOwnPropertySymbols(fetchMock.mock.calls[0][0]);
         const request = fetchMock.mock.calls[0][0][symbols[1]];
 
-        expect(request.parsedURL).toMatchObject({path: `/history/marketHistory?symbol=${symbol}&timestampStart=123456`});
+        expect(request.parsedURL).toMatchObject({
+            path: `/history/marketHistory?symbol=${symbol}&timestampStart=123456`,
+        });
     });
 
-    it('loadTokenMarketHistory should append timestampEnd to url', async () => {
+    test('loadTokenMarketHistory should append timestampEnd to url', async () => {
         const symbol = 'ENG';
 
         fetchMock.mockResponseOnce(JSON.stringify({}));
 
-        const response = await loadTokenMarketHistory(symbol, null, '123456');
-        
+        await functions.loadTokenMarketHistory(symbol, null, '123456');
+
         const symbols = Object.getOwnPropertySymbols(fetchMock.mock.calls[0][0]);
         const request = fetchMock.mock.calls[0][0][symbols[1]];
 
-        expect(request.parsedURL).toMatchObject({path: `/history/marketHistory?symbol=${symbol}&timestampEnd=123456`});
+        expect(request.parsedURL).toMatchObject({
+            path: `/history/marketHistory?symbol=${symbol}&timestampEnd=123456`,
+        });
     });
 
-    // it('loadTokens method should return tokens', async () => {
-    //     ssc.find.mockImplementation((table: string, name: string, {}, num1, num2, str, callback: any) => {{
-    //         if (table === 'tokens' && name === 'tokens') {
-    //             const tokens: IToken[] = tokensData as IToken[];
+    test('getTransactionInfo succeeds', async () => {
+        const jsonData = JSON.stringify({ "errors": [] });
 
-    //             callback(undefined, tokens);
-    //         } else if (table === 'market' && name === 'metrics') {
-    //             const metrics: IMetric[] = metricsData as IMetric[];
+        jest.spyOn(ssc, 'getTransactionInfo').mockImplementation((txId, callback: any) => {
+            callback(null, { logs: jsonData });
+        });
 
-    //             return Promise.resolve(metrics);
-    //         }
-    //     }});
+        await expect(functions.getTransactionInfo('gdfkjgkdfljg1234')).resolves.toEqual({ logs: jsonData });
+    });
 
-    //     window.steem_price = 0.13694137258356862;
+    test('loadPendingUnstakes succeeds', async () => {
+        jest.spyOn(ssc, 'find').mockImplementation(() => {
+            return Promise.resolve([1, 2, 3, 4]);
+        });
 
-    //     const tokens = await loadTokens();
-    //     const steempPreparsed = tokensData.find(t => t.symbol === 'ENG') as IToken;
-    //     const steempToken = tokens.find(t => t.symbol === 'ENG') as IToken;
+        await expect(functions.loadPendingUnstakes('beggars')).resolves.toEqual([1, 2, 3, 4]);
+    });
 
-    //     expect(steempPreparsed.marketCap).toEqual(steempToken.marketCap);
-    //     expect(steempToken.usdValue).toBe('$0.116');
-    // });
+    test('loadPendingUnstakes fails', async () => {
+        jest.spyOn(ssc, 'find').mockImplementation(() => {
+            return Promise.reject();
+        });
 
+        await expect(functions.loadPendingUnstakes('beggars')).resolves.toEqual([]);
+    });
+
+    test('getTransactionInfo fails', async () => {
+        const jsonData = JSON.stringify({ "errors": ["some error"] });
+
+        jest.spyOn(ssc, 'getTransactionInfo').mockImplementation((txId, callback: any) => {
+            callback(null, { logs: jsonData });
+        });
+
+        await expect(functions.getTransactionInfo('gdfkjgkdfljg1234')).rejects.toEqual({ error: 'some error', logs: jsonData });
+    });
+
+    test('getTransactionInfo result is empty', async () => {
+        jest.spyOn(ssc, 'getTransactionInfo').mockImplementation((txId, callback: any) => {
+            callback(null, null);
+        });
+
+        await expect(functions.getTransactionInfo('gdfkjgkdfljg1234')).rejects.toBeNull();
+    });
+
+    test('checktransaction should only call once', async () => {
+        const spy = jest.spyOn(functions, 'getTransactionInfo').mockResolvedValue(true);
+
+        functions.checkTransaction('12345678', 3);
+
+        expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    test('checktransaction should throw error after exceeding retry count', async () => {
+        jest.spyOn(functions, 'getTransactionInfo').mockRejectedValue(true);
+
+        await expect(functions.checkTransaction('12345678', 0)).rejects.toThrowError('Transaction not found.');
+    });
 });

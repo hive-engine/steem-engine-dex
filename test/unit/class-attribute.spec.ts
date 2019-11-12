@@ -1,7 +1,8 @@
+/* eslint-disable no-undef */
 import { Aurelia } from 'aurelia-framework';
-import {bootstrap} from 'aurelia-bootstrapper';
-import {StageComponent, ComponentTester} from 'aurelia-testing';
-import {PLATFORM} from 'aurelia-pal';
+import { bootstrap } from 'aurelia-bootstrapper';
+import { StageComponent, ComponentTester } from 'aurelia-testing';
+import { PLATFORM } from 'aurelia-pal';
 
 describe('Stage "class-attribute"', () => {
     let component: ComponentTester;
@@ -25,6 +26,12 @@ describe('Stage "class-attribute"', () => {
 
             aurelia.container.registerInstance(Element, '<div class="my-class">');
         });
+    });
+
+    afterEach(() => {
+        jest.resetAllMocks();
+        jest.restoreAllMocks();
+        fetchMock.resetMocks();
     });
 
     it('should render and replace the class on the element', async () => {

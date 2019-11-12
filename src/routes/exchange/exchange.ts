@@ -1,17 +1,18 @@
+import { Redirect } from 'aurelia-router';
 import { ChartComponent } from './../../components/chart/chart';
 import { State } from './../../store/state';
 
 import { I18N } from 'aurelia-i18n';
-import { ToastMessage, ToastService } from '../../services/toast-service';
+import { ToastService } from '../../services/toast-service';
 import { BootstrapFormRenderer } from '../../resources/bootstrap-form-renderer';
 import { SteemEngine } from '../../services/steem-engine';
 import { autoinject, computedFrom, observable } from 'aurelia-framework';
-import { ValidationControllerFactory, ValidationController, ValidationRules, ControllerValidateResult } from 'aurelia-validation';
+import { ValidationControllerFactory, ValidationController } from 'aurelia-validation';
 
 import styles from './exchange.module.css'
 import { environment } from 'environment';
 import moment from 'moment';
-import { find, uniq, fill } from 'lodash';
+import { uniq, fill } from 'lodash';
 
 import { loadTokenMarketHistory } from 'common/steem-engine';
 
@@ -21,7 +22,7 @@ import { MarketOrderModal } from 'modals/market-order';
 
 import { DialogService } from 'aurelia-dialog';
 import { percentageOf } from 'common/functions';
-import { loadTokensList, loadAccountBalances, loadBuyBook, loadSellBook, loadTradeHistory, exchangeData } from 'store/actions';
+import { loadBuyBook, loadSellBook, exchangeData } from 'store/actions';
 import { dispatchify, Store } from 'aurelia-store';
 import { Subscription as StateSubscription } from 'rxjs';
 import { getStateOnce } from 'store/store';
@@ -82,7 +83,7 @@ export class Exchange {
         private store: Store<State>,
         private ea: EventAggregator) {
         this.controller = controllerFactory.createForCurrentScope();
-       
+
         this.renderer = new BootstrapFormRenderer();
         this.controller.addRenderer(this.renderer);
         this.eventAggregator = ea;
@@ -90,48 +91,37 @@ export class Exchange {
 
     bind() {
         this.subscription = this.store.state.subscribe(async (state: State) => {
+            // eslint-disable-next-line no-undef
+            if (state.$action.name === 'login' || state.$action.name === 'logout') {
+                this.loadUserExchangeData();
+            }
+
             this.state = state;
         });
+    }
+
+    canActivate({ symbol }) {
+        if (!symbol) {
+            return new Redirect('/exchange/ENG')
+        }
     }
 
     async activate({ symbol }) {
         this.currentToken = symbol;
 
-        dispatchify(exchangeData)(symbol).then(async () => {
-            this.tokenData = this.state.tokens
-            .filter(t => t.symbol !== "STEEMP")
-            .filter(t => t.metadata && !t.metadata.hide_in_market);
-    
-            this.data = this.tokenData.find(t => t.symbol === this.currentToken);
-        
-            if (this.state.sellBook.length) {
-                this.bestSellPrice = this.state.sellBook[0];
-            }        
-        
-            const buyOrderDisplayData = await this.loadBuyOrders(this.state);
-            const sellOrderDisplayData = await this.loadSellOrders(this.state);
-        
-            await this.loadTokenHistoryData(this.state, buyOrderDisplayData, sellOrderDisplayData);
-    
-            this.chartRef.attached();
-        });
-
-        // const promises = [
-        //     //dispatchify(loadTokensList)(),
-        //     //dispatchify(loadAccountBalances)(),
-        //     dispatchify(loadBuyBook)(symbol),
-        //     dispatchify(loadSellBook)(symbol),
-        //     dispatchify(loadTradeHistory)(symbol)
-        // ];
-    }   
+        // eslint-disable-next-line no-undef
+        if (!this?.state?.loggedIn) {
+            this.loadUserExchangeData();
+        }
+    }
 
     async loadTokenHistoryData(state, buyOrderDisplayData, sellOrderDisplayData) {
         this.tradeHistory = state.tradeHistory;
 
         const tokenHistory = await loadTokenMarketHistory(this.currentToken);
-        var limitCandleStick = 60;
+        const limitCandleStick = 60;
 
-        var candleStickData = tokenHistory.slice(0, limitCandleStick).map(x => {
+        const candleStickData = tokenHistory.slice(0, limitCandleStick).map(x => {
             return {
                 t: moment.unix(x.timestamp).format('YYYY-MM-DD HH:mm:ss'), //x.timestamp * 1000,
                 o: x.openPrice,
@@ -165,11 +155,13 @@ export class Exchange {
 
     async loadSellOrders(state) {
         this.sellBook = state.sellBook;
-        let sellOrderLabels = uniq(this.sellBook.map(o => parseFloat(o.price)));
-        let sellOrderDataset = fill(Array(this.orderDataSetLength), null);
+ 
+        const sellOrderLabels = uniq(this.sellBook.map(o => parseFloat(o.price)));
+        const sellOrderDataset = fill(Array(this.orderDataSetLength), null);
         let sellOrderCurrentVolume = 0;
+
         sellOrderLabels.forEach(label => {
-            let matchingSellOrders = this.sellBook.filter(o => parseFloat(o.price) === label);
+            const matchingSellOrders = this.sellBook.filter(o => parseFloat(o.price) === label);
 
             if (matchingSellOrders.length === 0) {
                 sellOrderDataset.push(null);
@@ -179,18 +171,21 @@ export class Exchange {
             }
         });
 
-        return <IOrderDataDisplay>{ dataset: sellOrderDataset, labels: sellOrderLabels };
+        this.sellBook.reverse();
+
+        return { dataset: sellOrderDataset, labels: sellOrderLabels } as IOrderDataDisplay;
     }
 
     async loadBuyOrders(state) {
         this.buyBook = state.buyBook;
 
-        let buyOrderLabels = uniq(this.buyBook.map(o => parseFloat(o.price)));
-        let buyOrderDataset = [];
+        const buyOrderLabels = uniq(this.buyBook.map(o => parseFloat(o.price)));
+        const buyOrderDataset = [];
+
         let buyOrderCurrentVolume = 0;
 
         buyOrderLabels.forEach(label => {
-            let matchingBuyOrders = this.buyBook.filter(o => parseFloat(o.price) === label);
+            const matchingBuyOrders = this.buyBook.filter(o => parseFloat(o.price) === label);
 
             if (matchingBuyOrders.length === 0) {
                 buyOrderDataset.push(null);
@@ -199,127 +194,48 @@ export class Exchange {
                 buyOrderDataset.push(buyOrderCurrentVolume);
             }
         });
+
         buyOrderLabels.reverse();
         buyOrderDataset.reverse();
 
         this.orderDataSetLength = buyOrderDataset.length;
-        return <IOrderDataDisplay>{ dataset: buyOrderDataset, labels: buyOrderLabels };
+        return { dataset: buyOrderDataset, labels: buyOrderLabels } as IOrderDataDisplay;
 
     }
 
     loadUserExchangeData() {
-        const symbol = this.currentToken;
-        const account = this.se.getUser();
+        dispatchify(exchangeData)(this.currentToken).then(async () => {
+            this.tokenData = this.state.tokens
+                .filter(t => t.symbol !== "STEEMP")
+                .filter(t => t.metadata && !t.metadata.hide_in_market);
 
-        if (account) {
-            this.loadingUserBuyBook = true;
-            this.loadingUserSellBook = true;
-            this.loadingUserBalances = true;
+            this.data = this.tokenData.find(t => t.symbol === this.currentToken);
 
-            this.se.ssc
-                .find(
-                    "market",
-                    "buyBook",
-                    { symbol: symbol, account: account },
-                    100,
-                    0,
-                    [{ index: "_id", descending: true }],
-                    false
-                )
-                .then(result => {
-                    this.loadingUserBuyBook = false;
+            if (this.state.sellBook.length) {
+                this.bestSellPrice = this.state.sellBook[0];
+            }
 
-                    this.userBuyOrders = result.map(o => {
-                        o.type = "buy";
-                        o.total = o.price * o.quantity;
-                        o.timestamp_string = moment
-                            .unix(o.timestamp)
-                            .format("YYYY-M-DD HH:mm:ss");
-                        return o;
-                    });
+            // eslint-disable-next-line no-undef
+            this.steempBalance = this.state.account.balances.find(token => token.symbol === 'STEEMP')?.balance;
 
-                    this.se.ssc
-                        .find(
-                            "market",
-                            "sellBook",
-                            { symbol: symbol, account: account },
-                            100,
-                            0,
-                            [{ index: "_id", descending: true }],
-                            false
-                        )
-                        .then(result => {
-                            this.loadingUserSellBook = false;
+            const buyOrderDisplayData = await this.loadBuyOrders(this.state);
+            const sellOrderDisplayData = await this.loadSellOrders(this.state);
 
-                            this.userSellOrders = result.map(o => {
-                                o.type = "sell";
-                                o.total = o.price * o.quantity;
-                                o.timestamp_string = moment
-                                    .unix(o.timestamp)
-                                    .format("YYYY-M-DD HH:mm:ss");
-                                return o;
-                            });
+            await this.loadTokenHistoryData(this.state, buyOrderDisplayData, sellOrderDisplayData);
 
-                            this.userOrders = this.userBuyOrders.concat(
-                                this.userSellOrders
-                            );
-                            this.userOrders.sort(
-                                (a, b) => b.timestamp - a.timestamp
-                            );
-                        });
-                });
-
-            this.se.ssc
-                .find(
-                    "tokens",
-                    "balances",
-                    { account: account, symbol: { $in: [symbol, "STEEMP"] } },
-                    2,
-                    0,
-                    "",
-                    false
-                )
-                .then(result => {
-                    this.loadingUserBalances = false;
-
-                    if (result) {
-                        for (const token of result) {
-                            if (token.symbol === "STEEMP") {
-                                this.steempBalance = token.balance;
-                            }
-
-                            if (token.symbol === symbol) {
-                                this.tokenBalance = token.balance;
-                            }
-                        }
-                    }
-
-                    this.userTokenBalance.push(
-                        find(result, balance => balance.symbol === symbol)
-                    );
-                    this.userTokenBalance.push(
-                        find(result, balance => balance.symbol === "STEEMP")
-                    );
-                });
-        }
+            this.chartRef.attached();
+        });
     }
-
-    currentTokenChanged(newValue, oldValue) {
-        this.loadUserExchangeData();
-    }
-
 
     async attached() {
-        this.loadUserExchangeData();        
-
         this.subscriber = this.eventAggregator.subscribe('eventReload', response => {
             this.catchReloadEvent(response);
-        })
+        });
     }
 
-    async catchReloadEvent(response) {                
-        var data = <IReloadEventData>(response.data);
-        if (data.reloadBuyBook) {            
+    async catchReloadEvent(response) {
+        const data = response.data as IReloadEventData;
+        if (data.reloadBuyBook) {
             await dispatchify(loadBuyBook)(this.currentToken);
 
             // fetch state after reloading 
@@ -330,11 +246,11 @@ export class Exchange {
             await dispatchify(loadSellBook)(this.currentToken);
 
             // fetch state after reloading 
-            const state = await getStateOnce();            
+            const state = await getStateOnce();
             await this.loadSellOrders(state);
         }
 
-        if (data.reloadUserExchangeData) {            
+        if (data.reloadUserExchangeData) {
             this.loadUserExchangeData();
         }
     }

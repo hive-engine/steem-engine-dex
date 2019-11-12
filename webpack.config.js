@@ -10,6 +10,7 @@ const {
 } = require('aurelia-webpack-plugin');
 const { ProvidePlugin } = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const HtmlCriticalPlugin = require("html-critical-webpack-plugin");
 
 const ensureArray = config =>
     (config && (Array.isArray(config) ? config : [config])) || [];
@@ -190,6 +191,19 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma} = 
                 baseUrl
             }
         }),
+        ...when(production, new HtmlCriticalPlugin({
+            base: path.join(path.resolve(__dirname), 'dist/'),
+            src: 'index.html',
+            dest: 'index.html',
+            inline: true,
+            minify: true,
+            extract: true,
+            width: 1920,
+            height: 1080,
+            penthouse: {
+              blockJSRequests: false,
+            }
+        })),
         ...when(extractCss, new MiniCssExtractPlugin({
             filename: production
                 ? 'css/[name].[contenthash].bundle.css'

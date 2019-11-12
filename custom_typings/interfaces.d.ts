@@ -121,3 +121,71 @@ interface IBalance {
     balance: string;
     symbol: string;
 }
+
+interface IScotToken {
+    _id: number;
+    downvote_weight_multiplier: number;
+    downvoting_power: number;
+    earned_mining_token: number;
+    earned_other_token: number;
+    earned_staking_token: number;
+    earned_token: number;
+    last_downvote_time: string;
+    last_follow_refresh_time: string;
+    last_post: string;
+    last_root_post: string;
+    last_vote_time: string;
+    last_won_mining_claim: string;
+    last_won_staking_claim: string;
+    loki: string;
+    muted: boolean;
+    name: string;
+    pending_token: number;
+    precision: number;
+    staked_mining_power: number;
+    staked_tokens: number;
+    symbol: string;
+    vote_weight_multiplier: number;
+    voting_power: number;
+}
+
+interface IRewardToken {
+    symbol: string;
+    amount: number;
+}
+
+interface ITokenHistoryTransaction {
+    block: string;
+    from: string;
+    from_type: string;
+    memo: string;
+    quantity: string;
+    symbol: string;
+    timestamp: string;
+    to: string;
+    to_type: string;
+    txid: string;
+    balance: string;
+    timestamp_string: string;
+}
+
+interface IPendingUndelegationTransaction {
+    account: string;
+    completeTimestamp: number;
+    quantity: string;
+    txID: string;
+    symbol: string;
+    timestamp_string: string;
+}
+
+interface IPendingUnstakeTransaction {
+    account: string;
+    nextTransactionTimestamp: number;
+    quantity: string;
+    quantityLeft: string;
+    numberTransactionsLeft: string;
+    txID: string;
+    symbol: string;
+    timestamp_string: string;
+    millisecPerPeriod: string;
+}
