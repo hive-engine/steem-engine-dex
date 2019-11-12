@@ -18,7 +18,7 @@ export class WithdrawModal {
     private loading = false;
     private tokenBalance: any = 0;
     private tokenList = [];
-    
+
     private amount = '0.000';
 
     constructor(private controller: DialogController, private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue) {
@@ -43,12 +43,12 @@ export class WithdrawModal {
     }
 
     tokenSelected() {
-        this.taskQueue.queueMicroTask(async () => {            
+        this.taskQueue.queueMicroTask(async () => {
             this.tokenBalance = 0;
 
             if (this.token) {
                 this.loading = true;
-                var token = this.token.pegged_token_symbol;
+                const token = this.token.pegged_token_symbol;
 
                 if (token !== 'STEEMP') {
                     try {
