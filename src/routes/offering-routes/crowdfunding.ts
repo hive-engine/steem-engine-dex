@@ -1,4 +1,5 @@
-﻿import styles from "./crowdfunding.module.css";
+﻿/* eslint-disable @typescript-eslint/no-use-before-define */
+import styles from "./crowdfunding.module.css";
 import { customElement, bindable } from "aurelia-framework";
 import { faClock } from "@fortawesome/pro-solid-svg-icons";
 import { slick } from "slick-carousel/slick/slick";
@@ -14,9 +15,10 @@ export class Crowdfunding {
     private styles = styles;
 
     addClass(clss: string) {
-        var app = document.getElementById('app');
+        const app = document.getElementById('app');
 
-        var typewriter = new typewriter(app, {
+        // @ts-ignore
+        const typewriter = new typewriter(app, {
             loop: true
         });
 
@@ -33,6 +35,7 @@ export class Crowdfunding {
     }
 
     attached() {
+        // @ts-ignore
         $(".exploration-cards").slick({
             dots: true,
             arrows: true,
