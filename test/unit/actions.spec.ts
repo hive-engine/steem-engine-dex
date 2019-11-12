@@ -38,8 +38,6 @@ describe('Actions', () => {
     it('setAccount action should merge in values', () => {
         const result = setAccount({ account: {} } as any, { name: 'beggars' });
 
-        console.log(result);
-
         expect(result).toMatchObject({
             account: { 
                 name: 'beggars'
