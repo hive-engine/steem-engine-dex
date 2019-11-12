@@ -21,9 +21,6 @@ describe('Steem Engine Service', () => {
     const store = Container.instance.get(Store) as Store<State>;
 
     beforeEach(() => {
-        fetchMock.resetMocks();
-        jest.clearAllMocks();
-
         sut = new SteemEngine(mockHttp, mockI18n, store, mockToast, mockAuth);
 
         (window as any).steem_keychain = {
@@ -41,12 +38,18 @@ describe('Steem Engine Service', () => {
         };
     });
 
-    it('should create defaults', () => {
+    afterEach(() => {
+        jest.resetAllMocks();
+        jest.restoreAllMocks();
+        fetchMock.resetMocks();
+    });
+
+    test('should create defaults', () => {
         expect(sut.http).toBe(mockHttp());
         expect(sut.ssc).not.toBeNull();
     });
 
-    it('getUser returns null', () => {
+    test('getUser returns null', () => {
         (global as any).localStorage.removeItem('username');
         sut.user = null;
 
@@ -55,7 +58,7 @@ describe('Steem Engine Service', () => {
         expect(user).toBeNull();
     });
 
-    it('getUser returns class user object name if not empty', () => {
+    test('getUser returns class user object name if not empty', () => {
         sut.user.name = 'beggars';
 
         const user = sut.getUser();
@@ -63,8 +66,8 @@ describe('Steem Engine Service', () => {
         expect(user).toBe('beggars');
     });
 
-    it('loadParams makes required SSC calls', async () => {
-        sut.ssc.findOne.mockImplementation((table: string, name: string, {}, callback: any) => {
+    test('loadParams makes required SSC calls', async () => {
+        sut.ssc.findOne.mockImplementation((table: string, name: string, { }, callback: any) => {
             {
                 callback(undefined, { param: 'beggars', param2: 'aggroed' });
             }

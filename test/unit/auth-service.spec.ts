@@ -5,9 +5,13 @@ describe('AuthService', () => {
     let sut: AuthService;
 
     beforeEach(() => {
-        fetchMock.resetMocks();
-
         sut = new AuthService();
+    });
+
+    afterEach(() => {
+        jest.resetAllMocks();
+        jest.restoreAllMocks();
+        fetchMock.resetMocks();
     });
 
     it('getIdToken returns value', async () => {

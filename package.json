@@ -8,6 +8,7 @@
     },
     "license": "MIT",
     "dependencies": {
+        "@types/slick-carousel": "^1.6.33",
         "animate.css": "^3.7.2",
         "apollo-boost": "^0.4.4",
         "apollo-cache-inmemory": "^1.6.3",
@@ -52,8 +53,11 @@
         "query-string": "^6.8.3",
         "select2": "^4.0.11",
         "shortid": "2.2.15",
+        "slick-carousel": "^1.8.1",
         "sscjs": "^0.0.8",
         "steem": "^0.7.9",
+        "typewriter-effect": "^2.12.1",
+        "typit": "^0.6.4",
         "whatwg-fetch": "^3.0.0",
         "wowjs": "^1.1.3"
     },
@@ -175,7 +179,10 @@
             "!src/main.ts",
             "!src/common/firebase.ts",
             "!src/components/index.ts",
-            "!src/store/state.ts"
+            "!src/store/state.ts",
+            "!src/resources/value-converters/comma.ts",
+            "!src/resources/value-converters/large-number.ts",
+            "!src/resources/value-converters/usd-format.ts"
         ],
         "coverageDirectory": "<rootDir>/test/coverage-jest",
         "coverageReporters": [

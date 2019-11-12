@@ -506,7 +506,7 @@ export async function loadPendingUnstakes(account: string) {
 
 const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
-const getTransactionInfo = (trxId: string) =>
+export const getTransactionInfo = (trxId: string) =>
     new Promise((resolve, reject) => {
         ssc.getTransactionInfo(trxId, async (err, result) => {
             if (result) {
@@ -523,7 +523,7 @@ const getTransactionInfo = (trxId: string) =>
 
                 resolve(result);
             } else {
-                reject(err);
+                reject(result);
             }
         });
     });
@@ -533,7 +533,7 @@ export async function checkTransaction(trxId: string, retries: number) {
         return await getTransactionInfo(trxId);
     } catch (e) {
         if (retries > 0) {
-            await delay(5000);
+            await delay(4000);
             return await checkTransaction(trxId, retries - 1);
         } else {
             throw new Error('Transaction not found.');

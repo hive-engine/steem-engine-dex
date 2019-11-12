@@ -9,6 +9,8 @@ import { I18N } from 'aurelia-i18n';
 import { checkTransaction } from './steem-engine';
 import { steemConnectJson } from './steem';
 
+const ALLOWED_MARKET_ACTIONS = ['buy', 'sell'];
+
 const toastService: ToastService = Container.instance.get(ToastService);
 const i18n: I18N = Container.instance.get(I18N);
 
@@ -48,10 +50,10 @@ export async function getUserOpenOrders(account: string = null) {
 
 
 export async function sendMarketOrder(username: string, type: string, symbol: string, quantity: string, price: string) {
-    return new Promise((resolve) => {
-        if (type !== 'buy' && type !== 'sell') {
+    return new Promise((resolve, reject) => {
+        if (!ALLOWED_MARKET_ACTIONS.includes(type)) {
             log.error(`Invalid order type: ${type}`);
-            return;
+            return reject(`Invalid order type: ${type}`);
         }
 
         const transaction_data = {
@@ -108,15 +110,10 @@ export async function sendMarketOrder(username: string, type: string, symbol: st
 }
 
 export async function cancelMarketOrder(username: string, type: string, orderId: string, symbol: string) {
-    return new Promise((resolve) => {
-        if (type !== 'buy' && type !== 'sell') {
+    return new Promise((resolve, reject) => {
+        if (!ALLOWED_MARKET_ACTIONS.includes(type)) {
             log.error(`Invalid order type: ${type}`);
-            return;
-        }
-
-        if (!username) {
-            window.location.reload();
-            return;
+            return reject(`Invalid order type: ${type}`);
         }
 
         const transaction_data = {

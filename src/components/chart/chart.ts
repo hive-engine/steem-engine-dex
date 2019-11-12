@@ -55,7 +55,7 @@ export class ChartComponent {
     }
 
     getOptionsOfChartType(chartType) {
-        var options = { ...options, ...DefaultChartOptions };
+        const options = { ...this.options, ...DefaultChartOptions };
 
         options.type = chartType;
 
@@ -82,7 +82,7 @@ export class ChartComponent {
     }
 
     createChart(chartType) {
-        var options = this.getOptionsOfChartType(chartType);
+        const options = this.getOptionsOfChartType(chartType);
         if (chartType == 'line') {
             this.chart = new Chart(this.chartRef, options);
             this.refreshChart(this.chart);

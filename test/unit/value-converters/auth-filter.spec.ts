@@ -1,12 +1,19 @@
+/* eslint-disable no-undef */
 import { RouteConfig } from 'aurelia-router';
-import { AuthFilter } from './../../../src/resources/value-converters/auth-filter';
+import { AuthFilter } from 'resources/value-converters/auth-filter';
 
 describe('Auth Filter', () => {
     let sut: AuthFilter;
 
     beforeEach(() => {
         sut = new AuthFilter();
-    })
+    });
+
+    afterEach(() => {
+        jest.resetAllMocks();
+        jest.restoreAllMocks();
+        fetchMock.resetMocks();
+    });
 
     test('user is not logged in, filters out auth roles', () => {
         const mockRoutes = [
@@ -133,7 +140,7 @@ describe('Auth Filter', () => {
             { name: 'test5', config: { auth: false, publicOnly: true } }
         ];
 
-        const result = sut.toView(mockRoutes as unknown as RouteConfig[], true, {});
+        const result = sut.toView(mockRoutes as unknown as RouteConfig[], true, null);
 
         expect(result).toHaveLength(1);
     });

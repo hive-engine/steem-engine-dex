@@ -74,7 +74,7 @@ export class ToastService implements Toast {
     izitoast.question(this.mergeToastSettings(toast));
   }
 
-  private mergeToastSettings(toast: ToastMessage, toastMessageIsRequired = true): IziToastSettings {
+  private mergeToastSettings(toast: ToastMessage, toastMessageIsRequired = false): IziToastSettings {
     if (toastMessageIsRequired && (!toast || !toast.message || !toast.message.length)) {
       throw new Error('Toast message cannot be empty if "toastMessageIsRequired" is true!');
     }

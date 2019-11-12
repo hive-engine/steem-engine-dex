@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { customJson, requestTransfer } from 'common/keychain';
 
 describe('Steem Keychain', () => {
@@ -14,7 +15,13 @@ describe('Steem Keychain', () => {
         };
     });
 
-    it('customJson should return value after promise resolves from callback', async () => {
+    afterEach(() => {
+        jest.resetAllMocks();
+        jest.restoreAllMocks();
+        fetchMock.resetMocks();
+    });
+
+    test('customJson should return value after promise resolves from callback', async () => {
         const returnValue = await customJson(
             'beggars',
             '1234',
@@ -25,7 +32,7 @@ describe('Steem Keychain', () => {
         expect(returnValue).toEqual(JSON.stringify({ test: 123 }));
     });
 
-    it('requestTransfer should return value after promise resolves from callback', async () => {
+    test('requestTransfer should return value after promise resolves from callback', async () => {
         const returnValue = await requestTransfer('beggars', 'aggroed', '1234.456', 'Testing', 'STEEM');
         expect(returnValue).toEqual('aggroed');
     });

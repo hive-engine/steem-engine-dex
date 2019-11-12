@@ -1,11 +1,18 @@
-import { ArrayFilterValueConverter } from './../../../src/resources/value-converters/array-filter';
+/* eslint-disable no-undef */
+import { ArrayFilterValueConverter } from 'resources/value-converters/array-filter';
 
 describe('Array Filter', () => {
     let sut: ArrayFilterValueConverter;
 
     beforeEach(() => {
         sut = new ArrayFilterValueConverter();
-    })
+    });
+
+    afterEach(() => {
+        jest.resetAllMocks();
+        jest.restoreAllMocks();
+        fetchMock.resetMocks();
+    });
 
     test('invalid value should return passed value', () => {
         expect(sut.toView(null, { search: '', term: 'yes' })).toBeNull();

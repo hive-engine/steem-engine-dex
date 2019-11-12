@@ -1,24 +1,29 @@
 /* eslint-disable no-undef */
-import { request, loadTokenMarketHistory } from 'common/steem-engine';
+import * as functions from 'common/steem-engine';
+//import { request, loadTokenMarketHistory, checkTransaction } from 'common/steem-engine';
 
 jest.mock('sscjs');
 jest.mock('steem');
 
+import { ssc } from 'common/ssc';
+
 describe('Functions', () => {
-    beforeEach(() => {
+    afterEach(() => {
+        jest.resetAllMocks();
+        jest.restoreAllMocks();
         fetchMock.resetMocks();
     });
 
-    it('request should make a request with a version value on the end of the url', async () => {
+    test('request should make a request with a version value on the end of the url', async () => {
         const url = 'testEndpoint';
         const paramsObject: any = {};
 
-        await request(url, paramsObject);
+        await functions.request(url, paramsObject);
 
         expect(paramsObject.v).not.toBeUndefined();
     });
 
-    it('loadTokenMarketHistory should return history for token', async () => {
+    test('loadTokenMarketHistory should return history for token', async () => {
         const symbol = 'ENG';
 
         const resultData = [
@@ -59,17 +64,17 @@ describe('Functions', () => {
 
         fetchMock.mockResponseOnce(JSON.stringify(resultData));
 
-        const response = await loadTokenMarketHistory(symbol);
+        const response = await functions.loadTokenMarketHistory(symbol);
 
         expect(response).toMatchObject(resultData);
     });
 
-    it('loadTokenMarketHistory should append timestampStart to url', async () => {
+    test('loadTokenMarketHistory should append timestampStart to url', async () => {
         const symbol = 'ENG';
 
         fetchMock.mockResponseOnce(JSON.stringify({}));
 
-        await loadTokenMarketHistory(symbol, '123456');
+        await functions.loadTokenMarketHistory(symbol, '123456');
 
         const symbols = Object.getOwnPropertySymbols(fetchMock.mock.calls[0][0]);
         const request = fetchMock.mock.calls[0][0][symbols[1]];
@@ -79,12 +84,12 @@ describe('Functions', () => {
         });
     });
 
-    it('loadTokenMarketHistory should append timestampEnd to url', async () => {
+    test('loadTokenMarketHistory should append timestampEnd to url', async () => {
         const symbol = 'ENG';
 
         fetchMock.mockResponseOnce(JSON.stringify({}));
 
-        await loadTokenMarketHistory(symbol, null, '123456');
+        await functions.loadTokenMarketHistory(symbol, null, '123456');
 
         const symbols = Object.getOwnPropertySymbols(fetchMock.mock.calls[0][0]);
         const request = fetchMock.mock.calls[0][0][symbols[1]];
@@ -92,5 +97,63 @@ describe('Functions', () => {
         expect(request.parsedURL).toMatchObject({
             path: `/history/marketHistory?symbol=${symbol}&timestampEnd=123456`,
         });
+    });
+
+    test('getTransactionInfo succeeds', async () => {
+        const jsonData = JSON.stringify({ "errors": [] });
+
+        jest.spyOn(ssc, 'getTransactionInfo').mockImplementation((txId, callback: any) => {
+            callback(null, { logs: jsonData });
+        });
+
+        await expect(functions.getTransactionInfo('gdfkjgkdfljg1234')).resolves.toEqual({ logs: jsonData });
+    });
+
+    test('loadPendingUnstakes succeeds', async () => {
+        jest.spyOn(ssc, 'find').mockImplementation(() => {
+            return Promise.resolve([1, 2, 3, 4]);
+        });
+
+        await expect(functions.loadPendingUnstakes('beggars')).resolves.toEqual([1, 2, 3, 4]);
+    });
+
+    test('loadPendingUnstakes fails', async () => {
+        jest.spyOn(ssc, 'find').mockImplementation(() => {
+            return Promise.reject();
+        });
+
+        await expect(functions.loadPendingUnstakes('beggars')).resolves.toEqual([]);
+    });
+
+    test('getTransactionInfo fails', async () => {
+        const jsonData = JSON.stringify({ "errors": ["some error"] });
+
+        jest.spyOn(ssc, 'getTransactionInfo').mockImplementation((txId, callback: any) => {
+            callback(null, { logs: jsonData });
+        });
+
+        await expect(functions.getTransactionInfo('gdfkjgkdfljg1234')).rejects.toEqual({ error: 'some error', logs: jsonData });
+    });
+
+    test('getTransactionInfo result is empty', async () => {
+        jest.spyOn(ssc, 'getTransactionInfo').mockImplementation((txId, callback: any) => {
+            callback(null, null);
+        });
+
+        await expect(functions.getTransactionInfo('gdfkjgkdfljg1234')).rejects.toBeNull();
+    });
+
+    test('checktransaction should only call once', async () => {
+        const spy = jest.spyOn(functions, 'getTransactionInfo').mockResolvedValue(true);
+
+        functions.checkTransaction('12345678', 3);
+
+        expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    test('checktransaction should throw error after exceeding retry count', async () => {
+        jest.spyOn(functions, 'getTransactionInfo').mockRejectedValue(true);
+
+        await expect(functions.checkTransaction('12345678', 0)).rejects.toThrowError('Transaction not found.');
     });
 });
