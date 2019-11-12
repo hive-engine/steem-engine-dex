@@ -12,6 +12,7 @@
     "LOW": "낮은",
     "VOLUME": "음량",
     "Favorites": "즐겨 찾기",
+    "Profile": "프로필",
     "Hidden Tokens": "숨겨진 토큰",
     "Preferences": "환경 설정",
     "Settings": "설정",
@@ -35,5 +36,15 @@
     "Symbol": "상징",
     "USD Value": "USD 가치",
     "Staked": "스테이크",
-    "Market": "시장"
+    "Market": "시장",
+    "Your Profile": "당신의 프로필",
+    "Some of these fields are required if you want to verify yourself via the KYC process.": "KYC 프로세스를 통해 본인을 확인하려면이 필드 중 일부가 필요합니다.",
+    "First name": "이름",
+    "Last name": "성",
+    "Email": "이메일",
+    "Address line 1": "주소 라인 1",
+    "Address line 2": "주소 2",
+    "State": "상태",
+    "Country": "국가",
+    "Edit": "편집하다"
 }
