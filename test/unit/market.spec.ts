@@ -21,9 +21,6 @@ import { ssc } from 'common/ssc';
 describe('Market', () => {
 
     beforeEach(() => {
-        fetchMock.resetMocks();
-        jest.clearAllMocks();
-
         (window as any).steem_keychain = {
             requestCustomJson: jest
                 .fn()
@@ -37,6 +34,11 @@ describe('Market', () => {
                 callback(username);
             }),
         };
+    });
+
+    afterEach(() => {
+        jest.resetAllMocks();
+        fetchMock.resetMocks();
     });
 
     test('getUserOpenOrders gets user open orders', async () => {

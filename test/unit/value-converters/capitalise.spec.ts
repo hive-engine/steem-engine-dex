@@ -1,11 +1,17 @@
-import { Capitalise } from './../../../src/resources/value-converters/capitalise';
+/* eslint-disable no-undef */
+import { Capitalise } from 'resources/value-converters/capitalise';
 
 describe('Capitalise Filter', () => {
     let sut: Capitalise;
 
     beforeEach(() => {
         sut = new Capitalise();
-    })
+    });
+
+    afterEach(() => {
+        jest.resetAllMocks();
+        fetchMock.resetMocks();
+    });
 
     test('invalid value should return passed value', () => {
         expect(sut.toView(null)).toBeNull();

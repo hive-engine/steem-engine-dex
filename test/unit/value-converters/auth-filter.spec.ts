@@ -1,12 +1,18 @@
+/* eslint-disable no-undef */
 import { RouteConfig } from 'aurelia-router';
-import { AuthFilter } from './../../../src/resources/value-converters/auth-filter';
+import { AuthFilter } from 'resources/value-converters/auth-filter';
 
 describe('Auth Filter', () => {
     let sut: AuthFilter;
 
     beforeEach(() => {
         sut = new AuthFilter();
-    })
+    });
+
+    afterEach(() => {
+        jest.resetAllMocks();
+        fetchMock.resetMocks();
+    });
 
     test('user is not logged in, filters out auth roles', () => {
         const mockRoutes = [

@@ -3,9 +3,9 @@ import { addCommas, usdFormat, largeNumber, formatSteemAmount, percentageOf, get
 
 describe('Functions', () => {
 
-    beforeEach(() => {
+    afterEach(() => {
+        jest.resetAllMocks();
         fetchMock.resetMocks();
-        jest.clearAllMocks();
     });
 
     it('queryParam should create params', () => {
@@ -15,7 +15,7 @@ describe('Functions', () => {
     });
 
     it('queryParam should create params with array', () => {
-        const returnedValue = queryParam({ val1: 123, 'val2': ['aggroed', 'beggars']});
+        const returnedValue = queryParam({ val1: 123, 'val2': ['aggroed', 'beggars'] });
 
         expect(returnedValue).toEqual('val1=123&val2%5B%5D=aggroed&val2%5B%5D=beggars');
     });
@@ -148,7 +148,7 @@ describe('Functions', () => {
                 focus: jest.fn()
             }
         });
-        
+
         const returnedValue = popupCenter('https://steemconnect.com', 'Testing', '100px', '300px');
 
         expect(returnedValue).toEqual({ focus: expect.any(Function) });
@@ -157,7 +157,7 @@ describe('Functions', () => {
     it('tryParse should parse valid JSON string', () => {
         expect(tryParse('{ "params": "test" }')).toEqual({ "params": "test" });
     });
-    
+
     it('tryParse should return null for invalid JSON string', () => {
         expect(tryParse('invalid value')).toBeNull();
     });

@@ -7,9 +7,9 @@ import steem from 'steem';
 jest.mock('steem');
 
 describe('Steem', () => {
-    beforeEach(() => {
+    afterEach(() => {
+        jest.resetAllMocks();
         fetchMock.resetMocks();
-        jest.clearAllMocks();
     });
 
     test('getAccount returns a found user', async () => {

@@ -8,9 +8,9 @@ jest.mock('steem');
 import { ssc } from 'common/ssc';
 
 describe('Functions', () => {
-    beforeEach(() => {
+    afterEach(() => {
+        jest.resetAllMocks();
         fetchMock.resetMocks();
-        jest.clearAllMocks();
     });
 
     test('request should make a request with a version value on the end of the url', async () => {
@@ -99,7 +99,7 @@ describe('Functions', () => {
     });
 
     test('getTransactionInfo succeeds', async () => {
-        const jsonData = JSON.stringify({"errors": []});
+        const jsonData = JSON.stringify({ "errors": [] });
 
         jest.spyOn(ssc, 'getTransactionInfo').mockImplementation((txId, callback: any) => {
             callback(null, { logs: jsonData });
@@ -109,7 +109,7 @@ describe('Functions', () => {
     });
 
     test('getTransactionInfo fails', async () => {
-        const jsonData = JSON.stringify({"errors": ["some error"]});
+        const jsonData = JSON.stringify({ "errors": ["some error"] });
 
         jest.spyOn(ssc, 'getTransactionInfo').mockImplementation((txId, callback: any) => {
             callback(null, { logs: jsonData });
@@ -136,15 +136,15 @@ describe('Functions', () => {
 
     test('checktransaction should retry 2 times', async () => {
         const spyCheck = jest.spyOn(functions, 'getTransactionInfo').mockRejectedValueOnce(true);
-        
+
         await functions.checkTransaction('12345678', 3);
-        
+
         expect(spyCheck).toHaveBeenCalledTimes(2);
     });
 
     test('checktransaction should throw error after exceeding retry count', async () => {
         jest.spyOn(functions, 'getTransactionInfo').mockRejectedValueOnce(true);
-        
+
         await expect(functions.checkTransaction('12345678', 0)).rejects.toThrowError('Transaction not found.');
     });
 });
