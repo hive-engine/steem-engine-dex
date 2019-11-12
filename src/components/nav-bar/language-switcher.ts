@@ -13,8 +13,9 @@ export class LanguageSwitcher {
     private languages = [
         { value: 'en', text: 'English (US)', icon: 'us' },
         { value: 'en-gb', text: 'English (British)', icon: 'gb' },
-        { value: 'kr', text: 'Korean', icon: 'kr' },
         { value: 'cn', text: 'Chinese', icon: 'cn' },
+        { value: 'fr', text: 'French', icon: 'fr' },
+        { value: 'kr', text: 'Korean', icon: 'kr' },
     ];
 
     private selectedLanguage = this.languages[0];
