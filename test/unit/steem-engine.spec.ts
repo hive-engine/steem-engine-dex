@@ -151,16 +151,8 @@ describe('Functions', () => {
         expect(spy).toHaveBeenCalledTimes(1);
     });
 
-    test('checktransaction should retry 2 times', async () => {
-        const spyCheck = jest.spyOn(functions, 'getTransactionInfo').mockRejectedValueOnce(true);
-
-        await functions.checkTransaction('12345678', 3);
-
-        expect(spyCheck).toHaveBeenCalledTimes(2);
-    });
-
     test('checktransaction should throw error after exceeding retry count', async () => {
-        jest.spyOn(functions, 'getTransactionInfo').mockRejectedValueOnce(true);
+        jest.spyOn(functions, 'getTransactionInfo').mockRejectedValue(true);
 
         await expect(functions.checkTransaction('12345678', 0)).rejects.toThrowError('Transaction not found.');
     });
