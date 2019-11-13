@@ -294,6 +294,18 @@ export async function markNotificationsRead(state: State) {
     return newState;
 }
 
+export async function getPendingWithdrawals(state: State) {
+    const newState = { ...state };
+
+    if (newState.loggedIn) {
+        const { data: { pendingWithdrawals } } = await query(`query { pendingWithdrawals(account: "${this.se.getUser()}") { memo, quantity, type } }`) as any;
+
+        newState.pendingWithdrawals = pendingWithdrawals;
+    }
+
+    return newState;
+}
+
 store.registerAction('loading', loading);
 store.registerAction('login', login);
 store.registerAction('logout', logout);
@@ -308,3 +320,4 @@ store.registerAction('loadSellBook', loadSellBook);
 store.registerAction('loadTradeHistory', loadTradeHistory);
 store.registerAction('exchangeData', exchangeData);
 store.registerAction('markNotificationsRead', markNotificationsRead);
+store.registerAction('getPendingWithdrawals', getPendingWithdrawals);
