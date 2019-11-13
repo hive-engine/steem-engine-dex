@@ -18,9 +18,17 @@ export function loading(state: State, boolean: boolean) {
 export function login(state: State, username: string): State {
     const newState = { ...state };
 
-    newState.account.name = username;
+    if (newState?.account) {
+        newState.account.name = username;
 
-    newState.loggedIn = true;
+        newState.loggedIn = true;
+    } else {
+        const copiedInitialsTate = { ...initialState };
+
+        newState.account = copiedInitialsTate.account;
+        newState.account.name = username;
+        newState.loggedIn = true;
+    }
 
     return newState;
 }
@@ -46,7 +54,9 @@ export function logout(state: State): State {
 export function setAccount(state: State, account: Partial<State['account']>): State {
     const newState = { ...state };
 
-    newState.account = Object.assign(newState.account, account);
+    if (newState?.account) {
+        newState.account = Object.assign(newState.account, account);
+    }
 
     return newState;
 }
