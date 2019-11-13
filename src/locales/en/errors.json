@@ -18,5 +18,6 @@
     "unstakeTransactionsRequired": "Number of transactions unstake will be divided in is required",
     "unstakeCooldownInvalidRange": "Unstaking cooldown range is between 1 and 365",
     "unstakeTransactionsInvalidRange": "Unstaking number of transactions range is between 1 and 365",
-    "withdrawSteemError": "There was a problem processing your request"
+    "withdrawSteemError": "There was a problem processing your request",
+    "insufficientBalanceForIssueToken": "You do not have enough {{symbol}}. Your balance is: {{balance}}"
 }
