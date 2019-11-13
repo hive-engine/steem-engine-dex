@@ -540,3 +540,59 @@ export async function checkTransaction(trxId: string, retries: number) {
         }
     }
 }
+
+export async function loadConversionSentReceived(account) {
+    const callQl = await query(`query {
+                conversionReceived(account: "${account}") {
+                    count,
+                    next, 
+                    previous,
+                    results {
+    	                url,
+                      from_coin_symbol,
+                      to_coin_symbol,
+                      from_address,
+                      to_address,
+                      to_memo,
+                      to_amount,
+                      to_txid,
+                      tx_fee,
+                      ex_fee,
+                      created_at,
+                      updated_at,
+                      deposit,
+                      from_coin,
+                      to_coin
+                    }
+                  }
+  
+                conversionSent(account: "aggroed") {
+                    count,
+                    next, 
+                    previous,
+                    results {
+    	                url,
+                      from_coin_symbol,
+                      to_coin_symbol,
+                      from_address,
+                      to_address,
+                      to_memo,
+                      to_amount,
+                      to_txid,
+                      tx_fee,
+                      ex_fee,
+                      created_at,
+                      updated_at,
+                      deposit,
+                      from_coin,
+                      to_coin
+                    }
+                  }
+                }
+    `);
+
+    return callQl ?.data as {
+        conversionSent: IConversionItem;
+        conversionReceived: IConversionItem;
+    };
+}
