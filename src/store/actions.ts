@@ -89,7 +89,8 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
         if (doc.exists) {
             newState.firebaseUser = doc.data();
 
-            newState.firebaseUser.notifications = newState.firebaseUser.notifications.filter(notification => !notification.read);
+            if (newState.firebaseUser.notifications)
+                newState.firebaseUser.notifications = newState.firebaseUser.notifications.filter(notification => !notification.read);
 
             // eslint-disable-next-line no-undef
             if (newState?.firebaseUser?.favourites) {
@@ -295,13 +296,15 @@ export async function markNotificationsRead(state: State) {
     if (newState.loggedIn) {
         const userRef = firebase.firestore().collection('users').doc(newState.account.name);
 
-        newState.firebaseUser.notifications = newState.firebaseUser.notifications.map(notification => {
-            notification.read = true;
-    
-            return notification;
-        });
-    
-        userRef.update({ notifications: newState.firebaseUser.notifications });
+        if (newState.firebaseUser.notifications) {
+            newState.firebaseUser.notifications = newState.firebaseUser.notifications.map(notification => {
+                notification.read = true;
+
+                return notification;
+            });
+
+            userRef.update({ notifications: newState.firebaseUser.notifications });
+        }
     }
 
     return newState;

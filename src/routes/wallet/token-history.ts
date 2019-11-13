@@ -6,6 +6,7 @@ import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 import { TokenHistoryTransactionModal } from 'modals/wallet/token-history-transaction';
 import { SendTokensModal } from 'modals/wallet/send-tokens';
+import { IssueTokensModal } from 'modals/wallet/issuers/issue-tokens';
 
 import { dispatchify, Store } from 'aurelia-store';
 import { loadAccountBalances, loadTokensList } from 'store/actions';
@@ -47,7 +48,7 @@ export class TokenHistory {
     }
 
     attached() {
-        this.loadTable();
+        this.loadTable();        
     }
 
     loadTable() {
@@ -61,12 +62,12 @@ export class TokenHistory {
     }
 
     async loadHistoryData(symbol) {
-        if (this.state.tokens.length == 0) {
+        if (!this.state.tokens || this.state.tokens.length == 0) {
             await dispatchify(loadTokensList)();
             await dispatchify(loadAccountBalances)();
         }
 
-        this.token = this.state.tokens.find(x => x.symbol == symbol);
+        this.token = this.state.tokens.find(x => x.symbol == symbol);        
 
         this.username = this.state.account.name;
 
@@ -89,8 +90,8 @@ export class TokenHistory {
     async canActivate({ symbol }) {
         try {
             await this.loadHistoryData(symbol);
-        } catch {
-            return new Redirect('');
+        } catch(e){
+            console.log(e);
         }
     }
 
@@ -105,6 +106,12 @@ export class TokenHistory {
     sendTokens(symbol) {
         this.dialogService
             .open({ viewModel: SendTokensModal, model: symbol })
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    issueTokens(symbol) {
+        this.dialogService
+            .open({ viewModel: IssueTokensModal, model: symbol })
             .whenClosed(x => this.walletDialogCloseResponse(x));
     }
 

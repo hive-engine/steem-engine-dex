@@ -789,7 +789,71 @@ export class SteemEngine {
         return this.ssc.find('tokens', 'balances', { account: account, symbol: { '$in': [symbol, 'STEEMP'] } }, 2, 0, '', false);
     }
 
-    issueToken(symbol, to, quantity) {
+    async issueToken(symbol, to, quantity) {
+        return new Promise((resolve) => {
+            // Show loading
+            const username = this.getUser();
+
+            if (!username) {
+                window.location.reload();
+                return;
+            }
+
+            const transactionData = {
+                contractName: 'tokens',
+                contractAction: 'issue',
+                contractPayload: {                    
+                    'symbol': symbol,
+                    'to': to,
+                    'quantity': quantity
+                }
+            };
+
+            if (window && window.steem_keychain) {
+                window.steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transactionData), 'Token Issue: ' + symbol, async (response) => {
+
+                    if (response.success && response.result) {
+                        try {
+                            await checkTransaction(response.result.id, 3);
+
+                            const toast = new ToastMessage();
+
+                            toast.message = this.i18n.tr('issueSucceeded', {
+                                quantity,
+                                symbol,
+                                username,
+                                ns: 'notifications'
+                            });
+
+                            this.toast.success(toast);
+
+                            resolve(true);
+
+                            // Show 'Token successfully staked' toastr
+                        } catch (e) {
+                            // Show error toastr: 'An error occurred attempting to enable stake token: ' + tx.error
+                            const toast = new ToastMessage();
+
+                            toast.message = this.i18n.tr('errorSubmittedTransfer', {
+                                ns: 'errors',
+                                error: e
+                            });
+
+                            this.toast.error(toast);
+
+                            resolve(false);
+                        }
+                    } else {
+                        resolve(false);
+                        // Hide loading
+                    }
+                });
+            } else {
+                steemConnectJson(this.user.name, 'active', transactionData, () => {
+                    resolve(true);
+                });
+            }
+        });
     }
 
     async withdrawSteem(amount: string) {
