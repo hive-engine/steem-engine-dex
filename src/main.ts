@@ -1,7 +1,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-import './common/firebase';
+import { authStateChanged } from './common/firebase';
 
 import 'bootstrap';
 import 'datatables.net-bs4';
@@ -117,7 +117,7 @@ export async function configure(aurelia: Aurelia) {
             });
         });
     });
-
+    await authStateChanged();
     await aurelia.start();
     await aurelia.setRoot(PLATFORM.moduleName('app'));
 }
