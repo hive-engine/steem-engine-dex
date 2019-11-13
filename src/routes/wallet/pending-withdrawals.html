@@ -1,0 +1,23 @@
+<template>
+        <div class="table-wrapper">
+                <loader loading.bind="loadingWithdrawals" mode="tiny"></loader>
+
+                <table class="table table-dark" if.bind="withdrawalObs & async">
+                        <thead>
+                            <tr>
+                                <th>${'Quantity' & t}</th>
+                                <th>${'Memo' & t}</th>
+                                <th>${'Type' & t}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr repeat.for="withdrawal of withdrawalObs & async">
+                                <td>${withdrawal.quantity}</td>
+                                <td>${withdrawal.memo}</td>
+                                <td>${withdrawal.type}</td>
+                            </tr>
+                        </tbody>
+                </table>
+                <div else><p>${'You have no pending withdrawals.' & t}</p></div>
+            </div>
+</template>
