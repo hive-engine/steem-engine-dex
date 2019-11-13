@@ -25,26 +25,6 @@ function lastCalledActionMiddleware(state: State, originalState: State, settings
     return state;
 }
 
-async function authStateChanged() {
-    return new Promise(resolve => {
-        firebase.auth().onAuthStateChanged(async user => {
-            // eslint-disable-next-line no-undef
-            const token = await firebase.auth()?.currentUser?.getIdTokenResult(true);
-
-            if (user) {
-                dispatchify(login)(user.uid);
-                if (token) {
-                    dispatchify(setAccount)({token});
-                }
-                resolve();
-            } else {
-                dispatchify(logout)();
-                resolve();
-            }
-        });
-    });
-}
-
 @autoinject()
 export class App {
     private loggedIn = false;
@@ -57,8 +37,6 @@ export class App {
     private state: State;
 
     constructor(private ea: EventAggregator, private store: Store<State>, private se: SteemEngine) {
-        authStateChanged();
-
         this.store.registerMiddleware(lastCalledActionMiddleware, MiddlewarePlacement.After);
     }
 

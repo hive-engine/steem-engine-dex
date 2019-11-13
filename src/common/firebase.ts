@@ -1,3 +1,5 @@
+import { login, setAccount, logout } from 'store/actions';
+import { dispatchify } from 'aurelia-store';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
@@ -13,3 +15,23 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
+export async function authStateChanged() {
+    return new Promise(resolve => {
+        firebase.auth().onAuthStateChanged(async user => {
+            // eslint-disable-next-line no-undef
+            const token = await firebase.auth()?.currentUser?.getIdTokenResult(true);
+
+            if (user) {
+                dispatchify(login)(user.uid);
+                if (token) {
+                    dispatchify(setAccount)({token});
+                }
+                resolve();
+            } else {
+                dispatchify(logout)();
+                resolve();
+            }
+        });
+    });
+}

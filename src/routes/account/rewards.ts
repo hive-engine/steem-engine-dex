@@ -2,16 +2,14 @@ import { Subscription } from 'rxjs';
 import { SteemEngine } from 'services/steem-engine';
 import { State } from 'store/state';
 import { TaskQueue, autoinject, bindable } from "aurelia-framework";
-import { dispatchify, Store } from 'aurelia-store';
-import firebase, { User } from 'firebase/app';
-import { DialogController } from 'aurelia-dialog';
+import { Store } from 'aurelia-store';
 
 @autoinject()
 export class Rewards {
     @bindable loading = true;
 
-    private state: State;    
-    private subscription: Subscription;    
+    private state: State;
+    private subscription: Subscription;
 
     private rewardTokens: IRewardToken[] = [];
     private rewardsTable: HTMLTableElement;
@@ -24,6 +22,10 @@ export class Rewards {
         });
     }
 
+    unbind() {
+        this.subscription.unsubscribe();
+    }
+
     async loadAccountScotUserTokens() {
         this.rewardTokens = [];
         this.state.account.scotTokens = await this.se.getScotUsertokens(this.state.account.name);
@@ -31,8 +33,8 @@ export class Rewards {
         if (this.state.account.scotTokens) {
             this.state.account.scotTokens.forEach((x: IScotToken) => {
                 if (x.pending_token) {
-                    var claimAmount = x.pending_token / Math.pow(10, x.precision);
-                    var rewardToken: IRewardToken = { symbol: x.symbol, amount: claimAmount };
+                    const claimAmount = x.pending_token / Math.pow(10, x.precision);
+                    const rewardToken: IRewardToken = { symbol: x.symbol, amount: claimAmount };
                     this.rewardTokens.push(rewardToken);
                 }
             });
@@ -43,25 +45,25 @@ export class Rewards {
         await this.loadAccountScotUserTokens();
     }
 
-    async claimToken(symbol) {     
+    async claimToken(symbol) {
         const delay = t => new Promise(resolve => setTimeout(resolve, t));
         this.loading = true;
 
         try {
-            var result = await this.se.claimToken(symbol);     
-            
-            if (result) {                
+            const result = await this.se.claimToken(symbol);
+
+            if (result) {
                 await delay(5000);
                 await this.loadAccountScotUserTokens();
             }
-            
-            this.loading = false;              
+
+            this.loading = false;
         } finally {
             this.loading = false;
         }
     }
 
-    async attached() {  
+    async attached() {
         // @ts-ignore
         $(this.rewardsTable).DataTable({
             bInfo: false,
@@ -70,5 +72,5 @@ export class Rewards {
         });
 
         this.loading = false;
-    }    
+    }
 }
