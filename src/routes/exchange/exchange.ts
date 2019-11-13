@@ -92,7 +92,7 @@ export class Exchange {
     bind() {
         this.subscription = this.store.state.subscribe(async (state: State) => {
             // eslint-disable-next-line no-undef
-            if (state.$action.name === 'login' || state.$action.name === 'logout') {
+            if (state?.$action?.name === 'login' || state?.$action?.name === 'logout') {
                 this.loadUserExchangeData();
             }
 
