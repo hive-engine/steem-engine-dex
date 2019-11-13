@@ -717,6 +717,8 @@ export class SteemEngine {
     async getBalance(t) {
         let balanceVal = 0;
 
+        console.log(this.user);
+
         if (this.user && this.user.balances) {
             const username = this.getUser();
 
