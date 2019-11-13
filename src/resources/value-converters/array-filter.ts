@@ -1,6 +1,8 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-use-before-define */
 export class ArrayFilterValueConverter {
-    toView(array, config: { search: string, term: string, caseSensitive?: boolean, sort?: { key: string, direction?: string } }) {                
-        let term = config.term ? config.term.trim() : '';
+    toView(array, config: { search: string, term: string, caseSensitive?: boolean, sort?: { key: string, direction?: string } }) {
+        let term = config?.term?.trim() ?? '';
 
         if (!array || term === '') {
             return array;

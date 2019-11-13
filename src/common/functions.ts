@@ -100,7 +100,7 @@ export function tryParse(json: any) {
 
 
 export function formatSteemAmount(num) {
-    return num ? num.toFixed(3).toString().match(/^-?\d+(?:\.\d{0,3})?/)[0] : null;
+    return num ? parseFloat(num).toFixed(3).match(/^-?\d+(?:\.\d{0,3})?/)[0] : null;
 }
 
 export function percentageOf(amount: number, percentOf: number) {
