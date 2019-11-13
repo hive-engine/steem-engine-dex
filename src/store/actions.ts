@@ -1,3 +1,6 @@
+import { initialState } from './state';
+/* eslint-disable no-undef */
+import { query } from 'common/apollo';
 import { State, ISettings } from './state';
 import store from './store';
 
@@ -308,7 +311,7 @@ export async function getPendingWithdrawals(state: State) {
     const newState = { ...state };
 
     if (newState.loggedIn) {
-        const { data: { pendingWithdrawals } } = await query(`query { pendingWithdrawals(account: "${this.se.getUser()}") { memo, quantity, type } }`) as any;
+        const { data: { pendingWithdrawals } } = await query(`query { pendingWithdrawals(account: "${newState.account.name}") { memo, quantity, type } }`) as any;
 
         newState.pendingWithdrawals = pendingWithdrawals;
     }
