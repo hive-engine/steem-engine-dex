@@ -89,7 +89,7 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
         if (doc.exists) {
             newState.firebaseUser = doc.data();
 
-            if (newState.firebaseUser.notifications !== null)
+            if (newState.firebaseUser.notifications)
                 newState.firebaseUser.notifications = newState.firebaseUser.notifications.filter(notification => !notification.read);
 
             // eslint-disable-next-line no-undef
