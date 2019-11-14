@@ -264,8 +264,8 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
             name,
             metadata {
                 url,
-            icon,
-            desc
+                icon,
+                desc
             },
             precision,
             maxSupply,
