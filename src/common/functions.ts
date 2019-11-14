@@ -2,38 +2,38 @@ import { HttpClient } from 'aurelia-fetch-client';
 
 const http: HttpClient = new HttpClient();
 
-export function queryParam( ary ) {
-    return Object.keys( ary ).map( function( key ) {
-        if ( Array.isArray( ary[key] ) ) {
+export function queryParam(ary) {
+    return Object.keys(ary).map(function (key) {
+        if (Array.isArray(ary[key])) {
             const arrayParts = [];
 
-            for (let i = 0; i < ary[key].length; i++ ) {
-                arrayParts.push( encodeURIComponent( key + '[]' ) + '=' + encodeURIComponent( ary[key][i] ) );
+            for (let i = 0; i < ary[key].length; i++) {
+                arrayParts.push(encodeURIComponent(key + '[]') + '=' + encodeURIComponent(ary[key][i]));
             }
-            
-            return arrayParts.join( '&' );
+
+            return arrayParts.join('&');
         }
-        return encodeURIComponent( key ) + '=' + encodeURIComponent( ary[key] );
+        return encodeURIComponent(key) + '=' + encodeURIComponent(ary[key]);
     }).join('&');
 }
 
 export function addCommas(nStr, currency?) {
     nStr += '';
-    
-	const x = nStr.split('.');
-	let x1 = x[0];
-	let x2 = x.length > 1 ? '.' + x[1] : '';
-    const rgx = /(\d+)(\d{3})/;
-    
-	while (rgx.test(x1)) {
-		x1 = x1.replace(rgx, '$1' + ',' + '$2');
-	}
 
-	if (x2 == '' && currency == 1) {
+    const x = nStr.split('.');
+    let x1 = x[0];
+    let x2 = x.length > 1 ? '.' + x[1] : '';
+    const rgx = /(\d+)(\d{3})/;
+
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+
+    if (x2 == '' && currency == 1) {
         x2 = '.00';
     }
 
-	return x1 + x2;
+    return x1 + x2;
 }
 
 export function usdFormat(val, decimal_limit?, steemPrice?) {
@@ -46,10 +46,10 @@ export function usdFormat(val, decimal_limit?, steemPrice?) {
     if (decimal_limit != null && !isNaN(parseInt(decimal_limit))) {
         return '$' + addCommas(usd.toFixed(decimal_limit));
     }
-        
+
     if (usd >= 1) {
         return '$' + addCommas(usd.toFixed(2));
-    } else if(usd >= 0.1) {
+    } else if (usd >= 0.1) {
         return '$' + usd.toFixed(3);
     } else {
         return '$' + usd.toFixed(5);
@@ -57,13 +57,13 @@ export function usdFormat(val, decimal_limit?, steemPrice?) {
 }
 
 export function largeNumber(val) {
-	val = parseFloat(val);
-	
-	if (val >= 1000000000000) {
+    val = parseFloat(val);
+
+    if (val >= 1000000000000) {
         return addCommas(+(val / 1000000000000).toFixed(0)) + ' T';
-    } else if(val >= 1000000000) {
+    } else if (val >= 1000000000) {
         return addCommas(+(val / 1000000000).toFixed(3)) + ' B';
-    } else if(val >= 1000000) {
+    } else if (val >= 1000000) {
         return addCommas(+(val / 1000000).toFixed(3)) + ' M';
     } else {
         return addCommas(+val.toFixed(3));
@@ -82,19 +82,19 @@ export function popupCenter(url, title, w, h) {
     const top = (height - h) / 2 / systemZoom + dualScreenTop
     const newWindow = window.open(url, title, 'scrollbars=yes, width=' + w / systemZoom + ', height=' + h / systemZoom + ', top=' + top + ', left=' + left);
 
-	if (newWindow?.focus) {
-		newWindow.focus();
-	}
+    if (newWindow?.focus) {
+        newWindow.focus();
+    }
 
-	return newWindow;
+    return newWindow;
 }
 
 
 export function tryParse(json: any) {
-	try {
-		return JSON.parse(json);
-    } catch(err) { 
-        return null; 
+    try {
+        return JSON.parse(json);
+    } catch (err) {
+        return null;
     }
 }
 
@@ -120,7 +120,7 @@ export async function getSteemPrice() {
         return window.steem_price;
     } catch {
         window.steem_price = 0;
-        
+
         return 0;
     }
 }
@@ -128,12 +128,12 @@ export async function getSteemPrice() {
 export function toFixedNoRounding(number, n) {
     // Ref: https://helloacm.com/javascripts-tofixed-implementation-without-rounding/
     // make 3 digits without rounding e.g. 3.1499 => 3.149 and 3.1 => 3.100    
-    const reg = new RegExp("^-?\\d+(?:\\.\\d{0," + n + "})?", "g")
+    const reg = new RegExp('^-?\\d+(?:\\.\\d{0,' + n + '})?', 'g')
     const a = number.toString().match(reg)[0];
-    const dot = a.indexOf(".");
+    const dot = a.indexOf('.');
     if (dot === -1) { // integer, insert decimal dot and pad up zeros
-        return a + "." + "0".repeat(n);
+        return a + '.' + '0'.repeat(n);
     }
     const b = n - (a.length - dot) + 1;
-    return b > 0 ? (a + "0".repeat(b)) : a;
+    return b > 0 ? (a + '0'.repeat(b)) : a;
 }
