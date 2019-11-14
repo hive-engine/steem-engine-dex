@@ -27,6 +27,7 @@ import { dispatchify, Store } from 'aurelia-store';
 import { Subscription as StateSubscription } from 'rxjs';
 import { getStateOnce } from 'store/store';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
+import { getUserOpenOrders } from 'common/market';
 
 interface IOrderDataDisplay {
     labels: [];
@@ -55,6 +56,7 @@ export class Exchange {
     private userBuyOrders = [];
     private userSellOrders = [];
     private userOrders = [];
+    private tokenOpenOrders = [];
 
     private loadingUserBuyBook = false;
     private loadingUserSellBook = false;
@@ -204,6 +206,11 @@ export class Exchange {
         return { dataset: buyOrderDataset, labels: buyOrderLabels } as IOrderDataDisplay;
     }
 
+    async loadTokenOpenOrders() {
+        let openOrders = await getUserOpenOrders(this.se.getUser());
+        this.tokenOpenOrders = openOrders.filter(x => x.symbol === this.currentToken);        
+    }
+
     loadUserExchangeData() {
         dispatchify(exchangeData)(this.currentToken).then(async () => {
             this.tokenData = this.state.tokens
@@ -227,6 +234,8 @@ export class Exchange {
             const sellOrderDisplayData = await this.loadSellOrders(this.state);
 
             await this.loadTokenHistoryData(this.state, buyOrderDisplayData, sellOrderDisplayData);
+
+            await this.loadTokenOpenOrders();
 
             this.chartRef.attached();
         });
@@ -257,6 +266,10 @@ export class Exchange {
 
         if (data.reloadUserExchangeData) {
             this.loadUserExchangeData();
+        }
+
+        if (data.reloadTokenOpenOrders) {
+            this.loadTokenOpenOrders();
         }
     }
 

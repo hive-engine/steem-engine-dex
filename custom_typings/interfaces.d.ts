@@ -69,6 +69,7 @@ interface IReloadEventData {
     reloadBuyBook: boolean;
     reloadSellBook: boolean;
     reloadTradeHistory: boolean; 
+    reloadTokenOpenOrders: boolean; 
 }
 
 interface IToken {
