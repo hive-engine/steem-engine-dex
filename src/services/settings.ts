@@ -15,7 +15,7 @@ export class Settings {
         });
     }
 
-    public property(name, defaultValue = '') {
+    public property(name, defaultValue: any = '') {
         // eslint-disable-next-line no-undef
         return this?.settings[name] ?? defaultValue;
     }

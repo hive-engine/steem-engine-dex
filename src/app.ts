@@ -60,6 +60,8 @@ export class App {
 
     public configureRouter(config: RouterConfiguration, router: Router) {
         config.title = this.settings.property('siteName', 'Steem Engine');
+        
+        MaintenanceStep.inMaintenance = this.settings.property('maintenanceMode', false);
 
         config.options.pushState = true;
 
@@ -75,6 +77,13 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/home'),
                 nav: false,
                 title: 'Home'
+            },
+            {
+                route: 'maintenance',
+                name: 'maintenance',
+                moduleId: PLATFORM.moduleName('./routes/maintenance'),
+                nav: false,
+                title: 'We will be right back...'
             },
             {
                 route: 'wallet',
