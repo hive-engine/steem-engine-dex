@@ -16,6 +16,7 @@
     "undelegateSucceeded": "Tokens successfully undelegated",
     "enableDelegationSucceeded": "Enable delegation succeeded for {{symbol}} with undelegation cooldown of {{undelegationCooldown}} days",
     "unstakeCancelled": "Unstaking cancelled successfully",
-    "enableStakingSucceeded":  "Token Staking Enabled",
-    "withdrawSteemSuccess": "Steem successfully withdrawn"
+    "enableStakingSucceeded": "Token Staking Enabled",
+    "withdrawSteemSuccess": "Steem successfully withdrawn",
+    "issueSucceeded": "{{quantity}} {{symbol}} tokens successfully issued to {{username}}"
 }

@@ -1,3 +1,40 @@
 <template>
-    <h1>${'titles:Conversion History' & t}</h1>
+    <header class="main-header">
+        <div class="container-fluid main-container d-flex flex-column justify-content-end">
+            <div class="row">
+                <h2>${'Conversion history' & t}</h2>
+            </div>
+        </div>
+    </header>
+
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <table class="table table-striped transactionsTable table-hover" ref="transactionsTable">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Created at</th>
+                        <th>Token</th>
+                        <th>Amount</th>
+                        <th>Address</th>
+                        <th>Memo</th>
+                        <th>Tx ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="c of conversions">
+                        <td>${c.to_address == username ? 'Received' : 'Sent'}</td>
+                        <td>${c.created_at_string}</td>
+                        <td>${c.from_coin_symbol} -> ${c.to_coin_symbol}</td>
+                        <td>${c.to_amount}</td>
+                        <td>${c.from_address} -> ${c.to_address}</td>
+                        <td><font-awesome-icon icon.bind="['fas', 'info-circle']" title="${c.to_memo}"></font-awesome-icon></td>
+                        <td><font-awesome-icon icon.bind="['fas', 'info-circle']" title="${c.to_txid}"></font-awesome-icon></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-1"></div>
+    </div>
 </template>

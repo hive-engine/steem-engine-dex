@@ -30,6 +30,7 @@ export interface State {
     buyTotal?: number;
     sellTotal?: number;
     pendingWithdrawals: any[];
+    conversionHistory: any[];
 }
 
 export const initialState: State = {
@@ -60,6 +61,7 @@ export const initialState: State = {
     buyBook: [],
     sellBook: [],
     tradeHistory: [],
+    conversionHistory: [],
     buyTotal: 0,
     sellTotal: 0,
     pendingWithdrawals: []
