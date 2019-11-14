@@ -124,3 +124,16 @@ export async function getSteemPrice() {
         return 0;
     }
 }
+
+export function toFixedNoRounding(number, n) {
+    // Ref: https://helloacm.com/javascripts-tofixed-implementation-without-rounding/
+    // make 3 digits without rounding e.g. 3.1499 => 3.149 and 3.1 => 3.100    
+    const reg = new RegExp("^-?\\d+(?:\\.\\d{0," + n + "})?", "g")
+    const a = number.toString().match(reg)[0];
+    const dot = a.indexOf(".");
+    if (dot === -1) { // integer, insert decimal dot and pad up zeros
+        return a + "." + "0".repeat(n);
+    }
+    const b = n - (a.length - dot) + 1;
+    return b > 0 ? (a + "0".repeat(b)) : a;
+}

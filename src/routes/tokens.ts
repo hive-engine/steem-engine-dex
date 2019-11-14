@@ -31,7 +31,7 @@ export class Tokens {
 
     buyENG() {
         this.dialogService
-            .open({ viewModel: BuyTokenModal, model: "ENG" })
+            .open({ viewModel: BuyTokenModal, model: "ENG" })            
             .whenClosed(x => this.walletDialogCloseResponse(x));
     }
 

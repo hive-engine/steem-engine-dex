@@ -11,6 +11,7 @@ import { BootstrapFormRenderer } from '../resources/bootstrap-form-renderer';
 import { I18N } from 'aurelia-i18n';
 import styles from './buy-token.module.css';
 import { loadTokensList, loadAccountBalances } from 'store/actions';
+import { getAccount } from 'common/steem';
 
 @autoinject()
 export class BuyTokenModal {
@@ -20,12 +21,13 @@ export class BuyTokenModal {
     private loading = false;
     private state: State;
     private subscription: Subscription;   
-    private token: any;
     private user: any;
     private steemBalance: any;
+    private engBalance: any;
     private username: any;
     private validationController;
     private renderer;
+    private environment;
 
     constructor(private controller: DialogController, private se: SteemEngine, private toast: ToastService, private taskQueue: TaskQueue, private store: Store<State>, private controllerFactory: ValidationControllerFactory, private i18n: I18N) {
         this.validationController = controllerFactory.createForCurrentScope();
@@ -38,7 +40,6 @@ export class BuyTokenModal {
         this.subscription = this.store.state.subscribe((state: State) => {
             if (state) {
                 this.state = state;
-                this.user = { ...state.firebaseUser };
             }
         });
     }
@@ -48,21 +49,31 @@ export class BuyTokenModal {
     }
 
     async activate(symbol) {        
-        console.log(symbol);
-        if (this.state.tokens.length == 0) {
-            await dispatchify(loadTokensList)();
+        this.loading = true;
+        if (!this.state.tokens || this.state.tokens.length == 0) {
+            await dispatchify(loadTokensList)();            
+        }
+
+        if (!this.state.account.balances || this.state.account.balances.length == 0) {
             await dispatchify(loadAccountBalances)();            
         }
 
-        this.username = this.state.account.name;        
-        this.steemBalance = this.se.userBalances(symbol, this.username);
-        console.log(this.steemBalance);
-        this.token = this.state.tokens.find(x => x.symbol === symbol);
-        
+        this.environment = environment;
+        this.username = this.state.account.name;
+
+        let user = await getAccount(this.username);
+        this.steemBalance = user.balance.replace('STEEM','').trim();
+
+        this.engBalance = 0;
+        let engToken = this.state.account.balances.find(x => x.symbol === environment.NATIVE_TOKEN);
+        if (engToken)
+            this.engBalance = engToken.balance;        
+
+        this.loading = false;
     }
 
     balanceClicked() {
-        this.amount = this.state.account.balances;
+        this.amount = this.steemBalance;
     }
 
     private createValidationRules() {
@@ -76,9 +87,9 @@ export class BuyTokenModal {
                     .satisfies((value: any, object: BuyTokenModal) => {
                         const amount = parseFloat(value);
 
-                        return (amount <= object.token.balance);
+                        return (amount <= object.steemBalance);
                     })
-                    .withMessageKey('errors:insufficientBalanceForStake')     
+                    .withMessageKey('errors:insufficientBalanceForBuyEng')     
             .rules;
 
         this.validationController.addObject(this, rules);
@@ -94,8 +105,8 @@ export class BuyTokenModal {
                 const toast = new ToastMessage();
 
                 toast.message = this.i18n.tr(result.rule.messageKey, {
-                    balance: this.token.balance,
-                    symbol: this.token.symbol,
+                    balance: this.steemBalance,
+                    symbol: environment.PEGGED_TOKEN,
                     ns: 'errors'
                 });
 
@@ -105,7 +116,7 @@ export class BuyTokenModal {
 
         if (validationResult.valid) {                       
 
-            const result = await this.se.stake(this.token.symbol, this.amount, this.username);
+            const result = await this.se.buyENG(this.amount);
 
             if (result) {
                 this.controller.ok();

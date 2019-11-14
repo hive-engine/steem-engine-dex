@@ -3,18 +3,18 @@
         <loader mode="tiny" loading.bind="loading"></loader>
 
         <ux-dialog-header>
-            <h2>${'BUY ' & t} ${token.symbol}</h2>
+            <h2>${'BUY ' & t} ${environment.NATIVE_TOKEN}</h2>
         </ux-dialog-header>
         <ux-dialog-body>
-            <div if.bind="token">
+            <div>
                 <div class="form-group">
                     <h4>${'Current STEEM Balance' & t}</h4>
                     <h3 class="sendTokenBalance" click.delegate="balanceClicked()">${steemBalance} STEEM</h3>
                 </div>
 
                 <div class="form-group">
-                    <h4>${'Current' & t} ${token.symbol} ${'Balance' & t}</h4>
-                    <h3 class="sendTokenBalance">${token.balance} ${token.symbol}</h3>
+                    <h4>${'Current' & t} ${environment.NATIVE_TOKEN} ${'Balance' & t}</h4>
+                    <h3 class="sendTokenBalance">${engBalance} ${environment.NATIVE_TOKEN}</h3>
                 </div>
 
                 <div class="form-group">
@@ -25,9 +25,10 @@
                                placeholder="0.000"
                                value.bind="amount & validate" />
                         <div class="input-group-append">
-                            ${token.symbol & t}
+                            ${environment.NATIVE_TOKEN & t}
                         </div>
                     </div>
+                    <p class="text-right">1 ${environment.NATIVE_TOKEN} = 1 STEEM</p>
                 </div>
             </div>
         </ux-dialog-body>
@@ -38,7 +39,7 @@
                 ${'Cancel' & t}
             </button>
             <button class="btn btn-lg greenBtns" click.trigger="confirmSend()">
-                ${'Send' | capitalise & t}
+                ${'Buy' | capitalise & t}
             </button>
         </ux-dialog-footer>
     </ux-dialog>
