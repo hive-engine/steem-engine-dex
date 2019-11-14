@@ -9,7 +9,7 @@ import { SteemEngine } from '../../services/steem-engine';
 import { autoinject, computedFrom, observable } from 'aurelia-framework';
 import { ValidationControllerFactory, ValidationController } from 'aurelia-validation';
 
-import styles from './exchange.module.css'
+import styles from './exchange.module.css';
 import { environment } from 'environment';
 import moment from 'moment';
 import { uniq, fill } from 'lodash';
@@ -33,13 +33,12 @@ interface IOrderDataDisplay {
     dataset: [];
 }
 
-
 @autoinject()
 export class Exchange {
     private environment = environment;
     private controller: ValidationController;
     private renderer: BootstrapFormRenderer;
-    @observable({ changeHandler: "currentTokenChanged" })
+    @observable({ changeHandler: 'currentTokenChanged' })
     private currentToken: string;
     private data;
     private styles = styles;
@@ -65,9 +64,9 @@ export class Exchange {
     private tokenBalance = 0;
     private orderDataSetLength = 0;
 
-    private currentExchangeMode = "buy";
-    private bidQuantity = "";
-    private bidPrice = "";
+    private currentExchangeMode = 'buy';
+    private bidQuantity = '';
+    private bidPrice = '';
 
     private subscription: StateSubscription;
     private state: State;
@@ -81,7 +80,8 @@ export class Exchange {
         private controllerFactory: ValidationControllerFactory,
         private toast: ToastService,
         private store: Store<State>,
-        private ea: EventAggregator) {
+        private ea: EventAggregator,
+    ) {
         this.controller = controllerFactory.createForCurrentScope();
 
         this.renderer = new BootstrapFormRenderer();
@@ -102,7 +102,7 @@ export class Exchange {
 
     canActivate({ symbol }) {
         if (!symbol) {
-            return new Redirect('/exchange/ENG')
+            return new Redirect('/exchange/ENG');
         }
     }
 
@@ -127,8 +127,8 @@ export class Exchange {
                 o: x.openPrice,
                 h: x.highestPrice,
                 l: x.lowestPrice,
-                c: x.closePrice
-            }
+                c: x.closePrice,
+            };
         });
 
         this.chartData = {
@@ -139,23 +139,23 @@ export class Exchange {
                     steppedLine: 'after',
                     borderColor: '#88e86b',
                     backgroundColor: '#a9ea96',
-                    data: buyOrderDisplayData.dataset
+                    data: buyOrderDisplayData.dataset,
                 },
                 {
                     label: 'Sell',
                     steppedLine: 'before',
                     borderColor: '#e45858',
                     backgroundColor: '#e87f7f',
-                    data: sellOrderDisplayData.dataset
-                }
+                    data: sellOrderDisplayData.dataset,
+                },
             ],
-            ohlcData: candleStickData
+            ohlcData: candleStickData,
         };
     }
 
     async loadSellOrders(state) {
         this.sellBook = state.sellBook;
- 
+
         const sellOrderLabels = uniq(this.sellBook.map(o => parseFloat(o.price)));
         const sellOrderDataset = fill(Array(this.orderDataSetLength), null);
         let sellOrderCurrentVolume = 0;
@@ -166,7 +166,8 @@ export class Exchange {
             if (matchingSellOrders.length === 0) {
                 sellOrderDataset.push(null);
             } else {
-                sellOrderCurrentVolume = sellOrderCurrentVolume + matchingSellOrders.reduce((acc, val) => acc + parseFloat(val.quantity), 0);
+                sellOrderCurrentVolume =
+                    sellOrderCurrentVolume + matchingSellOrders.reduce((acc, val) => acc + parseFloat(val.quantity), 0);
                 sellOrderDataset.push(sellOrderCurrentVolume);
             }
         });
@@ -190,7 +191,8 @@ export class Exchange {
             if (matchingBuyOrders.length === 0) {
                 buyOrderDataset.push(null);
             } else {
-                buyOrderCurrentVolume = buyOrderCurrentVolume + matchingBuyOrders.reduce((acc, val) => acc + parseFloat(val.quantity), 0);
+                buyOrderCurrentVolume =
+                    buyOrderCurrentVolume + matchingBuyOrders.reduce((acc, val) => acc + parseFloat(val.quantity), 0);
                 buyOrderDataset.push(buyOrderCurrentVolume);
             }
         });
@@ -200,13 +202,12 @@ export class Exchange {
 
         this.orderDataSetLength = buyOrderDataset.length;
         return { dataset: buyOrderDataset, labels: buyOrderLabels } as IOrderDataDisplay;
-
     }
 
     loadUserExchangeData() {
         dispatchify(exchangeData)(this.currentToken).then(async () => {
             this.tokenData = this.state.tokens
-                .filter(t => t.symbol !== "STEEMP")
+                .filter(t => t.symbol !== 'STEEMP')
                 .filter(t => t.metadata && !t.metadata.hide_in_market);
 
             this.data = this.tokenData.find(t => t.symbol === this.currentToken);
@@ -217,6 +218,10 @@ export class Exchange {
 
             // eslint-disable-next-line no-undef
             this.steempBalance = this.state.account.balances.find(token => token.symbol === 'STEEMP')?.balance;
+
+            if (this.state.loggedIn) {
+                this.tokenBalance = this.state.account.balances.find(token => token.symbol === this.currentToken)?.balance ?? 0;
+            }
 
             const buyOrderDisplayData = await this.loadBuyOrders(this.state);
             const sellOrderDisplayData = await this.loadSellOrders(this.state);
@@ -238,14 +243,14 @@ export class Exchange {
         if (data.reloadBuyBook) {
             await dispatchify(loadBuyBook)(this.currentToken);
 
-            // fetch state after reloading 
+            // fetch state after reloading
             const state = await getStateOnce();
             await this.loadBuyOrders(state);
         }
         if (data.reloadSellBook) {
             await dispatchify(loadSellBook)(this.currentToken);
 
-            // fetch state after reloading 
+            // fetch state after reloading
             const state = await getStateOnce();
             await this.loadSellOrders(state);
         }
@@ -257,23 +262,18 @@ export class Exchange {
 
     detached() {
         this.subscriber.dispose();
-
     }
 
     deposit() {
-        this.dialogService
-            .open({ viewModel: DepositModal })
-            .whenClosed(response => {
-                console.log(response);
-            });
+        this.dialogService.open({ viewModel: DepositModal }).whenClosed(response => {
+            console.log(response);
+        });
     }
 
     withdraw() {
-        this.dialogService
-            .open({ viewModel: WithdrawModal })
-            .whenClosed(response => {
-                console.log(response);
-            });
+        this.dialogService.open({ viewModel: WithdrawModal }).whenClosed(response => {
+            console.log(response);
+        });
     }
 
     confirmMarketOrder() {
@@ -281,14 +281,12 @@ export class Exchange {
             symbol: this.data.symbol,
             type: this.currentExchangeMode,
             quantity: this.bidQuantity,
-            price: this.bidPrice
+            price: this.bidPrice,
         };
 
-        this.dialogService
-            .open({ viewModel: MarketOrderModal, model: order })
-            .whenClosed(response => {
-                console.log(response);
-            });
+        this.dialogService.open({ viewModel: MarketOrderModal, model: order }).whenClosed(response => {
+            console.log(response);
+        });
     }
 
     /**
@@ -305,7 +303,7 @@ export class Exchange {
         const sellBook = this.sellBook;
 
         // Determine what the user can buy from the buy book
-        if (this.currentExchangeMode === "buy") {
+        if (this.currentExchangeMode === 'buy') {
             let totalTokens = 0;
             let totalSteemp = 0;
 
@@ -340,7 +338,7 @@ export class Exchange {
         }
     }
 
-    @computedFrom("bidPrice", "bidQuantity")
+    @computedFrom('bidPrice', 'bidQuantity')
     get totalMarketBalance() {
         const total = parseFloat(this.bidPrice) * parseFloat(this.bidQuantity);
         return !isNaN(total) ? total.toFixed(4) : 0;
