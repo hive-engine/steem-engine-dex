@@ -294,7 +294,16 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
         userBalances: balances(account: "${account}", limit: 1000, offset: 0) {
             account,
             symbol,
-            balance
+            balance,
+            delegationsIn,
+            delegationsOut,
+            pendingUndelegations,
+            stake,
+            pendingUnstake,
+            scotConfig {
+                pending_token,
+                staked_tokens
+            }
         },
         buyBook(symbol: "${symbol}", limit: 200, offset: 0) {
             txId,
@@ -444,8 +453,18 @@ export async function loadExchangeUiLoggedOut(symbol) {
 export async function loadBalances(account: string): Promise<BalanceInterface[]> {
     const getUserBalances = await query(`query {
         balances(account: "${account}", limit: 1000, offset: 0) {
+            account,
             symbol,
-            balance
+            balance,
+            delegationsIn,
+            delegationsOut,
+            pendingUndelegations,
+            stake,
+            pendingUnstake,
+            scotConfig {
+                pending_token,
+                staked_tokens
+            }
         }
     }`);
     
