@@ -234,6 +234,15 @@ export class App {
                 settings: {
                     roles: ['super', 'admin']
                 }
+            },
+            {
+                route: "crowdfunding-options",
+                name: "crowdfunding-options",
+                moduleId: PLATFORM.moduleName(
+                    "./routes/offering-routes/crowdfunding/crowdfunding-options"
+                ),
+                nav: false,
+                title: "Crowdfunding Options"
             }
         ]);
 
