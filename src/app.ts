@@ -1,3 +1,4 @@
+import { Settings } from './services/settings';
 import { CallingAction, MiddlewarePlacement } from 'aurelia-store';
 /* eslint-disable no-undef */
 import { AuthorizeStep } from './resources/pipeline-steps/authorize';
@@ -13,8 +14,7 @@ import { Router, RouterConfiguration, RouterEvent } from 'aurelia-router';
 import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
 
-import firebase from 'firebase/app';
-import { login, logout, loadSiteSettings, getCurrentFirebaseUser, setAccount, markNotificationsRead } from 'store/actions';
+import { getCurrentFirebaseUser, markNotificationsRead } from 'store/actions';
 
 function lastCalledActionMiddleware(state: State, originalState: State, settings = {}, action: CallingAction) {
     state.$action = {
@@ -36,7 +36,7 @@ export class App {
     public subscription: Subscription;
     private state: State;
 
-    constructor(private ea: EventAggregator, private store: Store<State>, private se: SteemEngine) {
+    constructor(private ea: EventAggregator, private store: Store<State>, private se: SteemEngine, private settings: Settings) {
         this.store.registerMiddleware(lastCalledActionMiddleware, MiddlewarePlacement.After);
     }
 
@@ -53,15 +53,15 @@ export class App {
         });
 
         this.subscription = this.ea.subscribe(RouterEvent.Complete, () => {
-            dispatchify(loadSiteSettings)();
             dispatchify(getCurrentFirebaseUser)();
             dispatchify(markNotificationsRead)();
         });
     }
 
     public configureRouter(config: RouterConfiguration, router: Router) {
-        config.title = 'Steem Engine';
-        config.options.pushState = true;
+        config.title = this.settings.property('siteName', 'Steem Engine');
+        
+        MaintenanceStep.inMaintenance = this.settings.property('maintenanceMode', false);
 
         config.options.pushState = true;
 
@@ -77,6 +77,13 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/home'),
                 nav: false,
                 title: 'Home'
+            },
+            {
+                route: 'maintenance',
+                name: 'maintenance',
+                moduleId: PLATFORM.moduleName('./routes/maintenance'),
+                nav: false,
+                title: 'We will be right back...'
             },
             {
                 route: 'wallet',

@@ -264,8 +264,8 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
             name,
             metadata {
                 url,
-            icon,
-            desc
+                icon,
+                desc
             },
             precision,
             maxSupply,
@@ -294,7 +294,16 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
         userBalances: balances(account: "${account}", limit: 1000, offset: 0) {
             account,
             symbol,
-            balance
+            balance,
+            delegationsIn,
+            delegationsOut,
+            pendingUndelegations,
+            stake,
+            pendingUnstake,
+            scotConfig {
+                pending_token,
+                staked_tokens
+            }
         },
         buyBook(symbol: "${symbol}", limit: 200, offset: 0) {
             txId,
@@ -444,8 +453,18 @@ export async function loadExchangeUiLoggedOut(symbol) {
 export async function loadBalances(account: string): Promise<BalanceInterface[]> {
     const getUserBalances = await query(`query {
         balances(account: "${account}", limit: 1000, offset: 0) {
+            account,
             symbol,
-            balance
+            balance,
+            delegationsIn,
+            delegationsOut,
+            pendingUndelegations,
+            stake,
+            pendingUnstake,
+            scotConfig {
+                pending_token,
+                staked_tokens
+            }
         }
     }`);
     
@@ -539,4 +558,60 @@ export async function checkTransaction(trxId: string, retries: number) {
             throw new Error('Transaction not found.');
         }
     }
+}
+
+export async function loadConversionSentReceived(account) {
+    const callQl = await query(`query {
+                conversionReceived(account: "${account}") {
+                    count,
+                    next, 
+                    previous,
+                    results {
+    	                url,
+                      from_coin_symbol,
+                      to_coin_symbol,
+                      from_address,
+                      to_address,
+                      to_memo,
+                      to_amount,
+                      to_txid,
+                      tx_fee,
+                      ex_fee,
+                      created_at,
+                      updated_at,
+                      deposit,
+                      from_coin,
+                      to_coin
+                    }
+                  }
+  
+                conversionSent(account: "aggroed") {
+                    count,
+                    next, 
+                    previous,
+                    results {
+    	                url,
+                      from_coin_symbol,
+                      to_coin_symbol,
+                      from_address,
+                      to_address,
+                      to_memo,
+                      to_amount,
+                      to_txid,
+                      tx_fee,
+                      ex_fee,
+                      created_at,
+                      updated_at,
+                      deposit,
+                      from_coin,
+                      to_coin
+                    }
+                  }
+                }
+    `);
+
+    return callQl ?.data as {
+        conversionSent: IConversionItem;
+        conversionReceived: IConversionItem;
+    };
 }

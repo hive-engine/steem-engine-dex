@@ -6,7 +6,7 @@ import store from './store';
 
 import firebase from 'firebase/app';
 import { log } from 'services/log';
-import { loadBalances, loadTokens, loadExchangeUiLoggedIn, loadExchangeUiLoggedOut, parseTokens } from 'common/steem-engine';
+import { loadBalances, loadTokens, loadExchangeUiLoggedIn, loadExchangeUiLoggedOut, parseTokens, loadConversionSentReceived } from 'common/steem-engine';
 import { ssc } from 'common/ssc';
 import moment from 'moment';
 
@@ -224,6 +224,24 @@ export async function loadTokensList(state: State): Promise<State> {
     return newState;
 }
 
+export async function loadConversionHistory(state: State, account: string = undefined): Promise<State> {
+    const newState = { ...state };
+
+    try {
+        const conversionSentReceived = await loadConversionSentReceived(account);        
+        const conversionHistory = [...conversionSentReceived.conversionSent.results, ...conversionSentReceived.conversionReceived.results];        
+
+        // sort by date
+        conversionHistory.sort((a, b) => (a.created_at > b.created_at) ? -1 : ((b.created_at > a.created_at) ? 1 : 0));
+
+        newState.conversionHistory = conversionHistory;
+    } catch (e) {
+        log.error(e);
+    }
+
+    return newState;
+}
+
 export async function exchangeData(state: State, symbol: string): Promise<State> {
     const newState = { ...state };
 
@@ -337,3 +355,4 @@ store.registerAction('loadTradeHistory', loadTradeHistory);
 store.registerAction('exchangeData', exchangeData);
 store.registerAction('markNotificationsRead', markNotificationsRead);
 store.registerAction('getPendingWithdrawals', getPendingWithdrawals);
+store.registerAction('loadConversionHistory', loadConversionHistory);

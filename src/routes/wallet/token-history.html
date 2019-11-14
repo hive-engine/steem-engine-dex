@@ -13,8 +13,9 @@
                     </div>
                 </div>
                 <div class="col-4 tokenHistoryBalance text-right">
-                    <h3>${tokenBalance} ${token.symbol}</h3>
+                    <h3>${tokenBalance} ${token.symbol}</h3>                    
                     <button click.delegate="sendTokens(token.symbol)" class="btn btn-primary btnSend">Send</button>
+                    <button if.bind="username == token.issuer" click.delegate="issueTokens(token.symbol)" class="btn btn-primary btnSend">Issue</button>
                 </div>
             </div>
         </div>
