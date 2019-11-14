@@ -33,7 +33,8 @@ export class MarketOrderModal {
         reloadBuyBook: false,
         reloadSellBook: false,
         reloadTradeHistory: false,
-        reloadUserExchangeData: false
+        reloadUserExchangeData: false,
+        reloadTokenOpenOrders: false
     };
 
     constructor(private controller: DialogController, private se: SteemEngine, private store: Store<State>, private taskQueue: TaskQueue, private ea: EventAggregator) {
@@ -67,6 +68,7 @@ export class MarketOrderModal {
                 this.controller.ok();
 
                 this.reloadEventData.reloadUserExchangeData = true;
+                this.reloadEventData.reloadTokenOpenOrders = true;
 
                 if (this.order.type === "buy") {
                     this.reloadEventData.reloadBuyBook = true;

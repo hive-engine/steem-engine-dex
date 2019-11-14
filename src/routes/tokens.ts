@@ -7,6 +7,8 @@ import { connectTo, dispatchify } from 'aurelia-store';
 import { loadTokensList, getCurrentFirebaseUser } from 'store/actions';
 
 import styles from './tokens.module.css';
+import { DialogService, DialogCloseResult } from 'aurelia-dialog';
+import { BuyTokenModal } from 'modals/buy-token';
 
 @autoinject()
 @connectTo()
@@ -15,7 +17,7 @@ export class Tokens {
     private tokenTable: HTMLTableElement;
     private state: State;
 
-    constructor(private se: SteemEngine, private taskQueue: TaskQueue) {
+    constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {
 
     }
 
@@ -25,6 +27,21 @@ export class Tokens {
 
     async activate() {
         await dispatchify(getCurrentFirebaseUser)();
+    }
+
+    buyENG() {
+        this.dialogService
+            .open({ viewModel: BuyTokenModal, model: "ENG" })            
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    async walletDialogCloseResponse(response: DialogCloseResult) {
+        console.log(response);
+
+        // reload data if necessary
+        if (!response.wasCancelled) {
+            
+        }
     }
 
     attached() {

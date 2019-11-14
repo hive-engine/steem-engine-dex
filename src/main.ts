@@ -1,3 +1,4 @@
+import { loadSiteSettings } from 'store/actions';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
@@ -26,6 +27,7 @@ import { ConsoleAppender } from 'aurelia-logging-console';
 import { environment } from './environment';
 import { PLATFORM } from 'aurelia-pal';
 import { initialState } from './store/state';
+import { dispatchify } from 'aurelia-store';
 import { TCustomAttribute } from 'aurelia-i18n';
 import Backend from 'i18next-xhr-backend';
 
@@ -118,6 +120,8 @@ export async function configure(aurelia: Aurelia) {
         });
     });
     await authStateChanged();
+    await dispatchify(loadSiteSettings)();
+    
     await aurelia.start();
     await aurelia.setRoot(PLATFORM.moduleName('app'));
 }
