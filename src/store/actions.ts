@@ -229,7 +229,7 @@ export async function loadConversionHistory(state: State, account: string = unde
 
     try {
         const conversionSentReceived = await loadConversionSentReceived(account);        
-        let conversionHistory = [...conversionSentReceived.conversionSent.results, ...conversionSentReceived.conversionReceived.results];        
+        const conversionHistory = [...conversionSentReceived.conversionSent.results, ...conversionSentReceived.conversionReceived.results];        
 
         // sort by date
         conversionHistory.sort((a, b) => (a.created_at > b.created_at) ? -1 : ((b.created_at > a.created_at) ? 1 : 0));
