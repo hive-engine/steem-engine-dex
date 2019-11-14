@@ -45,7 +45,7 @@ export class ConversionHistory {
     }
 
     async activate() {
-        this.username = "aggroed";
+        this.username = this.state.account.name;
         await dispatchify(loadConversionHistory)(this.username);
 
         this.conversions = this.state.conversionHistory;

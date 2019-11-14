@@ -18,5 +18,6 @@
     "unstakeCancelled": "Unstaking cancelled successfully",
     "enableStakingSucceeded": "Token Staking Enabled",
     "withdrawSteemSuccess": "Steem successfully withdrawn",
-    "issueSucceeded": "{{quantity}} {{symbol}} tokens successfully issued to {{username}}"
+    "issueSucceeded": "{{quantity}} {{symbol}} tokens successfully issued to {{username}}",
+    "buyEngSucceeded":  "Successfully bought {{amount}} {{symbol}}"
 }
