@@ -197,6 +197,10 @@ describe('Functions', () => {
         test('works with value with passed in correct rounding', () => {
             expect(toFixedNoRounding(3.199, 3)).toEqual('3.199');
         });
+
+        test('works with value with passed in correct rounding and zeroes', () => {
+            expect(toFixedNoRounding(3.000, 3)).toEqual('3.000');
+        });
     });
 
 });
