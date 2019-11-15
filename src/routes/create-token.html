@@ -27,7 +27,7 @@
                     </div>
                     <div class="form-group">
                         <label>${'Decimal Precision' & t}</label>
-                        <input type="text" class="form-control" placeholder="0-8" value.bind="precision & validate">
+                        <input type="number" min="0" max="8" class="form-control" placeholder="0-8" value.bind="precision & validate">
                     </div>
                     <div class="form-group">
                         <button type="button" class="btn btn-lg btn-primary" click.delegate="createToken()">${'Create my token' & t}</button>
@@ -40,7 +40,7 @@
                     </div>
                     <div class="form-group">
                         <label>${'Max Supply' & t}</label>
-                        <input type="text" class="form-control" value.bind="maxSupply & validate">
+                        <input type="number" min="0" max="9007199254740991" class="form-control" value.bind="maxSupply & validate">
                     </div>
                 </div>
             </div>
