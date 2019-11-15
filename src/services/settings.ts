@@ -21,7 +21,8 @@ export class Settings {
     }
 
     public properties() {
-        return this.settings ?? [];
+        // eslint-disable-next-line no-undef
+        return this?.settings ?? [];
     }
 
     private unbind() {
