@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+import { query } from 'common/apollo';
 /* eslint-disable no-undef */
 import { BootstrapFormRenderer } from './../resources/bootstrap-form-renderer';
 import { loadAccountBalances } from 'store/actions';
@@ -11,6 +13,7 @@ export class CreateToken {
     private renderer: BootstrapFormRenderer;
     private controller: ValidationController;
     private engBalance;
+    private tokenCreationFee;
 
     private tokenName = null;
     private precision = null;
@@ -28,6 +31,11 @@ export class CreateToken {
 
     async activate() {
         await dispatchify(loadAccountBalances)();
+
+        const data = await query(`query { tokenParams { tokenCreationFee } }`);
+        const tokenCreationFee = data?.data?.tokenParams?.[0]?.tokenCreationFee ?? 100;
+
+        this.tokenCreationFee = parseInt(tokenCreationFee);
     }
     
     bind() {

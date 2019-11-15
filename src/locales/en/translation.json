@@ -5,5 +5,7 @@
     "LAST PRICE": "LAST PRICE",
     "HIGH": "HIGH",
     "LOW": "LOW",
-    "VOLUME": "VOLUME"
+    "VOLUME": "VOLUME",
+    "tokenCreationFee": "NOTE: Token Creation costs {{tokenFee}} ENG (Steem Engine Native Tokens)",
+    "yourEngBalance": "Your Current ENG Balance: {{balance}} ENG"
 }

@@ -13,8 +13,8 @@
         <div class="container main-container">
             <div class="row">
                 <div class="col-12">
-                    <p><strong>${'NOTE: Token Creation costs 100 ENG (Steem Engine Native Tokens)' & t}</strong></p>
-                    <p>${'Your Current ENG Balance' & t}: ${engBalance} ENG</p>
+                    <p><strong>${'tokenCreationFee' & t: { 'tokenFee': tokenCreationFee }}</strong></p>
+                    <p>${'yourEngBalance' & t: { 'balance': engBalance }}</p>
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <div class="form-group">
