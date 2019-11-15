@@ -1,12 +1,14 @@
+import { Router } from 'aurelia-router';
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { query } from 'common/apollo';
 /* eslint-disable no-undef */
+import { query } from 'common/apollo';
+import { State } from 'store/state';
 import { BootstrapFormRenderer } from './../resources/bootstrap-form-renderer';
 import { loadAccountBalances } from 'store/actions';
-import { State } from './../store/state';
 import { Store, dispatchify } from 'aurelia-store';
-import { ValidationController, ValidationControllerFactory, validateTrigger, ValidationRules } from 'aurelia-validation';
+import { ValidationController, ValidationControllerFactory, ValidationRules } from 'aurelia-validation';
 import { autoinject } from 'aurelia-framework';
+import { createTransaction } from 'common/functions';
 
 @autoinject()
 export class CreateToken {
@@ -19,8 +21,11 @@ export class CreateToken {
     private precision = null;
     private symbol = null;
     private maxSupply = null;
+    private url = null;
 
-    constructor(private controllerFactory: ValidationControllerFactory, private store: Store<State>) {
+    private state: State;
+
+    constructor(private controllerFactory: ValidationControllerFactory, private router: Router, private store: Store<State>) {
         this.controller = controllerFactory.createForCurrentScope();
 
         //this.controller.validateTrigger = validateTrigger.manual;
@@ -37,9 +42,11 @@ export class CreateToken {
 
         this.tokenCreationFee = parseInt(tokenCreationFee);
     }
-    
+
     bind() {
         this.store.state.subscribe(state => {
+            this.state = state;
+
             // eslint-disable-next-line no-undef
             if (state?.account?.balances?.length) {
                 const engToken = state.account.balances.find(token => token.symbol === 'ENG');
@@ -50,44 +57,70 @@ export class CreateToken {
             }
         });
 
-        ValidationRules
-            .ensure('tokenName')
-                .required()
-                    .withMessageKey('errors:required')
-                .satisfies((value: string) => {
-                    return value?.match(/^[a-zA-Z0-9 ]*$/)?.length > 0 ?? false;
-                })
-                    .withMessageKey('errors:requiredAlphaNumericSpaces')
+        ValidationRules.ensure('tokenName')
+            .required()
+            .withMessageKey('errors:required')
+            .satisfies((value: string) => {
+                return value?.match(/^[a-zA-Z0-9 ]*$/)?.length > 0 ?? false;
+            })
+            .withMessageKey('errors:requiredAlphaNumericSpaces')
 
             .ensure('precision')
-                .required()
-                    .withMessageKey('errors:required')
-                .satisfies((value: string) => parseInt(value) >=0 && parseInt(value) <= 8)
-                    .withMessageKey('errors:betweenZeroAndEight')
+            .required()
+            .withMessageKey('errors:required')
+            .satisfies((value: string) => parseInt(value) >= 0 && parseInt(value) <= 8)
+            .withMessageKey('errors:betweenZeroAndEight')
 
             .ensure('symbol')
-                .required()
-                    .withMessageKey('errors:required')
-                .satisfies((value: string) => {
-                    const isUppercase = (value === value?.toUpperCase()) ?? false;
-                    const validLength = (value?.length >= 3 && value?.length <= 10) ?? false;
-                    const validString = value?.match(/^[a-zA-Z]*$/)?.length > 0 ?? false
+            .required()
+            .withMessageKey('errors:required')
+            .satisfies((value: string) => {
+                const isUppercase = value === value?.toUpperCase() ?? false;
+                const validLength = (value?.length >= 3 && value?.length <= 10) ?? false;
+                const validString = value?.match(/^[a-zA-Z]*$/)?.length > 0 ?? false;
 
-                    return isUppercase && validLength && validString;
-                })
-                    .withMessageKey('errors:symbolValid')
+                return isUppercase && validLength && validString;
+            })
+            .withMessageKey('errors:symbolValid')
 
             .ensure('maxSupply')
             .required()
-                .withMessageKey('errors:required')
+            .withMessageKey('errors:required')
             .satisfies((value: string) => value && parseInt(value) >= 1 && parseInt(value) <= 9007199254740991)
-                .withMessageKey('errors:maxSupply')
-        .on(CreateToken);
+            .withMessageKey('errors:maxSupply')
+            .on(CreateToken);
     }
 
     public async createToken() {
         const validationResult = await this.controller.validate();
 
-        console.log(validationResult);
+        const payload: { symbol: string; name: string; precision: number; maxSupply: number; url?: string } = {
+            symbol: this.symbol,
+            name: this.tokenName,
+            precision: parseInt(this.precision),
+            maxSupply: parseInt(this.maxSupply),
+        };
+
+        if (this.url !== null && this.url.trim() !== '') {
+            payload.url = this.url;
+        }
+
+        const userHasFunds = this.tokenCreationFee <= this.engBalance;
+
+        if (validationResult.valid && userHasFunds) {
+            const result = await createTransaction(
+                this.state.account.name,
+                'tokens',
+                'create',
+                payload,
+                'Steem Engine Token Registration',
+                'tokenCreateSuccess',
+                'tokenCreateError',
+            );
+
+            if (result !== false) {
+                this.router.navigateToRoute('exchange', { symbol: this.symbol })
+            }
+        }
     }
 }

@@ -3,8 +3,8 @@
             <div class="container-fluid main-container d-flex flex-column justify-content-end">
                 <div class="row">
                     <div class="col-6">
-                        <h1>${'Create a token' & t}</h1>
-                        <p>${'Are you ready to make history? Let's make a new token on the Steem blockchain!' & t}</p>
+                        <h1>${'tokenCreationHeading' & t}</h1>
+                        <p>${'tokenCreationSubheading' & t}</p>
                     </div>
                 </div>                
             </div>
@@ -30,7 +30,7 @@
                         <input type="number" min="0" max="8" class="form-control" placeholder="0-8" value.bind="precision & validate">
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-lg btn-primary" click.delegate="createToken()">${'Create my token' & t}</button>
+                        <button type="button" disabled.bind="tokenCreationFee > engBalance" class="btn btn-lg btn-primary" click.delegate="createToken()">${'Create my token' & t}</button>
                     </div>  
                 </div>
                 <div class="col-sm-12 col-md-6">
