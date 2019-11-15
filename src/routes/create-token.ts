@@ -54,9 +54,7 @@ export class CreateToken {
             .ensure('precision')
                 .required()
                     .withMessageKey('errors:required')
-                .satisfies((value: string) => {
-                    return value && parseInt(value) >=0 && parseInt(value) <= 8;
-                })
+                .satisfies((value: string) => parseInt(value) >=0 && parseInt(value) <= 8)
                     .withMessageKey('errors:betweenZeroAndEight')
 
             .ensure('symbol')
