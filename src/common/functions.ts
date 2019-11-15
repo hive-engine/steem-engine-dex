@@ -1,6 +1,14 @@
+import { Container } from 'aurelia-framework';
+import { I18N } from 'aurelia-i18n';
+import { ToastMessage, ToastService } from './../services/toast-service';
+import { checkTransaction } from 'common/steem-engine';
+import { environment } from './../../aurelia_project/environments/dev';
+import { steemConnectJson } from 'common/steem';
 import { HttpClient } from 'aurelia-fetch-client';
 
 const http: HttpClient = new HttpClient();
+const toastService: ToastService = Container.instance.get(ToastService);
+const i18n: I18N = Container.instance.get(I18N);
 
 export function queryParam(ary) {
     return Object.keys(ary).map(function (key) {
@@ -136,4 +144,50 @@ export function toFixedNoRounding(number, n) {
     }
     const b = n - (a.length - dot) + 1;
     return b > 0 ? (a + '0'.repeat(b)) : a;
+}
+
+export function createTransaction(username: string, contractName: string, contractAction: string, payload: any, title: string, successKey: string, errorKey: string) {
+    return new Promise((resolve) => {
+        const transactionData = {
+            contractName: `${contractName}`,
+            contractAction: `${contractAction}`,
+            contractPayload: payload
+        };
+    
+        if (window.steem_keychain) {
+            window.steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transactionData), title, async (response) => {
+                if (response.success && response.result) {
+                    try {
+                        const transaction = await checkTransaction(response.result.id, 3);
+    
+                        const toast = new ToastMessage();
+    
+                        toast.message = i18n.tr(successKey, {
+                            ns: 'notifications'
+                        });
+    
+                        toastService.success(toast);
+    
+                        resolve(transaction);
+                    } catch (e) {
+                        const toast = new ToastMessage();
+    
+                        toast.message = i18n.tr(errorKey, {
+                            ns: 'notifications'
+                        });
+    
+                        toastService.error(toast);
+    
+                        resolve(false);
+                    }
+                } else {
+                    resolve(response);
+                }
+            });
+        } else {
+            steemConnectJson(username, 'active', transactionData, () => {
+                resolve(true);
+            });
+        }
+    });
 }
