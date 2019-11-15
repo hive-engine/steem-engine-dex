@@ -1,3 +1,4 @@
+import { TokenInfoModal } from 'modals/wallet/token-info';
 import { State } from './../store/state';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
@@ -17,9 +18,7 @@ export class Tokens {
     private tokenTable: HTMLTableElement;
     private state: State;
 
-    constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {
-
-    }
+    constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {}
 
     async canActivate() {
         await dispatchify(loadTokensList)();
@@ -31,7 +30,7 @@ export class Tokens {
 
     buyENG() {
         this.dialogService
-            .open({ viewModel: BuyTokenModal, model: "ENG" })            
+            .open({ viewModel: BuyTokenModal, model: 'ENG' })
             .whenClosed(x => this.walletDialogCloseResponse(x));
     }
 
@@ -40,7 +39,6 @@ export class Tokens {
 
         // reload data if necessary
         if (!response.wasCancelled) {
-            
         }
     }
 
@@ -48,13 +46,21 @@ export class Tokens {
         // @ts-ignore
         $(this.tokenTable).DataTable({
             order: [],
-            columnDefs: [ {
-                targets  : 'no-sort',
-                orderable: false
-            }],
+            columnDefs: [
+                {
+                    targets: 'no-sort',
+                    orderable: false,
+                },
+            ],
             bInfo: false,
             paging: false,
-            searching: false
+            searching: false,
+        });
+    }
+
+    showTokenInfo(symbol) {
+        this.dialogService.open({ viewModel: TokenInfoModal, model: symbol }).whenClosed(response => {
+            //console.log(response);
         });
     }
 
@@ -70,10 +76,13 @@ export class Tokens {
                 }
             });
 
-            const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
+            const userRef = firebase
+                .firestore()
+                .collection('users')
+                .doc(this.se.getUser());
 
             userRef.set(this.state.firebaseUser, {
-                merge: true
+                merge: true,
             });
         });
     }

@@ -44,7 +44,7 @@ export class App {
         this.store.state.subscribe((s: State) => {
             if (s) {
                 this.state = s;
-                                
+
                 this.loading = s.loading;
                 this.loggedIn = s.loggedIn;
                 this.claims = s?.account?.token?.claims;
@@ -60,7 +60,7 @@ export class App {
 
     public configureRouter(config: RouterConfiguration, router: Router) {
         config.title = this.settings.property('siteName', 'Steem Engine');
-        
+
         MaintenanceStep.inMaintenance = this.settings.property('maintenanceMode', false);
 
         config.options.pushState = true;
@@ -207,22 +207,22 @@ export class App {
                 title: 'State Costs',
             },
             {
-                route: "scotbot",
-                name: "scotbot",
+                route: 'scotbot',
+                name: 'scotbot',
                 moduleId: PLATFORM.moduleName(
-                    "./routes/offering-routes/scotbot"
+                    './routes/offering-routes/scotbot'
                 ),
                 nav: false,
-                title: "Scotbot"
+                title: 'Scotbot'
             },
             {
-                route: "state-costs",
-                name: "state-costs",
+                route: 'state-costs',
+                name: 'state-costs',
                 moduleId: PLATFORM.moduleName(
-                    "./routes/offering-routes/state-costs"
+                    './routes/offering-routes/state-costs'
                 ),
                 nav: false,
-                title: "State Costs"
+                title: 'State Costs'
             },
             {
                 route: 'admin',
@@ -236,13 +236,20 @@ export class App {
                 }
             },
             {
-                route: "crowdfunding-options",
-                name: "crowdfunding-options",
+                route: 'crowdfunding-options',
+                name: 'crowdfunding-options',
                 moduleId: PLATFORM.moduleName(
-                    "./routes/offering-routes/crowdfunding/crowdfunding-options"
+                    './routes/offering-routes/crowdfunding/crowdfunding-options'
                 ),
                 nav: false,
-                title: "Crowdfunding Options"
+                title: 'Crowdfunding Options'
+            },
+            {
+                route: 'create-token',
+                name: 'createToken',
+                moduleId: PLATFORM.moduleName('./routes/create-token'),
+                nav: false,
+                title: 'Create Token'
             }
         ]);
 

@@ -15,12 +15,12 @@ import { getAccount } from 'common/steem';
 
 @autoinject()
 export class BuyTokenModal {
-    @bindable amount;    
+    @bindable amount;
 
     private styles = styles;
     private loading = false;
     private state: State;
-    private subscription: Subscription;   
+    private subscription: Subscription;
     private user: any;
     private steemBalance: any;
     private engBalance: any;
@@ -36,7 +36,7 @@ export class BuyTokenModal {
         this.validationController.addRenderer(this.renderer);
 
         this.controller.settings.lock = false;
-        this.controller.settings.centerHorizontalOnly = true;    
+        this.controller.settings.centerHorizontalOnly = true;
         this.subscription = this.store.state.subscribe((state: State) => {
             if (state) {
                 this.state = state;
@@ -48,26 +48,26 @@ export class BuyTokenModal {
         this.createValidationRules();
     }
 
-    async activate(symbol) {        
+    async activate(symbol) {
         this.loading = true;
         if (!this.state.tokens || this.state.tokens.length == 0) {
-            await dispatchify(loadTokensList)();            
+            await dispatchify(loadTokensList)();
         }
 
         if (!this.state.account.balances || this.state.account.balances.length == 0) {
-            await dispatchify(loadAccountBalances)();            
+            await dispatchify(loadAccountBalances)();
         }
 
         this.environment = environment;
         this.username = this.state.account.name;
 
-        let user = await getAccount(this.username);
-        this.steemBalance = user.balance.replace('STEEM','').trim();
+        const user = await getAccount(this.username);
+        this.steemBalance = user.balance.replace('STEEM', '').trim();
 
         this.engBalance = 0;
-        let engToken = this.state.account.balances.find(x => x.symbol === environment.NATIVE_TOKEN);
+        const engToken = this.state.account.balances.find(x => x.symbol === environment.NATIVE_TOKEN);
         if (engToken)
-            this.engBalance = engToken.balance;        
+            this.engBalance = engToken.balance;
 
         this.loading = false;
     }
@@ -79,17 +79,17 @@ export class BuyTokenModal {
     private createValidationRules() {
         const rules = ValidationRules
             .ensure('amount')
-                .required()
-                    .withMessageKey('errors:amountRequired')
-                .then()
-                    .satisfies((value: any, object: any) => parseFloat(value) > 0)
-                    .withMessageKey('errors:amountGreaterThanZero')
-                    .satisfies((value: any, object: BuyTokenModal) => {
-                        const amount = parseFloat(value);
+            .required()
+            .withMessageKey('errors:amountRequired')
+            .then()
+            .satisfies((value: any, object: any) => parseFloat(value) > 0)
+            .withMessageKey('errors:amountGreaterThanZero')
+            .satisfies((value: any, object: BuyTokenModal) => {
+                const amount = parseFloat(value);
 
-                        return (amount <= object.steemBalance);
-                    })
-                    .withMessageKey('errors:insufficientBalanceForBuyEng')     
+                return (amount <= object.steemBalance);
+            })
+            .withMessageKey('errors:insufficientBalanceForBuyEng')
             .rules;
 
         this.validationController.addObject(this, rules);
@@ -114,7 +114,7 @@ export class BuyTokenModal {
             }
         }
 
-        if (validationResult.valid) {                       
+        if (validationResult.valid) {
 
             const result = await this.se.buyENG(this.amount);
 

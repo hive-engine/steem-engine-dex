@@ -40,14 +40,14 @@
                     </thead>
                     <tbody>
                         <tr repeat.for="token of state.tokens">
-                            <td></td>
                             <td>
-                                <img class="tokenIcon" src="${token.metadata.icon}" alt="${token.symbol}" title="${token.symbol}" /> 
+                                <img if.bind="token.metadata.icon" class="tokenIcon" src="${token.metadata.icon}" alt="${token.symbol}" title="${token.symbol}" > 
                                 <button if.bind="state.loggedIn" type="button" class="btn btn-icon btn-favourite ${token.isFavourite ? 'active' : ''}" click.delegate="favouriteToken(token)">
                                     <font-awesome-icon if.bind="token.isFavourite" icon.bind="['fas', 'star']"></font-awesome-icon>
                                     <font-awesome-icon else icon.bind="['far', 'star']"></font-awesome-icon>
-                                </button>${token.symbol}
+                                </button>
                             </td>
+                            <td>${token.symbol}</td>
                             <td>${token.name}</td>
                             <td class="text-right">
                                 <span class="changePercent ${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}">
@@ -60,7 +60,14 @@
                                 </span>
                             </td>
                             <td if.bind="state.loggedIn">${token.stake >= 0 ? parseFloat(token.stake) : '--'}</td>
-                            <td class="table-buttons"><a route-href="route: exchange; params.bind: { symbol: token.symbol }">${'Market' & t}</a></td>
+                            <td class="table-buttons">
+                                <button click.delegate="showTokenInfo(token.symbol)" title="Token information">
+                                    <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
+                                </button>
+                                <a route-href="route: exchange; params.bind: { symbol: token.symbol }">
+                                        <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
+                                </a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
