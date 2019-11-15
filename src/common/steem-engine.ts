@@ -471,35 +471,8 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
     const loadedBalances: BalanceInterface[] = getUserBalances.data.balances;
 
     if (loadedBalances.length) {
-        const state = await getStateOnce();
-        const tokens = state.tokens;
-
         const balances = loadedBalances
-            .filter(b => !environment.DISABLED_TOKENS.includes(b.symbol))
-            .map(d => {
-                const token = tokens.find(t => t.symbol === d.symbol);
-                const scotConfig =
-                    state.account.name &&
-                    Object.keys(state.account.scotTokens).length &&
-                    typeof state.account.scotTokens[token.symbol] !== 'undefined'
-                        ? state.account.scotTokens[token.symbol]
-                        : null;
-
-                return {
-                    ...d,
-                    ...{
-                        name: token.name,
-                        lastPrice: token.lastPrice,
-                        priceChangePercent: token.priceChangePercent,
-                        usdValue: usdFormat(parseFloat(d.balance) * token.lastPrice, 2),
-                        stakingEnabled: token.stakingEnabled,
-                        delegationEnabled: token.delegationEnabled,
-                        issuer: token.issuer,
-                        metadata: token.metadata,
-                        scotConfig,
-                    },
-                };
-            });
+            .filter(b => !environment.DISABLED_TOKENS.includes(b.symbol));
 
         balances.sort(
             (a, b) =>
