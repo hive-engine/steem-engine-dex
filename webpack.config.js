@@ -63,6 +63,9 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma } =
     },
     mode: production ? 'production' : 'development',
     stats: 'errors-only',
+    optimization: {
+        concatenateModules: false,
+    },
     output: {
         path: outDir,
         publicPath: baseUrl,
