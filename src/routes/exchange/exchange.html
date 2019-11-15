@@ -6,14 +6,13 @@
     <require from="./components/best-price.html"></require>
     <require from="./components/token-metrics"></require>
     <require from="./components/order-actions"></require>
+    <require from="./components/token-open-orders"></require>
 
     <div class="token-metrics-margin-top">
-        <token-metrics
-            token.bind="data"
-            hide-buttons.bind="!state.loggedIn"
-            deposit.call="deposit()"
-            withdraw.call="withdraw()"
-        ></token-metrics>
+        <token-metrics token.bind="data"
+                       hide-buttons.bind="!state.loggedIn"
+                       deposit.call="deposit()"
+                       withdraw.call="withdraw()"></token-metrics>
     </div>
     <div class="container-fluid h100-minus-header">
         <div class="row exchange-columns h100">
@@ -21,48 +20,46 @@
                 <div class="exchange-header">
                     <h2>${'Sell Orders' & t}</h2>
                 </div>
-                <sellbook
-                          sell-book.bind="sellBook"
+                <sellbook sell-book.bind="sellBook"
                           data.bind="data"
-                          price.bind="bidPrice"
-                ></sellbook>
+                          price.bind="bidPrice"></sellbook>
                 <best-price order.bind="bestSellPrice"></best-price>
                 <div class="exchange-header">
                     <h2>${'Buy Orders' & t}</h2>
                 </div>
-                <buybook
-                         buy-book.bind="buyBook"
+                <buybook buy-book.bind="buyBook"
                          data.bind="data"
-                         price.bind="bidPrice"
-                ></buybook>
+                         price.bind="bidPrice"></buybook>
             </div>
 
             <div class="col-lg-6 col-md-12 col-sm-12 chart-col">
                 <chart class="exchange-chart" data.bind="chartData" view-model.ref="chartRef"></chart>
 
+                <hr />
+
                 <div class="row">
                     <div class="col-md-6">
-                        <balances
-                            data.bind="data"
-                            steemp-balance.bind="steempBalance"
-                            token-balance.bind="tokenBalance"
-                            deposit.call="deposit()"
-                        ></balances>
+                        <balances data.bind="data"
+                                  steemp-balance.bind="steempBalance"
+                                  token-balance.bind="tokenBalance"
+                                  deposit.call="deposit()"></balances>
                     </div>
                     <div class="col-md-6">
-                        <order-actions
-                            data.bind="data"
-                            price.bind="bidPrice"
-                            quantity.bind="bidQuantity"
-                            mode.bind="currentExchangeMode"
-                            steemp-balance.bind="steempBalance"
-                            token-balance.bind="tokenBalance"
-                            confirm.call="confirmMarketOrder()"
-                            amount-select.call="amountSelect(amount)"
-                            total.bind="totalMarketBalance"
-                        >
+                        <order-actions data.bind="data"
+                                       price.bind="bidPrice"
+                                       quantity.bind="bidQuantity"
+                                       mode.bind="currentExchangeMode"
+                                       steemp-balance.bind="steempBalance"
+                                       token-balance.bind="tokenBalance"
+                                       confirm.call="confirmMarketOrder()"
+                                       amount-select.call="amountSelect(amount)"
+                                       total.bind="totalMarketBalance">
                         </order-actions>
                     </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <token-open-orders orders.bind="tokenOpenOrders"></token-open-orders>
                 </div>
             </div>
 

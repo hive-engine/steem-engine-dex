@@ -1,3 +1,4 @@
+import { TokenInfoModal } from 'modals/wallet/token-info';
 import { State } from './../store/state';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
@@ -7,6 +8,8 @@ import { connectTo, dispatchify } from 'aurelia-store';
 import { loadTokensList, getCurrentFirebaseUser } from 'store/actions';
 
 import styles from './tokens.module.css';
+import { DialogService, DialogCloseResult } from 'aurelia-dialog';
+import { BuyTokenModal } from 'modals/buy-token';
 
 @autoinject()
 @connectTo()
@@ -15,9 +18,7 @@ export class Tokens {
     private tokenTable: HTMLTableElement;
     private state: State;
 
-    constructor(private se: SteemEngine, private taskQueue: TaskQueue) {
-
-    }
+    constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {}
 
     async canActivate() {
         await dispatchify(loadTokensList)();
@@ -27,17 +28,39 @@ export class Tokens {
         await dispatchify(getCurrentFirebaseUser)();
     }
 
+    buyENG() {
+        this.dialogService
+            .open({ viewModel: BuyTokenModal, model: 'ENG' })
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    async walletDialogCloseResponse(response: DialogCloseResult) {
+        console.log(response);
+
+        // reload data if necessary
+        if (!response.wasCancelled) {
+        }
+    }
+
     attached() {
         // @ts-ignore
         $(this.tokenTable).DataTable({
             order: [],
-            columnDefs: [ {
-                targets  : 'no-sort',
-                orderable: false
-            }],
+            columnDefs: [
+                {
+                    targets: 'no-sort',
+                    orderable: false,
+                },
+            ],
             bInfo: false,
             paging: false,
-            searching: false
+            searching: false,
+        });
+    }
+
+    showTokenInfo(symbol) {
+        this.dialogService.open({ viewModel: TokenInfoModal, model: symbol }).whenClosed(response => {
+            //console.log(response);
         });
     }
 
@@ -53,10 +76,13 @@ export class Tokens {
                 }
             });
 
-            const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
+            const userRef = firebase
+                .firestore()
+                .collection('users')
+                .doc(this.se.getUser());
 
             userRef.set(this.state.firebaseUser, {
-                merge: true
+                merge: true,
             });
         });
     }

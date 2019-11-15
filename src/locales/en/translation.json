@@ -5,5 +5,9 @@
     "LAST PRICE": "LAST PRICE",
     "HIGH": "HIGH",
     "LOW": "LOW",
-    "VOLUME": "VOLUME"
+    "VOLUME": "VOLUME",
+    "tokenCreationFee": "NOTE: Token Creation costs {{tokenFee}} ENG (Steem Engine Native Tokens)",
+    "yourEngBalance": "Your Current ENG Balance: {{balance}} ENG",
+    "tokenCreationHeading": "Create a token",
+    "tokenCreationSubheading": "Are you ready to make history? Let's make a new token on the Steem blockchain!"
 }
