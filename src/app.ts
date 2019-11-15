@@ -119,7 +119,7 @@ export class App {
                 route: 'tokens',
                 name: 'tokens',
                 moduleId: PLATFORM.moduleName('./routes/tokens'),
-                nav: 1,
+                nav: 0,
                 title: 'Tokens'
             },
             {
@@ -151,7 +151,7 @@ export class App {
                 href: `exchange/${environment.NATIVE_TOKEN}`,
                 name: 'exchange',
                 moduleId: PLATFORM.moduleName('./routes/exchange/exchange'),
-                nav: 0,
+                nav: 1,
                 title: 'Exchange'
             },
             {
@@ -258,6 +258,15 @@ export class App {
                 ),
                 nav: false,
                 title: "Crowdfunding Options"
+            },
+            {
+                route: "crowdfunding-create",
+                name: "crowdfunding-create",
+                moduleId: PLATFORM.moduleName(
+                    "./routes/offering-routes/crowdfunding/crowdfunding-create"
+                ),
+                nav: false,
+                title: "Crowdfunding Register"
             }
         ]);
 
