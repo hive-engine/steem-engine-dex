@@ -19,28 +19,28 @@
                 <div class="col-sm-12 col-md-6">
                     <div class="form-group">
                         <label>${'Token Name' & t}</label>
-                        <input type="text" class="form-control" value.bind="tokenName">
+                        <input type="text" class="form-control" value.bind="tokenName & validate">
                     </div>
                     <div class="form-group">
                         <label>${'URL' & t}</label>
-                        <input type="text" class="form-control" value.bind="url">
+                        <input type="text" class="form-control" value.bind="url & validate">
                     </div>
                     <div class="form-group">
                         <label>${'Decimal Precision' & t}</label>
-                        <input type="text" class="form-control" placeholder="0-8" value.bind="precision">
+                        <input type="text" class="form-control" placeholder="0-8" value.bind="precision & validate">
                     </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-lg btn-primary" click.delegate="createToken()">${'Create my token' & t}</button>
+                    </div>  
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <div class="form-group">
                         <label>${'Symbol' & t}</label>
-                        <input type="text" class="form-control" value.bind="symbol">
+                        <input type="text" class="form-control" value.bind="symbol & validate">
                     </div>
                     <div class="form-group">
                         <label>${'Max Supply' & t}</label>
-                        <input type="text" class="form-control" value.bind="maxSupply">
-                    </div>
-                    <div class="form-group">
-                        <button type="button">${'Create my token' & t}</button>
+                        <input type="text" class="form-control" value.bind="maxSupply & validate">
                     </div>
                 </div>
             </div>
