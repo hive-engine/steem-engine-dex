@@ -1,0 +1,48 @@
+<template>
+        <header class="main-header">
+            <div class="container-fluid main-container d-flex flex-column justify-content-end">
+                <div class="row">
+                    <div class="col-6">
+                        <h1>${'Create a token' & t}</h1>
+                        <p>${'Are you ready to make history? Let’s make a new token on the Steem blockchain!' & t}</p>
+                    </div>
+                </div>                
+            </div>
+        </header>
+
+        <div class="container main-container">
+            <div class="row">
+                <div class="col-12">
+                    <p><strong>${'NOTE: Token Creation costs 100 ENG (Steem Engine Native Tokens)' & t}</strong></p>
+                    <p>${'Your Current ENG Balance' & t}: ${engBalance} ENG</p>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group">
+                        <label>${'Token Name' & t}</label>
+                        <input type="text" class="form-control" value.bind="tokenName">
+                    </div>
+                    <div class="form-group">
+                        <label>${'URL' & t}</label>
+                        <input type="text" class="form-control" value.bind="url">
+                    </div>
+                    <div class="form-group">
+                        <label>${'Decimal Precision' & t}</label>
+                        <input type="text" class="form-control" placeholder="0-8" value.bind="precision">
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group">
+                        <label>${'Symbol' & t}</label>
+                        <input type="text" class="form-control" value.bind="symbol">
+                    </div>
+                    <div class="form-group">
+                        <label>${'Max Supply' & t}</label>
+                        <input type="text" class="form-control" value.bind="maxSupply">
+                    </div>
+                    <div class="form-group">
+                        <button type="button">${'Create my token' & t}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</template>

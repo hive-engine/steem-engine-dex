@@ -243,6 +243,12 @@ export class App {
                 ),
                 nav: false,
                 title: "Crowdfunding Options"
+            {
+                route: 'create-token',
+                name: 'createToken',
+                moduleId: PLATFORM.moduleName('./routes/create-token'),
+                nav: false,
+                title: 'Create Token'
             }
         ]);
 
