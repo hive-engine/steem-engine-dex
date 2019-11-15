@@ -106,7 +106,7 @@ export async function configure(aurelia: Aurelia) {
                 loadPath: './locales/{{lng}}/{{ns}}.json',
             },
             attributes: aliases,
-            ns: ['translation', 'errors', 'headings', 'buttons', 'notifications', 'titles'],
+            ns: ['translation', 'errors', 'buttons', 'notifications', 'titles'],
             defaultNS: 'translation',
             lng: environment.defaultLocale,
             fallbackLng: 'en',
