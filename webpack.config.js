@@ -76,42 +76,6 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma } =
         historyApiFallback: true,
         http2: true,
     },
-    optimization: {
-        concatenateModules: false,
-        runtimeChunk: true,
-        moduleIds: 'hashed',
-        splitChunks: {
-            hidePathInfo: true,
-            chunks: 'initial',
-            maxSize: 200000,
-            cacheGroups: {
-                default: false,
-                vendors: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendors',
-                    priority: 19,
-                    enforce: true,
-                    minSize: 30000,
-                },
-                vendorsAsync: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendors.async',
-                    chunks: 'async',
-                    priority: 9,
-                    reuseExistingChunk: true,
-                    minSize: 10000,
-                },
-                commonsAsync: {
-                    name: 'commons.async',
-                    minChunks: 2,
-                    chunks: 'async',
-                    priority: 0,
-                    reuseExistingChunk: true,
-                    minSize: 10000,
-                },
-            },
-        },
-    },
     devtool: production ? 'source-maps' : 'inline-source-map',
     module: {
         rules: [
