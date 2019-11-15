@@ -525,7 +525,7 @@ export async function checkTransaction(trxId: string, retries: number) {
         return await getTransactionInfo(trxId);
     } catch (e) {
         if (retries > 0) {
-            await delay(4000);
+            await delay(5000);
             return await checkTransaction(trxId, retries - 1);
         } else {
             throw new Error('Transaction not found.');
