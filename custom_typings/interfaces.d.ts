@@ -20,6 +20,8 @@ interface EnvironmentInterface {
 }
 
 interface BalanceInterface {
+    metric: any;
+    priceChangeSteem: number;
     _id: number;
     account: string;
     balance: string;
