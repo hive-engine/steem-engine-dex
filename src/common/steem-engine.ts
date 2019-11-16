@@ -481,20 +481,28 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
 
         const tokensString = JSON.stringify(tokens);
         
-        const loadedTokens = await query(`query { tokens(symbols: ${tokensString}) { symbol, metadata { icon } } }`);
+        const loadedTokens = await query(`query { tokens(symbols: ${tokensString}) { symbol, issuer, name, delegationEnabled, stakingEnabled, metadata { icon } } }`);
 
         if (loadedTokens) {
             for (const token of loadedTokens.data.tokens) {
                 for (const userToken of balances) {
                     if (userToken.symbol === token.symbol) {
                         // @ts-ignore
+                        userToken.issuer = token.issuer;
                         userToken.metadata = token.metadata;
+                        userToken.name = token.name;
+                        // @ts-ignore
+                        userToken.delegationEnabled = token.delegationEnabled;
+                        // @ts-ignore
+                        userToken.stakingEnabled = token.stakingEnabled;
                     }
                 }
             }
 
             tokens = [];
         }
+
+        console.log(balances);
 
         balances.sort(
             (a, b) =>
