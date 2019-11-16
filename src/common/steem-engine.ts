@@ -461,6 +461,21 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
             pendingUndelegations,
             stake,
             pendingUnstake,
+            token {
+                issuer, 
+                name, 
+                delegationEnabled, 
+                stakingEnabled, 
+                metadata { 
+                    icon 
+                }
+            }
+            metric {
+                lastDayPriceExpiration,
+                lastPrice,
+                priceChangePercent,
+                priceChangeSteem
+            }
             scotConfig {
                 pending_token,
                 staked_tokens
@@ -474,40 +489,25 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
         const balances = loadedBalances
             .filter(b => !environment.DISABLED_TOKENS.includes(b.symbol));
 
-        let tokens = balances.reduce((acc: string[], value: any) => {
-            acc.push(value.symbol);
-            return acc;
-        }, []);
-
-        const tokensString = JSON.stringify(tokens);
-        
-        const loadedTokens = await query(`query { tokens(symbols: ${tokensString}) { symbol, issuer, name, delegationEnabled, stakingEnabled, metadata { icon } } }`);
-
-        if (loadedTokens) {
-            for (const token of loadedTokens.data.tokens) {
-                for (const userToken of balances) {
-                    if (userToken.symbol === token.symbol) {
-                        // @ts-ignore
-                        userToken.issuer = token.issuer;
-                        userToken.metadata = token.metadata;
-                        userToken.name = token.name;
-                        // @ts-ignore
-                        userToken.delegationEnabled = token.delegationEnabled;
-                        // @ts-ignore
-                        userToken.stakingEnabled = token.stakingEnabled;
-                    }
-                }
+        for (const token of balances) {
+            if (token?.metric) {
+                token.usdValue = usdFormat(token.metric.lastPrice);
+            } else {
+                token.usdValue = '--';
             }
 
-            tokens = [];
+            if (token?.metric?.lastDayPriceExpiration >= 0) {
+                if (Date.now() / 1000 < token.metric.lastDayPriceExpiration) {
+                    token.metric.priceChangePercent = parseFloat(token.metric.priceChangePercent);
+                    token.metric.priceChangeSteem = parseFloat(token.metric.priceChangeSteem);
+                }
+            }
         }
-
-        console.log(balances);
 
         balances.sort(
             (a, b) =>
-                parseFloat(b.balance) * b.lastPrice * window.steem_price -
-                parseFloat(b.balance) * a.lastPrice * window.steem_price,
+                parseFloat(b.balance) * b?.metric?.lastPrice ?? 0 * window.steem_price -
+                parseFloat(b.balance) * a?.metric?.lastPrice ?? 0 * window.steem_price,
         );
 
         return balances;

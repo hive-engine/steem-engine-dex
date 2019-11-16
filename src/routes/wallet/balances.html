@@ -46,7 +46,7 @@
                                         <font-awesome-icon if.bind="token.isFavourite" icon.bind="['fas', 'star']"></font-awesome-icon>
                                         <font-awesome-icon else icon.bind="['far', 'star']"></font-awesome-icon>
                                     </button>
-                                    <img class="walletTokenIcon" if.bind="token.metadata.icon" src="${token.metadata.icon}" alt="${token.symbol}" title="${token.symbol}" />
+                                    <img class="walletTokenIcon" if.bind="token.token.metadata.icon" src="${token.token.metadata.icon}" alt="${token.symbol}" title="${token.symbol}" />
                                 </td>
                                 <td>
                                     ${token.symbol}
@@ -54,13 +54,13 @@
                                 <td class="text-left">${token.name}</td>
                                 <td class="text-right">${token.balance | comma}</td>
                                 <td class="text-right changePercentCol">
-                                    <span class="changePercent ${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}">
+                                    <span class="changePercent ${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}">
                                         ${token.usdValue}
                                     </span>
                                 </td>
                                 <td class="text-right changePercentCol">
-                                    <span class="changePercent ${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}">
-                                        ${token.priceChangePercent.toFixed(2)}%
+                                    <span class="changePercent ${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}">
+                                        ${token.metric.priceChangePercent.toFixed(2)}%
                                     </span>
                                 </td>
                                 <td class="text-right">${token.stake >= 0 ? token.stake : '--'} (${token.pendingUnstake > 0 ? token.pendingUnstake : 0})</td>
@@ -77,13 +77,13 @@
                                     <a route-href="route: token-history; params.bind: { symbol: token.symbol }" title="Show token history">
                                         <font-awesome-icon icon.bind="['fas', 'list-ul']"></font-awesome-icon>
                                     </a>
-                                    <button if.bind="token.stakingEnabled && token.balance > 0" click.delegate="stakeTokens(token.symbol)" title="Stake tokens">
+                                    <button if.bind="token.token.stakingEnabled && token.balance > 0" click.delegate="stakeTokens(token.symbol)" title="Stake tokens">
                                         <font-awesome-icon icon.bind="['fas', 'lock']"></font-awesome-icon>
                                     </button>
-                                    <button if.bind="token.stakingEnabled && token.stake > 0" click.delegate="unstakeTokens(token.symbol)" title="Unstake tokens">
+                                    <button if.bind="token.token.stakingEnabled && token.stake > 0" click.delegate="unstakeTokens(token.symbol)" title="Unstake tokens">
                                         <font-awesome-icon icon.bind="['fas', 'unlock']"></font-awesome-icon>
                                     </button>
-                                    <button if.bind="token.issuer === token.account" click.delegate="enableStaking(token.symbol)" title="Enable staking">
+                                    <button if.bind="token.token.issuer === token.account" click.delegate="enableStaking(token.symbol)" title="Enable staking">
                                         <font-awesome-icon icon.bind="['fas', 'gem']"></font-awesome-icon>
                                     </button>
                                     <a if.bind="token.pendingUnstake > 0" route-href="route: pending-unstakes" title="View pending unstakes">
@@ -92,13 +92,13 @@
                                     <a if.bind="token.pendingUndelegations > 0" route-href="route: pending-undelegations" title="Pending undelegations">
                                         <font-awesome-icon icon.bind="['fas', 'divide']"></font-awesome-icon>
                                     </a>
-                                    <button if.bind="token.delegationEnabled && token.stakingEnabled && token.stake > 0" click.delegate="delegateTokens(token.symbol)" title="Delegate tokens">
+                                    <button if.bind="token.token.delegationEnabled && token.token.stakingEnabled && token.stake > 0" click.delegate="delegateTokens(token.symbol)" title="Delegate tokens">
                                         <font-awesome-icon icon.bind="['fas', 'arrows-alt-h']"></font-awesome-icon>
                                     </button>
-                                    <button if.bind="token.issuer === token.account && !token.delegationEnabled && token.stakingEnabled" click.delegate="enableDelegation(token.symbol)" title="Enable delegation">
+                                    <button if.bind="token.token.issuer === token.account && !token.token.delegationEnabled && token.token.stakingEnabled" click.delegate="enableDelegation(token.symbol)" title="Enable delegation">
                                         <font-awesome-icon icon.bind="['fas', 'dolly']"></font-awesome-icon>
                                     </button>
-                                    <button if.bind="token.delegationEnabled && token.delegationsOut > 0"  click.delegate="undelegateTokens(token.symbol)" title="Undelegate tokens">
+                                    <button if.bind="token.token.delegationEnabled && token.delegationsOut > 0"  click.delegate="undelegateTokens(token.symbol)" title="Undelegate tokens">
                                         <font-awesome-icon icon.bind="['fas', 'folder-minus']"></font-awesome-icon>
                                     </button>
                                 </td>
