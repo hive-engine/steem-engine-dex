@@ -1,9 +1,12 @@
+import { initialState } from './state';
+/* eslint-disable no-undef */
+import { query } from 'common/apollo';
 import { State, ISettings } from './state';
 import store from './store';
 
 import firebase from 'firebase/app';
 import { log } from 'services/log';
-import { loadBalances, loadTokens, loadExchangeUiLoggedIn, loadExchangeUiLoggedOut, parseTokens } from 'common/steem-engine';
+import { loadBalances, loadTokens, loadExchangeUiLoggedIn, loadExchangeUiLoggedOut, parseTokens, loadConversionSentReceived } from 'common/steem-engine';
 import { ssc } from 'common/ssc';
 import moment from 'moment';
 
@@ -18,9 +21,17 @@ export function loading(state: State, boolean: boolean) {
 export function login(state: State, username: string): State {
     const newState = { ...state };
 
-    newState.account.name = username;
+    if (newState?.account) {
+        newState.account.name = username;
 
-    newState.loggedIn = true;
+        newState.loggedIn = true;
+    } else {
+        const copiedInitialsTate = { ...initialState };
+
+        newState.account = copiedInitialsTate.account;
+        newState.account.name = username;
+        newState.loggedIn = true;
+    }
 
     return newState;
 }
@@ -46,7 +57,9 @@ export function logout(state: State): State {
 export function setAccount(state: State, account: Partial<State['account']>): State {
     const newState = { ...state };
 
-    newState.account = Object.assign(newState.account, account);
+    if (newState?.account) {
+        newState.account = Object.assign(newState.account, account);
+    }
 
     return newState;
 }
@@ -76,7 +89,8 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
         if (doc.exists) {
             newState.firebaseUser = doc.data();
 
-            newState.firebaseUser.notifications = newState.firebaseUser.notifications.filter(notification => !notification.read);
+            if (newState.firebaseUser.notifications)
+                newState.firebaseUser.notifications = newState.firebaseUser.notifications.filter(notification => !notification.read);
 
             // eslint-disable-next-line no-undef
             if (newState?.firebaseUser?.favourites) {
@@ -210,6 +224,24 @@ export async function loadTokensList(state: State): Promise<State> {
     return newState;
 }
 
+export async function loadConversionHistory(state: State, account: string = undefined): Promise<State> {
+    const newState = { ...state };
+
+    try {
+        const conversionSentReceived = await loadConversionSentReceived(account);        
+        const conversionHistory = [...conversionSentReceived.conversionSent.results, ...conversionSentReceived.conversionReceived.results];        
+
+        // sort by date
+        conversionHistory.sort((a, b) => (a.created_at > b.created_at) ? -1 : ((b.created_at > a.created_at) ? 1 : 0));
+
+        newState.conversionHistory = conversionHistory;
+    } catch (e) {
+        log.error(e);
+    }
+
+    return newState;
+}
+
 export async function exchangeData(state: State, symbol: string): Promise<State> {
     const newState = { ...state };
 
@@ -282,13 +314,27 @@ export async function markNotificationsRead(state: State) {
     if (newState.loggedIn) {
         const userRef = firebase.firestore().collection('users').doc(newState.account.name);
 
-        newState.firebaseUser.notifications = newState.firebaseUser.notifications.map(notification => {
-            notification.read = true;
-    
-            return notification;
-        });
-    
-        userRef.update({ notifications: newState.firebaseUser.notifications });
+        if (newState.firebaseUser.notifications) {
+            newState.firebaseUser.notifications = newState.firebaseUser.notifications.map(notification => {
+                notification.read = true;
+
+                return notification;
+            });
+
+            userRef.update({ notifications: newState.firebaseUser.notifications });
+        }
+    }
+
+    return newState;
+}
+
+export async function getPendingWithdrawals(state: State) {
+    const newState = { ...state };
+
+    if (newState.loggedIn) {
+        const { data: { pendingWithdrawals } } = await query(`query { pendingWithdrawals(account: "${newState.account.name}") { memo, quantity, type } }`) as any;
+
+        newState.pendingWithdrawals = pendingWithdrawals;
     }
 
     return newState;
@@ -308,3 +354,5 @@ store.registerAction('loadSellBook', loadSellBook);
 store.registerAction('loadTradeHistory', loadTradeHistory);
 store.registerAction('exchangeData', exchangeData);
 store.registerAction('markNotificationsRead', markNotificationsRead);
+store.registerAction('getPendingWithdrawals', getPendingWithdrawals);
+store.registerAction('loadConversionHistory', loadConversionHistory);

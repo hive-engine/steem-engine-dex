@@ -263,3 +263,12 @@ sellbook {
     border-radius: 0;
     opacity: 0.85;
 }
+
+.table-buttons a,
+.table-buttons button {
+    font-size: 20px;
+    padding: 2px 5px;
+    background: none;
+    border: none;
+    outline: none;
+}

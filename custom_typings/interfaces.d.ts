@@ -20,6 +20,8 @@ interface EnvironmentInterface {
 }
 
 interface BalanceInterface {
+    metric: any;
+    priceChangeSteem: number;
     _id: number;
     account: string;
     balance: string;
@@ -29,6 +31,7 @@ interface BalanceInterface {
     scotConfig?: any;
     symbol: string;
     usdValue: string;
+    metadata: any;
 }
 
 
@@ -69,6 +72,7 @@ interface IReloadEventData {
     reloadBuyBook: boolean;
     reloadSellBook: boolean;
     reloadTradeHistory: boolean; 
+    reloadTokenOpenOrders: boolean; 
 }
 
 interface IToken {
@@ -188,4 +192,30 @@ interface IPendingUnstakeTransaction {
     symbol: string;
     timestamp_string: string;
     millisecPerPeriod: string;
+}
+
+interface IConversionItem {
+    count: number;
+    next: string;
+    previous: string;
+    results: IConversionItemResult[]
+}
+
+interface IConversionItemResult {
+    url: string;
+    from_coin_symbol: string;
+    to_coin_symbol: string;
+    from_address: string;
+    to_address: string;
+    to_memo: string;
+    to_amount: string;
+    to_txid: string;
+    tx_fee: string;
+    ex_fee: string;
+    created_at: string;
+    created_at_string: string;
+    updated_at: string;
+    deposit: string;
+    from_coin: string;
+    to_coin: string;
 }

@@ -1,3 +1,4 @@
+import { Settings } from './services/settings';
 import { CallingAction, MiddlewarePlacement } from 'aurelia-store';
 /* eslint-disable no-undef */
 import { AuthorizeStep } from './resources/pipeline-steps/authorize';
@@ -13,8 +14,7 @@ import { Router, RouterConfiguration, RouterEvent } from 'aurelia-router';
 import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
 
-import firebase from 'firebase/app';
-import { login, logout, loadSiteSettings, getCurrentFirebaseUser, setAccount, markNotificationsRead } from 'store/actions';
+import { getCurrentFirebaseUser, markNotificationsRead } from 'store/actions';
 
 function lastCalledActionMiddleware(state: State, originalState: State, settings = {}, action: CallingAction) {
     state.$action = {
@@ -23,26 +23,6 @@ function lastCalledActionMiddleware(state: State, originalState: State, settings
     };
 
     return state;
-}
-
-async function authStateChanged() {
-    return new Promise(resolve => {
-        firebase.auth().onAuthStateChanged(async user => {
-            // eslint-disable-next-line no-undef
-            const token = await firebase.auth()?.currentUser?.getIdTokenResult(true);
-
-            if (user) {
-                dispatchify(login)(user.uid);
-                if (token) {
-                    dispatchify(setAccount)({token});
-                }
-                resolve();
-            } else {
-                dispatchify(logout)();
-                resolve();
-            }
-        });
-    });
 }
 
 @autoinject()
@@ -56,9 +36,7 @@ export class App {
     public subscription: Subscription;
     private state: State;
 
-    constructor(private ea: EventAggregator, private store: Store<State>, private se: SteemEngine) {
-        authStateChanged();
-
+    constructor(private ea: EventAggregator, private store: Store<State>, private se: SteemEngine, private settings: Settings) {
         this.store.registerMiddleware(lastCalledActionMiddleware, MiddlewarePlacement.After);
     }
 
@@ -66,7 +44,7 @@ export class App {
         this.store.state.subscribe((s: State) => {
             if (s) {
                 this.state = s;
-                                
+
                 this.loading = s.loading;
                 this.loggedIn = s.loggedIn;
                 this.claims = s?.account?.token?.claims;
@@ -75,15 +53,15 @@ export class App {
         });
 
         this.subscription = this.ea.subscribe(RouterEvent.Complete, () => {
-            dispatchify(loadSiteSettings)();
             dispatchify(getCurrentFirebaseUser)();
             dispatchify(markNotificationsRead)();
         });
     }
 
     public configureRouter(config: RouterConfiguration, router: Router) {
-        config.title = 'Steem Engine';
-        config.options.pushState = true;
+        config.title = this.settings.property('siteName', 'Steem Engine');
+
+        MaintenanceStep.inMaintenance = this.settings.property('maintenanceMode', false);
 
         config.options.pushState = true;
 
@@ -99,6 +77,13 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/home'),
                 nav: false,
                 title: 'Home'
+            },
+            {
+                route: 'maintenance',
+                name: 'maintenance',
+                moduleId: PLATFORM.moduleName('./routes/maintenance'),
+                nav: false,
+                title: 'We will be right back...'
             },
             {
                 route: 'wallet',
@@ -222,22 +207,22 @@ export class App {
                 title: 'State Costs',
             },
             {
-                route: "scotbot",
-                name: "scotbot",
+                route: 'scotbot',
+                name: 'scotbot',
                 moduleId: PLATFORM.moduleName(
-                    "./routes/offering-routes/scotbot"
+                    './routes/offering-routes/scotbot'
                 ),
                 nav: false,
-                title: "Scotbot"
+                title: 'Scotbot'
             },
             {
-                route: "state-costs",
-                name: "state-costs",
+                route: 'state-costs',
+                name: 'state-costs',
                 moduleId: PLATFORM.moduleName(
-                    "./routes/offering-routes/state-costs"
+                    './routes/offering-routes/state-costs'
                 ),
                 nav: false,
-                title: "State Costs"
+                title: 'State Costs'
             },
             {
                 route: 'admin',
@@ -249,6 +234,22 @@ export class App {
                 settings: {
                     roles: ['super', 'admin']
                 }
+            },
+            {
+                route: 'crowdfunding-options',
+                name: 'crowdfunding-options',
+                moduleId: PLATFORM.moduleName(
+                    './routes/offering-routes/crowdfunding/crowdfunding-options'
+                ),
+                nav: false,
+                title: 'Crowdfunding Options'
+            },
+            {
+                route: 'create-token',
+                name: 'createToken',
+                moduleId: PLATFORM.moduleName('./routes/create-token'),
+                nav: false,
+                title: 'Create Token'
             }
         ]);
 

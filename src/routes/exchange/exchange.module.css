@@ -169,6 +169,19 @@ tr td:last-child {
     margin-right: 0;
 }
 
+.token-open-orders-table .red,
+.token-open-orders-table .green {
+    font-weight: bold;
+}
+
+.token-open-orders-table .red {
+    color: red;
+}
+
+.token-open-orders-table .green {
+    color: green;
+}
+
 /* .buy-percentage-buttons {
 }
 .buy-percentage-buttons button {

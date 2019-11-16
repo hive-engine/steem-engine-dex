@@ -10,12 +10,12 @@ import { StakeModal } from 'modals/wallet/stake';
 import { UnstakeModal } from 'modals/wallet/unstake';
 import { DelegateModal } from 'modals/wallet/delegate';
 import { UndelegateModal } from 'modals/wallet/undelegate';
-import { EnableDelegationModal } from 'modals/wallet/enable-delegation';
-import { EnableStakingModal } from 'modals/wallet/enable-staking';
+import { EnableDelegationModal } from 'modals/wallet/issuers/enable-delegation';
+import { EnableStakingModal } from 'modals/wallet/issuers/enable-staking';
 
 import firebase from 'firebase/app';
 import { dispatchify, Store } from 'aurelia-store';
-import { getCurrentFirebaseUser, loadAccountBalances, loadTokensList } from 'store/actions';
+import { getCurrentFirebaseUser, loadAccountBalances } from 'store/actions';
 import styles from "./balances.module.css";
 import { DialogService, DialogCloseResult } from 'aurelia-dialog';
 
@@ -67,13 +67,8 @@ export class Balances {
         });
     }
 
-    async loadAccountScotUserTokens() {
-        this.state.account.scotTokens = await this.se.getScotUsertokens(this.state.account.name);
-    }
-
     async canActivate() {
         try {
-            await dispatchify(loadTokensList)();
             await dispatchify(loadAccountBalances)();
             await dispatchify(getCurrentFirebaseUser)();
 

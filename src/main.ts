@@ -1,7 +1,8 @@
+import { loadSiteSettings } from 'store/actions';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-import './common/firebase';
+import { authStateChanged } from './common/firebase';
 
 import 'bootstrap';
 import 'datatables.net-bs4';
@@ -26,6 +27,7 @@ import { ConsoleAppender } from 'aurelia-logging-console';
 import { environment } from './environment';
 import { PLATFORM } from 'aurelia-pal';
 import { initialState } from './store/state';
+import { dispatchify } from 'aurelia-store';
 import { TCustomAttribute } from 'aurelia-i18n';
 import Backend from 'i18next-xhr-backend';
 
@@ -36,6 +38,9 @@ import { fas } from '@fortawesome/pro-solid-svg-icons';
 import { far } from '@fortawesome/pro-regular-svg-icons';
 import { fad } from '@fortawesome/pro-duotone-svg-icons';
 import { EventAggregator } from 'aurelia-event-aggregator';
+
+import { I18N } from 'aurelia-i18n';
+import { ValidationMessageProvider } from 'aurelia-validation';
 
 LogManager.addAppender(new ConsoleAppender());
 
@@ -91,21 +96,21 @@ export async function configure(aurelia: Aurelia) {
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-i18n'), (instance) => {
         const aliases = ['t', 'i18n'];
         TCustomAttribute.configureAliases(aliases);
-  
+
         // register backend plugin
         instance.i18next
             .use(Backend);
-  
+
         return instance.setup({
             backend: {
                 loadPath: './locales/{{lng}}/{{ns}}.json',
             },
             attributes: aliases,
-            ns: ['translation', 'errors', 'headings', 'buttons', 'notifications', 'titles'],
+            ns: ['translation', 'errors', 'buttons', 'notifications', 'titles'],
             defaultNS: 'translation',
             lng: environment.defaultLocale,
             fallbackLng: 'en',
-            debug : false
+            debug: false
         }).then(() => {
             const router = aurelia.container.get(AppRouter);
 
@@ -113,10 +118,27 @@ export async function configure(aurelia: Aurelia) {
 
             const eventAggregator = aurelia.container.get(EventAggregator);
             eventAggregator.subscribe('i18n:locale:changed', () => {
-              router.updateTitle();
+                router.updateTitle();
             });
         });
     });
+
+    ValidationMessageProvider.prototype.getMessage = function(key: string) {
+        const i18n = aurelia.container.get(I18N);
+        const translation = i18n.tr(`${key}`);
+        return this.parser.parse(translation);
+      };
+    
+      ValidationMessageProvider.prototype.getDisplayName = function(propertyName: string, displayName: string) {
+        if (displayName !== null && displayName !== undefined) {
+          return displayName;
+        }
+        const i18n = aurelia.container.get(I18N);
+        return i18n.tr(propertyName);
+      };
+
+    await authStateChanged();
+    await dispatchify(loadSiteSettings)();
 
     await aurelia.start();
     await aurelia.setRoot(PLATFORM.moduleName('app'));

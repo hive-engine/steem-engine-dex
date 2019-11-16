@@ -4,159 +4,119 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 const project = require('./aurelia_project/aurelia.json');
-const {
-    AureliaPlugin,
-    ModuleDependenciesPlugin
-} = require('aurelia-webpack-plugin');
+const { AureliaPlugin, ModuleDependenciesPlugin } = require('aurelia-webpack-plugin');
 const { ProvidePlugin } = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const HtmlCriticalPlugin = require("html-critical-webpack-plugin");
+const HtmlCriticalPlugin = require('html-critical-webpack-plugin');
 
-const ensureArray = config =>
-    (config && (Array.isArray(config) ? config : [config])) || [];
-const when = (condition, config, negativeConfig) =>
-    condition ? ensureArray(config) : ensureArray(negativeConfig);
+const ensureArray = config => (config && (Array.isArray(config) ? config : [config])) || [];
+const when = (condition, config, negativeConfig) => (condition ? ensureArray(config) : ensureArray(negativeConfig));
 
 const title = 'Steem Engine - Smart Contracts on the STEEM blockchain';
 const outDir = path.resolve(__dirname, project.platform.output);
 const srcDir = path.resolve(__dirname, 'src');
-const nodeModulesDir = path.resolve(__dirname, 'node_modules');
 const baseUrl = '/';
-  
+
 const loaders = {
-    style: { loader: "style-loader" },
-    css: { loader: "css-loader" },
+    style: { loader: 'style-loader' },
+    css: { loader: 'css-loader' },
     cssModules: {
         loader: 'css-loader',
         options: {
-          importLoaders: 2,
-          modules: true,
-          modules: {
-            localIdentName: '[name]__[local]____[hash:base64:5]'
-          }
-        }
+            importLoaders: 2,
+            modules: {
+                localIdentName: '[name]__[local]____[hash:base64:5]',
+            },
+        },
     },
-    postCss: { loader: "postcss-loader" },
+    postCss: { loader: 'postcss-loader' },
 };
 
 const productionCss = [
     {
         loader: MiniCssExtractPlugin.loader,
     },
-    loaders.cssModules, 
-    loaders.postCss
+    loaders.cssModules,
+    loaders.postCss,
 ];
 
 const productionGlobalCss = [
     {
         loader: MiniCssExtractPlugin.loader,
     },
-    loaders.css, 
-    loaders.postCss
+    loaders.css,
+    loaders.postCss,
 ];
 
-module.exports = ({ production, server, extractCss, coverage, analyze, karma} = {}) => ({
+module.exports = ({ production, server, extractCss, coverage, analyze, karma } = {}) => ({
     resolve: {
         extensions: ['.ts', '.js'],
         modules: [srcDir, 'node_modules'],
         alias: {
             'base-environment': path.resolve(__dirname, 'aurelia_project/environments/base'),
-            'inherits': path.resolve(__dirname, 'node_modules/inherits'),
+            inherits: path.resolve(__dirname, 'node_modules/inherits'),
             'safe-buffer': path.resolve(__dirname, 'node_modules/safe-buffer'),
-        }
+        },
     },
     entry: {
-        app: ['aurelia-bootstrapper']
+        app: ['aurelia-bootstrapper'],
     },
     mode: production ? 'production' : 'development',
     stats: 'errors-only',
+    optimization: {
+        concatenateModules: false,
+    },
     output: {
         path: outDir,
         publicPath: baseUrl,
         filename: production ? '[name].[chunkhash].bundle.js' : '[name].[hash].bundle.js',
         sourceMapFilename: production ? '[name].[chunkhash].bundle.map' : '[name].[hash].bundle.map',
-        chunkFilename: production ? '[name].[chunkhash].chunk.js' : '[name].[hash].chunk.js'
+        chunkFilename: production ? '[name].[chunkhash].chunk.js' : '[name].[hash].chunk.js',
     },
     performance: { hints: false },
     devServer: {
         contentBase: outDir,
         historyApiFallback: true,
-        http2: true
+        http2: true,
     },
-    optimization: {
-        concatenateModules: false,
-        runtimeChunk: true,
-        moduleIds: 'hashed',
-        splitChunks: {
-          hidePathInfo: true,
-          chunks: "initial",
-          maxSize: 200000,
-          cacheGroups: {
-            default: false,
-            vendors: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
-              priority: 19,
-              enforce: true,
-              minSize: 30000
-            },
-            vendorsAsync: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors.async',
-              chunks: 'async',
-              priority: 9,
-              reuseExistingChunk: true,
-              minSize: 10000
-            },
-            commonsAsync: {
-              name: 'commons.async',
-              minChunks: 2,
-              chunks: 'async',
-              priority: 0,
-              reuseExistingChunk: true,
-              minSize: 10000
-            }
-          }
-        }
-      },
     devtool: production ? 'source-maps' : 'inline-source-map',
     module: {
         rules: [
-            { 
+            {
                 test: /\.module.css$/,
-                issuer: [{ not: [{ test: /\.html$/i }] }], 
-                use: production ? productionCss : [loaders.style, loaders.cssModules, loaders.postCss] 
+                issuer: [{ not: [{ test: /\.html$/i }] }],
+                use: production ? productionCss : [loaders.style, loaders.cssModules, loaders.postCss],
             },
-            { 
+            {
                 test: /^((?!\.module).)*css$/,
-                issuer: [{ not: [{ test: /\.html$/i }] }], 
-                use: production ? productionGlobalCss : [loaders.style, loaders.css, loaders.postCss] 
+                issuer: [{ not: [{ test: /\.html$/i }] }],
+                use: production ? productionGlobalCss : [loaders.style, loaders.css, loaders.postCss],
             },
-            { 
-                test: /\.css$/i, 
-                issuer: [{ test: /\.html$/i }], 
-                use: [loaders.css, loaders.postCss] 
+            {
+                test: /\.css$/i,
+                issuer: [{ test: /\.html$/i }],
+                use: [loaders.css, loaders.postCss],
             },
             { test: /\.html$/i, loader: 'html-loader' },
             { test: /\.ts$/, loader: 'ts-loader' },
             {
                 test: /\.(png|gif|jpg|cur)$/i,
                 loader: 'url-loader',
-                options: { limit: 8192 }
+                options: { limit: 8192 },
             },
             {
                 test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
                 loader: 'url-loader',
-                options: { limit: 10000, mimetype: 'application/font-woff2' }
+                options: { limit: 10000, mimetype: 'application/font-woff2' },
             },
             {
                 test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
                 loader: 'url-loader',
-                options: { limit: 10000, mimetype: 'application/font-woff' }
+                options: { limit: 10000, mimetype: 'application/font-woff' },
             },
             {
                 test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
-                loader: 'file-loader'
+                loader: 'file-loader',
             },
             ...when(coverage, {
                 test: /\.[jt]s$/i,
@@ -164,63 +124,58 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma} = 
                 include: srcDir,
                 exclude: [/\.(spec|test)\.[jt]s$/i],
                 enforce: 'post',
-                options: { esModules: true }
-            })
-        ]
+                options: { esModules: true },
+            }),
+        ],
     },
     plugins: [
         ...when(!karma, new DuplicatePackageCheckerPlugin()),
         new AureliaPlugin({
             features: {
-              ie: false,
-              svg: false
-            }
+                ie: false,
+                svg: false,
+            },
         }),
         new ProvidePlugin({
             $: 'jquery',
-            jQuery: 'jquery'
+            jQuery: 'jquery',
         }),
         new ModuleDependenciesPlugin({
-            'aurelia-testing': ['./compile-spy', './view-spy']
+            'aurelia-testing': ['./compile-spy', './view-spy'],
         }),
         new HtmlWebpackPlugin({
             template: 'index.ejs',
             metadata: {
                 title,
                 server,
-                baseUrl
-            }
+                baseUrl,
+            },
         }),
-        ...when(production, new HtmlCriticalPlugin({
-            base: path.join(path.resolve(__dirname), 'dist/'),
-            src: 'index.html',
-            dest: 'index.html',
-            inline: true,
-            minify: true,
-            extract: true,
-            width: 1920,
-            height: 1080,
-            penthouse: {
-              blockJSRequests: false,
-            }
-        })),
-        ...when(extractCss, new MiniCssExtractPlugin({
-            filename: production
-                ? 'css/[name].[contenthash].bundle.css'
-                : 'css/[name].[hash].bundle.css',
-            chunkFilename: production
-                ? 'css/[name].[contenthash].chunk.css'
-                : 'css/[name].[hash].chunk.css'
-        })),
         ...when(
-            production || server,
-            new CopyWebpackPlugin([
-                { from: 'static', to: outDir, ignore: ['.*'] }
-            ])
+            production,
+            new HtmlCriticalPlugin({
+                base: path.join(path.resolve(__dirname), 'dist/'),
+                src: 'index.html',
+                dest: 'index.html',
+                inline: true,
+                minify: true,
+                extract: true,
+                width: 1920,
+                height: 1080,
+                penthouse: {
+                    blockJSRequests: false,
+                },
+            }),
         ),
-        new CopyWebpackPlugin([
-            { from: 'src/locales/', to: 'locales/' }
-        ]),
-        ...when(analyze, new BundleAnalyzerPlugin())
-    ]
+        ...when(
+            extractCss,
+            new MiniCssExtractPlugin({
+                filename: production ? 'css/[name].[contenthash].bundle.css' : 'css/[name].[hash].bundle.css',
+                chunkFilename: production ? 'css/[name].[contenthash].chunk.css' : 'css/[name].[hash].chunk.css',
+            }),
+        ),
+        ...when(production || server, new CopyWebpackPlugin([{ from: 'static', to: outDir, ignore: ['.*'] }])),
+        new CopyWebpackPlugin([{ from: 'src/locales/', to: 'locales/' }]),
+        ...when(analyze, new BundleAnalyzerPlugin()),
+    ],
 });
