@@ -42,13 +42,14 @@
                         <tbody>
                             <tr repeat.for="token of balances | arrayFilter: {search: 'symbol', term: searchValue}">
                                 <td>
-                                    <img class="walletTokenIcon" src="${token.metadata.icon}" alt="${token.symbol}" title="${token.symbol}" />
-                                </td>
-                                <td>
                                     <button type="button" class="btn btn-icon btn-favourite ${token.isFavourite ? 'active' : ''}" click.delegate="favouriteToken(token)">
                                         <font-awesome-icon if.bind="token.isFavourite" icon.bind="['fas', 'star']"></font-awesome-icon>
                                         <font-awesome-icon else icon.bind="['far', 'star']"></font-awesome-icon>
-                                    </button>${token.symbol}
+                                    </button>
+                                    <img class="walletTokenIcon" if.bind="token.metadata.icon" src="${token.metadata.icon}" alt="${token.symbol}" title="${token.symbol}" />
+                                </td>
+                                <td>
+                                    ${token.symbol}
                                 </td>
                                 <td class="text-left">${token.name}</td>
                                 <td class="text-right">${token.balance | comma}</td>
