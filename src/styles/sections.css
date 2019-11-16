@@ -9,8 +9,7 @@
 }
 
 .section-steam {
-    background: url(https://s3.amazonaws.com/steem-engine/images/bg_engine.jpg)
-        #962e17 no-repeat top right;
+    background: url(https://s3.amazonaws.com/steem-engine/images/bg_engine.jpg) #962e17 no-repeat top right;
     background-size: cover;
     padding: 50px 20px;
 }
@@ -24,7 +23,36 @@
     .section-light,
     .section-why,
     .section-how {
-        padding-bottom: 100px;
+        padding-bottom: 10px;
+        padding-top: 20px;
+    }
+    .section-why {
+        padding-bottom: 0px !important;
+    }
+    .section-title {
+        text-align: center !important;
+    }
+    .desc-text {
+        text-align: center !important;
+    }
+    .action-button {
+        text-align: center !important;
+    }
+    .mg-bt {
+        margin-bottom: 15px;
+    }
+    .pd-r {
+        padding: 20px;
+    }
+    .pd-b {
+        padding-bottom: 0px !important;
+    }
+    .help-title,
+    .help-desc {
+        text-align: center;
+    }
+    .help-icon img {
+        padding-bottom: 0px;
     }
 }
 #small-screen-divideer {
@@ -54,7 +82,7 @@
 }
 
 .get-started {
-    background-image: url("../images/color-bg.svg");
+    background-image: url('../images/color-bg.svg');
     padding: 50px 20px;
 }
 .get-started-wrapper {
@@ -127,8 +155,7 @@
 
 .steam-card {
     background: rgb(29, 3, 3, 0.83) !important;
-    box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px 0px,
-        rgba(0, 0, 0, 0.08) 0px 1px 2px 0px;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px 0px, rgba(0, 0, 0, 0.08) 0px 1px 2px 0px;
     box-sizing: border-box;
     margin-top: 30px;
     padding: 15px;
@@ -272,7 +299,7 @@
 }
 
 .section-how {
-    background: url("../images/explainervidbg.png");
+    background: url('../images/explainervidbg.png');
     z-index: -1;
 }
 
@@ -296,6 +323,21 @@
     iframe {
         height: 1200px;
     }
+    .mg-bt {
+        margin-bottom: 15px;
+        
+    }
+}
+@media (max-width: 768px) {
+    .mg-bt {
+        margin-bottom: 15px;
+        max-width: 80%;
+        margin: auto;
+    }
+    .action-button {
+        margin-bottom: 40px;
+        
+    }
 }
 @media (max-width: 420px) {
     iframe {
@@ -308,6 +350,9 @@
 }
 .margin-top-40 {
     margin-top: 40px;
+}
+.pd-b {
+    padding: 30px 80px 80px;
 }
 .footer-ul {
     padding: 10px 0 !important;
