@@ -474,6 +474,28 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
         const balances = loadedBalances
             .filter(b => !environment.DISABLED_TOKENS.includes(b.symbol));
 
+        let tokens = balances.reduce((acc: string[], value: any) => {
+            acc.push(value.symbol);
+            return acc;
+        }, []);
+
+        const tokensString = JSON.stringify(tokens);
+        
+        const loadedTokens = await query(`query { tokens(symbols: ${tokensString}) { symbol, metadata { icon } } }`);
+
+        if (loadedTokens) {
+            for (const token of loadedTokens.data.tokens) {
+                for (const userToken of balances) {
+                    if (userToken.symbol === token.symbol) {
+                        // @ts-ignore
+                        userToken.metadata = token.metadata;
+                    }
+                }
+            }
+
+            tokens = [];
+        }
+
         balances.sort(
             (a, b) =>
                 parseFloat(b.balance) * b.lastPrice * window.steem_price -

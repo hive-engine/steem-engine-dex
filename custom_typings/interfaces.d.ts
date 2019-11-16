@@ -29,6 +29,7 @@ interface BalanceInterface {
     scotConfig?: any;
     symbol: string;
     usdValue: string;
+    metadata: any;
 }
 
 
