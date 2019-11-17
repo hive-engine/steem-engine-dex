@@ -2,8 +2,7 @@ interface EnvironmentInterface {
     debug: boolean;
     testing: boolean;
     FIREBASE_API: string;
-    MAINTENANCE_MODE: boolean;
-    CHAIN_ID: string;
+    chainId: string;
     siteName: string;
     defaultLocale: string;
     RPC_URL: string;
@@ -13,10 +12,10 @@ interface EnvironmentInterface {
     GRAPHQL_API: string;
     HISTORY_API: string;
     SCOT_API: string;
-    STEEMP_ACCOUNT: string;
-    NATIVE_TOKEN: string;
-    DISABLED_TOKENS: string[];
-    PEGGED_TOKEN: string;    
+    steempAccount: string;
+    nativeToken: string;
+    disabledTokens: string[];
+    peggedToken: string;    
 }
 
 interface BalanceInterface {

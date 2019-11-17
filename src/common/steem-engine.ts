@@ -70,7 +70,7 @@ export async function loadCoins(): Promise<ICoin[]> {
 }
 
 export function parseTokens(data: any): State {
-    const tokens = data.tokens.filter(t => !environment.DISABLED_TOKENS.includes(t.symbol));
+    const tokens = data.tokens.filter(t => !environment.disabledTokens.includes(t.symbol));
 
     for (const token of tokens) {
         token.highestBid = 0;
@@ -186,7 +186,7 @@ export async function loadTokens(limit = 1000, offset = 0): Promise<any[]> {
         steempBalance: IBalance;
     };
 
-    const finalTokens = tokens.filter(t => !environment.DISABLED_TOKENS.includes(t.symbol));
+    const finalTokens = tokens.filter(t => !environment.disabledTokens.includes(t.symbol));
 
     for (const token of finalTokens) {
         token.highestBid = 0;
@@ -472,7 +472,7 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
 
     if (loadedBalances.length) {
         const balances = loadedBalances
-            .filter(b => !environment.DISABLED_TOKENS.includes(b.symbol));
+            .filter(b => !environment.disabledTokens.includes(b.symbol));
 
         balances.sort(
             (a, b) =>
