@@ -1,0 +1,123 @@
+<template>
+    <section class="register-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="title">
+                        <h2>
+                            Welcome to our Crowdfunding Platform
+                        </h2>
+                        <p>We provide a couple of options that enable projects raise funds</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="header-img text-right">
+                        <img class="headImg" src="../../../images/registerHeaderImg.svg" alt="crowdfund" width="80%" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="standalone-header text-center">Signup to start your campaign</h2>
+                    <hr class="split" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="crowdfunding-form">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="card-form">
+                        <div class="register-card-header text-center">
+                            <img
+                                src="../../../images/se-stand-full-opacity.svg"
+                                alt="logo"
+                                class="register-logo"
+                                width="80px"
+                            />
+                        </div>
+                        <form>
+                            <div class="form-group">
+                                <label class="create-form-label" for="exampleFormControlInput1">Your target</label>
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    placeholder="How much would you like to raise"
+                                />
+                                <small class="form-text text-muted">
+                                    You can edit your target later.
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label class="create-form-label" for="exampleFormControlSelect2"
+                                    >Choose project category</label
+                                >
+                                <select class="form-control" id="exampleFormControlSelect2">
+                                    <option>Social</option>
+                                    <option>Sports</option>
+                                    <option>Video Sharing</option>
+                                    <option>Lifestyle</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="create-form-label" for="aboutProject">Tell us about your project</label>
+                                <textarea class="form-control" id="aboutProject" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="create-form-label" for="exampleFormControlInput1">Full Name</label>
+                                <input type="text" class="form-control" placeholder="Enter your full name here" />
+                                <small class="form-text text-muted">
+                                    Enter your real name for easy KYC procedure.
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label class="create-form-label" for="exampleFormControlInput1">Zip Code</label>
+                                <input type="text" class="form-control" placeholder="Enter zip code" />
+                                <small class="form-text text-muted">
+                                    Enter your zip code.
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label class="create-form-label" for="exampleFormControlInput1">Discord Username</label>
+                                <input type="text" class="form-control" placeholder="Enter your discord username" />
+                                <small class="form-text text-muted">
+                                    This will allow us to communicate easier with you during the process.
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label class="create-form-label" for="exampleFormControlInput1">Steem Username</label>
+                                <input type="passoword" class="form-control" placeholder="Enter Steem Username" />
+                                <small class="form-text text-muted">
+                                    This will allow us to verify if you have paid the fee.
+                                </small>
+                            </div>
+
+                            <a href="" class="btn greenBtn">Proceed</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="disclaimer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="disclaimer-text text-center">
+                        All projects platform are obliged to provide the most accurate KYC details. This information is
+                        used to prevent fraudulent activities, ensure compliance with the law, and disburse project
+                        funds as well as protecting our backers and other collaborators.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
