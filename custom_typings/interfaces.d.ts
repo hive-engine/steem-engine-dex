@@ -19,6 +19,8 @@ interface EnvironmentInterface {
 }
 
 interface BalanceInterface {
+    metric: any;
+    priceChangeSteem: number;
     _id: number;
     account: string;
     balance: string;
@@ -28,6 +30,7 @@ interface BalanceInterface {
     scotConfig?: any;
     symbol: string;
     usdValue: string;
+    metadata: any;
 }
 
 
