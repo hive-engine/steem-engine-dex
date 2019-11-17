@@ -109,7 +109,7 @@ export class App {
             },
             {
                 route: 'token-history/:symbol?',
-                href: `token-history/${environment.NATIVE_TOKEN}`,
+                href: `token-history/${environment.nativeToken}`,
                 name: 'token-history',
                 moduleId: PLATFORM.moduleName('./routes/wallet/token-history'),
                 nav: false,
@@ -133,7 +133,7 @@ export class App {
             },
             {
                 route: 'exchange/:symbol?',
-                href: `exchange/${environment.NATIVE_TOKEN}`,
+                href: `exchange/${environment.nativeToken}`,
                 name: 'exchange',
                 moduleId: PLATFORM.moduleName('./routes/exchange/exchange'),
                 nav: 1,
