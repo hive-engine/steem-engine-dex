@@ -490,10 +490,10 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
             .filter(b => !environment.disabledTokens.includes(b.symbol));
 
         for (const token of balances) {
-            if (token?.metric) {
-                token.usdValue = usdFormat(token.metric.lastPrice);
+            if (token?.metric?.lastPrice) {
+                token.usdValue = usdFormat(parseFloat(token.balance) * token.metric.lastPrice);
             } else {
-                token.usdValue = '--';
+                token.usdValue = usdFormat(parseFloat(token.balance) * 1);
             }
 
             if (token?.metric?.lastDayPriceExpiration >= 0) {

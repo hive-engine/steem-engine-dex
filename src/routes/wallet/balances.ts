@@ -1,3 +1,4 @@
+import { usdFormat, toFixedNoRounding, addCommas } from 'common/functions';
 import { Subscription } from 'rxjs';
 import { State } from 'store/state';
 import { Redirect } from 'aurelia-router';
@@ -31,6 +32,7 @@ export class Balances {
     private state: State;
     private subscription: Subscription;
     private styles = styles;
+    private totalWalletValue = 0.00;
 
     private tokenTable: HTMLTableElement;
 
@@ -55,6 +57,12 @@ export class Balances {
     }
 
     attached() {
+        for (const token of this.balances) {
+            const amount = parseFloat(token.usdValue.replace('$', '').replace(',', ''));
+            this.totalWalletValue += amount;
+        }
+        
+        this.totalWalletValue = addCommas(this.totalWalletValue.toFixed(2)) as any;
         this.loadTable();
     }
 
