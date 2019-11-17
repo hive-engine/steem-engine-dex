@@ -24,7 +24,7 @@ Chart.defaults.financial = {
             ticks: {
                 source: 'data',
                 callback: function (value, index, values) {
-                    return index % 5 == 0 ? value : null;
+                    return index % 5 === 0 ? value : null;
                 }
             }
         }],
