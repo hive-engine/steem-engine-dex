@@ -1,5 +1,5 @@
-import { initialState } from './state';
 /* eslint-disable no-undef */
+import { initialState } from './state';
 import { query } from 'common/apollo';
 import { State, ISettings } from './state';
 import store from './store';
@@ -9,6 +9,8 @@ import { log } from 'services/log';
 import { loadBalances, loadTokens, loadExchangeUiLoggedIn, loadExchangeUiLoggedOut, parseTokens, loadConversionSentReceived } from 'common/steem-engine';
 import { ssc } from 'common/ssc';
 import moment from 'moment';
+
+import { environment } from 'environment';
 
 export function loading(state: State, boolean: boolean) {
     const newState = { ...state };
@@ -115,10 +117,13 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
 export async function loadSiteSettings(state: State): Promise<State> {
     const newState = { ...state };
 
+    newState.settings = { ...environment } as ISettings;
+
     try {
         const settings = await firebase.firestore().collection('admin').doc('settings').get();
+        const loadedSettings = settings.data() as ISettings;
 
-        newState.settings = settings.data() as ISettings;
+        newState.settings = { ...environment, ...loadedSettings };
     } catch (e) {
         log.error(e);
     }
