@@ -254,7 +254,7 @@ export async function exchangeData(state: State, symbol: string): Promise<State>
         if (newState.loggedIn) {
             const data = await loadExchangeUiLoggedIn(newState.account.name, symbol);
 
-            newState.tokens = parseTokens(data) as any;
+            newState.tokens = parseTokens(data, newState.settings) as any;
 
             newState.account.balances = data.userBalances;
 
@@ -282,7 +282,7 @@ export async function exchangeData(state: State, symbol: string): Promise<State>
         } else {
             const data = await loadExchangeUiLoggedOut(symbol);
 
-            newState.tokens = parseTokens(data) as any;
+            newState.tokens = parseTokens(data, newState.settings) as any;
 
             newState.buyBook = data.buyBook.map(o => {
                 newState.buyTotal += o.quantity * o.price;
