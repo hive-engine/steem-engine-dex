@@ -66,9 +66,13 @@ export class AdminKycView {
         try {
             await userUploads.child(`${this.user.id}/${this.user.selfie.filename}`).delete();
 
-            delete this.user.selfie;
+            this.user.selfie = undefined;
+            this.user.kyc.selfieRejected = true;
+            this.user.kyc.selfiePending = false;
 
             await userRef.set({kyc: this.user.kyc}, { merge: true });
+
+            this.selfieImage = null;
         } catch (e) {
             console.error(e);
         } finally {
@@ -85,9 +89,13 @@ export class AdminKycView {
         try {
             await userUploads.child(`${this.user.id}/${this.user.passport.filename}`).delete();
 
-            delete this.user.passport;
+            this.user.passport = undefined;
+            this.user.kyc.passportRejected = true;
+            this.user.kyc.passportPending = false;
 
             await userRef.set({kyc: this.user.kyc}, { merge: true });
+
+            this.passportImage = null;
         } catch (e) {
             console.error(e);
         } finally {
