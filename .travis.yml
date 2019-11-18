@@ -12,7 +12,7 @@ deploy:
     branch: master
 - provider: script
   skip_cleanup: true
-  script: au build --env staging
+  script: au build --env stage
   on:
     branch: develop
 - provider: script
