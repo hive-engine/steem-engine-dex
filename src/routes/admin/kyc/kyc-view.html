@@ -5,7 +5,7 @@
                 <p class="text-sixteen">Attention: While reviewing KYC, please make sure the user has uploaded the correct images, the selfie is clear and bright with todays date and unique user code written on it. For the passport, the users country and image should be clear, all text legible.</p>
 
                 <div class="row mt-5">
-                    <div class="col-md-6">
+                    <div class="col-md-6" if.bind="user.selfie && selfieImage">
                         <h4>Selfie</h4>
                         <p class="mb-2"><small>Uploaded: <strong>${user.selfie.dateUploaded.seconds | serverDate}</strong></small> &mdash; <small>Unique Code: <strong>${user.kyc.token}</strong></small></p>
 
@@ -25,7 +25,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" if.bind="user.passport && passportImage">
                         <h4>Passport</h4>
                         <p class="mb-2"><small>Uploaded: <strong>${user.passport.dateUploaded.seconds | serverDate}</strong></small></p>
 
@@ -50,27 +50,27 @@
                     <h3 class="mb-3">Approval Criteria</h3>
 
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="approvalCode" checked.bind="approve.code">
+                        <input type="checkbox" class="custom-control-input" id="approvalCode" checked.bind="approve.code" disabled.bind="user.kyc.selfieRejected">
                         <label class="custom-control-label text-dark" for="approvalCode">Selfie unique code is correct</label>
                     </div>
 
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="approvalSelfieQuality" checked.bind="approve.selfieQuality">
+                        <input type="checkbox" class="custom-control-input" id="approvalSelfieQuality" checked.bind="approve.selfieQuality" disabled.bind="user.kyc.selfieRejected">
                         <label class="custom-control-label text-dark" for="approvalSelfieQuality">Selfie is of acceptable quality</label>
                     </div>
 
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="approvalSelfieDate" checked.bind="approve.selfieDate">
+                        <input type="checkbox" class="custom-control-input" id="approvalSelfieDate" checked.bind="approve.selfieDate" disabled.bind="user.kyc.selfieRejected">
                         <label class="custom-control-label text-dark" for="approvalSelfieDate">Selfie has uploaded date</label>
                     </div>
 
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="approvalPassportDate" checked.bind="approve.passportDate">
+                        <input type="checkbox" class="custom-control-input" id="approvalPassportDate" checked.bind="approve.passportDate" disabled.bind="user.kyc.passportRejected">
                         <label class="custom-control-label text-dark" for="approvalPassportDate">Passport is of acceptable quality</label>
                     </div>
 
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="approvalPassportDetails" checked.bind="approve.passportDetails">
+                        <input type="checkbox" class="custom-control-input" id="approvalPassportDetails" checked.bind="approve.passportDetails" disabled.bind="user.kyc.passportRejected">
                         <label class="custom-control-label text-dark" for="approvalPassportDetails">Passport details match user provided details</label>
                     </div>
 

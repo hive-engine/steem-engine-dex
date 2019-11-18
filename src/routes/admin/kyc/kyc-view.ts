@@ -66,11 +66,12 @@ export class AdminKycView {
         try {
             await userUploads.child(`${this.user.id}/${this.user.selfie.filename}`).delete();
 
-            this.user.selfie = undefined;
+            delete this.user.selfie;
+            delete this.user.id;
             this.user.kyc.selfieRejected = true;
             this.user.kyc.selfiePending = false;
 
-            await userRef.set({kyc: this.user.kyc}, { merge: true });
+            await userRef.set(this.user);
 
             this.selfieImage = null;
         } catch (e) {
@@ -89,11 +90,12 @@ export class AdminKycView {
         try {
             await userUploads.child(`${this.user.id}/${this.user.passport.filename}`).delete();
 
-            this.user.passport = undefined;
+            delete this.user.passport;
+            delete this.user.id;
             this.user.kyc.passportRejected = true;
             this.user.kyc.passportPending = false;
 
-            await userRef.set({kyc: this.user.kyc}, { merge: true });
+            await userRef.set(this.user);
 
             this.passportImage = null;
         } catch (e) {
@@ -103,9 +105,9 @@ export class AdminKycView {
         }
     }
 
-    @computedFrom('approve.code', 'approve.selfieQuality', 'approve.selfieDate', 'approve.passportDate', 'approve.passportDetails')
+    @computedFrom('approve.code', 'approve.selfieQuality', 'approve.selfieDate', 'approve.passportDate', 'approve.passportDetails', 'user.kyc.passportRejected', 'user.kyc.selfieRejected')
     get canApprove() {
-        return Object.keys(this.approve).every(prop => this.approve[prop]);
+        return Object.keys(this.approve).every(prop => this.approve[prop]) && !this.user.kyc.passportRejected && !this.user.kyc.selfieRejected;
     }
 
     async approveKyc() {
