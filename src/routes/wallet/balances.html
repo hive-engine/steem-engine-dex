@@ -65,21 +65,20 @@
                             ${token.symbol}
                         </td>
                         <td class="text-left">${token.name}</td>
-                        <td class="text-right">${token.balance | comma}</td>
-                        <td class="text-right changePercentCol">
+                        <td class="text-right" data-order="${token.balance}">${token.balance | comma}</td>
+                        <td class="text-right changePercentCol" data-order="${token.usdValue}">
                             <span
                                 class="changePercent ${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}">
                                 ${token.usdValue}
                             </span>
                         </td>
-                        <td class="text-right changePercentCol">
+                        <td class="text-right changePercentCol" data-order="${token.metric.priceChangePercent.toFixed(2)}">
                             <span
                                 class="changePercent ${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}">
                                 ${token.metric.priceChangePercent.toFixed(2)}%
                             </span>
                         </td>
-                        <td class="text-right">${token.stake >= 0 ? token.stake : '--'} (${token.pendingUnstake > 0 ?
-                            token.pendingUnstake : 0})</td>
+                        <td class="text-right" data-order="${token.stake}">${token.stake >= 0 ? token.stake : '--'} (${token.pendingUnstake > 0 ? token.pendingUnstake : 0})</td>
                         <td class="table-buttons wallet-actions text-left">
                             <button click.delegate="showTokenInfo(token.symbol)" title="Token information">
                                 <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
