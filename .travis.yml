@@ -12,10 +12,21 @@ deploy:
     branch: master
 - provider: script
   skip_cleanup: true
+  script: au build --env staging
+  on:
+    branch: develop
+- provider: script
+  skip_cleanup: true
   script: cd $TRAVIS_BUILD_DIR/dist && rsync -auvhp --delete --exclude=node_modules
     --delete-after --quiet ./ $REMOTE_USER@$HOST:$REMOTE_APP_DIR
   on:
     branch: master
+- provider: script
+  skip_cleanup: true
+  script: cd $TRAVIS_BUILD_DIR/dist && rsync -auvhp --delete --exclude=node_modules
+    --delete-after --quiet ./ $REMOTE_USER@$HOST:qa.steem-engine
+  on:
+    branch: develop
 before_install:
 - openssl aes-256-cbc -K $encrypted_134e9820d8ee_key -iv $encrypted_134e9820d8ee_iv
   -in deploy_rsa.enc -out ./deploy_rsa -d
