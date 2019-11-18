@@ -85,9 +85,13 @@ kycRouter.post('/upload', uploadMiddleware, async (req: express.Request, res: ex
                         if (type === 'selfie') {
                             data.kyc.selfiePending = true;
                             data.kyc.selfieVerified = false;
+                            data.kyc.passportRejected = false;
+                            data.kyc.passportRejectionReason = '';
                         } else if (type === 'passport') {
                             data.kyc.passportPending = true;
                             data.kyc.passportVerified = false;
+                            data.kyc.selfieRejected = false;
+                            data.kyc.selfieRejectionReason = '';
                         }
                     }
 
