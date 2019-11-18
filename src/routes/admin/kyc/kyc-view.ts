@@ -57,12 +57,42 @@ export class AdminKycView {
         }
     }
 
-    rejectSelfie() {
-        this.showSelfieReject = false;
+    async rejectSelfie() {
+        const storage = firebase.storage();
+        const storageRef = storage.ref();
+        const userUploads = storageRef.child('user-uploads');
+        const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
+
+        try {
+            await userUploads.child(`${this.user.id}/${this.user.selfie.filename}`).delete();
+
+            delete this.user.selfie;
+
+            await userRef.set({kyc: this.user.kyc}, { merge: true });
+        } catch (e) {
+            console.error(e);
+        } finally {
+            this.showSelfieReject = false;
+        }
     }
 
-    rejectPassport() {
-        this.showPassportReject = false;
+    async rejectPassport() {
+        const storage = firebase.storage();
+        const storageRef = storage.ref();
+        const userUploads = storageRef.child('user-uploads');
+        const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
+
+        try {
+            await userUploads.child(`${this.user.id}/${this.user.passport.filename}`).delete();
+
+            delete this.user.passport;
+
+            await userRef.set({kyc: this.user.kyc}, { merge: true });
+        } catch (e) {
+            console.error(e);
+        } finally {
+            this.showPassportReject = false;
+        }
     }
 
     @computedFrom('approve.code', 'approve.selfieQuality', 'approve.selfieDate', 'approve.passportDate', 'approve.passportDetails')
