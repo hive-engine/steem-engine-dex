@@ -8,8 +8,10 @@ import firebase from 'firebase/app';
 @autoinject()
 export class AdminKycView {
     private user;
+
     private passportImage;
     private selfieImage;
+
     private approve = {
         code: false,
         selfieQuality: false,
@@ -17,6 +19,9 @@ export class AdminKycView {
         passportDate: false,
         passportDetails: false
     };
+
+    private showPassportReject = false;
+    private showSelfieReject = false;
 
     constructor(private se: SteemEngine, private router: AppRouter) {
 
@@ -52,6 +57,14 @@ export class AdminKycView {
         }
     }
 
+    rejectSelfie() {
+        this.showSelfieReject = false;
+    }
+
+    rejectPassport() {
+        this.showPassportReject = false;
+    }
+
     @computedFrom('approve.code', 'approve.selfieQuality', 'approve.selfieDate', 'approve.passportDate', 'approve.passportDetails')
     get canApprove() {
         return Object.keys(this.approve).every(prop => this.approve[prop]);
@@ -61,9 +74,19 @@ export class AdminKycView {
         const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
 
         try {
-            await userRef.set({ kyc: { passportPending: false, passportVerified: true, selfiePending: false, selfieVerified: true, verified: true } }, {
-                merge: true
-            });
+            await userRef.set({ 
+                kyc: { 
+                    passportPending: false, 
+                    passportVerified: true, 
+                    passportRejected: false,
+                    passportRejectionReason: '',
+                    selfiePending: false, 
+                    selfieVerified: true, 
+                    selfieRejected: false,
+                    selfieRejectionReason: '',
+                    verified: true 
+                } 
+            }, { merge: true });
 
             this.router.navigate('/admin/kyc');
         } catch (e) {

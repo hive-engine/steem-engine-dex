@@ -9,14 +9,40 @@
                         <h4>Selfie</h4>
                         <p class="mb-2"><small>Uploaded: <strong>${user.selfie.dateUploaded.seconds | serverDate}</strong></small> &mdash; <small>Unique Code: <strong>${user.kyc.token}</strong></small></p>
 
-                        <a href="${selfieImage}" target="_blank" title="Download selfie image"><img src="${selfieImage}" class="img-fluid"></a>
+                        <a href="${selfieImage}" target="_blank" title="Download selfie image" class="d-block"><img src="${selfieImage}" class="img-fluid w100"></a>
+
+                        <p class="mt-3"><a class="btn ${showSelfieReject ? 'btn-outline-primary' : 'btn-outline-danger'}" href="javascript:void(0);" click.delegate="showSelfieReject = !showSelfieReject">${showSelfieReject ? 'Cancel' : 'Reject Selfie'}</a></p>
+                        
+                        <div class="row mt-3" show.bind="showSelfieReject">
+                            <div class="col">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" value.bind="user.kyc.selfieRejectionReason" placeholder="Reason for rejection">
+                                </div>
+                            </div>
+                            <div class="col-auto text-right">
+                                <button type="button" class="btn btn-secondary" click.delegate="rejectSelfie()">${'Reject' & t}</button>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-md-6">
                         <h4>Passport</h4>
                         <p class="mb-2"><small>Uploaded: <strong>${user.passport.dateUploaded.seconds | serverDate}</strong></small></p>
 
-                        <a href="${passportImage}" target="_blank" title="Download passport image"><img src="${passportImage}" class="img-fluid"></a>
+                        <a href="${passportImage}" target="_blank" title="Download passport image" class="d-block"><img src="${passportImage}" class="img-fluid w100"></a>
+
+                        <p class="mt-3"><a class="btn ${showPassportReject ? 'btn-outline-primary' : 'btn-outline-danger'}" href="javascript:void(0);" click.delegate="showPassportReject = !showPassportReject">${showPassportReject ? 'Cancel' : 'Reject Passport'}</a></p>
+
+                        <div class="row mt-3" show.bind="showPassportReject">
+                            <div class="col">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" value.bind="user.kyc.passportRejectionReason" placeholder="Reason for rejection">
+                                </div>
+                            </div>
+                            <div class="col-auto text-right">
+                                <button type="button" class="btn btn-secondary" click.delegate="rejectPassport()">${'Reject' & t}</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
