@@ -69,8 +69,8 @@ export async function loadCoins(): Promise<ICoin[]> {
     return response.json() as Promise<ICoin[]>;
 }
 
-export function parseTokens(data: any): State {
-    const tokens = data.tokens.filter(t => !environment.DISABLED_TOKENS.includes(t.symbol));
+export function parseTokens(data: any, settings: State['settings']): State {
+    const tokens = data.tokens.filter(t => !settings.disabledTokens.includes(t.symbol));
 
     for (const token of tokens) {
         token.highestBid = 0;
@@ -186,7 +186,9 @@ export async function loadTokens(limit = 1000, offset = 0): Promise<any[]> {
         steempBalance: IBalance;
     };
 
-    const finalTokens = tokens.filter(t => !environment.DISABLED_TOKENS.includes(t.symbol));
+    const state = await getStateOnce();
+
+    const finalTokens = tokens.filter(t => !state.settings.disabledTokens.includes(t.symbol));
 
     for (const token of finalTokens) {
         token.highestBid = 0;
@@ -482,18 +484,20 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
             }
         }
     }`);
+
+    const state = await getStateOnce();
     
     const loadedBalances: BalanceInterface[] = getUserBalances.data.balances;
 
     if (loadedBalances.length) {
         const balances = loadedBalances
-            .filter(b => !environment.DISABLED_TOKENS.includes(b.symbol));
+            .filter(b => !state.settings.disabledTokens.includes(b.symbol));
 
         for (const token of balances) {
-            if (token?.metric) {
-                token.usdValue = usdFormat(token.metric.lastPrice);
+            if (token?.metric?.lastPrice) {
+                token.usdValue = usdFormat(parseFloat(token.balance) * token.metric.lastPrice);
             } else {
-                token.usdValue = '--';
+                token.usdValue = usdFormat(parseFloat(token.balance) * 1);
             }
 
             if (token?.metric?.lastDayPriceExpiration >= 0) {

@@ -69,7 +69,7 @@ export async function sendMarketOrder(username: string, type: string, symbol: st
         log.debug(`Broadcasting cancel order: ${JSON.stringify(transaction_data)}`);
 
         if (window.steem_keychain) {
-            window.steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), `${type.toUpperCase()} Order`, async (response) => {
+            window.steem_keychain.requestCustomJson(username, environment.chainId, 'Active', JSON.stringify(transaction_data), `${type.toUpperCase()} Order`, async (response) => {
                 if (response.success && response.result) {
                     try {
                         const tx = await checkTransaction(response.result.id, 3);
@@ -128,7 +128,7 @@ export async function cancelMarketOrder(username: string, type: string, orderId:
         log.debug(`Broadcasting cancel order: ${JSON.stringify(transaction_data)}`);
 
         if (window.steem_keychain) {
-            window.steem_keychain.requestCustomJson(username, environment.CHAIN_ID, 'Active', JSON.stringify(transaction_data), `Cancel ${type.toUpperCase()} Order`, async (response) => {
+            window.steem_keychain.requestCustomJson(username, environment.chainId, 'Active', JSON.stringify(transaction_data), `Cancel ${type.toUpperCase()} Order`, async (response) => {
                 if (response.success && response.result) {
                     try {
                         const transaction = await checkTransaction(response.result.id, 3);

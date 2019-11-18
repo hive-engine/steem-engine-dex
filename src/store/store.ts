@@ -12,6 +12,6 @@ export async function getStateOnce(): Promise<State> {
     });
 }
 
-export const getCurrentState = () => (store as any)._state.getValue();
+export const getCurrentState = () => (store as any)._state.getValue() as State;
 
 export default store;
