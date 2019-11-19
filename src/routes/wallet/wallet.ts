@@ -1,3 +1,4 @@
+import { environment } from 'environment';
 import { PLATFORM } from 'aurelia-pal';
 import { Router, RouterConfiguration } from 'aurelia-router';
 import { autoinject } from 'aurelia-framework';
@@ -15,11 +16,17 @@ export class Wallet {
     }
 
     configureRouter(config: RouterConfiguration, router: Router) {
-        config.map([
+        const routes = [
             { route: [''], name: 'balances', moduleId: PLATFORM.moduleName('./balances'), title: 'Balances', nav: true },
             { route: ['open-orders'], name: 'open-orders', moduleId: PLATFORM.moduleName('./open-orders'), title: 'Open Orders', nav: true },
-            { route: ['pending-withdrawals'], name: 'pending-withdrawals', moduleId: PLATFORM.moduleName('./pending-withdrawals'), title: 'Pending Withdrawals', nav: true },
-        ]);
+            { route: ['pending-withdrawals'], name: 'pending-withdrawals', moduleId: PLATFORM.moduleName('./pending-withdrawals'), title: 'Pending Withdrawals', nav: true }
+        ];
+
+        if (environment.features.nfts.enabled) {
+            routes.push({ route: ['nfts'], name: 'nfts', moduleId: PLATFORM.moduleName('./nfts'), title: 'My NFTs', nav: true });
+        }
+
+        config.map(routes);
 
         this.router = router;
     }
