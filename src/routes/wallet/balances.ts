@@ -69,6 +69,12 @@ export class Balances {
     loadTable() {
         // @ts-ignore
         $(this.tokenTable).DataTable({
+            "columnDefs": [
+                { "type": "natural", "targets": 3 }, // Balance
+                { "type": "html-num-fmt", "targets": 4 }, // USD
+                { "type": "html-num-fmt", "targets": 5 } // Change %
+            ],
+            "order": [[4, "desc"]],
             bInfo: false,
             paging: false,
             searching: false
