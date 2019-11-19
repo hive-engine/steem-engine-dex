@@ -5,7 +5,7 @@
                 <div class="col-6">
                     <h1>${state.nft.symbol & t}</h1>
                     <h3>${state.nft.name}</h3>
-                    <p class="meta text-muted">Current supply: ${state.nft.supply} // Max supply: ${state.nft.maxSupply}</p>
+                    <p class="meta text-muted">Current supply: ${state.nft.supply} // Max supply: ${state.nft.maxSupply > 0 ? state.nft.maxSupply : 'Unlimited'}</p>
                 </div>
             </div>
         </div>
