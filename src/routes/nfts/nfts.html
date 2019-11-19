@@ -32,8 +32,6 @@
                                 <th class="no-sort"></th>
                                 <th>${'Symbol' & t}</th>
                                 <th>${'Name' & t}</th>
-                                <th class="text-right">${'USD Value' & t}</th>
-                                <th class="text-right">${'% Chg' & t}</th>
                                 <th if.bind="state.loggedIn">${'Staked' & t}</th>
                                 <th></th>
                             </tr>
@@ -42,23 +40,9 @@
                             <tr repeat.for="token of state.nfts">
                                 <td>
                                     <img if.bind="token.metadata.icon" class="tokenIcon" src="${token.metadata.icon}" alt="${token.symbol}" title="${token.symbol}" > 
-                                    <button if.bind="state.loggedIn" type="button" class="btn btn-icon btn-favourite ${token.isFavourite ? 'active' : ''}" click.delegate="favouriteToken(token)">
-                                        <font-awesome-icon if.bind="token.isFavourite" icon.bind="['fas', 'star']"></font-awesome-icon>
-                                        <font-awesome-icon else icon.bind="['far', 'star']"></font-awesome-icon>
-                                    </button>
                                 </td>
                                 <td>${token.symbol}</td>
                                 <td>${token.name}</td>
-                                <td class="text-right">
-                                    <span class="changePercent ${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}">
-                                        ${token.usdValue}
-                                    </span>
-                                </td>
-                                <td class="text-right">
-                                    <span class="changePercent ${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}">
-                                        ${token.priceChangePercent.toFixed(2)}%
-                                    </span>
-                                </td>
                                 <td if.bind="state.loggedIn">${token.stake >= 0 ? parseFloat(token.stake) : '--'}</td>
                                 <td class="table-buttons">
                                     <button click.delegate="showTokenInfo(token.symbol)" title="Token information">
