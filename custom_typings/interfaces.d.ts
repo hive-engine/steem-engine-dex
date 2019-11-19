@@ -5,6 +5,7 @@ interface EnvironmentInterface {
     chainId: string;
     siteName: string;
     defaultLocale: string;
+    maintenanceMode: boolean;
     RPC_URL: string;
     ACCOUNTS_API_URL: string;
     CONVERTER_API: string;
