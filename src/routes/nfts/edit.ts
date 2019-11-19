@@ -22,6 +22,7 @@ export class EditNft {
     private styles = styles;
     private state: State;
     private token: INft;
+    private nft: INft;
 
     static inject = [NewInstance.of(ValidationController), NewInstance.of(ValidationController), SteemEngine, TaskQueue, DialogService];
 
@@ -59,11 +60,9 @@ export class EditNft {
     async updateName() {
         const validationResult = await this.nameController.validate();
 
-        const nft = { ...this.state.nft };
-
-        if (validationResult.valid && nft.name !== this.token.name) {
+        if (validationResult.valid && this.nft.name !== this.token.name) {
             const payload = {
-                symbol: nft.symbol,
+                symbol: this.nft.symbol,
                 name: this.token.name
             };
 
@@ -86,21 +85,26 @@ export class EditNft {
     async updateMetadata() {
         const validationResult = await this.metadataController.validate();
 
-        const nft = { ...this.state.nft };
-        const payload = { symbol: nft.symbol, metadata: {} } as Partial<INft>;
+        const payload = { symbol: this.nft.symbol, metadata: {} } as Partial<INft>;
 
-        if (nft.metadata.url !== this.token.metadata.url || nft.metadata.url === null) {
+        if (this.nft.metadata.url !== this.token.metadata.url) {
             payload.metadata.url = this.token.metadata.url;
         }
 
-        if (nft.metadata.icon !== this.token.metadata.icon || nft.metadata.icon === null) {
+        if (this.nft.metadata.icon !== this.token.metadata.icon) {
             payload.metadata.icon = this.token.metadata.icon;
         }
 
-        if (nft.metadata.desc !== this.token.metadata.desc || nft.metadata.desc === null) {
+        if (this.nft.metadata.desc !== this.token.metadata.desc) {
             payload.metadata.desc = this.token.metadata.desc;
         }
 
+        // Nothing to update, so do nothing
+        if (!Object.keys(payload.metadata).length) {
+            return;
+        }
+
+        // Payload can be a maximum of 1000 characters
         if (JSON.stringify(payload).length > 1000) {
             window.alert('Your payload size was greater than 1000 characters. Please reduce the size of your description, URL or ICON location.')
             return;
@@ -121,6 +125,20 @@ export class EditNft {
 
     stateChanged(newState) {
         this.token = { ...newState.nft };
+
+        if (this.token.metadata.url === null) {
+            this.token.metadata.url = '';
+        }
+
+        if (this.token.metadata.desc === null) {
+            this.token.metadata.desc = '';
+        }
+
+        if (this.token.metadata.icon === null) {
+            this.token.metadata.icon = '';
+        }
+
+        this.nft = { ...this.token };
 
         this.addValidationRules();
     }
