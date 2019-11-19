@@ -121,7 +121,9 @@ export class CreateNft {
 
         if (this.authorisedIssuingAccounts.length) {
             const accounts = this.authorisedIssuingAccounts.reduce((acc: string[], value) => {
-                acc.push(value.name);
+                if (value.name.trim() !== '') {
+                    acc.push(value.name);
+                }
                 return acc;
             }, []);
 
@@ -132,7 +134,9 @@ export class CreateNft {
 
         if (this.authorisedIssuingContracts.length) {
             const accounts = this.authorisedIssuingContracts.reduce((acc: string[], value) => {
-                acc.push(value.name);
+                if (value.name.trim() !== '') {
+                    acc.push(value.name);
+                }
                 return acc;
             }, []);
 
