@@ -29,8 +29,6 @@ export class CreateNft {
     constructor(private controllerFactory: ValidationControllerFactory, private router: Router, private store: Store<State>) {
         this.controller = controllerFactory.createForCurrentScope();
 
-        //this.controller.validateTrigger = validateTrigger.manual;
-
         this.renderer = new BootstrapFormRenderer();
         this.controller.addRenderer(this.renderer);
     }
@@ -40,8 +38,6 @@ export class CreateNft {
 
         const data = await query(`query { nftParams { nftCreationFee } }`);
         const tokenCreationFee = data?.data?.nftParams?.[0]?.nftCreationFee ?? 100;
-
-        console.log(tokenCreationFee);
 
         this.tokenCreationFee = parseInt(tokenCreationFee);
     }
