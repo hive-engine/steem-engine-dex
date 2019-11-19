@@ -361,14 +361,14 @@ export async function getNfts(state: State): Promise<State> {
               icon,
               desc
             },
-            circulatingsupply,
+            circulatingSupply,
             delegationEnabled,
             undelegationCooldown,
             authorizedIssuingAccounts,
             authorizedIssuingContracts,
             properties {
-              authorizedIssuingAccounts,
-              authorizedIssuingContracts,
+              authorizedEditingAccounts,
+              authorizedEditingContracts,
               isReadOnly,
               name,
               type
