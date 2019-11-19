@@ -265,7 +265,7 @@ export class App {
                 route: 'nfts',
                 name: 'nfts',
                 moduleId: PLATFORM.moduleName('./routes/nfts/nfts'),
-                nav: false,
+                nav: environment.features.nfts.enabled ? 2 : false,
                 title: 'NFTs'
             },
             {
