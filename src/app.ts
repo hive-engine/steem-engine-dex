@@ -260,7 +260,6 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/create-token'),
                 nav: false,
                 title: 'Create Token'
-
             },
             {
                 route: 'nfts',
@@ -268,7 +267,6 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/nfts/nfts'),
                 nav: false,
                 title: 'NFTs'
-
             },
             {
                 route: 'nfts/:symbol',
@@ -276,7 +274,6 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/nfts/nfts'),
                 nav: false,
                 title: 'NFTs'
-
             },
             {
                 route: 'nft/:symbol',
@@ -284,8 +281,14 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/nfts/nft'),
                 nav: false,
                 title: 'NFT'
-
-            }
+            },
+            {
+                route: 'create-nft',
+                name: 'createNft',
+                moduleId: PLATFORM.moduleName('./routes/nfts/create'),
+                nav: false,
+                title: 'Create NFT'
+            },
         ]);
 
         this.router = router;
