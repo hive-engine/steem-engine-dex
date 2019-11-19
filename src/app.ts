@@ -289,6 +289,13 @@ export class App {
                 nav: false,
                 title: 'Create NFT'
             },
+            {
+                route: 'edit-nft/:symbol',
+                name: 'editNft',
+                moduleId: PLATFORM.moduleName('./routes/nfts/edit'),
+                nav: false,
+                title: 'Edit NFT'
+            },
         ]);
 
         this.router = router;
