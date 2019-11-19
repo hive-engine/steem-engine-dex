@@ -13,12 +13,12 @@
         <div class="container main-container">
             <div class="row">
                 <div class="col-12">
-                    <p><strong>${'tokenCreationFee' & t: { 'tokenFee': tokenCreationFee }}</strong></p>
-                    <p>${'yourEngBalance' & t: { 'balance': engBalance }}</p>
+                    <p><strong>${'tokenCreationFee' & t: { 'tokenFee': tokenCreationFee, 'token': state.settings.nativeToken }}</strong></p>
+                    <p>${'yourEngBalance' & t: { 'balance': engBalance, 'token': state.settings.nativeToken }}</p>
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <div class="form-group">
-                        <label>${'Token Name' & t}</label>
+                        <label>${'NFT Name' & t}</label>
                         <input type="text" class="form-control" value.bind="tokenName & validate">
                     </div>
                     <div class="form-group">
@@ -26,8 +26,8 @@
                         <input type="text" class="form-control" value.bind="url & validate">
                     </div>
                     <div class="form-group">
-                        <label>${'Decimal Precision' & t}</label>
-                        <input type="number" min="0" max="8" class="form-control" placeholder="0-8" value.bind="precision & validate">
+                        <label>${'authorisedIssuingAccounts' & t} <a href="javascript:void(0);" click.delegate="addAuthorisedAccount()">+</a></label>
+                        <input type="text" class="form-control mb-3" value.bind="account.name" repeat.for="account of authorisedIssuingAccounts">
                     </div>
                     <div class="form-group">
                         <button type="button" disabled.bind="tokenCreationFee > engBalance" class="btn btn-lg btn-primary" click.delegate="createToken()">${'Create my token' & t}</button>
@@ -41,6 +41,10 @@
                     <div class="form-group">
                         <label>${'Max Supply' & t}</label>
                         <input type="number" min="0" max="9007199254740991" class="form-control" value.bind="maxSupply & validate">
+                    </div>
+                    <div class="form-group">
+                        <label>${'authorisedIssuingContracts' & t} <a href="javascript:void(0);" click.delegate="addAuthorisedContract()">+</a></label>
+                        <input type="text" class="form-control mb-3" value.bind="account.name" repeat.for="account of authorisedIssuingContracts">
                     </div>
                 </div>
             </div>

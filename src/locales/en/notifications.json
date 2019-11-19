@@ -19,5 +19,9 @@
     "enableStakingSucceeded": "Token Staking Enabled",
     "withdrawSteemSuccess": "Steem successfully withdrawn",
     "issueSucceeded": "{{quantity}} {{symbol}} tokens successfully issued to {{username}}",
-    "buyEngSucceeded":  "Successfully bought {{amount}} {{symbol}}"
+    "buyEngSucceeded":  "Successfully bought {{amount}} {{symbol}}",
+    "tokenCreateSuccess": "Token created successfully",
+    "tokenCreateError": "There was an error creating your token",
+    "nftCreateSuccess": "NFT created successfully",
+    "nftCreateError": "There was an error creating your NFT"
 }
