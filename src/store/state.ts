@@ -1,3 +1,4 @@
+import { environment } from './../../aurelia_project/environments/dev';
 export interface AccountInterface {
     name: string;
     account: any;
@@ -14,6 +15,7 @@ export interface ISettings {
     disabledTokens: string[];
     maintenanceMode: boolean;
     siteName: string;
+    nativeToken: string;
 }
 
 export interface INftProperty {
@@ -93,9 +95,10 @@ export const initialState: State = {
     settings: {
         disableDeposits: false,
         disableWithdrawals: false,
-        disabledTokens: [],
-        maintenanceMode: false,
-        siteName: 'Steem Engine'
+        disabledTokens: environment.disabledTokens,
+        maintenanceMode: environment.maintenanceMode,
+        siteName: 'Steem Engine',
+        nativeToken: environment.nativeToken
     },
     firebaseUser: {},
     loggedIn: false,
