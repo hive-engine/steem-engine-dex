@@ -7,6 +7,7 @@ export interface AccountInterface {
     pendingUnstakes: any[];
     token: any;
     notifications: any[];
+    nfts: INftInstance[]
 }
 
 export interface ISettings {
@@ -90,7 +91,8 @@ export const initialState: State = {
         balances: [],
         scotTokens: [],
         pendingUnstakes: [],
-        notifications: []
+        notifications: [],
+        nfts: []
     },
     settings: {
         disableDeposits: false,

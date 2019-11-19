@@ -48,7 +48,8 @@ export function logout(state: State): State {
         balances: [],
         scotTokens: [],
         pendingUnstakes: [],
-        notifications: []
+        notifications: [],
+        nfts: []
     };
 
     newState.loggedIn = false;
@@ -444,6 +445,33 @@ export async function getNftInstance(state: State, symbol: string): Promise<Stat
     return newState;
 }
 
+export async function getUserNfts(state: State): Promise<State> {
+    const newState = { ...state };
+
+    if (newState.loggedIn) {
+        const queryString = `query {
+            userNfts(account: "${newState.account.name}") {
+                _id,
+                account,
+                ownedBy,
+                lockedTokens,
+                properties,
+                delegatedTo {
+                    account,
+                    ownedBy,
+                    undelegateAt
+                }
+            }
+        }`;
+    
+        const { data: { userNfts } } = await query(queryString);
+    
+        newState.account.nfts = userNfts;
+    }
+
+    return newState;
+}
+
 store.registerAction('loading', loading);
 store.registerAction('login', login);
 store.registerAction('logout', logout);
@@ -463,3 +491,4 @@ store.registerAction('loadConversionHistory', loadConversionHistory);
 store.registerAction('getNfts', getNfts);
 store.registerAction('getNft', getNft);
 store.registerAction('getNftInstance', getNftInstance);
+store.registerAction('getUserNfts', getUserNfts);
