@@ -49,7 +49,7 @@ export class CreateToken {
 
             // eslint-disable-next-line no-undef
             if (state?.account?.balances?.length) {
-                const engToken = state.account.balances.find(token => token.symbol === 'ENG');
+                const engToken = state.account.balances.find(token => token.symbol === state.settings.nativeToken);
 
                 if (engToken) {
                     this.engBalance = engToken.balance;
