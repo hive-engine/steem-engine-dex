@@ -191,3 +191,9 @@ export function createTransaction(username: string, contractName: string, contra
         }
     });
 }
+
+export function sleep(wait = 1000) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, wait);
+    });
+}
