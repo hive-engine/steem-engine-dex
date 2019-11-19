@@ -16,6 +16,32 @@ export interface ISettings {
     siteName: string;
 }
 
+export interface INftProperty {
+    authorizedIssuingAccounts: string[] | null;
+    authorizedIssuingContracts: string[] | null;
+    isReadOnly: boolean;
+    name: string;
+    type: string;
+}
+
+export interface INft {
+    issuer: string;
+    name: string;
+    supply: number;
+    maxSupply: number;
+    metadata: {
+        url: string;
+        icon: string;
+        desc: string;
+    };
+    circulatingSupply: number;
+    delegationEnabled: boolean;
+    undelegationCooldown: number;
+    authorizedIssuingAccounts: string[];
+    authorizedIssuingContracts: string[];
+    properties: INftProperty[];
+}
+
 export interface State {
     $action: any;
     account: AccountInterface;
@@ -31,6 +57,8 @@ export interface State {
     sellTotal?: number;
     pendingWithdrawals: any[];
     conversionHistory: any[];
+    nft: INft;
+    nfts: INft[];
 }
 
 export const initialState: State = {
@@ -64,5 +92,7 @@ export const initialState: State = {
     conversionHistory: [],
     buyTotal: 0,
     sellTotal: 0,
-    pendingWithdrawals: []
+    pendingWithdrawals: [],
+    nft: null,
+    nfts: []
 };

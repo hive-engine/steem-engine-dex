@@ -1254,5 +1254,4 @@ export class SteemEngine {
             }
         });
     }
-
 }

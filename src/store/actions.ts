@@ -345,6 +345,78 @@ export async function getPendingWithdrawals(state: State) {
     return newState;
 }
 
+export async function getNfts(state: State): Promise<State> {
+    const newState = { ...state };
+
+    const queryString = `query {
+        nfts {
+            issuer,
+            name,
+            supply,
+            maxSupply,
+            metadata {
+                url,
+              icon,
+              desc
+            },
+            circulatingsupply,
+            delegationEnabled,
+            undelegationCooldown,
+            authorizedIssuingAccounts,
+            authorizedIssuingContracts,
+            properties {
+              authorizedIssuingAccounts,
+              authorizedIssuingContracts,
+              isReadOnly,
+              name,
+              type
+            }
+        }
+    }`;
+
+    const { data: { nfts } } = await query(queryString);
+
+    newState.nfts = nfts;
+
+    return newState;
+}
+
+export async function getNft(state: State, symbol: string): Promise<State> {
+    const newState = { ...state };
+
+    const queryString = `query {
+        nft(symbol: "${symbol.toUpperCase()}") {
+            issuer,
+            name,
+            supply,
+            maxSupply,
+            metadata {
+                url,
+              icon,
+              desc
+            },
+            circulatingsupply,
+            delegationEnabled,
+            undelegationCooldown,
+            authorizedIssuingAccounts,
+            authorizedIssuingContracts,
+            properties {
+              authorizedIssuingAccounts,
+              authorizedIssuingContracts,
+              isReadOnly,
+              name,
+              type
+            }
+        }
+    }`;
+
+    const { data: { nft } } = await query(queryString);
+
+    newState.nft = nft;
+
+    return newState;
+}
+
 store.registerAction('loading', loading);
 store.registerAction('login', login);
 store.registerAction('logout', logout);
@@ -361,3 +433,5 @@ store.registerAction('exchangeData', exchangeData);
 store.registerAction('markNotificationsRead', markNotificationsRead);
 store.registerAction('getPendingWithdrawals', getPendingWithdrawals);
 store.registerAction('loadConversionHistory', loadConversionHistory);
+store.registerAction('getNfts', getNfts);
+store.registerAction('getNft', getNft);
