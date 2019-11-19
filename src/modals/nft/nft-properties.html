@@ -1,0 +1,29 @@
+<template>
+    <ux-dialog>
+        <loader mode="tiny" loading.bind="loading"></loader>
+
+        <ux-dialog-header>
+            <h2>${'NFT Properties' & t}</h2>
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th>Key</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="key of properties | keys">
+                        <td>${key}</td>
+                        <td>${properties[key]}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <button class="btn btn-lg redBtn" click.trigger="controller.cancel()">${'Close' & t}</button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>

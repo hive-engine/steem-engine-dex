@@ -1,0 +1,41 @@
+<template>
+    <header class="main-header">
+        <div class="container-fluid main-container d-flex flex-column justify-content-end">
+            <div class="row">
+                <div class="col-6">
+                    <h1>${state.nft.symbol & t}</h1>
+                    <h3>${state.nft.name}</h3>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container main-container">
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-dark" ref="tokenTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>${'Account' & t}</th>
+                            <th>${'Owner' & t}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr repeat.for="token of state.instances">
+                            <td>${token._id}</td>
+                            <td>${token.account}</td>
+                            <td>${token.ownedBy === 'u' ? 'Steem Account' : 'Smart Contract'}</td>
+                            <td class="table-buttons">
+                                <button click.delegate="showNftProperties(token.properties)" title="NFT Properties">
+                                    <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</template>
