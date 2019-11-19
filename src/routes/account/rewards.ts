@@ -66,6 +66,9 @@ export class Rewards {
     async attached() {
         // @ts-ignore
         $(this.rewardsTable).DataTable({
+            columnDefs: [
+                { type: "natural", targets: "_all" }
+            ],
             bInfo: false,
             paging: false,
             searching: false

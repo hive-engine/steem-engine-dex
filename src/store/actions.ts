@@ -1,5 +1,5 @@
-import { initialState } from './state';
 /* eslint-disable no-undef */
+import { initialState } from './state';
 import { query } from 'common/apollo';
 import { State, ISettings } from './state';
 import store from './store';
@@ -9,6 +9,8 @@ import { log } from 'services/log';
 import { loadBalances, loadTokens, loadExchangeUiLoggedIn, loadExchangeUiLoggedOut, parseTokens, loadConversionSentReceived } from 'common/steem-engine';
 import { ssc } from 'common/ssc';
 import moment from 'moment';
+
+import { environment } from 'environment';
 
 export function loading(state: State, boolean: boolean) {
     const newState = { ...state };
@@ -115,10 +117,13 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
 export async function loadSiteSettings(state: State): Promise<State> {
     const newState = { ...state };
 
+    newState.settings = { ...environment } as ISettings;
+
     try {
         const settings = await firebase.firestore().collection('admin').doc('settings').get();
+        const loadedSettings = settings.data() as ISettings;
 
-        newState.settings = settings.data() as ISettings;
+        newState.settings = { ...environment, ...loadedSettings };
     } catch (e) {
         log.error(e);
     }
@@ -249,7 +254,7 @@ export async function exchangeData(state: State, symbol: string): Promise<State>
         if (newState.loggedIn) {
             const data = await loadExchangeUiLoggedIn(newState.account.name, symbol);
 
-            newState.tokens = parseTokens(data) as any;
+            newState.tokens = parseTokens(data, newState.settings) as any;
 
             newState.account.balances = data.userBalances;
 
@@ -277,7 +282,7 @@ export async function exchangeData(state: State, symbol: string): Promise<State>
         } else {
             const data = await loadExchangeUiLoggedOut(symbol);
 
-            newState.tokens = parseTokens(data) as any;
+            newState.tokens = parseTokens(data, newState.settings) as any;
 
             newState.buyBook = data.buyBook.map(o => {
                 newState.buyTotal += o.quantity * o.price;
@@ -340,6 +345,105 @@ export async function getPendingWithdrawals(state: State) {
     return newState;
 }
 
+export async function getNfts(state: State): Promise<State> {
+    const newState = { ...state };
+
+    const queryString = `query {
+        nfts {
+            symbol,
+            issuer,
+            name,
+            supply,
+            maxSupply,
+            metadata {
+                url,
+              icon,
+              desc
+            },
+            circulatingsupply,
+            delegationEnabled,
+            undelegationCooldown,
+            authorizedIssuingAccounts,
+            authorizedIssuingContracts,
+            properties {
+              authorizedIssuingAccounts,
+              authorizedIssuingContracts,
+              isReadOnly,
+              name,
+              type
+            }
+        }
+    }`;
+
+    const { data: { nfts } } = await query(queryString);
+
+    newState.nfts = nfts;
+
+    return newState;
+}
+
+export async function getNft(state: State, symbol: string): Promise<State> {
+    const newState = { ...state };
+
+    const queryString = `query {
+        nft(symbol: "${symbol.toUpperCase()}") {
+            symbol,
+            issuer,
+            name,
+            supply,
+            maxSupply,
+            metadata {
+                url,
+              icon,
+              desc
+            },
+            circulatingsupply,
+            delegationEnabled,
+            undelegationCooldown,
+            authorizedIssuingAccounts,
+            authorizedIssuingContracts,
+            properties {
+              authorizedIssuingAccounts,
+              authorizedIssuingContracts,
+              isReadOnly,
+              name,
+              type
+            }
+        }
+    }`;
+
+    const { data: { nft } } = await query(queryString);
+
+    newState.nft = nft;
+
+    return newState;
+}
+
+export async function getNftInstance(state: State, symbol: string): Promise<State> {
+    const newState = { ...state };
+
+    const queryString = `query {
+        instances(symbol: "${symbol.toUpperCase()}") {
+            _id,
+            account,
+            ownedBy,
+            lockedTokens,
+            properties,
+            delegatedTo {
+                account,
+                ownedBy,
+                undelegateAt
+            }
+        }
+    }`;
+
+    const { data: { instances } } = await query(queryString);
+
+    newState.instances = instances;
+
+    return newState;
+}
+
 store.registerAction('loading', loading);
 store.registerAction('login', login);
 store.registerAction('logout', logout);
@@ -356,3 +460,6 @@ store.registerAction('exchangeData', exchangeData);
 store.registerAction('markNotificationsRead', markNotificationsRead);
 store.registerAction('getPendingWithdrawals', getPendingWithdrawals);
 store.registerAction('loadConversionHistory', loadConversionHistory);
+store.registerAction('getNfts', getNfts);
+store.registerAction('getNft', getNft);
+store.registerAction('getNftInstance', getNftInstance);

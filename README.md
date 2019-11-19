@@ -22,12 +22,22 @@ By default, Node.js ships with NPM (Node Package Manager) to install Node module
 npm install
 ```
 
-## Running The App
+## Running The App (Mainnet)
 
-Provided everything went according to plan, to run the application locally in development mode simply open up your Terminal window and run from the project directory:
+To run the application locally in development mode simply open up your Terminal window and run from the project directory:
 
 ```shell
 au run --watch
+```
+
+The application will then be viewable via: http://localhost:8081
+
+## Running The App (Testnet)
+
+To run the application locally in development mode simply open up your Terminal window and run from the project directory:
+
+```shell
+au run --watch --env stage
 ```
 
 The application will then be viewable via: http://localhost:8081
@@ -62,6 +72,6 @@ There is a `aurelia_project/environments/base.ts` file which the environment con
 
 The `au build --env prod` command above uses the `aurelia_project/environments/prod.ts` file and the `au run --watch` command above uses the `aurelia_project/environments/dev.ts` environment config.
 
-**The `stage.ts` environment file is NOT currently used**
+The `au build --env stage` command above uses the `aurelia_project/environments/staging.ts` file and the `au run --watch --env stage` command above uses the `aurelia_project/environments/staging.ts` environment config.
 
 Unless you are developing on the main Steem Engine DEX or creating your own variant, you probably don't need to touch these values whatsoever.

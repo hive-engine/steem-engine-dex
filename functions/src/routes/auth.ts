@@ -2,6 +2,10 @@ import * as admin from 'firebase-admin';
 import * as express from 'express';
 import * as shortid from 'shortid';
 
+// Only generate alphanumeric strings
+// without confusion characters such as; 1, i, l, 0, o
+shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
+
 import { Auth } from '../auth';
 
 export const authRouter = express.Router();
@@ -86,8 +90,12 @@ authRouter.post('/verifyUserAuthMemo', async (req: express.Request, res: express
                     kyc: {
                         passportPending: false,
                         passportVerified: false,
+                        passportRejected: false,
+                        passportRejectionReason: '',
                         selfiePending: false,
                         selfieVerified: false,
+                        selfieRejected: false,
+                        selfieRejectionReason: '',
                         token: shortid.generate(),
                         verified: false
                     },
@@ -97,6 +105,20 @@ authRouter.post('/verifyUserAuthMemo', async (req: express.Request, res: express
                     },
                     tabPreference: 'profile'
                 });
+            } else {
+                // const userData = user.data();
+
+                // // eslint-disable-next-line no-undef
+                // if (userData && userData.kyc?.passportRejected === undefined) {
+                //     user.ref.update({
+                //         kyc: {
+                //             passportRejected: false,
+                //             passportRejectionReason: '',
+                //             selfieRejected: false,
+                //             selfieRejectionReason: ''
+                //         }
+                //     });
+                // }
             }
 
             return res.status(200).json({ success: true, token });

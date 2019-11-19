@@ -25,10 +25,10 @@
                     <tbody>
                         <tr repeat.for="token of rewardTokens | arrayFilter:searchValue:columns">
                             <td>${token.symbol}</td>
-                            <td>${token.amount | comma} ${token.symbol}</td>
-                            <td class="table-buttons">
+                            <td data-order="${token.amount}">${token.amount | comma} ${token.symbol}</td>
+                            <td>
                                 <button type="button"
-                                        class="btn btn-wide btn-primary"
+                                        class="button btn-primary"
                                         click.delegate="claimToken(token.symbol)">
                                     Claim
                                 </button>

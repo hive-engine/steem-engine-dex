@@ -104,12 +104,12 @@ export class App {
                 route: 'tokens',
                 name: 'tokens',
                 moduleId: PLATFORM.moduleName('./routes/tokens'),
-                nav: 1,
+                nav: 0,
                 title: 'Tokens'
             },
             {
                 route: 'token-history/:symbol?',
-                href: `token-history/${environment.NATIVE_TOKEN}`,
+                href: `token-history/${environment.nativeToken}`,
                 name: 'token-history',
                 moduleId: PLATFORM.moduleName('./routes/wallet/token-history'),
                 nav: false,
@@ -133,10 +133,10 @@ export class App {
             },
             {
                 route: 'exchange/:symbol?',
-                href: `exchange/${environment.NATIVE_TOKEN}`,
+                href: `exchange/${environment.nativeToken}`,
                 name: 'exchange',
                 moduleId: PLATFORM.moduleName('./routes/exchange/exchange'),
-                nav: 0,
+                nav: 1,
                 title: 'Exchange'
             },
             {
@@ -242,7 +242,17 @@ export class App {
                     './routes/offering-routes/crowdfunding/crowdfunding-options'
                 ),
                 nav: false,
-                title: 'Crowdfunding Options'
+
+                title: "Crowdfunding Options"
+            },
+            {
+                route: "crowdfunding-create",
+                name: "crowdfunding-create",
+                moduleId: PLATFORM.moduleName(
+                    "./routes/offering-routes/crowdfunding/crowdfunding-create"
+                ),
+                nav: false,
+                title: "Crowdfunding Create"
             },
             {
                 route: 'create-token',
@@ -250,6 +260,31 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/create-token'),
                 nav: false,
                 title: 'Create Token'
+
+            },
+            {
+                route: 'nfts',
+                name: 'nfts',
+                moduleId: PLATFORM.moduleName('./routes/nfts/nfts'),
+                nav: false,
+                title: 'NFTs'
+
+            },
+            {
+                route: 'nfts/:symbol',
+                name: 'nftMarket',
+                moduleId: PLATFORM.moduleName('./routes/nfts/nfts'),
+                nav: false,
+                title: 'NFTs'
+
+            },
+            {
+                route: 'nft/:symbol',
+                name: 'nft',
+                moduleId: PLATFORM.moduleName('./routes/nfts/nft'),
+                nav: false,
+                title: 'NFT'
+
             }
         ]);
 

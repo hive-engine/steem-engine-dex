@@ -1,3 +1,4 @@
+import { usdFormat, toFixedNoRounding, addCommas } from 'common/functions';
 import { Subscription } from 'rxjs';
 import { State } from 'store/state';
 import { Redirect } from 'aurelia-router';
@@ -15,7 +16,7 @@ import { EnableStakingModal } from 'modals/wallet/issuers/enable-staking';
 
 import firebase from 'firebase/app';
 import { dispatchify, Store } from 'aurelia-store';
-import { getCurrentFirebaseUser, loadAccountBalances, loadTokensList } from 'store/actions';
+import { getCurrentFirebaseUser, loadAccountBalances } from 'store/actions';
 import styles from "./balances.module.css";
 import { DialogService, DialogCloseResult } from 'aurelia-dialog';
 
@@ -31,6 +32,7 @@ export class Balances {
     private state: State;
     private subscription: Subscription;
     private styles = styles;
+    private totalWalletValue = 0.00;
 
     private tokenTable: HTMLTableElement;
 
@@ -55,25 +57,32 @@ export class Balances {
     }
 
     attached() {
+        for (const token of this.balances) {
+            const amount = parseFloat(token.usdValue.replace('$', '').replace(',', ''));
+            this.totalWalletValue += amount;
+        }
+        
+        this.totalWalletValue = addCommas(this.totalWalletValue.toFixed(2)) as any;
         this.loadTable();
     }
 
     loadTable() {
         // @ts-ignore
         $(this.tokenTable).DataTable({
+            "columnDefs": [
+                { "type": "natural", "targets": 3 }, // Balance
+                { "type": "html-num-fmt", "targets": 4 }, // USD
+                { "type": "html-num-fmt", "targets": 5 } // Change %
+            ],
+            "order": [[4, "desc"]],
             bInfo: false,
             paging: false,
             searching: false
         });
     }
 
-    async loadAccountScotUserTokens() {
-        this.state.account.scotTokens = await this.se.getScotUsertokens(this.state.account.name);
-    }
-
     async canActivate() {
         try {
-            await dispatchify(loadTokensList)();
             await dispatchify(loadAccountBalances)();
             await dispatchify(getCurrentFirebaseUser)();
 

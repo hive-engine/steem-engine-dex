@@ -23,7 +23,7 @@ export async function steemConnectJson(username: string, auth_type: AuthType, da
         url += 'required_posting_auths=' + encodeURI('["' + username + '"]');
     }
 
-    url += '&id=' + environment.CHAIN_ID;
+    url += '&id=' + environment.chainId;
     url += '&json=' + encodeURI(JSON.stringify(data));
 
     popupCenter(url, 'steemconnect', 500, 560);

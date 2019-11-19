@@ -272,3 +272,7 @@ sellbook {
     border: none;
     outline: none;
 }
+
+.w100 {
+    width: 100%;
+}
