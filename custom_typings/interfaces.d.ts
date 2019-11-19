@@ -16,7 +16,8 @@ interface EnvironmentInterface {
     steempAccount: string;
     nativeToken: string;
     disabledTokens: string[];
-    peggedToken: string;    
+    peggedToken: string;
+    features: any;
 }
 
 interface BalanceInterface {

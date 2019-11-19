@@ -7,5 +7,10 @@ export const baseEnvironmentConfiguration: Partial<EnvironmentInterface> = {
     FIREBASE_API: 'https://us-central1-steem-engine-dex.cloudfunctions.net/api/',
     maintenanceMode: false,
     disabledTokens: ['BTC', 'STEEM', 'SBD', 'BCC', 'XAP'],
-    peggedToken: 'STEEMP' 
+    peggedToken: 'STEEMP',
+    features: {
+        nfts: {
+            enabled: false
+        }
+    }
 };

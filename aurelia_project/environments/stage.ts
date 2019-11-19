@@ -11,5 +11,10 @@ export const environment: Partial<EnvironmentInterface> = {
 	ACCOUNTS_API_URL: 'https://api.steem-engine.com/accounts',
 	CONVERTER_API: 'https://converter-api.steem-engine.com/api',
 	nativeToken: 'SSC',
-	steempAccount: 'steemsc'
+    steempAccount: 'steemsc',
+    features: {
+        nfts: {
+            enabled: true
+        }
+    }
 };
