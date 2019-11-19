@@ -261,6 +261,14 @@ export class App {
                 nav: false,
                 title: 'Create Token'
 
+            },
+            {
+                route: 'nfts',
+                name: 'nfts',
+                moduleId: PLATFORM.moduleName('./routes/nfts/nfts'),
+                nav: false,
+                title: 'NFTs'
+
             }
         ]);
 
