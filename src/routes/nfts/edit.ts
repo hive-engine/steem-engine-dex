@@ -87,17 +87,17 @@ export class EditNft {
         const validationResult = await this.metadataController.validate();
 
         const nft = { ...this.state.nft };
-        const payload = {} as Partial<INft>;
+        const payload = { symbol: nft.symbol, metadata: {} } as Partial<INft>;
 
-        if (nft.metadata.url !== this.token.metadata.url) {
+        if (nft.metadata.url !== this.token.metadata.url || nft.metadata.url === null) {
             payload.metadata.url = this.token.metadata.url;
         }
 
-        if (nft.metadata.icon !== this.token.metadata.icon) {
+        if (nft.metadata.icon !== this.token.metadata.icon || nft.metadata.icon === null) {
             payload.metadata.icon = this.token.metadata.icon;
         }
 
-        if (nft.metadata.desc !== this.token.metadata.desc) {
+        if (nft.metadata.desc !== this.token.metadata.desc || nft.metadata.desc === null) {
             payload.metadata.desc = this.token.metadata.desc;
         }
 
