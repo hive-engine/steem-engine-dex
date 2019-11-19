@@ -97,7 +97,7 @@ export class CreateToken {
         const payload: { symbol: string; name: string; precision: number; maxSupply: number; url?: string } = {
             symbol: this.symbol,
             name: this.tokenName,
-            precision: this.precision,
+            precision: parseInt(this.precision),
             maxSupply: this.maxSupply,
         };
 
