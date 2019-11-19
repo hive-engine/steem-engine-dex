@@ -2,7 +2,7 @@ import { Container } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { ToastMessage, ToastService } from './../services/toast-service';
 import { checkTransaction } from 'common/steem-engine';
-import { environment } from './../../aurelia_project/environments/dev';
+import { environment } from 'environment';
 import { steemConnectJson } from 'common/steem';
 import { HttpClient } from 'aurelia-fetch-client';
 
