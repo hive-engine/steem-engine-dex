@@ -419,6 +419,31 @@ export async function getNft(state: State, symbol: string): Promise<State> {
     return newState;
 }
 
+export async function getNftInstance(state: State, symbol: string): Promise<State> {
+    const newState = { ...state };
+
+    const queryString = `query {
+        instances(symbol: "${symbol.toUpperCase()}") {
+            _id,
+            account,
+            ownedBy,
+            lockedTokens,
+            properties,
+            delegatedTo {
+                account,
+                ownedBy,
+                undelegateAt
+            }
+        }
+    }`;
+
+    const { data: { instances } } = await query(queryString);
+
+    newState.instances = instances;
+
+    return newState;
+}
+
 store.registerAction('loading', loading);
 store.registerAction('login', login);
 store.registerAction('logout', logout);
@@ -437,3 +462,4 @@ store.registerAction('getPendingWithdrawals', getPendingWithdrawals);
 store.registerAction('loadConversionHistory', loadConversionHistory);
 store.registerAction('getNfts', getNfts);
 store.registerAction('getNft', getNft);
+store.registerAction('getNftInstance', getNftInstance);

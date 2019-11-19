@@ -43,6 +43,19 @@ export interface INft {
     properties: INftProperty[];
 }
 
+export interface INftInstance {
+    _id: number;
+    account: string;
+    ownedBy: string;
+    lockedTokens: any;
+    properties: any;
+    delegatedTo: {
+        account: string;
+        ownedBy: string;
+        undelegatedAt: number;
+    }
+}
+
 export interface State {
     $action: any;
     account: AccountInterface;
@@ -60,6 +73,7 @@ export interface State {
     conversionHistory: any[];
     nft: INft;
     nfts: INft[];
+    instances: INftInstance[];
 }
 
 export const initialState: State = {
@@ -95,5 +109,6 @@ export const initialState: State = {
     sellTotal: 0,
     pendingWithdrawals: [],
     nft: null,
-    nfts: []
+    nfts: [],
+    instances: []
 };
