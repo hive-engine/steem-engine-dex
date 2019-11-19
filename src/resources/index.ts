@@ -7,6 +7,7 @@ export function configure(config: FrameworkConfiguration) {
         PLATFORM.moduleName('./attributes/flatpickr'),
         PLATFORM.moduleName('./value-converters/capitalise'),
         PLATFORM.moduleName('./value-converters/comma'),
+        PLATFORM.moduleName('./value-converters/keys'),
         PLATFORM.moduleName('./value-converters/large-number'),
         PLATFORM.moduleName('./value-converters/to-fixed'),
         PLATFORM.moduleName('./value-converters/usd-format'),
