@@ -181,7 +181,7 @@ export function createTransaction(username: string, contractName: string, contra
                         resolve(false);
                     }
                 } else {
-                    resolve(response);
+                    resolve(false);
                 }
             });
         } else {
