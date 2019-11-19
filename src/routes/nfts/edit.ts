@@ -116,15 +116,12 @@ export class EditNft {
                 'updateSuccess',
                 'updateError',
             );
-
-            if (result !== false) {
-                window.location.reload();
-            }
         }
     }
 
     stateChanged(newState) {
         this.token = { ...newState.nft };
+
         this.addValidationRules();
     }
 
