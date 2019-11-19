@@ -25,6 +25,7 @@ export interface INftProperty {
 }
 
 export interface INft {
+    symbol: string;
     issuer: string;
     name: string;
     supply: number;

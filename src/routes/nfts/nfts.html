@@ -45,10 +45,10 @@
                                 <td>${token.name}</td>
                                 <td if.bind="state.loggedIn">${token.stake >= 0 ? parseFloat(token.stake) : '--'}</td>
                                 <td class="table-buttons">
-                                    <button click.delegate="showTokenInfo(token.symbol)" title="Token information">
+                                    <a route-href="route: nft; params.bind: { symbol: token.symbol }" title="Token information">
                                         <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
-                                    </button>
-                                    <a route-href="route: exchange; params.bind: { symbol: token.symbol }">
+                                    </a>
+                                    <a route-href="route: nftMarket; params.bind: { symbol: token.symbol }">
                                             <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
                                     </a>
                                 </td>

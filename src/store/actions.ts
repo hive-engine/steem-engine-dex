@@ -350,6 +350,7 @@ export async function getNfts(state: State): Promise<State> {
 
     const queryString = `query {
         nfts {
+            symbol,
             issuer,
             name,
             supply,
@@ -386,6 +387,7 @@ export async function getNft(state: State, symbol: string): Promise<State> {
 
     const queryString = `query {
         nft(symbol: "${symbol.toUpperCase()}") {
+            symbol,
             issuer,
             name,
             supply,
