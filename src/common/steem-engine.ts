@@ -466,7 +466,7 @@ export async function loadConversionSentReceived(account) {
                     next, 
                     previous,
                     results {
-    	                url,
+                    url,
                       from_coin_symbol,
                       to_coin_symbol,
                       from_address,
@@ -484,7 +484,7 @@ export async function loadConversionSentReceived(account) {
                     }
                   }
   
-                conversionSent(account: "aggroed") {
+                conversionSent(account: "${account}") {
                     count,
                     next, 
                     previous,
