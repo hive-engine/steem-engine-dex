@@ -1,20 +1,12 @@
 <template>
-    <div class="nav nav-tabs order-buttons" id="nav-tab" role="tablist">
-        <a
-            href="javascript:void(0);"
-            class="nav-item nav-link btn-link btn-buy"
-            id="buy-tab"
-            click.delegate="mode = 'buy'"
-            >${'Buy' & t}</a
-        >
-        <a
-            href="javascript:void(0);"
-            class="nav-item nav-link btn-link btn-sell"
-            id="sell-tab"
-            click.delegate="mode = 'sell'"
-            >${'Sell' & t}</a
-        >
-    </div>
+    <ul class="nav nav-pills order-buttons" id="nav-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link text-buy ${mode === 'buy' ? 'active' : ''}" href="javascript:void(0);" click.delegate="mode = 'buy'">${'Buy' & t}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-sell ${mode === 'sell' ? 'active' : ''}" href="javascript:void(0);" click.delegate="mode = 'sell'">${'Sell' & t}</a>
+        </li>
+    </ul>
 
     <div class="form-group">
         <label class="balance-label font-12-no-margin d-block">
