@@ -101,6 +101,7 @@ export class Balances {
                     this.balances = this.balancesCopy;
                 }
 
+                this.onlyShowFavourites();
                 this.updateUser();
             }
         });
@@ -115,6 +116,7 @@ export class Balances {
                     this.balances = this.balancesCopy;
                 }
 
+                this.hideZeroBalancesChanged();
                 this.updateUser();
             }
         });
