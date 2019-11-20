@@ -103,7 +103,7 @@ export class Exchange {
     }
 
     canActivate({ symbol }) {
-        if (!symbol) {
+        if (!symbol || symbol === 'STEEMP') {
             return new Redirect('/exchange/ENG');
         }
     }
@@ -207,7 +207,7 @@ export class Exchange {
     }
 
     async loadTokenOpenOrders() {
-        let openOrders = await getUserOpenOrders(this.se.getUser());
+        const openOrders = await getUserOpenOrders(this.se.getUser());
         this.tokenOpenOrders = openOrders.filter(x => x.symbol === this.currentToken);        
     }
 
