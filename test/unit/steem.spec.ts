@@ -43,7 +43,7 @@ describe('Steem', () => {
         steemConnectJson('beggars', 'active', { value: 'aggroed' }, Function);
 
         const url =
-            'https://steemconnect.com/sign/custom-json?required_posting_auths=%5B%5D&required_auths=%5B%22beggars%22%5D&id=ssc-mainnet1&json=%7B%22value%22:%22aggroed%22%7D';
+            'https://steemconnect.com/sign/custom-json?required_posting_auths=%5B%5D&required_auths=%5B%22beggars%22%5D&authority=active&id=ssc-testnet1&json=%7B%22value%22:%22aggroed%22%7D';
 
         expect(spy).toHaveBeenCalledWith(url, 'steemconnect', 500, 560);
     });
@@ -56,7 +56,7 @@ describe('Steem', () => {
         steemConnectJson('beggars', 'posting', { value: 'aggroed' }, Function);
 
         const url =
-            'https://steemconnect.com/sign/custom-json?required_posting_auths=%5B%22beggars%22%5D&id=ssc-mainnet1&json=%7B%22value%22:%22aggroed%22%7D';
+            'https://steemconnect.com/sign/custom-json?required_posting_auths=%5B%22beggars%22%5D&id=ssc-testnet1&json=%7B%22value%22:%22aggroed%22%7D';
 
         expect(spy).toHaveBeenCalledWith(url, 'steemconnect', 500, 560);
     });
@@ -69,7 +69,7 @@ describe('Steem', () => {
         steemConnectJsonId('beggars', 'active', 'test', { value: 'aggroed' }, Function);
 
         const url =
-            'https://steemconnect.com/sign/custom-json?required_posting_auths=%5B%5D&required_auths=%5B%22beggars%22%5D&id=test&json=%7B%22value%22:%22aggroed%22%7D';
+            'https://steemconnect.com/sign/custom-json?required_posting_auths=%5B%5D&required_auths=%5B%22beggars%22%5D&authority=active&id=test&json=%7B%22value%22:%22aggroed%22%7D';
 
         expect(spy).toHaveBeenCalledWith(url, 'steemconnect', 500, 560);
     });
