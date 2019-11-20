@@ -17,11 +17,12 @@ export class Tokens {
     private styles = styles;
     private tokenTable: HTMLTableElement;
     private state: State;
+    private tab = 'pegged';
 
     constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {}
 
     async canActivate() {
-        await dispatchify(loadTokensList)();
+        await dispatchify(loadTokensList)(['BCHP', 'BTCP', 'DOGEP', 'STEEMP', 'BRIDGEBTCP', 'BTSCNYP', 'BTSP', 'LTCP', 'PEOSP', 'SWIFTP', 'TLOSP', 'WEKUP']);
     }
 
     async activate() {
