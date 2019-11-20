@@ -269,6 +269,7 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/create-token'),
                 nav: false,
                 title: 'Create Token'
+
             },
             {
                 route: 'nfts',
@@ -305,6 +306,10 @@ export class App {
                 nav: false,
                 title: 'Edit NFT'
             },
+
+
+            }
+
         ]);
 
         this.router = router;
