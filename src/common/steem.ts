@@ -19,6 +19,7 @@ export async function steemConnectJson(username: string, auth_type: AuthType, da
     if (auth_type == 'active') {
         url += 'required_posting_auths=' + encodeURI('[]');
         url += '&required_auths=' + encodeURI('["' + username + '"]');
+        url += `&authority=active`;
     } else {
         url += 'required_posting_auths=' + encodeURI('["' + username + '"]');
     }
@@ -39,6 +40,7 @@ export async function steemConnectJsonId(username: string, auth_type: AuthType, 
     if (auth_type == 'active') {
         url += 'required_posting_auths=' + encodeURI('[]');
         url += '&required_auths=' + encodeURI('["' + username + '"]');
+        url += `&authority=active`;
     } else {
         url += 'required_posting_auths=' + encodeURI('["' + username + '"]');
     }
