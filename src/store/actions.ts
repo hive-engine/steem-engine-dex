@@ -6,7 +6,14 @@ import store from './store';
 
 import firebase from 'firebase/app';
 import { log } from 'services/log';
-import { loadBalances, loadTokens, loadExchangeUiLoggedIn, loadExchangeUiLoggedOut, parseTokens, loadConversionSentReceived } from 'common/steem-engine';
+import {
+    loadBalances,
+    loadTokens,
+    loadExchangeUiLoggedIn,
+    loadExchangeUiLoggedOut,
+    parseTokens,
+    loadConversionSentReceived,
+} from 'common/steem-engine';
 import { ssc } from 'common/ssc';
 import moment from 'moment';
 
@@ -49,7 +56,7 @@ export function logout(state: State): State {
         scotTokens: [],
         pendingUnstakes: [],
         notifications: [],
-        nfts: []
+        nfts: [],
     };
 
     newState.loggedIn = false;
@@ -93,7 +100,9 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
             newState.firebaseUser = doc.data();
 
             if (newState.firebaseUser.notifications)
-                newState.firebaseUser.notifications = newState.firebaseUser.notifications.filter(notification => !notification.read);
+                newState.firebaseUser.notifications = newState.firebaseUser.notifications.filter(
+                    notification => !notification.read,
+                );
 
             // eslint-disable-next-line no-undef
             if (newState?.firebaseUser?.favourites) {
@@ -121,7 +130,11 @@ export async function loadSiteSettings(state: State): Promise<State> {
     newState.settings = { ...environment } as ISettings;
 
     try {
-        const settings = await firebase.firestore().collection('admin').doc('settings').get();
+        const settings = await firebase
+            .firestore()
+            .collection('admin')
+            .doc('settings')
+            .get();
         const loadedSettings = settings.data() as ISettings;
 
         newState.settings = { ...environment, ...loadedSettings };
@@ -152,8 +165,15 @@ export async function loadBuyBook(state: State, symbol: string, account: string 
     const newState = { ...state };
 
     try {
-
-        const buyBook = await ssc.find('market', 'buyBook', { symbol, account }, 200, 0, [{ index: 'priceDec', descending: true }], false);
+        const buyBook = await ssc.find(
+            'market',
+            'buyBook',
+            { symbol, account },
+            200,
+            0,
+            [{ index: 'priceDec', descending: true }],
+            false,
+        );
 
         newState.buyBook = buyBook.map(o => {
             newState.buyTotal += o.quantity * o.price;
@@ -172,7 +192,6 @@ export async function loadSellBook(state: State, symbol: string, account: string
     const newState = { ...state };
 
     try {
-
         const sellBook = await ssc.find(
             'market',
             'sellBook',
@@ -180,9 +199,8 @@ export async function loadSellBook(state: State, symbol: string, account: string
             200,
             0,
             [{ index: 'priceDec', descending: false }],
-            false
+            false,
         );
-
 
         // re-order sellbook results to match the buybook results
         newState.sellBook = sellBook.map(o => {
@@ -202,13 +220,19 @@ export async function loadTradeHistory(state: State, symbol: string, account: st
     const newState = { ...state };
 
     try {
-        const tradeHistory = await ssc.find('market', 'tradesHistory', { symbol, account }, 30, 0, [{ index: '_id', descending: true }], false);                
-        
+        const tradeHistory = await ssc.find(
+            'market',
+            'tradesHistory',
+            { symbol, account },
+            30,
+            0,
+            [{ index: '_id', descending: true }],
+            false,
+        );
+
         newState.tradeHistory = tradeHistory.map(o => {
             o.total = o.price * o.quantity;
-            o.timestamp_string = moment
-                .unix(o.timestamp)
-                .format('YYYY-M-DD HH:mm:ss');
+            o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
             return o;
         });
     } catch (e) {
@@ -234,11 +258,14 @@ export async function loadConversionHistory(state: State, account: string = unde
     const newState = { ...state };
 
     try {
-        const conversionSentReceived = await loadConversionSentReceived(account);        
-        const conversionHistory = [...conversionSentReceived.conversionSent.results, ...conversionSentReceived.conversionReceived.results];        
+        const conversionSentReceived = await loadConversionSentReceived(account);
+        const conversionHistory = [
+            ...conversionSentReceived.conversionSent.results,
+            ...conversionSentReceived.conversionReceived.results,
+        ];
 
         // sort by date
-        conversionHistory.sort((a, b) => (a.created_at > b.created_at) ? -1 : ((b.created_at > a.created_at) ? 1 : 0));
+        conversionHistory.sort((a, b) => (a.created_at > b.created_at ? -1 : b.created_at > a.created_at ? 1 : 0));
 
         newState.conversionHistory = conversionHistory;
     } catch (e) {
@@ -275,9 +302,7 @@ export async function exchangeData(state: State, symbol: string): Promise<State>
 
             newState.tradeHistory = data.tradesHistory.map(o => {
                 o.total = o.price * o.quantity;
-                o.timestamp_string = moment
-                    .unix(o.timestamp)
-                    .format('YYYY-M-DD HH:mm:ss');
+                o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
                 return o;
             });
         } else {
@@ -299,13 +324,19 @@ export async function exchangeData(state: State, symbol: string): Promise<State>
                 return o;
             });
 
-            newState.tradeHistory = data.tradesHistory.map((o: { total: number; price: number; quantity: number; timestamp_string: string; timestamp: number; }) => {
-                o.total = o.price * o.quantity;
-                o.timestamp_string = moment
-                    .unix(o.timestamp)
-                    .format('YYYY-M-DD HH:mm:ss');
-                return o;
-            });
+            newState.tradeHistory = data.tradesHistory.map(
+                (o: {
+                    total: number;
+                    price: number;
+                    quantity: number;
+                    timestamp_string: string;
+                    timestamp: number;
+                }) => {
+                    o.total = o.price * o.quantity;
+                    o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
+                    return o;
+                },
+            );
         }
     } catch (e) {
         console.log(e);
@@ -318,7 +349,10 @@ export async function markNotificationsRead(state: State) {
     const newState = { ...state };
 
     if (newState.loggedIn) {
-        const userRef = firebase.firestore().collection('users').doc(newState.account.name);
+        const userRef = firebase
+            .firestore()
+            .collection('users')
+            .doc(newState.account.name);
 
         if (newState.firebaseUser.notifications) {
             newState.firebaseUser.notifications = newState.firebaseUser.notifications.map(notification => {
@@ -338,7 +372,11 @@ export async function getPendingWithdrawals(state: State) {
     const newState = { ...state };
 
     if (newState.loggedIn) {
-        const { data: { pendingWithdrawals } } = await query(`query { pendingWithdrawals(account: "${newState.account.name}") { memo, quantity, type } }`) as any;
+        const {
+            data: { pendingWithdrawals },
+        } = (await query(
+            `query { pendingWithdrawals(account: "${newState.account.name}") { memo, quantity, type } }`,
+        )) as any;
 
         newState.pendingWithdrawals = pendingWithdrawals;
     }
@@ -361,14 +399,14 @@ export async function getNfts(state: State): Promise<State> {
               icon,
               desc
             },
-            circulatingsupply,
+            circulatingSupply,
             delegationEnabled,
             undelegationCooldown,
             authorizedIssuingAccounts,
             authorizedIssuingContracts,
             properties {
-              authorizedIssuingAccounts,
-              authorizedIssuingContracts,
+              authorizedEditingAccounts,
+              authorizedEditingContracts,
               isReadOnly,
               name,
               type
@@ -376,7 +414,9 @@ export async function getNfts(state: State): Promise<State> {
         }
     }`;
 
-    const { data: { nfts } } = await query(queryString);
+    const {
+        data: { nfts },
+    } = await query(queryString);
 
     newState.nfts = nfts;
 
@@ -398,14 +438,14 @@ export async function getNft(state: State, symbol: string): Promise<State> {
               icon,
               desc
             },
-            circulatingsupply,
+            circulatingSupply,
             delegationEnabled,
             undelegationCooldown,
             authorizedIssuingAccounts,
             authorizedIssuingContracts,
             properties {
-              authorizedIssuingAccounts,
-              authorizedIssuingContracts,
+              authorizedEditingAccounts,
+              authorizedEditingContracts,
               isReadOnly,
               name,
               type
@@ -413,7 +453,9 @@ export async function getNft(state: State, symbol: string): Promise<State> {
         }
     }`;
 
-    const { data: { nft } } = await query(queryString);
+    const {
+        data: { nft },
+    } = await query(queryString);
 
     newState.nft = nft;
 
@@ -438,7 +480,9 @@ export async function getNftInstance(state: State, symbol: string): Promise<Stat
         }
     }`;
 
-    const { data: { instances } } = await query(queryString);
+    const {
+        data: { instances },
+    } = await query(queryString);
 
     newState.instances = instances;
 
@@ -463,9 +507,11 @@ export async function getUserNfts(state: State): Promise<State> {
                 }
             }
         }`;
-    
-        const { data: { userNfts } } = await query(queryString);
-    
+
+        const {
+            data: { userNfts },
+        } = await query(queryString);
+
         newState.account.nfts = userNfts;
     }
 

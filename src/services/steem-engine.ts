@@ -256,10 +256,21 @@ export class SteemEngine {
         return [];
     }
 
-    async claimToken(symbol: string) {
+    async claimAllTokens(allTokens: IRewardToken[]) {
         let claimTokenResult = false;
+        let claimData = [];
 
-        const username = this.getUser();
+        if (allTokens) {
+            allTokens.forEach(x => claimData.push({ "symbol": x.symbol }));
+        }
+
+        claimTokenResult = await this.claimTokenCall(claimData, `Claim All Tokens`);
+
+        return claimTokenResult;
+    }
+
+    async claimToken(symbol: string) {
+        let claimTokenResult = false;        
 
         const scotToken = this.user.scotTokens.find(function (x) { return x.symbol === symbol });
         const amount = scotToken.pending_token;
@@ -270,15 +281,40 @@ export class SteemEngine {
             symbol
         };
 
+        claimTokenResult = await this.claimTokenCall(claimData, `Claim ${calculated} ${symbol.toUpperCase()} Tokens`);
+
+        return claimTokenResult;
+    }
+
+    async claimTokenCall(claimData, displayName) {    
+        const username = this.getUser();
+        let claimTokenResult = false;
+
         if (window && window.steem_keychain) {
-            const response = await customJson(username, 'scot_claim_token', 'Posting', JSON.stringify(claimData), `Claim ${calculated} ${symbol.toUpperCase()} Tokens`);
+            const response = await customJson(username, 'scot_claim_token', 'Posting', JSON.stringify(claimData), displayName);
 
             if (response.success && response.result) {
                 claimTokenResult = true;
+
+                const toast = new ToastMessage();
+
+                toast.message = this.i18n.tr('claimSucceeded', {
+                    ns: 'notifications'
+                });
+
+                this.toast.success(toast);
+            } else {
+                const toast = new ToastMessage();
+
+                toast.message = this.i18n.tr('errorSubmittedTransfer', {
+                    ns: 'errors'
+                });
+
+                this.toast.error(toast);
             }
         } else {
             steemConnectJsonId(this.user.name, 'posting', 'scot_claim_token', claimData, () => {
-                // Hide loading
+                claimTokenResult = true;
             });
         }
 
