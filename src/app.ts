@@ -279,8 +279,8 @@ export class App {
                 ),
                 nav: false,
                 title: "Crowdfunding Explore"
-            }
-
+            },
+            {
                 route: 'nfts',
                 name: 'nfts',
                 moduleId: PLATFORM.moduleName('./routes/nfts/nfts'),
