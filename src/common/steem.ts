@@ -1,4 +1,4 @@
-import { environment } from './../../aurelia_project/environments/prod';
+import { environment } from 'environment';
 import { AuthType } from './types';
 import steem from 'steem';
 import { popupCenter } from './functions';
