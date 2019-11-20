@@ -92,6 +92,7 @@ interface IToken {
         url: string;
         hide_in_market?: boolean;
     } | null;
+    metric?: IMetric;
     name: string;
     numberTransactions: number;
     precision: number;
@@ -108,15 +109,15 @@ interface IToken {
 }
 
 interface IMetric {
-    highestBid: string;
-    lastDayPrice: string;
+    highestBid: number;
+    lastDayPrice: number;
     lastDayPriceExpiration: number;
-    lastPrice: string;
-    lowestAsk: string;
-    priceChangePercent: string;
-    priceChangeSteem: string;
+    lastPrice: number;
+    lowestAsk: number;
+    priceChangePercent: number;
+    priceChangeSteem: number;
     symbol: string;
-    volume: string;
+    volume: number;
     volumeExpiration: number;
 }
 
