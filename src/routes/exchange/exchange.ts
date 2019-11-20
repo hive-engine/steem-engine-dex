@@ -21,7 +21,6 @@ import { WithdrawModal } from 'modals/withdraw';
 import { MarketOrderModal } from 'modals/market-order';
 
 import { DialogService } from 'aurelia-dialog';
-import { percentageOf } from 'common/functions';
 import { loadBuyBook, loadSellBook, exchangeData } from 'store/actions';
 import { dispatchify, Store } from 'aurelia-store';
 import { Subscription as StateSubscription } from 'rxjs';
@@ -173,6 +172,9 @@ export class Exchange {
                 sellOrderDataset.push(sellOrderCurrentVolume);
             }
         });
+
+        sellOrderLabels.reverse();
+        sellOrderDataset.reverse();
 
         this.sellBook.reverse();
 

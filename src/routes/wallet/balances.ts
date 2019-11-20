@@ -145,9 +145,9 @@ export class Balances {
         });
     }
 
-    showTokenInfo(symbol) {
+    showTokenInfo(token) {
         this.dialogService
-            .open({ viewModel: TokenInfoModal, model: symbol })
+            .open({ viewModel: TokenInfoModal, model: token })
             .whenClosed(response => {
                 //console.log(response);
             });
