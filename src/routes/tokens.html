@@ -66,21 +66,17 @@
                                 ${token.metric.marketCap | usdFormat:0}
                             </td>
                             <td class="text-right changePercentCol">
-                                    <span
-                                    class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
-                                >
-                                    ${token.metric.lastPrice}%
+                                <span class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}">
+                                    ${token.metric.lastPrice | usdFormat}
                                 </span>
                             </td>
                             <td class="text-right changePercentCol">
-                                <span
-                                    class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
-                                >
+                                <span class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}">
                                     ${token.metric.priceChangePercent | toFixed:2}%
                                 </span>
                             </td>
                             <td>${token.metric.volume | usdFormat:0}</td>
-                            <td>${token.circulatingSupply | comma | toFixed:3}</td>
+                            <td>${token.circulatingSupply | toFixed:3 | comma}</td>
                             <td class="table-buttons">
                                 <button click.delegate="showTokenInfo(token.symbol)" title="Token information">
                                     <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
