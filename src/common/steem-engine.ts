@@ -358,12 +358,17 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
             stake,
             pendingUnstake,
             token {
+                circulatingSupply,
                 issuer, 
                 name, 
                 delegationEnabled, 
+                maxSupply,
                 stakingEnabled, 
-                metadata { 
-                    icon 
+                supply,
+                metadata {
+                    desc,
+                    icon,
+                    url
                 }
             }
             metric {
