@@ -32,10 +32,10 @@
     text-transform: initial;
 }
 
-.navbar-nav > li.active:not(.button) > a,
+/* .navbar-nav > li.active:not(.button) > a,
 .navbar-nav > li > a:hover {
     color: lightblue!important;
-}
+} */
 
 .navbar-nav > li.language-option > a {
     margin-right: 10px;
