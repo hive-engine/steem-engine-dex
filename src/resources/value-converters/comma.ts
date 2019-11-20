@@ -6,6 +6,6 @@ export class CommaValueConverter {
             return value;
         }
 
-        return addCommas(value, currency);
+        return addCommas(parseFloat(value), currency);
     }
 }
