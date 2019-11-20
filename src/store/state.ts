@@ -1,4 +1,4 @@
-import { environment } from './../../aurelia_project/environments/dev';
+import { environment } from 'environment';
 export interface AccountInterface {
     name: string;
     account: any;
