@@ -242,11 +242,11 @@ export async function loadTradeHistory(state: State, symbol: string, account: st
     return newState;
 }
 
-export async function loadTokensList(state: State): Promise<State> {
+export async function loadTokensList(state: State, symbols = []): Promise<State> {
     const newState = { ...state };
 
     try {
-        newState.tokens = await loadTokens();
+        newState.tokens = await loadTokens(symbols);
     } catch (e) {
         log.error(e);
     }
