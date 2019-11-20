@@ -21,7 +21,6 @@ import { WithdrawModal } from 'modals/withdraw';
 import { MarketOrderModal } from 'modals/market-order';
 
 import { DialogService } from 'aurelia-dialog';
-import { percentageOf } from 'common/functions';
 import { loadBuyBook, loadSellBook, exchangeData } from 'store/actions';
 import { dispatchify, Store } from 'aurelia-store';
 import { Subscription as StateSubscription } from 'rxjs';
@@ -103,7 +102,7 @@ export class Exchange {
     }
 
     canActivate({ symbol }) {
-        if (!symbol) {
+        if (!symbol || symbol === 'STEEMP') {
             return new Redirect('/exchange/ENG');
         }
     }
@@ -174,6 +173,9 @@ export class Exchange {
             }
         });
 
+        sellOrderLabels.reverse();
+        sellOrderDataset.reverse();
+
         this.sellBook.reverse();
 
         return { dataset: sellOrderDataset, labels: sellOrderLabels } as IOrderDataDisplay;
@@ -207,8 +209,8 @@ export class Exchange {
     }
 
     async loadTokenOpenOrders() {
-        let openOrders = await getUserOpenOrders(this.se.getUser());
-        this.tokenOpenOrders = openOrders.filter(x => x.symbol === this.currentToken);        
+        const openOrders = await getUserOpenOrders(this.se.getUser());
+        this.tokenOpenOrders = openOrders.filter(x => x.symbol === this.currentToken);
     }
 
     loadUserExchangeData() {
@@ -300,55 +302,6 @@ export class Exchange {
         this.dialogService.open({ viewModel: MarketOrderModal, model: order }).whenClosed(response => {
             console.log(response);
         });
-    }
-
-    /**
-     * Method for calculating how much a user can buy/sell
-     * given their current STEEMP or TOKEN balance
-     * @param amount
-     */
-    amountSelect(amount: string) {
-        console.log(amount);
-        const actualAmount = parseInt(amount);
-        const userSteem = this.steempBalance;
-        const userTokenBalance = this.userTokenBalance;
-        const buyBook = this.buyBook;
-        const sellBook = this.sellBook;
-
-        // Determine what the user can buy from the buy book
-        if (this.currentExchangeMode === 'buy') {
-            let totalTokens = 0;
-            let totalSteemp = 0;
-
-            const amount = percentageOf(actualAmount, userSteem);
-
-            if (sellBook) {
-                for (const order of sellBook) {
-                    // Total is total STEEMP, price is price per 1 quantity and quantity is amount
-                    // Total = quantity * price
-                    const { total, price, quantity } = order;
-
-                    // Order total STEEM is greater than user balance
-                    if (total > amount) {
-                        this.bidPrice = price;
-
-                        while (totalSteemp < amount) {
-                            totalTokens += 0.00000001;
-                            totalSteemp += 0.00000001 * price;
-                        }
-
-                        this.bidQuantity = totalTokens.toFixed(3);
-
-                        // Stop the loop, we don't need to go further
-                        break;
-                    } else {
-                    }
-                }
-            }
-        }
-        // Determine what the user can set the price at to sell all of their token
-        else {
-        }
     }
 
     @computedFrom('bidPrice', 'bidQuantity')

@@ -117,10 +117,15 @@
                 <template if.bind="!state.firebaseUser.kyc.verified && canUploadKycDocuments">
                     <p>${'Verify your account' & t}.</p>
 
+                    <div class="alert alert-warning mb-5" role="alert" if.bind="state.firebaseUser.kyc.passportRejected || state.firebaseUser.kyc.selfieRejected">
+                        <template if.bind="state.firebaseUser.kyc.passportRejected"><strong>Your passport was rejected:</strong> ${state.firebaseUser.kyc.passportRejectionReason}</template>
+                        <template if.bind="state.firebaseUser.kyc.selfieRejected"><strong>Your selfie was rejected:</strong> ${state.firebaseUser.kyc.selfieRejectionReason}</template>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-4 kyc-box">
                             <h4 class="${selfieVerified ? 'green-text' : ''}">${'Selfie' & t} <span class="verified-label ${selfieVerified ? 'verified' : ''} ${selfiePending ? 'pending' : ''}"><font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${selfieStatusText}</span></h4>
-                            <p if.bind="!selfieVerified">${'Upload a selfie that is well lit. You should be holding a piece of paper with "steem-engine.com" written on it, with todays date and your special verfication code:' & t} ${state.firebaseUser.kyc.token}</p>
+                            <p if.bind="!selfieVerified">${'Upload a selfie that is well lit. You should be holding a piece of paper with "steem-engine.com" written on it, with todays date and your special verfication code' & t} ${state.firebaseUser.kyc.token}</p>
                             <p else class="green-text">${'Your selfie has been verified' & t}</p>
 
                             <div class="upload-box" if.bind="!selfieVerified && !selfiePending" drop.trigger="handleSelfieDrop($event)" dragover.trigger="handleEvent($event)">

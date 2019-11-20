@@ -39,8 +39,7 @@ tr td:last-child {
 .exchange-chart {
     background: #fff;
     display: block;
-    margin-bottom: 20px;
-    margin-top: 15px;
+    margin-bottom: 50px;
 }
 
 .balances-heading {
@@ -170,15 +169,19 @@ tr td:last-child {
 }
 
 .token-open-orders-table .red,
-.token-open-orders-table .green {
+.token-open-orders-table .green,
+.history .red,
+.history .green{
     font-weight: bold;
 }
 
-.token-open-orders-table .red {
+.token-open-orders-table .red,
+.history .red {
     color: red;
 }
 
-.token-open-orders-table .green {
+.token-open-orders-table .green,
+.history .green {
     color: green;
 }
 

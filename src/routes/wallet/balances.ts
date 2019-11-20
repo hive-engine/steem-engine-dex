@@ -1,3 +1,4 @@
+import { usdFormat, toFixedNoRounding, addCommas } from 'common/functions';
 import { Subscription } from 'rxjs';
 import { State } from 'store/state';
 import { Redirect } from 'aurelia-router';
@@ -31,6 +32,7 @@ export class Balances {
     private state: State;
     private subscription: Subscription;
     private styles = styles;
+    private totalWalletValue = 0.00;
 
     private tokenTable: HTMLTableElement;
 
@@ -44,6 +46,16 @@ export class Balances {
                 this.balancesCopy = [...state.account.balances];
                 this.balances = [...state.account.balances];
                 this.user = { ...state.firebaseUser };
+
+                if (this?.user?.wallet) {
+                    if (this.user.wallet.hideZeroBalances) {
+                        this.balances = this.balances.filter(t => parseFloat(t.balance) > 0);
+                    }
+            
+                    if (this.user.wallet.onlyShowFavourites) {
+                        this.balances = this.balances.filter((t: any) => t.isFavourite);
+                    }
+                }
             }
         });
     }
@@ -55,12 +67,24 @@ export class Balances {
     }
 
     attached() {
+        for (const token of this.balances) {
+            const amount = parseFloat(token.usdValue.replace('$', '').replace(',', ''));
+            this.totalWalletValue += amount;
+        }
+        
+        this.totalWalletValue = addCommas(this.totalWalletValue.toFixed(2)) as any;
         this.loadTable();
     }
 
     loadTable() {
         // @ts-ignore
         $(this.tokenTable).DataTable({
+            "columnDefs": [
+                { "type": "natural", "targets": 3 }, // Balance
+                { "type": "html-num-fmt", "targets": 4 }, // USD
+                { "type": "html-num-fmt", "targets": 5 } // Change %
+            ],
+            "order": [[4, "desc"]],
             bInfo: false,
             paging: false,
             searching: false
@@ -71,8 +95,6 @@ export class Balances {
         try {
             await dispatchify(loadAccountBalances)();
             await dispatchify(getCurrentFirebaseUser)();
-
-            this.filterData();
         } catch {
             return new Redirect('');
         }
@@ -87,6 +109,10 @@ export class Balances {
                     this.balances = this.balancesCopy;
                 }
 
+                if (this.user.wallet.onlyShowFavourites) {
+                    this.balances = this.balances.filter((t: any) => t.isFavourite);
+                }
+
                 this.updateUser();
             }
         });
@@ -99,6 +125,10 @@ export class Balances {
                     this.balances = this.balances.filter((t: any) => t.isFavourite);
                 } else {
                     this.balances = this.balancesCopy;
+                }
+
+                if (this.user.wallet.hideZeroBalances) {
+                    this.balances = this.balances.filter(t => parseFloat(t.balance) > 0);
                 }
 
                 this.updateUser();
@@ -131,9 +161,9 @@ export class Balances {
         });
     }
 
-    showTokenInfo(symbol) {
+    showTokenInfo(token) {
         this.dialogService
-            .open({ viewModel: TokenInfoModal, model: symbol })
+            .open({ viewModel: TokenInfoModal, model: token })
             .whenClosed(response => {
                 //console.log(response);
             });
@@ -181,18 +211,10 @@ export class Balances {
             .whenClosed(x => this.walletDialogCloseResponse(x));
     }
 
-    filterData() {
-        this.hideZeroBalancesChanged();
-        this.onlyShowFavourites();
-    }
-
     async walletDialogCloseResponse(response: DialogCloseResult) {
-        console.log(response);
         // reload balances if dialog response was success
         if (!response.wasCancelled) {
             await dispatchify(loadAccountBalances)();
-
-            this.filterData();
         }
     }
 }

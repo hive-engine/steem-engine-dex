@@ -58,7 +58,7 @@ export class Settings {
     }
 
     async activate() {
-        await dispatchify(loadTokensList)();
+        dispatchify(loadTokensList)();
         await dispatchify(getCurrentFirebaseUser)();
     }
 

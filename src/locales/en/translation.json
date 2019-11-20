@@ -6,8 +6,10 @@
     "HIGH": "HIGH",
     "LOW": "LOW",
     "VOLUME": "VOLUME",
-    "tokenCreationFee": "NOTE: Token Creation costs {{tokenFee}} ENG (Steem Engine Native Tokens)",
-    "yourEngBalance": "Your Current ENG Balance: {{balance}} ENG",
+    "tokenCreationFee": "NOTE: Token Creation costs {{tokenFee}} {{token}} (Steem Engine Native Tokens)",
+    "yourEngBalance": "Your Current {{token}} Balance: {{balance}} {{token}}",
     "tokenCreationHeading": "Create a token",
-    "tokenCreationSubheading": "Are you ready to make history? Let's make a new token on the Steem blockchain!"
+    "tokenCreationSubheading": "Are you ready to make history? Let's make a new token on the Steem blockchain!",
+    "authorisedIssuingAccounts": "Authorized Issuing Accounts",
+    "authorisedIssuingContracts": "Authorized Issuing Contracts"
 }

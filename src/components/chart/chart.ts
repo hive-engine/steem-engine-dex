@@ -11,7 +11,9 @@ const DefaultChartOptions = {
         legend: {
             display: false
         },
-        steppedLine: true
+        steppedLine: true,
+        responsive: true,
+        maintainAspectRatio: false
     }
 };
 

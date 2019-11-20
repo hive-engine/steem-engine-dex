@@ -8,25 +8,25 @@
         <ux-dialog-body>
             <div if.bind="token">
                 <div class="form-group">                    
-                    <img class="tokenInfoIcon" src="${token.metadata.icon}" alt="${token.symbol}" title="${token.symbol}" />
+                    <img class="tokenInfoIcon" src="${token.token.metadata.icon}" alt="${token.symbol}" title="${token.symbol}" />
                     <h1 class="tokenInfoTitle">${token.symbol}</h1>
                 </div>
 
                 <div class="form-group">
                     <h4>${'Token Name' & t}</h4>
-                    <h3>${token.name}</h3>
+                    <h3>${token.token.name}</h3>
                 </div>
 
                 <div class="form-group">
                     <h4>${'Supply (Circulating / Total / Max)' & t}</h4>
-                    <h3>${token.circulatingSupply} / ${token.supply} / ${token.maxSupply}</h3>
+                    <h3>${token.token.circulatingSupply} / ${token.token.supply} / ${token.token.maxSupply}</h3>
                 </div>
 
                 <div class="form-group">
                     <h4>${'Issuer' & t}</h4>
                     <h3>
-                        <a href="${'https://steempeak.com/@' + token.issuer}" target="_blank">
-                            ${token.issuer}
+                        <a href="${'https://steempeak.com/@' + token.token.issuer}" target="_blank">
+                            ${token.token.issuer}
                             <font-awesome-icon icon.bind="['fas', 'external-link']"></font-awesome-icon>
                         </a>
                     </h3>
@@ -35,8 +35,8 @@
                 <div class="form-group">
                     <h4>${'Website URL' & t}</h4>
                     <h3>
-                        <a href="${token.metadata.url}" target="_blank">
-                            ${token.metadata.url}
+                        <a href="${token.token.metadata.url}" target="_blank">
+                            ${token.token.metadata.url}
                             <font-awesome-icon icon.bind="['fas', 'external-link']"></font-awesome-icon>
                         </a>
                     </h3>
@@ -44,7 +44,7 @@
 
                 <div class="form-group">
                     <h4>${'Description' & t}</h4>
-                    <h5>${token.metadata.desc}</h5>
+                    <h5>${token.token.metadata.desc}</h5>
                 </div>
             </div>
         </ux-dialog-body>

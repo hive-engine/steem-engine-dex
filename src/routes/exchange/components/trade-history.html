@@ -7,13 +7,17 @@
                 <tr>
                     <th width="135">${'Price' & t} (STEEMP)</th>
                     <th class="text-right">${'QTY' & t} (${data.symbol & t})</th>
+                    <th>${'Type' & t}</th>
                     <th class="text-right">${'Time' & t}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr repeat.for="trade of trades | slice:20">
+
                     <td>${trade.price | toFixed:3}</td>
                     <td>${trade.quantity | toFixed:3}</td>
+                    <td class="${trade.type == 'sell' ? 'red' : 'green'}">${trade.type.toUpperCase()}</td>
+
                     <td>${trade.timestamp_string}</td>
                 </tr>
             </tbody>

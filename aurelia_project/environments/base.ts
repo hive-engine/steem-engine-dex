@@ -5,6 +5,12 @@ export const baseEnvironmentConfiguration: Partial<EnvironmentInterface> = {
     SCOT_API: 'https://scot-api.steem-engine.com/',
     HISTORY_API: 'https://api.steem-engine.com/history/marketHistory',
     FIREBASE_API: 'https://us-central1-steem-engine-dex.cloudfunctions.net/api/',
-    DISABLED_TOKENS: ['BTC', 'STEEM', 'SBD', 'BCC', 'XAP'],
-    PEGGED_TOKEN: 'STEEMP' 
+    maintenanceMode: false,
+    disabledTokens: ['BTC', 'STEEM', 'SBD', 'BCC', 'XAP'],
+    peggedToken: 'STEEMP',
+    features: {
+        nfts: {
+            enabled: false
+        }
+    }
 };

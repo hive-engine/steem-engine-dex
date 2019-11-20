@@ -1,0 +1,28 @@
+<template>
+        <div class="table-wrapper">
+                <loader loading.bind="loading" mode="tiny"></loader>
+
+                <table class="table table-dark">
+                        <thead>
+                            <tr>
+                                <th>${'ID' & t}</th>
+                                <th>${'Account' & t}</th>
+                                <th>${'Owner' & t}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr repeat.for="token of state.account.nfts">
+                                <td>${token._id}</td>
+                                <td>${token.account}</td>
+                                <td>${token.ownedBy === 'u' ? 'Steem Account' : 'Smart Contract'}</td>
+                                <td class="table-buttons">
+                                    <button click.delegate="showNftProperties(token.properties)" title="NFT Properties">
+                                        <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                </table>
+            </div>
+</template>

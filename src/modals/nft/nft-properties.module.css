@@ -1,0 +1,12 @@
+.tokenInfoIcon {
+    width: 64px;
+    height: 64px;
+    display: inline-block;
+}
+
+h1.tokenInfoTitle {
+    color: #0048b3;
+    padding: 0px 5px;
+    display: inline-block;
+    vertical-align: middle;
+}

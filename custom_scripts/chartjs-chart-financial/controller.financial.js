@@ -22,7 +22,10 @@ Chart.defaults.financial = {
             barPercentage: 0.9,
             offset: true,
             ticks: {
-                source: 'data'
+                source: 'data',
+                callback: function (value, index, values) {
+                    return index % 5 === 0 ? value : null;
+                }
             }
         }],
         yAxes: [{
