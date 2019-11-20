@@ -272,6 +272,15 @@ export class App {
 
             },
             {
+                route: "crowdfunding-explore",
+                name: "crowdfunding-explore",
+                moduleId: PLATFORM.moduleName(
+                    "./routes/offering-routes/crowdfunding/crowdfunding-explore"
+                ),
+                nav: false,
+                title: "Crowdfunding Explore"
+            },
+            {
                 route: 'nfts',
                 name: 'nfts',
                 moduleId: PLATFORM.moduleName('./routes/nfts/nfts'),
@@ -309,6 +318,7 @@ export class App {
 
 
             }
+
 
         ]);
 
