@@ -1,0 +1,50 @@
+<template>
+    <header class="main-header">
+        <div class="container-fluid main-container d-flex flex-column justify-content-end">
+            <div class="row">
+                <div class="col-6">
+                    <h1>Update ${state.nft.symbol & t}</h1>
+                    <h3>${state.nft.name}</h3>
+                    <p class="meta text-muted mb-3">Edit your NFT metadata</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container main-container">
+        <div class="row mb-3">
+            <div class="col-6">
+                <h4>Name</h4>
+                <div class="form-group">
+                    <input type="text" class="form-control" value.bind="token.name & validate:nameController">
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-md btn-primary" click.delegate="updateName()">${'Update Name' & t}</button>
+                </div> 
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-6">
+                <h4>Metadata</h4>
+                <div class="form-group">
+                    <label>URL</label>
+                    <input type="text" class="form-control" value.bind="token.metadata.url & validate:metadataController">
+                </div>
+                <div class="form-group">
+                    <label>Icon</label>
+                    <input type="text" class="form-control" value.bind="token.metadata.icon & validate:metadataController">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" class="form-control" value.bind="token.metadata.desc & validate:metadataController">
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-md btn-primary" click.delegate="updateMetadata()">${'Update Metdata' & t}</button>
+                </div>  
+            </div>
+        </div>
+    </div>
+</template>

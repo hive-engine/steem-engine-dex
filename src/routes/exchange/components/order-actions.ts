@@ -10,7 +10,6 @@ import styles from './order-actions.module.css';
 export class OrderActions {
     private styles = styles;
 
-    @bindable amountSelect;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) price;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) quantity;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) mode;

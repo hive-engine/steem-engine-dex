@@ -25,10 +25,10 @@
                     <tbody>
                         <tr repeat.for="token of rewardTokens | arrayFilter:searchValue:columns">
                             <td>${token.symbol}</td>
-                            <td>${token.amount | comma} ${token.symbol}</td>
-                            <td class="table-buttons">
+                            <td data-order="${token.amount}">${token.amount | comma} ${token.symbol}</td>
+                            <td class="text-right">
                                 <button type="button"
-                                        class="btn btn-wide btn-primary"
+                                        class="button btn btn-primary"
                                         click.delegate="claimToken(token.symbol)">
                                     Claim
                                 </button>
@@ -36,6 +36,13 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="text-right">
+                    <button type="button"
+                            class="button btn btn-primary"
+                            click.delegate="claimAllTokens()">
+                        Claim All
+                    </button>
+                </div>
             </div>
         </div>
     </div>

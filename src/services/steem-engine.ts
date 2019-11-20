@@ -1,3 +1,4 @@
+import { query } from 'common/apollo';
 import { AuthService } from './auth-service';
 import { I18N } from 'aurelia-i18n';
 import { State } from 'store/state';
@@ -255,10 +256,21 @@ export class SteemEngine {
         return [];
     }
 
-    async claimToken(symbol: string) {
+    async claimAllTokens(allTokens: IRewardToken[]) {
         let claimTokenResult = false;
+        let claimData = [];
 
-        const username = this.getUser();
+        if (allTokens) {
+            allTokens.forEach(x => claimData.push({ "symbol": x.symbol }));
+        }
+
+        claimTokenResult = await this.claimTokenCall(claimData, `Claim All Tokens`);
+
+        return claimTokenResult;
+    }
+
+    async claimToken(symbol: string) {
+        let claimTokenResult = false;        
 
         const scotToken = this.user.scotTokens.find(function (x) { return x.symbol === symbol });
         const amount = scotToken.pending_token;
@@ -269,15 +281,40 @@ export class SteemEngine {
             symbol
         };
 
+        claimTokenResult = await this.claimTokenCall(claimData, `Claim ${calculated} ${symbol.toUpperCase()} Tokens`);
+
+        return claimTokenResult;
+    }
+
+    async claimTokenCall(claimData, displayName) {    
+        const username = this.getUser();
+        let claimTokenResult = false;
+
         if (window && window.steem_keychain) {
-            const response = await customJson(username, 'scot_claim_token', 'Posting', JSON.stringify(claimData), `Claim ${calculated} ${symbol.toUpperCase()} Tokens`);
+            const response = await customJson(username, 'scot_claim_token', 'Posting', JSON.stringify(claimData), displayName);
 
             if (response.success && response.result) {
                 claimTokenResult = true;
+
+                const toast = new ToastMessage();
+
+                toast.message = this.i18n.tr('claimSucceeded', {
+                    ns: 'notifications'
+                });
+
+                this.toast.success(toast);
+            } else {
+                const toast = new ToastMessage();
+
+                toast.message = this.i18n.tr('errorSubmittedTransfer', {
+                    ns: 'errors'
+                });
+
+                this.toast.error(toast);
             }
         } else {
             steemConnectJsonId(this.user.name, 'posting', 'scot_claim_token', claimData, () => {
-                // Hide loading
+                claimTokenResult = true;
             });
         }
 
@@ -971,7 +1008,15 @@ export class SteemEngine {
     }
 
     async getDepositAddress(symbol) {
-        const tokenPairs = await this.getTokenPairs();
+        const pairs = await query(`query {
+            coinPairs {
+                name,
+                pegged_token_symbol,
+                symbol
+              }
+        }`);     
+        
+        const tokenPairs = pairs.data.coinPairs;
         const peggedToken = tokenPairs.find(p => p.symbol === symbol);
 
         if (!peggedToken) {
@@ -1000,7 +1045,16 @@ export class SteemEngine {
     }
 
     async getWithdrawalAddress(symbol, address) {
-        const tokenPairs = await this.getTokenPairs();
+        const pairs = await query(`query {
+            coinPairs {
+                name,
+                pegged_token_symbol,
+                symbol
+              }
+        }`);     
+        
+        const tokenPairs = pairs.data.coinPairs;
+
         const peggedToken = tokenPairs.find(p => p.symbol === symbol);
 
         if (!peggedToken) {
@@ -1019,40 +1073,6 @@ export class SteemEngine {
         } catch {
             return null;
         }
-    }
-
-    async getTokenPairs() {
-        const coins = await loadCoins();
-        const coinPairs = await loadCoinPairs();
-
-        let tokenPairs = [];
-        const nonPeggedCoins = coins.filter(x => x.coin_type != 'steemengine');
-
-        // add steem as first item
-        const steem = { name: 'STEEM', symbol: 'STEEM', pegged_token_symbol: 'STEEMP' };
-        tokenPairs.push(steem);
-
-        nonPeggedCoins.forEach(x => {
-            // find pegged coin for each non-pegged coin
-            const coinFound = coinPairs.find(y => y.from_coin_symbol == x.symbol);
-            if (coinFound) {
-                const tp = {
-                    name: x.display_name,
-                    symbol: x.symbol,
-                    pegged_token_symbol: coinFound.to_coin_symbol
-                }
-
-                // check if the token exists
-                if (!tokenPairs.find(x => x.pegged_token_symbol == tp.pegged_token_symbol)) {
-                    tokenPairs.push(tp);
-                }
-            }
-        })
-
-        // sort the coins
-        tokenPairs = tokenPairs.sort((a, b) => a.name.localeCompare(b.name));
-
-        return tokenPairs;
     }
 
     async delegate(symbol: string, quantity: string, to: string): Promise<unknown> {
@@ -1254,5 +1274,4 @@ export class SteemEngine {
             }
         });
     }
-
 }

@@ -5,6 +5,7 @@ interface EnvironmentInterface {
     chainId: string;
     siteName: string;
     defaultLocale: string;
+    maintenanceMode: boolean;
     RPC_URL: string;
     ACCOUNTS_API_URL: string;
     CONVERTER_API: string;
@@ -15,7 +16,8 @@ interface EnvironmentInterface {
     steempAccount: string;
     nativeToken: string;
     disabledTokens: string[];
-    peggedToken: string;    
+    peggedToken: string;
+    features: any;
 }
 
 interface BalanceInterface {

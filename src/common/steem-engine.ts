@@ -486,12 +486,11 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
     }`);
 
     const state = await getStateOnce();
-    
+
     const loadedBalances: BalanceInterface[] = getUserBalances.data.balances;
 
     if (loadedBalances.length) {
-        const balances = loadedBalances
-            .filter(b => !state.settings.disabledTokens.includes(b.symbol));
+        const balances = loadedBalances.filter(b => !state.settings.disabledTokens.includes(b.symbol));
 
         for (const token of balances) {
             if (token?.metric?.lastPrice) {
@@ -510,8 +509,9 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
 
         balances.sort(
             (a, b) =>
-                parseFloat(b.balance) * b?.metric?.lastPrice ?? 0 * window.steem_price -
-                parseFloat(b.balance) * a?.metric?.lastPrice ?? 0 * window.steem_price,
+                parseFloat(b.balance) * b?.metric?.lastPrice ??
+                0 * window.steem_price - parseFloat(b.balance) * a?.metric?.lastPrice ??
+                0 * window.steem_price,
         );
 
         return balances;
@@ -617,7 +617,7 @@ export async function loadConversionSentReceived(account) {
                 }
     `);
 
-    return callQl ?.data as {
+    return callQl?.data as {
         conversionSent: IConversionItem;
         conversionReceived: IConversionItem;
     };

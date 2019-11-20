@@ -2,7 +2,7 @@ import { Container } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
 import { ToastMessage, ToastService } from './../services/toast-service';
 import { checkTransaction } from 'common/steem-engine';
-import { environment } from './../../aurelia_project/environments/dev';
+import { environment } from 'environment';
 import { steemConnectJson } from 'common/steem';
 import { HttpClient } from 'aurelia-fetch-client';
 
@@ -181,7 +181,7 @@ export function createTransaction(username: string, contractName: string, contra
                         resolve(false);
                     }
                 } else {
-                    resolve(response);
+                    resolve(false);
                 }
             });
         } else {
@@ -189,5 +189,11 @@ export function createTransaction(username: string, contractName: string, contra
                 resolve(true);
             });
         }
+    });
+}
+
+export function sleep(wait = 1000) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, wait);
     });
 }
