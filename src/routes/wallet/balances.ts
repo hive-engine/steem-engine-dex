@@ -109,6 +109,10 @@ export class Balances {
                     this.balances = this.balancesCopy;
                 }
 
+                if (this.user.wallet.onlyShowFavourites) {
+                    this.balances = this.balances.filter((t: any) => t.isFavourite);
+                }
+
                 this.updateUser();
             }
         });
@@ -121,6 +125,10 @@ export class Balances {
                     this.balances = this.balances.filter((t: any) => t.isFavourite);
                 } else {
                     this.balances = this.balancesCopy;
+                }
+
+                if (this.user.wallet.hideZeroBalances) {
+                    this.balances = this.balances.filter(t => parseFloat(t.balance) > 0);
                 }
 
                 this.updateUser();
