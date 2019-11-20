@@ -46,6 +46,16 @@ export class Balances {
                 this.balancesCopy = [...state.account.balances];
                 this.balances = [...state.account.balances];
                 this.user = { ...state.firebaseUser };
+
+                if (this?.user?.wallet) {
+                    if (this.user.wallet.hideZeroBalances) {
+                        this.balances = this.balances.filter(t => parseFloat(t.balance) > 0);
+                    }
+            
+                    if (this.user.wallet.onlyShowFavourites) {
+                        this.balances = this.balances.filter((t: any) => t.isFavourite);
+                    }
+                }
             }
         });
     }
