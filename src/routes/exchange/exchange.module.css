@@ -39,8 +39,7 @@ tr td:last-child {
 .exchange-chart {
     background: #fff;
     display: block;
-    margin-bottom: 20px;
-    margin-top: 15px;
+    margin-bottom: 50px;
 }
 
 .balances-heading {
