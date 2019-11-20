@@ -101,7 +101,7 @@
                                 click.delegate="unstakeTokens(token.symbol)" title="Unstake tokens">
                                 <font-awesome-icon icon.bind="['fas', 'unlock']"></font-awesome-icon>
                             </button>
-                            <button if.bind="token.token.issuer === token.account"
+                            <button if.bind="token.token.issuer === token.account && !token.token.stakingEnabled"
                                 click.delegate="enableStaking(token.symbol)" title="Enable staking">
                                 <font-awesome-icon icon.bind="['fas', 'gem']"></font-awesome-icon>
                             </button>
