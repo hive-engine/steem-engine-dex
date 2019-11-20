@@ -46,6 +46,16 @@ export class Balances {
                 this.balancesCopy = [...state.account.balances];
                 this.balances = [...state.account.balances];
                 this.user = { ...state.firebaseUser };
+
+                if (this?.user?.wallet) {
+                    if (this.user.wallet.hideZeroBalances) {
+                        this.balances = this.balances.filter(t => parseFloat(t.balance) > 0);
+                    }
+            
+                    if (this.user.wallet.onlyShowFavourites) {
+                        this.balances = this.balances.filter((t: any) => t.isFavourite);
+                    }
+                }
             }
         });
     }
@@ -85,8 +95,6 @@ export class Balances {
         try {
             await dispatchify(loadAccountBalances)();
             await dispatchify(getCurrentFirebaseUser)();
-
-            this.filterData();
         } catch {
             return new Redirect('');
         }
@@ -101,6 +109,10 @@ export class Balances {
                     this.balances = this.balancesCopy;
                 }
 
+                if (this.user.wallet.onlyShowFavourites) {
+                    this.balances = this.balances.filter((t: any) => t.isFavourite);
+                }
+
                 this.updateUser();
             }
         });
@@ -113,6 +125,10 @@ export class Balances {
                     this.balances = this.balances.filter((t: any) => t.isFavourite);
                 } else {
                     this.balances = this.balancesCopy;
+                }
+
+                if (this.user.wallet.hideZeroBalances) {
+                    this.balances = this.balances.filter(t => parseFloat(t.balance) > 0);
                 }
 
                 this.updateUser();
@@ -195,18 +211,10 @@ export class Balances {
             .whenClosed(x => this.walletDialogCloseResponse(x));
     }
 
-    filterData() {
-        this.hideZeroBalancesChanged();
-        this.onlyShowFavourites();
-    }
-
     async walletDialogCloseResponse(response: DialogCloseResult) {
-        console.log(response);
         // reload balances if dialog response was success
         if (!response.wasCancelled) {
             await dispatchify(loadAccountBalances)();
-
-            this.filterData();
         }
     }
 }
