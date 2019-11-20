@@ -269,6 +269,7 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/create-token'),
                 nav: false,
                 title: 'Create Token'
+
             },
             {
                 route: "crowdfunding-explore",
@@ -314,6 +315,10 @@ export class App {
                 nav: false,
                 title: 'Edit NFT'
             },
+
+
+            }
+
 
         ]);
 
