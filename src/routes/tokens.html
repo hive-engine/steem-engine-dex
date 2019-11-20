@@ -30,6 +30,7 @@
                             <th>${'Symbol' & t}</th>
                             <th>${'Name' & t}</th>
                             <th class="text-right">${'Market Cap' & t}</th>
+                            <th class="text-right">${'Price' & t}</th>
                             <th class="text-right">${'% Chg' & t}</th>
                             <th>${'24h Vol' & t}</th>
                             <th>${'Supply' & t}</th>
@@ -61,22 +62,25 @@
                             </td>
                             <td>${token.symbol}</td>
                             <td>${token.name}</td>
+                            <td class="text-right">
+                                ${token.metric.marketCap | usdFormat:0}
+                            </td>
                             <td class="text-right changePercentCol">
-                                <span
+                                    <span
                                     class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
                                 >
-                                    ${token.metric.marketCap | usdFormat:0}
+                                    ${token.metric.lastPrice}%
                                 </span>
                             </td>
                             <td class="text-right changePercentCol">
                                 <span
                                     class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
                                 >
-                                    ${token.metric.priceChangePercent.toFixed(2)}%
+                                    ${token.metric.priceChangePercent | toFixed:2}%
                                 </span>
                             </td>
                             <td>${token.metric.volume | usdFormat:0}</td>
-                            <td>${token.circulatingSupply | comma:1}</td>
+                            <td>${token.circulatingSupply | comma | toFixed:3}</td>
                             <td class="table-buttons">
                                 <button click.delegate="showTokenInfo(token.symbol)" title="Token information">
                                     <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
