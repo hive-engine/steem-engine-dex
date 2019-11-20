@@ -314,12 +314,7 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/nfts/edit'),
                 nav: false,
                 title: 'Edit NFT'
-            },
-
-
             }
-
-
         ]);
 
         this.router = router;
