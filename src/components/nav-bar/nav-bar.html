@@ -16,11 +16,15 @@
                 </ul>
                 <ul class="navbar-nav ml-auto">                    
                     <li class="nav-item wallet" if.bind="loggedIn">
-                        <a class="nav-link" href="javascript:void(0);" route-href="route: wallet;"><font-awesome-icon icon.bind="iconWallet"></font-awesome-icon></a>
+                        <a class="nav-link" href="javascript:void(0);" route-href="route: wallet;">
+                            <font-awesome-icon class="d-none d-md-block" icon.bind="iconWallet"></font-awesome-icon>
+                            <span class="d-md-none">${'Wallet' & t}</span>
+                        </a>
                     </li>
-                    <li class="nav-item dropdown language-option">
+                    <li class="nav-item dropdown language-option d-none d-md-block">
                         <language-switcher></language-switcher>
                     </li>
+
                     <li class="nav-item button active" if.bind="!loggedIn">
                         <a class="btn nav-link" click.delegate="signin()">${'Sign In' & t}</a>
                     </li>
