@@ -64,13 +64,13 @@ export class MarketOrderModal {
             this.loading = true;
             const order = await sendMarketOrder(this.se.getUser(), this.order.type, this.order.symbol, this.order.quantity, this.order.price);
 
-            if (order) {                
+            if (order) {
                 this.controller.ok();
 
                 this.reloadEventData.reloadUserExchangeData = true;
                 this.reloadEventData.reloadTokenOpenOrders = true;
 
-                if (this.order.type === "buy") {
+                if (this.order.type === 'buy') {
                     this.reloadEventData.reloadBuyBook = true;
                 } else {
                     this.reloadEventData.reloadSellBook = true;
