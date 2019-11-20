@@ -25,7 +25,7 @@
                         <language-switcher></language-switcher>
                     </li>
 
-                    <li class="nav-item button active" if.bind="!loggedIn">
+                    <li class="nav-item active" if.bind="!loggedIn">
                         <a class="btn nav-link" click.delegate="signin()">${'Sign In' & t}</a>
                     </li>
                     <li else class="nav-item dropdown active">
