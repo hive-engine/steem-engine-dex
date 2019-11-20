@@ -85,8 +85,6 @@ export class Balances {
         try {
             await dispatchify(loadAccountBalances)();
             await dispatchify(getCurrentFirebaseUser)();
-
-            this.filterData();
         } catch {
             return new Redirect('');
         }
@@ -101,7 +99,6 @@ export class Balances {
                     this.balances = this.balancesCopy;
                 }
 
-                this.onlyShowFavourites();
                 this.updateUser();
             }
         });
@@ -116,7 +113,6 @@ export class Balances {
                     this.balances = this.balancesCopy;
                 }
 
-                this.hideZeroBalancesChanged();
                 this.updateUser();
             }
         });
@@ -197,18 +193,10 @@ export class Balances {
             .whenClosed(x => this.walletDialogCloseResponse(x));
     }
 
-    filterData() {
-        this.hideZeroBalancesChanged();
-        this.onlyShowFavourites();
-    }
-
     async walletDialogCloseResponse(response: DialogCloseResult) {
-        console.log(response);
         // reload balances if dialog response was success
         if (!response.wasCancelled) {
             await dispatchify(loadAccountBalances)();
-
-            this.filterData();
         }
     }
 }
