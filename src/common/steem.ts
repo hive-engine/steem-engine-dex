@@ -1,4 +1,4 @@
-import { environment } from './../../aurelia_project/environments/prod';
+import { environment } from 'environment';
 import { AuthType } from './types';
 import steem from 'steem';
 import { popupCenter } from './functions';
@@ -19,11 +19,12 @@ export async function steemConnectJson(username: string, auth_type: AuthType, da
     if (auth_type == 'active') {
         url += 'required_posting_auths=' + encodeURI('[]');
         url += '&required_auths=' + encodeURI('["' + username + '"]');
+        url += `&authority=active`;
     } else {
         url += 'required_posting_auths=' + encodeURI('["' + username + '"]');
     }
 
-    url += '&id=' + environment.CHAIN_ID;
+    url += '&id=' + environment.chainId;
     url += '&json=' + encodeURI(JSON.stringify(data));
 
     popupCenter(url, 'steemconnect', 500, 560);
@@ -39,6 +40,7 @@ export async function steemConnectJsonId(username: string, auth_type: AuthType, 
     if (auth_type == 'active') {
         url += 'required_posting_auths=' + encodeURI('[]');
         url += '&required_auths=' + encodeURI('["' + username + '"]');
+        url += `&authority=active`;
     } else {
         url += 'required_posting_auths=' + encodeURI('["' + username + '"]');
     }

@@ -14,8 +14,8 @@
                                 >${'LAST PRICE' & t}:
                             </span>
                             <span class="meta-value"
-                                >${token.lastPrice} ${'STEEM'} /
-                                ${token.lastPrice | usdFormat:3}</span
+                                >${token.metric.lastPrice} ${'STEEM'} /
+                                ${token.metric.lastPrice | usdFormat:3}</span
                             >
                         </div>
                         <div class="meta-item">
@@ -27,7 +27,7 @@
                                 >${'HIGH' & t}:
                             </span>
                             <span class="meta-value"
-                                >${token.highestBid}</span
+                                >${token.metric.highestBid}</span
                             >
                         </div>
                         <div class="meta-item">
@@ -35,12 +35,12 @@
                                 >${'LOW' & t}:
                             </span>
                             <span class="meta-value"
-                                >${token.lowestAsk}</span
+                                >${token.metric.lowestAsk}</span
                             >
                         </div>
                         <div class="meta-item">
                             <span class="meta-label">${'VOLUME' & t}: </span>
-                            <span class="meta-value">${token.volume}</span>
+                            <span class="meta-value">${token.metric.volume}</span>
                         </div>
                     </div>
                 </div>

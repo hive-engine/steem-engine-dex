@@ -63,9 +63,30 @@ export class Rewards {
         }
     }
 
+    async claimAllTokens() {
+        const delay = t => new Promise(resolve => setTimeout(resolve, t));
+        this.loading = true;
+
+        try {
+            const result = await this.se.claimAllTokens(this.rewardTokens);
+
+            if (result) {
+                await delay(5000);
+                await this.loadAccountScotUserTokens();
+            }
+
+            this.loading = false;
+        } finally {
+            this.loading = false;
+        }
+    }
+
     async attached() {
         // @ts-ignore
         $(this.rewardsTable).DataTable({
+            columnDefs: [
+                { type: "natural", targets: "_all" }
+            ],
             bInfo: false,
             paging: false,
             searching: false

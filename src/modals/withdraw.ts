@@ -1,3 +1,4 @@
+import { query } from 'common/apollo';
 import { Store } from 'aurelia-store';
 import { SteemEngine } from 'services/steem-engine';
 import { DialogController } from 'aurelia-dialog';
@@ -27,7 +28,15 @@ export class WithdrawModal {
     }
 
     async activate() {
-        this.tokenList = await this.se.getTokenPairs();
+        const pairs = await query(`query {
+            coinPairs {
+                name,
+                pegged_token_symbol,
+                symbol
+              }
+        }`);     
+        
+        this.tokenList = pairs.data.coinPairs;
     }
 
     bind() {

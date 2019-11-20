@@ -65,7 +65,7 @@ export class BuyTokenModal {
         this.steemBalance = user.balance.replace('STEEM', '').trim();
 
         this.engBalance = 0;
-        const engToken = this.state.account.balances.find(x => x.symbol === environment.NATIVE_TOKEN);
+        const engToken = this.state.account.balances.find(x => x.symbol === environment.nativeToken);
         if (engToken)
             this.engBalance = engToken.balance;
 
@@ -106,7 +106,7 @@ export class BuyTokenModal {
 
                 toast.message = this.i18n.tr(result.rule.messageKey, {
                     balance: this.steemBalance,
-                    symbol: environment.PEGGED_TOKEN,
+                    symbol: environment.peggedToken,
                     ns: 'errors'
                 });
 

@@ -1,0 +1,59 @@
+<template>
+        <header class="main-header">
+            <div class="container-fluid main-container d-flex flex-column justify-content-end">
+                <div class="row">
+                    <div class="col-6">
+                        <h1>${'NFTs' & t}</h1>
+                    </div>
+                    <div class="col-3"></div>
+                    <div class="col-3 text-right">
+                        <a class="button btn btn-primary" route-href="route: createNft;">Create NFT</a>
+                    </div>
+                </div>
+    
+                
+            </div>
+        </header>
+    
+        <div class="container main-container">    
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-dark" ref="tokenTable">
+                        <thead>
+                            <tr>
+                                <th class="no-sort"></th>
+                                <th>${'Symbol' & t}</th>
+                                <th>${'Name' & t}</th>
+                                <th>${'Authorized Issuing Accounts' & t}</th>
+                                <th>${'Authorized Issuing Contracts' & t}</th>
+                                <th if.bind="state.loggedIn">${'Staked' & t}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr repeat.for="token of state.nfts">
+                                <td>
+                                    <img if.bind="token.metadata.icon" class="tokenIcon" src="${token.metadata.icon}" alt="${token.symbol}" title="${token.symbol}" > 
+                                </td>
+                                <td>${token.symbol}</td>
+                                <td>${token.name}</td>
+                                <td><template repeat.for="val of token.authorizedIssuingAccounts">${val}${!$last ? ', ': ''}</template></td>
+                                <td><template repeat.for="val of token.authorizedIssuingContracts">${val}${!$last ? ', ': ''}</template></td>
+                                <td if.bind="state.loggedIn">${token.stake >= 0 ? parseFloat(token.stake) : '--'}</td>
+                                <td class="table-buttons">
+                                    <a route-href="route: nft; params.bind: { symbol: token.symbol }" title="Token information">
+                                        <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
+                                    </a>
+                                    <a route-href="route: nftMarket; params.bind: { symbol: token.symbol }">
+                                            <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    
+        </div>
+    </template>
+    

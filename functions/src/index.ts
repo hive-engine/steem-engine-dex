@@ -4,21 +4,12 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 
-//import * as Multer from 'multer';
-
 import * as serviceAccount from './steem-engine-dex-firebase-adminsdk-qldnz-94f36e5f75.json';
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount as any),
     databaseURL: "https://steem-engine-dex.firebaseio.com"
 });
-
-// const multer = Multer({
-//     storage: Multer.memoryStorage(),
-//     limits: {
-//       fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
-//     },
-//   });
 
 import { authRouter } from './routes/auth';
 import { kycRouter } from './routes/kyc';

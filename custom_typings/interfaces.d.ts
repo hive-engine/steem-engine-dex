@@ -2,10 +2,10 @@ interface EnvironmentInterface {
     debug: boolean;
     testing: boolean;
     FIREBASE_API: string;
-    MAINTENANCE_MODE: boolean;
-    CHAIN_ID: string;
+    chainId: string;
     siteName: string;
     defaultLocale: string;
+    maintenanceMode: boolean;
     RPC_URL: string;
     ACCOUNTS_API_URL: string;
     CONVERTER_API: string;
@@ -13,10 +13,11 @@ interface EnvironmentInterface {
     GRAPHQL_API: string;
     HISTORY_API: string;
     SCOT_API: string;
-    STEEMP_ACCOUNT: string;
-    NATIVE_TOKEN: string;
-    DISABLED_TOKENS: string[];
-    PEGGED_TOKEN: string;    
+    steempAccount: string;
+    nativeToken: string;
+    disabledTokens: string[];
+    peggedToken: string;
+    features: any;
 }
 
 interface BalanceInterface {
@@ -91,6 +92,7 @@ interface IToken {
         url: string;
         hide_in_market?: boolean;
     } | null;
+    metric?: IMetric;
     name: string;
     numberTransactions: number;
     precision: number;
@@ -107,15 +109,15 @@ interface IToken {
 }
 
 interface IMetric {
-    highestBid: string;
-    lastDayPrice: string;
+    highestBid: number;
+    lastDayPrice: number;
     lastDayPriceExpiration: number;
-    lastPrice: string;
-    lowestAsk: string;
-    priceChangePercent: string;
-    priceChangeSteem: string;
+    lastPrice: number;
+    lowestAsk: number;
+    priceChangePercent: number;
+    priceChangeSteem: number;
     symbol: string;
-    volume: string;
+    volume: number;
     volumeExpiration: number;
 }
 

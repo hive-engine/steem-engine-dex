@@ -1,3 +1,4 @@
+import { environment } from 'environment';
 export interface AccountInterface {
     name: string;
     account: any;
@@ -6,6 +7,7 @@ export interface AccountInterface {
     pendingUnstakes: any[];
     token: any;
     notifications: any[];
+    nfts: INftInstance[]
 }
 
 export interface ISettings {
@@ -14,6 +16,47 @@ export interface ISettings {
     disabledTokens: string[];
     maintenanceMode: boolean;
     siteName: string;
+    nativeToken: string;
+}
+
+export interface INftProperty {
+    authorizedIssuingAccounts: string[] | null;
+    authorizedIssuingContracts: string[] | null;
+    isReadOnly: boolean;
+    name: string;
+    type: string;
+}
+
+export interface INft {
+    symbol: string;
+    issuer: string;
+    name: string;
+    supply: number;
+    maxSupply: number;
+    metadata: {
+        url: string;
+        icon: string;
+        desc: string;
+    };
+    circulatingSupply: number;
+    delegationEnabled: boolean;
+    undelegationCooldown: number;
+    authorizedIssuingAccounts: string[];
+    authorizedIssuingContracts: string[];
+    properties: INftProperty[];
+}
+
+export interface INftInstance {
+    _id: number;
+    account: string;
+    ownedBy: string;
+    lockedTokens: any;
+    properties: any;
+    delegatedTo: {
+        account: string;
+        ownedBy: string;
+        undelegatedAt: number;
+    }
 }
 
 export interface State {
@@ -31,6 +74,9 @@ export interface State {
     sellTotal?: number;
     pendingWithdrawals: any[];
     conversionHistory: any[];
+    nft: INft;
+    nfts: INft[];
+    instances: INftInstance[];
 }
 
 export const initialState: State = {
@@ -45,14 +91,16 @@ export const initialState: State = {
         balances: [],
         scotTokens: [],
         pendingUnstakes: [],
-        notifications: []
+        notifications: [],
+        nfts: []
     },
     settings: {
         disableDeposits: false,
         disableWithdrawals: false,
-        disabledTokens: [],
-        maintenanceMode: false,
-        siteName: 'Steem Engine'
+        disabledTokens: environment.disabledTokens,
+        maintenanceMode: environment.maintenanceMode,
+        siteName: 'Steem Engine',
+        nativeToken: environment.nativeToken
     },
     firebaseUser: {},
     loggedIn: false,
@@ -64,5 +112,8 @@ export const initialState: State = {
     conversionHistory: [],
     buyTotal: 0,
     sellTotal: 0,
-    pendingWithdrawals: []
+    pendingWithdrawals: [],
+    nft: null,
+    nfts: [],
+    instances: []
 };

@@ -1,3 +1,4 @@
+import { query } from 'common/apollo';
 import { Settings } from './services/settings';
 import { CallingAction, MiddlewarePlacement } from 'aurelia-store';
 /* eslint-disable no-undef */
@@ -41,6 +42,14 @@ export class App {
     }
 
     bind() {
+        query(`query {
+            coinPairs {
+                name,
+                pegged_token_symbol,
+                symbol
+              }
+        }`);
+
         this.store.state.subscribe((s: State) => {
             if (s) {
                 this.state = s;
@@ -109,7 +118,7 @@ export class App {
             },
             {
                 route: 'token-history/:symbol?',
-                href: `token-history/${environment.NATIVE_TOKEN}`,
+                href: `token-history/${environment.nativeToken}`,
                 name: 'token-history',
                 moduleId: PLATFORM.moduleName('./routes/wallet/token-history'),
                 nav: false,
@@ -133,7 +142,7 @@ export class App {
             },
             {
                 route: 'exchange/:symbol?',
-                href: `exchange/${environment.NATIVE_TOKEN}`,
+                href: `exchange/${environment.nativeToken}`,
                 name: 'exchange',
                 moduleId: PLATFORM.moduleName('./routes/exchange/exchange'),
                 nav: 1,
@@ -261,7 +270,46 @@ export class App {
                 nav: false,
                 title: 'Create Token'
 
+            },
+            {
+                route: 'nfts',
+                name: 'nfts',
+                moduleId: PLATFORM.moduleName('./routes/nfts/nfts'),
+                nav: environment.features.nfts.enabled ? 2 : false,
+                title: 'NFTs'
+            },
+            {
+                route: 'nfts/:symbol',
+                name: 'nftMarket',
+                moduleId: PLATFORM.moduleName('./routes/nfts/nfts'),
+                nav: false,
+                title: 'NFTs'
+            },
+            {
+                route: 'nft/:symbol',
+                name: 'nft',
+                moduleId: PLATFORM.moduleName('./routes/nfts/nft'),
+                nav: false,
+                title: 'NFT'
+            },
+            {
+                route: 'create-nft',
+                name: 'createNft',
+                moduleId: PLATFORM.moduleName('./routes/nfts/create'),
+                nav: false,
+                title: 'Create NFT'
+            },
+            {
+                route: 'edit-nft/:symbol',
+                name: 'editNft',
+                moduleId: PLATFORM.moduleName('./routes/nfts/edit'),
+                nav: false,
+                title: 'Edit NFT'
+            },
+
+
             }
+
         ]);
 
         this.router = router;

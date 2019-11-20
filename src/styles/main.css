@@ -272,3 +272,15 @@ sellbook {
     border: none;
     outline: none;
 }
+
+.w100 {
+    width: 100%;
+}
+
+.text-buy {
+    color: #00955C;
+}
+
+.text-sell {
+    color: #BE4200;
+}
