@@ -90,7 +90,7 @@
                             <td>${token.metric.volume | usdFormat:0}</td>
                             <td>${token.circulatingSupply | toFixed:3 | comma}</td>
                             <td class="table-buttons">
-                                <button click.delegate="showTokenInfo(token.symbol)" title="Token information">
+                                <button click.delegate="showTokenInfo(token)" title="Token information">
                                     <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
                                 </button>
                                 <a route-href="route: exchange; params.bind: { symbol: token.symbol }">
