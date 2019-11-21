@@ -108,10 +108,10 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
             if (newState?.firebaseUser?.favourites) {
                 newState.account.balances.map((token: any) => {
                     if (newState.firebaseUser.favourites.includes(token.symbol)) {
-                        token.isFavourite = true;
-                    } else {
-                        token.isFavourite = false;
-                    }
+                token.isFavourite = true;
+            } else {
+                token.isFavourite = false;
+            }
 
                     return token;
                 });
@@ -246,11 +246,24 @@ export async function loadTradeHistory(state: State, symbol: string, account: st
     return newState;
 }
 
-export async function loadTokensList(state: State, symbols = []): Promise<State> {
+export async function loadTokensList(state: State, limit = 50, offset = 0): Promise<State> {
     const newState = { ...state };
 
     try {
-        newState.tokens = await loadTokens(symbols);
+        const tokens: IToken[] = await loadTokens([], limit, offset);
+        newState.tokens = [...tokens, ...newState.tokens];
+    } catch (e) {
+        log.error(e);
+    }
+
+    return newState;
+}
+
+export async function loadTokenSymbols(state: State, symbols = [], limit = 50, offset = 0): Promise<State> {
+    const newState = { ...state };
+
+    try {
+        newState.tokens = await loadTokens(symbols, limit, offset);
     } catch (e) {
         log.error(e);
     }
@@ -531,6 +544,7 @@ store.registerAction('setTokens', setTokens);
 store.registerAction('getCurrentFirebaseUser', getCurrentFirebaseUser);
 store.registerAction('loadAccountBalances', loadAccountBalances);
 store.registerAction('loadTokensList', loadTokensList);
+store.registerAction('loadTokenSymbols', loadTokenSymbols);
 store.registerAction('loadBuyBook', loadBuyBook);
 store.registerAction('loadSellBook', loadSellBook);
 store.registerAction('loadTradeHistory', loadTradeHistory);
