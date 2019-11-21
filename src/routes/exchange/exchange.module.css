@@ -185,6 +185,12 @@ tr td:last-child {
     color: green;
 }
 
+@media only screen and (max-device-width: 480px) {
+    .hide-lg {
+        display: none;
+    }
+}
+
 /* .buy-percentage-buttons {
 }
 .buy-percentage-buttons button {
