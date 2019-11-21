@@ -89,9 +89,9 @@ export function parseTokens(data: any, settings: State['settings']): State {
     return tokens;
 }
 
-export async function loadTokens(limit = 1000, offset = 0): Promise<any[]> {
+export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promise<any[]> {
     const callQl = await query(`query {
-        tokens(limit: ${limit}, offset: ${offset}) {
+        tokens(limit: ${limit}, offset: ${offset}, symbols: ${JSON.stringify(symbols)}) {
             issuer,
             symbol,
             name,
@@ -140,15 +140,10 @@ export async function loadTokens(limit = 1000, offset = 0): Promise<any[]> {
     if (steempBalance && steempBalance.balance) {
         const token = finalTokens.find(t => t.symbol === 'STEEMP');
 
-        token.supply -= parseFloat(steempBalance.balance);
-        (token as any).circulatingSupply -= parseFloat(steempBalance.balance);
-    }
-
-    if (steempBalance && steempBalance.balance) {
-        const token = finalTokens.find(t => t.symbol === 'STEEMP');
-
-        token.supply -= parseFloat(steempBalance.balance);
-        (token as any).circulatingSupply -= parseFloat(steempBalance.balance);
+        if (token) {
+            token.supply -= parseFloat(steempBalance.balance);
+            (token as any).circulatingSupply -= parseFloat(steempBalance.balance);
+        }
     }
 
     return finalTokens;
@@ -203,7 +198,7 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
                 staked_tokens
             }
         },
-        buyBook(symbol: "${symbol}", limit: 200, offset: 0) {
+        buyBook(symbol: "${symbol}", limit: 1000, offset: 0) {
             txId,
             timestamp,
             account,
@@ -213,7 +208,7 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
             tokensLocked,
             expiration
           },
-          sellBook(symbol: "${symbol}", limit: 200, offset: 0) {
+          sellBook(symbol: "${symbol}", limit: 1000, offset: 0) {
             txId,
             timestamp,
             account,
@@ -304,7 +299,7 @@ export async function loadExchangeUiLoggedOut(symbol) {
             symbol,
             balance
         },
-        buyBook(symbol: "${symbol}", limit: 200, offset: 0) {
+        buyBook(symbol: "${symbol}", limit: 1000, offset: 0) {
             txId,
             timestamp,
             account,
@@ -314,7 +309,7 @@ export async function loadExchangeUiLoggedOut(symbol) {
             tokensLocked,
             expiration
           },
-          sellBook(symbol: "${symbol}", limit: 200, offset: 0) {
+          sellBook(symbol: "${symbol}", limit: 1000, offset: 0) {
             txId,
             timestamp,
             account,
