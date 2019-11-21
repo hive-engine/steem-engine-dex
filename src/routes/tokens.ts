@@ -10,6 +10,8 @@ import { loadTokensList, loadTokenSymbols, getCurrentFirebaseUser } from 'store/
 import styles from './tokens.module.css';
 import { DialogService, DialogCloseResult } from 'aurelia-dialog';
 import { BuyTokenModal } from 'modals/buy-token';
+import { DepositModal } from 'modals/deposit';
+import { WithdrawModal } from 'modals/withdraw';
 
 @autoinject()
 @connectTo()
@@ -122,6 +124,16 @@ export class Tokens {
             userRef.set(this.state.firebaseUser, {
                 merge: true,
             });
+        });
+    }
+    deposit() {
+        this.dialogService.open({ viewModel: DepositModal }).whenClosed(response => {
+            console.log(response);
+        });
+    }
+    withdraw() {
+        this.dialogService.open({ viewModel: WithdrawModal }).whenClosed(response => {
+            console.log(response);
         });
     }
 }
