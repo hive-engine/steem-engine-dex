@@ -192,15 +192,19 @@ export async function loadSellBook(state: State, symbol: string, account: string
     const newState = { ...state };
 
     try {
-        const sellBook = await ssc.find(
-            'market',
-            'sellBook',
-            { symbol, account },
-            200,
-            0,
-            [{ index: 'priceDec', descending: false }],
-            false,
-        );
+        const sellBookQuery = await query(`query {
+            sellBook(symbol: "${symbol}", account: "${account}" limit: 1000, offset: 0) {
+                txId,
+                timestamp,
+                account,
+                symbol,
+                quantity,
+                price,
+                expiration
+              }
+        }`);
+
+        const sellBook = sellBookQuery.data.sellBook;
 
         // re-order sellbook results to match the buybook results
         newState.sellBook = sellBook.map(o => {

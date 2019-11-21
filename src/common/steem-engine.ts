@@ -203,7 +203,7 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
                 staked_tokens
             }
         },
-        buyBook(symbol: "${symbol}", limit: 200, offset: 0) {
+        buyBook(symbol: "${symbol}", limit: 1000, offset: 0) {
             txId,
             timestamp,
             account,
@@ -213,7 +213,7 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
             tokensLocked,
             expiration
           },
-          sellBook(symbol: "${symbol}", limit: 200, offset: 0) {
+          sellBook(symbol: "${symbol}", limit: 1000, offset: 0) {
             txId,
             timestamp,
             account,
@@ -304,7 +304,7 @@ export async function loadExchangeUiLoggedOut(symbol) {
             symbol,
             balance
         },
-        buyBook(symbol: "${symbol}", limit: 200, offset: 0) {
+        buyBook(symbol: "${symbol}", limit: 1000, offset: 0) {
             txId,
             timestamp,
             account,
@@ -314,7 +314,7 @@ export async function loadExchangeUiLoggedOut(symbol) {
             tokensLocked,
             expiration
           },
-          sellBook(symbol: "${symbol}", limit: 200, offset: 0) {
+          sellBook(symbol: "${symbol}", limit: 1000, offset: 0) {
             txId,
             timestamp,
             account,
