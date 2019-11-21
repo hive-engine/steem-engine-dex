@@ -4,13 +4,19 @@
     <header class="main-header">
         <div class="container-fluid main-container d-flex flex-column justify-content-end">
             <div class="row">
-                <div class="col-6">
+                <div class="col-4">
                     <h1>${'Tokens' & t}</h1>
                 </div>
-                <div class="col-3"></div>
-                <div class="col-3 text-right">
-                    <button class="button btn btn-primary" click.delegate="buyENG()">BUY ENG</button>
-                    <a class="button btn btn-primary" route-href="route: createToken;">${'Create Token' & t}</a>
+                <div class="col-8 text-right">
+                    <button type="button" class="greenBtn" click.delegate="deposit()" style="margin-right: 8px;">
+                        ${'Deposit' & t}
+                    </button>
+                    <button type="button" class="redBtn" click.delegate="withdraw()">
+                        ${'Withdraw' & t}
+                    </button>
+
+                    <button class="blueBtn" click.delegate="buyENG()">BUY ENG</button>
+                    <a class="blueBtn" route-href="route: createToken;">${'Create Token' & t}</a>
                 </div>
             </div>
 
@@ -68,12 +74,16 @@
                                 ${token.metric.marketCap | usdFormat:0}
                             </td>
                             <td class="text-right changePercentCol">
-                                <span class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}">
+                                <span
+                                    class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
+                                >
                                     ${token.metric.lastPrice | usdFormat}
                                 </span>
                             </td>
                             <td class="text-right changePercentCol">
-                                <span class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}">
+                                <span
+                                    class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
+                                >
                                     ${token.metric.priceChangePercent | toFixed:2}%
                                 </span>
                             </td>
