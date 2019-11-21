@@ -251,6 +251,7 @@ export async function loadTokensList(state: State, limit = 50, offset = 0): Prom
 
     try {
         const tokens: IToken[] = await loadTokens([], limit, offset);
+        
         if (tokens.length) {
             newState.tokensLoaded = false;
             newState.tokens = [...tokens, ...newState.tokens];

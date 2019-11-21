@@ -19,12 +19,14 @@ export class Tokens {
     private state: State;
     private loading = false;
 
-    private currentLimit = 25;
+    private datatable;
+
+    private currentLimit = 50;
     private currentOffset = 0;
 
     @observable() private tab = 'pegged';
 
-    constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {}
+    constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) { }
 
     async canActivate() {
         await dispatchify(loadTokenSymbols)(['BCHP', 'BTCP', 'DOGEP', 'STEEMP', 'BRIDGEBTCP', 'BTSCNYP', 'BTSP', 'LTCP', 'PEOSP', 'SWIFTP', 'TLOSP', 'WEKUP'], 50, 0);
@@ -37,9 +39,12 @@ export class Tokens {
     async loadMoreTokens() {
         this.currentOffset++;
 
+        const limit = this.currentOffset * this.currentLimit;
+        const offset = (this.currentOffset + 1) * this.currentLimit;
+
         this.loading = true;
 
-        await dispatchify(loadTokensList)(this.currentLimit, this.currentOffset);
+        await dispatchify(loadTokensList)(limit, offset);
 
         this.loading = false;
     }
@@ -71,8 +76,12 @@ export class Tokens {
     }
 
     attached() {
+        this.applyDatatable();
+    }
+
+    applyDatatable() {
         // @ts-ignore
-        $(this.tokenTable).DataTable({
+        this.datatable = $(this.tokenTable).DataTable({
             order: [],
             columnDefs: [
                 {
@@ -80,6 +89,7 @@ export class Tokens {
                     orderable: false,
                 },
             ],
+            destroy: true,
             bInfo: false,
             paging: false,
             searching: false,

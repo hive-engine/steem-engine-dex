@@ -91,7 +91,7 @@ export function parseTokens(data: any, settings: State['settings']): State {
 
 export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promise<any[]> {
     const callQl = await query(`query {
-        tokens(resultLimit: ${limit}, resultOffset: ${offset}, symbols: ${JSON.stringify(symbols)}) {
+        tokens(limit: ${limit}, offset: ${offset}, symbols: ${JSON.stringify(symbols)}) {
             issuer,
             symbol,
             name,
