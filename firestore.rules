@@ -7,6 +7,11 @@ function incomingData() {
     return request.resource.data;
 }
 
+// [READ] Data that exists on the Firestore document
+function existingData() {
+    return resource.data;
+}
+
 function userExists() {
     return exists(/databases/$(database)/documents/users/$(request.auth.uid));
 }
@@ -42,8 +47,8 @@ service cloud.firestore {
       allow create: if isAuth();
     }
 
-    match /users/{userId}/roles {
-        allow create, delete, update, read: if isAdmin() || isSuperAdmin();
+    match /users/{userId}/meta {
+        allow create, delete, list, update, read: if isAdmin() || isSuperAdmin();
     }
 
     match /admin/{database} {
