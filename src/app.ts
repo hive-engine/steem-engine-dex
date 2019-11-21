@@ -269,6 +269,16 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/create-token'),
                 nav: false,
                 title: 'Create Token'
+
+            },
+            {
+                route: "crowdfunding-explore",
+                name: "crowdfunding-explore",
+                moduleId: PLATFORM.moduleName(
+                    "./routes/offering-routes/crowdfunding/crowdfunding-explore"
+                ),
+                nav: false,
+                title: "Crowdfunding Explore"
             },
             {
                 route: 'nfts',
@@ -304,7 +314,7 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/nfts/edit'),
                 nav: false,
                 title: 'Edit NFT'
-            },
+            }
         ]);
 
         this.router = router;
