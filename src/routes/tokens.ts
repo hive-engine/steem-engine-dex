@@ -98,8 +98,8 @@ export class Tokens {
         });
     }
 
-    showTokenInfo(symbol) {
-        this.dialogService.open({ viewModel: TokenInfoModal, model: symbol }).whenClosed(response => {
+    showTokenInfo(token) {
+        this.dialogService.open({ viewModel: TokenInfoModal, model: token }).whenClosed(response => {
             //console.log(response);
         });
     }
