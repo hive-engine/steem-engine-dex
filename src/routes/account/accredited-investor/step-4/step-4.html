@@ -1,0 +1,300 @@
+<template class="container step-element" bindable="step, controller">
+        <div class="row">
+            <div class="col-md-12">
+                    <h3>${'lastStep' & t}</h3>
+                    <p>You're almost there.</p>
+                </div>
+            </div>
+        </div>
+    
+        <hr if.bind="!step.notAnEntity" />
+        
+        <div class="row" if.bind="!step.notAnEntity">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="entityName">${'entityName' & t} <span class="asterisk text-danger">*</span></label>
+                    <input type="text" class="form-control" id="entityName" name="entityName" placeholder="Eg. John" value.bind="step.entityName & validate:controller">
+                </div>
+        
+                <div class="form-group">
+                    <label>${'entityState' & t} <span class="asterisk text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="Eg. Kennedy" value.bind="step.entityState & validate:controller">
+                </div>
+    
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="entityBoxes1" name="entityBoxes1" value="option1" checked.bind="step.entityBoxOptions & validate:controller">
+                        <label class="custom-control-label" for="entityBoxes1">${'step3.entityBoxOption1' & t}</label>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="entityBoxes2" name="entityBoxes2" value="option2" checked.bind="step.entityBoxOptions & validate:controller">
+                        <label class="custom-control-label" for="entityBoxes2">${'step3.entityBoxOption2' & t}</label>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="entityBoxes3" name="entityBoxes3" value="option3" checked.bind="step.entityBoxOptions & validate:controller">
+                        <label class="custom-control-label" for="entityBoxes3">${'step3.entityBoxOption3' & t}</label>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="entityBoxes4" name="entityBoxes4" value="option4" checked.bind="step.entityBoxOptions & validate:controller">
+                        <label class="custom-control-label" for="entityBoxes4">${'step3.entityBoxOption4' & t}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="row" if.bind="!step.entityBoxOptions.length && !step.notAnEntity">
+    
+            <div class="col-md-12">
+    
+                <hr />
+    
+                <fieldset class="pt-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8">
+                            <h5>${'step3.investmentObjectives' & t}</h5>
+    
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="investmentObjective1">${'step3.growth' & t}</label>
+                                        <input type="number" name="investmentObjective1" id="investmentObjective1" max="4" min="1" class="form-control" value.bind="step.investmentObjectives.first & validate:controller">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="investmentObjective2">${'step3.currentIncome' & t}</label>
+                                        <input type="number" name="investmentObjective2" id="investmentObjective2" max="4" min="1" class="form-control" value.bind="step.investmentObjectives.second & validate:controller">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="investmentObjective2">${'step3.taxDeferral' & t}</label>
+                                        <input type="number" name="investmentObjective3" id="investmentObjective3" max="4" min="1" class="form-control" value.bind="step.investmentObjectives.third & validate:controller">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="investmentObjective2">${'step3.liquidity' & t}</label>
+                                        <input type="number" name="investmentObjective4" id="investmentObjective3" max="4" min="1" class="form-control" value.bind="step.investmentObjectives.fourth & validate:controller">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+    
+                <fieldset class="pt-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8">
+                            <h5>${'step3.riskTolerance' & t}</h5>
+    
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="riskTolerance1">${'step3.aggressive' & t}</label>
+                                        <input type="number" name="riskTolerance1" id="riskTolerance1" max="4" min="1" class="form-control" value.bind="step.riskTolerance.first & validate:controller">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="riskTolerance2">${'step3.moderate' & t}</label>
+                                        <input type="number" name="riskTolerance2" id="riskTolerance2" max="4" min="1" class="form-control" value.bind="step.riskTolerance.second & validate:controller">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="riskTolerance2">${'step3.conservative' & t}</label>
+                                        <input type="number" name="riskTolerance3" id="riskTolerance" max="4" min="1" class="form-control" value.bind="step.riskTolerance.third & validate:controller">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+    
+                <fieldset class="pt-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8">
+                            <h5>${'step3.speculation' & t}</h5>
+    
+                            <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" type="radio" name="allowSpeculation" id="allowSpeculation1" value="no" checked.bind="step.allowSpeculation & validate:controller">
+                                    <label class="custom-control-label" for="allowSpeculation1">${'yes' & t}</label>
+                            </div>
+    
+                            <div class="custom-control custom-radio">
+                                <input class="custom-control-input" type="radio" name="allowSpeculation" id="allowSpeculation2" value="yes" checked.bind="step.allowSpeculation & validate:controller">
+                                <label class="custom-control-label" for="allowSpeculation2">${'no' & t}</label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+    
+                <fieldset class="pt-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8">
+                            <h5>${'step3.accreditedStatus' & t}</h5>
+    
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="accreditedInvestorStatus1" name="accreditedInvestorStatus1" value="option1" checked.bind="step.accreditedInvestorStatus.first & validate:controller">
+                                    <label class="custom-control-label" for="accreditedInvestorStatus1">${'step3.accreditedInvestorOption1' & t}</label>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="accreditedInvestorStatus2" name="accreditedInvestorStatus2" value="option2" checked.bind="step.accreditedInvestorStatus.second & validate:controller">
+                                    <label class="custom-control-label" for="accreditedInvestorStatus2">${'step3.accreditedInvestorOption2' & t}</label>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="accreditedInvestorStatus3" name="accreditedInvestorStatus3" value="option3" checked.bind="step.accreditedInvestorStatus.third & validate:controller">
+                                    <label class="custom-control-label" for="accreditedInvestorStatus3">${'step3.accreditedInvestorOption3' & t}</label>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="accreditedInvestorStatus4" name="accreditedInvestorStatus4" value="option4" checked.bind="step.accreditedInvestorStatus.fourth & validate:controller">
+                                    <label class="custom-control-label" for="accreditedInvestorStatus4">${'step3.accreditedInvestorOption4' & t}</label>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="accreditedInvestorStatus5" name="accreditedInvestorStatus5" value="option5" checked.bind="step.accreditedInvestorStatus.fifth & validate:controller">
+                                    <label class="custom-control-label" for="accreditedInvestorStatus5">${'step3.accreditedInvestorOption5' & t}</label>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="accreditedInvestorStatus6" name="accreditedInvestorStatus6" value="option6" checked.bind="step.accreditedInvestorStatus.sixth & validate:controller">
+                                    <label class="custom-control-label" for="accreditedInvestorStatus6">${'step3.accreditedInvestorOption6' & t}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+    
+                <fieldset class="pt-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8">
+                            <h5>${'step3.education' & t}</h5>
+    
+                            <div class="form-group">
+                                <input type="text" class="form-control" value.bind="step.education & validate:controller">
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+    
+                <fieldset class="pt-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8">
+                            <h5>${'step3.licenses' & t}</h5>
+    
+                            <div class="form-group">
+                                <input type="text" class="form-control" value.bind="step.licenses & validate:controller">
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+    
+                <fieldset class="pt-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8">
+                            <h5>${'step3.jobExperience' & t}</h5>
+    
+                            <div class="form-group">
+                                <input type="text" class="form-control" value.bind="step.jobExperience & validate:controller">
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+    
+                <fieldset class="pt-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8">
+                            <h5>${'step3.primarySourceIncome' & t}</h5>
+    
+                            <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" type="radio" name="primarySourceIncome" id="primarySourceIncome1" value="no" checked.bind="step.primarySourceIncome & validate:controller">
+                                    <label class="custom-control-label" for="primarySourceIncome1">${'investments' & t}</label>
+                            </div>
+    
+                            <div class="custom-control custom-radio">
+                                <input class="custom-control-input" type="radio" name="primarySourceIncome" id="primarySourceIncome2" value="yes" checked.bind="step.primarySourceIncome & validate:controller">
+                                <label class="custom-control-label" for="primarySourceIncome2">${'compensation' & t}</label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+    
+                <fieldset class="pt-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8">
+                            <h5>${'step3.priorInvestmentExperience' & t}</h5>
+    
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="priorInvestmentExperience1" name="priorInvestmentExperience1" value="option1" checked.bind="step.primaryInvestorExperience & validate:controller">
+                                    <label class="custom-control-label" for="priorInvestmentExperience1">${'step3.priorInvestmentExperienceOption1' & t}</label>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="priorInvestmentExperience2" name="priorInvestmentExperience2" value="option2" checked.bind="step.primaryInvestorExperience & validate:controller">
+                                    <label class="custom-control-label" for="priorInvestmentExperience2">${'step3.priorInvestmentExperienceOption2' & t}</label>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="priorInvestmentExperience3" name="priorInvestmentExperience3" value="option3" checked.bind="step.primaryInvestorExperience & validate:controller">
+                                    <label class="custom-control-label" for="priorInvestmentExperience3">${'step3.priorInvestmentExperienceOption3' & t}</label>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="priorInvestmentExperience4" name="priorInvestmentExperience4" value="option4" checked.bind="step.primaryInvestorExperience & validate:controller">
+                                    <label class="custom-control-label" for="priorInvestmentExperience4">${'step3.priorInvestmentExperienceOption4' & t}</label>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="accreditedInvestorStatus5" name="priorInvestmentExperience5" value="option5" checked.bind="step.primaryInvestorExperience & validate:controller">
+                                    <label class="custom-control-label" for="priorInvestmentExperience5">${'step3.priorInvestmentExperienceOption5' & t}</label>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="priorInvestmentExperience6" name="priorInvestmentExperience6" value="option6" checked.bind="step.primaryInvestorExperience & validate:controller">
+                                    <label class="custom-control-label" for="priorInvestmentExperience6">${'step3.priorInvestmentExperienceOption6' & t}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+    
+            </div>
+        </div>
+    
+    </template>
+    

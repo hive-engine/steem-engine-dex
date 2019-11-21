@@ -161,7 +161,7 @@ export class App {
                 title: 'Faq',
             },
             {
-                route: 'rewards',
+                route: 'account/rewards',
                 name: 'rewards',
                 moduleId: PLATFORM.moduleName('./routes/account/rewards'),
                 nav: false,
@@ -177,7 +177,7 @@ export class App {
                 title: 'Conversion History',
             },
             {
-                route: 'settings',
+                route: 'account/settings',
                 name: 'settings',
                 moduleId: PLATFORM.moduleName('./routes/account/settings'),
                 nav: false,
@@ -302,8 +302,23 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/nfts/edit'),
                 nav: false,
                 title: 'Edit NFT'
-            }
-
+            },
+            {
+                route: 'account/accredited-investor',
+                name: 'accreditedInvestor',
+                moduleId: PLATFORM.moduleName('./routes/account/accredited-investor/landing'),
+                nav: false,
+                auth: true,
+                title: 'Accredited Investor',
+            },
+            {
+                route: 'account/accredited-investor/go',
+                name: 'kycQuestionnaire',
+                moduleId: PLATFORM.moduleName('./routes/account/accredited-investor/investor-questionnaire'),
+                nav: false,
+                auth: true,
+                title: 'Accredited Investor Questionnaire',
+            },
         ]);
 
         this.router = router;

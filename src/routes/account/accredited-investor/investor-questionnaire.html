@@ -1,0 +1,30 @@
+<template>
+    <require from="./step-1/step-1.html"></require>
+    <require from="./step-2/step-2.html"></require>
+    <require from="./step-3/step-3.html"></require>
+    <require from="./step-4/step-4.html"></require>
+
+    <header class="row header-pull">
+        <div class="form-progress container">
+            <progress class="form-progress-bar" min="0" max="100" value="0" step="33" aria-labelledby="form-progress-completion" ref="progressStep"></progress>
+            <div class="progress-indicator progress-one ${state.investorQuestionnaire.currentStep >= 1 ? 'active' : ''}"></div>  
+            <div class="progress-indicator progress-two ${state.investorQuestionnaire.currentStep >= 2 ? 'active' : ''}"></div>
+            <div class="progress-indicator progress-three ${state.investorQuestionnaire.currentStep >= 3 ? 'active' : ''}"></div>
+            <div class="progress-indicator progress-four ${state.investorQuestionnaire.currentStep >= 4 ? 'active' : ''}"></div>
+        </div>
+    </header>
+
+    <form submit.trigger="formSubmit($event)" novalidate="">
+
+        <step-1 if.bind="state.investorQuestionnaire.currentStep == 1" step.bind="steps.step1" controller.bind="step1Controller"></step-1>
+        <step-2 if.bind="state.investorQuestionnaire.currentStep == 2" step.bind="steps.step2" controller.bind="step2Controller"></step-2>
+        <step-3 if.bind="state.investorQuestionnaire.currentStep == 3" step.bind="steps.step3" controller.bind="step3Controller"></step-3>
+        <step-4 if.bind="state.investorQuestionnaire.currentStep == 4" step.bind="steps.step4" controller.bind="step4Controller"></step-4>
+
+        <div class="container questionnaire-buttons text-right mb-5 mt-3">
+            <button type="button" class="btn btn-secondary btn-sm" click.delegate="goToPreviousStep()" disabled.bind="state.investorQuestionnaire.currentStep == 1">${'previousStep' & t}</button>
+            <button type="submit" class="btn btn-primary btn-sm">${!isLastStep ? 'nextStep' : 'completeStep' & t}</button>
+        </div>
+
+    </form>
+</template>

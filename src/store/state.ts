@@ -1,3 +1,8 @@
+import { Step4Model } from './../routes/account/accredited-investor/step-4/step-4.model';
+import { Step3Model } from './../routes/account/accredited-investor/step-3/step-3.model';
+import { Step2Model } from './../routes/account/accredited-investor/step-2/step-2.model';
+import { Step1Model } from './../routes/account/accredited-investor/step-1/step-1.model';
+
 import { environment } from 'environment';
 export interface AccountInterface {
     name: string;
@@ -78,6 +83,14 @@ export interface State {
     nft: INft;
     nfts: INft[];
     instances: INftInstance[];
+    investorQuestionnaire: {
+        currentStep: number;
+        totalSteps: number;
+        step1: Step1Model;
+        step2: Step2Model;
+        step3: Step3Model;
+        step4: Step4Model;
+    };
 }
 
 export const initialState: State = {
@@ -117,5 +130,13 @@ export const initialState: State = {
     nft: null,
     nfts: [],
     instances: [],
-    tokensLoaded: false
+    tokensLoaded: false,
+    investorQuestionnaire: {
+        currentStep: 1,
+        totalSteps: 1,
+        step1: new Step1Model(),
+        step2: new Step2Model(),
+        step3: new Step3Model(),
+        step4: new Step4Model()
+    }
 };

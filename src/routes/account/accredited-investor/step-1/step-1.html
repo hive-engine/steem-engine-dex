@@ -1,0 +1,98 @@
+<template class="container step-element" bindable="step, controller">
+    <div class="row">
+            <div class="col-md-12">
+                <h3>${'personalDetails' & t}</h3>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-6">
+                <fieldset>
+                    <div class="form-group">
+                        <label for="firstName">${'firstName' & t} <span class="asterisk text-danger">*</span></label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Eg. John" value.bind="step.firstName & validate:controller">
+                    </div>
+
+                    <div class="form-group">
+                        <label>${'lastName' & t} <span class="asterisk text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Eg. Kennedy" value.bind="step.lastName & validate:controller">
+                    </div>
+
+                    <div class="form-group">
+                        <label>${'homeAddress' & t} <span class="asterisk text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="123 Fake Street" value.bind="step.homeAddress & validate:controller">
+                    </div>
+
+                    <div class="form-group">
+                        <label>${'homeTelephone' & t}</label>
+                        <input type="text" class="form-control" placeholder="555 5555" value.bind="step.homeTelephone & validate:controller">
+                    </div>
+
+                    <div class="form-group">
+                        <label>${'emailAddress' & t} <span class="asterisk text-danger">*</span></label>
+                        <input type="email" class="form-control" placeholder="johncitizen@gmail.com" value.bind="step.emailAddress & validate:controller">
+                    </div>
+
+                    <div class="form-group">
+                        <label>${'title' & t} <span class="asterisk text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="President" value.bind="step.title & validate:controller">
+                    </div>
+
+                    <div class="form-group">
+                        <label>${'employedSince' & t} <span class="asterisk text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="1998" value.bind="step.employedSince & validate:controller">
+                    </div>
+
+                    <div class="form-group">
+                        <label>${'businessTelephone' & t}</label>
+                        <input type="text" class="form-control" placeholder="555 9999" value.bind="step.businessTelephone & validate:controller">
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="col-md-6">
+                <fieldset>
+                    <div class="form-group">
+                        <label>${'middleInitial' & t}</label>
+                        <input type="text" class="form-control" placeholder="Eg. F" value.bind="step.middleInitial & validate:controller">
+                    </div>
+
+            
+                    <div class="form-group">
+                        <label>${'dateOfBirth' & t} <span class="asterisk text-danger">*</span></label>
+                        <input type="text" class="form-control" value.bind="step.dateOfBirth & validate:controller" flatpickr>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>${'Country' & t}</label>
+                        <countries value.bind="step.country"></countries>
+                    </div>
+            
+                    <div class="form-group" if.bind="step.country == 'US'">
+                        <label>${'stateRegisteredToVote' & t} <span class="asterisk text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Texas" value.bind="step.stateRegisteredToVote & validate:controller">
+                    </div>
+            
+                    <div class="form-group">
+                        <label>${'cellPhone' & t} <span class="asterisk text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="555 5555" value.bind="step.cellPhone & validate:controller">
+                    </div>
+            
+                    <div class="form-group">
+                        <label>${'businessProfession' & t} <span class="asterisk text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Technology" value.bind="step.businessProfession & validate:controller">
+                    </div>
+            
+                    <div class="form-group">
+                        <label>${'companyName' & t} <span class="asterisk text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="President" value.bind="step.companyName & validate:controller">
+                    </div>
+            
+                    <div class="form-group">
+                        <label>${'businessAddress' & t} <span class="asterisk text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="123 Business Avenue" value.bind="step.businessAddress & validate:controller">
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+</template>
