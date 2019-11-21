@@ -43,11 +43,11 @@ loader.hidden {
     text-align: center;
 }
 
-/* @media only screen and (max-device-width: 480px) {
+@media only screen and (max-device-width: 480px) {
     .pad-up {
         padding-top: 80px;
     }
-} */
+}
 /* loader span:nth-child(1) {
     background: #c5f0a4;
     animation-delay: -0.5s;
