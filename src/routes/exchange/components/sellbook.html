@@ -12,9 +12,9 @@
             </thead>
             <tbody>
                 <tr repeat.for="order of sellBook | slice:10:true">
-                    <td click.delegate="setBidPrice(order.price)">${order.price}</td>
-                    <td>${order.quantity}</td>
-                    <td>${order.amountLocked | toFixed:6}</td>
+                    <td click.delegate="setBidPrice(order.price)">${order.price | toFixed:3}</td>
+                    <td>${order.quantity | toFixed:3}</td>
+                    <td>${order.amountLocked | toFixed:3}</td>
                 </tr>
             </tbody>
         </table>
