@@ -1,11 +1,26 @@
 <template>
-    <div class="container">
-        <div class="col-md-12">
-            <h2>${'kycProcess' & t}</h2>
-            <p>To list a project on Steem Engine, you will need to go through our accredited investor process. This process will take about 15-20 minutes to complete.</p>
-            <p>You can save and continue a accredited investor application at any time.</p>
-            <div class="mb-5">
-                <a class="btn btn-primary" route-href="route: kycQuestionnaire;">${'buttons:proceed' & t}</a>
+    <header class="main-header">
+        <div class="container-fluid main-container d-flex flex-column justify-content-end">
+            <div class="row">
+                <div class="col-6">
+                    <h1>${'kycProcess' & t}</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid main-container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>${'kycProcess' & t}</h2>
+                <p>
+                    To list a project on Steem Engine, you will need to go through our accredited investor process. This
+                    process will take about 15-20 minutes to complete.
+                </p>
+                <p>You can save and continue a accredited investor application at any time.</p>
+                <div class="mb-5">
+                    <a class="btn btn-primary" route-href="route: kycQuestionnaire;">${'buttons:proceed' & t}</a>
+                </div>
             </div>
         </div>
     </div>

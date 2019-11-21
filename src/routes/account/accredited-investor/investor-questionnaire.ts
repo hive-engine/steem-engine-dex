@@ -121,7 +121,7 @@ export class InvestorQuestionnaire {
             .propertyObserver(this.steps.step1, 'country')
             .subscribe((newValue) => {
                 if (newValue === 'AU' || newValue === 'GB') {
-                    this.i18n.setLocale('en-AU');
+                    this.i18n.setLocale('en-gb');
                 } else {
                     this.i18n.setLocale('en');
                 }
