@@ -9,3 +9,30 @@
 .table-buttons a:last-child {
     margin-right: 0;
 }
+.greenBtn {
+    padding: .5rem 3rem;
+    background-color: #21be3d;
+    color: #fff !important;
+    font-weight: bold;
+    font-family: main-font-bold !important;
+    font-size: 16px;
+    border-radius: 0.25rem;
+    border: none;
+}
+.greenBtn:hover {
+    background-color: #1eac38;
+}
+.redBtn {
+    padding: .5rem 3rem;
+    background-color: #ca0505 !important;
+    color: #fff !important;
+    font-weight: bold;
+    font-family: main-font-bold !important;
+    font-size: 16px;
+    /* line-height: 2.5; */
+    border-radius: 0.25rem;
+    border: none;
+}
+.redBtn:hover {
+    background-color: #e42020 !important;
+}
