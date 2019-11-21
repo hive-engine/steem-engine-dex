@@ -24,7 +24,7 @@
     <div class="container main-container">
         <div class="row">
             <div class="col-12">
-                <button if.bind="tab === 'other'" type="button" click.delegate="loadMoreTokens()">${'Load More'}</button>
+                <button if.bind="tab === 'other'" type="button" click.delegate="loadMoreTokens()" if.bind="!state.tokensLoaded">${'Load More'}</button>
                 <table class="table table-dark" ref="tokenTable">
                     <thead>
                         <tr>

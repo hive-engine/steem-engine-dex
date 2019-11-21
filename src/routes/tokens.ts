@@ -34,10 +34,14 @@ export class Tokens {
         await dispatchify(getCurrentFirebaseUser)();
     }
 
-    loadMoreTokens() {
+    async loadMoreTokens() {
         this.currentOffset++;
-        console.log(this.currentOffset);
-        dispatchify(loadTokensList)(this.currentLimit, this.currentOffset);
+
+        this.loading = true;
+
+        await dispatchify(loadTokensList)(this.currentLimit, this.currentOffset);
+
+        this.loading = false;
     }
 
     async tabChanged(tab) {
