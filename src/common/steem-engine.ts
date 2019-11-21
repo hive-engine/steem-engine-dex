@@ -91,7 +91,7 @@ export function parseTokens(data: any, settings: State['settings']): State {
 
 export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promise<any[]> {
     const callQl = await query(`query {
-        tokens(limit: ${limit}, offset: ${offset}, symbols: ${JSON.stringify(symbols)}) {
+        tokens(resultLimit: ${limit}, resultOffset: ${offset}, symbols: ${JSON.stringify(symbols)}) {
             issuer,
             symbol,
             name,
@@ -140,15 +140,10 @@ export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promis
     if (steempBalance && steempBalance.balance) {
         const token = finalTokens.find(t => t.symbol === 'STEEMP');
 
-        token.supply -= parseFloat(steempBalance.balance);
-        (token as any).circulatingSupply -= parseFloat(steempBalance.balance);
-    }
-
-    if (steempBalance && steempBalance.balance) {
-        const token = finalTokens.find(t => t.symbol === 'STEEMP');
-
-        token.supply -= parseFloat(steempBalance.balance);
-        (token as any).circulatingSupply -= parseFloat(steempBalance.balance);
+        if (token) {
+            token.supply -= parseFloat(steempBalance.balance);
+            (token as any).circulatingSupply -= parseFloat(steempBalance.balance);
+        }
     }
 
     return finalTokens;
