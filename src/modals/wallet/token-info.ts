@@ -14,6 +14,17 @@ export class TokenInfoModal {
     }
 
     async activate(token) {
-        this.token = token;        
+        this.token = token;  
+        
+        if (!token?.token) {
+            this.token.token = {
+                circulatingSupply: token.circulatingSupply,
+                issuer: token.issuer,
+                maxSupply: token.maxSupply,
+                metadata: token.metadata,
+                name: token.name,
+                supply: token.supply
+            };
+        }
     }
 }
