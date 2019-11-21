@@ -15,10 +15,7 @@
                        withdraw.call="withdraw()"></token-metrics>
     </div>
     <div class="container-fluid h100-minus-header">
-        <div class="row exchange-columns h100">
-            <div class="col-12">
-                <chart class="exchange-chart" data.bind="chartData" view-model.ref="chartRef"></chart>
-            </div>
+        <div class="row exchange-columns h100">            
             <div class="col-lg-3 col-md-12 col-sm-12">
                 <div class="exchange-header">
                     <h2>${'Sell Orders' & t}</h2>
@@ -36,6 +33,9 @@
             </div>
 
             <div class="col-lg-6 col-md-12 col-sm-12 chart-col">
+                <div class="col-12">
+                    <chart class="exchange-chart" data.bind="chartData" view-model.ref="chartRef"></chart>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <balances data.bind="data"
