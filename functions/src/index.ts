@@ -48,7 +48,7 @@ export const createUserRoles = functions.auth.user().onCreate((user) => {
     return admin.auth().setCustomUserClaims(user.uid, customClaims);
 });
 
-export const updateUserClaimsOnRoleChange = functions.firestore.document('users/{userId}').onWrite(async (change, context) => {
+export const updateUserClaimsOnRoleChange = functions.firestore.document('users/{userId}').onUpdate(async (change, context) => {
     const data = change.after.data();
 
     const customClaims = {} as any;
