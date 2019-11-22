@@ -1,6 +1,8 @@
 import { SteemEngine } from 'services/steem-engine';
 import { DialogController } from 'aurelia-dialog';
 import { autoinject, TaskQueue } from 'aurelia-framework';
+import { EditTokenModal } from 'modals/wallet/issuers/edit-token';
+import { DialogService, DialogCloseResult } from 'aurelia-dialog';
 import styles from './token-info.module.css';
 
 @autoinject()
@@ -8,7 +10,7 @@ export class TokenInfoModal {
     private token: any;
     private styles = styles;
 
-    constructor(private controller: DialogController, private se: SteemEngine, private taskQueue: TaskQueue) {
+    constructor(private controller: DialogController, private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {
         this.controller.settings.lock = false;
         this.controller.settings.centerHorizontalOnly = true;    
     }
@@ -26,5 +28,15 @@ export class TokenInfoModal {
                 supply: token.supply
             };
         }
+    }
+
+    editToken(token) {
+        this.controller.cancel();
+
+        this.dialogService
+            .open({ viewModel: EditTokenModal, model: token })
+            .whenClosed(response => {
+                //console.log(response);
+            });
     }
 }
