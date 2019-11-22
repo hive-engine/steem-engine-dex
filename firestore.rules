@@ -1,5 +1,10 @@
 rules_version = '2';
 
+// Prevent a field from being updated with a new value
+function notUpdating(field) {
+    return !(field in request.resource.data) || resource.data[field] == request.resource.data[field];
+}
+
 // [WRITE] Data that is sent to a Firestore document
 // e.g incomingData().userId
 // e.g isUser(incomingData().userId)
@@ -41,24 +46,21 @@ function userRoles(userId) {
 }
 
 service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{userId} {
-      allow read, update, delete: if isUser(userId) || isAdmin() || isSuperAdmin();
-      allow create: if isAuth();
-    }
+    match /databases/{database}/documents {
+        match /users/{userId} {
+            allow read: if isUser(userId) || isAdmin() || isSuperAdmin();
+            allow write: if isUser(userId) && notUpdating('admin') && notUpdating('super') && notUpdating('kycAuditor') || isAdmin() || isSuperAdmin();
+            allow create: if isAuth();
+        }
 
-    match /users/{userId}/meta {
-        allow create, delete, list, update, read: if isAdmin() || isSuperAdmin();
-    }
+        match /admin/{database} {
+            allow read: if true;
+            allow update: if isAdmin() || isSuperAdmin();
+            allow delete, create: if isSuperAdmin();
+        }
 
-    match /admin/{database} {
-        allow read: if true;
-        allow update: if isAdmin() || isSuperAdmin();
-        allow delete, create: if isSuperAdmin();
-    }
-
-    match /audit/{database} {
-        allow read: if isSuperAdmin();
-    }
+        match /audit/{database} {
+            allow read: if isSuperAdmin();
+        }
   }
 }
