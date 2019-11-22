@@ -191,6 +191,13 @@ tr td:last-child {
     }
 }
 
+.hideSeeMoreBtn {
+    display: none;
+    
+}
+.showSeeMoreBtn {
+    display: block!important;
+}
 /* .buy-percentage-buttons {
 }
 .buy-percentage-buttons button {
