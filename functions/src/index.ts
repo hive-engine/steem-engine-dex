@@ -72,7 +72,7 @@ export const updateUserClaimsOnRoleChange = functions.firestore.document('users/
                 customClaims.kycAuditor = true;
             }
             
-            return admin.auth().setCustomUserClaims(authUser.uid, customClaims);
+            await admin.auth().setCustomUserClaims(authUser.uid, customClaims);
         }
     }
 });
