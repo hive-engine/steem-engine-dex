@@ -66,10 +66,6 @@ export const updateUserClaimsOnRoleChange = functions.firestore.document('users/
         if (data?.admin) {
             customClaims.admin = true;
         }
-        
-        if (data?.super) {
-            customClaims.super = true;
-        }
 
         if (data?.kycAuditor) {
             customClaims.kycAuditor = true;
