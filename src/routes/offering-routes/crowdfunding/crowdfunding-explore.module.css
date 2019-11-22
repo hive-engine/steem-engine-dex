@@ -1,0 +1,219 @@
+/* body {
+    background-color: rgb(250, 250, 250);
+} */
+.register-header {
+    background-color: darkblue;
+    padding-top: 80px;
+    padding-bottom: 120px;
+    background-position: 100%;
+    /* margin: 41px 0px; */
+}
+.title h2 {
+    color: #fff;
+    font-size: 36px;
+    margin: 20px 0px 10px;
+    padding-top: 40px;
+}
+.title p {
+    color: #fff;
+    font-size: 18px;
+}
+
+.headImg {
+    position: absolute;
+    bottom: -80px;
+    right: -10px;
+    z-index: 1;
+}
+
+.split {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+.explore-header {
+    margin-top: 20px;
+    padding: 50px 0px 0px;
+}
+.explore-header p {
+    margin-bottom: 0px!important;
+}
+.divider {
+    width: 10%;
+    border-top: 3px solid #515088;
+    margin-top: 25px;
+    margin-bottom: 0px;
+}
+.explore-row {
+    margin: 5%;
+    display: flex;
+}
+.card1 {
+    background-color: #fcfcfc;
+    border-radius: 22px;
+    margin: 10px auto 2.2em;
+    max-width: calc(100% - 2em);
+    padding: 40px 20px;
+    position: relative;
+    width: 100%;
+    z-index: 97;
+    box-shadow: 13px 9px 18px -9px rgba(0, 0, 0, 0.2);
+    transition: 0.1s all ease-out;
+}
+.card2 {
+    background-color: #fcfcfc;
+    border-radius: 22px;
+    margin: 10px auto 2.2em;
+    max-width: calc(100% - 2em);
+    padding: 40px 20px;
+    position: relative;
+    width: 100%;
+    z-index: 97;
+    box-shadow: -9px 9px 18px -9px rgba(0, 0, 0, 0.2);
+    transition: 0.1s all ease-out;
+}
+.explore-cards {
+    display: block;
+}
+
+.explore-card {
+    /* padding: 10px; */
+    background-color: #fff;
+    border-radius: 5px;
+    margin-right: 15px;
+    margin-bottom: 5px;
+    box-shadow: 0 2px 4px rgba(204, 207, 216, 0.486);
+    border: 1px solid #fff;
+    transition: 0.5s ease-out all;
+    -o-transition: 0.5s ease-out all;
+    -webkit-transition: 0.5s ease-out all;
+    -moz-transition: 0.5s ease-out all;
+}
+
+.explore-card:hover {
+    margin-top: 3px;
+    box-shadow: 0 4px 18px 8px rgba(204, 207, 216, 0.651);
+}
+.explore-card-body {
+    padding: 10px;
+}
+.explore-card p {
+    margin-bottom: 0;
+}
+.explore-img {
+    width: 100%;
+    min-height: 230px;
+    image-rendering: optimizeQuality;
+}
+.explore-pfa {
+    display: flex !important;
+    margin-top: 12px;
+    margin-bottom: 20px;
+}
+.what {
+    text-transform: capitalize;
+    color: #0048b3 !important;
+}
+.heart-icon {
+    margin-left: auto;
+    outline: #0048b3;
+    font-size: 24px;
+}
+.explore-title {
+    text-transform: uppercase;
+    font-size: 1rem;
+    color: rgb(36, 32, 32);
+}
+.explore-desc {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: #6a6a6a;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    display: -webkit-box;
+}
+.project-category {
+    margin: 15px auto;
+}
+.explore-goal {
+    font-size: 12px;
+    color: #6a6a6a;
+}
+.time-left {
+    margin-top: 12px;
+}
+.time-left-span {
+    font-size: 0.65rem;
+    line-height: 1.5;
+    color: #6a6a6a;
+}
+
+.disclaimer-text {
+    margin-top: 50px;
+    margin-bottom: -20px;
+    font-size: 16px;
+}
+.cat-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 10px;
+}
+.cat-card-header {
+    padding: 12px 20px;
+    background: #edeef0;
+}
+.cat-card-header h4 {
+    margin-bottom: 0px!important;
+}
+.cat-card-body {
+    padding: 2px;
+}
+.cat-card-items{
+    list-style: none;
+    margin-bottom: 0;
+    padding: 2px;
+}
+.cat-card-item {
+    padding: 12px 20px;
+    color: #212529;
+    border-bottom: 1px dashed rgba(0,0,0,.095);
+}
+.cat-card-item:last-child {
+    border: none;
+}
+.margin-btm {
+    margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 480px) {
+    .hide-sm {
+        display: none;
+    }
+    .headImg {
+        display: none;
+    }
+    .explore-card {
+        margin-right: 0;
+    }
+    .register-header {
+        padding: 20px;
+    }
+    .title {
+        padding: 15px;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .hide-sm {
+        display: none;
+    }
+    .register-header {
+        padding: 20px;
+    }
+    .headImg {
+        margin: 40px 0 100px;
+    }
+    .explore-card {
+        margin-right: 0;
+    }
+}

@@ -108,7 +108,6 @@
 .btn-favourite.active {
     color: #0048b3;
 }
-
 .greenBtn {
     /*padding: .5rem 3rem;*/
     background-color: #21be3d;
@@ -136,6 +135,7 @@
 .seeBtn:hover {
     background-color: #1eac38;
 }
+
 .seeMoreBtn {
     padding: .1rem .3rem;
     background-color: #21be3d;
@@ -151,4 +151,3 @@
 .seeMoreBtn:hover {
     background-color: #1eac38;
 }
-

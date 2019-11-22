@@ -11,6 +11,7 @@
                 </tr>
             </thead>
             <tbody>
+
                 <tr repeat.for="order of sellData">
                     <td click.delegate="setBidPrice(order.price)">${order.price | toFixed:3}</td>
                     <td>${order.quantity | toFixed:3}</td>

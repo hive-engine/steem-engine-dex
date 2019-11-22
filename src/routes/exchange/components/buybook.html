@@ -15,10 +15,10 @@
             <tbody>
                 <tr repeat.for="order of buyData">
                     <td click.delegate="setBidPrice(order.price)">
-                        ${order.price}
+                        ${order.price | toFixed:3}
                     </td>
-                    <td>${order.quantity}</td>
-                    <td>${order.amountLocked | toFixed:6}</td>
+                    <td>${order.quantity | toFixed:3}</td>
+                    <td>${order.amountLocked | toFixed:3}</td>
                 </tr>
             </tbody>
         </table>

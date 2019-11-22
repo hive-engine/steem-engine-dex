@@ -1,5 +1,8 @@
+import { ISettings } from './../store/state';
+import { environment } from 'environment';
 import { login, setAccount, logout } from 'store/actions';
 import { dispatchify } from 'aurelia-store';
+
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
@@ -34,4 +37,24 @@ export async function authStateChanged() {
             }
         });
     });
+}
+
+export async function getFirebaseUser(username: string) {
+    const doc = await firebase
+        .firestore()
+        .collection('users')
+        .doc(username)
+        .get();
+
+    return doc.exists ? doc.data() : null;
+}
+
+export async function loadSiteSettings() {
+    const settings = await firebase
+        .firestore()
+        .collection('admin')
+        .doc('settings')
+        .get();
+
+    return settings.exists ? { ...environment, ...settings.data() } : { ...environment } as ISettings;
 }

@@ -67,6 +67,7 @@ export interface State {
     loggedIn: boolean;
     loading: boolean;
     tokens: IToken[];
+    tokensLoaded: boolean;
     buyBook: any[];
     sellBook: any[];
     tradeHistory: any[];
@@ -115,5 +116,6 @@ export const initialState: State = {
     pendingWithdrawals: [],
     nft: null,
     nfts: [],
-    instances: []
+    instances: [],
+    tokensLoaded: false
 };
