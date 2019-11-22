@@ -46,6 +46,18 @@
                         <form>
                             <div class="form-group">
                                 <div class="switch">
+                                    <input type="checkbox" name="adminUser" id="adminUser" checked.bind="user.admin" change.delegate="updateSettings()">
+                                    <label for="adminUser">${'User is administrator'}</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="switch">
+                                    <input type="checkbox" name="adminKycAuditor" id="adminKycAuditor" checked.bind="user.kycAuditor" change.delegate="updateSettings()">
+                                    <label for="adminKycAuditor">${'User is KYC auditor'}</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="switch">
                                     <input type="checkbox" name="disableUser" id="disableUser" checked.bind="user.disable" change.delegate="updateSettings()">
                                     <label for="disableUser">${'Enable or disable user'}</label>
                                 </div>
