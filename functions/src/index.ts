@@ -55,6 +55,8 @@ export const updateUserClaimsOnRoleChange = functions.firestore.document('users/
 
     const authUser = await admin.auth().getUser(context.params.userId);
 
+    console.log(authUser.uid, authUser.customClaims);
+
     if (authUser) {
         const loadedCustomClaims = authUser.customClaims as Record<string, any>;
 
