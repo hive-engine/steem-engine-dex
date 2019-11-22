@@ -23,7 +23,7 @@ export class Tokens {
 
     private datatable;
 
-    private currentLimit = 50;
+    private currentLimit = 1000;
     private currentOffset = 0;
 
     @observable() private tab = 'pegged';
