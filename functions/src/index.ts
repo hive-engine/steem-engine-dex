@@ -51,12 +51,7 @@ export const createUserRoles = functions.auth.user().onCreate((user) => {
 export const updateUserClaimsOnRoleChange = functions.firestore.document('users/{userId}').onUpdate(async (change, context) => {
     const data = change.after.data();
 
-    const customClaims = {
-        member: true,
-        admin: null,
-        super: null,
-        kycAuditor: null
-    } as any;
+    const customClaims = {} as any;
 
     const authUser = await admin.auth().getUser(context.params.userId);
     const loadedCustomClaims = authUser.customClaims as Record<string, any>;
@@ -64,6 +59,9 @@ export const updateUserClaimsOnRoleChange = functions.firestore.document('users/
     // Only apply claims if user is not a super admin (super admins cannot be changed programmatically)
     if (authUser && !loadedCustomClaims?.super) {
         console.log('Attempting to change user roles (if needed).', authUser.uid, authUser.customClaims);
+
+        // Clear all claims
+        await admin.auth().setCustomUserClaims(authUser.uid, null);
 
         if (data?.admin) {
             customClaims.admin = true;
