@@ -7,7 +7,7 @@
         </ux-dialog-header>
         <ux-dialog-body>
             <div if.bind="token">
-                <div class="form-group">                    
+                <div class="form-group">
                     <img class="tokenInfoIcon" src="${token.token.metadata.icon}" alt="${token.symbol}" title="${token.symbol}" />
                     <h1 class="tokenInfoTitle">${token.symbol}</h1>
                 </div>
@@ -46,6 +46,11 @@
                     <h4>${'Description' & t}</h4>
                     <h5>${token.token.metadata.desc}</h5>
                 </div>
+
+                <button if.bind="token.token.issuer === token.account" class="btn btn-lg btn-primary"
+                        click.delegate="editToken(token.token)">
+                    ${'Edit token' & t}
+                </button>
             </div>
         </ux-dialog-body>
 

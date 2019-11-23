@@ -13,6 +13,7 @@ import { DelegateModal } from 'modals/wallet/delegate';
 import { UndelegateModal } from 'modals/wallet/undelegate';
 import { EnableDelegationModal } from 'modals/wallet/issuers/enable-delegation';
 import { EnableStakingModal } from 'modals/wallet/issuers/enable-staking';
+import { EditTokenModal } from 'modals/wallet/issuers/edit-token';
 
 import firebase from 'firebase/app';
 import { dispatchify, Store } from 'aurelia-store';
@@ -208,6 +209,12 @@ export class Balances {
     enableStaking(symbol) {
         this.dialogService
             .open({ viewModel: EnableStakingModal, model: symbol })
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    editToken(token) {
+        this.dialogService
+            .open({ viewModel: EditTokenModal, model: token })
             .whenClosed(x => this.walletDialogCloseResponse(x));
     }
 
