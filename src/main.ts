@@ -8,9 +8,6 @@ import 'bootstrap';
 import 'datatables.net-bs4';
 import 'datatables.net-responsive-bs4';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
-import 'datatables.net-bs4';
-import 'datatables.net-responsive-bs4';
-import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
 import 'datatables.net-plugins/sorting/natural';
 import 'datatables.net-plugins/sorting/currency';
 import 'datatables.net-plugins/sorting/formatted-numbers';
@@ -23,6 +20,7 @@ import 'izitoast/dist/css/iziToast.css';
 import './styles/toast.css';
 import './styles/main.css';
 import './styles/radio-toggles.css';
+import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.css'
 
 import modalCss from './styles/modal.css';
 
