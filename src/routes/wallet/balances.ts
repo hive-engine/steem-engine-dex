@@ -80,14 +80,20 @@ export class Balances {
         // @ts-ignore
         $(this.tokenTable).DataTable({
             "columnDefs": [
-                { "type": "natural", "targets": 3 }, // Balance
-                { "type": "html-num-fmt", "targets": 4 }, // USD
-                { "type": "html-num-fmt", "targets": 5 } // Change %
+                { "targets": 0, "responsivePriority": 1 }, // Logo
+                { "targets": 1, "responsivePriority": 2 }, // Symbol
+                { "targets": 2, "responsivePriority": 10000 }, // Name
+                { "targets": 3, "responsivePriority": 3, "type": "natural" }, // Balance                                
+                { "targets": 4, "responsivePriority": 4, "type": "html-num-fmt" }, // USD
+                { "targets": 5, "responsivePriority": 10010, "type": "html-num-fmt" }, // Change %
+                { "targets": 6, "responsivePriority": 10020 }, // Staked
+                { "targets": 7, "responsivePriority": 20000 }, // Actions
             ],
             "order": [[4, "desc"]],
             bInfo: false,
             paging: false,
-            searching: false
+            searching: false,
+            responsive: true
         });
     }
 
