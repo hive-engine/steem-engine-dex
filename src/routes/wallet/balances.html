@@ -65,7 +65,7 @@
                             ${token.symbol}
                         </td>
                         <td class="text-left">${token.token.name}</td>
-                        <td class="text-right" data-order="${token.balance}">${token.balance | comma | toFixed:3}</td>
+                        <td class="text-right" data-order="${token.balance}">${token.balance | comma}</td>
                         <td class="text-right changePercentCol" data-order="${token.usdValue}">
                             <span class="changePercent ${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}">
                                 ${token.usdValue}
