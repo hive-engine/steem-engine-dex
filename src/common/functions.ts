@@ -197,3 +197,11 @@ export function sleep(wait = 1000) {
         setTimeout(resolve, wait);
     });
 }
+
+export function stateTokensOnlyPegged(tokens) {
+    var peggedTokens = ['BCHP', 'BTCP', 'DOGEP', 'STEEMP', 'BRIDGEBTCP', 'BTSCNYP', 'BTSP', 'LTCP', 'PEOSP', 'SWIFTP', 'TLOSP', 'WEKUP'];
+
+    var unpeggedTokens = tokens.filter(x => !peggedTokens.includes(x.symbol));
+
+    return unpeggedTokens.length === 0;
+}

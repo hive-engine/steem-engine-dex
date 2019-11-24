@@ -13,6 +13,7 @@ import { loadAccountBalances, loadTokensList } from 'store/actions';
 import styles from "./token-history.module.css";
 import { DialogService, DialogCloseResult } from 'aurelia-dialog';
 import moment from 'moment';
+import { stateTokensOnlyPegged } from 'common/functions';
 
 
 
@@ -61,13 +62,13 @@ export class TokenHistory {
         });
     }
 
-    async loadHistoryData(symbol) {
-        if (!this.state.tokens || this.state.tokens.length == 0) {
+    async loadHistoryData(symbol) {    
+        if (!this.state.tokens || this.state.tokens.length == 0 || stateTokensOnlyPegged(this.state.tokens)) {
             await dispatchify(loadTokensList)();
             await dispatchify(loadAccountBalances)();
         }
 
-        this.token = this.state.tokens.find(x => x.symbol == symbol);        
+        this.token = this.state.tokens.find(x => x.symbol == symbol);                
 
         this.username = this.state.account.name;
 
