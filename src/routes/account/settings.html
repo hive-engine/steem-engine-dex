@@ -135,6 +135,7 @@
                 <h3>${'KYC' & t}</h3>
                 <template if.bind="!state.firebaseUser.kyc.verified && canUploadKycDocuments">
                     <p>${'Verify your account' & t}.</p>
+                    <p>Supported file types; JPG, PNG and PDF.</p>
 
                     <div class="alert alert-warning mb-5" role="alert"
                         if.bind="state.firebaseUser.kyc.passportRejected || state.firebaseUser.kyc.selfieRejected">
@@ -180,7 +181,7 @@
                                     <font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${passportStatusText}
                                 </span></h4>
                             <p if.bind="!passportVerified">Upload a scanned copy of your passport. Your name, image and
-                                citizenship details should be clearly visible.</p>
+                                citizenship details should be clearly visible. Passport must be in landscape orientation.</p>
                             <p else class="green-text">${'Your passport has been verified.' & t}</p>
 
                             <div class="upload-box" if.bind="!passportVerified && !passportPending"
