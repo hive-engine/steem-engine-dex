@@ -10,6 +10,8 @@ import { SteemEngine } from 'services/steem-engine';
 import { dispatchify, Store } from 'aurelia-store';
 import { faCheckCircle, faImagePolaroid, faPassport } from '@fortawesome/pro-duotone-svg-icons';
 
+import countries from 'common/data/countries.json';
+
 import styles from './settings.module.css';
 
 @autoinject()
@@ -19,6 +21,8 @@ export class Settings {
     private user;
     private subscription: Subscription;
     private styles = styles;
+
+    private countries = countries;
 
     private editMode = false;
 
