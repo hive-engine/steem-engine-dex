@@ -1,5 +1,5 @@
 <template>
-    <header class="meta-header">
+    <header class="meta-header hide-lg">
         <div class="container-fluid h100">
             <div class="h100 row align-items-center justify-content-between">
                 <div class="col col-1 exchange-pair">
@@ -55,6 +55,72 @@
                     <button
                         type="button"
                         class="outline-btn white"
+                        click.delegate="withdraw()"
+                    >
+                        ${'Withdraw' & t}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <header class="mobile">
+        <div class="container-fluid">
+            <div class="row text-center">
+                <div class="col-sm-12 exchange-pair">
+                    <h4 class="exchange-pair">
+                        ${'STEEMP' & t}/${token.symbol}
+                    </h4>
+                </div>
+                <div class="col-sm-12">
+                    <div
+                        class="metric-wrapper"
+                    >
+                        <div class="metric-item">
+                            <h5 class="metrics-item-label" style="margin-right: 4px;"
+                                >${'LAST PRICE' & t}:
+                            </h5>
+                            <h5 class="metric-item-value"
+                                > ${token.metric.lastPrice} ${'STEEM'} /
+                                ${token.metric.lastPrice | usdFormat:3}</h5
+                            >
+                        </div>
+                        <div class="metric-item">
+                            <h4 class="metric-item-label">${'24H' & t}: </h4>
+                            <h4 class="metric-item-value">${token.metric.priceChangePercent} ${'%'}</h4>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-item-label"
+                                >${'HIGH' & t}:
+                            </span>
+                            <span class="metric-item-value"
+                                >${token.metric.highestBid}</span
+                            >
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-item-label"
+                                >${'LOW' & t}:
+                            </span>
+                            <span class="metric-item-value"
+                                >${token.metric.lowestAsk}</span
+                            >
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-item-label">${'VOLUME' & t}: </span>
+                            <span class="metric-item-value">${token.metric.volume}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center sm-btn-group" if.bind="!hideButtons">
+                    <button
+                        type="button"
+                        class="outline-btn white blueBtn m1"
+                        click.delegate="deposit()"
+                    >
+                        ${'Deposit' & t}
+                    </button>
+                    <button
+                        type="button"
+                        class="outline-btn white redBtn m2"
                         click.delegate="withdraw()"
                     >
                         ${'Withdraw' & t}

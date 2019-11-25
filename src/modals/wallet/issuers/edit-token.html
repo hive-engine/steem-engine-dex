@@ -1,0 +1,63 @@
+<template>
+    <ux-dialog>
+        <loader mode="tiny" loading.bind="loading"></loader>
+
+        <ux-dialog-header>
+            <h2>${'Edit Token' & t}</h2>
+        </ux-dialog-header>
+        <ux-dialog-body>
+            <div if.bind="token">
+                <div class="form-group">
+                    <h4>${'Token Name' & t}</h4>
+                    <h3>${token.name}</h3>
+                </div>
+
+                <div class="form-group">
+                    <h4>${'Precision' & t}</h4>
+                    <div class="input-group">
+                        <input class="form-control"
+                               type="text"
+                               placeholder="precision"
+                               value.bind="precision & validate" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h4>${'Website URL' & t}</h4>
+                    <div class="input-group">
+                        <input class="form-control"
+                               type="text"
+                               placeholder="website"
+                               value.bind="website" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h4>${'Icon image URL' & t}</h4>
+                    <div class="input-group">
+                        <input class="form-control"
+                               type="text"
+                               placeholder="icon"
+                               value.bind="icon" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h4>${'Description' & t}</h4>
+                    <div class="input-group">
+                        <textarea class="form-control" value.bind="description"></textarea>
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <button class="btn btn-lg redBtn"
+                    click.trigger="controller.cancel()">
+                ${'Cancel' & t}
+            </button>
+            <button class="btn btn-lg greenBtns" click.trigger="confirmSend()">
+                ${'Update' | capitalise & t}
+            </button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>

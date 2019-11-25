@@ -8,15 +8,18 @@ export class AdminKycQueue {
     private kycItems = [];
 
     async activate() {
-        const pendingKycUsers = await firebase.firestore().collection('users')
+        const passportPendingUsers = await firebase.firestore().collection('users')
             .where('kyc.passportPending', '==', true)
+            .get();
+
+        const selfiePendingUsers = await firebase.firestore().collection('users')
             .where('kyc.selfiePending', '==', true)
             .get();
 
-        console.log(pendingKycUsers);
-
-        if (pendingKycUsers.docs) {
-            this.kycItems = pendingKycUsers.docs.map(doc => ({id: doc.id, ...doc.data()}));
+        if (passportPendingUsers.docs || selfiePendingUsers.docs) {
+            const passportPending = passportPendingUsers.docs.map(doc => ({id: doc.id, ...doc.data()}));
+            const selfiePending = selfiePendingUsers.docs.map(doc => ({id: doc.id, ...doc.data()}));
+            this.kycItems = [...passportPending, ...selfiePending];
         }
     }
 }

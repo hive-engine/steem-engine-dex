@@ -9,23 +9,25 @@ import { ValidationControllerFactory, ControllerValidateResult, ValidationRules 
 import { ToastService, ToastMessage } from 'services/toast-service';
 import { BootstrapFormRenderer } from 'resources/bootstrap-form-renderer';
 import { I18N } from 'aurelia-i18n';
-import styles from './issue-tokens.module.css';
-import { loadTokensList, loadAccountBalances } from 'store/actions';
-import { stateTokensOnlyPegged } from 'common/functions';
+import styles from './edit-token.module.css';
 
 @autoinject()
-export class IssueTokensModal {
-    @bindable amount;
-    @bindable username;
+export class EditTokenModal {
+    @bindable precision;
+    @bindable website;
+    @bindable icon;
+    @bindable description;
 
     private styles = styles;
     private loading = false;
     private state: State;
     private subscription: Subscription;   
     private token: any;
+    private symbol: any;
     private validationController;
     private renderer;
     private tokenBalance;
+    private maxPrecision = 8;
 
     constructor(private controller: DialogController, private se: SteemEngine, private toast: ToastService, private taskQueue: TaskQueue, private store: Store<State>, private controllerFactory: ValidationControllerFactory, private i18n: I18N) {
         this.validationController = controllerFactory.createForCurrentScope();
@@ -46,33 +48,28 @@ export class IssueTokensModal {
         this.createValidationRules();
     }
 
-    async activate(symbol) {
-        if (!this.state.tokens || this.state.tokens.length == 0 || stateTokensOnlyPegged(this.state.tokens)) {
-            await dispatchify(loadTokensList)();
-            await dispatchify(loadAccountBalances)();
-        }
-
-        this.token = this.state.tokens.find(x => x.symbol === symbol);        
-        this.tokenBalance = parseFloat(this.token.maxSupply) - parseFloat(this.token.circulatingSupply);        
+    async activate(token) {      
+        console.log(token);
+        this.token = token;
+        this.symbol = token.symbol;
+        this.website = this.token.metadata.url;
+        this.icon = this.token.metadata.icon;
+        this.description = this.token.metadata.desc;
+        this.precision = this.token.precision;        
     }
 
     private createValidationRules() {
         const rules = ValidationRules
-            .ensure('amount')
+            .ensure('precision')
                 .required()
-                    .withMessageKey('errors:amountRequired')
+                    .withMessageKey('errors:precisionRequired')
                 .then()
                     .satisfies((value: any, object: any) => parseFloat(value) > 0)
-                    .withMessageKey('errors:amountGreaterThanZero')
-                    .satisfies((value: any, object: IssueTokensModal) => {
-                        const amount = parseFloat(value);
-
-                        return (amount <= object.tokenBalance);
-                    })
-                    .withMessageKey('errors:insufficientBalanceForIssueToken')            
-            .ensure('username')
-                .required()
-                    .withMessageKey('errors:usernameRequired')
+            .withMessageKey('errors:precisionGreaterThanZero')
+            .satisfies((value: any, object: any) => parseFloat(value) <= this.maxPrecision)
+            .withMessageKey('errors:precisionLessThanMax')
+            .satisfies((value: any, object: any) => parseFloat(value) >= this.token.precision)
+            .withMessageKey('errors:precisionCannotBeLess')
             .rules;
 
         this.validationController.addObject(this, rules);
@@ -88,9 +85,8 @@ export class IssueTokensModal {
                 const toast = new ToastMessage();
 
                 toast.message = this.i18n.tr(result.rule.messageKey, {                    
-                    username: this.username,
-                    balance: this.tokenBalance,
-                    symbol: this.token.symbol,
+                    maxPrecision: this.maxPrecision,
+                    currentPrecision: this.token.precision,
                     ns: 'errors'
                 });
 
@@ -99,8 +95,17 @@ export class IssueTokensModal {
         }
 
         if (validationResult.valid) {                       
+            let metadata = {
+                url: this.website,
+                icon: this.icon,
+                desc: this.description
+            }
 
-            const result = await this.se.issueToken(this.token.symbol, this.username, this.amount);
+            let result = await this.se.updateTokenMetadata(this.symbol, metadata);
+
+            if (this.token.precision != this.precision) {
+                result = await this.se.updatePrecision(this.symbol, this.precision);
+            }
 
             if (result) {
                 this.controller.ok();

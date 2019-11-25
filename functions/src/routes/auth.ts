@@ -103,7 +103,10 @@ authRouter.post('/verifyUserAuthMemo', async (req: express.Request, res: express
                         hideZeroBalances: false,
                         onlyShowFavourites: false
                     },
-                    tabPreference: 'profile'
+                    tabPreference: 'profile',
+                    admin: false,
+                    super: false,
+                    kycAuditor: false
                 });
             } else {
                 // const userData = user.data();

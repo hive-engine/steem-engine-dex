@@ -246,7 +246,7 @@ export async function loadTradeHistory(state: State, symbol: string, account: st
     return newState;
 }
 
-export async function loadTokensList(state: State, limit = 50, offset = 0): Promise<State> {
+export async function loadTokensList(state: State, limit = 1000, offset = 0): Promise<State> {
     const newState = { ...state };
 
     try {
@@ -254,7 +254,11 @@ export async function loadTokensList(state: State, limit = 50, offset = 0): Prom
         
         if (tokens.length) {
             newState.tokensLoaded = false;
-            newState.tokens = [...tokens, ...newState.tokens];
+            if (newState.tokens) {
+                newState.tokens = [...tokens, ...newState.tokens];
+            } else {
+                newState.tokens = tokens;
+            }
         } else {
             newState.tokensLoaded = true;
         }
