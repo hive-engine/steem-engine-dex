@@ -9,6 +9,7 @@ import firebase from 'firebase/app';
 import { dispatchify, Store } from 'aurelia-store';
 import { getCurrentFirebaseUser, loadAccountBalances, loadTokensList } from 'store/actions';
 import { DialogService } from 'aurelia-dialog';
+import { stateTokensOnlyPegged } from 'common/functions';
 
 
 @autoinject()
@@ -60,8 +61,8 @@ export class PendingUnstakes {
     }
 
     async loadStakeData() {
-        if (this.state.tokens.length == 0) {
-            await dispatchify(loadTokensList)(1000, 0);
+        if (!this.state.tokens || this.state.tokens.length == 0 || stateTokensOnlyPegged(this.state.tokens)) {
+            await dispatchify(loadTokensList)();
             await dispatchify(loadAccountBalances)();
         }
 
