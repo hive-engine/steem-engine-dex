@@ -32,6 +32,11 @@ export class Settings {
     private renderer: BootstrapFormRenderer;
     private validationController: ValidationController;
 
+    private selfieFileInput: HTMLInputElement;
+    private passportFileInput: HTMLInputElement;
+    private selfieImageFile: FileList;
+    private passportImageFile: FileList;
+
     constructor(private se: SteemEngine, private controllerFactory: ValidationControllerFactory, private firebase: FirebaseService, private store: Store<State>, private taskQueue: TaskQueue) {
         this.validationController = controllerFactory.createForCurrentScope();
 
@@ -107,6 +112,22 @@ export class Settings {
         }
     }
 
+    selfieChanged() {
+        if (this.selfieImageFile?.[0]) {
+            this.uploadDocument(this.selfieImageFile[0], 'selfie');
+
+            this.selfieFileInput.value = '';
+        }
+    }
+
+    passportChanged() {
+        if (this.passportImageFile?.[0]) {
+            this.uploadDocument(this.passportImageFile[0], 'passport');
+
+            this.passportFileInput.value = '';
+        }
+    }
+
     async uploadDocument(file: File, type: UploadType) {
         try {
             if (type === 'selfie') {
@@ -119,6 +140,8 @@ export class Settings {
 
             this.selfieUploading = false;
             this.passportUploading = false;
+
+            window.location.reload();
         } catch (e) {
             this.selfieUploading = false;
             this.passportUploading = false;
