@@ -179,6 +179,7 @@
                                 <loader loading.bind="selfieUploading" mode="tiny"></loader>
                                 <font-awesome-icon icon.bind="polaroidIcon"></font-awesome-icon>
                             </div>
+                            <div if.bind="!selfieVerified && selfiePending"><img src="${selfieImage}" class="img-fluid w100"></div>
                         </div>
 
                         <div class="col-md-4 kyc-box">
@@ -196,6 +197,7 @@
                                 <loader loading.bind="passportUploading" mode="tiny"></loader>
                                 <font-awesome-icon icon.bind="passportIcon"></font-awesome-icon>
                             </div>
+                            <div if.bind="!passportVerified && passportPending"><img src="${passportImage}" class="img-fluid w100"></div>
                         </div>
                     </div>
                 </template>

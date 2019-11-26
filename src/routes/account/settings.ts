@@ -4,7 +4,6 @@ import { UploadType, FirebaseService } from './../../services/firebase-service';
 import { Subscription } from 'rxjs';
 import { State } from 'store/state';
 import { loadTokensList, getCurrentFirebaseUser } from 'store/actions';
-import firebase from 'firebase/app';
 import { autoinject, TaskQueue, computedFrom } from 'aurelia-framework';
 import { SteemEngine } from 'services/steem-engine';
 import { dispatchify, Store } from 'aurelia-store';
@@ -13,6 +12,9 @@ import { faCheckCircle, faImagePolaroid, faPassport } from '@fortawesome/pro-duo
 import countries from 'common/data/countries.json';
 
 import styles from './settings.module.css';
+
+import 'firebase/storage';
+import firebase from 'firebase/app';
 
 @autoinject()
 export class Settings {
@@ -40,6 +42,8 @@ export class Settings {
     private passportFileInput: HTMLInputElement;
     private selfieImageFile: FileList;
     private passportImageFile: FileList;
+    private passportImage;
+    private selfieImage;
 
     constructor(private se: SteemEngine, private controllerFactory: ValidationControllerFactory, private firebase: FirebaseService, private store: Store<State>, private taskQueue: TaskQueue) {
         this.validationController = controllerFactory.createForCurrentScope();
@@ -69,6 +73,22 @@ export class Settings {
     async activate() {
         dispatchify(loadTokensList)();
         await dispatchify(getCurrentFirebaseUser)();
+    }
+
+    async attached() {
+        const storage = firebase.storage();
+        const storageRef = storage.ref();
+        const userUploads = storageRef.child('user-uploads');
+
+        // eslint-disable-next-line no-undef
+        if (this.user?.passport?.filename) {
+            this.passportImage = await userUploads.child(`${this.state.account.name}/${this.user.passport.filename}`).getDownloadURL();
+        }
+
+        // eslint-disable-next-line no-undef
+        if (this.user?.selfie?.filename) {
+            this.selfieImage = await userUploads.child(`${this.state.account.name}/${this.user.selfie.filename}`).getDownloadURL();
+        }
     }
 
     enableEditMode() {
