@@ -66,7 +66,7 @@
                         </div>
                         <div class="form-group">
                             <label>${'Country of Citizenship' & t}</label>
-                            <select class="custom-select" value.bind="user.citizenship">
+                            <select class="custom-select" value.bind="user.citizenship" disabled.bind="!editMode">
                                 <option repeat.for="country of countries" value.bind="country.name">${country.name} (${country.code})</option>
                             </select>
                         </div>
@@ -80,7 +80,7 @@
                             t}</button>
                     </div>
                     <div class="col-md-12" else>
-                        <button type="button" click.delegate="editMode = true" class="btn btn-primary">${'Edit' &
+                        <button type="button" click.delegate="enableEditMode()" class="btn btn-primary">${'Edit' &
                             t}</button>
                     </div>
                 </div>
@@ -179,6 +179,10 @@
                                 <loader loading.bind="selfieUploading" mode="tiny"></loader>
                                 <font-awesome-icon icon.bind="polaroidIcon"></font-awesome-icon>
                             </div>
+                            <div if.bind="!selfieVerified && selfiePending">
+                                <img src="${selfieImage}" class="img-fluid w100" if.bind="selfieImageIsImage">
+                                <p else>PDF documents cannot be displayed. <a href.bind="selfieImage" target="_blank">${'View here' & t}</a></p>
+                            </div>
                         </div>
 
                         <div class="col-md-4 kyc-box">
@@ -195,6 +199,10 @@
                                 click.delegate="passportFileInput.click()">
                                 <loader loading.bind="passportUploading" mode="tiny"></loader>
                                 <font-awesome-icon icon.bind="passportIcon"></font-awesome-icon>
+                            </div>
+                            <div if.bind="!passportVerified && passportPending">
+                                <img src="${passportImage}" class="img-fluid w100" if.bind="passportImageIsImage">
+                                <p else>PDF documents cannot be displayed. <a href.bind="passportImage" target="_blank">${'View here' & t}</a></p>
                             </div>
                         </div>
                     </div>
