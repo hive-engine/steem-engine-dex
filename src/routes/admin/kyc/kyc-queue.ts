@@ -2,6 +2,8 @@ import styles from './kyc.module.css';
 
 import firebase from 'firebase/app';
 
+import uniqBy from 'lodash/uniqBy';
+
 export class AdminKycQueue {
     private styles = styles;
 
@@ -19,7 +21,11 @@ export class AdminKycQueue {
         if (passportPendingUsers.docs || selfiePendingUsers.docs) {
             const passportPending = passportPendingUsers.docs.map(doc => ({id: doc.id, ...doc.data()}));
             const selfiePending = selfiePendingUsers.docs.map(doc => ({id: doc.id, ...doc.data()}));
-            this.kycItems = [...passportPending, ...selfiePending];
+            const itemsArray = [...passportPending, ...selfiePending];
+
+            this.kycItems = uniqBy(itemsArray, 'id');
         }
+
+        console.log(this.kycItems);
     }
 }

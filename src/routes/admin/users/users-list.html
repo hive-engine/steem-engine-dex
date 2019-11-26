@@ -3,9 +3,30 @@
         <div class="col-md-12">
             <h3>Users</h3>
 
-            <ul class="list-unstyled">
-                <li repeat.for="user of users"><a route-href="route: adminUserView; params.bind: { uid: user.id }">${user.id}</a></li>
-            </ul>
+            <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Username</th>
+                            <th scope="col">Nationality</th>
+                            <th scope="col">Kyc Status</th>
+                            <th scope="col">Accredited Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr repeat.for="user of users">
+                            <td>
+                                <a route-href="route: adminUserView; params.bind: { uid: user.id }">${user.id}</a>
+                            </td>
+                            <td>${user.nationality}</td>
+                            <td>
+                                ${user.kyc.verified ? 'Verified' : 'Not Verified' & t}
+                            </td>
+                            <td>
+                                ${user.accredited.verified ? 'Verified' : 'Not Verified' & t}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
         </div>
     </div>
 </template>
