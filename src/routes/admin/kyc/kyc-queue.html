@@ -8,8 +8,8 @@
                     <tr>
                         <th scope="col">Username</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Passport Verified</th>
-                        <th scope="col">Selfie Verified</th>
+                        <th scope="col" if.bind="!kyc.kyc.verified">Passport Verified</th>
+                        <th scope="col" if.bind="!kyc.kyc.verified">Selfie Verified</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,11 +20,11 @@
                         <td>
                             ${kyc.kyc.verified ? 'Verified' : 'Not Verified' & t}
                         </td>
-                        <td>
+                        <td if.bind="!kyc.kyc.verified">
                             ${kyc.kyc.passportPending ? 'Awaiting Verification' : ''}
                             ${kyc.kyc.passportVerified ? 'Verified' : ''}
                         </td>
-                        <td>
+                        <td if.bind="!kyc.kyc.verified">
                             ${kyc.kyc.selfiePending ? 'Awaiting Verification' : ''}
                             ${kyc.kyc.selfieVerified ? 'Verified' : ''}
                         </td>
