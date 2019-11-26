@@ -4,13 +4,17 @@ import { UploadType, FirebaseService } from './../../services/firebase-service';
 import { Subscription } from 'rxjs';
 import { State } from 'store/state';
 import { loadTokensList, getCurrentFirebaseUser } from 'store/actions';
-import firebase from 'firebase/app';
 import { autoinject, TaskQueue, computedFrom } from 'aurelia-framework';
 import { SteemEngine } from 'services/steem-engine';
 import { dispatchify, Store } from 'aurelia-store';
 import { faCheckCircle, faImagePolaroid, faPassport } from '@fortawesome/pro-duotone-svg-icons';
 
+import countries from 'common/data/countries.json';
+
 import styles from './settings.module.css';
+
+import 'firebase/storage';
+import firebase from 'firebase/app';
 
 @autoinject()
 export class Settings {
@@ -19,6 +23,8 @@ export class Settings {
     private user;
     private subscription: Subscription;
     private styles = styles;
+
+    private countries = countries;
 
     private editMode = false;
 
@@ -31,6 +37,15 @@ export class Settings {
 
     private renderer: BootstrapFormRenderer;
     private validationController: ValidationController;
+
+    private selfieFileInput: HTMLInputElement;
+    private passportFileInput: HTMLInputElement;
+    private selfieImageFile: FileList;
+    private passportImageFile: FileList;
+    private passportImage;
+    private selfieImage;
+    private passportImageIsImage = false;
+    private selfieImageIsImage = false;
 
     constructor(private se: SteemEngine, private controllerFactory: ValidationControllerFactory, private firebase: FirebaseService, private store: Store<State>, private taskQueue: TaskQueue) {
         this.validationController = controllerFactory.createForCurrentScope();
@@ -62,9 +77,45 @@ export class Settings {
         await dispatchify(getCurrentFirebaseUser)();
     }
 
+    async attached() {
+        const storage = firebase.storage();
+        const storageRef = storage.ref();
+        const userUploads = storageRef.child('user-uploads');
+
+        // eslint-disable-next-line no-undef
+        if (this.user?.passport?.filename) {
+            this.passportImage = await userUploads.child(`${this.state.account.name}/${this.user.passport.filename}`).getDownloadURL();
+            this.passportImageIsImage = !this.passportImage.includes('.pdf');
+        }
+
+        // eslint-disable-next-line no-undef
+        if (this.user?.selfie?.filename) {
+            this.selfieImage = await userUploads.child(`${this.state.account.name}/${this.user.selfie.filename}`).getDownloadURL();
+            this.selfieImageIsImage = !this.selfieImage.includes('.pdf');
+        }
+    }
+
+    enableEditMode() {
+        this.editMode = true;
+
+        this.resetValidationStyles();
+    }
+
+    resetValidationStyles() {
+        for (const el of Array.from(document.getElementsByClassName('is-valid'))) {
+            el.classList.remove('is-valid');
+        }
+
+        for (const el of Array.from(document.getElementsByClassName('is-invalid'))) {
+            el.classList.remove('is-invalid');
+        }
+    }
+
     private resetUser() {
         this.user = { ...this.state.firebaseUser };
         this.editMode = false;
+
+        this.resetValidationStyles();
     }
 
     private async saveProfile() {
@@ -75,6 +126,8 @@ export class Settings {
 
         if (validate.valid) {
             this.updateData();
+
+            this.resetValidationStyles();
         }
     }
 
@@ -107,6 +160,22 @@ export class Settings {
         }
     }
 
+    selfieChanged() {
+        if (this.selfieImageFile?.[0]) {
+            this.uploadDocument(this.selfieImageFile[0], 'selfie');
+
+            this.selfieFileInput.value = '';
+        }
+    }
+
+    passportChanged() {
+        if (this.passportImageFile?.[0]) {
+            this.uploadDocument(this.passportImageFile[0], 'passport');
+
+            this.passportFileInput.value = '';
+        }
+    }
+
     async uploadDocument(file: File, type: UploadType) {
         try {
             if (type === 'selfie') {
@@ -119,6 +188,8 @@ export class Settings {
 
             this.selfieUploading = false;
             this.passportUploading = false;
+
+            window.location.reload();
         } catch (e) {
             this.selfieUploading = false;
             this.passportUploading = false;

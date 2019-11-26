@@ -356,7 +356,9 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
                 circulatingSupply,
                 issuer, 
                 name, 
+                symbol,
                 delegationEnabled, 
+                precision,
                 maxSupply,
                 stakingEnabled, 
                 supply,
@@ -388,9 +390,9 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
 
         for (const token of balances) {
             if (token?.metric?.lastPrice) {
-                token.usdValue = usdFormat(parseFloat(token.balance) * token.metric.lastPrice);
+                token.usdValue = usdFormat(parseFloat(token.balance) * token.metric.lastPrice, 3);
             } else {
-                token.usdValue = usdFormat(parseFloat(token.balance) * 1);
+                token.usdValue = usdFormat(parseFloat(token.balance) * 1, 3);
             }
         }
 

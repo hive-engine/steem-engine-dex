@@ -6,12 +6,13 @@
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "removeComments": true,
     "sourceMap": true,
     "lib": [
-      "es2015",
-      "dom"
+      "dom",
+      "esnext"
     ],
     "paths": {
         "*": [

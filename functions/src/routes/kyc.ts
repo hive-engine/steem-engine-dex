@@ -60,7 +60,7 @@ kycRouter.post('/upload', uploadMiddleware, async (req: express.Request, res: ex
                     const { buffer, mimetype, originalname } = file;
 
                     if (!allowedMimeTypes.includes(mimetype)) {
-                        throw new Error('Invalid mimetype. Only JPG and PDF files are supported.');
+                        throw new Error('Invalid mimetype. Only JPG, PNG and PDF files are supported.');
                     }
 
                     const url = await uploadUserFile(`${username.toString().toLowerCase()}/${originalname}`, mimetype, buffer);

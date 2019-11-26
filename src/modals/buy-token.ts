@@ -12,6 +12,7 @@ import { I18N } from 'aurelia-i18n';
 import styles from './buy-token.module.css';
 import { loadTokensList, loadAccountBalances } from 'store/actions';
 import { getAccount } from 'common/steem';
+import { stateTokensOnlyPegged } from 'common/functions';
 
 @autoinject()
 export class BuyTokenModal {
@@ -50,7 +51,7 @@ export class BuyTokenModal {
 
     async activate(symbol) {
         this.loading = true;
-        if (!this.state.tokens || this.state.tokens.length == 0) {
+        if (!this.state.tokens || this.state.tokens.length == 0 || stateTokensOnlyPegged(this.state.tokens)) {
             await dispatchify(loadTokensList)();
         }
 

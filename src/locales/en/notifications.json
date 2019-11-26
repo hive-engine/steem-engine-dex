@@ -24,5 +24,7 @@
     "tokenCreateError": "There was an error creating your token",
     "nftCreateSuccess": "NFT created successfully",
     "nftCreateError": "There was an error creating your NFT",
-    "claimSucceeded":  "Claim transaction successfully completed"
+    "claimSucceeded": "Claim transaction successfully completed",
+    "updatePrecisionSucceeded": "Precision of {{symbol}} successfully updated to {{precision}}",
+    "updateMetadataSucceeded": "Metadata of {{symbol}} successfully updated"
 }

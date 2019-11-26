@@ -9,6 +9,7 @@ import firebase from 'firebase/app';
 import { dispatchify, Store } from 'aurelia-store';
 import { getCurrentFirebaseUser, loadAccountBalances, loadTokensList } from 'store/actions';
 import { DialogService } from 'aurelia-dialog';
+import { stateTokensOnlyPegged } from 'common/functions';
 
 
 @autoinject()
@@ -42,15 +43,25 @@ export class PendingUnstakes {
     loadTable() {
         // @ts-ignore
         $(this.transactionsTable).DataTable({
+            "columnDefs": [
+                { "targets": 0, "responsivePriority": 1 }, // Symbol
+                { "targets": 1, "responsivePriority": 10000 }, // TxId
+                { "targets": 2, "responsivePriority": 2 }, // Quantity
+                { "targets": 3, "responsivePriority": 10010 }, // Quantity left
+                { "targets": 4, "responsivePriority": 10020 }, // Next transaction
+                { "targets": 5, "responsivePriority": 10030 }, // Transactions left
+                { "targets": 6, "responsivePriority": 3 } // Actions
+            ],
             bInfo: false,
             paging: false,
             searching: false,
-            ordering: false
+            ordering: false,
+            responsive: true
         });
     }
 
     async loadStakeData() {
-        if (this.state.tokens.length == 0) {
+        if (!this.state.tokens || this.state.tokens.length == 0 || stateTokensOnlyPegged(this.state.tokens)) {
             await dispatchify(loadTokensList)();
             await dispatchify(loadAccountBalances)();
         }
