@@ -3,9 +3,34 @@
         <div class="col-md-12">
             <h3>KYC Approval Queue</h3>
 
-            <ul class="list-unstyled">
-                <li repeat.for="kyc of kycItems"><a route-href="route: adminKycView; params.bind: { uid: kyc.id };">${kyc.id}</a></li>
-            </ul>
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" if.bind="!kyc.kyc.verified">Passport Verified</th>
+                        <th scope="col" if.bind="!kyc.kyc.verified">Selfie Verified</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="kyc of kycItems">
+                        <td>
+                            <a route-href="route: adminKycView; params.bind: { uid: kyc.id };">${kyc.id}</a>
+                        </td>
+                        <td>
+                            ${kyc.kyc.verified ? 'Verified' : 'Not Verified' & t}
+                        </td>
+                        <td if.bind="!kyc.kyc.verified">
+                            ${kyc.kyc.passportPending ? 'Awaiting Verification' : ''}
+                            ${kyc.kyc.passportVerified ? 'Verified' : ''}
+                        </td>
+                        <td if.bind="!kyc.kyc.verified">
+                            ${kyc.kyc.selfiePending ? 'Awaiting Verification' : ''}
+                            ${kyc.kyc.selfieVerified ? 'Verified' : ''}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>

@@ -65,8 +65,8 @@
                             <input type="text" class="form-control" disabled.bind="!editMode" value.bind="user.state">
                         </div>
                         <div class="form-group">
-                            <label>${'Country of Citizenship' & t}</label>
-                            <select class="custom-select" value.bind="user.citizenship" disabled.bind="!editMode">
+                            <label>${'Nationality' & t}</label>
+                            <select class="custom-select" value.bind="user.nationality" disabled.bind="!editMode">
                                 <option repeat.for="country of countries" value.bind="country.name">${country.name} (${country.code})</option>
                             </select>
                         </div>
