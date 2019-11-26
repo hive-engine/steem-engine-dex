@@ -71,9 +71,27 @@ export class Settings {
         await dispatchify(getCurrentFirebaseUser)();
     }
 
+    enableEditMode() {
+        this.editMode = true;
+
+        this.resetValidationStyles();
+    }
+
+    resetValidationStyles() {
+        for (const el of Array.from(document.getElementsByClassName('is-valid'))) {
+            el.classList.remove('is-valid');
+        }
+
+        for (const el of Array.from(document.getElementsByClassName('is-invalid'))) {
+            el.classList.remove('is-invalid');
+        }
+    }
+
     private resetUser() {
         this.user = { ...this.state.firebaseUser };
         this.editMode = false;
+
+        this.resetValidationStyles();
     }
 
     private async saveProfile() {
@@ -84,6 +102,8 @@ export class Settings {
 
         if (validate.valid) {
             this.updateData();
+
+            this.resetValidationStyles();
         }
     }
 
