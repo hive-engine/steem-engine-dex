@@ -44,6 +44,8 @@ export class Settings {
     private passportImageFile: FileList;
     private passportImage;
     private selfieImage;
+    private passportImageIsImage = false;
+    private selfieImageIsImage = false;
 
     constructor(private se: SteemEngine, private controllerFactory: ValidationControllerFactory, private firebase: FirebaseService, private store: Store<State>, private taskQueue: TaskQueue) {
         this.validationController = controllerFactory.createForCurrentScope();
@@ -83,11 +85,13 @@ export class Settings {
         // eslint-disable-next-line no-undef
         if (this.user?.passport?.filename) {
             this.passportImage = await userUploads.child(`${this.state.account.name}/${this.user.passport.filename}`).getDownloadURL();
+            this.passportImageIsImage = !this.passportImage.includes('.pdf');
         }
 
         // eslint-disable-next-line no-undef
         if (this.user?.selfie?.filename) {
             this.selfieImage = await userUploads.child(`${this.state.account.name}/${this.user.selfie.filename}`).getDownloadURL();
+            this.selfieImageIsImage = !this.selfieImage.includes('.pdf');
         }
     }
 

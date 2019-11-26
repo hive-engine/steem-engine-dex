@@ -179,7 +179,10 @@
                                 <loader loading.bind="selfieUploading" mode="tiny"></loader>
                                 <font-awesome-icon icon.bind="polaroidIcon"></font-awesome-icon>
                             </div>
-                            <div if.bind="!selfieVerified && selfiePending"><img src="${selfieImage}" class="img-fluid w100"></div>
+                            <div if.bind="!selfieVerified && selfiePending">
+                                <img src="${selfieImage}" class="img-fluid w100" if.bind="selfieImageIsImage">
+                                <p else>PDF documents cannot be displayed. <a href.bind="selfieImage" target="_blank">${'View here' & t}</a></p>
+                            </div>
                         </div>
 
                         <div class="col-md-4 kyc-box">
@@ -197,7 +200,10 @@
                                 <loader loading.bind="passportUploading" mode="tiny"></loader>
                                 <font-awesome-icon icon.bind="passportIcon"></font-awesome-icon>
                             </div>
-                            <div if.bind="!passportVerified && passportPending"><img src="${passportImage}" class="img-fluid w100"></div>
+                            <div if.bind="!passportVerified && passportPending">
+                                <img src="${passportImage}" class="img-fluid w100" if.bind="passportImageIsImage">
+                                <p else>PDF documents cannot be displayed. <a href.bind="passportImage" target="_blank">${'View here' & t}</a></p>
+                            </div>
                         </div>
                     </div>
                 </template>
