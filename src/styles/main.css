@@ -5,6 +5,7 @@
 @import "./buttons.css";
 @import "./smallnav.css";
 @import "./scot-components.css";
+@import "./create-token.css";
 
 @font-face {
     font-family: main-font;
