@@ -31,7 +31,8 @@ interface BalanceInterface {
     priceChangePercent: number;
     scotConfig?: any;
     symbol: string;
-    usdValue: string;
+    usdValue: number;
+    usdValueFormatted: string;
     metadata: any;
 }
 
