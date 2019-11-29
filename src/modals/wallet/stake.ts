@@ -10,6 +10,7 @@ import { ToastService, ToastMessage } from '../../services/toast-service';
 import { BootstrapFormRenderer } from '../../resources/bootstrap-form-renderer';
 import { I18N } from 'aurelia-i18n';
 import styles from './stake.module.css';
+import { trimUsername } from 'common/functions';
 
 @autoinject()
 export class StakeModal {
@@ -93,9 +94,9 @@ export class StakeModal {
             }
         }
 
-        if (validationResult.valid) {                       
-
-            const result = await this.se.stake(this.token.symbol, this.amount, this.username);
+        if (validationResult.valid) {
+            let username = trimUsername(this.username);
+            const result = await this.se.stake(this.token.symbol, this.amount, username);
 
             if (result) {
                 this.controller.ok();

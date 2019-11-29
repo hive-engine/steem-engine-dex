@@ -10,6 +10,7 @@ import { ToastService, ToastMessage } from '../../services/toast-service';
 import { BootstrapFormRenderer } from '../../resources/bootstrap-form-renderer';
 import { I18N } from 'aurelia-i18n';
 import styles from './send-tokens.module.css';
+import { trimUsername } from 'common/functions';
 
 @autoinject()
 export class SendTokensModal {
@@ -93,9 +94,9 @@ export class SendTokensModal {
             }
         }
 
-        if (validationResult.valid) {                       
-
-            const result = await this.se.sendToken(this.token.symbol, this.username, this.amount, this.memo);
+        if (validationResult.valid) {
+            let username = trimUsername(this.username);
+            const result = await this.se.sendToken(this.token.symbol, username, this.amount, this.memo);
 
             if (result) {
                 this.controller.ok();

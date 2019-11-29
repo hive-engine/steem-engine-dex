@@ -58,6 +58,7 @@
         "slick-carousel": "^1.8.1",
         "sscjs": "^0.0.8",
         "steem": "^0.7.9",
+        "trim-character": "^2.0.1",
         "typewriter-effect": "^2.12.1",
         "typit": "^0.6.4",
         "whatwg-fetch": "^3.0.0",
