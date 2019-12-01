@@ -253,6 +253,13 @@ export class App {
                 title: 'Crowdfunding Create',
             },
             {
+                route: 'crowdfunding-back',
+                name: 'crowdfunding-back',
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-back'),
+                nav: false,
+                title: 'Crowdfunding Back',
+            },
+            {
                 route: 'create-token',
                 name: 'createToken',
                 moduleId: PLATFORM.moduleName('./routes/create-token'),
@@ -260,13 +267,11 @@ export class App {
                 title: 'Create Token',
             },
             {
-                route: "crowdfunding-explore",
-                name: "crowdfunding-explore",
-                moduleId: PLATFORM.moduleName(
-                    "./routes/offering-routes/crowdfunding/crowdfunding-explore"
-                ),
+                route: 'crowdfunding-explore',
+                name: 'crowdfunding-explore',
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-explore'),
                 nav: false,
-                title: "Crowdfunding Explore"
+                title: 'Crowdfunding Explore',
             },
             {
                 route: 'nfts',
@@ -301,9 +306,8 @@ export class App {
                 name: 'editNft',
                 moduleId: PLATFORM.moduleName('./routes/nfts/edit'),
                 nav: false,
-                title: 'Edit NFT'
-            }
-
+                title: 'Edit NFT',
+            },
         ]);
 
         this.router = router;
