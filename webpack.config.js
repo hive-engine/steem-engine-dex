@@ -117,6 +117,9 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma } =
             {
                 test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
                 loader: 'file-loader',
+                options: {
+                    esModule: false,
+                },
             },
             ...when(coverage, {
                 test: /\.[jt]s$/i,

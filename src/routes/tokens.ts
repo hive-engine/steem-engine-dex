@@ -26,12 +26,12 @@ export class Tokens {
     private currentLimit = 1000;
     private currentOffset = 0;
 
-    @observable() private tab = 'pegged';
+    @observable() private tab = 'other';
 
-    constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) { }
+    constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {}
 
-    async canActivate() {
-        await dispatchify(loadTokenSymbols)(['BCHP', 'BTCP', 'DOGEP', 'STEEMP', 'BRIDGEBTCP', 'BTSCNYP', 'BTSP', 'LTCP', 'PEOSP', 'SWIFTP', 'TLOSP', 'WEKUP'], 50, 0);
+    async canActivate () {
+        await dispatchify(loadTokensList)(this.currentLimit, this.currentOffset);
     }
 
     async activate() {
@@ -55,11 +55,27 @@ export class Tokens {
         this.loading = true;
 
         if (tab === 'pegged') {
-            await dispatchify(loadTokenSymbols)(['BCHP', 'BTCP', 'DOGEP', 'STEEMP', 'BRIDGEBTCP', 'BTSCNYP', 'BTSP', 'LTCP', 'PEOSP', 'SWIFTP', 'TLOSP', 'WEKUP'], 50, 0);
+            await dispatchify(loadTokenSymbols)(
+                [
+                    'BCHP',
+                    'BTCP',
+                    'DOGEP',
+                    'STEEMP',
+                    'BRIDGEBTCP',
+                    'BTSCNYP',
+                    'BTSP',
+                    'LTCP',
+                    'PEOSP',
+                    'SWIFTP',
+                    'TLOSP',
+                    'WEKUP',
+                ],
+                50,
+                0,
+            );
         } else if (tab === 'other') {
             await dispatchify(loadTokensList)(this.currentLimit, this.currentOffset);
         }
-
         this.loading = false;
     }
 
@@ -90,21 +106,21 @@ export class Tokens {
                     targets: 'no-sort',
                     orderable: false,
                 },
-                { "targets": 0, "responsivePriority": 1 }, // Logo
-                { "targets": 1, "responsivePriority": 2 }, // Symbol
-                { "targets": 2, "responsivePriority": 10000 }, // Name
-                { "targets": 3, "responsivePriority": 10010 }, // Market cap                                
-                { "targets": 4, "responsivePriority": 3 }, // price
-                { "targets": 5, "responsivePriority": 10020 }, // Change %
-                { "targets": 6, "responsivePriority": 4 }, // 24h volume
-                { "targets": 7, "responsivePriority": 10030 }, // Supply
-                { "targets": 8, "responsivePriority": 20000 } // Actions
+                { targets: 0, responsivePriority: 1 }, // Logo
+                { targets: 1, responsivePriority: 2 }, // Symbol
+                { targets: 2, responsivePriority: 10000 }, // Name
+                { targets: 3, responsivePriority: 10010 }, // Market cap
+                { targets: 4, responsivePriority: 3 }, // price
+                { targets: 5, responsivePriority: 10020 }, // Change %
+                { targets: 6, responsivePriority: 4 }, // 24h volume
+                { targets: 7, responsivePriority: 10030 }, // Supply
+                { targets: 8, responsivePriority: 20000 }, // Actions
             ],
             destroy: true,
             bInfo: false,
             paging: false,
             searching: false,
-            responsive: true
+            responsive: true,
         });
     }
 
