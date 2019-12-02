@@ -112,7 +112,7 @@ ux-dialog > ux-dialog-footer button {
     width: 30%;
 
     padding: 0 !important;
-    background-color: #21be3d;
+    background-color: #0048b3;
     color: #fff !important;
     font-weight: bold;
     font-family: main-font-bold !important;
@@ -123,13 +123,13 @@ ux-dialog > ux-dialog-footer button {
     display: inline-block;
 }
 .greenBtns:hover {
-    background-color: #1eac38;
+    background-color: #080ba3;
 }
 .redBtn {
     margin-top: 0;
     padding: 0 !important;
-    background-color: #ca0505 !important;
-    color: #fff !important;
+    border: 1.5px solid #ca0505!important;
+    color: #ca0505!important;
     font-weight: bold;
     font-family: main-font-bold !important;
     font-size: 16px;
@@ -138,7 +138,7 @@ ux-dialog > ux-dialog-footer button {
     min-width: 76px;
 }
 .redBtn:hover {
-    background-color: #e42020 !important;
+    background-color: #e4202009 !important;
 }
 ux-dialog > ux-dialog-footer button:last-child {
     margin-right: 0;

@@ -1,0 +1,118 @@
+/* body {
+    background-color: rgb(250, 250, 250);
+} */
+.register-header {
+    background-color: darkblue;
+    padding-top: 80px;
+    padding-bottom: 120px;
+    background-position: 100%;
+    /* margin: 41px 0px; */
+}
+.title h2 {
+    color: #fff;
+    font-size: 36px;
+    margin: 20px 0px 10px;
+    padding-top: 40px;
+}
+.title p {
+    color: #fff;
+    font-size: 18px;
+}
+
+.headImg {
+    position: absolute;
+    bottom: -80px;
+    right: -10px;
+    z-index: 1;
+}
+
+.split {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+.standalone-header {
+    padding: 50px 0px 0px;
+}
+.card-form {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px 80px 80px;
+    box-shadow: 0 2px 6px -4px rgba(0, 0, 0, 0.2), 0 8px 10px -4px rgba(0, 0, 0, 0.14),
+        0 8px 12px 4px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+.register-logo {
+    opacity: 0.8;
+}
+.back-form-label {
+    font-size: 20px;
+    /* text-align: center !important; */
+}
+.explore-card {
+    /* padding: 10px; */
+    background-color: #fff;
+    border-radius: 5px;
+    margin-right: 15px;
+    margin-bottom: 5px;
+    box-shadow: 0 2px 4px rgba(204, 207, 216, 0.486);
+    border: 1px solid #fff;
+    transition: 0.5s ease-out all;
+    -o-transition: 0.5s ease-out all;
+    -webkit-transition: 0.5s ease-out all;
+    -moz-transition: 0.5s ease-out all;
+}
+
+/* .explore-card:hover {
+    margin-top: 3px;
+    box-shadow: 0 4px 18px 8px rgba(204, 207, 216, 0.651);
+} */
+.explore-card-body {
+    padding: 20px;
+}
+.explore-title {
+    font-size: 20px;
+    padding: 20px;
+    background: #f7f7f7;
+    color: #0048b3;
+    margin-bottom: 0;
+}
+.explore-card p {
+    margin-bottom: 0;
+}
+.explore-img {
+    width: 100%;
+    min-height: 230px;
+    image-rendering: optimizeQuality;
+}
+.explore-pfa {
+    display: flex !important;
+    margin-top: 12px;
+    margin-bottom: 20px;
+}
+
+.achieved {
+    font-size: 46px;
+    line-height: 48px;
+    letter-spacing: -1px;
+    color: #0048b3;
+    font-family: Montserrat, sans-serif;
+    padding-top: 20px;
+}
+.goal {
+    font-family: Lato, sans-serif;
+    font-size: 16px;
+    line-height: 48px;
+    letter-spacing: 0;
+    color: #666;
+}
+.people-desc {
+    font-size: 16px;
+}
+
+.disclaimer-text {
+    margin-top: 50px;
+    margin-bottom: -20px;
+    font-size: 16px;
+}

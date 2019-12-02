@@ -25,7 +25,5 @@ export class AdminKycQueue {
 
             this.kycItems = uniqBy(itemsArray, 'id');
         }
-
-        console.log(this.kycItems);
     }
 }

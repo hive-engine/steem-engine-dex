@@ -10,6 +10,7 @@ import { ToastService, ToastMessage } from '../../services/toast-service';
 import { BootstrapFormRenderer } from '../../resources/bootstrap-form-renderer';
 import { I18N } from 'aurelia-i18n';
 import styles from './undelegate.module.css';
+import { trimUsername } from 'common/functions';
 
 @autoinject()
 export class UndelegateModal {
@@ -93,8 +94,8 @@ export class UndelegateModal {
         }
 
         if (validationResult.valid) {                       
-
-            const result = await this.se.undelegate(this.token.symbol, this.amount, this.username);
+            let username = trimUsername(this.username);
+            const result = await this.se.undelegate(this.token.symbol, this.amount, username);
 
             if (result) {
                 this.controller.ok();

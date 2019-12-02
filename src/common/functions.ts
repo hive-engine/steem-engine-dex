@@ -5,6 +5,7 @@ import { checkTransaction } from 'common/steem-engine';
 import { environment } from 'environment';
 import { steemConnectJson } from 'common/steem';
 import { HttpClient } from 'aurelia-fetch-client';
+import trim from 'trim-character';
 
 const http: HttpClient = new HttpClient();
 const toastService: ToastService = Container.instance.get(ToastService);
@@ -196,6 +197,13 @@ export function sleep(wait = 1000) {
     return new Promise((resolve) => {
         setTimeout(resolve, wait);
     });
+}
+
+export function trimUsername(username) {
+    if (username)
+        username = trim(username, '@');
+
+    return username;
 }
 
 export function stateTokensOnlyPegged(tokens) {
