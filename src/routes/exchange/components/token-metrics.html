@@ -19,23 +19,24 @@
                             >
                         </div>
                         <div class="meta-item">
-                            <span class="meta-label">${'24H' & t}: </span>
-                            <span class="meta-value">${token.metric.priceChangePercent} ${'%'}</span>
+                            <span class="meta-label">${'24H' & t}: ${' '} </span>
+                            <span class="meta-value ${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}">${token.metric.priceChangePercent} ${'%'}</span>
                         </div>
+                        
                         <div class="meta-item">
                             <span class="meta-label"
-                                >${'HIGH' & t}:
+                                >${'ASK ' & t} :
                             </span>
                             <span class="meta-value"
-                                >${token.metric.highestBid}</span
+                                >${token.metric.lowestAsk}</span
                             >
                         </div>
                         <div class="meta-item">
                             <span class="meta-label"
-                                >${'LOW' & t}:
+                                >${'BID ' & t} :
                             </span>
                             <span class="meta-value"
-                                >${token.metric.lowestAsk}</span
+                                >${token.metric.highestBid}</span
                             >
                         </div>
                         <div class="meta-item">
