@@ -5641,7 +5641,7 @@ escape-html@~1.0.3:
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
   integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=
 
-escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
+escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.3, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
@@ -13609,6 +13609,13 @@ tr46@^1.0.1:
   integrity sha1-qLE/1r/SSJUZZ0zN5VujaTtwbQk=
   dependencies:
     punycode "^2.1.0"
+
+trim-character@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/trim-character/-/trim-character-2.0.1.tgz#f5f1400884c204f6b455807afe8c762df0016184"
+  integrity sha1-9fFACITCBPa0VYB6/ox2LfABYYQ=
+  dependencies:
+    escape-string-regexp "^1.0.3"
 
 trim-newlines@^1.0.0:
   version "1.0.0"
