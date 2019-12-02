@@ -13,6 +13,7 @@ import { DelegateModal } from 'modals/wallet/delegate';
 import { UndelegateModal } from 'modals/wallet/undelegate';
 import { EnableDelegationModal } from 'modals/wallet/issuers/enable-delegation';
 import { EnableStakingModal } from 'modals/wallet/issuers/enable-staking';
+import { EditTokenModal } from 'modals/wallet/issuers/edit-token';
 
 import firebase from 'firebase/app';
 import { dispatchify, Store } from 'aurelia-store';
@@ -68,7 +69,7 @@ export class Balances {
 
     attached() {
         for (const token of this.balances) {
-            const amount = parseFloat(token.usdValue.replace('$', '').replace(',', ''));
+            const amount = parseFloat(token.usdValueFormatted.replace('$', '').replace(',', ''));
             this.totalWalletValue += amount;
         }
         
@@ -80,14 +81,20 @@ export class Balances {
         // @ts-ignore
         $(this.tokenTable).DataTable({
             "columnDefs": [
-                { "type": "natural", "targets": 3 }, // Balance
-                { "type": "html-num-fmt", "targets": 4 }, // USD
-                { "type": "html-num-fmt", "targets": 5 } // Change %
+                { "targets": 0, "responsivePriority": 1 }, // Logo
+                { "targets": 1, "responsivePriority": 2 }, // Symbol
+                { "targets": 2, "responsivePriority": 10000 }, // Name
+                { "targets": 3, "responsivePriority": 3, "type": "natural" }, // Balance                                
+                { "targets": 4, "responsivePriority": 4, "type": "html-num-fmt" }, // USD
+                { "targets": 5, "responsivePriority": 10010, "type": "html-num-fmt" }, // Change %
+                { "targets": 6, "responsivePriority": 10020 }, // Staked
+                { "targets": 7, "responsivePriority": 20000 }, // Actions
             ],
             "order": [[4, "desc"]],
             bInfo: false,
             paging: false,
-            searching: false
+            searching: false,
+            responsive: true
         });
     }
 
@@ -208,6 +215,12 @@ export class Balances {
     enableStaking(symbol) {
         this.dialogService
             .open({ viewModel: EnableStakingModal, model: symbol })
+            .whenClosed(x => this.walletDialogCloseResponse(x));
+    }
+
+    editToken(token) {
+        this.dialogService
+            .open({ viewModel: EditTokenModal, model: token })
             .whenClosed(x => this.walletDialogCloseResponse(x));
     }
 

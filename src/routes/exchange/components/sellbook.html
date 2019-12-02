@@ -11,12 +11,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr repeat.for="order of sellBook | slice:10:true">
-                    <td click.delegate="setBidPrice(order.price)">${order.price | toFixed:3}</td>
+
+                <tr repeat.for="order of sellData">
+                    <td click.delegate="setBidPrice(order.price)">${order.price | toFixed:6}</td>
                     <td>${order.quantity | toFixed:3}</td>
-                    <td>${order.amountLocked | toFixed:3}</td>
+                    <td>${order.amountLocked | toFixed:6}</td>
                 </tr>
             </tbody>
         </table>
+        <div class="see-more hideSeeMoreBtn text-center" id="loadMoreSell">
+            <button click.delegate="seeMoreSell(sellBook)" class="moreBtn seeMoreBtn" style="margin-top: 0px">see more</button>
+        </div>
     </div>
 </template>

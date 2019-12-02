@@ -11,6 +11,7 @@ import { BootstrapFormRenderer } from 'resources/bootstrap-form-renderer';
 import { I18N } from 'aurelia-i18n';
 import styles from './issue-tokens.module.css';
 import { loadTokensList, loadAccountBalances } from 'store/actions';
+import { stateTokensOnlyPegged, trimUsername } from 'common/functions';
 
 @autoinject()
 export class IssueTokensModal {
@@ -46,7 +47,7 @@ export class IssueTokensModal {
     }
 
     async activate(symbol) {
-        if (!this.state.tokens || this.state.tokens.length == 0) {
+        if (!this.state.tokens || this.state.tokens.length == 0 || stateTokensOnlyPegged(this.state.tokens)) {
             await dispatchify(loadTokensList)();
             await dispatchify(loadAccountBalances)();
         }
@@ -99,7 +100,8 @@ export class IssueTokensModal {
 
         if (validationResult.valid) {                       
 
-            const result = await this.se.issueToken(this.token.symbol, this.username, this.amount);
+            let username = trimUsername(this.username);
+            const result = await this.se.issueToken(this.token.symbol, username, this.amount);
 
             if (result) {
                 this.controller.ok();

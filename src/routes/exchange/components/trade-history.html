@@ -14,7 +14,7 @@
             <tbody>
                 <tr repeat.for="trade of trades | slice:20">
 
-                    <td>${trade.price | toFixed:3}</td>
+                    <td>${trade.price | toFixed:6}</td>
                     <td>${trade.quantity | toFixed:3}</td>
                     <td class="${trade.type == 'sell' ? 'red' : 'green'}">${trade.type.toUpperCase()}</td>
 

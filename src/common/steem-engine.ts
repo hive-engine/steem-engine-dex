@@ -196,7 +196,8 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
             scotConfig {
                 pending_token,
                 staked_tokens
-            }
+            },
+            usdValueFormatted
         },
         buyBook(symbol: "${symbol}", limit: 1000, offset: 0) {
             txId,
@@ -352,11 +353,14 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
             pendingUndelegations,
             stake,
             pendingUnstake,
+            usdValueFormatted,
             token {
                 circulatingSupply,
                 issuer, 
                 name, 
+                symbol,
                 delegationEnabled, 
+                precision,
                 maxSupply,
                 stakingEnabled, 
                 supply,
@@ -385,14 +389,6 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
 
     if (loadedBalances.length) {
         const balances = loadedBalances.filter(b => !state.settings.disabledTokens.includes(b.symbol));
-
-        for (const token of balances) {
-            if (token?.metric?.lastPrice) {
-                token.usdValue = usdFormat(parseFloat(token.balance) * token.metric.lastPrice);
-            } else {
-                token.usdValue = usdFormat(parseFloat(token.balance) * 1);
-            }
-        }
 
         balances.sort(
             (a, b) =>

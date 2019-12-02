@@ -287,6 +287,8 @@ export class Exchange {
         });
     }
 
+    
+
     confirmMarketOrder() {
         const order = {
             symbol: this.data.symbol,

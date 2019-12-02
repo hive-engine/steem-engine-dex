@@ -3,7 +3,7 @@ import { DialogService } from 'aurelia-dialog';
 import { BootstrapFormRenderer } from './../../../resources/bootstrap-form-renderer';
 import { ValidationControllerFactory, ValidationController } from 'aurelia-validation';
 import { SteemEngine } from 'services/steem-engine';
-import { autoinject } from 'aurelia-framework';
+import { autoinject, TaskQueue } from 'aurelia-framework';
 import { Redirect, RouteConfig, AppRouter } from 'aurelia-router';
 
 import 'firebase/storage';
@@ -15,7 +15,7 @@ export class AdminKycView {
     private validationController: ValidationController;
     private user;
 
-    constructor(private se: SteemEngine, private controllerFactory: ValidationControllerFactory, private router: AppRouter, private dialogService: DialogService) {
+    constructor(private se: SteemEngine, private controllerFactory: ValidationControllerFactory, private router: AppRouter, private dialogService: DialogService, private taskQueue: TaskQueue) {
         this.validationController = controllerFactory.createForCurrentScope();
 
         this.renderer = new BootstrapFormRenderer();
@@ -32,6 +32,18 @@ export class AdminKycView {
         if (user.exists) {
             this.user = { id: user.id, ...user.data() };
 
+            if (!this.user?.admin) {
+                this.user.admin = false;
+            }
+
+            if (!this.user?.kycAuditor) {
+                this.user.kycAuditor = false;
+            }
+
+            if (!this.user?.disable) {
+                this.user.disable = false;
+            }
+
             routeConfig.navModel.setTitle(`User ${this.user.id}`);
         }
     }
@@ -43,6 +55,13 @@ export class AdminKycView {
     }
 
     updateSettings() {
+        this.taskQueue.queueMicroTask(() => {
+            const data = { ...this.user };
+            delete data.id;
 
+            const userRef = firebase.firestore().collection('users').doc(this.user.id);
+
+            userRef.update(data);
+        });
     }
 }
