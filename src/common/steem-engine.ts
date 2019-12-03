@@ -142,6 +142,7 @@ export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promis
     return finalTokens;
 }
 
+/* istanbul ignore next */
 export async function loadExchangeUiLoggedIn(account, symbol) {
     const callQl = await query(`query {
         tokens(symbols: ["${symbol}", "STEEMP"]) {
@@ -258,6 +259,7 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
     };
 }
 
+/* istanbul ignore next */
 export async function loadExchangeUiLoggedOut(symbol) {
     const callQl = await query(`query {
         tokens(symbols: ["${symbol}", "STEEMP"]) {
@@ -335,6 +337,7 @@ export async function loadExchangeUiLoggedOut(symbol) {
     };
 }
 
+/* istanbul ignore next */
 export async function loadBalances(account: string): Promise<BalanceInterface[]> {
     const getUserBalances = await query(`query {
         balances(account: "${account}", limit: 1000, offset: 0) {
@@ -443,6 +446,7 @@ export async function checkTransaction(trxId: string, retries: number) {
     }
 }
 
+/* istanbul ignore next */
 export async function loadConversionSentReceived(account) {
     const callQl = await query(`query {
                 conversionReceived(account: "${account}") {
