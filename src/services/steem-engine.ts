@@ -1028,13 +1028,10 @@ export class SteemEngine {
         const username = this.getUser();
 
         const transaction_data = {
-            id: environment.chainId,
-            json: {
-                'contractName': 'steempegged',
-                'contractAction': 'withdraw',
-                'contractPayload': {
-                    'quantity': formatSteemAmount(amount)
-                }
+            contractName: 'steempegged',
+            contractAction: 'withdraw',
+            contractPayload: {
+                'quantity': formatSteemAmount(amount)
             }
         };
 
