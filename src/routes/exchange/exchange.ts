@@ -235,7 +235,8 @@ export class Exchange {
 
             await this.loadTokenOpenOrders();
 
-            this.chartRef.attached();
+            if (this.chartRef)
+                this.chartRef.attached();
         });
     }
 

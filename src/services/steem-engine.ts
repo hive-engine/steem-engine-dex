@@ -189,8 +189,8 @@ export class SteemEngine {
         });
     }
 
-    logout() {
-        firebase.auth().signOut();
+    async logout() {
+        return firebase.auth().signOut();
         //dispatchify(logout)();
     }
 
