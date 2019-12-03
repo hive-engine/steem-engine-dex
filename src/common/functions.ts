@@ -80,10 +80,16 @@ export function largeNumber(val) {
 }
 
 export function popupCenter(url, title, w, h) {
+    /* istanbul ignore next */
     const dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
+
+    /* istanbul ignore next */
     const dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
 
+    /* istanbul ignore next */
     const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+
+    /* istanbul ignore next */
     const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
 
     const systemZoom = width / window.screen.availWidth;
@@ -144,6 +150,7 @@ export function toFixedNoRounding(number, n) {
         return a + '.' + '0'.repeat(n);
     }
     const b = n - (a.length - dot) + 1;
+    /* istanbul ignore next */
     return b > 0 ? (a + '0'.repeat(b)) : a;
 }
 
@@ -159,8 +166,7 @@ export function createTransaction(username: string, contractName: string, contra
             window.steem_keychain.requestCustomJson(username, environment.chainId, 'Active', JSON.stringify(transactionData), title, async (response) => {
                 if (response.success && response.result) {
                     try {
-                        const transaction = await checkTransaction(response.result.id, 3);
-    
+                        const transaction = await checkTransaction(response.result.id, 3);    
                         const toast = new ToastMessage();
     
                         toast.message = i18n.tr(successKey, {
@@ -171,6 +177,7 @@ export function createTransaction(username: string, contractName: string, contra
     
                         resolve(transaction);
                     } catch (e) {
+                        console.log(e);
                         const toast = new ToastMessage();
     
                         toast.message = i18n.tr(errorKey, {
@@ -186,6 +193,7 @@ export function createTransaction(username: string, contractName: string, contra
                 }
             });
         } else {
+            /* istanbul ignore next */
             steemConnectJson(username, 'active', transactionData, () => {
                 resolve(true);
             });
@@ -199,6 +207,7 @@ export function sleep(wait = 1000) {
     });
 }
 
+/* istanbul ignore next */
 export function trimUsername(username) {
     if (username)
         username = trim(username, '@');
@@ -207,9 +216,9 @@ export function trimUsername(username) {
 }
 
 export function stateTokensOnlyPegged(tokens) {
-    var peggedTokens = ['BCHP', 'BTCP', 'DOGEP', 'STEEMP', 'BRIDGEBTCP', 'BTSCNYP', 'BTSP', 'LTCP', 'PEOSP', 'SWIFTP', 'TLOSP', 'WEKUP'];
+    const peggedTokens = ['BCHP', 'BTCP', 'DOGEP', 'STEEMP', 'BRIDGEBTCP', 'BTSCNYP', 'BTSP', 'LTCP', 'PEOSP', 'SWIFTP', 'TLOSP', 'WEKUP'];
 
-    var unpeggedTokens = tokens.filter(x => !peggedTokens.includes(x.symbol));
+    const unpeggedTokens = tokens.filter(x => !peggedTokens.includes(x.symbol));
 
     return unpeggedTokens.length === 0;
 }
