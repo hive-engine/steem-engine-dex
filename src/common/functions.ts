@@ -177,15 +177,18 @@ export function createTransaction(username: string, contractName: string, contra
     
                         resolve(transaction);
                     } catch (e) {
-                        console.log(e);
+                        /* istanbul ignore next */
                         const toast = new ToastMessage();
-    
+                        
+                        /* istanbul ignore next */
                         toast.message = i18n.tr(errorKey, {
                             ns: 'notifications'
                         });
     
+                        /* istanbul ignore next */
                         toastService.error(toast);
-    
+                        
+                        /* istanbul ignore next */
                         resolve(false);
                     }
                 } else {
