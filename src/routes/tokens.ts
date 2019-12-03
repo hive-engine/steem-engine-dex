@@ -1,7 +1,7 @@
 import { TokenInfoModal } from 'modals/wallet/token-info';
 import { State } from './../store/state';
 import { SteemEngine } from 'services/steem-engine';
-import { autoinject, observable, TaskQueue } from 'aurelia-framework';
+import { autoinject, observable, TaskQueue, bindable } from 'aurelia-framework';
 
 import firebase from 'firebase/app';
 import { connectTo, dispatchify } from 'aurelia-store';
@@ -16,6 +16,7 @@ import { WithdrawModal } from 'modals/withdraw';
 @autoinject()
 @connectTo()
 export class Tokens {
+    private searchValue = '';
     private styles = styles;
     private tokenTable: HTMLTableElement;
     private state: State;
@@ -25,12 +26,12 @@ export class Tokens {
 
     private currentLimit = 1000;
     private currentOffset = 0;
-
-    @observable() private tab = 'other';
+        
+    @bindable tab = 'other';
 
     constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {}
 
-    async canActivate () {
+    async canActivate() {
         await dispatchify(loadTokensList)(this.currentLimit, this.currentOffset);
     }
 
@@ -45,16 +46,15 @@ export class Tokens {
         const offset = (this.currentOffset + 1) * this.currentLimit;
 
         this.loading = true;
-
         await dispatchify(loadTokensList)(limit, offset);
 
         this.loading = false;
     }
 
-    async tabChanged(tab) {
+    async tabChanged(newValue, oldValue) {
         this.loading = true;
 
-        if (tab === 'pegged') {
+        if (newValue === 'pegged') {
             await dispatchify(loadTokenSymbols)(
                 [
                     'BCHP',
@@ -73,7 +73,7 @@ export class Tokens {
                 50,
                 0,
             );
-        } else if (tab === 'other') {
+        } else if (newValue === 'other') {
             await dispatchify(loadTokensList)(this.currentLimit, this.currentOffset);
         }
         this.loading = false;

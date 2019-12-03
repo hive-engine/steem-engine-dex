@@ -29,6 +29,15 @@
 
     <div class="container main-container">
         <div class="row">
+            <div class="col-6 col-sm-3">
+                <div class="input-group input-group-sm mb-3">
+                    <input type="text" class="form-control form-control-transparent" placeholder="Symbol"
+                           aria-label="Symbol" aria-describedby="symbol-search" value.bind="searchValue">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-12">
                 <button if.bind="tab === 'other' && !state.tokensLoaded" type="button" class="btn btn-md btn-primary" click.delegate="loadMoreTokens()">${'Load More'}</button>
                 <table class="table table-dark" ref="tokenTable">
@@ -46,25 +55,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr repeat.for="token of state.tokens">
+                        <tr repeat.for="token of state.tokens | arrayFilter: {search: 'symbol', term: searchValue}">
                             <td>
-                                <img
-                                    if.bind="token.metadata.icon"
-                                    class="tokenIcon"
-                                    src="${token.metadata.icon}"
-                                    alt="${token.symbol}"
-                                    title="${token.symbol}"
-                                />
-                                <button
-                                    if.bind="state.loggedIn"
-                                    type="button"
-                                    class="btn btn-icon btn-favourite ${token.isFavourite ? 'active' : ''}"
-                                    click.delegate="favouriteToken(token)"
-                                >
-                                    <font-awesome-icon
-                                        if.bind="token.isFavourite"
-                                        icon.bind="['fas', 'star']"
-                                    ></font-awesome-icon>
+                                <img if.bind="token.metadata.icon"
+                                     class="tokenIcon"
+                                     src="${token.metadata.icon}"
+                                     alt="${token.symbol}"
+                                     title="${token.symbol}" />
+                                <button if.bind="state.loggedIn"
+                                        type="button"
+                                        class="btn btn-icon btn-favourite ${token.isFavourite ? 'active' : ''}"
+                                        click.delegate="favouriteToken(token)">
+                                    <font-awesome-icon if.bind="token.isFavourite"
+                                                       icon.bind="['fas', 'star']"></font-awesome-icon>
                                     <font-awesome-icon else icon.bind="['far', 'star']"></font-awesome-icon>
                                 </button>
                             </td>
@@ -74,16 +77,12 @@
                                 ${token.metric.marketCap | usdFormat:2}
                             </td>
                             <td class="text-right changePercentCol">
-                                <span
-                                    class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
-                                >
+                                <span class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}">
                                     ${token.metric.lastPrice | usdFormat:3}
                                 </span>
                             </td>
                             <td class="text-right changePercentCol">
-                                <span
-                                    class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
-                                >
+                                <span class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}">
                                     ${token.metric.priceChangePercent | toFixed:2}%
                                 </span>
                             </td>
@@ -96,10 +95,8 @@
                                 <a route-href="route: exchange; params.bind: { symbol: token.symbol }">
                                     <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
                                 </a>
-                                <a
-                                    route-href="route: token-history; params.bind: { symbol: token.symbol }"
-                                    title="Show token history"
-                                >
+                                <a route-href="route: token-history; params.bind: { symbol: token.symbol }"
+                                   title="Show token history">
                                     <font-awesome-icon icon.bind="['fas', 'list-ul']"></font-awesome-icon>
                                 </a>
                             </td>
