@@ -1,10 +1,9 @@
 /* eslint-disable no-undef */
 import { State } from 'store/state';
 import { HttpClient } from 'aurelia-fetch-client';
-import { usdFormat, queryParam } from 'common/functions';
+import { queryParam } from 'common/functions';
 import { environment } from './../environment';
 import { ssc } from './ssc';
-import { tryParse } from './functions';
 import { getStateOnce } from 'store/store';
 import { query } from 'common/apollo';
 
@@ -79,16 +78,10 @@ export function parseTokens(data: any, settings: State['settings']): State {
         (token as any).circulatingSupply -= parseFloat(data.steempBalance.balance);
     }
 
-    if (data.steempBalance && data.steempBalance.balance) {
-        const token = tokens.find(t => t.symbol === 'STEEMP');
-
-        token.supply -= parseFloat(data.steempBalance.balance);
-        (token as any).circulatingSupply -= parseFloat(data.steempBalance.balance);
-    }
-
     return tokens;
 }
 
+/* istanbul ignore next */
 export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promise<any[]> {
     const callQl = await query(`query {
         tokens(limit: ${limit}, offset: ${offset}, symbols: ${JSON.stringify(symbols)}) {
