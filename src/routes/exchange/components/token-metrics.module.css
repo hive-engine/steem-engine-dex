@@ -138,3 +138,14 @@
         margin-right: auto;
     }
 }
+.green {
+    -webkit-text-fill-color: green; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 0.2px;
+        -webkit-text-stroke-color: #fff;
+
+}
+.red {
+    -webkit-text-fill-color: red; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 0.2px;
+    -webkit-text-stroke-color: #fff;
+}
