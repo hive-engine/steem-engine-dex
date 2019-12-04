@@ -254,11 +254,7 @@ export async function loadTokensList(state: State, limit = 1000, offset = 0): Pr
         
         if (tokens.length) {
             newState.tokensLoaded = false;
-            if (newState.tokens) {
-                newState.tokens = [...tokens, ...newState.tokens];
-            } else {
-                newState.tokens = tokens;
-            }
+            newState.tokens = tokens;
         } else {
             newState.tokensLoaded = true;
         }
