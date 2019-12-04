@@ -68,7 +68,7 @@
                                     <font-awesome-icon else icon.bind="['far', 'star']"></font-awesome-icon>
                                 </button>
                             </td>
-                            <td>${token.symbol}</td>
+                            <td><a route-href="route: exchange; params.bind: { symbol: token.symbol }">${token.symbol}</a></td>
                             <td>${token.name}</td>
                             <td class="text-right">
                                 ${token.metric.marketCap | usdFormat:2}
