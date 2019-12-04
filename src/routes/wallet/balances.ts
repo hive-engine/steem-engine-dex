@@ -69,7 +69,7 @@ export class Balances {
 
     attached() {
         for (const token of this.balances) {
-            const amount = parseFloat(token.usdValue.replace('$', '').replace(',', ''));
+            const amount = parseFloat(token.usdValueFormatted.replace('$', '').replace(',', ''));
             this.totalWalletValue += amount;
         }
         

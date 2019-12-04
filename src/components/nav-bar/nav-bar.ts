@@ -25,13 +25,18 @@ export class NavBar {
     constructor(private dialogService: DialogService, private se: SteemEngine) {        
     }
 
-    logout() {
-        this.se.logout();
+    async logout() {
+        await this.se.logout();        
+        this.router.navigateToRoute('home');
     }
 
     signin() {
         this.dialogService.open({ viewModel: SigninModal }).whenClosed(response => {
             console.log(response);
+            if (!response.wasCancelled) {
+                // redirect to home if login was successfull
+                this.router.navigateToRoute('home');
+            }
         });
     }
 }

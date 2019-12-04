@@ -32,6 +32,18 @@ export class AdminKycView {
         if (user.exists) {
             this.user = { id: user.id, ...user.data() };
 
+            if (!this.user?.admin) {
+                this.user.admin = false;
+            }
+
+            if (!this.user?.kycAuditor) {
+                this.user.kycAuditor = false;
+            }
+
+            if (!this.user?.disable) {
+                this.user.disable = false;
+            }
+
             routeConfig.navModel.setTitle(`User ${this.user.id}`);
         }
     }
@@ -43,15 +55,13 @@ export class AdminKycView {
     }
 
     updateSettings() {
-        this.taskQueue.queueTask(() => {
+        this.taskQueue.queueMicroTask(() => {
             const data = { ...this.user };
             delete data.id;
 
             const userRef = firebase.firestore().collection('users').doc(this.user.id);
 
-            userRef.set(data, {
-                merge: true
-            });
+            userRef.update(data);
         });
     }
 }

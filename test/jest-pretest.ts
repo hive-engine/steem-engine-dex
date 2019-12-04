@@ -27,6 +27,8 @@ customGlobal.fetchMock = customGlobal.fetch;
     
 };
 
+jest.setTimeout(30000);
+
 import 'aurelia-polyfills';
 import { Options } from 'aurelia-loader-nodejs';
 import { globalize } from 'aurelia-pal-nodejs';

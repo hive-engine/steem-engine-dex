@@ -1,10 +1,9 @@
 /* eslint-disable no-undef */
 import { State } from 'store/state';
 import { HttpClient } from 'aurelia-fetch-client';
-import { usdFormat, queryParam } from 'common/functions';
+import { queryParam } from 'common/functions';
 import { environment } from './../environment';
 import { ssc } from './ssc';
-import { tryParse } from './functions';
 import { getStateOnce } from 'store/store';
 import { query } from 'common/apollo';
 
@@ -49,6 +48,7 @@ export async function loadTokenMarketHistory(
     return response.json() as Promise<IHistoryApiItem[]>;
 }
 
+/* istanbul ignore next */
 export async function loadCoinPairs(): Promise<ICoinPair[]> {
     const url = `${environment.CONVERTER_API}/pairs/`;
 
@@ -59,6 +59,7 @@ export async function loadCoinPairs(): Promise<ICoinPair[]> {
     return response.json() as Promise<ICoinPair[]>;
 }
 
+/* istanbul ignore next */
 export async function loadCoins(): Promise<ICoin[]> {
     const url = `${environment.CONVERTER_API}/coins/`;
 
@@ -79,16 +80,10 @@ export function parseTokens(data: any, settings: State['settings']): State {
         (token as any).circulatingSupply -= parseFloat(data.steempBalance.balance);
     }
 
-    if (data.steempBalance && data.steempBalance.balance) {
-        const token = tokens.find(t => t.symbol === 'STEEMP');
-
-        token.supply -= parseFloat(data.steempBalance.balance);
-        (token as any).circulatingSupply -= parseFloat(data.steempBalance.balance);
-    }
-
     return tokens;
 }
 
+/* istanbul ignore next */
 export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promise<any[]> {
     const callQl = await query(`query {
         tokens(limit: ${limit}, offset: ${offset}, symbols: ${JSON.stringify(symbols)}) {
@@ -149,6 +144,7 @@ export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promis
     return finalTokens;
 }
 
+/* istanbul ignore next */
 export async function loadExchangeUiLoggedIn(account, symbol) {
     const callQl = await query(`query {
         tokens(symbols: ["${symbol}", "STEEMP"]) {
@@ -196,7 +192,8 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
             scotConfig {
                 pending_token,
                 staked_tokens
-            }
+            },
+            usdValueFormatted
         },
         buyBook(symbol: "${symbol}", limit: 1000, offset: 0) {
             txId,
@@ -264,6 +261,7 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
     };
 }
 
+/* istanbul ignore next */
 export async function loadExchangeUiLoggedOut(symbol) {
     const callQl = await query(`query {
         tokens(symbols: ["${symbol}", "STEEMP"]) {
@@ -341,6 +339,7 @@ export async function loadExchangeUiLoggedOut(symbol) {
     };
 }
 
+/* istanbul ignore next */
 export async function loadBalances(account: string): Promise<BalanceInterface[]> {
     const getUserBalances = await query(`query {
         balances(account: "${account}", limit: 1000, offset: 0) {
@@ -352,6 +351,7 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
             pendingUndelegations,
             stake,
             pendingUnstake,
+            usdValueFormatted,
             token {
                 circulatingSupply,
                 issuer, 
@@ -387,14 +387,6 @@ export async function loadBalances(account: string): Promise<BalanceInterface[]>
 
     if (loadedBalances.length) {
         const balances = loadedBalances.filter(b => !state.settings.disabledTokens.includes(b.symbol));
-
-        for (const token of balances) {
-            if (token?.metric?.lastPrice) {
-                token.usdValue = usdFormat(parseFloat(token.balance) * token.metric.lastPrice, 3);
-            } else {
-                token.usdValue = usdFormat(parseFloat(token.balance) * 1, 3);
-            }
-        }
 
         balances.sort(
             (a, b) =>
@@ -456,6 +448,7 @@ export async function checkTransaction(trxId: string, retries: number) {
     }
 }
 
+/* istanbul ignore next */
 export async function loadConversionSentReceived(account) {
     const callQl = await query(`query {
                 conversionReceived(account: "${account}") {

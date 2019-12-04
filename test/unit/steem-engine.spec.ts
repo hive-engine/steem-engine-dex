@@ -109,6 +109,43 @@ describe('Functions', () => {
         await expect(functions.getTransactionInfo('gdfkjgkdfljg1234')).resolves.toEqual({ logs: jsonData });
     });
 
+    test('parseTokens removes disabled tokens', () => {
+        const data = {
+            tokens: [
+                { symbol: 'PAL', supply: 0, circulatingSupply: 0 },
+                { symbol: 'ENG', supply: 0, circulatingSupply: 0 },
+                { symbol: 'DISNEY', supply: 0, circulatingSupply: 0 },
+                { symbol: 'ASS', supply: 0, circulatingSupply: 0 }
+            ]
+        };
+
+        const parsed = functions.parseTokens(data, { disabledTokens: ['DISNEY'] } as any);
+
+        // DISNEY should be removed
+        expect(parsed).toHaveLength(3);
+    });
+
+    test('parseTokens sets steemp supply and circulating supply', () => {
+        const data = {
+            tokens: [
+                { symbol: 'PAL', supply: 0, circulatingSupply: 0 },
+                { symbol: 'ENG', supply: 0, circulatingSupply: 0 },
+                { symbol: 'DISNEY', supply: 0, circulatingSupply: 0 },
+                { symbol: 'ASS', supply: 0, circulatingSupply: 0 },
+                { symbol: 'STEEMP', supply: 999, circulatingSupply: 95849485 }
+            ],
+            steempBalance: {
+                balance: 598
+            }
+        };
+
+        const parsed = functions.parseTokens(data, { disabledTokens: ['DISNEY'] } as any);
+        const token = (parsed as any).find(t => t.symbol === 'STEEMP');
+
+        expect(token.supply).toEqual(401);
+        expect(token.circulatingSupply).toEqual(95849485 - data.steempBalance.balance);
+    });
+
     test('loadPendingUnstakes succeeds', async () => {
         jest.spyOn(ssc, 'find').mockImplementation(() => {
             return Promise.resolve([1, 2, 3, 4]);

@@ -100,6 +100,10 @@ export class WithdrawModal {
         }
     }
 
+    balanceClicked() {
+        this.amount = this.tokenBalance;
+    }
+
     async handleWithdraw() {
         this.loading = true;
 

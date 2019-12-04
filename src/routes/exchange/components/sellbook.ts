@@ -19,7 +19,9 @@ export class SellBook {
         setTimeout(() => {
 
             this.sellData = this.sellBook.slice((this.pageNo - 1) * 10, this.pageNo * 10);
-            document.getElementById('loadMoreSell').style.display = 'block'
+            let elLoadMoreSell = document.getElementById('loadMoreSell');
+            if (elLoadMoreSell)
+                elLoadMoreSell.style.display = 'block'
         }, 500)
         this.loading = false;
     }

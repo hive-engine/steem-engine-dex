@@ -79,9 +79,9 @@ ux-dialogue {
 }
 .redBtn {
     margin-top: 0;
-    padding: 0 !important;
-    background-color: #ca0505 !important;
-    color: #fff !important;
+    padding: 0!important;
+    border: 1.5px solid #ca0505!important;
+    color: #ca0505;
     font-weight: bold;
     font-family: main-font-bold !important;
     font-size: 16px;
@@ -90,5 +90,5 @@ ux-dialogue {
     min-width: 76px;
 }
 .redBtn:hover {
-    background-color: #e42020 !important;
+    background-color: #e420200c !important;
 }

@@ -1,52 +1,102 @@
 <template>
-        <header class="main-header">
-            <div class="container-fluid main-container d-flex flex-column justify-content-end">
-                <div class="row">
-                    <div class="col-6">
-                        <h1>${'tokenCreationHeading' & t}</h1>
-                        <p>${'tokenCreationSubheading' & t}</p>
-                    </div>
-                </div>                
-            </div>
-        </header>
-
-        <div class="container main-container">
+    <header class="create-nft-header-wrapper">
+        <div class="container">
             <div class="row">
-                <div class="col-12">
-                    <p><strong>${'tokenCreationFee' & t: { 'tokenFee': tokenCreationFee, 'token': state.settings.nativeToken }}</strong></p>
-                    <p>${'yourEngBalance' & t: { 'balance': engBalance, 'token': state.settings.nativeToken }}</p>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <div class="form-group">
-                        <label>${'NFT Name' & t}</label>
-                        <input type="text" class="form-control" value.bind="tokenName & validate">
-                    </div>
-                    <div class="form-group">
-                        <label>${'URL' & t}</label>
-                        <input type="text" class="form-control" value.bind="url & validate">
-                    </div>
-                    <div class="form-group">
-                        <label>${'authorisedIssuingAccounts' & t} <a href="javascript:void(0);" click.delegate="addAuthorisedAccount()">+</a></label>
-                        <input type="text" class="form-control mb-3" value.bind="account.name" repeat.for="account of authorisedIssuingAccounts">
-                    </div>
-                    <div class="form-group">
-                        <button type="button" disabled.bind="tokenCreationFee > engBalance" class="btn btn-lg btn-primary" click.delegate="createToken()">${'Create my token' & t}</button>
-                    </div>  
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <div class="form-group">
-                        <label>${'Symbol' & t}</label>
-                        <input type="text" class="form-control" value.bind="symbol & validate">
-                    </div>
-                    <div class="form-group">
-                        <label>${'Max Supply' & t}</label>
-                        <input type="number" min="0" max="9007199254740991" class="form-control" value.bind="maxSupply & validate">
-                    </div>
-                    <div class="form-group">
-                        <label>${'authorisedIssuingContracts' & t} <a href="javascript:void(0);" click.delegate="addAuthorisedContract()">+</a></label>
-                        <input type="text" class="form-control mb-3" value.bind="account.name" repeat.for="account of authorisedIssuingContracts">
+                <div class="col-md-6">
+                    <div class="title">
+                        <h1 class="create-nft-header">${'tokenCreationHeading' & t}</h1>
+                    <p class="create-nft-header-desc">${'tokenCreationSubheading' & t}</p>
                     </div>
                 </div>
             </div>
         </div>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="create-token-form-header text-center">Create your custom token</h2>
+                <hr class="split" />
+            </div>
+            <div class="col-md-12 text-center">
+                <p style="margin-bottom: 15px;">
+                    <strong
+                        >${'tokenCreationFee' & t: { 'tokenFee': tokenCreationFee, 'token': state.settings.nativeToken
+                        }}</strong
+                    >
+                </p>
+                <p>${'yourEngBalance' & t: { 'balance': engBalance, 'token': state.settings.nativeToken }}</p>
+            </div>
+            <div class="col-sm-12 col-md-6 offset-md-3">
+                <div class="create-nft-card-form">
+                    <div class="create-nft-card-header text-center">
+                        <img
+                            src="../../images/se-stand-full-opacity.svg"
+                            alt="logo"
+                            class="register-logo"
+                            width="80px"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="create-nft-form-label">${'NFT Name' & t}</label>
+                        <input type="text" class="form-control" value.bind="tokenName & validate" />
+                    </div>
+                    <div class="form-group">
+                        <label class="create-nft-form-label">${'URL' & t}</label>
+                        <input type="text" class="form-control" value.bind="url & validate" />
+                    </div>
+                    <div class="form-group">
+                        <label class="create-nft-form-label"
+                            >${'authorisedIssuingAccounts' & t}
+                            <a href="javascript:void(0);" click.delegate="addAuthorisedAccount()">+</a></label
+                        >
+                        <input
+                            type="text"
+                            class="form-control mb-3"
+                            value.bind="account.name"
+                            repeat.for="account of authorisedIssuingAccounts"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="create-nft-form-label">${'Symbol' & t}</label>
+                        <input type="text" class="form-control" value.bind="symbol & validate" />
+                    </div>
+                    <div class="form-group">
+                        <label class="create-nft-form-label">${'Max Supply' & t}</label>
+                        <input
+                            type="number"
+                            min="0"
+                            max="9007199254740991"
+                            class="form-control"
+                            value.bind="maxSupply & validate"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="create-nft-form-label"
+                            >${'authorisedIssuingContracts' & t}
+                            <a href="javascript:void(0);" click.delegate="addAuthorisedContract()">+</a></label
+                        >
+                        <input
+                            type="text"
+                            class="form-control mb-3"
+                            value.bind="account.name"
+                            repeat.for="account of authorisedIssuingContracts"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <button
+                            type="button"
+                            disabled.bind="tokenCreationFee > engBalance"
+                            class="greenBtn"
+                            style="border: none;"
+                            click.delegate="createToken()"
+                        >
+                            ${'Create my token' & t}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
