@@ -295,6 +295,13 @@ export class App {
                 title: 'NFT',
             },
             {
+                route: 'nft-showroom',
+                name: 'nft-showroom',
+                moduleId: PLATFORM.moduleName('./routes/nfts/nft-showroom/nft-showroom'),
+                nav: false,
+                title: 'NFT Showroom',
+            },
+            {
                 route: 'create-nft',
                 name: 'createNft',
                 moduleId: PLATFORM.moduleName('./routes/nfts/create'),
