@@ -18,7 +18,9 @@ export class BuyBook {
         // delay a bit so data can be available
         setTimeout(() => {
             this.buyData = this.buyBook.slice((this.pageNo - 1) * 10, this.pageNo * 10);
-            document.getElementById('loadMoreBuy').style.display = 'block';
+            let elLoadMoreBuy = document.getElementById('loadMoreBuy');
+            if (elLoadMoreBuy)
+                elLoadMoreBuy.style.display = 'block';
         }, 500);
         this.loading = false;
     }

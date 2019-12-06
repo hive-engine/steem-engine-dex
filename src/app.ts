@@ -117,7 +117,7 @@ export class App {
             {
                 route: 'tokens',
                 name: 'tokens',
-                moduleId: PLATFORM.moduleName('./routes/tokens'),
+                moduleId: PLATFORM.moduleName('./routes/tokens/tokens'),
                 nav: 0,
                 title: 'Tokens',
             },

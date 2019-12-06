@@ -189,8 +189,8 @@ export class SteemEngine {
         });
     }
 
-    logout() {
-        firebase.auth().signOut();
+    async logout() {
+        return firebase.auth().signOut();
         //dispatchify(logout)();
     }
 
@@ -1028,13 +1028,10 @@ export class SteemEngine {
         const username = this.getUser();
 
         const transaction_data = {
-            id: environment.chainId,
-            json: {
-                'contractName': 'steempegged',
-                'contractAction': 'withdraw',
-                'contractPayload': {
-                    'quantity': formatSteemAmount(amount)
-                }
+            contractName: 'steempegged',
+            contractAction: 'withdraw',
+            contractPayload: {
+                'quantity': formatSteemAmount(amount)
             }
         };
 

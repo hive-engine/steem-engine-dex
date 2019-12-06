@@ -1,0 +1,42 @@
+<template>
+    <require from="./components/token-table"></require>
+
+    <loader loading.bind="loading"></loader>
+
+    <header class="main-header">
+        <div class="container-fluid main-container d-flex flex-column justify-content-end">
+            <div class="row">
+                <div class="col-4">
+                    <h1>${'Tokens' & t}</h1>
+                </div>
+                <div class="col-8 text-right">
+                    <button type="button" class="greenBtn" click.delegate="deposit()" style="margin-right: 8px;">
+                        ${'Deposit' & t}
+                    </button>
+                    <button type="button" class="redBtn" click.delegate="withdraw()">
+                        ${'Withdraw' & t}
+                    </button>
+
+                    <button class="blueBtn" click.delegate="buyENG()">BUY ENG</button>
+                    <a class="blueBtn" route-href="route: createToken;">${'Create Token' & t}</a>
+                </div>
+            </div>
+
+            <nav class="nav tabs mt-3">
+                <a class="nav-link tabs__tab ${tab === 'engine' ? 'active' : ''}" href="javascript:void(0);" click.delegate="tab = 'engine'">Engine Tokens</a>
+                <a class="nav-link tabs__tab ${tab === 'pegged' ? 'active' : ''}" href="javascript:void(0);" click.delegate="tab = 'pegged'">Pegged Tokens</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main-container">        
+        <div class="row">
+            <div class="col-12">
+                <!--<button if.bind="tab === 'other' && !state.tokensLoaded" type="button" class="btn btn-md btn-primary" click.delegate="loadMoreTokens()">${'Load More'}</button>-->
+                <token-table show.bind="tab === 'engine'" tokens.bind="state.tokens" table-id.bind="'tblEngineTokens'" tab.bind="tab"></token-table>
+                <token-table show.bind="tab === 'pegged'" tokens.bind="peggedTokens" table-id.bind="'tblPeggedTokens'" tab.bind="tab"></token-table>
+                <!--<button if.bind="tab === 'other' && !state.tokensLoaded" type="button" class="btn btn-md btn-primary" click.delegate="loadMoreTokens()">${'Load More'}</button>-->
+            </div>
+        </div>
+    </div>
+</template>
