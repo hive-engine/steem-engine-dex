@@ -1,25 +1,8 @@
 <template>
-    <header class="main-header">
-        <div class="container-fluid main-container d-flex flex-column justify-content-end">
-            <div class="row">
-                <div class="col-6">
-                    <h1>${'Settings' & t}</h1>
-                </div>
-            </div>
-            <nav class="nav tabs mt-3">
-                <a class="${selectedTab == 'profile' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);"
-                    click.delegate="tabChanged('profile')">${'Profile' & t}</a>
-                <a class="${selectedTab == 'favorites' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);"
-                    click.delegate="tabChanged('favorites')">${'Favorites' & t}</a>
-                <a class="${selectedTab == 'hiddenTokens' ? 'active' : ''} nav-link tabs__tab"
-                    href="javascript:void(0);" click.delegate="tabChanged('hiddenTokens')">${'Hidden Tokens' & t}</a>
-                <a class="${selectedTab == 'preferences' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);"
-                    click.delegate="tabChanged('preferences')">${'Preferences' & t}</a>
-                <a class="${selectedTab == 'kyc' ? 'active' : ''} nav-link tabs__tab" href="javascript:void(0);"
-                    click.delegate="tabChanged('kyc')">${'KYC' & t}</a>
-            </nav>
-        </div>
-    </header>
+    <require from="./components/setting-tabs.html"></require>
+    <require from="./components/profile.html"></require>
+
+    <setting-tabs selected-tab.bind="selectedTab" tab-changed.call="tabChanged(tab)"></setting-tabs>
 
     <div class="container-fluid main-container sections">
         <div class="row">
