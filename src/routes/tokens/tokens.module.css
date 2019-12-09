@@ -1,6 +1,6 @@
 @font-face {
     font-family: main-font-bold;
-    src: url("../fonts/main-font-bold-c.woff");
+    src: url("../../fonts/main-font-bold-c.woff");
     font-display: fallback;
 }
 .route--tokens {

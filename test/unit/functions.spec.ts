@@ -1,7 +1,29 @@
+import { stateTokensOnlyPegged } from 'common/functions';
 /* eslint-disable no-undef */
-import { addCommas, usdFormat, largeNumber, formatSteemAmount, percentageOf, getSteemPrice, queryParam, popupCenter, tryParse, toFixedNoRounding } from 'common/functions';
+
+import { addCommas, usdFormat, largeNumber, formatSteemAmount, percentageOf, getSteemPrice, queryParam, popupCenter, tryParse, toFixedNoRounding, createTransaction, sleep, trimUsername } from 'common/functions';
+
+jest.mock('sscjs');
+
+import { ssc } from 'common/ssc';
 
 describe('Functions', () => {
+
+    beforeEach(() => {
+        (window as any).steem_keychain = {
+            requestCustomJson: jest
+                .fn()
+                .mockImplementation((username, jsonId, keyType, jsonData, displayName, callback) => {
+                    callback(jsonData);
+                }),
+            requestTransfer: jest.fn().mockImplementation((username, account, amount, memo, currency, callback) => {
+                callback(account);
+            }),
+            requestVerifyKey: jest.fn().mockImplementation((username, memo, type, callback) => {
+                callback(username);
+            }),
+        };
+    });
 
     afterEach(() => {
         jest.resetAllMocks();
@@ -60,6 +82,15 @@ describe('Functions', () => {
 
     test('usdFormat returns expected value without decmial limit and less than $1, 5 digits', () => {
         const returnedValue = usdFormat(0.7, null, 0.1354);
+
+        // Should toFixed value to 3 digits
+        expect(returnedValue).toEqual('$0.09478');
+    });
+
+    test('usdFormat gets steem price from window object', () => {
+        window.steem_price = 0.1354;
+        
+        const returnedValue = usdFormat(0.7, null);
 
         // Should toFixed value to 3 digits
         expect(returnedValue).toEqual('$0.09478');
@@ -201,6 +232,53 @@ describe('Functions', () => {
         test('works with value with passed in correct rounding and zeroes', () => {
             expect(toFixedNoRounding(3.000, 3)).toEqual('3.000');
         });
+    });
+
+    test('create sell transaction through keychain and no successful response', async () => {
+        const response = await createTransaction('beggars', 'market', 'sell', { symbol: 'ENG' }, 'Sell', 'sellSuccess', 'errorSuccess');
+
+        expect(window.steem_keychain.requestCustomJson).toHaveBeenCalledWith('beggars', 'ssc-mainnet1', 'Active', expect.stringContaining('ENG'), 'Sell', expect.any(Function));
+        expect(response).toBeFalsy();
+    });
+
+    test('create sell transaction through keychain and successful response', async () => {
+        (window.steem_keychain.requestCustomJson as any) = jest.fn().mockImplementation((username, jsonId, keyType, jsonData, displayName, callback) => {
+            callback({
+                result: {
+                    id: '984923j'
+                },
+                success: true
+            });
+        });
+
+        jest.spyOn(ssc, 'getTransactionInfo').mockImplementation((txId, callback: any) => {
+            callback(null, { prop: true });
+        });
+
+        const response = await createTransaction('beggars', 'market', 'sell', { symbol: 'ENG' }, 'Sell', 'sellSuccess', 'errorSuccess');
+
+        expect(window.steem_keychain.requestCustomJson).toHaveBeenCalledWith('beggars', 'ssc-mainnet1', 'Active', expect.stringContaining('ENG'), 'Sell', expect.any(Function));
+        expect(response).not.toBeFalsy();
+    });
+
+    test('sleep resolves', async () => {
+        await expect(sleep(1000)).resolves.toBeUndefined();
+    });
+
+    test('should filter out non-pegged tokens', () => {
+        expect(stateTokensOnlyPegged([
+            { symbol: 'PAL' },
+            { symbol: 'ENG' },
+            { symbol: 'STEEMP' },
+            { symbol: 'LTCP' }
+        ])).toBeFalsy();
+    });
+
+    test('should filter out all tokens', () => {
+        expect(stateTokensOnlyPegged([
+            { symbol: 'STEEMP' },
+            { symbol: 'LTCP' }
+        ])).toBeTruthy();
     });
 
 });

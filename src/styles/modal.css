@@ -173,3 +173,7 @@ ux-dialog > ux-dialog-footer button:last-child {
     color: black;
     min-width: 50px;
 }
+
+.lblPointer{
+    cursor: pointer;
+}
