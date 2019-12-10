@@ -99,22 +99,34 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
         if (doc.exists) {
             newState.firebaseUser = doc.data();
 
-            if (newState.firebaseUser.notifications)
+            if (newState.firebaseUser.notifications) {
                 newState.firebaseUser.notifications = newState.firebaseUser.notifications.filter(
                     notification => !notification.read,
                 );
+            }
 
             // eslint-disable-next-line no-undef
             if (newState?.firebaseUser?.favourites) {
                 newState.account.balances.map((token: any) => {
                     if (newState.firebaseUser.favourites.includes(token.symbol)) {
-                token.isFavourite = true;
-            } else {
-                token.isFavourite = false;
-            }
+                        token.isFavourite = true;
+                    } else {
+                        token.isFavourite = false;
+                    }
 
                     return token;
                 });
+            }
+
+            if (!newState?.firebaseUser?.bank) {
+                newState.firebaseUser.bank = {
+                    name: '',
+                    code: '',
+                    accountName: '',
+                    address: '',
+                    swift: '',
+                    accountNumber: ''
+                };
             }
         }
     } catch (e) {
@@ -251,7 +263,7 @@ export async function loadTokensList(state: State, limit = 1000, offset = 0): Pr
 
     try {
         const tokens: IToken[] = await loadTokens([], limit, offset);
-        
+
         if (tokens.length) {
             newState.tokensLoaded = false;
             newState.tokens = tokens;

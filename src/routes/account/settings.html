@@ -1,25 +1,43 @@
 <template>
     <require from="./components/setting-tabs.html"></require>
+    <require from="./components/favourites.html"></require>
     <require from="./components/profile.html"></require>
+    <require from="./components/bank-details.html"></require>
 
     <setting-tabs selected-tab.bind="selectedTab" tab-changed.call="tabChanged(tab)"></setting-tabs>
 
     <div class="container-fluid main-container sections">
         <div class="row">
-            <profile class="col-md-12" show.bind="selectedTab == 'profile'" selected-tab.bind="selectedTab" reset-user.call="resetUser()" enable-edit-mode.call="enableEditMode()" 
-            save-profile.call="saveProfile()" user.bind="user" edit-mode.bind="editMode" countries.bind="countries"></profile>
+            <profile
+                class="col-md-12"
+                show.bind="selectedTab == 'profile'"
+                selected-tab.bind="selectedTab"
+                reset-user.call="resetUser()"
+                enable-edit-mode.call="enableEditMode()"
+                save-profile.call="saveProfile()"
+                user.bind="user"
+                edit-mode.bind="editMode"
+                countries.bind="countries"
+            ></profile>
 
-            <section class="col-md-12" show.bind="selectedTab == 'favorites'">
-                <h3>${'Favorites' & t}</h3>
-                <p if.bind="!user.favourites.length">${'You have no favorited tokens' & t}.</p>
+            <favourites
+                class="col-md-12"
+                show.bind="selectedTab == 'favorites'"
+                user.bind="user"
+                state.bind="state"
+                update-data.call="updateData()"
+            ></favourites>
 
-                <select2 placeholder="Select one or more tokens">
-                    <select value.bind="state.firebaseUser.favourites" change.delegate="updateData()" multiple>
-                        <option value.bind="token.symbol" repeat.for="token of state.tokens">${token.name & t}
-                            (${token.symbol})</option>
-                    </select>
-                </select2>
-            </section>
+            <bank-details
+                class="col-md-12"
+                show.bind="selectedTab == 'bankDetails'"
+                selected-tab.bind="selectedTab"
+                reset-user.call="resetUser()"
+                enable-edit-mode.call="enableEditMode()"
+                save-profile.call="saveProfile()"
+                user.bind="user"
+                edit-mode.bind="editMode"
+            ></bank-details>
 
             <section class="col-md-12" show.bind="selectedTab == 'hiddenTokens'">
                 <h3>${'Hidden Tokens' & t}</h3>
@@ -27,8 +45,9 @@
 
                 <select2 placeholder="Select one or more tokens" if.bind="selectedTab == 'hiddenTokens'">
                     <select value.bind="state.firebaseUser.hiddenTokens" change.delegate="updateData()" multiple>
-                        <option value.bind="token.symbol" repeat.for="token of state.tokens">${token.name & t}
-                            (${token.symbol})</option>
+                        <option value.bind="token.symbol" repeat.for="token of state.tokens"
+                            >${token.name & t} (${token.symbol})</option
+                        >
                     </select>
                 </select2>
             </section>
@@ -42,18 +61,26 @@
 
                     <div class="form-group">
                         <span class="switch">
-                            <input type="checkbox" class="switch" id="hideZeroBalances"
+                            <input
+                                type="checkbox"
+                                class="switch"
+                                id="hideZeroBalances"
                                 checked.bind="state.firebaseUser.wallet.hideZeroBalances"
-                                change.delegate="updateData()">
+                                change.delegate="updateData()"
+                            />
                             <label for="hideZeroBalances">${'Hide zero balances' & t}</label>
                         </span>
                     </div>
 
                     <div class="form-group">
                         <span class="switch">
-                            <input type="checkbox" class="switch" id="onlyShowFavourites"
+                            <input
+                                type="checkbox"
+                                class="switch"
+                                id="onlyShowFavourites"
                                 checked.bind="state.firebaseUser.wallet.onlyShowFavourites"
-                                change.delegate="updateData()">
+                                change.delegate="updateData()"
+                            />
                             <label for="onlyShowFavourites">${'Only show favourites' & t}</label>
                         </span>
                     </div>
@@ -66,59 +93,116 @@
                     <p>${'Verify your account' & t}.</p>
                     <p>Supported file types; JPG, PNG and PDF.</p>
 
-                    <div class="alert alert-warning mb-5" role="alert"
-                        if.bind="state.firebaseUser.kyc.passportRejected || state.firebaseUser.kyc.selfieRejected">
-                        <template if.bind="state.firebaseUser.kyc.passportRejected"><strong>Your passport was
-                                rejected:</strong>
-                            ${state.firebaseUser.kyc.passportRejectionReason}</template>
-<template if.bind="state.firebaseUser.kyc.selfieRejected"><strong>Your selfie was
-                                rejected:</strong>
-                            ${state.firebaseUser.kyc.selfieRejectionReason}</template>
-</div>
+                    <div
+                        class="alert alert-warning mb-5"
+                        role="alert"
+                        if.bind="state.firebaseUser.kyc.passportRejected || state.firebaseUser.kyc.selfieRejected"
+                    >
+                        <template if.bind="state.firebaseUser.kyc.passportRejected"
+                            ><strong>Your passport was rejected:</strong>
+                            ${state.firebaseUser.kyc.passportRejectionReason}</template
+                        >
+                        <template if.bind="state.firebaseUser.kyc.selfieRejected"
+                            ><strong>Your selfie was rejected:</strong>
+                            ${state.firebaseUser.kyc.selfieRejectionReason}</template
+                        >
+                    </div>
 
-<input id="selfieFile" ref="selfieFileInput" type="file" accept="image/jpeg,image/png,application/pdf" files.bind="selfieImageFile" input.delegate="selfieChanged()" style="display:none;">
-<input id="passportFile" ref="passportFileInput" type="file" accept="image/jpeg,image/png,application/pdf" files.bind="passportImageFile" input.delegate="passportChanged()" style="display:none;">
+                    <input
+                        id="selfieFile"
+                        ref="selfieFileInput"
+                        type="file"
+                        accept="image/jpeg,image/png,application/pdf"
+                        files.bind="selfieImageFile"
+                        input.delegate="selfieChanged()"
+                        style="display:none;"
+                    />
+                    <input
+                        id="passportFile"
+                        ref="passportFileInput"
+                        type="file"
+                        accept="image/jpeg,image/png,application/pdf"
+                        files.bind="passportImageFile"
+                        input.delegate="passportChanged()"
+                        style="display:none;"
+                    />
 
-<div class="row">
-    <div class="col-md-4 kyc-box">
-        <h4 class="${selfieVerified ? 'green-text' : ''}">${'Selfie' & t} <span class="verified-label ${selfieVerified ? 'verified' : ''} ${selfiePending ? 'pending' : ''}">
+                    <div class="row">
+                        <div class="col-md-4 kyc-box">
+                            <h4 class="${selfieVerified ? 'green-text' : ''}">
+                                ${'Selfie' & t}
+                                <span
+                                    class="verified-label ${selfieVerified ? 'verified' : ''} ${selfiePending ? 'pending' : ''}"
+                                >
                                     <font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${selfieStatusText}
-                                </span></h4>
-        <p if.bind="!selfieVerified">${'Upload a selfie that is well lit. You should be holding a piece of paper with "steem-engine.com" written on it, with todays date and your special verfication code' & t} ${state.firebaseUser.kyc.token}</p>
-        <p else class="green-text">${'Your selfie has been verified' & t}</p>
+                                </span>
+                            </h4>
+                            <p if.bind="!selfieVerified">
+                                ${'Upload a selfie that is well lit. You should be holding a piece of paper with
+                                "steem-engine.com" written on it, with todays date and your special verfication code' &
+                                t} ${state.firebaseUser.kyc.token}
+                            </p>
+                            <p else class="green-text">${'Your selfie has been verified' & t}</p>
 
-        <div class="upload-box" if.bind="!selfieVerified && !selfiePending" drop.trigger="handleSelfieDrop($event)" dragover.trigger="handleEvent($event)" click.delegate="selfieFileInput.click()">
-            <loader loading.bind="selfieUploading" mode="tiny"></loader>
-            <font-awesome-icon icon.bind="polaroidIcon"></font-awesome-icon>
-        </div>
-        <div if.bind="!selfieVerified && selfiePending">
-            <img src="${selfieImage}" class="img-fluid w100" if.bind="selfieImageIsImage">
-            <p else>PDF documents cannot be displayed. <a href.bind="selfieImage" target="_blank">${'View here' & t}</a></p>
-        </div>
-    </div>
+                            <div
+                                class="upload-box"
+                                if.bind="!selfieVerified && !selfiePending"
+                                drop.trigger="handleSelfieDrop($event)"
+                                dragover.trigger="handleEvent($event)"
+                                click.delegate="selfieFileInput.click()"
+                            >
+                                <loader loading.bind="selfieUploading" mode="tiny"></loader>
+                                <font-awesome-icon icon.bind="polaroidIcon"></font-awesome-icon>
+                            </div>
+                            <div if.bind="!selfieVerified && selfiePending">
+                                <img src="${selfieImage}" class="img-fluid w100" if.bind="selfieImageIsImage" />
+                                <p else>
+                                    PDF documents cannot be displayed.
+                                    <a href.bind="selfieImage" target="_blank">${'View here' & t}</a>
+                                </p>
+                            </div>
+                        </div>
 
-    <div class="col-md-4 kyc-box">
-        <h4 class="${passportVerified ? 'green-text' : ''}">${'Passport' & t} <span class="verified-label ${passportVerified ? 'verified' : ''} ${passportPending ? 'pending' : ''}">
+                        <div class="col-md-4 kyc-box">
+                            <h4 class="${passportVerified ? 'green-text' : ''}">
+                                ${'Passport' & t}
+                                <span
+                                    class="verified-label ${passportVerified ? 'verified' : ''} ${passportPending ? 'pending' : ''}"
+                                >
                                     <font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${passportStatusText}
-                                </span></h4>
-        <p if.bind="!passportVerified">Upload a scanned copy of your passport. Your name, image and citizenship details should be clearly visible. Passport must be in landscape orientation.</p>
-        <p else class="green-text">${'Your passport has been verified.' & t}</p>
+                                </span>
+                            </h4>
+                            <p if.bind="!passportVerified">
+                                Upload a scanned copy of your passport. Your name, image and citizenship details should
+                                be clearly visible. Passport must be in landscape orientation.
+                            </p>
+                            <p else class="green-text">${'Your passport has been verified.' & t}</p>
 
-        <div class="upload-box" if.bind="!passportVerified && !passportPending" drop.trigger="handlePassportDrop($event)" dragover.trigger="handleEvent($event)" click.delegate="passportFileInput.click()">
-            <loader loading.bind="passportUploading" mode="tiny"></loader>
-            <font-awesome-icon icon.bind="passportIcon"></font-awesome-icon>
-        </div>
-        <div if.bind="!passportVerified && passportPending">
-            <img src="${passportImage}" class="img-fluid w100" if.bind="passportImageIsImage">
-            <p else>PDF documents cannot be displayed. <a href.bind="passportImage" target="_blank">${'View here' & t}</a></p>
-        </div>
-    </div>
-</div>
-</template>
+                            <div
+                                class="upload-box"
+                                if.bind="!passportVerified && !passportPending"
+                                drop.trigger="handlePassportDrop($event)"
+                                dragover.trigger="handleEvent($event)"
+                                click.delegate="passportFileInput.click()"
+                            >
+                                <loader loading.bind="passportUploading" mode="tiny"></loader>
+                                <font-awesome-icon icon.bind="passportIcon"></font-awesome-icon>
+                            </div>
+                            <div if.bind="!passportVerified && passportPending">
+                                <img src="${passportImage}" class="img-fluid w100" if.bind="passportImageIsImage" />
+                                <p else>
+                                    PDF documents cannot be displayed.
+                                    <a href.bind="passportImage" target="_blank">${'View here' & t}</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
 <template else>
-                    <p>${state.firebaseUser.kyc.verified ? 'You have been verified.' : 'Please complete your profile
-                        details
-                        before undergoing the KYC process.' & t}</p>
+                    <p>
+                        ${state.firebaseUser.kyc.verified ? 'You have been verified.' : 'Please complete your profile
+                        details before undergoing the KYC process.' & t}
+                    </p>
                 </template>
 </section>
 </div>
