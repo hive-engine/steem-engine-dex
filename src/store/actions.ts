@@ -128,6 +128,12 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
                     accountNumber: ''
                 };
             }
+
+            if (!newState?.firebaseUser?.residency) {
+                newState.firebaseUser.residency = {
+                    
+                };
+            }
         }
     } catch (e) {
         log.error(e);

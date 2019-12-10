@@ -104,6 +104,16 @@ export class Settings {
             this.selfieImageIsImage = !this.selfieImage.includes('.pdf');
         }
 
+        if (this.user?.document1?.filename) {
+            this.document1Image = await userUploads.child(`${this.state.account.name}/${this.user.document1.filename}`).getDownloadURL();
+            this.document1ImageIsImage = !this.document1Image.includes('.pdf');
+        }
+
+        if (this.user?.document2?.filename) {
+            this.document2Image = await userUploads.child(`${this.state.account.name}/${this.user.document2.filename}`).getDownloadURL();
+            this.document2ImageIsImage = !this.document2Image.includes('.pdf');
+        }
+
         $(document).ready(() => {
             // @ts-ignore
             $('input, textarea').tooltip();

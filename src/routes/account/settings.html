@@ -217,7 +217,7 @@
                     <div
                         class="alert alert-warning mb-5"
                         role="alert"
-                        if.bind="state.firebaseUser.residency.passportRejected || state.firebaseUser.kyc.selfieRejected"
+                        if.bind="state.firebaseUser.residency.document1Rejected || state.firebaseUser.residency.document2Rejected"
                     >
                         <template if.bind="state.firebaseUser.residency.document1Rejected"
                             ><strong>Document 1 was rejected:</strong>
