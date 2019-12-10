@@ -93,6 +93,11 @@ export class Settings {
             this.selfieImage = await userUploads.child(`${this.state.account.name}/${this.user.selfie.filename}`).getDownloadURL();
             this.selfieImageIsImage = !this.selfieImage.includes('.pdf');
         }
+
+        $(document).ready(() => {
+            // @ts-ignore
+            $('input, textarea').tooltip();
+        });
     }
 
     enableEditMode() {
@@ -274,9 +279,7 @@ export class Settings {
         this.taskQueue.queueTask(() => {
             const userRef = firebase.firestore().collection('users').doc(this.se.getUser());
 
-            userRef.set(this.state.firebaseUser, {
-                merge: true
-            });
+            userRef.update(this.state.firebaseUser);
         });
     }
 
