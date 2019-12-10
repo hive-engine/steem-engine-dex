@@ -69,6 +69,19 @@ documentRouter.post('/upload', uploadMiddleware, async (req: express.Request, re
                     const user = await usersRef.doc(username).get();
                     const userData: any = user.data();
 
+                    if (!userData?.residency) {
+                        userData.residency = {
+                            document1Rejected: false,
+                            document2Rejected: false,
+                            document1RejectionReason: '',
+                            document2RejectionReason: '',
+                            document1Verified: false,
+                            document2Verified: false,
+                            document1Pending: false,
+                            document2Pending: false
+                        };
+                    }
+
                     const data: any = {
                         kyc: {
                             ...userData.kyc
