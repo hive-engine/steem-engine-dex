@@ -243,7 +243,7 @@ export class Settings {
                 this.document2Uploading = true;
             }
 
-            await this.firebase.uploadKycFile(file, type);
+            await this.firebase.uploadDocument(file, type);
 
             this.selfieUploading = false;
             this.passportUploading = false;
