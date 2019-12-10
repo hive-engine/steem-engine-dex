@@ -34,18 +34,28 @@ export class Settings {
 
     private selfieUploading = false;
     private passportUploading = false;
+    private document1Uploading = false;
+    private document2Uploading = false;
 
     private renderer: BootstrapFormRenderer;
     private validationController: ValidationController;
 
     private selfieFileInput: HTMLInputElement;
     private passportFileInput: HTMLInputElement;
+    private document1FileInput: HTMLInputElement;
+    private document2FileInput: HTMLInputElement;
     private selfieImageFile: FileList;
     private passportImageFile: FileList;
+    private document1ImageFile: FileList;
+    private document2ImageFile: FileList;
     private passportImage;
     private selfieImage;
+    private document1Image;
+    private document2Image;
     private passportImageIsImage = false;
     private selfieImageIsImage = false;
+    private document1ImageIsImage = false;
+    private document2ImageIsImage = false;
 
     constructor(private se: SteemEngine, private controllerFactory: ValidationControllerFactory, private firebase: FirebaseService, private store: Store<State>, private taskQueue: TaskQueue) {
         this.validationController = controllerFactory.createForCurrentScope();
@@ -153,6 +163,30 @@ export class Settings {
         }
     }
 
+    handleDocument1Drop(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const dt = e.dataTransfer;
+        const files: FileList = dt.files;
+
+        if (files.length) {
+            this.uploadDocument(files[0], 'document1');
+        }
+    }
+
+    handleDocument2Drop(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const dt = e.dataTransfer;
+        const files: FileList = dt.files;
+
+        if (files.length) {
+            this.uploadDocument(files[0], 'document2');
+        }
+    }
+
     handlePassportDrop(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -181,23 +215,47 @@ export class Settings {
         }
     }
 
+    document1Changed() {
+        if (this.document1ImageFile?.[0]) {
+            this.uploadDocument(this.document1ImageFile[0], 'document1');
+
+            this.document1FileInput.value = '';
+        }
+    }
+
+    document2Changed() {
+        if (this.document2ImageFile?.[0]) {
+            this.uploadDocument(this.document1ImageFile[0], 'document2');
+
+            this.document2FileInput.value = '';
+        }
+    }
+
     async uploadDocument(file: File, type: UploadType) {
         try {
             if (type === 'selfie') {
                 this.selfieUploading = true;
-            } else {
+            } else if (type === 'passport') {
                 this.passportUploading = true;
+            } else if (type === 'document1') {
+                this.document1Uploading = true;
+            } else if (type === 'document2') {
+                this.document2Uploading = true;
             }
 
             await this.firebase.uploadKycFile(file, type);
 
             this.selfieUploading = false;
             this.passportUploading = false;
+            this.document1Uploading = false;
+            this.document2Uploading = false;
 
             window.location.reload();
         } catch (e) {
             this.selfieUploading = false;
             this.passportUploading = false;
+            this.document1Uploading = false;
+            this.document2Uploading = false;
         }
     }
 
@@ -217,6 +275,24 @@ export class Settings {
     get selfieVerified() {
         if (this.state) {
             return this.state.firebaseUser.kyc.selfieVerified;
+        }
+
+        return false;
+    }
+
+    @computedFrom('state')
+    get document1Verified() {
+        if (this.state) {
+            return this.state.firebaseUser.residency.document1Verified;
+        }
+
+        return false;
+    }
+
+    @computedFrom('state')
+    get document2Verified() {
+        if (this.state) {
+            return this.state.firebaseUser.residency.document2Verified;
         }
 
         return false;
@@ -249,6 +325,24 @@ export class Settings {
         return false;
     }
 
+    @computedFrom('state')
+    get document1Pending() {
+        if (this.state) {
+            return this.state.firebaseUser.residency.document1Pending;
+        }
+
+        return false;
+    }
+
+    @computedFrom('state')
+    get document2Pending() {
+        if (this.state) {
+            return this.state.firebaseUser.residency.document2Pending;
+        }
+
+        return false;
+    }
+
     @computedFrom('selfiePending', 'selfieVerified')
     get selfieStatusText() {
         if (!this.selfiePending) {
@@ -262,6 +356,24 @@ export class Settings {
     get passportStatusText() {
         if (!this.passportPending) {
             return this.passportVerified ? 'verified' : 'unverified';
+        } else {
+            return 'pending';
+        }
+    }
+
+    @computedFrom('document1Pending', 'document1Pending')
+    get document1StatusText() {
+        if (!this.document1Pending) {
+            return this.document1Verified ? 'verified' : 'unverified';
+        } else {
+            return 'pending';
+        }
+    }
+
+    @computedFrom('document2Pending', 'document2Pending')
+    get document2StatusText() {
+        if (!this.document2Pending) {
+            return this.document2Verified ? 'verified' : 'unverified';
         } else {
             return 'pending';
         }

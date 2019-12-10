@@ -37,6 +37,18 @@
                     click.delegate="tabChanged({tab: 'kyc'})"
                     >${'KYC' & t}</a
                 >
+                <!-- <a
+                    class="${selectedTab == 'accreditation' ? 'active' : ''} nav-link tabs__tab"
+                    href="javascript:void(0);"
+                    click.delegate="tabChanged({tab: 'accreditation'})"
+                    >${'Accreditation' & t}</a
+                > -->
+                <a
+                    class="${selectedTab == 'residency' ? 'active' : ''} nav-link tabs__tab"
+                    href="javascript:void(0);"
+                    click.delegate="tabChanged({tab: 'residency'})"
+                    >${'Residency' & t}</a
+                >
                 <a
                     class="${selectedTab == 'bankDetails' ? 'active' : ''} nav-link tabs__tab"
                     href="javascript:void(0);"

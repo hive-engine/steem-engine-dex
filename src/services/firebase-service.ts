@@ -6,7 +6,7 @@ import firebase from 'firebase/app';
 
 const http = new HttpClient();
 
-export type UploadType = 'passport' | 'selfie';
+export type UploadType = 'passport' | 'selfie' | 'document1' | 'document2';
 
 @autoinject()
 export class FirebaseService {
