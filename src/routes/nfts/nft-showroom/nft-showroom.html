@@ -1,0 +1,1675 @@
+<template>
+    <header class="nft-header">
+        <div class="header-row">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="showroom-header text-center">
+                        <h2>NFT SHOWROOM</h2>
+                        <p>
+                            Explore the catalogue of our Non-Fungible Tokens
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="showroom">        
+        <hr class="divider" />
+        
+        <div class="showroom-row">
+            <div class="col-lg-2 col-md-12 col-sm-12 hide-sm">
+                <div class="card cat-card">
+                    <div class="cat-card-header">
+                        <h4>Categories</h4>
+                    </div>
+                    <div class="cat-card-body">
+                        <ul class="cat-card-items">
+                            <li class="cat-card-item"><a href="">Sports</a><span class="float-right">(189)</span></li>
+                            <li class="cat-card-item"><a href="">Social</a><span class="float-right">(200)</span></li>
+                            <li class="cat-card-item">
+                                <a href="">Photography</a><span class="float-right">(100)</span>
+                            </li>
+                            <li class="cat-card-item"><a href="">Finance</a><span class="float-right">(89)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card cat-card">
+                    <div class="cat-card-header">
+                        <h4>Projects</h4>
+                    </div>
+                    <div class="cat-card-body">
+                        <ul class="cat-card-items">
+                            <li class="cat-card-item"><a href="">Neoxian</a><span class="float-right">(189)</span></li>
+                            <li class="cat-card-item"><a href="">Splinterlands</a><span class="float-right">(200)</span></li>
+                            <li class="cat-card-item">
+                                <a href="">Marlians</a><span class="float-right">(100)</span>
+                            </li>
+                            <li class="cat-card-item"><a href="">SportsTalk</a><span class="float-right">(89)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card cat-card">
+                    <div class="cat-card-header">
+                        <h4>Artists</h4>
+                    </div>
+                    <div class="cat-card-body">
+                        <ul class="cat-card-items">
+                            <li class="cat-card-item"><a href="">Da Vinci</a><span class="float-right">(189)</span></li>
+                            <li class="cat-card-item"><a href="">Monalisa</a><span class="float-right">(200)</span></li>
+                            <li class="cat-card-item">
+                                <a href="">Craig Grant</a><span class="float-right">(100)</span>
+                            </li>
+                            <li class="cat-card-item"><a href="">Zackking</a><span class="float-right">(89)</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-10 col-sm-12 col-md-12">
+                <div class="showroom-head-panel">
+                    <div class="sold-by">
+                        <span class="who sold-by-who">
+                            Sold By
+                        </span>
+                        <label class="form-radiobox" style="margin: 0;">
+                            <input class="radio" type="radio" name="r1" aria-labelledby="radio_soldby" />
+                            <span class="who">
+                                Steem Engine
+                            </span>
+                        </label>
+                        <label class="form-radiobox" style="margin: 0;">
+                            <input class="radio" type="radio" name="r2" aria-labelledby="radio_soldby" />
+                            <span class="who">
+                                Other Sellers
+                            </span>
+                        </label>
+                    </div>
+                    <div class="sort-by">
+                        <span class="who sold-by-who">Sort by:</span>
+                        <label class="form-select" style="margin: 0;">
+                            <select id="sort-card" name="orderBy" style="border: none; padding: 5px;">
+                                <option value="8" selected="selected">Featured NFTs</option>
+
+                                <option value="2">Lowest Price</option>
+
+                                <option value="3">Artist Name</option>
+
+                                <option value="15">Product Name</option>
+
+                                <option value="1">Best Rating</option>
+
+                                <option value="4">Project Name</option>
+
+                                <option value="14">Newest to Oldest</option>
+                            </select>
+                            <i class="fa fa-caret-down"></i>
+                        </label>
+                    </div>
+                </div>
+                <div class="row margin-btm">
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="showroom-card">
+                            <div class="showroom-card-img">
+                                <a href=""
+                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                /></a>
+                            </div>
+                            <div class="showroom-card-body">
+                                <div class="showroom-pfa">
+                                    <p class="what">
+                                        Fund
+                                    </p>
+                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                        <span
+                                            ><font-awesome-icon
+                                                icon.bind="['fas', 'star']"
+                                                class="rate-nft"
+                                            ></font-awesome-icon
+                                        ></span>
+                                    </span>
+                                </div>
+                                <h4 class="showroom-title">
+                                    Rare Token for the best purposes ever - Try one out
+                                </h4>
+
+                                <p class="project-category">Neoxian INC.</p>
+                                <div class="showroom-pf">
+                                    <p class="showroom-goal">
+                                        Initially
+                                        <span class="init-price">$ ${'4000' & t}</span>
+                                        <br />
+                                        now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                        <a href="" class="buyBtn">GET</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="see-more-btn" style="margin-top: -30px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="see-more-btn text-center">
+                        <a href="" class="seeBtn">See more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="slick" style="margin-top: 30px;">
+        <div class="container-fluid">
+            <div class="top-nfts">
+                <h2 class="top-nfts">
+                    Top tiers
+                </h2>
+            </div>
+            <div class="cards nft-extra-cards" style="display: flex;">
+                <div class="nft-slick">
+                    <div class="showroom-card">
+                        <div class="row">
+                            <div class="col-6">
+                                <img
+                                    src="https://picsum.photos/640/360"
+                                    alt="non-fungible"
+                                    width="100%"
+                                    height="100%"
+                                />
+                            </div>
+                            <div class="col-6">
+                                <div class="showroom-slick-card-body">
+                                    <p>
+                                        Lorem ipsum dolor sit amet consectetur
+                                    </p>
+                                    now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                </div>
+                                <div class="showroom-card-footer">
+                                    <a href="" class="buyBtn">GET</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nft-slick">
+                    <div class="showroom-card">
+                        <div class="row">
+                            <div class="col-6">
+                                <img
+                                    src="https://picsum.photos/640/360"
+                                    alt="non-fungible"
+                                    width="100%"
+                                    height="100%"
+                                />
+                            </div>
+                            <div class="col-6">
+                                <div class="showroom-slick-card-body">
+                                    <p>
+                                        Lorem ipsum dolor sit amet consectetur
+                                    </p>
+                                        now trading @
+                                    <span class="now-price">$ ${'2,500' & t}</span>
+                                </div>
+                                <div class="showroom-card-footer">
+                                    <a href="" class="buyBtn">GET</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nft-slick">
+                    <div class="showroom-card">
+                        <div class="row">
+                            <div class="col-6">
+                                <img
+                                    src="https://picsum.photos/640/360"
+                                    alt="non-fungible"
+                                    width="100%"
+                                    height="100%"
+                                />
+                            </div>
+                            <div class="col-6">
+                                <div class="showroom-slick-card-body">
+                                    <p>
+                                        Lorem ipsum dolor sit amet consectetur
+                                    </p>
+                                    now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                </div>
+                                <div class="showroom-card-footer">
+                                    <a href="" class="buyBtn">GET</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nft-slick">
+                    <div class="showroom-card">
+                        <div class="row">
+                            <div class="col-6">
+                                <img
+                                    src="https://picsum.photos/640/360"
+                                    alt="non-fungible"
+                                    width="100%"
+                                    height="100%"
+                                />
+                            </div>
+                            <div class="col-6">
+                                <div class="showroom-slick-card-body">
+                                    <p>
+                                        Lorem ipsum dolor sit amet consectetur
+                                    </p>
+                                    now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                </div>
+                                <div class="showroom-card-footer">
+                                    <a href="" class="buyBtn">GET</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nft-slick">
+                    <div class="showroom-card">
+                        <div class="row">
+                            <div class="col-6">
+                                <img
+                                    src="https://picsum.photos/640/360"
+                                    alt="non-fungible"
+                                    width="100%"
+                                    height="100%"
+                                />
+                            </div>
+                            <div class="col-6">
+                                <div class="showroom-slick-card-body">
+                                    <p>
+                                        Lorem ipsum dolor sit amet consectetur
+                                    </p>
+                                    now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                </div>
+                                <div class="showroom-card-footer">
+                                    <a href="" class="buyBtn">GET</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nft-slick">
+                    <div class="showroom-card">
+                        <div class="row">
+                            <div class="col-6">
+                                <img
+                                    src="https://picsum.photos/640/360"
+                                    alt="non-fungible"
+                                    width="100%"
+                                    height="100%"
+                                />
+                            </div>
+                            <div class="col-6">
+                                <div class="showroom-slick-card-body">
+                                    <p>
+                                        Lorem ipsum dolor sit amet consectetur
+                                    </p>
+                                    now trading @
+                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                </div>
+                                <div class="showroom-card-footer">
+                                    <a href="" class="buyBtn">GET</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+</template>
