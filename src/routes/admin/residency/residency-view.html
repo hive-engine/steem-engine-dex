@@ -1,0 +1,56 @@
+<template>
+        <div class="container-fluid main-container sections">
+            <div class="col-md-12">
+                <h3>Residency Approval > ${user.id}</h3>
+                <p class="text-sixteen">Attention: Please make sure the documents provided prove user residency.</p>
+
+                <div class="row mt-5">
+                    <div class="col-md-6" if.bind="user.residency && document1Image">
+                        <h4>Document 1</h4>
+                        <p class="mb-2"><small>Uploaded: <strong>${user.document1.dateUploaded.seconds | serverDate}</strong></small></p>
+
+                        <a href="${document1Image}" target="_blank" title="Download document1 image" class="d-block"><img src="${document1Image}" class="img-fluid w100"></a>
+
+                        <p class="mt-3"><a class="btn ${showDocument1Reject ? 'btn-outline-primary' : 'btn-outline-danger'}" href="javascript:void(0);" click.delegate="showDocument1Reject = !showDocument1Reject">${showDocument1Reject ? 'Cancel' : 'Reject Document 1'}</a></p>
+                        
+                        <div class="row mt-3" show.bind="showDocument1Reject">
+                            <div class="col">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" value.bind="user.residency.document1RejectionReason" placeholder="Reason for rejection">
+                                </div>
+                            </div>
+                            <div class="col-auto text-right">
+                                <button type="button" class="btn btn-secondary" click.delegate="rejectDocument1()">${'Reject' & t}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" if.bind="user.residency && document2Image">
+                        <h4>Document 2</h4>
+                        <p class="mb-2"><small>Uploaded: <strong>${user.document2.dateUploaded.seconds | serverDate}</strong></small></p>
+
+                        <a href="${document2Image}" target="_blank" title="Download document 2 image" class="d-block"><img src="${document2Image}" class="img-fluid w100"></a>
+
+                        <p class="mt-3"><a class="btn ${showDocument2Reject ? 'btn-outline-primary' : 'btn-outline-danger'}" href="javascript:void(0);" click.delegate="showDocument2Reject = !showDocument2Reject">${showDocument2Reject ? 'Cancel' : 'Reject Document 2'}</a></p>
+
+                        <div class="row mt-3" show.bind="showDocument2Reject">
+                            <div class="col">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" value.bind="user.residency.document2RejectionReason" placeholder="Reason for rejection">
+                                </div>
+                            </div>
+                            <div class="col-auto text-right">
+                                <button type="button" class="btn btn-secondary" click.delegate="rejectDocument2()">${'Reject' & t}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="mt-4">
+                    <div class="form-group mt-3">
+                        <button type="button" class="btn btn-primary" click.delegate="approveResidency()">Approve</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </template>

@@ -21,6 +21,13 @@ export class AdminAdmin {
                 title: 'Kyc'
             },
             {
+                route: 'residency',
+                name: 'adminResidency',
+                moduleId: PLATFORM.moduleName('./residency/residency'),
+                nav: true,
+                title: 'Residency'
+            },
+            {
                 route: 'users',
                 name: 'adminUsers',
                 moduleId: PLATFORM.moduleName('./users/users'),
