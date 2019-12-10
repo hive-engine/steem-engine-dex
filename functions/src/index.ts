@@ -12,7 +12,7 @@ admin.initializeApp({
 });
 
 import { authRouter } from './routes/auth';
-import { kycRouter } from './routes/kyc';
+import { documentRouter } from './routes/documents';
 
 const app = express();
 
@@ -31,7 +31,7 @@ app.use(cacheMiddleware);
 //app.use(authMiddleware);
 
 app.use('/', authRouter);
-app.use('/kyc', kycRouter);
+app.use('/documents', documentRouter);
 
 export const createUserRoles = functions.auth.user().onCreate((user) => {
     const customClaims: any = {
