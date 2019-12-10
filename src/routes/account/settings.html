@@ -210,7 +210,7 @@
     <h3>${'Residency' & t}</h3>
     <p>You only need to provide residency documents if your ID documents list a country other than the one you currently reside in. You will be required to provide two forms of documentation proving your residency, a utility bill or application approval
         document (both with your address on them).</p>
-    <template if.bind="!state.firebaseUser.kyc.verified && canUploadKycDocuments">
+    <template if.bind="!state.firebaseUser.kyc.verified && canUploadResidencyDocuments">
                     <p>${'Verify your residency' & t}.</p>
                     <p>Supported file types; JPG, PNG and PDF.</p>
 

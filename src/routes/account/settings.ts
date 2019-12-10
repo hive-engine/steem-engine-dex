@@ -270,6 +270,12 @@ export class Settings {
             && user.addressLine1.trim() !== ''
             && user.state.trim() !== '';
     }
+    @computedFrom('state.firebaseUser')
+    get canUploadResidencyDocuments() {
+        const user = this.state.firebaseUser;
+
+        return true;
+    }
 
     @computedFrom('state')
     get selfieVerified() {
