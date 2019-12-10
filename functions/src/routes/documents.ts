@@ -73,6 +73,9 @@ documentRouter.post('/upload', uploadMiddleware, async (req: express.Request, re
                         kyc: {
                             ...userData.kyc
                         },
+                        residency: {
+                            ...userData.residency
+                        },
                         [type]: {
                             dateUploaded: new Date(),
                             filename: originalname,
