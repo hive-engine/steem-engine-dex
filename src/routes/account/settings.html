@@ -205,6 +205,118 @@
                     </p>
                 </template>
 </section>
+
+<section show.bind="selectedTab == 'residency'" class="col-md-12">
+    <h3>${'Residency' & t}</h3>
+    <p>You only need to provide residency documents if your ID documents list a country other than the one you currently reside in. You will be required to provide two forms of documentation proving your residency, a utility bill or application approval
+        document (both with your address on them).</p>
+    <template if.bind="!state.firebaseUser.kyc.verified && canUploadResidencyDocuments">
+                    <p>${'Verify your residency' & t}.</p>
+                    <p>Supported file types; JPG, PNG and PDF.</p>
+
+                    <div
+                        class="alert alert-warning mb-5"
+                        role="alert"
+                        if.bind="state.firebaseUser.residency.passportRejected || state.firebaseUser.kyc.selfieRejected"
+                    >
+                        <template if.bind="state.firebaseUser.residency.document1Rejected"
+                            ><strong>Document 1 was rejected:</strong>
+                            ${state.firebaseUser.residency.document1RejectionReason}</template
+                        >
+                        <template if.bind="state.firebaseUser.residency.documented2Rejected"
+                            ><strong>Document 2 was rejected:</strong>
+                            ${state.firebaseUser.residency.document2RejectionReason}</template
+                        >
+                    </div>
+
+                    <input
+                        id="document1File"
+                        ref="document1FileInput"
+                        type="file"
+                        accept="image/jpeg,image/png,application/pdf"
+                        files.bind="document1ImageFile"
+                        input.delegate="document1Changed()"
+                        style="display:none;"
+                    />
+                    <input
+                        id="document2File"
+                        ref="document2FileInput"
+                        type="file"
+                        accept="image/jpeg,image/png,application/pdf"
+                        files.bind="document2ImageFile"
+                        input.delegate="document2Changed()"
+                        style="display:none;"
+                    />
+
+                    <div class="row">
+                        <div class="col-md-4 kyc-box">
+                            <h4 class="${document1Verified ? 'green-text' : ''}">
+                                ${'Document 1' & t}
+                                <span
+                                    class="verified-label ${document1Verified ? 'verified' : ''} ${document1Pending ? 'pending' : ''}"
+                                >
+                                    <font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${document1StatusText}
+                                </span>
+                            </h4>
+    
+                            <p if.bind="document1Verified" class="green-text">${'Your document has been verified' & t}</p>
+
+                            <div
+                                class="upload-box"
+                                if.bind="!document1Verified && !document1Pending"
+                                drop.trigger="handleDocument1Drop($event)"
+                                dragover.trigger="handleEvent($event)"
+                                click.delegate="document1FileInput.click()"
+                            >
+                                <loader loading.bind="document1Uploading" mode="tiny"></loader>
+                                <font-awesome-icon icon.bind="polaroidIcon"></font-awesome-icon>
+                            </div>
+                            <div if.bind="!document1Verified && document1Pending">
+                                <img src="${document1Image}" class="img-fluid w100" if.bind="document1ImageIsImage" />
+                                <p else>
+                                    PDF documents cannot be displayed.
+                                    <a href.bind="document1Image" target="_blank">${'View here' & t}</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 kyc-box">
+                            <h4 class="${document2Verified ? 'green-text' : ''}">
+                                ${'Document 2' & t}
+                                <span
+                                    class="verified-label ${document2Verified ? 'verified' : ''} ${document2Pending ? 'pending' : ''}"
+                                >
+                                    <font-awesome-icon icon.bind="checkIcon"></font-awesome-icon> ${document2StatusText}
+                                </span>
+                            </h4>
+                            <p if.bind="document2Verified" class="green-text">${'Your document has been verified.' & t}</p>
+
+                            <div
+                                class="upload-box"
+                                if.bind="!document2Verified && !document2Pending"
+                                drop.trigger="handleDocument2Drop($event)"
+                                dragover.trigger="handleEvent($event)"
+                                click.delegate="document2FileInput.click()"
+                            >
+                                <loader loading.bind="document2Uploading" mode="tiny"></loader>
+                                <font-awesome-icon icon.bind="passportIcon"></font-awesome-icon>
+                            </div>
+                            <div if.bind="!document2Verified && document2Pending">
+                                <img src="${document2Image}" class="img-fluid w100" if.bind="document2ImageIsImage" />
+                                <p else>
+                                    PDF documents cannot be displayed.
+                                    <a href.bind="document2Image" target="_blank">${'View here' & t}</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+    <template else>
+                    <p>
+                        ${state.firebaseUser.residency.verified ? 'You have been verified.' : 'Residency process not undergone.' & t}
+                    </p>
+                </template>
+</section>
 </div>
 </div>
 </template>
