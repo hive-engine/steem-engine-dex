@@ -128,6 +128,19 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
                     accountNumber: ''
                 };
             }
+
+            if (!newState?.firebaseUser?.residency) {
+                newState.firebaseUser.residency = {
+                    document1Rejected: false,
+                    document2Rejected: false,
+                    document1RejectionReason: '',
+                    document2RejectionReason: '',
+                    document1Verified: false,
+                    document2Verified: false,
+                    document1Pending: false,
+                    document2Pending: false
+                };
+            }
         }
     } catch (e) {
         log.error(e);
