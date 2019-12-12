@@ -20,7 +20,7 @@ export class Tokens {
     private state: State;
     private loading = false;    
     private peggedTokens = [];
-    private currentLimit = 1000;
+    private currentLimit = 100;
     private currentOffset = 0;
         
     @bindable tab = 'engine';
