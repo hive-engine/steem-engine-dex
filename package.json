@@ -47,6 +47,7 @@
         "i18next-xhr-backend": "^3.2.0",
         "izitoast": "^1.4.0",
         "jquery": "^3.4.1",
+        "js-image-zoom": "^0.6.0",
         "lodash": "^4.17.15",
         "luxon": "^1.21.3",
         "moment": "^2.24.0",
