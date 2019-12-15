@@ -20,7 +20,7 @@ export class Tokens {
     private state: State;
     private loading = false;    
     private peggedTokens = [];
-    private currentLimit = 100;
+    private currentLimit = 1000;
     private currentOffset = 0;
         
     @bindable tab = 'engine';
@@ -50,18 +50,6 @@ export class Tokens {
 
     async activate() {
         await dispatchify(getCurrentFirebaseUser)();
-    }
-
-    async loadMoreTokens() {
-        this.currentOffset++;
-
-        const limit = this.currentOffset * this.currentLimit;
-        const offset = (this.currentOffset + 1) * this.currentLimit;
-
-        this.loading = true;
-        await dispatchify(loadTokensList)(limit, offset);
-
-        this.loading = false;
     }
 
     buyENG() {
