@@ -81,7 +81,7 @@ h1 {
     margin-top: 3px;
     /* box-shadow: 0 4px 18px 8px rgba(204, 207, 216, 0.651); */
 }
-slick-prev:before {
+.slick-prev:before {
     content: '←';
     color: blue;
 }
