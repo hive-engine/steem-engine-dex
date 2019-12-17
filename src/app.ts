@@ -260,6 +260,13 @@ export class App {
                 title: 'Crowdfunding Back',
             },
             {
+                route: 'crowdfunding-how',
+                name: 'crowdfunding-how',
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-how'),
+                nav: false,
+                title: 'Crowdfunding How',
+            },
+            {
                 route: 'create-token',
                 name: 'createToken',
                 moduleId: PLATFORM.moduleName('./routes/create-token'),
