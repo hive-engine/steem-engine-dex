@@ -32,16 +32,14 @@ const loaders = {
     postCss: { loader: 'postcss-loader' },
 };
 
-const productionCss = [
-    {
+const productionCss = [{
         loader: MiniCssExtractPlugin.loader,
     },
     loaders.cssModules,
     loaders.postCss,
 ];
 
-const productionGlobalCss = [
-    {
+const productionGlobalCss = [{
         loader: MiniCssExtractPlugin.loader,
     },
     loaders.css,
@@ -81,8 +79,7 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma } =
     },
     devtool: production ? 'source-maps' : 'inline-source-map',
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.module.css$/,
                 issuer: [{ not: [{ test: /\.html$/i }] }],
                 use: production ? productionCss : [loaders.style, loaders.cssModules, loaders.postCss],
@@ -102,17 +99,17 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma } =
             {
                 test: /\.(png|gif|jpg|cur)$/i,
                 loader: 'url-loader',
-                options: { limit: 8192 },
+                options: { limit: 8192, esModule: false },
             },
             {
                 test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
                 loader: 'url-loader',
-                options: { limit: 10000, mimetype: 'application/font-woff2' },
+                options: { limit: 10000, mimetype: 'application/font-woff2', esModule: false },
             },
             {
                 test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
                 loader: 'url-loader',
-                options: { limit: 10000, mimetype: 'application/font-woff' },
+                options: { limit: 10000, mimetype: 'application/font-woff', esModule: false },
             },
             {
                 test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
