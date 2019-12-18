@@ -192,6 +192,13 @@ export class App {
                 title: 'Tribes',
             },
             {
+                route: 'advertise-tribe',
+                name: 'advertise-tribe',
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/advertise-tribe'),
+                nav: false,
+                title: 'Advertise Tribe',
+            },
+            {
                 route: 'legal-services',
                 name: 'legal-services',
                 moduleId: PLATFORM.moduleName('./routes/offering-routes/legal-services'),
