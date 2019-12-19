@@ -49,7 +49,7 @@ import { ValidationMessageProvider } from 'aurelia-validation';
 
 LogManager.addAppender(new ConsoleAppender());
 
-library.add(fas, far, fad);
+library.add(fas as any, far, fad);
 
 // Disable connect queue to speed up application
 import { disableConnectQueue } from 'aurelia-binding';
