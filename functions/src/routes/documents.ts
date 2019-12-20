@@ -3,7 +3,7 @@ import * as express from 'express';
 
 import { uploadMiddleware } from '../upload-middleware';
 
-export const kycRouter = express.Router();
+export const documentRouter = express.Router();
 
 import { Storage } from '@google-cloud/storage';
 const storage = new Storage();
@@ -38,10 +38,10 @@ const uploadUserFile = async (filename: string, mimetype: string, buffer: Buffer
     });
 };
 
-kycRouter.post('/upload', uploadMiddleware, async (req: express.Request, res: express.Response) => {
+documentRouter.post('/upload', uploadMiddleware, async (req: express.Request, res: express.Response) => {
     const authToken = req.headers.authorization || '';
     const type = req.body.type;
-    const kycFields = ['selfie', 'passport'];
+    const uploadFields = ['selfie', 'passport', 'document1', 'document2'];
     const allowedMimeTypes = ['image/jpeg', 'application/pdf', 'image/png'];
 
     try {
@@ -69,9 +69,25 @@ kycRouter.post('/upload', uploadMiddleware, async (req: express.Request, res: ex
                     const user = await usersRef.doc(username).get();
                     const userData: any = user.data();
 
+                    if (!userData?.residency) {
+                        userData.residency = {
+                            document1Rejected: false,
+                            document2Rejected: false,
+                            document1RejectionReason: '',
+                            document2RejectionReason: '',
+                            document1Verified: false,
+                            document2Verified: false,
+                            document1Pending: false,
+                            document2Pending: false
+                        };
+                    }
+
                     const data: any = {
                         kyc: {
                             ...userData.kyc
+                        },
+                        residency: {
+                            ...userData.residency
                         },
                         [type]: {
                             dateUploaded: new Date(),
@@ -80,8 +96,7 @@ kycRouter.post('/upload', uploadMiddleware, async (req: express.Request, res: ex
                         }
                     };
 
-                    // The type of upload is a KYC document
-                    if (kycFields.includes(type)) {
+                    if (uploadFields.includes(type)) {
                         if (type === 'selfie') {
                             data.kyc.selfiePending = true;
                             data.kyc.selfieVerified = false;
@@ -92,6 +107,16 @@ kycRouter.post('/upload', uploadMiddleware, async (req: express.Request, res: ex
                             data.kyc.passportVerified = false;
                             data.kyc.selfieRejected = false;
                             data.kyc.selfieRejectionReason = '';
+                        } else if (type === 'document1') {
+                            data.residency.document1Pending = true;
+                            data.residency.document1Verified = false;
+                            data.residency.document1Rejected = false;
+                            data.residency.document1RejectionReason = '';
+                        } else if (type === 'document2') {
+                            data.residency.document2Pending = true;
+                            data.residency.document2Verified = false;
+                            data.residency.document2Rejected = false;
+                            data.residency.document2RejectionReason = '';
                         }
                     }
 

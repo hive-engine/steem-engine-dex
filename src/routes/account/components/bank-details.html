@@ -1,0 +1,88 @@
+<template bindable="selectedTab, resetUser, enableEditMode, saveProfile, user, editMode, countries">
+    <section>
+        <h3>${'Bank Details' & t}</h3>
+        <p>${'To deal in USD, we require some banking information for compliance reasons.' & t}</p>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    <label>${'Bank name' & t}</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        disabled.bind="!editMode"
+                        value.bind="user.bank.name"
+                        data-placement="bottom"
+                        title="The name of your bank"
+                    />
+                </div>
+                <div class="form-group">
+                    <label>${'Bank/Sort Code' & t}</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        disabled.bind="!editMode"
+                        value.bind="user.bank.code"
+                        data-placement="bottom"
+                        title="This is also known as the Branch Code. This number is used to identify the bank or branch where the beneficiary account is held. Each country has a different name for these codes. EX: The US calls them routing numbers, England calls them Sort Codes, and Australia calls them BSB codes."
+                    />
+                </div>
+                <div class="form-group">
+                    <label>${'Account Name' & t}</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        disabled.bind="!editMode"
+                        value.bind="user.bank.accountName"
+                        data-placement="bottom"
+                        title="The name of the primary account holder/beneficiary"
+                    />
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    <label>${'Bank Address' & t}</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        disabled.bind="!editMode"
+                        value.bind="user.bank.address & validate"
+                        data-placement="bottom"
+                        title="Please be as specific as possible. Include the street name and/or number, city/town, state, country and ZIP code if applicable"
+                    />
+                </div>
+                <div class="form-group">
+                    <label>${'SWIFT Code' & t}</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        disabled.bind="!editMode"
+                        value.bind="user.bank.swift"
+                        data-placement="bottom"
+                        title="Not all banks are members of the Swift network and theref ore may not have this code. DCU does not have a Swift Code"
+                    />
+                </div>
+                <div class="form-group">
+                    <label>${'Account Number / IBAN' & t}</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        disabled.bind="!editMode"
+                        value.bind="user.bank.accountNumber"
+                        data-placement="bottom"
+                        title="List the account number or IBAN as required by the foreign country. In Europe, IBANs are used to identify the account and are comprised of the country code, bank code, branch code and account number."
+                    />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" if.bind="editMode">
+                <button type="button" click.delegate="resetUser()" class="btn btn-secondary">${'Cancel' & t}</button>
+                <button type="button" click.delegate="saveProfile()" class="btn btn-primary">${'Save' & t}</button>
+            </div>
+            <div class="col-md-12" else>
+                <button type="button" click.delegate="enableEditMode()" class="btn btn-primary">${'Edit' & t}</button>
+            </div>
+        </div>
+    </section>
+</template>

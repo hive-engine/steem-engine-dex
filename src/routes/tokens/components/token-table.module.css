@@ -1,0 +1,27 @@
+@font-face {
+    font-family: main-font-bold;
+    src: url("../../../fonts/main-font-bold-c.woff");
+    font-display: fallback;
+}
+
+.route--tokens {
+    color: #333;
+}
+
+.tokenIcon {
+    width: 24px;
+    height: 24px;
+}
+
+.changePercentCol .red,
+.changePercentCol .green {
+    font-weight: bold;
+}
+
+.changePercentCol .red {
+    color: red;
+}
+
+.changePercentCol .green {
+    color: green;
+}

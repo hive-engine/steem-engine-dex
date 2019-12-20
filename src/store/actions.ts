@@ -99,22 +99,47 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
         if (doc.exists) {
             newState.firebaseUser = doc.data();
 
-            if (newState.firebaseUser.notifications)
+            if (newState.firebaseUser.notifications) {
                 newState.firebaseUser.notifications = newState.firebaseUser.notifications.filter(
                     notification => !notification.read,
                 );
+            }
 
             // eslint-disable-next-line no-undef
             if (newState?.firebaseUser?.favourites) {
                 newState.account.balances.map((token: any) => {
                     if (newState.firebaseUser.favourites.includes(token.symbol)) {
-                token.isFavourite = true;
-            } else {
-                token.isFavourite = false;
-            }
+                        token.isFavourite = true;
+                    } else {
+                        token.isFavourite = false;
+                    }
 
                     return token;
                 });
+            }
+
+            if (!newState?.firebaseUser?.bank) {
+                newState.firebaseUser.bank = {
+                    name: '',
+                    code: '',
+                    accountName: '',
+                    address: '',
+                    swift: '',
+                    accountNumber: ''
+                };
+            }
+
+            if (!newState?.firebaseUser?.residency) {
+                newState.firebaseUser.residency = {
+                    document1Rejected: false,
+                    document2Rejected: false,
+                    document1RejectionReason: '',
+                    document2RejectionReason: '',
+                    document1Verified: false,
+                    document2Verified: false,
+                    document1Pending: false,
+                    document2Pending: false
+                };
             }
         }
     } catch (e) {
@@ -251,14 +276,10 @@ export async function loadTokensList(state: State, limit = 1000, offset = 0): Pr
 
     try {
         const tokens: IToken[] = await loadTokens([], limit, offset);
-        
+
         if (tokens.length) {
             newState.tokensLoaded = false;
-            if (newState.tokens) {
-                newState.tokens = [...tokens, ...newState.tokens];
-            } else {
-                newState.tokens = tokens;
-            }
+            newState.tokens = tokens;
         } else {
             newState.tokensLoaded = true;
         }

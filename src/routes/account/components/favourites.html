@@ -1,0 +1,14 @@
+<template bindable="selectedTab, user, state, updateData">
+    <section>
+        <h3>${'Favorites' & t}</h3>
+        <p if.bind="!user.favourites.length">${'You have no favorited tokens' & t}.</p>
+
+        <select2 placeholder="Select one or more tokens">
+            <select value.bind="state.firebaseUser.favourites" change.delegate="updateData()" multiple>
+                <option value.bind="token.symbol" repeat.for="token of state.tokens"
+                    >${token.name & t} (${token.symbol})</option
+                >
+            </select>
+        </select2>
+    </section>
+</template>

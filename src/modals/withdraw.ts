@@ -7,6 +7,7 @@ import { State } from 'store/state';
 import { pluck } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { environment } from 'environment';
+import { toFixedNoRounding } from 'common/functions';
 
 @autoinject()
 export class WithdrawModal {
@@ -109,7 +110,7 @@ export class WithdrawModal {
 
         try {
             if (this.token.symbol === 'STEEM') {
-                const result = await this.se.withdrawSteem(parseFloat(this.amount).toFixed(3));
+                const result = await this.se.withdrawSteem(toFixedNoRounding(parseFloat(this.amount), 3));
 
                 if (result) {
                     this.loading = false;

@@ -1,0 +1,61 @@
+<template bindable="tabChanged, selectedTab">
+    <header class="main-header">
+        <div class="container-fluid main-container d-flex flex-column justify-content-end">
+            <div class="row">
+                <div class="col-6">
+                    <h1>${'Settings' & t}</h1>
+                </div>
+            </div>
+            <nav class="nav tabs mt-3">
+                <a
+                    class="${selectedTab == 'profile' ? 'active' : ''} nav-link tabs__tab"
+                    href="javascript:void(0);"
+                    click.delegate="tabChanged({tab: 'profile'})"
+                    >${'Profile' & t}</a
+                >
+                <a
+                    class="${selectedTab == 'favorites' ? 'active' : ''} nav-link tabs__tab"
+                    href="javascript:void(0);"
+                    click.delegate="tabChanged({tab: 'favorites'})"
+                    >${'Favorites' & t}</a
+                >
+                <a
+                    class="${selectedTab == 'hiddenTokens' ? 'active' : ''} nav-link tabs__tab"
+                    href="javascript:void(0);"
+                    click.delegate="tabChanged({tab: 'hiddenTokens'})"
+                    >${'Hidden Tokens' & t}</a
+                >
+                <a
+                    class="${selectedTab == 'preferences' ? 'active' : ''} nav-link tabs__tab"
+                    href="javascript:void(0);"
+                    click.delegate="tabChanged({tab: 'preferences'})"
+                    >${'Preferences' & t}</a
+                >
+                <a
+                    class="${selectedTab == 'kyc' ? 'active' : ''} nav-link tabs__tab"
+                    href="javascript:void(0);"
+                    click.delegate="tabChanged({tab: 'kyc'})"
+                    >${'KYC' & t}</a
+                >
+                <!-- <a
+                    class="${selectedTab == 'accreditation' ? 'active' : ''} nav-link tabs__tab"
+                    href="javascript:void(0);"
+                    click.delegate="tabChanged({tab: 'accreditation'})"
+                    >${'Accreditation' & t}</a
+                > -->
+                <a
+                    class="${selectedTab == 'residency' ? 'active' : ''} nav-link tabs__tab"
+                    href="javascript:void(0);"
+                    click.delegate="tabChanged({tab: 'residency'})"
+                    >${'Residency' & t}</a
+                >
+                <a
+                    class="${selectedTab == 'bankDetails' ? 'active' : ''} nav-link tabs__tab"
+                    href="javascript:void(0);"
+                    click.delegate="tabChanged({tab: 'bankDetails'})"
+                    >${'Bank Details' & t}</a
+                >
+            </nav>
+        </div>
+    </header>
+</template>

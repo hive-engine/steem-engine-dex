@@ -117,7 +117,7 @@ export class App {
             {
                 route: 'tokens',
                 name: 'tokens',
-                moduleId: PLATFORM.moduleName('./routes/tokens'),
+                moduleId: PLATFORM.moduleName('./routes/tokens/tokens'),
                 nav: 0,
                 title: 'Tokens',
             },
@@ -192,6 +192,13 @@ export class App {
                 title: 'Tribes',
             },
             {
+                route: 'advertise-tribe',
+                name: 'advertise-tribe',
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/advertise-tribe'),
+                nav: false,
+                title: 'Advertise Tribe',
+            },
+            {
                 route: 'legal-services',
                 name: 'legal-services',
                 moduleId: PLATFORM.moduleName('./routes/offering-routes/legal-services'),
@@ -260,6 +267,13 @@ export class App {
                 title: 'Crowdfunding Back',
             },
             {
+                route: 'crowdfunding-how',
+                name: 'crowdfunding-how',
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-how'),
+                nav: false,
+                title: 'Crowdfunding How',
+            },
+            {
                 route: 'create-token',
                 name: 'createToken',
                 moduleId: PLATFORM.moduleName('./routes/create-token'),
@@ -302,6 +316,15 @@ export class App {
                 title: 'NFT Showroom',
             },
             {
+
+                route: 'nft-detail',
+                name: 'nft-detail',
+                moduleId: PLATFORM.moduleName('./routes/nfts/nft-detail/nft-detail'),
+                nav: false,
+                title: 'NFT Detail',
+            },
+            {
+
                 route: 'create-nft',
                 name: 'createNft',
                 moduleId: PLATFORM.moduleName('./routes/nfts/create'),

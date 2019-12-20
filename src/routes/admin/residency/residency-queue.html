@@ -1,0 +1,36 @@
+<template>
+    <div class="container-fluid main-container sections">
+        <div class="col-md-12">
+            <h3>KYC Approval Queue</h3>
+
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" if.bind="!residency.residency.document1Verified">Document 1 Verified</th>
+                        <th scope="col" if.bind="!residency.residency.document2Verified">Document 2 Verified</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="residency of residencyItems">
+                        <td>
+                            <a route-href="route: adminResidencyView; params.bind: { uid: residency.id };">${residency.id}</a>
+                        </td>
+                        <td>
+                            ${kyc.kyc.verified ? 'Verified' : 'Not Verified' & t}
+                        </td>
+                        <td if.bind="!residency.residency.document1Verified">
+                            ${residency.residency.document1Pending ? 'Awaiting Verification' : ''}
+                            ${residency.residency.document1Verified ? 'Verified' : ''}
+                        </td>
+                        <td if.bind="!residency.residency.document2Verified">
+                            ${residency.residency.document2Pending ? 'Awaiting Verification' : ''}
+                            ${residency.residency.document2Verified ? 'Verified' : ''}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</template>
