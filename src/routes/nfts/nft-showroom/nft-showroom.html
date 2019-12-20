@@ -179,76 +179,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-sm-12">
-                        <div class="showroom-card">
-                            <div class="showroom-card-img">
-                                <a route-href='route: nft-detail'
-                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
-                                /></a>
-                            </div>
-                            <div class="showroom-card-body">
-                                <div class="showroom-pfa">
-                                    <p class="what">
-                                        Fund
-                                    </p>
-                                    <span class="rating-wrap" style="margin-left: 20px;">
-                                        <span
-                                            ><font-awesome-icon
-                                                icon.bind="['fas', 'star']"
-                                                class="rate-nft"
-                                            ></font-awesome-icon
-                                        ></span>
-                                        <span
-                                            ><font-awesome-icon
-                                                icon.bind="['fas', 'star']"
-                                                class="rate-nft"
-                                            ></font-awesome-icon
-                                        ></span>
-                                        <span
-                                            ><font-awesome-icon
-                                                icon.bind="['fas', 'star']"
-                                                class="rate-nft"
-                                            ></font-awesome-icon
-                                        ></span>
-                                        <span
-                                            ><font-awesome-icon
-                                                icon.bind="['fas', 'star']"
-                                                class="rate-nft"
-                                            ></font-awesome-icon
-                                        ></span>
-                                        <span
-                                            ><font-awesome-icon
-                                                icon.bind="['fas', 'star']"
-                                                class="rate-nft"
-                                            ></font-awesome-icon
-                                        ></span>
-                                        <span
-                                            ><font-awesome-icon
-                                                icon.bind="['fas', 'star']"
-                                                class="rate-nft"
-                                            ></font-awesome-icon
-                                        ></span>
-                                    </span>
-                                </div>
-                                <h4 class="showroom-title">
-                                    Rare Token for the best purposes ever - Try one out
-                                </h4>
-
-                                <p class="project-category">Neoxian INC.</p>
-                                <div class="showroom-pf">
-                                    <p class="showroom-goal">
-                                        Initially
-                                        <span class="init-price">$ ${'4000' & t}</span>
-                                        <br />
-                                        now trading @
-                                        <span class="now-price">$ ${'2,500' & t}</span>
-                                        <a route-href='route: nft-detail' class="buyBtn">GET</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                  
                 </div>
             </div>
         </div>
@@ -432,36 +362,4 @@
             </div>
         </div>
     </section>
-    
-
-    <div class="container main-container">    
-            <div class="row">
-                <div class="col-12">
-                    <div class="table table-dark" ref="tokenTable">
-                        <div class="showroom-card">
-                            <div repeat.for="token of state.nfts">
-                                <td>
-                                    <img if.bind="token.metadata.icon" class="tokenIcon" src="${token.metadata.icon}" alt="${token.symbol}" title="${token.symbol}" > 
-                                </td>
-                                <td>${token.symbol}</td>
-                                <td>${token.name}</td>
-                                <td><template repeat.for="val of token.authorizedIssuingAccounts">${val}${!$last ? ', ': ''}</template></td>
-                                <td><template repeat.for="val of token.authorizedIssuingContracts">${val}${!$last ? ', ': ''}</template></td>
-                                <td if.bind="state.loggedIn">${token.stake >= 0 ? parseFloat(token.stake) : '--'}</td>
-                                <td class="table-buttons">
-                                    <a route-href="route: nft; params.bind: { symbol: token.symbol }" title="Token information">
-                                        <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
-                                    </a>
-                                    <a route-href="route: nftMarket; params.bind: { symbol: token.symbol }">
-                                            <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
-                                    </a>
-                                </td>
-                            </div>
-                        </tbody>
-                    </div>
-                </div>
-            </div>
-    
-        </div>
-        </div>
 </template>
