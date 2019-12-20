@@ -85,5 +85,5 @@ export class Nft {
             ],
         });
     }
-
+}
 
