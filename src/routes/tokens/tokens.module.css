@@ -67,7 +67,7 @@
     height: 24px;
 }
 button:focus {
-    outline: none;
+    outline: none!important;
 }
 .changePercentCol .red,
 .changePercentCol .green {
