@@ -1,9 +1,11 @@
+
 // import { DialogService } from 'aurelia-dialog';
 // import { NftPropertiesModal } from './../../modals/nft/nft-properties';
 import { State } from 'store/state';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 import { slick } from 'slick-carousel/slick/slick';
+
 
 
 
@@ -14,6 +16,7 @@ import styles from './nft-showroom.module.css';
 
 @autoinject()
 @connectTo()
+
 export class Nft {
     private styles = styles;
     private state: State;
@@ -82,4 +85,5 @@ export class Nft {
             ],
         });
     }
-}
+
+

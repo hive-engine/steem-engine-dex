@@ -2,6 +2,7 @@ body.route--nft-showroom {
     background: red;
     color: blue;
 }
+
 .meta {
     font-size: 12px;
     margin: 0;
@@ -269,3 +270,4 @@ h1 {
         margin-right: 0;
     }
 }
+
