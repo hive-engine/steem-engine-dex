@@ -9,8 +9,8 @@
                 <div class="col-md-12">
                     <div class="head-container">
                         <h2 class="text-center main-head color-white">${'Tokens' & t}</h2>
-                        <div class="button-rows text-center">
-                            <a class="actionButtons" type="button" click.delegate="deposit()">
+                        <div class="button-rows show-mobile text-center">
+                            <a class="actionButtons for-mobile" type="button" click.delegate="deposit()">
                                 <font-awesome-icon
                                     icon.bind="['fas', 'credit-card']"
                                     style="color:#00193f;"
@@ -21,7 +21,7 @@
                                     ${'Deposit' & t}
                                 </button></a
                             >
-                            <a class="actionButtons" type="button" click.delegate="withdraw()">
+                            <a class="actionButtons for-mobile" type="button" click.delegate="withdraw()">
                                 <font-awesome-icon
                                     icon.bind="['fas', 'university']"
                                     style="color:#00193f;"
@@ -33,7 +33,7 @@
                                 </button></a
                             >
 
-                            <a class="actionButtons" type="button" click.delegate="buyENG()">
+                            <a class="actionButtons for-mobile" type="button" click.delegate="buyENG()">
                                 <font-awesome-icon
                                     icon.bind="['fas', 'money-bill']"
                                     style="color:#00193f;"
@@ -44,7 +44,7 @@
                                     Buy ENG
                                 </button>
                             </a>
-                            <a class="actionButtons" route-href="route: createToken;">
+                            <a class="actionButtons for-mobile" route-href="route: createToken;">
                                 <font-awesome-icon
                                     icon.bind="['fas', 'plus-square']"
                                     style="color:#00193f;"

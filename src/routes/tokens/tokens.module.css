@@ -122,3 +122,19 @@ button:focus {
 .blueBtn:hover {
     background-color: #0147af !important;
 }
+
+/* ========= Mobile */
+@media only screen and (max-width: 468px) {
+    .show-mobile {
+        display: inline-flex;
+        width: 100%;
+    }
+    .for-mobile {
+        padding: 4px;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+        font-size: 12px;
+    }
+}
