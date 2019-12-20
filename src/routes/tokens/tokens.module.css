@@ -137,4 +137,7 @@ button:focus {
         align-content: center;
         font-size: 12px;
     }
+    .mobile-table {
+        width: 100%;
+    }
 }
