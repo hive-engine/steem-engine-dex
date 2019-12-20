@@ -192,6 +192,13 @@ export class App {
                 title: 'Tribes',
             },
             {
+                route: 'advertise-tribe',
+                name: 'advertise-tribe',
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/advertise-tribe'),
+                nav: false,
+                title: 'Advertise Tribe',
+            },
+            {
                 route: 'legal-services',
                 name: 'legal-services',
                 moduleId: PLATFORM.moduleName('./routes/offering-routes/legal-services'),
@@ -258,6 +265,13 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-back'),
                 nav: false,
                 title: 'Crowdfunding Back',
+            },
+            {
+                route: 'crowdfunding-how',
+                name: 'crowdfunding-how',
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-how'),
+                nav: false,
+                title: 'Crowdfunding How',
             },
             {
                 route: 'create-token',

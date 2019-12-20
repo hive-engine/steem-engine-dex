@@ -1,0 +1,39 @@
+/* body {
+    background-color: rgb(250, 250, 250);
+} */
+.register-header {
+    background-color: darkblue;
+    padding-top: 80px;
+    padding-bottom: 120px;
+    background-position: 100%;
+    /* margin: 41px 0px; */
+}
+.title h2 {
+    color: #fff;
+    font-size: 36px;
+    margin: 20px 0px 10px;
+    padding-top: 40px;
+}
+.title p {
+    color: #fff;
+    font-size: 18px;
+}
+
+.headImg {
+    position: absolute;
+    bottom: -80px;
+    right: -10px;
+    z-index: 1;
+}
+
+.split {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+.disclaimer-text {
+    margin-top: 50px;
+    margin-bottom: -20px;
+    font-size: 16px;
+}
