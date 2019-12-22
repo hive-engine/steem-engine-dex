@@ -1,18 +1,22 @@
 <template>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 text-center">
             <h4>Total wallet value: $${totalWalletValue}</h4>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-6">
-            <div class="row">
-                <div class="col-9 col-sm-3">
-                    <div class="input-group input-group-sm mb-3">
-                        <input type="text" class="form-control form-control-transparent" placeholder="Symbol"
-                               aria-label="Symbol" aria-describedby="symbol-search" value.bind="searchValue">
-                    </div>
+    <div class="container-fluid">
+        <div class="row text-center" style="display: flex; justify-content: center;">
+            <div class="col-md-8 col-sm-12">
+                <div class="input-group input-group-sm mb-3">
+                    <input
+                        type="text"
+                        class="form-control form-control-transparent"
+                        placeholder="Symbol"
+                        aria-label="Symbol"
+                        aria-describedby="symbol-search"
+                        value.bind="searchValue"
+                    />
                 </div>
             </div>
         </div>
@@ -20,13 +24,23 @@
         <div class="col-6 text-right">
             <div class="form-group">
                 <span class="switch">
-                    <input type="checkbox" class="switch" id="hideZeroBalances"
-                        checked.bind="user.wallet.hideZeroBalances" change.delegate="hideZeroBalancesChanged()">
+                    <input
+                        type="checkbox"
+                        class="switch"
+                        id="hideZeroBalances"
+                        checked.bind="user.wallet.hideZeroBalances"
+                        change.delegate="hideZeroBalancesChanged()"
+                    />
                     <label for="hideZeroBalances">Hide zero balances</label>
                 </span>
                 <span class="switch">
-                    <input type="checkbox" class="switch" id="onlyShowFavourites"
-                        checked.bind="user.wallet.onlyShowFavourites" change.delegate="onlyShowFavourites()">
+                    <input
+                        type="checkbox"
+                        class="switch"
+                        id="onlyShowFavourites"
+                        checked.bind="user.wallet.onlyShowFavourites"
+                        change.delegate="onlyShowFavourites()"
+                    />
                     <label for="onlyShowFavourites">${'Only show favourites' & t}</label>
                 </span>
             </div>
@@ -51,15 +65,22 @@
                 <tbody>
                     <tr repeat.for="token of balances | arrayFilter: {search: 'symbol', term: searchValue}">
                         <td>
-                            <button type="button"
+                            <button
+                                type="button"
                                 class="btn btn-icon btn-favourite ${token.isFavourite ? 'active' : ''}"
-                                click.delegate="favouriteToken(token)">
+                                click.delegate="favouriteToken(token)"
+                            >
                                 <font-awesome-icon if.bind="token.isFavourite" icon.bind="['fas', 'star']">
                                 </font-awesome-icon>
                                 <font-awesome-icon else icon.bind="['far', 'star']"></font-awesome-icon>
                             </button>
-                            <img class="walletTokenIcon" if.bind="token.token.metadata.icon"
-                                src="${token.token.metadata.icon}" alt="${token.symbol}" title="${token.symbol}" />
+                            <img
+                                class="walletTokenIcon"
+                                if.bind="token.token.metadata.icon"
+                                src="${token.token.metadata.icon}"
+                                alt="${token.symbol}"
+                                title="${token.symbol}"
+                            />
                         </td>
                         <td>
                             ${token.symbol}
@@ -67,21 +88,35 @@
                         <td class="text-left">${token.token.name}</td>
                         <td class="text-right" data-order="${token.balance}">${token.balance | comma}</td>
                         <td class="text-right changePercentCol" data-order="${token.usdValueFormatted}">
-                            <span class="changePercent ${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}">
+                            <span
+                                class="changePercent ${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
+                            >
                                 ${token.usdValueFormatted}
                             </span>
                         </td>
-                        <td class="text-right changePercentCol" data-order="${token.metric.priceChangePercent.toFixed(2)}">
-                            <span class="changePercent ${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}">
+                        <td
+                            class="text-right changePercentCol"
+                            data-order="${token.metric.priceChangePercent.toFixed(2)}"
+                        >
+                            <span
+                                class="changePercent ${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
+                            >
                                 ${token.metric.priceChangePercent | toFixed:2}%
                             </span>
                         </td>
-                        <td class="text-right" data-order="${token.stake}">${token.stake >= 0 ? token.stake : '--'} (${token.pendingUnstake > 0 ? token.pendingUnstake : 0})</td>
+                        <td class="text-right" data-order="${token.stake}">
+                            ${token.stake >= 0 ? token.stake : '--'} (${token.pendingUnstake > 0 ? token.pendingUnstake
+                            : 0})
+                        </td>
                         <td class="table-buttons wallet-actions text-left">
                             <button click.delegate="showTokenInfo(token)" title="Token information">
                                 <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
                             </button>
-                            <button if.bind="token.token.issuer === token.account" click.delegate="editToken(token.token)" title="Edit token">
+                            <button
+                                if.bind="token.token.issuer === token.account"
+                                click.delegate="editToken(token.token)"
+                                title="Edit token"
+                            >
                                 <font-awesome-icon icon.bind="['fas', 'pencil-alt']"></font-awesome-icon>
                             </button>
                             <a route-href="route: exchange; params.bind: { symbol: token.symbol }" title="Token market">
@@ -90,40 +125,66 @@
                             <button click.delegate="sendTokens(token.symbol)" title="Send tokens">
                                 <font-awesome-icon icon.bind="['fas', 'share']"></font-awesome-icon>
                             </button>
-                            <a route-href="route: token-history; params.bind: { symbol: token.symbol }"
-                               title="Show token history">
+                            <a
+                                route-href="route: token-history; params.bind: { symbol: token.symbol }"
+                                title="Show token history"
+                            >
                                 <font-awesome-icon icon.bind="['fas', 'list-ul']"></font-awesome-icon>
                             </a>
-                            <button if.bind="token.token.stakingEnabled && token.balance > 0"
-                                    click.delegate="stakeTokens(token.symbol)" title="Stake tokens">
+                            <button
+                                if.bind="token.token.stakingEnabled && token.balance > 0"
+                                click.delegate="stakeTokens(token.symbol)"
+                                title="Stake tokens"
+                            >
                                 <font-awesome-icon icon.bind="['fas', 'lock']"></font-awesome-icon>
                             </button>
-                            <button if.bind="token.token.stakingEnabled && token.stake > 0"
-                                    click.delegate="unstakeTokens(token.symbol)" title="Unstake tokens">
+                            <button
+                                if.bind="token.token.stakingEnabled && token.stake > 0"
+                                click.delegate="unstakeTokens(token.symbol)"
+                                title="Unstake tokens"
+                            >
                                 <font-awesome-icon icon.bind="['fas', 'unlock']"></font-awesome-icon>
                             </button>
-                            <button if.bind="token.token.issuer === token.account && !token.token.stakingEnabled"
-                                    click.delegate="enableStaking(token.symbol)" title="Enable staking">
+                            <button
+                                if.bind="token.token.issuer === token.account && !token.token.stakingEnabled"
+                                click.delegate="enableStaking(token.symbol)"
+                                title="Enable staking"
+                            >
                                 <font-awesome-icon icon.bind="['fas', 'gem']"></font-awesome-icon>
                             </button>
-                            <a if.bind="token.pendingUnstake > 0" route-href="route: pending-unstakes"
-                               title="View pending unstakes">
+                            <a
+                                if.bind="token.pendingUnstake > 0"
+                                route-href="route: pending-unstakes"
+                                title="View pending unstakes"
+                            >
                                 <font-awesome-icon icon.bind="['fas', 'eye']"></font-awesome-icon>
                             </a>
-                            <a if.bind="token.pendingUndelegations > 0" route-href="route: pending-undelegations"
-                               title="Pending undelegations">
+                            <a
+                                if.bind="token.pendingUndelegations > 0"
+                                route-href="route: pending-undelegations"
+                                title="Pending undelegations"
+                            >
                                 <font-awesome-icon icon.bind="['fas', 'divide']"></font-awesome-icon>
                             </a>
-                            <button if.bind="token.token.delegationEnabled && token.token.stakingEnabled && token.stake > 0"
-                                    click.delegate="delegateTokens(token.symbol)" title="Delegate tokens">
+                            <button
+                                if.bind="token.token.delegationEnabled && token.token.stakingEnabled && token.stake > 0"
+                                click.delegate="delegateTokens(token.symbol)"
+                                title="Delegate tokens"
+                            >
                                 <font-awesome-icon icon.bind="['fas', 'arrows-alt-h']"></font-awesome-icon>
                             </button>
-                            <button if.bind="token.token.issuer === token.account && !token.token.delegationEnabled && token.token.stakingEnabled"
-                                    click.delegate="enableDelegation(token.symbol)" title="Enable delegation">
+                            <button
+                                if.bind="token.token.issuer === token.account && !token.token.delegationEnabled && token.token.stakingEnabled"
+                                click.delegate="enableDelegation(token.symbol)"
+                                title="Enable delegation"
+                            >
                                 <font-awesome-icon icon.bind="['fas', 'dolly']"></font-awesome-icon>
                             </button>
-                            <button if.bind="token.token.delegationEnabled && token.delegationsOut > 0"
-                                    click.delegate="undelegateTokens(token.symbol)" title="Undelegate tokens">
+                            <button
+                                if.bind="token.token.delegationEnabled && token.delegationsOut > 0"
+                                click.delegate="undelegateTokens(token.symbol)"
+                                title="Undelegate tokens"
+                            >
                                 <font-awesome-icon icon.bind="['fas', 'folder-minus']"></font-awesome-icon>
                             </button>
                         </td>
