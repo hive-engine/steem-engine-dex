@@ -1,0 +1,39 @@
+<template>
+    <header class="create-nft-header-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="title">
+                        <h1 class="create-nft-header">${'issueNftHeading' & t}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container main-container">
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" value.bind="token.name">
+                </div>
+                <div class="form-group">
+                    <label>URL</label>
+                    <input type="text" class="form-control" value.bind="token.metadata.url">
+                </div>
+                <div class="form-group">
+                    <label>Icon</label>
+                    <input type="text" class="form-control" value.bind="token.metadata.icon">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" class="form-control" value.bind="token.metadata.desc">
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-lg btn-primary" click.delegate="saveChanges()">${'Save changes' & t}</button>
+                </div>  
+            </div>
+        </div>
+    </div>
+</template>
