@@ -1,13 +1,15 @@
 @font-face {
     font-family: main-font-bold;
-    src: url("../../../fonts/main-font-bold-c.woff");
+    src: url('../../../fonts/main-font-bold-c.woff');
     font-display: fallback;
 }
 
 .route--tokens {
     color: #333;
 }
-
+/* .desktop-table {
+    width: 100%;
+} */
 .tokenIcon {
     width: 24px;
     height: 24px;
@@ -24,4 +26,14 @@
 
 .changePercentCol .green {
     color: green;
+}
+@media only screen and (max-width: 468px) {
+    .mobile-table {
+        width: 100%!important;
+    }
+}
+@media only screen and (min-width: 769px) {
+    .mobile-table {
+        width: 100%!important;
+    }
 }
