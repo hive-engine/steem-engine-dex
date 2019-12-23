@@ -14,7 +14,7 @@ export class NftService {
 
     }
 
-    issue(symbol: string, to: string, from: NftFees, fromType?: NftType, toType?: NftType, lockTokens?: any, properties?: any) {
+    async issue(symbol: string, to: string, from: NftFees, toType?: NftType, lockTokens?: any, properties?: any) {
         const transactionData = {
             contractName: 'nft',
             contractAction: 'issue',
@@ -25,7 +25,7 @@ export class NftService {
             }
         };
 
-        if (fromType === 'user' && toType === 'contract') {
+        if (toType === 'contract') {
             transactionData.contractPayload = {
                 ...transactionData.contractPayload,
                 ...{
@@ -58,9 +58,9 @@ export class NftService {
         }
 
         if (window.steem_keychain) {
-            customJson(this.se.getUser(), environment.chainId, 'Active', JSON.stringify(transactionData), `Issue NFT Token ${symbol}`, async (response) => {
+            const response = await customJson(this.se.getUser(), environment.chainId, 'Active', JSON.stringify(transactionData), `Issue NFT Token ${symbol}`);
 
-            });
+            console.log(response);
         }
     }
 }
