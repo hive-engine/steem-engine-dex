@@ -13,11 +13,35 @@ export class Issue {
     private state: State;
     private symbol: string;
 
+    private issuingTo: string;
+    private tokenProperties: any[] = [];
+    private lockedTokens: any[] = [];
+
     constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {}
 
     async canActivate({ symbol }) {
         if (symbol) {
             this.symbol = symbol;
         }
+    }
+
+    addTokenPropertyRow() {
+        this.tokenProperties.push({ name: '', value: '' });
+    }
+
+    addLockedTokenPropertyRow() {
+        this.lockedTokens.push({ name: '', amount: '' });
+    }
+
+    removeProperty($index) {
+        this.tokenProperties.splice($index, 1);
+    }
+
+    removeLockedToken($index) {
+        this.lockedTokens.splice($index, 1);
+    }
+
+    issueNft() {
+
     }
 }

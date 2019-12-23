@@ -15,25 +15,46 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" class="form-control" value.bind="token.name">
+                    <label>To</label>
+                    <input type="text" class="form-control" value.bind="issuingTo">
                 </div>
-                <div class="form-group">
-                    <label>URL</label>
-                    <input type="text" class="form-control" value.bind="token.metadata.url">
-                </div>
-                <div class="form-group">
-                    <label>Icon</label>
-                    <input type="text" class="form-control" value.bind="token.metadata.icon">
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <input type="text" class="form-control" value.bind="token.metadata.desc">
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-lg btn-primary" click.delegate="saveChanges()">${'Save changes' & t}</button>
-                </div>  
-            </div>
-        </div>
-    </div>
+
+                <div class="mb-3">
+                    <h4>Properties <button type="button" click.delegate="addTokenPropertyRow()">[+]</button></h4>
+                    <p>Set one or more optional properties at the time of issuing.</p>
+                    
+                    <template repeat.for="property of tokenProperties">
+                        <div class="form-group">
+                            <label>Name <button type="button" click.delegate="removeProperty($index)">[X]</button></label>
+                            <input type="text" value.bind="property.name">
+                        </div>
+                        <div class="form-group">
+                            <label>Value</label>
+                            <input type="text" value.bind="property.name">
+                        </div>
+                    </template>
+</div>
+
+<div class="mb-3">
+    <h4>Locked Tokens <button type="button" click.delegate="addLockedTokenPropertyRow()">[+]</button></h4>
+    <p>Set one or more optional properties at the time of issuing.</p>
+
+    <template repeat.for="token of lockedTokens">
+                        <div class="form-group">
+                            <label>Name <button type="button" click.delegate="removeLockedToken($index)">[X]</button></label>
+                            <input type="text" value.bind="token.name">
+                        </div>
+                        <div class="form-group">
+                            <label>Value</label>
+                            <input type="text" value.bind="token.amount">
+                        </div>
+                    </template>
+</div>
+
+<div class="form-group">
+    <button type="button" class="btn btn-lg btn-primary" click.delegate="issueNft()">${'Issue' & t}</button>
+</div>
+</div>
+</div>
+</div>
 </template>
