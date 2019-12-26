@@ -128,6 +128,7 @@ button:focus {
     .show-mobile {
         display: inline-flex;
         width: 100%;
+        justify-content: center;
     }
     .for-mobile {
         padding: 4px;
