@@ -42,6 +42,12 @@ export class Issue {
     }
 
     issueNft() {
+        const lockTokens = this.lockedTokens.reduce((acc, value) => {
+            return Object.assign(acc, {
+                [value.name]: value.amount
+            })
+        }, {});
+
 
     }
 }
