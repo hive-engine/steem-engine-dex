@@ -19,6 +19,14 @@
                     <input type="text" class="form-control" value.bind="issuingTo">
                 </div>
 
+                <div class="form-group">
+                    <label>Fee Symbol</label>
+                    <select value.bind="feeSymbol">
+                        <option value="${environment.nativeToken}">${environment.nativeToken}</option>
+                        <option value="PAL">PAL</option>
+                    </select>
+                </div>
+
                 <div class="mb-3">
                     <h4>Properties <button type="button" click.delegate="addTokenPropertyRow()">[+]</button></h4>
                     <p>Set one or more optional properties at the time of issuing.</p>
