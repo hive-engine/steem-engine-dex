@@ -19,7 +19,7 @@ export class Issue {
 
     private issuingTo: string;
     private feeSymbol = environment.nativeToken;
-    private tokenProperties: {name: string; value: string;}[] = [];
+    private tokenProperties: {name: string; type: string; value: string | number | boolean;}[] = [];
     private lockedTokens: {name: string; amount: string;}[] = [];
 
     constructor(private se: SteemEngine, private nftService: NftService, private taskQueue: TaskQueue, private dialogService: DialogService) {}
@@ -31,7 +31,7 @@ export class Issue {
     }
 
     addTokenPropertyRow() {
-        this.tokenProperties.push({ name: '', value: '' });
+        this.tokenProperties.push({ name: '', type: 'string', value: '' });
     }
 
     addLockedTokenPropertyRow() {
@@ -54,8 +54,18 @@ export class Issue {
         }, {});
 
         const tokenProperties = this.tokenProperties.reduce((acc, value) => {
+            let coercedValue = value.value;
+            
+            if (value.type === 'boolean') {
+                coercedValue = !!value.value;
+            }
+
+            if (value.type === 'number') {
+                coercedValue = +value.value;
+            }
+
             return Object.assign(acc, {
-                [value.name]: value.value
+                [value.name]: coercedValue
             })
         }, {});
 
