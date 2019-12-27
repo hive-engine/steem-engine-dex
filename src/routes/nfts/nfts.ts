@@ -25,10 +25,6 @@ export class Nfts {
 
     async walletDialogCloseResponse(response: DialogCloseResult) {
         console.log(response);
-
-        // reload data if necessary
-        if (!response.wasCancelled) {
-        }
     }
 
     attached() {
