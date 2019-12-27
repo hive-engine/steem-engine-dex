@@ -14,53 +14,37 @@ export class NftService {
 
     }
 
-    async issue(symbol: string, to: string, from: NftFees, toType?: NftType, lockTokens?: any, properties?: any) {
+    async issue(symbol: string, feeSymbol: string, to: string, toType?: NftType, lockTokens?: any, properties?: any) {
         const transactionData = {
             contractName: 'nft',
             contractAction: 'issue',
             contractPayload: {
                 'symbol': symbol,
                 'to': to,
-                'feeSymbol': symbol
+                'feeSymbol': feeSymbol
             }
         };
 
-        if (toType === 'contract') {
+        if (lockTokens && Object.keys(lockTokens).length) {
             transactionData.contractPayload = {
                 ...transactionData.contractPayload,
                 ...{
-                    toType: 'contract',
-                    feeSymbol: symbol
-                }
-            };
-        }
-
-        if (lockTokens) {
-            transactionData.contractPayload = {
-                ...transactionData.contractPayload,
-                ...{
-                    toType: 'contract',
-                    feeSymbol: symbol,
                     lockTokens: lockTokens
                 }
             };
         }
 
-        if (properties) {
+        if (properties && Object.keys(properties).length) {
             transactionData.contractPayload = {
                 ...transactionData.contractPayload,
                 ...{
-                    toType: 'contract',
-                    feeSymbol: symbol,
                     properties: properties
                 }
             };
         }
 
         if (window.steem_keychain) {
-            const response = await customJson(this.se.getUser(), environment.chainId, 'Active', JSON.stringify(transactionData), `Issue NFT Token ${symbol}`);
-
-            console.log(response);
+            return customJson(this.se.getUser(), environment.chainId, 'Active', JSON.stringify(transactionData), `Issue NFT Token ${symbol}`);
         }
     }
 }
