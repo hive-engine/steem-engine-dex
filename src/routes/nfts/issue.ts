@@ -14,8 +14,8 @@ export class Issue {
     private symbol: string;
 
     private issuingTo: string;
-    private tokenProperties: any[] = [];
-    private lockedTokens: any[] = [];
+    private tokenProperties: {name: string; value: string;}[] = [];
+    private lockedTokens: {name: string; amount: string;}[] = [];
 
     constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {}
 
