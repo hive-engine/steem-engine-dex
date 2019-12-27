@@ -48,6 +48,12 @@ export class Issue {
             })
         }, {});
 
+        const tokenProperties = this.tokenProperties.reduce((acc, value) => {
+            return Object.assign(acc, {
+                [value.name]: value.value
+            })
+        }, {});
 
+        console.log(tokenProperties);
     }
 }
