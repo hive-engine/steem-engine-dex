@@ -331,7 +331,6 @@ export class App {
                 title: 'NFT Detail',
             },
             {
-
                 route: 'create-nft',
                 name: 'createNft',
                 moduleId: PLATFORM.moduleName('./routes/nfts/create'),
