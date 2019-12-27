@@ -15,25 +15,106 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" class="form-control" value.bind="token.name">
+                    <label>To</label>
+                    <input type="text" class="form-control" value.bind="issuingTo">
                 </div>
+
                 <div class="form-group">
-                    <label>URL</label>
-                    <input type="text" class="form-control" value.bind="token.metadata.url">
+                    <label>Fee Symbol</label>
+                    <select value.bind="feeSymbol" class="form-control">
+                        <option value="${environment.nativeToken}">${environment.nativeToken}</option>
+                        <option value="PAL">PAL</option>
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label>Icon</label>
-                    <input type="text" class="form-control" value.bind="token.metadata.icon">
+
+                <div class="row">
+                    <div class="col-12">
+                        <h4>${'Properties'}</h4>
+                        <p>Set one or more optional properties at the time of issuing.</p>
+                        <table class="table order-list">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Value</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr repeat.for="property of tokenProperties">
+                                    <td>
+                                        <input type="text" class="form-control" value.bind="property.name">
+                                    </td>
+                                    <td>
+                                        <select value.bind="property.type" class="form-control">
+                                            <option value="string">String</option>
+                                            <option value="boolean">Boolean</option>
+                                            <option value="number">Number</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" value.bind="property.value">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-md btn-danger" click.delegate="removeProperty($index)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="row">
+                                            <button type="button" class="btn btn-lg btn-primary btn-block" click.delegate="addTokenPropertyRow()">New Property</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <input type="text" class="form-control" value.bind="token.metadata.desc">
+
+                <div class="row">
+                    <div class="col-12">
+                        <h4>${'Locked Tokens'}</h4>
+                        <p>Lock up tokens with this NFT</p>
+                        <table class="table order-list">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Amount</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr repeat.for="token of lockedTokens">
+                                    <td>
+                                        <input type="text" class="form-control" value.bind="token.name">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" value.bind="token.amount">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-md btn-danger" click.delegate="removeLockedToken($index)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="row">
+                                            <button type="button" class="btn btn-lg btn-primary btn-block" click.delegate="addLockedTokenPropertyRow()">New Token</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-lg btn-primary" click.delegate="saveChanges()">${'Save changes' & t}</button>
-                </div>  
-            </div>
-        </div>
-    </div>
+
+<div class="form-group">
+    <button type="button" class="btn btn-lg btn-primary" click.delegate="issueNft()">${'Issue' & t}</button>
+</div>
+</div>
+</div>
+</div>
 </template>

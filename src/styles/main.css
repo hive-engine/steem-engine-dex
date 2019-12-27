@@ -7,12 +7,12 @@
 @import "./scot-components.css";
 @import "./create-token.css";
 @import "./create-nft.css";
-
 @font-face {
     font-family: main-font;
     src: url("../fonts/main-font-regular.woff");
     font-display: fallback;
 }
+
 @font-face {
     font-family: main-font-bold;
     src: url("../fonts/main-font-bold-c.woff");
@@ -50,6 +50,7 @@ a {
     display: inline-block;
     transition: 0.4s ease-in;
 }
+
 a:hover,
 a:focus {
     text-decoration: none;
@@ -111,7 +112,7 @@ legend {
     height: 250px;
 }
 
-.main-header > .main-container {
+.main-header>.main-container {
     height: 100%;
     margin-top: 0;
 }
@@ -264,6 +265,18 @@ sellbook {
 .notifications-bar .alert {
     border-radius: 0;
     opacity: 0.85;
+}
+
+.table-buttons {
+    display: flex;
+}
+
+.table-buttons a {
+    margin-right: 10px;
+}
+
+.table-buttons a:last-child {
+    margin-right: 0;
 }
 
 .table-buttons a,

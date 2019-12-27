@@ -237,7 +237,7 @@ describe('Functions', () => {
     test('create sell transaction through keychain and no successful response', async () => {
         const response = await createTransaction('beggars', 'market', 'sell', { symbol: 'ENG' }, 'Sell', 'sellSuccess', 'errorSuccess');
 
-        expect(window.steem_keychain.requestCustomJson).toHaveBeenCalledWith('beggars', 'ssc-mainnet1', 'Active', expect.stringContaining('ENG'), 'Sell', expect.any(Function));
+        expect(window.steem_keychain.requestCustomJson).toHaveBeenCalledWith('beggars', expect.stringContaining('ssc-'), 'Active', expect.stringContaining('ENG'), 'Sell', expect.any(Function));
         expect(response).toBeFalsy();
     });
 
@@ -257,7 +257,7 @@ describe('Functions', () => {
 
         const response = await createTransaction('beggars', 'market', 'sell', { symbol: 'ENG' }, 'Sell', 'sellSuccess', 'errorSuccess');
 
-        expect(window.steem_keychain.requestCustomJson).toHaveBeenCalledWith('beggars', 'ssc-mainnet1', 'Active', expect.stringContaining('ENG'), 'Sell', expect.any(Function));
+        expect(window.steem_keychain.requestCustomJson).toHaveBeenCalledWith('beggars', expect.stringContaining('ssc-'), 'Active', expect.stringContaining('ENG'), 'Sell', expect.any(Function));
         expect(response).not.toBeFalsy();
     });
 
