@@ -21,43 +21,89 @@
 
                 <div class="form-group">
                     <label>Fee Symbol</label>
-                    <select value.bind="feeSymbol">
+                    <select value.bind="feeSymbol" class="form-control">
                         <option value="${environment.nativeToken}">${environment.nativeToken}</option>
                         <option value="PAL">PAL</option>
                     </select>
                 </div>
 
-                <div class="mb-3">
+                <div class="row">
+                    <div class="col-12">
+                        <h4>${'Properties'}</h4>
+                        <p>Set one or more optional properties at the time of issuing.</p>
+                        <table class="table order-list">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Value</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr repeat.for="property of tokenProperties">
+                                    <td>
+                                        <input type="text" class="form-control" value.bind="property.name">
+                                    </td>
+                                    <td>
+                                        <select value.bind="property.type" class="form-control">
+                                            <option value="string">String</option>
+                                            <option value="boolean">Boolean</option>
+                                            <option value="number">Number</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" value.bind="property.value">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-md btn-danger" click.delegate="removeProperty($index)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="row">
+                                            <button type="button" class="btn btn-lg btn-primary btn-block" click.delegate="addTokenPropertyRow()">New Property</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- <div class="mb-3">
                     <h4>Properties <button type="button" click.delegate="addTokenPropertyRow()">[+]</button></h4>
                     <p>Set one or more optional properties at the time of issuing.</p>
                     
                     <template repeat.for="property of tokenProperties">
                         <div class="form-group">
                             <label>Name <button type="button" click.delegate="removeProperty($index)">[X]</button></label>
-                            <input type="text" value.bind="property.name">
+                            <input type="text" class="form-control" value.bind="property.name">
                         </div>
                         <div class="form-group">
                             <label>Value</label>
-                            <input type="text" value.bind="property.value">
+                            <input type="text" class="form-control" value.bind="property.value">
                         </div>
                     </template>
-</div>
+</div> -->
 
-<div class="mb-3">
+<!-- <div class="mb-3">
     <h4>Locked Tokens <button type="button" click.delegate="addLockedTokenPropertyRow()">[+]</button></h4>
     <p>Set one or more optional properties at the time of issuing.</p>
 
     <template repeat.for="token of lockedTokens">
                         <div class="form-group">
                             <label>Name <button type="button" click.delegate="removeLockedToken($index)">[X]</button></label>
-                            <input type="text" value.bind="token.name">
+                            <input type="text" class="form-control" value.bind="token.name">
                         </div>
                         <div class="form-group">
                             <label>Value</label>
-                            <input type="text" value.bind="token.amount">
+                            <input type="text" class="form-control" value.bind="token.amount">
                         </div>
                     </template>
-</div>
+</div> -->
 
 <div class="form-group">
     <button type="button" class="btn btn-lg btn-primary" click.delegate="issueNft()">${'Issue' & t}</button>
