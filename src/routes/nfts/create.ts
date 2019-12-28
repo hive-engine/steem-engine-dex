@@ -1,3 +1,4 @@
+import { SteemEngine } from 'services/steem-engine';
 import { Router } from 'aurelia-router';
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-undef */
@@ -26,7 +27,7 @@ export class CreateNft {
 
     private state: State;
 
-    constructor(private controllerFactory: ValidationControllerFactory, private router: Router, private store: Store<State>) {
+    constructor(private controllerFactory: ValidationControllerFactory, private se: SteemEngine, private router: Router, private store: Store<State>) {
         this.controller = controllerFactory.createForCurrentScope();
 
         this.renderer = new BootstrapFormRenderer();
@@ -87,7 +88,7 @@ export class CreateNft {
     }
 
     attached() {
-        this.authorisedIssuingAccounts.push({ name: '' });
+        this.authorisedIssuingAccounts.push({ name: this.se.getUser() });
         this.authorisedIssuingContracts.push({ name: '' });
     }
 
