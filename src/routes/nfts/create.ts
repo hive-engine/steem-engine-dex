@@ -66,7 +66,6 @@ export class CreateNft {
                 return value?.match(/^[a-zA-Z0-9 ]*$/)?.length > 0 ?? false;
             })
                 .withMessageKey('errors:requiredAlphaNumericSpaces')
-
             .ensure('symbol')
             .required()
                 .withMessageKey('errors:required')
@@ -78,6 +77,8 @@ export class CreateNft {
                 return isUppercase && validLength && validString;
             })
                 .withMessageKey('errors:symbolValid')
+            .satisfiesRule('nftAvailable')
+                .withMessageKey('errors:nftUnavailable')
 
             .ensure('maxSupply')
             .satisfies((value: string) => {
