@@ -41,8 +41,6 @@ export class Issue {
     propertyTypeSelected(property) {
         property.type = property.$prop.type;
         delete property.$prop;
-
-        console.log(property);
     }
 
     addTokenPropertyRow() {
