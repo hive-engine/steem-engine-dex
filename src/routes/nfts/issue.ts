@@ -1,3 +1,4 @@
+import { query } from 'common/apollo';
 import { NftService } from './../../services/nft-service';
 import { DialogService } from 'aurelia-dialog';
 import { SteemEngine } from './../../services/steem-engine';
@@ -16,6 +17,7 @@ export class Issue {
     private environment = environment;
     private state: State;
     private symbol: string;
+    private token;
 
     private issuingTo: string;
     private feeSymbol = environment.nativeToken;
@@ -26,8 +28,21 @@ export class Issue {
 
     async canActivate({ symbol }) {
         if (symbol) {
+            const response = await query(`query { nft(symbol: "${symbol}") { properties { isReadOnly, name, type }}}`);
+
+            if (response?.data?.nft) {
+                this.token = response.data.nft;
+            }
+
             this.symbol = symbol;
         }
+    }
+
+    propertyTypeSelected(property) {
+        property.type = property.$prop.type;
+        delete property.$prop;
+
+        console.log(property);
     }
 
     addTokenPropertyRow() {

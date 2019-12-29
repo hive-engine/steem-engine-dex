@@ -43,14 +43,12 @@
                             <tbody>
                                 <tr repeat.for="property of tokenProperties">
                                     <td>
-                                        <input type="text" class="form-control" value.bind="property.name">
+                                        <select class="form-control" value.bind="property.$prop" change.delegate="propertyTypeSelected(property)">
+                                            <option repeat.for="prop of token.properties" model.bind="prop">${prop.name}</option>
+                                        </select>
                                     </td>
                                     <td>
-                                        <select value.bind="property.type" class="form-control">
-                                            <option value="string">String</option>
-                                            <option value="boolean">Boolean</option>
-                                            <option value="number">Number</option>
-                                        </select>
+                                        <input type="text" class="form-control" value.to-view="property.type" disabled>
                                     </td>
                                     <td>
                                         <input type="text" class="form-control" value.bind="property.value">
