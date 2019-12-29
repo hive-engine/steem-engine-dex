@@ -17,6 +17,8 @@ import { autoinject } from 'aurelia-framework';
 
 import { getCurrentFirebaseUser, markNotificationsRead } from 'store/actions';
 
+import './common/custom-validation-rules';
+
 function lastCalledActionMiddleware(state: State, originalState: State, settings = {}, action: CallingAction) {
     state.$action = {
         name: action.name,
