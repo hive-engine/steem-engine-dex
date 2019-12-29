@@ -51,7 +51,7 @@
                                         <input type="text" class="form-control" value.to-view="property.type" disabled>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" value.bind="property.value">
+                                        <input type="text" class="form-control" value.bind="property.value" maxlength="${property.type == 'string' ? 100 : 999999999}">
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-md btn-danger" click.delegate="removeProperty($index)">Delete</button>
