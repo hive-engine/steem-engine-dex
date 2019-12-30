@@ -52,7 +52,12 @@
                                         <input type="text" class="form-control" value.to-view="property.type" disabled>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" value.bind="property.value" maxlength="${property.type == 'string' ? 100 : 999999999}">
+                                        <select class="form-control" value.bind="property.value" if.bind="property.type == 'boolean'">
+                                            <option model.bind="true">True</option>
+                                            <option model.bind="false">False</option>
+                                        </select>
+                                        <input type="text" if.bind="property.type == 'string'" class="form-control" value.bind="property.value" maxlength="100">
+                                        <input type="number" if.bind="property.type == 'number'" class="form-control" value.bind="property.value">
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-md btn-danger" click.delegate="removeProperty($index)">Delete</button>
