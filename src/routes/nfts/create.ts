@@ -86,6 +86,14 @@ export class CreateNft {
                     return this.maxSupply !== null && this.maxSupply.toString().length ? parseInt(value) >= 1 && parseInt(value) <= 9007199254740991 : true;
                 })
                     .withMessageKey('errors:maxSupply')
+
+            .ensure('authorisedIssuingAccounts')
+                .maxItems(10)
+                .withMessageKey('errors:max10rows')
+
+            .ensure('authorisedIssuingContracts')
+                .maxItems(10)
+                .withMessageKey('errors:max10rows')
             .on(CreateNft);
     }
 
