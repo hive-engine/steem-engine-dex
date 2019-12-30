@@ -18,6 +18,7 @@ export class PropertiesNft {
     private styles = styles;
     private state: State;
     private token;
+    private tokenProperties: {name: string; type: string; value: string | number | boolean;}[] = [];
 
     constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {}
 
@@ -35,6 +36,13 @@ export class PropertiesNft {
 
     stateChanged(newState) {
         this.token = { ...newState };
+        
+        this.tokenProperties = this.token.properties;
+
+        this.tokenProperties.map((property) => {
+            (property as any).$prop = property;
+            return property;
+        })
     }
     
 }

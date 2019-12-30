@@ -3,9 +3,9 @@
         <div class="container-fluid main-container d-flex flex-column justify-content-end">
             <div class="row">
                 <div class="col-6">
-                    <h1>Update ${state.nft.symbol & t}</h1>
+                    <h1>Properties ${state.nft.symbol & t}</h1>
                     <h3>${state.nft.name}</h3>
-                    <p class="meta text-muted mb-3">Edit your NFT metadata</p>
+                    <p class="meta text-muted mb-3">Add properties to NFT</p>
                 </div>
             </div>
         </div>
@@ -13,27 +13,51 @@
 
     <div class="container main-container">
         <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" class="form-control" value.bind="token.name">
-                </div>
-                <div class="form-group">
-                    <label>URL</label>
-                    <input type="text" class="form-control" value.bind="token.metadata.url">
-                </div>
-                <div class="form-group">
-                    <label>Icon</label>
-                    <input type="text" class="form-control" value.bind="token.metadata.icon">
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <input type="text" class="form-control" value.bind="token.metadata.desc">
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-lg btn-primary" click.delegate="saveChanges()">${'Save changes' & t}</button>
-                </div>  
-            </div>
-        </div>
+            <div class="col-12">
+                <h4>${'Properties'}</h4>
+                <p>Set one or more optional properties at the time of issuing. String values can have a maximum length of 100 characters. You can only set a property value once.</p>
+                
+                <table class="table order-list">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Type</td>
+                            <td>Value</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr repeat.for="property of tokenProperties">
+                            <td>
+                                <select class="form-control" value.bind="property.$prop" disabled>
+                                    <option repeat.for="prop of token.properties" model.bind="prop">${prop.name}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" value.to-view="property.type" disabled>
+                            </td>
+                            <td>
+                                <select class="form-control" value.bind="property.value" if.bind="property.type == 'boolean'">
+                                    <option model.bind="true">True</option>
+                                    <option model.bind="false">False</option>
+                                </select>
+                                <input type="text" if.bind="property.type == 'string'" class="form-control" value.bind="property.value" maxlength="100">
+                                <input type="number" if.bind="property.type == 'number'" class="form-control" value.bind="property.value">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-md btn-danger" click.delegate="removeProperty($index)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4">
+                                <div class="row">
+                                    <button type="button" class="btn btn-lg btn-primary btn-block" click.delegate="addTokenPropertyRow()">New Property</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
     </div>
 </template>
