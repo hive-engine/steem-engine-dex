@@ -12,6 +12,38 @@
     </header>
 
     <div class="container main-container">
+        <div class="row" if.bind="token.properties.length">
+            <div class="col-12">
+                <h4>${'Existing Properties'}</h4>
+                <p>These properties are currently already added to your NFT definition. Any additional properties beyond three will incur a charge of 100 ${environment.nativeToken}</p>
+            </div>
+            
+            <div class="col-12">
+                <table class="table order-list">
+                    <thead>
+                        <tr>
+                            <td><strong>Name</strong></td>
+                            <td><strong>Type</strong></td>
+                            <td><strong>Read Only</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr repeat.for="property of token.properties">
+                            <td>
+                                ${property.name}
+                            </td>
+                            <td>
+                                ${property.type}
+                            </td>
+                            <td>
+                                ${property.isReadOnly ? 'true' : 'false'}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-12">
                 <h4>${'Properties'}</h4>
@@ -20,29 +52,29 @@
                 <table class="table order-list">
                     <thead>
                         <tr>
-                            <td>Name</td>
-                            <td>Type</td>
-                            <td>Value</td>
+                            <td><strong>Name</strong></td>
+                            <td><strong>Type</strong></td>
+                            <td><strong>Read Only</strong></td>
                             <td></td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr repeat.for="property of tokenProperties">
                             <td>
-                                <select class="form-control" value.bind="property.$prop" disabled.bind="property.isExisting">
-                                    <option repeat.for="prop of token.properties" model.bind="prop">${prop.name}</option>
+                                <input type="text" class="form-control" value.bind="property.name">
+                            </td>
+                            <td>
+                                <select class="form-control" value.bind="property.type">
+                                    <option value="boolean">Boolean</option>
+                                    <option value="number">Number</option>
+                                    <option value="string">String</option>
                                 </select>
                             </td>
                             <td>
-                                <input type="text" class="form-control" value.to-view="property.type" disabled>
-                            </td>
-                            <td>
-                                <select class="form-control" value.bind="property.value" if.bind="property.type == 'boolean'">
+                                <select class="form-control" value.bind="property.isReadOnly">
                                     <option model.bind="true">True</option>
-                                    <option model.bind="false">False</option>
+                                    <option model.bind="false" selected>False</option>
                                 </select>
-                                <input type="text" if.bind="property.type == 'string'" class="form-control" value.bind="property.value" maxlength="100">
-                                <input type="number" if.bind="property.type == 'number'" class="form-control" value.bind="property.value">
                             </td>
                             <td>
                                 <button type="button" class="btn btn-md btn-danger" click.delegate="removeProperty($index)">Delete</button>
@@ -59,5 +91,10 @@
                         </tr>
                     </tfoot>
                 </table>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-lg btn-primary" click.delegate="saveChanges()">${'Add Properties' & t}</button>
+                </div>
+        </div>
     </div>
 </template>
