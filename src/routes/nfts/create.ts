@@ -66,25 +66,26 @@ export class CreateNft {
                 return value?.match(/^[a-zA-Z0-9 ]*$/)?.length > 0 ?? false;
             })
                 .withMessageKey('errors:requiredAlphaNumericSpaces')
-            .ensure('symbol')
-            .required()
-                .withMessageKey('errors:required')
-            .satisfies((value: string) => {
-                const isUppercase = value === value?.toUpperCase() ?? false;
-                const validLength = (value?.length >= 3 && value?.length <= 10) ?? false;
-                const validString = value?.match(/^[a-zA-Z]*$/)?.length > 0 ?? false;
 
-                return isUppercase && validLength && validString;
-            })
-                .withMessageKey('errors:symbolValid')
-            .satisfiesRule('nftAvailable')
-                .withMessageKey('errors:nftUnavailable')
+            .ensure('symbol')
+                .required()
+                    .withMessageKey('errors:required')
+                .satisfies((value: string) => {
+                    const isUppercase = value === value?.toUpperCase() ?? false;
+                    const validLength = (value?.length >= 3 && value?.length <= 10) ?? false;
+                    const validString = value?.match(/^[a-zA-Z]*$/)?.length > 0 ?? false;
+
+                    return isUppercase && validLength && validString;
+                })
+                    .withMessageKey('errors:symbolValid')
+                .satisfiesRule('nftAvailable')
+                    .withMessageKey('errors:nftUnavailable')
 
             .ensure('maxSupply')
-            .satisfies((value: string) => {
-                return this.maxSupply !== null && this.maxSupply.toString().length ? parseInt(value) >= 1 && parseInt(value) <= 9007199254740991 : true;
-            })
-                .withMessageKey('errors:maxSupply')
+                .satisfies((value: string) => {
+                    return this.maxSupply !== null && this.maxSupply.toString().length ? parseInt(value) >= 1 && parseInt(value) <= 9007199254740991 : true;
+                })
+                    .withMessageKey('errors:maxSupply')
             .on(CreateNft);
     }
 
