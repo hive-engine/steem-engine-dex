@@ -48,7 +48,7 @@
         <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
     </a>
     <a route-href="route: nftIssue; params.bind: { symbol: token.symbol }" title="Issue NFT">
-        <font-awesome-icon icon.bind="['fas', 'share-square']" if.bind="token.issuer == state.account.name"></font-awesome-icon>
+        <font-awesome-icon icon.bind="['fas', 'share-square']" if.bind="userCanIssue(token)"></font-awesome-icon>
     </a>
 </td>
 </tr>
