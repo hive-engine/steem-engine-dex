@@ -47,4 +47,25 @@ export class NftService {
             return customJson(this.se.getUser(), environment.chainId, 'Active', JSON.stringify(transactionData), `Issue NFT Token ${symbol}`);
         }
     }
+
+    async addProperties(symbol: string, properties: any) {
+        const payloads = properties.reduce((acc, value) => {
+            acc.push({
+                contractName: 'nft',
+                contractAction: 'addProperty',
+                contractPayload: {
+                    symbol,
+                    name: value.name,
+                    type: value.type,
+                    isReadOnly: value.isReadOnly
+                }
+            });
+
+            return acc;
+        }, []);
+
+        if (window.steem_keychain) {
+            return customJson(this.se.getUser(), environment.chainId, 'Active', JSON.stringify(payloads), `Add NFT Properties ${symbol}`);
+        }
+    }
 }
