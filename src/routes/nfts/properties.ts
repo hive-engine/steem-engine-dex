@@ -30,6 +30,10 @@ export class PropertiesNft {
         }
     }
 
+    addTokenPropertyRow() {
+        this.tokenProperties.push({ name: '', type: 'string', value: '' });
+    }
+
     saveChanges() {
         
     }
@@ -41,6 +45,7 @@ export class PropertiesNft {
 
         this.tokenProperties.map((property) => {
             (property as any).$prop = property;
+            (property as any).isExisting = true;
             return property;
         })
     }
