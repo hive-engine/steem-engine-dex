@@ -318,6 +318,13 @@ export class App {
                 title: 'Issue NFT',
             },
             {
+                route: 'nft/properties/:symbol',
+                name: 'nftProperties',
+                moduleId: PLATFORM.moduleName('./routes/nfts/properties'),
+                nav: false,
+                title: 'Add properties to NFT',
+            },
+            {
                 route: 'nft-showroom',
                 name: 'nft-showroom',
                 moduleId: PLATFORM.moduleName('./routes/nfts/nft-showroom/nft-showroom'),
