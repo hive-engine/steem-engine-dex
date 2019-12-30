@@ -1,3 +1,4 @@
+import { checkTransaction } from 'common/steem-engine';
 import { query } from 'common/apollo';
 import { NftService } from './../../services/nft-service';
 import { DialogService } from 'aurelia-dialog';
@@ -40,6 +41,8 @@ export class Issue {
 
     propertyTypeSelected(property) {
         property.type = property.$prop.type;
+        property.name = property.$prop.name;
+
         delete property.$prop;
     }
 
@@ -84,10 +87,15 @@ export class Issue {
 
         const issuance = await this.nftService.issue(this.symbol, this.feeSymbol, this.issuingTo, 'user', lockTokens, tokenProperties);
 
-        if (issuance.success) {
-            
-        }
-
         console.log(issuance);
+
+        if (issuance.success) {
+            try {
+                const verify = await checkTransaction(issuance.result.id, 10);
+                console.log(verify);
+            } catch (e) {
+                console.error(e);
+            }
+        }
     }
 }
