@@ -1,3 +1,4 @@
+import { sleep } from 'common/functions';
 import { loading } from 'store/actions';
 import { AppRouter } from 'aurelia-router';
 import { checkTransaction } from 'common/steem-engine';
@@ -12,7 +13,6 @@ import { connectTo, dispatchify } from 'aurelia-store';
 import { environment } from 'environment';
 
 import styles from './issue.module.css';
-import { delay } from 'test/unit/helpers';
 
 @autoinject()
 @connectTo()
@@ -45,10 +45,12 @@ export class Issue {
     }
 
     propertyTypeSelected(property) {
-        property.type = property.$prop.type;
-        property.name = property.$prop.name;
-
-        delete property.$prop;
+        this.taskQueue.queueMicroTask(() => {
+            property.type = property.$prop.type;
+            property.name = property.$prop.name;
+    
+            delete property.$prop;
+        });
     }
 
     addTokenPropertyRow() {
@@ -103,7 +105,7 @@ export class Issue {
                     if (verify?.errors) {
                         this.errors = verify.errors;
                     } else {
-                        await delay(3200);
+                        await sleep(3200);
                         this.router.navigateToRoute('nft', { symbol: this.symbol });
                     }
                 } catch (e) {
