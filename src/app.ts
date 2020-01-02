@@ -332,6 +332,14 @@ export class App {
             },
             {
 
+                route: 'nft/home',
+                name: 'nft-home',
+                moduleId: PLATFORM.moduleName('./routes/nfts/nft-home'),
+                nav: false,
+                title: 'NFTs Home',
+            },
+            {
+
                 route: 'create-nft',
                 name: 'createNft',
                 moduleId: PLATFORM.moduleName('./routes/nfts/create'),
