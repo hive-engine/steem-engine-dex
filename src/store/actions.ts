@@ -516,6 +516,7 @@ export async function getNftInstance(state: State, symbol: string): Promise<Stat
     const queryString = `query {
         instances(symbol: "${symbol.toUpperCase()}") {
             _id,
+            symbol,
             account,
             ownedBy,
             lockedTokens,
@@ -544,6 +545,7 @@ export async function getUserNfts(state: State): Promise<State> {
         const queryString = `query {
             userNfts(account: "${newState.account.name}") {
                 _id,
+                symbol,
                 account,
                 ownedBy,
                 lockedTokens,
