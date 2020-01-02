@@ -423,6 +423,7 @@ export const getTransactionInfo = (trxId: string) =>
                     if (logs.errors && logs.errors.length > 0) {
                         reject({
                             ...result,
+                            errors: logs.errors,
                             error: logs.errors[0],
                         });
                     }
@@ -441,7 +442,16 @@ export async function checkTransaction(trxId: string, retries: number) {
     } catch (e) {
         if (retries > 0) {
             await delay(5000);
-            return await checkTransaction(trxId, retries - 1);
+
+            try {
+                return await checkTransaction(trxId, retries - 1);
+            } catch (e) {
+                if (!e.errors) {
+                    return await checkTransaction(trxId, retries - 1);
+                }
+
+                return e;
+            }
         } else {
             throw new Error('Transaction not found.');
         }
