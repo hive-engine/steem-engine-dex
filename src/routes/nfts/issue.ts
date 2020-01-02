@@ -1,3 +1,5 @@
+import { loading } from 'store/actions';
+import { AppRouter } from 'aurelia-router';
 import { checkTransaction } from 'common/steem-engine';
 import { query } from 'common/apollo';
 import { NftService } from './../../services/nft-service';
@@ -5,11 +7,12 @@ import { DialogService } from 'aurelia-dialog';
 import { SteemEngine } from './../../services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 import { State } from './../../store/state';
-import { connectTo } from 'aurelia-store';
+import { connectTo, dispatchify } from 'aurelia-store';
 
 import { environment } from 'environment';
 
 import styles from './issue.module.css';
+import { delay } from 'test/unit/helpers';
 
 @autoinject()
 @connectTo()
@@ -27,7 +30,7 @@ export class Issue {
 
     private errors: string[] = [];
 
-    constructor(private se: SteemEngine, private nftService: NftService, private taskQueue: TaskQueue, private dialogService: DialogService) {}
+    constructor(private se: SteemEngine, private nftService: NftService, private taskQueue: TaskQueue, private dialogService: DialogService, private router: AppRouter) {}
 
     async canActivate({ symbol }) {
         if (symbol) {
@@ -66,6 +69,7 @@ export class Issue {
 
     async issueNft() {
         this.errors = [];
+        dispatchify(loading)(true);
         
         const lockTokens = this.lockedTokens.reduce((acc, value) => {
             return Object.assign(acc, {
@@ -89,18 +93,27 @@ export class Issue {
             })
         }, {});
 
-        const issuance = await this.nftService.issue(this.symbol, this.feeSymbol, this.issuingTo, 'user', lockTokens, tokenProperties);
+        try {
+            const issuance = await this.nftService.issue(this.symbol, this.feeSymbol, this.issuingTo, 'user', lockTokens, tokenProperties);
 
-        if (issuance.success) {
-            try {
-                const verify = await checkTransaction(issuance.result.id, 3);
-                
-                if (verify?.errors) {
-                    this.errors = verify.errors;
+            if (issuance.success) {
+                try {
+                    const verify = await checkTransaction(issuance.result.id, 3);
+                    
+                    if (verify?.errors) {
+                        this.errors = verify.errors;
+                    } else {
+                        await delay(3200);
+                        this.router.navigateToRoute('nft', { symbol: this.symbol });
+                    }
+                } catch (e) {
+                    console.error(e);
                 }
-            } catch (e) {
-                console.error(e);
             }
+
+            dispatchify(loading)(false);
+        } catch {
+            dispatchify(loading)(false);
         }
     }
 }
