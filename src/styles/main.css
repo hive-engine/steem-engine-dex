@@ -299,3 +299,17 @@ sellbook {
 .text-sell {
     color: #BE4200;
 }
+
+.errors {
+    color: #BE4200;
+    list-style: circle;
+    list-style-position: inside;
+    padding: 0;
+}
+
+.errors li {
+    color: inherit;
+    font-size: 12px;
+    margin: 0 10px 0 0;
+    padding: 0;
+}

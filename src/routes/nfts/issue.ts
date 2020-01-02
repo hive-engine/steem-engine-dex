@@ -25,6 +25,8 @@ export class Issue {
     private tokenProperties: {name: string; type: string; value: string | number | boolean;}[] = [];
     private lockedTokens: {name: string; amount: string;}[] = [];
 
+    private errors: string[] = [];
+
     constructor(private se: SteemEngine, private nftService: NftService, private taskQueue: TaskQueue, private dialogService: DialogService) {}
 
     async canActivate({ symbol }) {
@@ -63,6 +65,8 @@ export class Issue {
     }
 
     async issueNft() {
+        this.errors = [];
+        
         const lockTokens = this.lockedTokens.reduce((acc, value) => {
             return Object.assign(acc, {
                 [value.name]: value.amount
@@ -87,12 +91,13 @@ export class Issue {
 
         const issuance = await this.nftService.issue(this.symbol, this.feeSymbol, this.issuingTo, 'user', lockTokens, tokenProperties);
 
-        console.log(issuance);
-
         if (issuance.success) {
             try {
-                const verify = await checkTransaction(issuance.result.id, 10);
-                console.log(verify);
+                const verify = await checkTransaction(issuance.result.id, 3);
+                
+                if (verify?.errors) {
+                    this.errors = verify.errors;
+                }
             } catch (e) {
                 console.error(e);
             }
