@@ -3,9 +3,11 @@
         <loader mode="tiny" loading.bind="loading"></loader>
 
         <ux-dialog-header>
-            <h2>${'NFT Properties' & t}</h2>
+            <h2>${'NFT Locked Tokens & Properties' & t}</h2>
         </ux-dialog-header>
+
         <ux-dialog-body>
+            <h2>Properties</h2>
             <table class="table table-dark">
                 <thead>
                     <tr>
@@ -17,6 +19,22 @@
                     <tr repeat.for="key of properties | keys">
                         <td>${key}</td>
                         <td>${properties[key]}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Locked Tokens</h2>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th>${'Name' & t}</th>
+                        <th>${'Amount' & t}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="[symbol, amount] of lockedTokens">
+                        <td>${symbol}</td>
+                        <td>${amount}</td>
                     </tr>
                 </tbody>
             </table>
