@@ -50,6 +50,9 @@
     <a route-href="route: nftIssue; params.bind: { symbol: token.symbol }" title="Issue NFT">
         <font-awesome-icon icon.bind="['fas', 'share-square']" if.bind="userCanIssue(token)"></font-awesome-icon>
     </a>
+    <a click.delegate="enableMarket(token.symbol)" title="Enable market for NFT" if.bind="userCanEnableMarket(token)">
+        <font-awesome-icon icon.bind="['fas', 'envelope-open-dollar']" ></font-awesome-icon>
+    </a>
 </td>
 </tr>
 </tbody>

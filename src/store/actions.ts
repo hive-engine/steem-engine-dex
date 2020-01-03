@@ -444,20 +444,21 @@ export async function getNfts(state: State): Promise<State> {
             maxSupply,
             metadata {
                 url,
-              icon,
-              desc
+                icon,
+                desc
             },
+            groupBy,
             circulatingSupply,
             delegationEnabled,
             undelegationCooldown,
             authorizedIssuingAccounts,
             authorizedIssuingContracts,
             properties {
-              authorizedEditingAccounts,
-              authorizedEditingContracts,
-              isReadOnly,
-              name,
-              type
+                authorizedEditingAccounts,
+                authorizedEditingContracts,
+                isReadOnly,
+                name,
+                type
             }
         }
     }`;
@@ -481,10 +482,11 @@ export async function getNft(state: State, symbol: string): Promise<State> {
             name,
             supply,
             maxSupply,
+            groupBy,
             metadata {
                 url,
-              icon,
-              desc
+                icon,
+                desc
             },
             circulatingSupply,
             delegationEnabled,
@@ -492,11 +494,11 @@ export async function getNft(state: State, symbol: string): Promise<State> {
             authorizedIssuingAccounts,
             authorizedIssuingContracts,
             properties {
-              authorizedEditingAccounts,
-              authorizedEditingContracts,
-              isReadOnly,
-              name,
-              type
+                authorizedEditingAccounts,
+                authorizedEditingContracts,
+                isReadOnly,
+                name,
+                type
             }
         }
     }`;
