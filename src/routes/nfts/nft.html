@@ -29,7 +29,7 @@
                             <td>${token.account}</td>
                             <td>${token.ownedBy === 'u' ? 'Steem Account' : 'Smart Contract'}</td>
                             <td class="table-buttons">
-                                <button click.delegate="showNftProperties(token.properties)" title="NFT Properties">
+                                <button click.delegate="showNftProperties(token)" title="NFT Properties">
                                     <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
                                 </button>
                             </td>

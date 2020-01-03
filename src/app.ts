@@ -17,6 +17,8 @@ import { autoinject } from 'aurelia-framework';
 
 import { getCurrentFirebaseUser, markNotificationsRead } from 'store/actions';
 
+import './common/custom-validation-rules';
+
 function lastCalledActionMiddleware(state: State, originalState: State, settings = {}, action: CallingAction) {
     state.$action = {
         name: action.name,
@@ -316,6 +318,13 @@ export class App {
                 title: 'Issue NFT',
             },
             {
+                route: 'nft/properties/:symbol',
+                name: 'nftProperties',
+                moduleId: PLATFORM.moduleName('./routes/nfts/properties'),
+                nav: false,
+                title: 'Add properties to NFT',
+            },
+            {
                 route: 'nft-showroom',
                 name: 'nft-showroom',
                 moduleId: PLATFORM.moduleName('./routes/nfts/nft-showroom/nft-showroom'),
@@ -331,7 +340,6 @@ export class App {
                 title: 'NFT Detail',
             },
             {
-
                 route: 'create-nft',
                 name: 'createNft',
                 moduleId: PLATFORM.moduleName('./routes/nfts/create'),

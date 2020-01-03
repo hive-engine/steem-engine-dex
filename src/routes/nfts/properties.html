@@ -3,37 +3,98 @@
         <div class="container-fluid main-container d-flex flex-column justify-content-end">
             <div class="row">
                 <div class="col-6">
-                    <h1>Update ${state.nft.symbol & t}</h1>
+                    <h1>Properties ${state.nft.symbol & t}</h1>
                     <h3>${state.nft.name}</h3>
-                    <p class="meta text-muted mb-3">Edit your NFT metadata</p>
+                    <p class="meta text-muted mb-3">Add properties to NFT</p>
                 </div>
             </div>
         </div>
     </header>
 
     <div class="container main-container">
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" class="form-control" value.bind="token.name">
-                </div>
-                <div class="form-group">
-                    <label>URL</label>
-                    <input type="text" class="form-control" value.bind="token.metadata.url">
-                </div>
-                <div class="form-group">
-                    <label>Icon</label>
-                    <input type="text" class="form-control" value.bind="token.metadata.icon">
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <input type="text" class="form-control" value.bind="token.metadata.desc">
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-lg btn-primary" click.delegate="saveChanges()">${'Save changes' & t}</button>
-                </div>  
+        <div class="row" if.bind="token.properties.length">
+            <div class="col-12">
+                <h4>${'Existing Properties'}</h4>
+                <p>These properties are currently already added to your NFT definition. Any additional properties beyond three will incur a charge of 100 ${environment.nativeToken}</p>
             </div>
+            
+            <div class="col-12">
+                <table class="table order-list">
+                    <thead>
+                        <tr>
+                            <td><strong>Name</strong></td>
+                            <td><strong>Type</strong></td>
+                            <td><strong>Read Only</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr repeat.for="property of token.properties">
+                            <td>
+                                ${property.name}
+                            </td>
+                            <td>
+                                ${property.type}
+                            </td>
+                            <td>
+                                ${property.isReadOnly ? 'true' : 'false'}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h4>${'Properties'}</h4>
+                <p>Set one or more optional properties at the time of issuing. String values can have a maximum length of 100 characters. You can only set a property value once.</p>
+                
+                <table class="table order-list">
+                    <thead>
+                        <tr>
+                            <td><strong>Name</strong></td>
+                            <td><strong>Type</strong></td>
+                            <td><strong>Read Only</strong></td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr repeat.for="property of tokenProperties">
+                            <td>
+                                <input type="text" class="form-control" value.bind="property.name">
+                            </td>
+                            <td>
+                                <select class="form-control" value.bind="property.type">
+                                    <option value="boolean">Boolean</option>
+                                    <option value="number">Number</option>
+                                    <option value="string">String</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control" value.bind="property.isReadOnly">
+                                    <option model.bind="true">True</option>
+                                    <option model.bind="false" selected>False</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-md btn-danger" click.delegate="removeProperty($index)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4">
+                                <div class="row">
+                                    <button type="button" class="btn btn-lg btn-primary btn-block" click.delegate="addTokenPropertyRow()">Add Property</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-lg btn-primary" click.delegate="saveChanges()">${'Add Properties' & t}</button>
+                </div>
         </div>
     </div>
 </template>

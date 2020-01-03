@@ -20,8 +20,8 @@ export class MyNfts {
         await dispatchify(getUserNfts)();
     }
 
-    showNftProperties(properties) {
-        this.dialogService.open({ viewModel: NftPropertiesModal, model: properties }).whenClosed(response => {
+    showNftProperties(token) {
+        this.dialogService.open({ viewModel: NftPropertiesModal, model: token }).whenClosed(response => {
             //console.log(response);
         });
     }
