@@ -96,7 +96,7 @@ export class Issue {
         }, {});
 
         try {
-            const issuance = await this.nftService.issue(this.symbol, this.feeSymbol, this.issuingTo, 'user', lockTokens, tokenProperties);
+            const issuance = await this.nftService.issue(this.symbol, this.feeSymbol, this.issuingTo, 'user', lockTokens, tokenProperties) as any;
 
             if (issuance.success) {
                 try {
