@@ -1,4 +1,4 @@
-section {
+.section-margin-bottom {
     margin-bottom: 50px;
 }
 .nft-home-header {
@@ -43,9 +43,9 @@ section {
     margin-bottom: 20px;
     /* width: 30%; */
 }
-.card-head img {
-    width: 20%;
-    box-shadow: 0 2px 4px rgba(204, 207, 216, 0.486);
+.card-top .img {
+    width: 25%;
+    box-shadow: 0 2px 4px rgba(204, 207, 216, 0.212);
     border: 1px solid #fff;
 }
 .why-item {
