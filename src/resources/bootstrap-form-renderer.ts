@@ -17,12 +17,9 @@ export class BootstrapFormRenderer {
 
     add(element: Element, result: ValidateResult) {
         if (result.valid) {
-            element.classList.remove('is-invalid');
-            element.classList.add('is-valid');
             return;
-        }
+        } 
 
-        // add the is-invalid class to the enclosing form-group div
         element.classList.add('is-invalid');
 
         const formGroup = element.closest('.form-group');
@@ -40,7 +37,6 @@ export class BootstrapFormRenderer {
 
     remove(element: Element, result: ValidateResult) {
         if (result.valid) {
-            element.classList.remove('is-valid');
             return;
         }
 

@@ -14,7 +14,7 @@ import steem from 'steem';
 import { Store } from 'aurelia-store';
 import { Subscription } from 'rxjs';
 
-import { loadTokens, loadCoinPairs, loadCoins, checkTransaction } from 'common/steem-engine';
+import { loadTokens, checkTransaction } from 'common/steem-engine';
 import { steemConnectJsonId, steemConnectJson, getAccount, steemConnectTransfer } from 'common/steem';
 
 import { ToastService, ToastMessage } from './toast-service';
@@ -258,7 +258,7 @@ export class SteemEngine {
 
     async claimAllTokens(allTokens: IRewardToken[]) {
         let claimTokenResult = false;
-        let claimData = [];
+        const claimData = [];
 
         if (allTokens) {
             allTokens.forEach(x => claimData.push({ "symbol": x.symbol }));

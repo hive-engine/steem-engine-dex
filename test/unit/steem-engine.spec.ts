@@ -169,7 +169,7 @@ describe('Functions', () => {
             callback(null, { logs: jsonData });
         });
 
-        await expect(functions.getTransactionInfo('gdfkjgkdfljg1234')).rejects.toEqual({ error: 'some error', logs: jsonData });
+        await expect(functions.getTransactionInfo('gdfkjgkdfljg1234')).resolves.toEqual({ error: 'some error', errors: ['some error'], logs: jsonData });
     });
 
     test('getTransactionInfo result is empty', async () => {

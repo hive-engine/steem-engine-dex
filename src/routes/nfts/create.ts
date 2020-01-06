@@ -1,3 +1,4 @@
+import { SteemEngine } from 'services/steem-engine';
 import { Router } from 'aurelia-router';
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-undef */
@@ -26,7 +27,7 @@ export class CreateNft {
 
     private state: State;
 
-    constructor(private controllerFactory: ValidationControllerFactory, private router: Router, private store: Store<State>) {
+    constructor(private controllerFactory: ValidationControllerFactory, private se: SteemEngine, private router: Router, private store: Store<State>) {
         this.controller = controllerFactory.createForCurrentScope();
 
         this.renderer = new BootstrapFormRenderer();
@@ -67,27 +68,37 @@ export class CreateNft {
                 .withMessageKey('errors:requiredAlphaNumericSpaces')
 
             .ensure('symbol')
-            .required()
-                .withMessageKey('errors:required')
-            .satisfies((value: string) => {
-                const isUppercase = value === value?.toUpperCase() ?? false;
-                const validLength = (value?.length >= 3 && value?.length <= 10) ?? false;
-                const validString = value?.match(/^[a-zA-Z]*$/)?.length > 0 ?? false;
+                .required()
+                    .withMessageKey('errors:required')
+                .satisfies((value: string) => {
+                    const isUppercase = value === value?.toUpperCase() ?? false;
+                    const validLength = (value?.length >= 3 && value?.length <= 10) ?? false;
+                    const validString = value?.match(/^[a-zA-Z]*$/)?.length > 0 ?? false;
 
-                return isUppercase && validLength && validString;
-            })
-                .withMessageKey('errors:symbolValid')
+                    return isUppercase && validLength && validString;
+                })
+                    .withMessageKey('errors:symbolValid')
+                .satisfiesRule('nftAvailable')
+                    .withMessageKey('errors:nftUnavailable')
 
             .ensure('maxSupply')
-            .satisfies((value: string) => {
-                return this.maxSupply !== null && this.maxSupply.toString().length ? parseInt(value) >= 1 && parseInt(value) <= 9007199254740991 : true;
-            })
-                .withMessageKey('errors:maxSupply')
+                .satisfies((value: string) => {
+                    return this.maxSupply !== null && this.maxSupply.toString().length ? parseInt(value) >= 1 && parseInt(value) <= 9007199254740991 : true;
+                })
+                    .withMessageKey('errors:maxSupply')
+
+            .ensure('authorisedIssuingAccounts')
+                .maxItems(10)
+                .withMessageKey('errors:max10rows')
+
+            .ensure('authorisedIssuingContracts')
+                .maxItems(10)
+                .withMessageKey('errors:max10rows')
             .on(CreateNft);
     }
 
     attached() {
-        this.authorisedIssuingAccounts.push({ name: '' });
+        this.authorisedIssuingAccounts.push({ name: this.se.getUser() });
         this.authorisedIssuingContracts.push({ name: '' });
     }
 

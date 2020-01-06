@@ -6,6 +6,7 @@ import styles from './nft-properties.module.css';
 @autoinject()
 export class NftPropertiesModal {
     private properties: any;
+    private lockedTokens: Map<string, string>;
     private styles = styles;
 
     constructor(private controller: DialogController, private se: SteemEngine, private taskQueue: TaskQueue) {
@@ -13,7 +14,10 @@ export class NftPropertiesModal {
         this.controller.settings.centerHorizontalOnly = true;    
     }
 
-    async activate(properties) {
-        this.properties = properties;
+    async activate(token) {
+        this.lockedTokens = new Map(Object.entries(token.lockedTokens));
+        this.properties = token.properties;
+
+        console.log(this.lockedTokens);
     }
 }

@@ -38,22 +38,27 @@
                                 <td>${token.symbol}</td>
                                 <td>${token.name}</td>
                                 <td><template repeat.for="val of token.authorizedIssuingAccounts">${val}${!$last ? ', ': ''}</template></td>
-                                <td><template repeat.for="val of token.authorizedIssuingContracts">${val}${!$last ? ', ': ''}</template></td>
-                                <td if.bind="state.loggedIn">${token.stake >= 0 ? parseFloat(token.stake) : '--'}</td>
-                                <td class="table-buttons">
-                                    <a route-href="route: nft; params.bind: { symbol: token.symbol }" title="Token information">
-                                        <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
-                                    </a>
-                                    <a route-href="route: nftMarket; params.bind: { symbol: token.symbol }">
-                                            <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-    
-        </div>
-    </template>
-    
+<td><template repeat.for="val of token.authorizedIssuingContracts">${val}${!$last ? ', ': ''}</template></td>
+<td if.bind="state.loggedIn">${token.stake >= 0 ? parseFloat(token.stake) : '--'}</td>
+<td class="table-buttons">
+    <a route-href="route: nft; params.bind: { symbol: token.symbol }" title="Token information">
+        <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
+    </a>
+    <a route-href="route: nftMarket; params.bind: { symbol: token.symbol }">
+        <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
+    </a>
+    <a route-href="route: nftIssue; params.bind: { symbol: token.symbol }" title="Issue NFT">
+        <font-awesome-icon icon.bind="['fas', 'share-square']" if.bind="userCanIssue(token)"></font-awesome-icon>
+    </a>
+    <a click.delegate="enableMarket(token.symbol)" title="Enable market for NFT" if.bind="userCanEnableMarket(token)">
+        <font-awesome-icon icon.bind="['fas', 'envelope-open-dollar']" ></font-awesome-icon>
+    </a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+</template>
