@@ -1,11 +1,90 @@
 <template>
-    <header class="main-header">
+    <header class="nft-home-header">
         <div class="container-fluid main-container d-flex flex-column justify-content-end">
             <div class="row">
-               <h1>NFT Home</h1>
+                <div class="col-md-7">
+                    <h1 class="head-text">
+                        Create and Trade Non-Fungible Tokens on our Market Place
+                    </h1>
+                    <p class="head-text-desc">
+                        Welcome to our NFT Market Place, create, trade and issue various Digital Collectibles on our NFT
+                        Market Place
+                    </p>
+                    <a href="" class="nftBtn">Get Started</a>
+                </div>
             </div>
         </div>
     </header>
-
-    
+    <section class="what-is-nft">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <h2 class="section-title text-center">
+                        What are NFTs?
+                    </h2>
+                    <p class="title-desc text-center">
+                        NFTs are digital collectibles in form of tokens with unique idnetities and can be traded on our
+                        NFT Market Place
+                    </p>
+                </div>
+            </div>
+            <hr class="divider" />
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="nft-feat-card">
+                        <div class="card-top">
+                            <img src="../../images/safe.png" alt="nft-feature-1" />
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-content-title">Unique</h3>
+                            <p class="card-content-desc">
+                                Peculiar tokens with unique features particular to them. No two NFTs are the same this
+                                is the strongest feature any NFT
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="nft-feat-card">
+                        <div class="card-top">
+                            <img src="../../images/safe.png" alt="nft-features-2" />
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-content-title">Tradeable</h3>
+                            <p class="card-content-desc">
+                                NFTs are unique however they are tradeable on our NFT Market Place; where users can
+                                issue and trade them.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="nft-feat-card">
+                        <div class="card-top">
+                            <img src="../../images/safe.png" alt="nft-feature-3" />
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-content-title">Customizable</h3>
+                            <p class="card-content-desc">
+                                NFTs are unique yet customizable. As such, an issuer can add properties to suit their
+                                preference on creature or in future.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="why-nft">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="make-flex">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABmJLR0QA/wD/AP+gvaeTAAAFd0lEQVRYhd3Yb2wTZRwH8O/1rlvpn/V/u8E2tm7tGLARXBgL/sEguGl8YTDwAhhEfcHkhbwyMbBkQcCoKEI0mTqDDAZGSQiiEpkTlBBkU/4NBWk7He7ftV2v67p23drb+WJr0263rStXQvy+u+e55/rJ77k+d88Bj3iIZAd2epzL6SCzieECS7ysXxPiWAXLhecBAElQw2KQPhUl86hJ+e3MNNWXeWrDjZQDXS6Xwg53be8Is/aK31rYFrBleNnAjGOUpAzl0oLBVbIie7ZY02ISaffp9XqfoECO46g2l3XPnWD3hpPM5UJHeCCpyhspFbdZ85S9WDL/VLneUkcQRPiBgXaGXmob7mmsdzeXdo46qWRgk5MvNoZ36KtuLVLkbF2o0N5JGtjaZ992LWjb28C05LDcmBC2aEhChO26dV1lkoLdK4zm43MGXnX+tfOc9/quM97fDILKJmW9ssJZpVz2doVh0WG+fhFf43WHrfrc4I03U40DgNPeq4YfvDd3t/bZt/L1TwHaGXrp1YB9/5mBtsxU4yI57W3V3xzp2Nvp6y+e3BcH5DiOsg33NDYwLTkPCxfJp+4fc62+7uMcx8X9EeOAbS7rnnp3c6nQf4hEEuZY1PefL2113auLbY8CXS6X4k6we4NQS8l0oQgSSkrK29cxSoutQXqj0+mUTwHa4a49yVwuTDXugGkrGoteh16cwXtOk+eS+R+OqZ0C7B1h1ib7hEgU956pGmtUJciXGNBg2QE5KZlyHh3yEL0hz7o4YKfHufyK35qy6kUq94yqNNp22XsXQ2yQ9/wrw1aTg2FKo0B61LO5LWDjr7lAuDWqkmjbcccveL/7m2nHtA7ZVJ0h5yYAoACAYf3Fs72VCIU75vgZH3SfnXHcAOsHwwZKgIkKesN+3aOCi8THBrTARAWHuVFFqnGNjos42P1twtfwj42bRADAgktLZNATymIcLngV6aLpl0ohcAAQ5sbSo8BE8qRyMQ6aXsbTqiU4VPAKL5IPdzQJXGxEAECCGJ3txGJpdhS1KmMRDpi2QUyQcbjIOhfJ53QLPkwSRxGikShwHpE26x7hs75mHO75Lnq8WjleyTSC4l3njjou4qOec0nhAEAmGjdRAKCkZP2JDDpCX0C6SIyarEoA4/fku6ZqcODiKtfQ14KPe5PHAYCClLqjQA0hu6skpc8nshbW957HyFgIOxe8AABxMAD4gr7wwDgVKYOWkrUDE1OcKVGfKJcWDiZ6gSP0hbjpjm0/xNM+16yUWQZyKf3JKDBPbbhRIS+yzuUik5HToZPJ4zJLR6ZGcxuYmGIAyBVrfjJSqrK5vNFE7klgfOqFSJZYzS2gNC2R4yjG5XIpvh/+49pB51mzIL+UZN4wvGitlBSXGQyGISBmodbr9b5iyfxT+WLjrLv9VKUwLTNklhi/juCASU+Scr2lboe+6hZJJPyAESwUQaJGV9m+Ul+0J7Y9TkIQRNiUbty2Xbeu6+HygNe0lfctiuzqyd9rppTKrM36c4WkYNd6VQX9sHAvqVa6lsnzavMUuruT+3jnssxobqrKWPbOemWFM/W4CsdzGY/tK9eZm/j6Z1xSrvX/veX3Idv+T9zNuULvlSmCRI322X/L5uXvLjPy42YFAsB9n3vxPV/Xsfr+86Udo7RYCFxhWmaoRlfZblFkV/NN65yAwPgnkVbXvTprkN7Y5LlkpkOepLanWWI1t0W92laUnvXVCoP5LUE+YMbG6XTK73MDtV0h99pfh60FrUM21QDrn3GMmpKjXGoeWCU1d2SLtS0LCdW+2HVOUGBsaIYp6Qr1b3azQ6VeNqAe4cIZYS4sAQCKoILpBDWoJKUeLSlvzxHrTkSerf+7/AfMmiwpLpeCvwAAAABJRU5ErkJggg==">
+                        <p style="padding: 10px; display: inline;">Digital Asset Management</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </template>

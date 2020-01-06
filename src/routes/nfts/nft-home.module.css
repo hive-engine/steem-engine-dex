@@ -1,4 +1,50 @@
-.meta {
-    font-size: 12px;
-    margin: 0;
+.nft-home-header {
+    margin-top: 40px;
+    background-color: #f4f5f7;
+    height: 425px;
+}
+.section-title {
+    color: #0048b3;
+    margin-top: 50px;
+}
+.head-text {
+    margin-top: 10%;
+    color: #0048b3;
+    font-size: 45px;
+}
+@font-face {
+    font-family: main-font-bold;
+    src: url("../../fonts/main-font-bold-c.woff");
+    font-display: fallback;
+}
+.nftBtn {
+    background-color: #0048b3;
+    vertical-align: 0!important;
+    font-size: 16px;
+    color: #fff;
+    font-family: main-font-bold;
+    padding: .5rem 3rem;
+    font-weight: 500;
+    line-height: 2.5;
+    border-radius: .25rem;
+    min-width: 76px;
+}
+.nftBtn:hover {
+    background-color: #0069ff;
+    color: #fff;
+}
+/* .title-desc {
+
+} */
+.card-top {
+    margin-bottom: 20px;
+    /* width: 30%; */
+}
+.card-head img {
+    width: 40%;
+    box-shadow: 0 2px 4px rgba(204, 207, 216, 0.486);
+    border: 1px solid #fff;
+}
+.why-item {
+    display: flex;
 }
