@@ -1,46 +1,57 @@
 <template>
-    <h2>Set Sorting Properties</h2>
-    <p>Define a list of data properties by which market orders for NFT instances should be grouped by.</p>
-    <h4>Warning: Please read the following before continuing:</h4>
+    <ux-dialog>
+        <ux-dialog-header>
+            <h2>${'Set Sorting Properties' & t}</h2>
+        </ux-dialog-header>
 
-    <ul>
-        <li>Data properties which never change once set (i.e. read-only properties) are the best ones to use for this grouping.</li>
-        <li>Long text strings do not make ideal properties to group by. Integers and boolean types make the best grouping.</li>
-        <li>Numbers with fractional parts (for example 3.1415926) should be avoided due to possible rounding issues. Integers without fractional parts are ideal for grouping.</li>
-        <li>This grouping can only be set once! You can't change it later on, so don't call this action until you are completely ready to do so.</li>
-    </ul>
+        <ux-dialog-body>
+            <p>Define a list of data properties by which market orders for NFT instances should be grouped by.</p>
+            <h4>Warning: Please read the following before continuing:</h4>
 
-    <div class="row">
-        <div class="col-12">
-            <h4>${'Properties'}</h4>
-            <p>A maximum of 10 properties can be set.</p>
-            <table class="table order-list">
-                <thead>
-                    <tr>
-                        <td>Name</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr repeat.for="property of properties">
-                        <td>
-                            <input type="text" class="form-control" value.bind="property">
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-md btn-danger" click.delegate="removeProperty($index)">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="3">
-                            <div class="row">
-                                <button type="button" class="btn btn-lg btn-primary btn-block" click.delegate="addPropertyRow()">New Property</button>
-                            </div>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-    </div>
+            <ul>
+                <li>Data properties which never change once set (i.e. read-only properties) are the best ones to use for this grouping.</li>
+                <li>Long text strings do not make ideal properties to group by. Integers and boolean types make the best grouping.</li>
+                <li>Numbers with fractional parts (for example 3.1415926) should be avoided due to possible rounding issues. Integers without fractional parts are ideal for grouping.</li>
+                <li>This grouping can only be set once! You can't change it later on, so don't call this action until you are completely ready to do so.</li>
+            </ul>
+
+            <div class="row">
+                <div class="col-12">
+                    <h4>${'Properties'}</h4>
+                    <p>A maximum of 10 properties can be set.</p>
+                    <table class="table order-list">
+                        <thead>
+                            <tr>
+                                <td>Name</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr repeat.for="property of properties">
+                                <td>
+                                    <input type="text" class="form-control" value.bind="property">
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-md btn-danger" click.delegate="removeProperty($index)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3">
+                                    <div class="row">
+                                        <button type="button" class="btn btn-lg btn-primary btn-block" click.delegate="addPropertyRow()" disabled.bind="properties.length == 10">New Property</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <div class="form-group">
+                        <button type="button" class="btn btn-lg btn-primary" click.delegate="setProperties()">${'Set Properties' & t}</button>
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-body>
+    </ux-dialog>
 </template>
