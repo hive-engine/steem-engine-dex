@@ -1,17 +1,17 @@
 import { customJson } from 'common/keychain';
 import { SteemEngine } from 'services/steem-engine';
 import { DialogController } from 'aurelia-dialog';
-import { autoinject, TaskQueue } from 'aurelia-framework';
+import { autoinject, TaskQueue, valueConverter } from 'aurelia-framework';
 import styles from './nft-enable.module.css';
 
 import { environment } from 'environment';
 
 @autoinject()
-
 export class NftEnableModal {
     private styles = styles;
     private token;
     private properties: any[] = [];
+    private validProperties: string[] = [];
 
     constructor(private controller: DialogController, private se: SteemEngine, private taskQueue: TaskQueue) {
         this.controller.settings.lock = false;
@@ -20,6 +20,12 @@ export class NftEnableModal {
 
     async activate(token) {
         this.token = token;
+
+        this.validProperties = token.properties.reduce((acc, value) => {
+            acc.push(value.name);
+            
+            return acc;
+        }, []);
     }
 
     async setGroupBy() {
@@ -55,5 +61,16 @@ export class NftEnableModal {
 
     removeProperty($index) {
         this.properties.splice($index, 1);
+    }
+}
+
+@valueConverter('filterSelected')
+export class FilterSelectedValueConverter {
+    toView(arr, properties) {
+        if (!arr) {
+            return arr;
+        }
+
+        return arr.filter(val => properties.find(prop => prop.name === val));
     }
 }

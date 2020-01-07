@@ -29,7 +29,9 @@
                         <tbody>
                             <tr repeat.for="property of properties">
                                 <td>
-                                    <input type="text" class="form-control" value.bind="property.name">
+                                    <select value.bind="property.name">
+                                        <option repeat.for="prop of validProperties | filterSelected:properties" value.bind="prop">${prop}</option>
+                                    </select>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-md btn-danger" click.delegate="removeProperty($index)">Delete</button>
