@@ -1,6 +1,7 @@
 import { steemConnectJson } from 'common/steem';
 import { customJson } from 'common/keychain';
 import { TokenInfoModal } from 'modals/wallet/token-info';
+import { NftEnableModal } from 'modals/nft/nft-enable';
 import { State } from 'store/state';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
@@ -52,19 +53,23 @@ export class Nfts {
         });
     }
 
-    enableMarket(symbol: string) {
+    async enableMarket(token: any) {
         const payload = {
             contractName: 'nftmarket',
             contractAction: 'enableMarket',
             contractPayload: {
-                symbol: symbol
+                symbol: token.symbol
             }
         };
 
         if (window.steem_keychain) {
-            customJson(this.se.getUser(), environment.chainId, 'Active', JSON.stringify(payload), `Enable Market`)
-        } else {
-            steemConnectJson(this.se.getUser(), 'active', payload);
+            const response = await customJson(this.se.getUser(), environment.chainId, 'Active', JSON.stringify(payload), `Enable Market`);
+
+            if (response.success) {
+                this.dialogService.open({ viewModel: NftEnableModal, model: token }).whenClosed(response => {
+
+                });
+            }
         }
     }
 
