@@ -73,23 +73,6 @@ export class Nfts {
         }
     }
 
-    setGroupBy(symbol: string, properties: string[]) {
-        const payload = {
-            contractName: 'nft',
-            contractAction: 'setGroupBy',
-            contractPayload: {
-                symbol: symbol,
-                properties: properties
-            }
-        };
-
-        if (window.steem_keychain) {
-            customJson(this.se.getUser(), environment.chainId, 'Active', JSON.stringify(payload), `Set Group By Properties`)
-        } else {
-            steemConnectJson(this.se.getUser(), 'active', payload);
-        }
-    }
-
     userCanIssue(token) {
         if (token.authorizedIssuingAccounts && token.authorizedIssuingAccounts.includes(this.state.account.name)) {
             return true;

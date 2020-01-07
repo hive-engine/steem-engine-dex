@@ -1,3 +1,12 @@
 <template>
-    
+    <h2>Set Sorting Properties</h2>
+    <p>Define a list of data properties by which market orders for NFT instances should be grouped by.</p>
+    <h4>Warning: Please read the following before continuing:</h4>
+
+    <ul>
+        <li>Data properties which never change once set (i.e. read-only properties) are the best ones to use for this grouping.</li>
+        <li>Long text strings do not make ideal properties to group by. Integers and boolean types make the best grouping.</li>
+        <li>Numbers with fractional parts (for example 3.1415926) should be avoided due to possible rounding issues. Integers without fractional parts are ideal for grouping.</li>
+        <li>This grouping can only be set once! You can't change it later on, so don't call this action until you are completely ready to do so.</li>
+    </ul>
 </template>
