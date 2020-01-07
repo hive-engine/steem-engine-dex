@@ -1,15 +1,9 @@
 export class FilterSelectedValueConverter {
-    toView(arr, properties, returnBool = false) {
+    toView(arr, properties) {
         if (!arr) {
             return arr;
         }
 
-        const filtered = arr.filter(val => !properties.some(prop => prop.name === val));
-
-        if (returnBool) {
-            return filtered.length;
-        }
-
-        return filtered;
+        return arr.filter(val => !properties.some(prop => prop.name === val));
     }
 }
