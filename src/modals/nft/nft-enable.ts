@@ -11,7 +11,7 @@ import { environment } from 'environment';
 export class NftEnableModal {
     private styles = styles;
     private token;
-    private properties: string[] = [];
+    private properties: any[] = [];
 
     constructor(private controller: DialogController, private se: SteemEngine, private taskQueue: TaskQueue) {
         this.controller.settings.lock = false;
@@ -23,12 +23,20 @@ export class NftEnableModal {
     }
 
     async setGroupBy() {
+        const properties = this.properties.reduce((acc, value) => {
+            if (value?.name) {
+                acc.push(value.name);
+            }
+
+            return acc;
+        }, []);
+
         const payload = {
             contractName: 'nft',
             contractAction: 'setGroupBy',
             contractPayload: {
                 symbol: this.token.symbol,
-                properties: this.properties
+                properties: properties
             }
         };
 
@@ -42,7 +50,7 @@ export class NftEnableModal {
     }
 
     addPropertyRow() {
-        this.properties.push('');
+        this.properties.push({name: ''});
     }
 
     removeProperty($index) {
