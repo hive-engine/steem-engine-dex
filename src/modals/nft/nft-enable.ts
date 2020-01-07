@@ -71,6 +71,6 @@ export class FilterSelectedValueConverter {
             return arr;
         }
 
-        return arr.filter(val => properties.find(prop => prop.name === val));
+        return arr.filter(val => properties.some(prop => prop.name === val));
     }
 }
