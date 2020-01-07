@@ -40,4 +40,12 @@ export class NftEnableModal {
             }
         }
     }
+
+    addPropertyRow() {
+        this.properties.push('');
+    }
+
+    removeProperty($index) {
+        this.properties.splice($index, 1);
+    }
 }

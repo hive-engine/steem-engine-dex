@@ -9,4 +9,38 @@
         <li>Numbers with fractional parts (for example 3.1415926) should be avoided due to possible rounding issues. Integers without fractional parts are ideal for grouping.</li>
         <li>This grouping can only be set once! You can't change it later on, so don't call this action until you are completely ready to do so.</li>
     </ul>
+
+    <div class="row">
+        <div class="col-12">
+            <h4>${'Properties'}</h4>
+            <p>A maximum of 10 properties can be set.</p>
+            <table class="table order-list">
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="property of properties">
+                        <td>
+                            <input type="text" class="form-control" value.bind="property">
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-md btn-danger" click.delegate="removeProperty($index)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">
+                            <div class="row">
+                                <button type="button" class="btn btn-lg btn-primary btn-block" click.delegate="addPropertyRow()">New Property</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
 </template>
