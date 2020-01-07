@@ -63,14 +63,3 @@ export class NftEnableModal {
         this.properties.splice($index, 1);
     }
 }
-
-@valueConverter('filterSelected')
-export class FilterSelectedValueConverter {
-    toView(arr, properties) {
-        if (!arr) {
-            return arr;
-        }
-
-        return arr.filter(val => properties.some(prop => prop.name === val));
-    }
-}
