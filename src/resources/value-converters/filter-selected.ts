@@ -1,5 +1,4 @@
-@valueConverter('filterSelected')
-export class FilterSelected {
+export class FilterSelectedValueConverter {
     toView(arr, properties) {
         if (!arr) {
             return arr;
