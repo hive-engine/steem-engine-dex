@@ -42,7 +42,7 @@
                             <tr>
                                 <td colspan="3">
                                     <div class="row">
-                                        <button type="button" class="btn btn-lg btn-primary btn-block" click.delegate="addPropertyRow()" disabled.bind="properties.length == 10">New Property</button>
+                                        <button type="button" class="btn btn-lg btn-primary btn-block" click.delegate="addPropertyRow()" disabled.bind="properties.length == 10 || !validProperties.length">New Property</button>
                                     </div>
                                 </td>
                             </tr>
