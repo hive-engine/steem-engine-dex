@@ -2,24 +2,46 @@
     <header class="main-header">
         <div class="container-fluid main-container d-flex flex-column justify-content-end">
             <div class="row">
-                <div class="col-6">
-                    <h1>${'Wallet' & t}</h1>
-                </div>
-                <div class="col-6">
-                    <div class="ml-auto text-right">
-                        <button type="button" class="greenBtn" click.delegate="deposit()" style="margin-right: 8px;">
-                            ${'Deposit' & t}
-                        </button>
-                        <button type="button" class="redBtn" click.delegate="withdraw()">
-                            ${'Withdraw' & t}
-                        </button>
+                <div class="col-md-12">
+                    <div class="head-container">
+                        <h1 class="text-center main-head color-white">${'Wallet' & t}</h1>
+
+                        <div class="button-rows show-mobile text-center">
+                            <a
+                                class="actionButtons for-mobile"
+                                type="button"
+                                class="greenBtn"
+                                click.delegate="deposit()"
+                            >
+                                <font-awesome-icon
+                                    icon.bind="['fas', 'credit-card']"
+                                    style="color:#00193f;"
+                                ></font-awesome-icon>
+                                <button
+                                    style="margin-right: 8px; background: transparent; border: none; color: #00193f; font-weight: 700;"
+                                >
+                                    ${'Deposit' & t}
+                                </button>
+                            </a>
+                            <a class="actionButtons for-mobile" type="button" click.delegate="withdraw()">
+                                <font-awesome-icon
+                                    icon.bind="['fas', 'university']"
+                                    style="color:#00193f;"
+                                ></font-awesome-icon>
+                                <button
+                                    style="margin-right: 8px; background: transparent; border: none; color: #00193f; font-weight: 700;"
+                                >
+                                    ${'Withdraw' & t}
+                                </button>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <nav class="nav tabs mt-3">
+            <nav class="nav tabs make-flex mt-3">
                 <a
-                    class="nav-link tabs__tab ${row.isActive ? 'active' : ''}"
+                    class="nav-link color-white tabs__tab ${row.isActive ? 'active' : ''}"
                     repeat.for="row of router.navigation"
                     href.bind="row.href"
                     >${row.title & t}</a

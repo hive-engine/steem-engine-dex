@@ -1,0 +1,140 @@
+.nft-details-title {
+    color: #0048b3;
+    margin-top: 60px;
+    margin-bottom: 20px;
+}
+.nft-name {
+    font-size: 33px;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    color: #222;
+    margin: 0 0 .5em 0!important;
+}
+.rating-wrap
+ {
+     margin-bottom: 6px;
+     display: flex;
+ }
+ .rate-now {
+     margin-bottom: 0!important;
+     margin-left: 5px;
+ }
+ .rate-nft {
+     color: goldenrod;
+     padding: 4px;
+ }
+ .rate-now a {
+     text-decoration: none;
+     color: #0048b3;
+     font-weight: 400;
+     line-height: 1.2;
+ }
+.best-nft-review p {
+    margin-bottom: 10px!important;
+}
+.nft-rank {
+    margin-bottom: 6px;
+}
+.nft-rank p {
+    margin-bottom: 0;
+}
+.nft-rank-spec {
+    font-weight: bold;
+    margin-left: 5px;
+}
+.attribute-header {
+    margin: 0;
+    font-weight: bold;
+}
+.nft-attributes {
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+.nft-attribute {
+    color: #0048b3;
+    line-height: 1.1;
+    list-style: none;
+    padding: 4px 8px 4px 8px;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+.nft-attribute:first-child {
+    padding-left: 0!important;
+}
+.nft-attribute:last-child {
+    border-right: none!important;
+}
+.bold-text {
+    font-weight: 400;
+}
+.cat-card {
+    background: white;
+    border: 1px solid #eee;
+    border: none;
+}
+.cat-card-header {
+    padding: 12px 20px;
+    background: #edeef0;
+    /* border-radius: 10px 10px 0 0; */
+}
+.cat-card-header h4 {
+    margin-bottom: 0px !important;
+}
+.cat-card-body {
+    padding: 2px;
+}
+.cat-card-items {
+    list-style: none;
+    margin-bottom: 0;
+    padding: 2px;
+}
+.cat-card-item {
+    padding: 12px 20px;
+    color: #212529;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.095);
+}
+.cat-card-item:last-child {
+    border: none;
+}
+.curr-price {
+    font-size: 32px;
+    display: block;
+    color: #0048b3;
+    margin-top: 10px;
+}
+.mg-tp {
+    /* margin-top: 10px; */
+    margin-left: 60px;
+}
+.buyBtn {
+    border-color: #c60;
+    background: #0048b3;
+    color: #fff;
+    padding: 2px 1.95em;
+    margin-top: 10px;
+    outline: 0;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    font-size: 12px;
+    font-stretch: condensed;
+    letter-spacing: 1px;
+    text-align: center;
+    text-decoration: none !important;
+    text-transform: uppercase;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.buyBtn:hover {
+    color: #fff;
+    background: #043277;
+}
+.tabs .active {
+    color: #3488e770;
+    border-bottom: 2px solid #3488e770;
+}
+.nft-details {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.review-p {
+    display: block;
+}

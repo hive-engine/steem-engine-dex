@@ -1,15 +1,13 @@
-// import { DialogService } from 'aurelia-dialog';
-// import { NftPropertiesModal } from './../../modals/nft/nft-properties';
+import { TokenInfoModal } from 'modals/wallet/token-info';
 import { State } from 'store/state';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
-import { slick } from 'slick-carousel/slick/slick';
-
-
-
+import { DialogService, DialogCloseResult } from 'aurelia-dialog';
 import { connectTo, dispatchify } from 'aurelia-store';
-import { getNft, getNftInstance } from 'store/actions';
+import { getNfts } from 'store/actions';
 
+
+import { slick } from 'slick-carousel/slick/slick';
 import styles from './nft-showroom.module.css';
 
 @autoinject()
@@ -22,25 +20,10 @@ export class Nft {
 
     constructor(private se: SteemEngine, private taskQueue: TaskQueue) {}
 
-    // async activate({ symbol }) {
-    //     await dispatchify(getNft)(symbol);
-    //     await dispatchify(getNftInstance)(symbol);
-    // }
-    // attached() {
-    //     // @ts-ignore
-    //     $(this.tokenTable).DataTable({
-    //         order: [],
-    //         columnDefs: [
-    //             {
-    //                 targets: 'no-sort',
-    //                 orderable: false,
-    //             },
-    //         ],
-    //         bInfo: false,
-    //         paging: false,
-    //         searching: false,
-    //     });
-    // }
+    async canActivate() {
+        await dispatchify(getNfts)();
+    }
+    
 
     attached() {
         // @ts-ignore

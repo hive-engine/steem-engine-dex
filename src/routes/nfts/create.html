@@ -48,7 +48,7 @@
                     <div class="form-group">
                         <label class="create-nft-form-label"
                             >${'authorisedIssuingAccounts' & t}
-                            <a href="javascript:void(0);" click.delegate="addAuthorisedAccount()">+</a></label
+                            <a href="javascript:void(0);" click.delegate="addAuthorisedAccount()" if.bind="authorisedIssuingAccounts.length < 10">+</a></label
                         >
                         <input
                             type="text"
@@ -75,7 +75,7 @@
                     <div class="form-group">
                         <label class="create-nft-form-label"
                             >${'authorisedIssuingContracts' & t}
-                            <a href="javascript:void(0);" click.delegate="addAuthorisedContract()">+</a></label
+                            <a href="javascript:void(0);" click.delegate="addAuthorisedContract()" if.bind="authorisedIssuingContracts.length < 10">+</a></label
                         >
                         <input
                             type="text"

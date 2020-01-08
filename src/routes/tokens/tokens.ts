@@ -52,18 +52,6 @@ export class Tokens {
         await dispatchify(getCurrentFirebaseUser)();
     }
 
-    async loadMoreTokens() {
-        this.currentOffset++;
-
-        const limit = this.currentOffset * this.currentLimit;
-        const offset = (this.currentOffset + 1) * this.currentLimit;
-
-        this.loading = true;
-        await dispatchify(loadTokensList)(limit, offset);
-
-        this.loading = false;
-    }
-
     buyENG() {
         this.dialogService
             .open({ viewModel: BuyTokenModal, model: 'ENG' })

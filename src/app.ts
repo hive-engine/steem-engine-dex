@@ -17,6 +17,8 @@ import { autoinject } from 'aurelia-framework';
 
 import { getCurrentFirebaseUser, markNotificationsRead } from 'store/actions';
 
+import './common/custom-validation-rules';
+
 function lastCalledActionMiddleware(state: State, originalState: State, settings = {}, action: CallingAction) {
     state.$action = {
         name: action.name,
@@ -192,6 +194,13 @@ export class App {
                 title: 'Tribes',
             },
             {
+                route: 'advertise-tribe',
+                name: 'advertise-tribe',
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/advertise-tribe'),
+                nav: false,
+                title: 'Advertise Tribe',
+            },
+            {
                 route: 'legal-services',
                 name: 'legal-services',
                 moduleId: PLATFORM.moduleName('./routes/offering-routes/legal-services'),
@@ -260,6 +269,13 @@ export class App {
                 title: 'Crowdfunding Back',
             },
             {
+                route: 'crowdfunding-how',
+                name: 'crowdfunding-how',
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-how'),
+                nav: false,
+                title: 'Crowdfunding How',
+            },
+            {
                 route: 'create-token',
                 name: 'createToken',
                 moduleId: PLATFORM.moduleName('./routes/create-token'),
@@ -295,11 +311,41 @@ export class App {
                 title: 'NFT',
             },
             {
+                route: 'nft/issue/:symbol',
+                name: 'nftIssue',
+                moduleId: PLATFORM.moduleName('./routes/nfts/issue'),
+                nav: false,
+                title: 'Issue NFT',
+            },
+            {
+                route: 'nft/properties/:symbol',
+                name: 'nftProperties',
+                moduleId: PLATFORM.moduleName('./routes/nfts/properties'),
+                nav: false,
+                title: 'Add properties to NFT',
+            },
+            {
                 route: 'nft-showroom',
                 name: 'nft-showroom',
                 moduleId: PLATFORM.moduleName('./routes/nfts/nft-showroom/nft-showroom'),
                 nav: false,
                 title: 'NFT Showroom',
+            },
+            {
+
+                route: 'nft/showroom/detail',
+                name: 'nft-detail',
+                moduleId: PLATFORM.moduleName('./routes/nfts/nft-detail/nft-detail'),
+                nav: false,
+                title: 'NFT Detail',
+            },
+            {
+
+                route: 'nft/home',
+                name: 'nft-home',
+                moduleId: PLATFORM.moduleName('./routes/nfts/nft-home'),
+                nav: false,
+                title: 'NFTs Home',
             },
             {
                 route: 'create-nft',

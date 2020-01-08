@@ -31,5 +31,7 @@
     "precisionRequired": "Please enter a precision",
     "precisionGreaterThanZero": "Please enter a precision greater than 0",
     "precisionLessThanMax": "Please enter a precision less or equal to {{maxPrecision}}",
-    "precisionCannotBeLess": "You can only increase the precision. Please enter a precision value higher than {{currentPrecision}}"
+    "precisionCannotBeLess": "You can only increase the precision. Please enter a precision value higher than {{currentPrecision}}",
+    "nftUnavailable": "NFT name is already taken",
+    "max10rows": "A maximum of 10 items is only allowed"
 }
