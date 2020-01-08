@@ -6,7 +6,7 @@ export const baseEnvironmentConfiguration: Partial<EnvironmentInterface> = {
     HISTORY_API: 'https://api.steem-engine.com/history/marketHistory',
     FIREBASE_API: 'https://us-central1-steem-engine-dex.cloudfunctions.net/api/',
     maintenanceMode: false,
-    disabledTokens: ['BTC', 'STEEM', 'SBD', 'BCC', 'XAP', 'R', 'SCTR', 'ALLAH'],
+    disabledTokens: ['BTC', 'LTC', 'STEEM', 'SBD', 'BCC', 'XAP', 'XRP', 'GOLOS', 'DISNEY', 'AMAZON', 'VOICE', 'ETH', 'EOS', 'LASSE', 'TIME', 'R', 'SCTR', 'ALLAH'],
     peggedToken: 'STEEMP',
     features: {
         nfts: {
