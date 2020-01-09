@@ -6,53 +6,56 @@
     </section>
     <section class="nft-description">
         <div class="container-fluid">
-            <div class="row">
+            <div class="row" ref="tokenTable">
                 <div class="col-md-5">
                     <div id="container" style="width: 650px; height: 400px;">
                         <img src="https://picsum.photos/640/360" style="width: 650px; height: 400px;" />
                     </div>
                 </div>
                 <div class="col-md-4" style="z-index: -1!important;">
-                    <div class="nft-name-wrapper">
-                        <h1 class="nft-name">
-                            Rare Token for the best purposes ever; Own and control up to #100 SE Powered Tokens - Try
-                            one out
-                        </h1>
-                    </div>
-                    <div class="rating-wrap">
-                        
-                        <span
-                            ><font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon>
-                            <font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon
-                            ><font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon
-                            ><font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon
-                            ><font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon>
-                        </span>
-                        <p class="rate-now"><a href="">write a review</a></p>
-                    </div>
-                    <div class="best-nft-review">
-                        <p>
-                            <span class="reviewer" style="font-weight: bolder; margin-right: 5px;">Zackking:</span>Lorem
-                            ipsum dolor sit amet consectetur adipisicing elit. illum!
+                    <div class="wrapper">
+                        <div class="nft-name-wrapper">
+                            <span repeat.for="token of state.instances">${token.account}</span>
+                            <h1 class="nft-name">
+                                ${token.symbol} Rare Token for the best purposes ever; Own and control up to #100 SE
+                                Powered Tokens - Try one out
+                            </h1>
+                        </div>
+                        <div class="rating-wrap">
+                            <span
+                                ><font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon>
+                                <font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon
+                                ><font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon
+                                ><font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon
+                                ><font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon>
+                            </span>
+                            <p class="rate-now"><a href="">write a review ${token.symbol}</a></p>
+                        </div>
+                        <div class="best-nft-review">
+                            <p>
+                                <span class="reviewer" style="font-weight: bolder; margin-right: 5px;">Zackking:</span
+                                >Lorem ipsum dolor sit amet consectetur adipisicing elit. illum!
+                            </p>
+                        </div>
+                        <hr class="" />
+                        <div class="nft-rank">
+                            <p>
+                                <span class="nft-rank-spec" style="margin-left: 0;">Rarity:</span> 50
+                                <span class="nft-rank-spec">Gen:</span> 1
+                                <span class="nft-rank-spec">Rank:</span> #12899
+                                <span class="nft-rank-spec">Issuer: </span>Da Vinci
+                            </p>
+                        </div>
+                        <!-- <hr class="divider" /> -->
+                        <p class="attribute-header">
+                            Attributes
                         </p>
+                        <ul class="nft-attributes">
+                            <li class="nft-attribute"><span class="bold-text">Categories</span> : NFT,</li>
+                            <li class="nft-attribute"><span class="bold-text">Speed</span> : Excellent,</li>
+                            <li class="nft-attribute"><span class="bold-text">Age</span> : 187 days</li>
+                        </ul>
                     </div>
-                    <hr class="" />
-                    <div class="nft-rank">
-                        <p>
-                            <span class="nft-rank-spec" style="margin-left: 0;">Rarity:</span> 50 <span class="nft-rank-spec">Gen:</span> 1
-                            <span class="nft-rank-spec">Rank:</span> #12899
-                            <span class="nft-rank-spec">Issuer: </span>Da Vinci
-                        </p>
-                    </div>
-                    <!-- <hr class="divider" /> -->
-                    <p class="attribute-header">
-                        Attributes
-                    </p>
-                    <ul class="nft-attributes">
-                        <li class="nft-attribute"><span class="bold-text">Categories</span> : NFT,</li>
-                        <li class="nft-attribute"><span class="bold-text">Speed</span> : Excellent,</li>
-                        <li class="nft-attribute"><span class="bold-text">Age</span> : 187 days</li>
-                    </ul>
                 </div>
                 <div class="col-md-2" style="z-index: -1!important;">
                     <div class="card cat-card">
