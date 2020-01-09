@@ -36,6 +36,9 @@ export class Balances {
     private totalWalletValue = 0.00;
 
     private tokenTable: HTMLTableElement;
+    private showActionBtns = () => {
+        $('#actionBtns').css('display', 'block');
+    }
 
     @observable() private hideZeroBalances = false;
 
@@ -75,6 +78,7 @@ export class Balances {
         
         this.totalWalletValue = addCommas(this.totalWalletValue.toFixed(2)) as any;
         this.loadTable();
+        
     }
 
     loadTable() {

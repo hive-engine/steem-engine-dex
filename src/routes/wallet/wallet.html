@@ -43,7 +43,7 @@
                 <a
                     class="nav-link color-white tabs__tab ${row.isActive ? 'active' : ''}"
                     repeat.for="row of router.navigation"
-                    href.bind="row.href"
+                    href.bind="row.href" style="padding: 0.5rem 0.2rem; border-left: 1px soild #fefefe; font-size: 13px;"
                     >${row.title & t}</a
                 >
             </nav>
