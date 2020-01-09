@@ -39,11 +39,11 @@
                 </div>
             </div>
 
-            <nav class="nav tabs make-flex mt-3">
+            <nav class="nav tabs make-flex minus-margin mt-3">
                 <a
-                    class="nav-link color-white tabs__tab ${row.isActive ? 'active' : ''}"
+                    class="nav-link color-white remove-padding tabs__tab ${row.isActive ? 'active' : ''}"
                     repeat.for="row of router.navigation"
-                    href.bind="row.href" style="padding: 0.5rem 0.2rem; border-left: 1px soild #fefefe; font-size: 13px;"
+                    href.bind="row.href"
                     >${row.title & t}</a
                 >
             </nav>
