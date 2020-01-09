@@ -332,15 +332,13 @@ export class App {
                 title: 'NFT Showroom',
             },
             {
-
-                route: 'nft/showroom/detail',
+                route: 'nft/showroom/:symbol',
                 name: 'nft-detail',
                 moduleId: PLATFORM.moduleName('./routes/nfts/nft-detail/nft-detail'),
                 nav: false,
                 title: 'NFT Detail',
             },
             {
-
                 route: 'nft/home',
                 name: 'nft-home',
                 moduleId: PLATFORM.moduleName('./routes/nfts/nft-home'),
