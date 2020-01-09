@@ -518,7 +518,6 @@ export async function getNftInstance(state: State, symbol: string): Promise<Stat
     const queryString = `query {
         instances(symbol: "${symbol.toUpperCase()}") {
             _id,
-            symbol,
             account,
             ownedBy,
             lockedTokens,
