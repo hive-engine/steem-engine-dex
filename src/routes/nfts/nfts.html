@@ -78,6 +78,7 @@
                                 >
                                     <font-awesome-icon icon.bind="['fas', 'envelope-open-dollar']"></font-awesome-icon>
                                 </a>
+                                <a click.delegate="editNft(token)" if.bind="userCanIssue(token)"><font-awesome-icon icon.bind="['fas', 'pencil']"></font-awesome-icon></a>
                             </td>
                         </tr>
                     </tbody>

@@ -1,0 +1,29 @@
+<template>
+    <ux-dialog>
+        <loader mode="tiny" loading.bind="loading"></loader>
+
+        <ux-dialog-header>
+            <h2>${'Edit NFT' & t}</h2>
+            <p>Update NFT values and metadata.</p>
+        </ux-dialog-header>
+
+        <ux-dialog-body>
+            <template if.bind="selectedTab == 'name'">
+                <h2>Friendly Name</h2>
+                <p>Change the friendly display name for your NFT.</p>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" value.bind="name & validate" />
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-md btn-primary">${'Save Name' & t}</button>
+                </div>
+            </template>
+</ux-dialog-body>
+
+<ux-dialog-footer>
+    <button class="btn btn-lg redBtn" click.trigger="controller.cancel()">${'Close' & t}</button>
+</ux-dialog-footer>
+</ux-dialog>
+</template>
