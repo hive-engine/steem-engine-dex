@@ -1,3 +1,5 @@
+import { I18N } from 'aurelia-i18n';
+import { ToastService, ToastMessage } from 'services/toast-service';
 import { BootstrapFormRenderer } from 'resources/bootstrap-form-renderer';
 import { ValidationControllerFactory, ValidationController, ValidationRules } from 'aurelia-validation';
 import { customJson } from 'common/keychain';
@@ -24,7 +26,7 @@ export class NftEditModal {
 
     private selectedTab = 'name';
 
-    constructor(private controllerFactory: ValidationControllerFactory, private controller: DialogController, private se: SteemEngine, private taskQueue: TaskQueue) {
+    constructor(private controllerFactory: ValidationControllerFactory, private i18n, I18N, private toast: ToastService, private controller: DialogController, private se: SteemEngine, private taskQueue: TaskQueue) {
         this.controller.settings.lock = false;
         this.controller.settings.centerHorizontalOnly = true;
 
@@ -51,7 +53,7 @@ export class NftEditModal {
         this.name = token.name;
     }
 
-    updateName() {
+    async updateName() {
         const payload = {
             contractName: 'nft',
             contractAction: 'updateName',
@@ -65,7 +67,22 @@ export class NftEditModal {
             const response = await customJson(this.se.getUser(), environment.chainId, 'Active', JSON.stringify(payload), `Update Name`);
 
             if (response.success) {
-                this.controller.ok();
+                const toast = new ToastMessage();
+
+                toast.message = this.i18n.tr('saveSuccess', {
+                    ns: 'notifications'
+                });
+
+                this.toast.success(toast);
+            } else {
+                const toast = new ToastMessage();
+
+                toast.message = this.i18n.tr('transactionError', {
+                    ns: 'notifications'
+                });
+
+                this.toast.error(toast);
             }
+        }
     }
 }
