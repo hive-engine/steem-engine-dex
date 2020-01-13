@@ -14,6 +14,7 @@
                 </div>
                 <div class="col-md-4" style="z-index: -1!important;">
                     <div class="nft-name-wrapper">
+                        <p style="z-index: 10000;">${state.nftSellBook.firebaseUser}</p>
                         <h1 class="nft-name">
                             Rare Token for the best purposes ever; Own and control up to #100 SE Powered Tokens - Try
                             one out
@@ -94,4 +95,24 @@
             <router-view></router-view>
         </div>
     </section>
+
+    <table class="table table-dark" ref="tokenTable">
+                    <thead>
+                        <tr>
+                            <th>${'ID' & t}</th>
+                            <th>${'Account' & t}</th>
+                            <th>${'Owner' & t}${state.token.price}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td textcontent.bind="state.nftSellBook">${token._id}</td>
+                            <td>${token.account}</td>
+                            <td>${token.price}</td>
+                            <td>${token.priceSymbol}</td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
 </template>
