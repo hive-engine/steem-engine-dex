@@ -6,14 +6,16 @@
     </section>
     <section class="nft-description">
         <div class="container-fluid">
-            <div class="row">
+            <div class="row" ref="tokenTable">
                 <div class="col-md-5">
                     <div id="container" style="width: 650px; height: 400px;">
                         <img src="https://picsum.photos/640/360" style="width: 650px; height: 400px;" />
                     </div>
                 </div>
                 <div class="col-md-4" style="z-index: -1!important;">
+
                     <div class="nft-name-wrapper">
+                        <p style="z-index: 10000;">${state.nftSellBook.firebaseUser}</p>
                         <h1 class="nft-name">
                             Rare Token for the best purposes ever; Own and control up to #100 SE Powered Tokens - Try
                             one out
@@ -42,17 +44,18 @@
                             <span class="nft-rank-spec" style="margin-left: 0;">Rarity:</span> 50 <span class="nft-rank-spec">Gen:</span> 1
                             <span class="nft-rank-spec">Rank:</span> #12899
                             <span class="nft-rank-spec">Issuer: </span>Da Vinci
+                      </p>
+         <!-- <hr class="divider" /> -->
+                        <p class="attribute-header">
+                            Attributes
+
                         </p>
+                        <ul class="nft-attributes">
+                            <li class="nft-attribute"><span class="bold-text">Categories</span> : NFT,</li>
+                            <li class="nft-attribute"><span class="bold-text">Speed</span> : Excellent,</li>
+                            <li class="nft-attribute"><span class="bold-text">Age</span> : 187 days</li>
+                        </ul>
                     </div>
-                    <!-- <hr class="divider" /> -->
-                    <p class="attribute-header">
-                        Attributes
-                    </p>
-                    <ul class="nft-attributes">
-                        <li class="nft-attribute"><span class="bold-text">Categories</span> : NFT,</li>
-                        <li class="nft-attribute"><span class="bold-text">Speed</span> : Excellent,</li>
-                        <li class="nft-attribute"><span class="bold-text">Age</span> : 187 days</li>
-                    </ul>
                 </div>
                 <div class="col-md-2" style="z-index: -1!important;">
                     <div class="card cat-card">
@@ -94,4 +97,24 @@
             <router-view></router-view>
         </div>
     </section>
+
+    <table class="table table-dark" ref="tokenTable">
+                    <thead>
+                        <tr>
+                            <th>${'ID' & t}</th>
+                            <th>${'Account' & t}</th>
+                            <th>${'Owner' & t}${state.token.price}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td textcontent.bind="state.nftSellBook">${token._id}</td>
+                            <td>${token.account}</td>
+                            <td>${token.price}</td>
+                            <td>${token.priceSymbol}</td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
 </template>

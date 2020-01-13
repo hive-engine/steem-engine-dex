@@ -26,5 +26,7 @@
     "nftCreateError": "There was an error creating your NFT",
     "claimSucceeded": "Claim transaction successfully completed",
     "updatePrecisionSucceeded": "Precision of {{symbol}} successfully updated to {{precision}}",
-    "updateMetadataSucceeded": "Metadata of {{symbol}} successfully updated"
+    "updateMetadataSucceeded": "Metadata of {{symbol}} successfully updated",
+    "saveSuccess": "Successfully saved",
+    "transactionError": "There was an error attempting to broadcast transaction"
 }

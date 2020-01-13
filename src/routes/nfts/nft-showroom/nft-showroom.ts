@@ -6,7 +6,6 @@ import { DialogService, DialogCloseResult } from 'aurelia-dialog';
 import { connectTo, dispatchify } from 'aurelia-store';
 import { getNfts } from 'store/actions';
 
-
 import { slick } from 'slick-carousel/slick/slick';
 import styles from './nft-showroom.module.css';
 
@@ -23,7 +22,6 @@ export class Nft {
     async canActivate() {
         await dispatchify(getNfts)();
     }
-    
 
     attached() {
         // @ts-ignore
