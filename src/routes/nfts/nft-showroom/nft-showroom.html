@@ -113,7 +113,7 @@
                     <div class="col-md-3 col-sm-12" repeat.for="token of state.nfts">
                         <div class="showroom-card">
                             <div class="showroom-card-img">
-                                <a route-href='route: nft-detail'
+                                <a route-href='route: nft-detail; params.bind: { symbol: token.symbol }'
                                     ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
                                 /></a>
                             </div>
@@ -173,7 +173,7 @@
                                         <br />
                                         now trading @
                                         <span class="now-price">$ ${'2,500' & t}</span>
-                                        <a class="buyBtn">GET</a>
+                                        <a click.trigger="test(`${token.symbol}`)" class="buyBtn">GET</a>
                                     </p>
                                 </div>
                             </div>
