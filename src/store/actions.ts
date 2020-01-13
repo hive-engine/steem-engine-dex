@@ -511,6 +511,31 @@ export async function getNft(state: State, symbol: string): Promise<State> {
 
     return newState;
 }
+export async function getNftSellBook(state: State, symbol: string): Promise<State> {
+    const newState = { ...state };
+
+    const queryString = `query {
+        nftSellBook(symbol: "${symbol.toUpperCase()}") {
+            account,
+            ownedBy,
+            nftId,
+            grouping,
+            timestamp,
+            price,
+            priceDec,
+            priceSymbol,
+            fee            
+        }
+    }`;
+
+    const {
+        data: { nftSellBook },
+    } = await query(queryString);
+
+    newState.nftSellBook = nftSellBook;
+
+    return newState;
+}
 
 export async function getNftInstance(state: State, symbol: string): Promise<State> {
     const newState = { ...state };
@@ -588,5 +613,6 @@ store.registerAction('getPendingWithdrawals', getPendingWithdrawals);
 store.registerAction('loadConversionHistory', loadConversionHistory);
 store.registerAction('getNfts', getNfts);
 store.registerAction('getNft', getNft);
+store.registerAction('getNftSellBook', getNftSellBook);
 store.registerAction('getNftInstance', getNftInstance);
 store.registerAction('getUserNfts', getUserNfts);
