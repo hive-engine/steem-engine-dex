@@ -325,7 +325,7 @@ export class App {
                 title: 'Add properties to NFT',
             },
             {
-                route: 'nft-showroom',
+                route: 'nft/showroom',
                 name: 'nft-showroom',
                 moduleId: PLATFORM.moduleName('./routes/nfts/nft-showroom/nft-showroom'),
                 nav: false,
@@ -333,7 +333,7 @@ export class App {
             },
             {
 
-                route: 'nft/showroom/detail',
+                route: 'nft/showroom/detail/:symbol',
                 name: 'nft-detail',
                 moduleId: PLATFORM.moduleName('./routes/nfts/nft-detail/nft-detail'),
                 nav: false,
