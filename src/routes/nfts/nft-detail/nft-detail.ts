@@ -44,7 +44,7 @@ export class nftDetail {
                 moduleId: PLATFORM.moduleName('./nft-detail-full/nft-reviews'),
                 nav: true,
                 title: 'NFT Reviews',
-            }
+            },
         ]);
 
         this.router = router;
@@ -52,5 +52,9 @@ export class nftDetail {
     attached() {
         console.log(ImageZoom.zoomLensStyle);
         ImageZoom(document.getElementById('container'), this.options);
+    }
+    async activate({ symbol }) {
+        await dispatchify(getNft)(symbol);
+        await dispatchify(getNftInstance)(symbol);
     }
 }
