@@ -1,4 +1,4 @@
-import { steemConnectJson } from 'common/steem';
+import { NftEditModal } from './../../modals/nft/nft-edit';
 import { customJson } from 'common/keychain';
 import { TokenInfoModal } from 'modals/wallet/token-info';
 import { NftEnableModal } from 'modals/nft/nft-enable';
@@ -53,6 +53,10 @@ export class Nfts {
         });
     }
 
+    editNft(token) {
+        this.dialogService.open({ viewModel: NftEditModal, model: token });
+    }
+
     async enableMarket(token: any) {
         const payload = {
             contractName: 'nftmarket',
@@ -82,7 +86,6 @@ export class Nfts {
     }
 
     userCanEnableMarket(token) {
-        console.log(token);
         if (token.authorizedIssuingAccounts && token.authorizedIssuingAccounts.includes(this.state.account.name) && !token?.groupBy?.length) {
             return true;
         }
