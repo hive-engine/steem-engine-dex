@@ -6,6 +6,15 @@
                     <h1>${state.nft.symbol & t}</h1>
                     <h3>${state.nft.name}</h3>
                     <p class="meta text-muted">Current supply: ${state.nft.supply} // Max supply: ${state.nft.maxSupply > 0 ? state.nft.maxSupply : 'Unlimited'}</p>
+                    <a
+                    if.bind="userCanIssue(state.nft)"
+                    route-href="route: nftIssue; params.bind: { symbol: state.nft.symbol }"
+                    title="Issue NFT"
+                >${'Issue NFT' & t}
+                    <font-awesome-icon
+                        icon.bind="['fas', 'share-square']"
+                    ></font-awesome-icon>
+                </a>
                 </div>
             </div>
         </div>
