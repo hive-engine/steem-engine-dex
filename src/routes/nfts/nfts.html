@@ -63,22 +63,28 @@
                                     <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
                                 </a>
                                 <a
+                                    if.bind="userCanIssue(token)"
                                     route-href="route: nftIssue; params.bind: { symbol: token.symbol }"
                                     title="Issue NFT"
                                 >
                                     <font-awesome-icon
                                         icon.bind="['fas', 'share-square']"
-                                        if.bind="userCanIssue(token)"
                                     ></font-awesome-icon>
+                                </a>
+                                <a if.bind="userCanIssue(token)" route-href="route: nftProperties; params.bind: { symbol: token.symbol }" title="Add Properties">
+                                    <font-awesome-icon
+                                    icon.bind="['fas', 'cog']"
+                                ></font-awesome-icon>
                                 </a>
                                 <a
                                     click.delegate="enableMarket(token)"
                                     title="Enable market for NFT"
+                                    href="javascript:void(0);"
                                     if.bind="userCanEnableMarket(token)"
                                 >
                                     <font-awesome-icon icon.bind="['fas', 'envelope-open-dollar']"></font-awesome-icon>
                                 </a>
-                                <a click.delegate="editNft(token)" if.bind="userCanIssue(token)"><font-awesome-icon icon.bind="['fas', 'pencil']"></font-awesome-icon></a>
+                                <a click.delegate="editNft(token)" href="javascript:void(0);" if.bind="userCanIssue(token)"><font-awesome-icon icon.bind="['fas', 'pencil']"></font-awesome-icon></a>
                             </td>
                         </tr>
                     </tbody>
