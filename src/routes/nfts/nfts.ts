@@ -53,10 +53,6 @@ export class Nfts {
         });
     }
 
-    editNft(token) {
-        this.dialogService.open({ viewModel: NftEditModal, model: token });
-    }
-
     async enableMarket(token: any) {
         const payload = {
             contractName: 'nftmarket',

@@ -84,7 +84,7 @@
                                 >
                                     <font-awesome-icon icon.bind="['fas', 'envelope-open-dollar']"></font-awesome-icon>
                                 </a>
-                                <a click.delegate="editNft(token)" href="javascript:void(0);" if.bind="userCanIssue(token)"><font-awesome-icon icon.bind="['fas', 'pencil']"></font-awesome-icon></a>
+                                <a route-href="route: editNft; params.bind: { symbol: token.symbol }" if.bind="userCanIssue(token)"><font-awesome-icon icon.bind="['fas', 'pencil']"></font-awesome-icon></a>
                             </td>
                         </tr>
                     </tbody>
