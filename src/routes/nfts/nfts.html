@@ -69,10 +69,12 @@
                                         icon.bind="['fas', 'share-square']"
                                     ></font-awesome-icon>
                                 </a>
-                                <a if.bind="userCanIssue(token)" route-href="route: nftProperties; params.bind: { symbol: token.symbol }" title="Add Properties">
+                                <a 
+                                    if.bind="userCanIssue(token)" 
+                                    route-href="route: nftProperties; params.bind: { symbol: token.symbol }" 
+                                    title="Add Properties">
                                     <font-awesome-icon
-                                    icon.bind="['fas', 'cog']"
-                                ></font-awesome-icon>
+                                    icon.bind="['fas', 'cog']"></font-awesome-icon>
                                 </a>
                                 <a
                                     click.delegate="enableMarket(token)"
@@ -82,7 +84,11 @@
                                 >
                                     <font-awesome-icon icon.bind="['fas', 'envelope-open-dollar']"></font-awesome-icon>
                                 </a>
-                                <a route-href="route: editNft; params.bind: { symbol: token.symbol }" if.bind="userCanIssue(token)"><font-awesome-icon icon.bind="['fas', 'pencil']"></font-awesome-icon></a>
+                                <a 
+                                    route-href="route: editNft; params.bind: { symbol: token.symbol }" 
+                                    if.bind="userCanIssue(token)">
+                                    <font-awesome-icon icon.bind="['fas', 'pencil']"></font-awesome-icon>
+                                </a>
                             </td>
                         </tr>
                     </tbody>

@@ -70,6 +70,8 @@ export class Nfts {
 
                 });
             }
+        } else {
+            window.alert('You need a supported browser and the Steem Keychain browser extension to perform this action');
         }
     }
 
