@@ -3,39 +3,37 @@
         <ux-dialog-body>
             <h2>${'Transfer NFT' & t}</h2>
 
-            <p class="mb-4">
-                <span id="balance">ID: ${token._id}</span>
+            <p class="mb-2">
+                <span id="balance"><strong>ID:</strong> ${token._id}</span>
             </p>
 
-            <label>TO</label>
-            <div class="input-group justify-content-center align-items-center mb-4">
-                <div class="input-group-prepend">@</div>
-                <input
-                    style="padding-left: 32px;"
-                    type="text"
-                    placeholder="username"
-                    id="txtTo"
-                    value.bind="transaction.to"
-                />
-                <div class="invalid-tooltip">
-                    Please enter a valid account
+            <div class="form-group">
+                <label>TO</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="username-at">@</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="username-at" value.bind="transaction.to">
+                    <div class="invalid-tooltip">
+                        Please enter a valid account
+                    </div>
                 </div>
             </div>
 
-            <label>TO TYPE</label>
-            <div class="input-group">
+            <div class="form-group">
+                <label>TO TYPE</label>
                 <select class="form-control" value.bind="transaction.toType">
-                    <option value="contract" selected>Contract</option>
-                    <option value="user">User</option>
+                    <option value="contract">Contract</option>
+                    <option value="user" selected>User</option>
                 </select>
             </div>
         </ux-dialog-body>
 
         <ux-dialog-footer>
-            <button class="btn btn-sm btn-secondary" click.trigger="controller.cancel()">
+            <button class="btn btn-md btn-secondary" click.trigger="controller.cancel()">
                 ${'Cancel' & t}
             </button>
-            <button class="btn btn-sm btn-primary" click.delegate="transfer()">${'Transfer' & t} ${token.symbol}</button>
+            <button class="btn btn-md btn-primary" click.delegate="transfer()">${'Transfer' & t} ${token.symbol}</button>
         </ux-dialog-footer>
     </ux-dialog>
 </template>

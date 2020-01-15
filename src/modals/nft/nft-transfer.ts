@@ -26,6 +26,8 @@ export class NftTransferModal {
         try {
             const transfer = this.nftService.transfer(this.token.symbol, this.token._id, this.transaction.id, this.transaction.toType) as any;
 
+            console.log(transfer);
+
             if (transfer.success) {
                 try {
                     const verify = await checkTransaction(transfer.result.id, 3);
