@@ -2,7 +2,7 @@ import { DialogController } from 'aurelia-dialog';
 import { autoinject } from 'aurelia-framework';
 
 @autoinject()
-export class SendNftModal {
+export class NftTransferModal {
     private token;
     private transaction;
 

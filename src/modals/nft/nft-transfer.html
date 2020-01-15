@@ -4,7 +4,7 @@
             <h2>${'Transfer NFT' & t}</h2>
 
             <p class="mb-4">
-                <span id="balance">${token.balance | comma }</span>
+                <span id="balance">${token.id}</span>
             </p>
 
             <label>TO</label>
@@ -20,6 +20,14 @@
                 <div class="invalid-tooltip">
                     Please enter a valid account
                 </div>
+            </div>
+
+            <label>TO TYPE</label>
+            <div class="input-group">
+                <select class="form-control" value.bind="transaction.toType">
+                    <option value="contract" selected>Contract</option>
+                    <option value="user">User</option>
+                </select>
             </div>
         </ux-dialog-body>
 
