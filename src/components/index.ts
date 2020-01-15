@@ -8,5 +8,6 @@ export function configure(config: FrameworkConfiguration) {
         PLATFORM.moduleName('./loader/loader'),
         PLATFORM.moduleName('./nav-bar/nav-bar'),
         PLATFORM.moduleName('./select2/select2'),
+        PLATFORM.moduleName('./tooltip/tooltip'),
     ]);
 }
