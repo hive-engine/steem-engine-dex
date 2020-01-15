@@ -38,18 +38,19 @@
                         />
                     </div>
                     <div class="form-group">
-                        <label class="create-nft-form-label">${'NFT Name' & t}</label>
+                        <label class="create-nft-form-label">${'NFT Name' & t} <tooltip text="[REQUIRED] Name of the token (letters, numbers, whitespace only, max length of 50)"></tooltip></label>
                         <input type="text" class="form-control" value.bind="tokenName & validate" />
                     </div>
                     <div class="form-group">
-                        <label class="create-nft-form-label">${'URL' & t}</label>
+                        <label class="create-nft-form-label">${'URL' & t} <tooltip text="[OPTIONAL] URL of the project (max length of 255)"></tooltip></label>
                         <input type="text" class="form-control" value.bind="url & validate" />
                     </div>
                     <div class="form-group">
                         <label class="create-nft-form-label"
                             >${'authorisedIssuingAccounts' & t}
-                            <a href="javascript:void(0);" click.delegate="addAuthorisedAccount()" if.bind="authorisedIssuingAccounts.length < 10">+</a></label
-                        >
+                            <a href="javascript:void(0);" click.delegate="addAuthorisedAccount()" if.bind="authorisedIssuingAccounts.length < 10">+</a>
+                        <tooltip text="[OPTIONAL] A list of Steem accounts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then the NFT owner (the account that calls create) will be the only such authorized account by default."></tooltip>
+                        </label>
                         <input
                             type="text"
                             class="form-control mb-3"
@@ -59,7 +60,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="create-nft-form-label">${'Symbol' & t}</label>
+                        <label class="create-nft-form-label">${'Symbol' & t} <tooltip text="[REQUIRED] Symbol of the token (uppercase letters only, max length of 10)"></tooltip></label>
                         <input type="text" class="form-control" value.bind="symbol & validate" />
                     </div>
                     <div class="form-group">

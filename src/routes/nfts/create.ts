@@ -33,7 +33,6 @@ export class CreateNft {
         this.renderer = new BootstrapFormRenderer();
         this.controller.addRenderer(this.renderer);
     }
-
     async activate() {
         await dispatchify(loadAccountBalances)();
 
