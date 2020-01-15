@@ -8,7 +8,7 @@ import ImageZoom from 'js-image-zoom/js-image-zoom';
 import { faStar } from '@fortawesome/pro-duotone-svg-icons';
 import { bindable } from 'aurelia-framework';
 import { connectTo, dispatchify } from 'aurelia-store';
-import { getNft, getNftInstance } from 'store/actions';
+import { getNft, getNftSellBook } from 'store/actions';
 
 import styles from './nft-detail.module.css';
 
@@ -44,7 +44,7 @@ export class nftDetail {
                 moduleId: PLATFORM.moduleName('./nft-detail-full/nft-reviews'),
                 nav: true,
                 title: 'NFT Reviews',
-            }
+            },
         ]);
 
         this.router = router;
@@ -52,5 +52,11 @@ export class nftDetail {
     attached() {
         console.log(ImageZoom.zoomLensStyle);
         ImageZoom(document.getElementById('container'), this.options);
+    }
+    async activate({ symbol }) {
+        await dispatchify(getNft)(symbol);
+
+        await dispatchify(getNftSellBook)(symbol);
+
     }
 }

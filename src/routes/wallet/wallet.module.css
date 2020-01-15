@@ -111,3 +111,13 @@ button:focus {
 .redBtn:hover {
     background-color: #e42020 !important;
 }
+@media only screen and (max-width: 468px) {
+    .minus-margin {
+        margin: auto -12px;
+    }
+    .remove-padding {
+        padding: 0.5rem 0.2rem; 
+        border-left: 1px soild #fefefe; 
+        font-size: 14px;
+    }
+}

@@ -59,6 +59,19 @@ export interface INftInstance {
     }
 }
 
+export interface INftSellBook {
+    _id: number;
+    account: string;
+    ownedBy: string;
+    nftId: any;
+    grouping: any;
+    timestamp: number;
+    price: number;
+    priceDec: number;
+    priceSymbol: string;
+    fee: number;
+}
+
 export interface State {
     $action: any;
     account: AccountInterface;
@@ -78,6 +91,7 @@ export interface State {
     nft: INft;
     nfts: INft[];
     instances: INftInstance[];
+    nftSellBook: INftSellBook[];
 }
 
 export const initialState: State = {
@@ -117,5 +131,6 @@ export const initialState: State = {
     nft: null,
     nfts: [],
     instances: [],
+    nftSellBook: [],
     tokensLoaded: false
 };

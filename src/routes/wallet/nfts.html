@@ -20,6 +20,12 @@
                                     <button click.delegate="showNftProperties(token)" title="NFT Properties">
                                         <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
                                     </button>
+                                    <button click.delegate="transferNft(token)" title="Transfer NFT">
+                                        <font-awesome-icon icon.bind="['fas', 'share']"></font-awesome-icon>
+                                    </button>
+                                    <button click.delegate="burnNft(token)" title="Burn NFT" class="text-orange">
+                                        <font-awesome-icon icon.bind="['fas', 'burn']"></font-awesome-icon>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>

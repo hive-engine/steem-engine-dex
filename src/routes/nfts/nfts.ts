@@ -1,4 +1,4 @@
-import { steemConnectJson } from 'common/steem';
+import { NftEditModal } from './../../modals/nft/nft-edit';
 import { customJson } from 'common/keychain';
 import { TokenInfoModal } from 'modals/wallet/token-info';
 import { NftEnableModal } from 'modals/nft/nft-enable';
@@ -70,6 +70,8 @@ export class Nfts {
 
                 });
             }
+        } else {
+            window.alert('You need a supported browser and the Steem Keychain browser extension to perform this action');
         }
     }
 
@@ -82,7 +84,6 @@ export class Nfts {
     }
 
     userCanEnableMarket(token) {
-        console.log(token);
         if (token.authorizedIssuingAccounts && token.authorizedIssuingAccounts.includes(this.state.account.name) && !token?.groupBy?.length) {
             return true;
         }

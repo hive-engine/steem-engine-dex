@@ -9,8 +9,6 @@ import { WithdrawModal } from 'modals/withdraw';
 import { DialogService } from 'aurelia-dialog';
 // import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 
-
-
 import Styles from './wallet.module.css';
 
 @autoinject()
@@ -63,11 +61,13 @@ export class Wallet {
 
         this.router = router;
     }
+
     deposit() {
         this.dialogService.open({ viewModel: DepositModal }).whenClosed(response => {
             console.log(response);
         });
     }
+
     withdraw() {
         this.dialogService.open({ viewModel: WithdrawModal }).whenClosed(response => {
             console.log(response);

@@ -3,12 +3,12 @@ import { BootstrapFormRenderer } from 'resources/bootstrap-form-renderer';
 import { ValidationController, ValidationRules } from 'aurelia-validation';
 import { INft } from './../../store/state';
 import { Redirect } from 'aurelia-router';
-import { pluck } from 'rxjs/operators';
 import { DialogService } from 'aurelia-dialog';
 import { State } from 'store/state';
 import { SteemEngine } from 'services/steem-engine';
 import { NewInstance, TaskQueue } from 'aurelia-framework';
 
+import cloneDeep from 'lodash/cloneDeep';
 
 import { connectTo, dispatchify } from 'aurelia-store';
 import { getNft } from 'store/actions';
@@ -124,7 +124,7 @@ export class EditNft {
     }
 
     stateChanged(newState) {
-        this.token = { ...newState.nft };
+        this.token = cloneDeep(newState.nft);
 
         if (this.token.metadata.url === null) {
             this.token.metadata.url = '';
@@ -138,7 +138,7 @@ export class EditNft {
             this.token.metadata.icon = '';
         }
 
-        this.nft = { ...this.token };
+        this.nft = cloneDeep(this.token);
 
         this.addValidationRules();
     }

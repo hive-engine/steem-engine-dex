@@ -10,7 +10,7 @@ export const baseEnvironmentConfiguration: Partial<EnvironmentInterface> = {
     peggedToken: 'STEEMP',
     features: {
         nfts: {
-            enabled: false
+            enabled: true
         }
     }
 };
