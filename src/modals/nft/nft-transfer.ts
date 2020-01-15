@@ -23,8 +23,10 @@ export class NftTransferModal {
     }
 
     async transfer() {
+        dispatchify(loading)(true);
+        
         try {
-            const transfer = this.nftService.transfer(this.token.symbol, this.token._id, this.transaction.id, this.transaction.toType) as any;
+            const transfer = await this.nftService.transfer(this.token.symbol, this.token._id, this.transaction.id, this.transaction.toType) as any;
 
             console.log(transfer);
 
