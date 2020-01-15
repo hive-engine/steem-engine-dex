@@ -32,4 +32,8 @@ export class MyNfts {
 
         });
     }
+
+    burnNft(token) {
+        
+    }
 }
