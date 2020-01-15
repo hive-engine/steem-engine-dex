@@ -1,3 +1,4 @@
+import { NftTransferModal } from './../../modals/nft/nft-transfer';
 import { NftPropertiesModal } from './../../modals/nft/nft-properties';
 import { DialogService } from 'aurelia-dialog';
 import { State } from 'store/state';
@@ -23,6 +24,12 @@ export class MyNfts {
     showNftProperties(token) {
         this.dialogService.open({ viewModel: NftPropertiesModal, model: token }).whenClosed(response => {
             //console.log(response);
+        });
+    }
+
+    transferNft(token) {
+        this.dialogService.open({ viewModel: NftTransferModal, model: token }).whenClosed(response => {
+
         });
     }
 }
