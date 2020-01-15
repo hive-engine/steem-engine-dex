@@ -53,10 +53,6 @@ export class Nfts {
         });
     }
 
-    editNft(token) {
-        this.dialogService.open({ viewModel: NftEditModal, model: token });
-    }
-
     async enableMarket(token: any) {
         const payload = {
             contractName: 'nftmarket',
@@ -74,6 +70,8 @@ export class Nfts {
 
                 });
             }
+        } else {
+            window.alert('You need a supported browser and the Steem Keychain browser extension to perform this action');
         }
     }
 

@@ -29,4 +29,13 @@ export class Nft {
             //console.log(response);
         });
     }
+
+    userCanIssue(token) {
+        console.log(token);
+        if (token.authorizedIssuingAccounts && token.authorizedIssuingAccounts.includes(this.state.account.name)) {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -286,6 +286,7 @@ sellbook {
     background: none;
     border: none;
     outline: none;
+    margin: 0 5px 0 0;
 }
 
 .w100 {
@@ -298,6 +299,10 @@ sellbook {
 
 .text-sell {
     color: #BE4200;
+}
+
+.text-orange {
+    color: #FD7E14;
 }
 
 .errors {
