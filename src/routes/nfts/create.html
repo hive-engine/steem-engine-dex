@@ -64,7 +64,7 @@
                         <input type="text" class="form-control" value.bind="symbol & validate" />
                     </div>
                     <div class="form-group">
-                        <label class="create-nft-form-label">${'Max Supply' & t}</label>
+                        <label class="create-nft-form-label">${'Max Supply' & t} <tooltip text="[OPTIONAL] Maximum supply for the token (between 1 and 9,007,199,254,740,991). If max supply is not specified, then the supply will be unlimited."></tooltip></label>
                         <input
                             type="number"
                             min="0"
@@ -76,8 +76,9 @@
                     <div class="form-group">
                         <label class="create-nft-form-label"
                             >${'authorisedIssuingContracts' & t}
-                            <a href="javascript:void(0);" click.delegate="addAuthorisedContract()" if.bind="authorisedIssuingContracts.length < 10">+</a></label
-                        >
+                            <a href="javascript:void(0);" click.delegate="addAuthorisedContract()" if.bind="authorisedIssuingContracts.length < 10">+</a>
+                            <tooltip text="[OPTIONAL] A list of smart contracts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then no smart contracts will be authorized as such."></tooltip>
+                        </label>
                         <input
                             type="text"
                             class="form-control mb-3"
