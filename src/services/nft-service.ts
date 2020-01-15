@@ -54,6 +54,30 @@ export class NftService {
         });
     }
 
+    async transfer(symbol: string, id: string, to: string, toType?: NftType) {
+        return new Promise((resolve) => {
+            const transactionData = {
+                contractName: 'nft',
+                contractAction: 'transfer',
+                contractPayload: {
+                    to: to,
+                    toType: toType,
+                    nfts: [
+                        { symbol: symbol, ids: [`${id}`] }
+                    ]
+                }
+            };
+    
+            if (window.steem_keychain) {
+                return resolve(customJson(this.se.getUser(), environment.chainId, 'Active', JSON.stringify(transactionData), `Transfer NFT Token ${symbol} ${id}`));
+            } else {
+                steemConnectJson(this.se.getUser(), 'active', transactionData, () => {
+                    resolve(true);
+                });
+            }
+        });
+    }
+
     async addProperties(symbol: string, properties: any) {
         return new Promise(resolve => {
             const payloads = properties.reduce((acc, value) => {
