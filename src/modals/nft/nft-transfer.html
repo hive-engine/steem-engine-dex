@@ -4,7 +4,7 @@
             <h2>${'Transfer NFT' & t}</h2>
 
             <p class="mb-4">
-                <span id="balance">${token.id}</span>
+                <span id="balance">ID: ${token._id}</span>
             </p>
 
             <label>TO</label>
@@ -35,7 +35,7 @@
             <button class="btn btn-sm btn-secondary" click.trigger="controller.cancel()">
                 ${'Cancel' & t}
             </button>
-            <button class="btn btn-sm btn-primary" click.trigger="controller.ok(transaction)">${'Send' & t} ${token.symbol}</button>
+            <button class="btn btn-sm btn-primary" click.delegate="transfer()">${'Transfer' & t} ${token.symbol}</button>
         </ux-dialog-footer>
     </ux-dialog>
 </template>
