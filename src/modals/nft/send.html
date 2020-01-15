@@ -1,0 +1,33 @@
+<template>
+    <ux-dialog>
+        <ux-dialog-body>
+            <h2>${'Transfer NFT' & t}</h2>
+
+            <p class="mb-4">
+                <span id="balance">${token.balance | comma }</span>
+            </p>
+
+            <label>TO</label>
+            <div class="input-group justify-content-center align-items-center mb-4">
+                <div class="input-group-prepend">@</div>
+                <input
+                    style="padding-left: 32px;"
+                    type="text"
+                    placeholder="username"
+                    id="txtTo"
+                    value.bind="transaction.to"
+                />
+                <div class="invalid-tooltip">
+                    Please enter a valid account
+                </div>
+            </div>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <button class="btn btn-sm btn-secondary" click.trigger="controller.cancel()">
+                ${'Cancel' & t}
+            </button>
+            <button class="btn btn-sm btn-primary" click.trigger="controller.ok(transaction)">${'Send' & t} ${token.symbol}</button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>
