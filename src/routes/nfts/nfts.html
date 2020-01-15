@@ -52,10 +52,16 @@
                             </td>
                             <td class="table-buttons">
                                 <a
-                                    route-href="route: nft; params.bind: { symbol: token.symbol }"
+                                    click.delegate="showTokenInfo(token)"
                                     title="Token information"
                                 >
                                     <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
+                                </a>
+                                <a
+                                    route-href="route: nft; params.bind: { symbol: token.symbol }"
+                                    title="Issued NFT's and information"
+                                >
+                                    <font-awesome-icon icon.bind="['fas', 'atlas']"></font-awesome-icon>
                                 </a>
                                 <a route-href="route: nftMarket; params.bind: { symbol: token.symbol }" if.bind="false">
                                     <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
