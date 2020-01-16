@@ -53,6 +53,7 @@
                             <td class="table-buttons">
                                 <a
                                     click.delegate="showTokenInfo(token)"
+                                    href="javascript:void(0);"
                                     title="Token information"
                                 >
                                     <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
@@ -98,6 +99,7 @@
                                 </a>
                                 <a 
                                     click.delegate="changeOwnership(token.symbol)"
+                                    href="javascript:void(0);"
                                     title="Change Ownership"
                                     if.bind="userCanIssue(token)">
                                     <font-awesome-icon icon.bind="['fas', 'crown']"></font-awesome-icon>
