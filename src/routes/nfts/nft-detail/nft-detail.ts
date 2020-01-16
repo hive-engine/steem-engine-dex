@@ -14,7 +14,7 @@ import styles from './nft-detail.module.css';
 
 @autoinject()
 @connectTo()
-export class nftDetail {
+export class NftDetail {
     @bindable iconStar = faStar;
     private router: Router;
     private styles = styles;
