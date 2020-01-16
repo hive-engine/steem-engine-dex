@@ -124,7 +124,7 @@
                                     <p class="what">
                                         ${token.symbol}
                                     </p>
-                                    <span class="rating-wrap" style="margin-left: 20px;">
+                                    <!-- <span class="rating-wrap" style="margin-left: 20px;">
                                         <span
                                             ><font-awesome-icon
                                                 icon.bind="['fas', 'star']"
@@ -161,7 +161,7 @@
                                                 class="rate-nft"
                                             ></font-awesome-icon
                                         ></span>
-                                    </span>
+                                    </span> -->
                                 </div>
                                 <h4 class="showroom-title">
                                     ${token.name}
@@ -171,7 +171,7 @@
                                 <div class="showroom-pf">
                                     <p class="showroom-goal">
                                         Max Supply:
-                                        <span class="init-price">${token.maxSupply}</span>
+                                        <span class="init-price">${token.maxSupply == 0 ? 'Infinite' : token.maxSupply}</span>
                                         <br />
                                         now trading @
                                         <span class="now-price">$ ${'2,500' & t}</span>
