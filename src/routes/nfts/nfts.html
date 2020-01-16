@@ -92,8 +92,15 @@
                                 </a>
                                 <a 
                                     route-href="route: editNft; params.bind: { symbol: token.symbol }" 
+                                    title="Edit NFT Settings"
                                     if.bind="userCanIssue(token)">
                                     <font-awesome-icon icon.bind="['fas', 'pencil']"></font-awesome-icon>
+                                </a>
+                                <a 
+                                    click.delegate="changeOwnership(token.symbol)"
+                                    title="Change Ownership"
+                                    if.bind="userCanIssue(token)">
+                                    <font-awesome-icon icon.bind="['fas', 'crown']"></font-awesome-icon>
                                 </a>
                             </td>
                         </tr>

@@ -1,0 +1,24 @@
+<template>
+    <ux-dialog>
+        <ux-dialog-header>
+            <h2>${'Transfer NFT Ownership' & t}</h2>
+        </ux-dialog-header>
+
+        <ux-dialog-body>
+            <h4>Warning: This will transfer ownership of the NFT token to another account. This cannot be undone.</h4>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label>To Account <tooltip text="The account which will own the NFT. Please do not type @"></tooltip></label>
+                        <input type="text" class="form-control" value.bind="user">
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" class="btn btn-lg btn-primary" click.delegate="changeOwnership()">${'Change Ownership' & t}</button>
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-body>
+    </ux-dialog>
+</template>
