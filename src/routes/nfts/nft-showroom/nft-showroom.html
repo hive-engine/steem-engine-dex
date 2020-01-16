@@ -177,7 +177,7 @@
                                             now trading @
                                             <span class="now-price">${token.orders[0].price} ${token.orders[0].priceSymbol}</span>
                                         </template>
-                                        <a click.trigger="test(`${token.symbol}`)" class="buyBtn">GET</a>
+                                        <a route-href="route: nft-detail; params.bind: { symbol: token.symbol };" class="buyBtn">GET</a>
                                     </p>
                                 </div>
                             </div>
