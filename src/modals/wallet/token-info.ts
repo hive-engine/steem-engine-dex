@@ -28,6 +28,8 @@ export class TokenInfoModal {
                 supply: token.supply
             };
         }
+
+        console.log(this.token);
     }
 
     editToken(token) {

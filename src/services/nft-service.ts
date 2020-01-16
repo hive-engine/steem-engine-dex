@@ -78,6 +78,27 @@ export class NftService {
         });
     }
 
+    async changeOwnership(symbol: string, user: string) {
+        return new Promise((resolve) => {
+            const transactionData = {
+                contractName: 'nft',
+                contractAction: 'transferOwnership',
+                contractPayload: {
+                    to: user,
+                    symbol: symbol
+                }
+            };
+    
+            if (window.steem_keychain) {
+                return resolve(customJson(this.se.getUser(), environment.chainId, 'Active', JSON.stringify(transactionData), `Change NFT Ownership`));
+            } else {
+                steemConnectJson(this.se.getUser(), 'active', transactionData, () => {
+                    resolve(true);
+                });
+            }
+        });
+    }
+
     async burn(symbol: string, id: string) {
         return new Promise((resolve) => {
             const transactionData = {
