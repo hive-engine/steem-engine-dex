@@ -472,6 +472,64 @@ export async function getNfts(state: State): Promise<State> {
     return newState;
 }
 
+
+
+export async function getNftsWithSellBook(state: State): Promise<State> {
+    const newState = { ...state };
+
+    const queryString = `query {
+        nfts {
+            symbol,
+            issuer,
+            name,
+            supply,
+            maxSupply,
+            metadata {
+                url,
+                icon,
+                desc
+            },
+            orders {
+                account,
+                nftId,
+                grouping,
+                timestamp,
+                price,
+                priceDec,
+                priceSymbol,
+                fee
+            },
+            groupBy,
+            circulatingSupply,
+            delegationEnabled,
+            undelegationCooldown,
+            authorizedIssuingAccounts,
+            authorizedIssuingContracts,
+            properties {
+                authorizedEditingAccounts,
+                authorizedEditingContracts,
+                isReadOnly,
+                name,
+                type
+            }
+        }
+    }`;
+
+    const {
+        data: { nfts },
+    } = await query(queryString);
+
+    for (const nft of nfts) {
+        for (const order of nft.orders) {
+            order.price = parseFloat(order.price);
+        }
+    }
+
+    newState.nfts = nfts;
+
+    return newState;
+}
+
 export async function getNft(state: State, symbol: string): Promise<State> {
     const newState = { ...state };
 
@@ -612,6 +670,7 @@ store.registerAction('markNotificationsRead', markNotificationsRead);
 store.registerAction('getPendingWithdrawals', getPendingWithdrawals);
 store.registerAction('loadConversionHistory', loadConversionHistory);
 store.registerAction('getNfts', getNfts);
+store.registerAction('getNftsWithSellBook', getNftsWithSellBook);
 store.registerAction('getNft', getNft);
 store.registerAction('getNftSellBook', getNftSellBook);
 store.registerAction('getNftInstance', getNftInstance);

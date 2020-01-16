@@ -173,9 +173,11 @@
                                         Max Supply:
                                         <span class="init-price">${token.maxSupply == 0 ? 'Infinite' : token.maxSupply}</span>
                                         <br />
-                                        now trading @
-                                        <span class="now-price">$ ${'2,500' & t}</span>
-                                        <a click.trigger="test(`${token.symbol}`)" class="buyBtn">GET</a>
+                                        <template if.bind="token.orders.length">
+                                            now trading @
+                                            <span class="now-price">${token.orders[0].price} ${token.orders[0].priceSymbol}</span>
+                                        </template>
+                                        <a route-href="route: nft-detail; params.bind: { symbol: token.symbol };" class="buyBtn">GET</a>
                                     </p>
                                 </div>
                             </div>

@@ -4,7 +4,7 @@ import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 import { DialogService, DialogCloseResult } from 'aurelia-dialog';
 import { connectTo, dispatchify } from 'aurelia-store';
-import { getNfts } from 'store/actions';
+import { getNftsWithSellBook } from 'store/actions';
 
 import { slick } from 'slick-carousel/slick/slick';
 import styles from './nft-showroom.module.css';
@@ -20,7 +20,7 @@ export class Nft {
     constructor(private se: SteemEngine, private taskQueue: TaskQueue) {}
 
     async canActivate() {
-        await dispatchify(getNfts)();
+        await dispatchify(getNftsWithSellBook)();
     }
 
     attached() {
