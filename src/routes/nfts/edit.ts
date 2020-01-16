@@ -85,7 +85,11 @@ export class EditNft {
     async updateMetadata() {
         const validationResult = await this.metadataController.validate();
 
-        const payload = { symbol: this.nft.symbol, metadata: this.token.metadata } as Partial<INft>;
+        const payload = { symbol: this.nft.symbol, metadata: {
+            url: this.token.metadata.url,
+            icon: this.token.metadata.icon,
+            desc: this.token.metadata.desc
+        } } as Partial<INft>;
 
         // Payload can be a maximum of 1000 characters
         if (JSON.stringify(payload).length > 1000) {
