@@ -1,3 +1,55 @@
 <template>
-    <span style="font-size: 12px;" data-toggle="tooltip" title="${text}"><font-awesome-icon icon.bind="['fas', 'question-circle']"></font-awesome-icon></span>
+    <span data-toggle="tooltip" title="${text}"
+        ><font-awesome-icon
+            icon.bind="['fas', 'question-circle']"
+            style="font-size: 22px; color: #0048b3;"
+        ></font-awesome-icon
+    ></span>
+
+    <style>
+        .tooltip-main {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            font-weight: 700;
+            background: #f3f3f3;
+            border: 1px solid #737373;
+            color: #737373;
+            margin: 4px 121px 0 5px;
+            float: right;
+            text-align: left !important;
+        }
+
+        .tooltip-qm {
+            float: left;
+            margin: -2px 0px 3px 4px;
+            font-size: 12px;
+        }
+
+        .tooltip-inner {
+            min-width: 236px !important;
+            min-height: 76px;
+            font-size: 16px;
+            padding: 10px 15px 10px 20px;
+            background: #ffffff;
+            color: #0048b3;
+            border: 1px solid #0048b3;
+            text-align: left;
+        }
+
+        .tooltip.show {
+            opacity: 1;
+        }
+
+        .bs-tooltip-auto[x-placement^='bottom'] .arrow::before,
+        .bs-tooltip-bottom .arrow::before {
+            border-bottom-color: #0048b3;
+            /* Red */
+        }
+        .bs-tooltip-auto[x-placement^='top'] .arrow::before,
+        .bs-tooltip-top .arrow::before {
+            border-top-color: #0048b3;
+            /* Red */
+        }
+    </style>
 </template>
