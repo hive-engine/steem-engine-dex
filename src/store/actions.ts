@@ -574,6 +574,7 @@ export async function getNftSellBook(state: State, symbol: string): Promise<Stat
 
     const queryString = `query {
         nftSellBook(symbol: "${symbol.toUpperCase()}") {
+            _id,
             account,
             ownedBy,
             nftId,
