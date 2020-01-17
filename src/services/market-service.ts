@@ -18,7 +18,7 @@ export class MarketService {
                 contractAction: 'buy',
                 contractPayload: {
                     symbol: symbol,
-                    nfts: [nftId],
+                    nfts: [`${nftId}`],
                     marketAccount: 'se-devworks'
                 }
             };
@@ -40,7 +40,7 @@ export class MarketService {
                 contractAction: 'sell',
                 contractPayload: {
                     symbol: symbol,
-                    nfts: [nftId],
+                    nfts: [`${nftId}`],
                     price: price,
                     priceSymbol: priceSymbol,
                     fee: 500
@@ -64,7 +64,7 @@ export class MarketService {
                 contractAction: 'changePrice',
                 contractPayload: {
                     symbol: symbol,
-                    nfts: [nftId],
+                    nfts: [`${nftId}`],
                     price: price
                 }
             };
@@ -86,7 +86,7 @@ export class MarketService {
                 contractAction: 'cancel',
                 contractPayload: {
                     symbol: symbol,
-                    nfts: [nftId]
+                    nfts: [`${nftId}`]
                 }
             };
     
