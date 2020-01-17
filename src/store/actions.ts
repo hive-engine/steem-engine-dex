@@ -557,6 +557,16 @@ export async function getNft(state: State, symbol: string): Promise<State> {
                 isReadOnly,
                 name,
                 type
+            },
+            orders {
+                account,
+                nftId,
+                grouping,
+                timestamp,
+                price,
+                priceDec,
+                priceSymbol,
+                fee
             }
         }
     }`;
