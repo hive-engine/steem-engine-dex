@@ -22,7 +22,7 @@ export class NftDetail {
     private Slick = slick;
     private tokenTable: HTMLTableElement;
     private options = {
-        width: 650,
+        width: 750,
         height: 350,
         zoomWidth: 500,
         offset: { vertical: 0, horizontal: 10 },
