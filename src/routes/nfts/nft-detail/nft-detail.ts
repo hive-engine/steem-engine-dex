@@ -8,7 +8,7 @@ import ImageZoom from 'js-image-zoom/js-image-zoom';
 import { faStar } from '@fortawesome/pro-duotone-svg-icons';
 import { bindable } from 'aurelia-framework';
 import { connectTo, dispatchify } from 'aurelia-store';
-import { getNft, getNftSellBook } from 'store/actions';
+import { getNft } from 'store/actions';
 
 import styles from './nft-detail.module.css';
 
@@ -50,13 +50,12 @@ export class NftDetail {
         this.router = router;
     }
     attached() {
-        console.log(ImageZoom.zoomLensStyle);
         ImageZoom(document.getElementById('container'), this.options);
     }
     async activate({ symbol }) {
         await dispatchify(getNft)(symbol);
 
-        await dispatchify(getNftSellBook)(symbol);
+        // await dispatchify(getNftSellBook)(symbol);
 
     }
 }
