@@ -17,7 +17,7 @@
                                 <td>${token.account}</td>
                                 <td>${token.ownedBy === 'u' ? 'Steem Account' : 'Smart Contract'}</td>
                                 <td class="table-buttons">
-                                    <button click.delegate="sellNft(token)" title="Sell NFT token">
+                                    <button click.delegate="sellNft(token)" title="Sell NFT token" if.bind="marketIsEnabled(token)">
                                         <font-awesome-icon icon.bind="['fas', 'usd-circle']"></font-awesome-icon>
                                     </button>
                                     <button click.delegate="showNftProperties(token)" title="NFT Properties">

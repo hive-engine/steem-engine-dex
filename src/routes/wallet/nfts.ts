@@ -35,6 +35,10 @@ export class MyNfts {
         })
     }
 
+    marketIsEnabled(token) {
+        return token?.groupBy?.length ? true : false;
+    }
+
     showNftProperties(token) {
         this.dialogService.open({ viewModel: NftPropertiesModal, model: token })
     }
