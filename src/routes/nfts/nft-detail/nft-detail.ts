@@ -23,7 +23,7 @@ export class NftDetail {
     private tokenTable: HTMLTableElement;
     private options = {
         width: 750,
-        height: 350,
+        height: 400,
         zoomWidth: 500,
         offset: { vertical: 0, horizontal: 10 },
     };
