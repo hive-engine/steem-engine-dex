@@ -1,3 +1,4 @@
+import { NftOwnershipModal } from './../../modals/nft/nft-ownership';
 import { NftEditModal } from './../../modals/nft/nft-edit';
 import { customJson } from 'common/keychain';
 import { TokenInfoModal } from 'modals/wallet/token-info';
@@ -49,6 +50,12 @@ export class Nfts {
 
     showTokenInfo(symbol) {
         this.dialogService.open({ viewModel: TokenInfoModal, model: symbol }).whenClosed(response => {
+            //console.log(response);
+        });
+    }
+
+    changeOwnership(symbol) {
+        this.dialogService.open({ viewModel: NftOwnershipModal, model: symbol }).whenClosed(response => {
             //console.log(response);
         });
     }

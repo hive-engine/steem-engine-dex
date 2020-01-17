@@ -355,6 +355,13 @@ export class App {
                 title: 'Create NFT',
             },
             {
+                route: 'create-nft-options',
+                name: 'createNftOptions',
+                moduleId: PLATFORM.moduleName('./routes/nfts/create-options'),
+                nav: false,
+                title: 'Create NFT Options',
+            },
+            {
                 route: 'edit-nft/:symbol',
                 name: 'editNft',
                 moduleId: PLATFORM.moduleName('./routes/nfts/edit'),
