@@ -27,8 +27,8 @@ export class NftDetail {
     private errors: string[] = [];
 
     private options = {
-        width: 650,
-        height: 350,
+        width: 750,
+        height: 400,
         zoomWidth: 500,
         offset: { vertical: 0, horizontal: 10 },
     };
@@ -56,12 +56,12 @@ export class NftDetail {
         this.router = router;
     }
     attached() {
-        console.log(ImageZoom.zoomLensStyle);
         ImageZoom(document.getElementById('container'), this.options);
     }
 
     async activate({ symbol }) {
         await dispatchify(getNft)(symbol);
+
 
         await dispatchify(getNftSellBook)(symbol);
     }
@@ -86,6 +86,7 @@ export class NftDetail {
                     console.error(e);
                 }
             }
+
 
             dispatchify(loading)(false);
         } catch {

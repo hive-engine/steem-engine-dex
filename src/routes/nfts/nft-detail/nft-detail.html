@@ -1,22 +1,21 @@
 <template>
     <section>
         <div class="container-fluid">
-            <h2 class="nft-details-title">${state.nft.name}</h2>
+            <h2 class="nft-details-title">${state.nft.symbol}</h2>
         </div>
     </section>
     <section class="nft-description">
         <div class="container-fluid">
             <div class="row" ref="tokenTable">
-                <div class="col-md-5">
-                    <div id="container" style="width: 650px; height: 400px;">
+                <div class="col-md-6">
+                    <div id="container" style="width: 750px; height: 500px;">
                         <img src="https://picsum.photos/640/360" style="width: 650px; height: 400px;" />
                     </div>
                 </div>
                 <div class="col-md-4" style="z-index: -1!important;">
 
                     <div class="nft-name-wrapper">
-                        <p style="z-index: 10000;">${state.nftSellBook.firebaseUser}</p>
-                        <h1 class="nft-name"></h1>
+                        <h1 class="nft-name">${state.nft.name}</h1>
                     </div>
                     <div class="rating-wrap">
                         
@@ -37,12 +36,12 @@
                     </div>
                     <hr class="" />
                     <div class="nft-rank">
-                        <p>
-                            <span class="nft-rank-spec" style="margin-left: 0;">Rarity:</span> 50 <span class="nft-rank-spec">Gen:</span> 1
-                            <span class="nft-rank-spec">Rank:</span> #12899
-                            <span class="nft-rank-spec">Issuer: </span>Da Vinci
-                      </p>
-         <!-- <hr class="divider" /> -->
+                        <ul class="stack-on">
+                            <li class="nft-rank-spec">Rarity: ${state.nft.orders[1].grouping.rarity}</li>  
+                            <li class="nft-rank-spec">Gen: ${state.nft.orders[1].grouping.edition}</li> 
+                            <li class="nft-rank-spec">Rank: <span>#12899</span></li> 
+                            <li class="nft-rank-spec">Issuer: ${state.nft.issuer}</li>
+                      </ul>
                         <p class="attribute-header">
                             Attributes
 
@@ -61,17 +60,17 @@
                         </div>
                         <div class="cat-card-body">
                             <ul class="cat-card-items">
-                                <li class="cat-card-item">
-                                    <a href="">Last Traded</a><span class="float-right">$189</span>
+                                <li class="cat-card-item flex-setting">
+                                    <a href="">Last Traded</a><span class="float-right">${state.nft.orders[1].price | toFixed:2} ${state.nft.orders[1].priceSymbol}</span>
                                 </li>
-                                <li class="cat-card-item">
-                                    <a href="">Currently Trading</a><span class="float-right">$200</span>
+                                <li class="cat-card-item flex-setting">
+                                    <a href="">Currently Trading</a><span class="float-right">${state.nft.orders[0].price | toFixed:2} ${state.nft.orders[0].priceSymbol}</span>
                                 </li>
-                                <li class="cat-card-item">
-                                    <a href="">Time Sold</a><span class="float-right">11:00 CAT</span>
+                                <li class="cat-card-item flex-setting">
+                                    <a href="">Time Sold</a><span class="float-right">${state.nft.orders[1].timestamp}</span>
                                 </li>
-                                <li class="cat-card-item" style="display: flex;">
-                                    <span class="curr-price">$329</span
+                                <li class="cat-card-item flex-setting" style="display: flex;">
+                                    <span class="curr-price">${state.nft.orders[0].price | toFixed:1} ${state.nft.orders[0].priceSymbol}</span
                                     ><span><a href="" class="buyBtn mg-tp">GET</a></span>
                                 </li>
                             </ul>
@@ -95,6 +94,8 @@
         </div>
     </section>
 
+
+
     <table class="table table-dark" ref="tokenTable">
                     <thead>
                         <tr>
@@ -117,4 +118,5 @@
                         </tr>
                     </tbody>
                 </table>
+
 </template>
