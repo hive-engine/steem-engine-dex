@@ -100,17 +100,20 @@
                         <tr>
                             <th>${'ID' & t}</th>
                             <th>${'Account' & t}</th>
-                            <th>${'Owner' & t}${state.token.price}</th>
+                            <th>${'Price' & t}</th>
+                            <th>${'Price Symbol'}</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td textcontent.bind="state.nftSellBook">${token._id}</td>
-                            <td>${token.account}</td>
-                            <td>${token.price}</td>
-                            <td>${token.priceSymbol}</td>
-                            
+                        <tr repeat.for="order of state.nftSellBook">
+                            <td>${order._id}</td>
+                            <td>${order.account}</td>
+                            <td>${order.price}</td>
+                            <td>${order.priceSymbol}</td>
+                            <td><button type="button" class="btn btn-md" title="Buy NFT" click.delegate="buy(order)">
+                                <font-awesome-icon icon.bind="['fas', 'store']"></font-awesome-icon>
+                            </button></td>
                         </tr>
                     </tbody>
                 </table>
