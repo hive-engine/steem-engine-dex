@@ -819,7 +819,7 @@ export class SteemEngine {
 
         const token = this.getToken(symbol);
 
-        if (token.metadata && token.metadata.hide_in_market) {
+        if (token && token.metadata && token.metadata.hide_in_market) {
             return false;
         }
 

@@ -42,7 +42,7 @@ export class DepositModal {
 
                 try {
                     const result = await this.se.getDepositAddress(this.token);
-
+                    
                     if (result) {
                         this.depositInfo = result;
                     }
