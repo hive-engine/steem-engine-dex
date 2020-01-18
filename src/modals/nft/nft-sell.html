@@ -1,0 +1,27 @@
+<template>
+    <ux-dialog>
+        <ux-dialog-header>
+            <h2>${'Sell NFT' & t}</h2>
+        </ux-dialog-header>
+
+        <ux-dialog-body>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label>Price <tooltip text="The price of this NFT in your selected currency"></tooltip></label>
+                        <input type="text" class="form-control" value.bind="price">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Price Symbol <tooltip text="What token will you accept payment in?"></tooltip></label>
+                        <input type="text" class="form-control" value.bind="priceSymbol" placeholder="ENG">
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" class="btn btn-lg btn-primary" click.delegate="placeSellOrder()">${'Place sell order' & t}</button>
+                    </div>
+                </div>
+            </div>
+        </ux-dialog-body>
+    </ux-dialog>
+</template>

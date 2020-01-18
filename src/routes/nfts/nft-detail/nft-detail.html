@@ -93,4 +93,30 @@
             <router-view></router-view>
         </div>
     </section>
+
+
+
+    <table class="table table-dark" ref="tokenTable">
+                    <thead>
+                        <tr>
+                            <th>${'ID' & t}</th>
+                            <th>${'Account' & t}</th>
+                            <th>${'Price' & t}</th>
+                            <th>${'Price Symbol'}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr repeat.for="order of state.nftSellBook">
+                            <td>${order._id}</td>
+                            <td>${order.account}</td>
+                            <td>${order.price}</td>
+                            <td>${order.priceSymbol}</td>
+                            <td><button type="button" class="btn btn-md" title="Buy NFT" click.delegate="buy(order)">
+                                <font-awesome-icon icon.bind="['fas', 'store']"></font-awesome-icon>
+                            </button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
 </template>

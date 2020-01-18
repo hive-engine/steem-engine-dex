@@ -1,3 +1,4 @@
+import { NftSellModal } from './../../modals/nft/nft-sell';
 import { sleep } from 'common/functions';
 import { checkTransaction } from 'common/steem-engine';
 import { NftService } from './../../services/nft-service';
@@ -25,16 +26,25 @@ export class MyNfts {
         await dispatchify(getUserNfts)();
     }
 
+    sellNft(token) {
+        this.dialogService.open({ viewModel: NftSellModal, model: token }).whenClosed(async (result) => {
+            if (!result.wasCancelled) {
+                await sleep(3200);
+                window.location.reload();
+            }
+        })
+    }
+
+    marketIsEnabled(token) {
+        return token?.groupBy?.length ? true : false;
+    }
+
     showNftProperties(token) {
-        this.dialogService.open({ viewModel: NftPropertiesModal, model: token }).whenClosed(response => {
-            //console.log(response);
-        });
+        this.dialogService.open({ viewModel: NftPropertiesModal, model: token })
     }
 
     transferNft(token) {
-        this.dialogService.open({ viewModel: NftTransferModal, model: token }).whenClosed(response => {
-
-        });
+        this.dialogService.open({ viewModel: NftTransferModal, model: token })
     }
 
     async burnNft(token) {
