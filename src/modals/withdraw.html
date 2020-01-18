@@ -65,8 +65,8 @@
                         class="form-control"
                         type="text"
                         id="withdraw_address"
-                        value.one-time="se.user.name"
-                        disabled="disabled"
+                        value.bind="address"
+                        disabled.bind="!token || token.symbol == 'STEEM'"
                     />
                     <div class="invalid-tooltip" id="error_response"></div>
                 </div>
