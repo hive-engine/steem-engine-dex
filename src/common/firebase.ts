@@ -49,12 +49,12 @@ export async function getFirebaseUser(username: string) {
     return doc.exists ? doc.data() : null;
 }
 
-export async function loadSiteSettings() {
-    const settings = await firebase
-        .firestore()
-        .collection('admin')
-        .doc('settings')
-        .get();
+export function loadSiteSettings() {
+    // const settings = await firebase
+    //     .firestore()
+    //     .collection('admin')
+    //     .doc('settings')
+    //     .get();
 
-    return settings.exists ? { ...environment, ...settings.data() } : { ...environment } as ISettings;
+    return { ...environment } as ISettings;
 }

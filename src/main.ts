@@ -143,7 +143,7 @@ export async function configure(aurelia: Aurelia) {
       };
 
     await authStateChanged();
-    await dispatchify(loadSiteSettings)();
+    dispatchify(loadSiteSettings)();
 
     await aurelia.start();
     await aurelia.setRoot(PLATFORM.moduleName('app'));

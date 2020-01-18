@@ -40,14 +40,7 @@ export class AdminAdmin {
                 moduleId: PLATFORM.moduleName('./tokens'),
                 nav: true,
                 title: 'Tokens'
-            },
-            {
-                route: 'settings',
-                name: 'adminSettings',
-                moduleId: PLATFORM.moduleName('./settings'),
-                nav: true,
-                title: 'Settings'
-            },
+            }
         ]);
 
         this.router = router;
