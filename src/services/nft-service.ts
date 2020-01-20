@@ -30,7 +30,7 @@ export class NftService {
                 params.issuer = issuer;
             }
     
-            let nfts = await ssc.find('nft', 'nfts', params, limit, offset, [], false);
+            const nfts = await ssc.find('nft', 'nfts', params, limit, offset, [], false);
     
             for (const nft of nfts) {
                 if (nft?.metadata) {
@@ -38,7 +38,7 @@ export class NftService {
                 }
     
                 if (nft?.properties) {
-                    let finalProperties = [];
+                    const finalProperties = [];
     
                     for (const [key, value] of Object.entries(nft.properties) as any) {
                         finalProperties.push({ name: key, ...value });
@@ -126,7 +126,7 @@ export class NftService {
                 }
 
                 if (result?.properties) {
-                    let finalProperties = [];
+                    const finalProperties = [];
     
                     for (const [key, value] of Object.entries(result.properties) as any) {
                         finalProperties.push({ name: key, ...value });

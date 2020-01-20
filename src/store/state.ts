@@ -1,5 +1,3 @@
-import { environment } from 'environment';
-
 export const initialState: State = {
     $action: {
         name: '',
@@ -14,14 +12,6 @@ export const initialState: State = {
         pendingUnstakes: [],
         notifications: [],
         nfts: []
-    },
-    settings: {
-        disableDeposits: false,
-        disableWithdrawals: false,
-        disabledTokens: environment.disabledTokens,
-        maintenanceMode: environment.maintenanceMode,
-        siteName: 'Steem Engine',
-        nativeToken: environment.nativeToken
     },
     firebaseUser: {},
     loggedIn: false,
