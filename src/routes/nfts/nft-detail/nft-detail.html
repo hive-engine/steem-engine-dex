@@ -39,19 +39,14 @@
                     <hr>
                     <div class="nft-rank">
                         <ul class="stack-on">
-                            <li class="nft-rank-spec">Rarity: ${state.nft.orders[1].grouping.rarity}</li>  
-                            <li class="nft-rank-spec">Gen: ${state.nft.orders[1].grouping.edition}</li> 
-                            <li class="nft-rank-spec">Rank: <span>#12899</span></li> 
                             <li class="nft-rank-spec">Issuer: ${state.nft.issuer}</li>
                       </ul>
                         <p class="attribute-header">
                             Attributes
 
                         </p>
-                        <ul class="nft-attributes">
-                            <li class="nft-attribute"><span class="bold-text">Categories</span> : NFT,</li>
-                            <li class="nft-attribute"><span class="bold-text">Speed</span> : Excellent,</li>
-                            <li class="nft-attribute"><span class="bold-text">Age</span> : 187 days</li>
+                        <ul class="nft-attributes" if.bind="state.instance">
+                            <li class="nft-attribute" repeat.for="key of state.instance.properties | keys"><span class="bold-text">${key}</span>: ${state.instance.properties[key]}</li>
                         </ul>
                     </div>
                 </div>

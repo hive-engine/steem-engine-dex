@@ -182,10 +182,10 @@ export class NftService {
         }
     }
 
-    async loadInstance(symbol: string, id: number): Promise<INftInstance> {
+    async loadInstance(symbol: string, id: string): Promise<INftInstance> {
         try {
             const params: any = {
-                _id: id
+                _id: parseInt(id)
             };
 
             const result = await ssc.findOne('nft', `${symbol.toUpperCase()}instances`, params) as INftInstance;
