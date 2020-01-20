@@ -231,7 +231,7 @@ interface AccountInterface {
     pendingUnstakes: any[];
     token: any;
     notifications: any[];
-    nfts: INftInstance[]
+    nfts: INft[]
 }
 
 interface ISettings {
