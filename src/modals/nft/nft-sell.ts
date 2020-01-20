@@ -40,6 +40,7 @@ export class NftSellModal {
                         this.errors = verify.errors;
                     } else {
                         await sleep(3200);
+                        
                         this.controller.ok();
                     }
                 } catch (e) {
