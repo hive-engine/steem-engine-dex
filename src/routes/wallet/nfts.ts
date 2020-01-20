@@ -34,12 +34,6 @@ export class MyNfts {
         })
     }
 
-    async marketIsEnabled(token) {
-        const exists = await this.nftService.sellBookExists(token.symbol);
-
-        return exists;
-    }
-
     showNftProperties(token) {
         this.dialogService.open({ viewModel: NftPropertiesModal, model: token })
     }
