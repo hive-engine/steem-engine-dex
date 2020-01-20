@@ -57,21 +57,28 @@
                     <div class="card cat-card">
                         <div class="cat-card-header">
                             <h4>Card Pricing</h4>
+
+                            <let current-order.bind="state.nft.orders[0]"></let>
+                            <let last-order.bind="state.nft.orders[1]"></let>
                         </div>
                         <div class="cat-card-body">
                             <ul class="cat-card-items">
                                 <li class="cat-card-item flex-setting">
-                                    <a href="">Last Traded</a><span class="float-right">${state.nft.orders[1].price | toFixed:2} ${state.nft.orders[1].priceSymbol}</span>
+                                    <a href="">Last Traded</a>
+                                    <span class="float-right">
+                                        <template if.bind="lastOrder">${lastOrder.price | toFixed:2} ${lastOrder.priceSymbol}</template>
+                                        <template else>Not Available</template>
+                                    </span>
                                 </li>
-                                <li class="cat-card-item flex-setting">
-                                    <a href="">Currently Trading</a><span class="float-right">${state.nft.orders[0].price | toFixed:2} ${state.nft.orders[0].priceSymbol}</span>
+                                <li class="cat-card-item flex-setting" if.bind="currentOrder">
+                                    <a href="">Currently Trading</a><span class="float-right">${currentOrder.price | toFixed:2} ${currentOrder.priceSymbol}</span>
                                 </li>
-                                <li class="cat-card-item flex-setting">
-                                    <a href="">Time Sold</a><span class="float-right">${state.nft.orders[1].timestamp}</span>
+                                <li class="cat-card-item flex-setting" if.bind="lastOrder">
+                                    <a href="">Time Sold</a><span class="float-right">${lastOrder.timestamp}</span>
                                 </li>
                                 <li class="cat-card-item flex-setting" style="display: flex;">
-                                    <span class="curr-price">${state.nft.orders[0].price | toFixed:1} ${state.nft.orders[0].priceSymbol}</span
-                                    ><span><a href="javascript:void(0);" click.delegate="buy(state.nft.orders[0])" class="buyBtn mg-tp">GET</a></span>
+                                    <span class="curr-price">${currentOrder.price | toFixed:1} ${currentOrder.priceSymbol}</span
+                                    ><span><a href="javascript:void(0);" click.delegate="buy(currentOrder)" class="buyBtn mg-tp">GET</a></span>
                                 </li>
                             </ul>
                         </div>
