@@ -60,8 +60,6 @@ export class NftDetail {
 
     async activate({ symbol }) {
         await dispatchify(getNft)(symbol);
-
-
         await dispatchify(getNftSellBook)(symbol);
     }
 
