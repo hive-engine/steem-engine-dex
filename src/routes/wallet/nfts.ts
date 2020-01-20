@@ -5,7 +5,6 @@ import { NftService } from './../../services/nft-service';
 import { NftTransferModal } from './../../modals/nft/nft-transfer';
 import { NftPropertiesModal } from './../../modals/nft/nft-properties';
 import { DialogService } from 'aurelia-dialog';
-import { State } from 'store/state';
 import { connectTo, dispatchify } from 'aurelia-store';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject } from 'aurelia-framework';

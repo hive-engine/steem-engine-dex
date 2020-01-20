@@ -1,4 +1,3 @@
-import { ISettings } from './../store/state';
 import { environment } from 'environment';
 import { login, setAccount, logout } from 'store/actions';
 import { dispatchify } from 'aurelia-store';

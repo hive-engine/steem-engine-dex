@@ -1,9 +1,7 @@
 import { NftOwnershipModal } from './../../modals/nft/nft-ownership';
-import { NftEditModal } from './../../modals/nft/nft-edit';
 import { customJson } from 'common/keychain';
 import { TokenInfoModal } from 'modals/wallet/token-info';
 import { NftEnableModal } from 'modals/nft/nft-enable';
-import { State } from 'store/state';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 

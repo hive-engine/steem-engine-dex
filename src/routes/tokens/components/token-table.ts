@@ -4,7 +4,6 @@ import { SteemEngine } from 'services/steem-engine';
 import { DialogService } from 'aurelia-dialog';
 import { dispatchify, connectTo } from 'aurelia-store';
 import { getCurrentFirebaseUser } from 'store/actions';
-import { State } from 'store/state';
 import firebase from 'firebase/app';
 
 @autoinject()

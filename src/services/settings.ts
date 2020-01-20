@@ -1,5 +1,4 @@
 import { pluck } from 'rxjs/operators';
-import { State } from './../store/state';
 import { Store } from 'aurelia-store';
 import { autoinject } from 'aurelia-framework';
 import { Subscription } from 'rxjs';

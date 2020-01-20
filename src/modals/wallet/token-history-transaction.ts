@@ -3,7 +3,6 @@ import { SteemEngine } from 'services/steem-engine';
 import { DialogController } from 'aurelia-dialog';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 import { Subscription } from 'rxjs';
-import { State } from 'store/state';
 import styles from './token-history-transaction.module.css';
 
 @autoinject()

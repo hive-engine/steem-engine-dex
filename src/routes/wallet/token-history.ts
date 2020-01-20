@@ -1,6 +1,4 @@
 import { Subscription } from 'rxjs';
-import { State } from 'store/state';
-import { Redirect } from 'aurelia-router';
 import { observable } from 'aurelia-binding';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';

@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import { initialState } from './state';
 import { query } from 'common/apollo';
-import { State, ISettings } from './state';
 import store from './store';
 
 import firebase from 'firebase/app';

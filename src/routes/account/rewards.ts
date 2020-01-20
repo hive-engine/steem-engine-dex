@@ -1,6 +1,5 @@
 import { Subscription } from 'rxjs';
 import { SteemEngine } from 'services/steem-engine';
-import { State } from 'store/state';
 import { TaskQueue, autoinject, bindable } from "aurelia-framework";
 import { Store } from 'aurelia-store';
 

@@ -12,7 +12,6 @@ import { PreRenderStep } from './resources/pipeline-steps/prerender';
 import { MaintenanceStep } from './resources/pipeline-steps/maintenance';
 import { PLATFORM } from 'aurelia-pal';
 import { Router, RouterConfiguration, RouterEvent } from 'aurelia-router';
-import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
 
 import { getCurrentFirebaseUser, markNotificationsRead } from 'store/actions';

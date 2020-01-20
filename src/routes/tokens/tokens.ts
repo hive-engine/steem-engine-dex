@@ -1,5 +1,4 @@
 import { TokenInfoModal } from 'modals/wallet/token-info';
-import { State } from 'store/state';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, observable, TaskQueue, bindable } from 'aurelia-framework';
 

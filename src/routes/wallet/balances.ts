@@ -1,6 +1,5 @@
 import { usdFormat, toFixedNoRounding, addCommas } from 'common/functions';
 import { Subscription } from 'rxjs';
-import { State } from 'store/state';
 import { Redirect } from 'aurelia-router';
 import { observable } from 'aurelia-binding';
 import { SteemEngine } from 'services/steem-engine';

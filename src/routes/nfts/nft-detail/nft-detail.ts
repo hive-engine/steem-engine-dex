@@ -3,7 +3,6 @@ import { checkTransaction } from 'common/steem-engine';
 import { MarketService } from './../../../services/market-service';
 import { PLATFORM } from 'aurelia-framework';
 import { Router, RouterConfiguration } from 'aurelia-router';
-import { State } from 'store/state';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 import { slick } from 'slick-carousel/slick/slick';

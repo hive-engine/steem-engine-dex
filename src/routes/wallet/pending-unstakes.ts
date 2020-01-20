@@ -1,14 +1,10 @@
 import { Subscription } from 'rxjs';
-import { State } from 'store/state';
 import { Redirect } from 'aurelia-router';
 import { SteemEngine } from 'services/steem-engine';
-import { autoinject, TaskQueue } from 'aurelia-framework';
-import { loadTokens, loadBalances } from 'common/steem-engine';
+import { autoinject } from 'aurelia-framework';
 
-import firebase from 'firebase/app';
 import { dispatchify, Store } from 'aurelia-store';
-import { getCurrentFirebaseUser, loadAccountBalances, loadTokensList } from 'store/actions';
-import { DialogService } from 'aurelia-dialog';
+import { loadAccountBalances, loadTokensList } from 'store/actions';
 import { stateTokensOnlyPegged } from 'common/functions';
 
 

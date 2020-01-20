@@ -1,7 +1,6 @@
 import { query } from 'common/apollo';
 import { AuthService } from './auth-service';
 import { I18N } from 'aurelia-i18n';
-import { State } from 'store/state';
 import { HttpClient, json } from 'aurelia-fetch-client';
 import { lazy, autoinject } from 'aurelia-framework';
 import { environment } from 'environment';
