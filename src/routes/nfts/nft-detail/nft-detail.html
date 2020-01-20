@@ -82,7 +82,8 @@
             </div>
         </div>
     </section>
-    <section class="nft-details">
+
+    <section class="nft-details" if.bind="!state.instance">
         <div class="container">
             <nav class="nav tabs mt-3">
                 <a class="nav-link tabs__tab ${row.isActive ? 'active' : ''}" repeat.for="row of router.navigation" href.bind="row.href">${row.title & t}</a>
@@ -91,27 +92,27 @@
         </div>
     </section>
 
-    <table class="table table-dark" ref="tokenTable" if.bind="state.instance">
-                    <thead>
-                        <tr>
-                            <th>${'ID' & t}</th>
-                            <th>${'Account' & t}</th>
-                            <th>${'Price' & t}</th>
-                            <th>${'Price Symbol'}</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr repeat.for="order of state.nftSellBook">
-                            <td>${order._id}</td>
-                            <td>${order.account}</td>
-                            <td>${order.price}</td>
-                            <td>${order.priceSymbol}</td>
-                            <td><button type="button" class="btn btn-md" title="Buy NFT" click.delegate="buy(order)">
-                                <font-awesome-icon icon.bind="['fas', 'store']"></font-awesome-icon>
-                            </button></td>
-                        </tr>
-                    </tbody>
-                </table>
+    <table class="table table-dark" ref="tokenTable" if.bind="!state.instance">
+        <thead>
+            <tr>
+                <th>${'ID' & t}</th>
+                <th>${'Account' & t}</th>
+                <th>${'Price' & t}</th>
+                <th>${'Price Symbol'}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="order of state.nftSellBook">
+                <td>${order._id}</td>
+                <td>${order.account}</td>
+                <td>${order.price}</td>
+                <td>${order.priceSymbol}</td>
+                <td><button type="button" class="btn btn-md" title="Buy NFT" click.delegate="buy(order)">
+                    <font-awesome-icon icon.bind="['fas', 'store']"></font-awesome-icon>
+                </button></td>
+            </tr>
+        </tbody>
+    </table>
 
 </template>
