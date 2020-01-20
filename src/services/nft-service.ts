@@ -95,6 +95,12 @@ export class NftService {
             }
 
             const orders: any[] = await ssc.find('nftmarket', `${symbol.toUpperCase()}sellBook`, params, limit, offset, [], false);
+
+            for (const order of orders) {
+                order.price = parseFloat(order.price);
+            }
+
+            return orders;
         } catch (e) {
             return [];
         }
