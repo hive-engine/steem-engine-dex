@@ -104,7 +104,7 @@
         </div>
     </section>
 
-    <table class="table table-dark" ref="tokenTable" if.bind="!state.instance">
+    <table class="table table-dark" ref="tokenTable" if.bind="!state.instance || state.nftSellBook.length">
         <thead>
             <tr>
                 <th>${'ID' & t}</th>
