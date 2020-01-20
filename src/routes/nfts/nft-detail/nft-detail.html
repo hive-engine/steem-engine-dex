@@ -39,12 +39,9 @@
                     <hr>
                     <div class="nft-rank">
                         <ul class="stack-on">
-                            <li class="nft-rank-spec">Issuer: ${state.nft.issuer}</li>
+                            <li class="nft-rank-spec">${'Issuer' & t}: ${state.nft.issuer}</li>
                       </ul>
-                        <p class="attribute-header">
-                            Attributes
-
-                        </p>
+                        <p class="attribute-header">${'Attributes' & t}</p>
                         <ul class="nft-attributes" if.bind="state.instance">
                             <li class="nft-attribute" repeat.for="key of state.instance.properties | keys"><span class="bold-text">${key}</span>: ${state.instance.properties[key]}</li>
                         </ul>
@@ -88,18 +85,13 @@
     <section class="nft-details">
         <div class="container">
             <nav class="nav tabs mt-3">
-                <a
-                    class="nav-link tabs__tab ${row.isActive ? 'active' : ''}"
-                    repeat.for="row of router.navigation"
-                    href.bind="row.href"
-                    >${row.title & t}</a
-                >
+                <a class="nav-link tabs__tab ${row.isActive ? 'active' : ''}" repeat.for="row of router.navigation" href.bind="row.href">${row.title & t}</a>
             </nav>
             <router-view></router-view>
         </div>
     </section>
 
-    <table class="table table-dark" ref="tokenTable">
+    <table class="table table-dark" ref="tokenTable" if.bind="state.instance">
                     <thead>
                         <tr>
                             <th>${'ID' & t}</th>

@@ -492,6 +492,14 @@ export async function getNftById(state: State, symbol: string, id: string): Prom
     return newState;
 }
 
+export function resetInstance(state: State): State {
+    const newState = { ...state };
+
+    newState.instance = null;
+
+    return newState;
+}
+
 export async function getUserNfts(state: State): Promise<State> {
     const newState = { ...state };
 
@@ -539,3 +547,4 @@ store.registerAction('getNftSellBook', getNftSellBook);
 store.registerAction('getNftInstance', getNftInstance);
 store.registerAction('getNftById', getNftById);
 store.registerAction('getUserNfts', getUserNfts);
+store.registerAction('resetInstance', resetInstance);
