@@ -187,7 +187,8 @@
             "!src/store/state.ts",
             "!src/resources/value-converters/comma.ts",
             "!src/resources/value-converters/large-number.ts",
-            "!src/resources/value-converters/usd-format.ts"
+            "!src/resources/value-converters/usd-format.ts",
+            "!src/slick/**/*"
         ],
         "coverageDirectory": "<rootDir>/test/coverage-jest",
         "coverageReporters": [
