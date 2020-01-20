@@ -1,3 +1,5 @@
+import { Container } from 'aurelia-framework';
+import { NftService } from './../services/nft-service';
 /* eslint-disable no-undef */
 import { HttpClient } from 'aurelia-fetch-client';
 import { queryParam } from 'common/functions';
@@ -82,54 +84,98 @@ export function parseTokens(data: any, settings: State['settings']): State {
     return tokens;
 }
 
-/* istanbul ignore next */
-export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promise<any[]> {
-    const callQl = await query(`query {
-        tokens(limit: ${limit}, offset: ${offset}, symbols: ${JSON.stringify(symbols)}) {
-            issuer,
-            symbol,
-            name,
-            metadata {
-                url,
-                icon,
-                desc
-            },
-            metric {
-                symbol,
-                volume,
-                volumeExpiration,
-                lastPrice,
-                lowestAsk,
-                highestBid,
-                lastDayPrice,
-                lastDayPriceExpiration,
-                priceChangeSteem,
-                priceChangePercent,
-                marketCap
-            },
-            precision,
-            maxSupply,
-            supply,
-            circulatingSupply,
-            stakingEnabled,
-            delegationEnabled
-        },
-        steempBalance {
-            account,
-            symbol,
-            balance
-        }
+export async function loadSteempBalance() {
+    try {
+        const result: any = await ssc.findOne('tokens', 'balances', { account: 'steem-peg', symbol: 'STEEMP' });
+
+        return result;
+    } catch (e) {
+        return null;
     }
-    `);
+}
 
-    const { tokens, steempBalance } = callQl.data as {
-        tokens: IToken[];
-        steempBalance: IBalance;
-    };
+export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promise<any[]> {
+    const queryConfig: any = {};
 
-    const state = await getStateOnce();
+    if (symbols.length) {
+        queryConfig.symbol = { $in: symbols };
+    }
 
-    const finalTokens = tokens.filter(t => !state.settings.disabledTokens.includes(t.symbol));
+    const results = [];
+
+    const tokens: any[] = await ssc.find('tokens', 'tokens', queryConfig, limit, offset);
+
+    if (!symbols.length) {
+        const tokenSymbols = [];
+
+        for (const token of tokens) {
+            tokenSymbols.push(token.symbol);
+        }
+
+        queryConfig.symbol = { $in: tokenSymbols };
+    }
+
+    const metrics = await ssc.find('market', 'metrics', queryConfig, limit, offset, '', false);
+
+    for (const token of tokens) {
+        if (token?.metadata) {
+            token.metadata = JSON.parse(token.metadata);
+        }
+
+        const metric = metrics.find(m => token.symbol == m.symbol);
+
+        if (metric) {
+            metric.volume = parseFloat(metric.volume);
+            metric.highestBid = parseFloat(metric.highestBid);
+            metric.lastPrice = parseFloat(metric.lastPrice);
+            metric.lowestAsk = parseFloat(metric.lowestAsk);
+            metric.marketCap = metric.lastPrice * parseFloat(token.circulatingSupply);
+            metric.lastDayPrice = parseFloat(metric.lastDayPrice);
+            metric.volumeExpiration = parseInt(metric.volumeExpiration);
+
+            if (metric.priceChangePercent !== null) {
+                metric.priceChangePercent = metric.priceChangePercent.replace('%', '');
+            }
+
+            if (Date.now() / 1000 < metric.volumeExpiration) {
+                metric.volume = parseFloat(metric.volume);
+            }
+
+            if (Date.now() / 1000 < metric.lastDayPriceExpiration) {
+                metric.priceChangePercent = parseFloat(metric.priceChangePercent);
+                metric.priceChangeSteem = parseFloat(metric.priceChangeSteem);
+            }
+            
+            token.metric = metric;
+        } else {
+            token.metric = {
+                highestBid: 0,
+                lastPrice: 0,
+                lowestAsk: 0,
+                marketCap: 0,
+                volume: 0,
+                lastDayPrice: 0,
+                priceChangePercent: 0,
+                priceChangeSteem: 0
+            };
+        }
+
+        if (token.symbol === 'STEEMP') {
+            token.metric.lastPrice = 1;
+        }
+
+        results.push(token);
+    }
+
+    results.sort((a, b) => {
+        return (
+            (b.metric.volume > 0 ? b.metric.volume : b.metric.marketCap / 1000000000) - (a.metric.volume > 0 ? a.metric.volume : a.metric.marketCap / 1000000000)
+        );
+    });
+
+    const steempBalance = await loadSteempBalance();
+
+    const finalTokens = results.filter(t => !environment.disabledTokens.includes(t.symbol));
 
     if (steempBalance && steempBalance.balance) {
         const token = finalTokens.find(t => t.symbol === 'STEEMP');
