@@ -3,6 +3,8 @@
         <ux-dialog-body>
             <h2>${'Transfer NFT' & t}</h2>
 
+            <errors if.bind="errors.length" errors.bind="errors"></errors>
+
             <p class="mb-2">
                 <span id="balance"><strong>ID:</strong> ${token._id}</span>
             </p>

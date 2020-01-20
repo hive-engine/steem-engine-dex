@@ -5,15 +5,8 @@
         </ux-dialog-header>
 
         <ux-dialog-body>
-            <div class="row" if.bind="errors.length">
-                <div class="col-6">
-                    <ul class="errors">
-                        <li repeat.for="error of errors">
-                            ${error}
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <errors if.bind="errors.length" errors.bind="errors"></errors>
+            
             <div class="row">
                 <div class="col-12">
                     <div class="form-group">

@@ -17,7 +17,5 @@ export class NftPropertiesModal {
     async activate(token) {
         this.lockedTokens = new Map(Object.entries(token.lockedTokens));
         this.properties = token.properties;
-
-        console.log(this.lockedTokens);
     }
 }

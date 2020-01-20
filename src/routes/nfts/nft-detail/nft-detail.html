@@ -6,6 +6,8 @@
     </section>
     <section class="nft-description">
         <div class="container-fluid">
+            <errors if.bind="errors.length" errors.bind="errors"></errors>
+
             <div class="row" ref="tokenTable">
                 <div class="col-md-6">
                     <div id="container" style="width: 750px; height: 500px;">
