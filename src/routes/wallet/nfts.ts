@@ -29,6 +29,7 @@ export class MyNfts {
         this.dialogService.open({ viewModel: NftSellModal, model: token }).whenClosed(async (result) => {
             if (!result.wasCancelled) {
                 await sleep(3200);
+                
                 window.location.reload();
             }
         })
@@ -56,6 +57,7 @@ export class MyNfts {
                         this.errors = verify.errors;
                     } else {
                         await sleep(3200);
+                        window.location.reload();
                     }
                 } catch (e) {
                     console.error(e);

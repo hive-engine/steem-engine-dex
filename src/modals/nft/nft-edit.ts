@@ -1,3 +1,6 @@
+import { dispatchify } from 'aurelia-store';
+import { sleep } from 'common/functions';
+import { checkTransaction } from 'common/steem-engine';
 import { I18N } from 'aurelia-i18n';
 import { ToastService, ToastMessage } from 'services/toast-service';
 import { BootstrapFormRenderer } from 'resources/bootstrap-form-renderer';
@@ -10,6 +13,7 @@ import { autoinject, TaskQueue } from 'aurelia-framework';
 import styles from './nft-edit.module.css';
 
 import { environment } from 'environment';
+import { loading } from 'store/actions';
 
 @autoinject()
 export class NftEditModal {
@@ -19,6 +23,7 @@ export class NftEditModal {
 
     private loading = false;
     private token;
+    private errors: string[] = [];
 
     private url;
     private icon;
@@ -54,6 +59,8 @@ export class NftEditModal {
     }
 
     async updateName() {
+        dispatchify(loading)(true);
+
         const payload = {
             contractName: 'nft',
             contractAction: 'updateName',
@@ -67,13 +74,27 @@ export class NftEditModal {
             const response = await customJson(this.se.getUser(), environment.chainId, 'Active', JSON.stringify(payload), `Update Name`);
 
             if (response.success) {
-                const toast = new ToastMessage();
+                try {
+                    const verify = await checkTransaction(response.result.id, 3);
 
-                toast.message = this.i18n.tr('saveSuccess', {
-                    ns: 'notifications'
-                });
+                    if (verify?.errors) {
+                        this.errors = verify.errors;
+                    } else {
+                        await sleep(3200);
 
-                this.toast.success(toast);
+                        const toast = new ToastMessage();
+
+                        toast.message = this.i18n.tr('saveSuccess', {
+                            ns: 'notifications'
+                        });
+        
+                        this.toast.success(toast);
+
+                        this.controller.ok();
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
             } else {
                 const toast = new ToastMessage();
 
@@ -84,5 +105,7 @@ export class NftEditModal {
                 this.toast.error(toast);
             }
         }
+
+        dispatchify(loading)(false);
     }
 }

@@ -36,6 +36,8 @@ export class NftTransferModal {
                         this.errors = verify.errors;
                     } else {
                         await sleep(3200);
+                        
+                        window.location.reload();
                     }
                 } catch (e) {
                     console.error(e);
