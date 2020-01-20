@@ -119,7 +119,7 @@ describe('Functions', () => {
             ]
         };
 
-        const parsed = functions.parseTokens(data, { disabledTokens: ['DISNEY'] } as any);
+        const parsed = functions.parseTokens(data);
 
         // DISNEY should be removed
         expect(parsed).toHaveLength(3);
@@ -139,7 +139,7 @@ describe('Functions', () => {
             }
         };
 
-        const parsed = functions.parseTokens(data, { disabledTokens: ['DISNEY'] } as any);
+        const parsed = functions.parseTokens(data);
         const token = (parsed as any).find(t => t.symbol === 'STEEMP');
 
         expect(token.supply).toEqual(401);

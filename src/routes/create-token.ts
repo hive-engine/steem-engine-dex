@@ -9,6 +9,8 @@ import { ValidationController, ValidationControllerFactory, ValidationRules } fr
 import { autoinject } from 'aurelia-framework';
 import { createTransaction } from 'common/functions';
 
+import { environment } from 'environment';
+
 @autoinject()
 export class CreateToken {
     private renderer: BootstrapFormRenderer;
@@ -48,7 +50,7 @@ export class CreateToken {
 
             // eslint-disable-next-line no-undef
             if (state?.account?.balances?.length) {
-                const engToken = state.account.balances.find(token => token.symbol === state.settings.nativeToken);
+                const engToken = state.account.balances.find(token => token.symbol === environment.nativeToken);
 
                 if (engToken) {
                     this.engBalance = engToken.balance;

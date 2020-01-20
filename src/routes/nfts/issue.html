@@ -12,15 +12,7 @@
     </header>
 
     <div class="container main-container">
-        <div class="row" if.bind="errors.length">
-            <div class="col-6">
-                <ul class="errors">
-                    <li repeat.for="error of errors">
-                        ${error}
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <errors if.bind="errors.length" errors.bind="errors"></errors>
 
         <div class="row">
             <div class="col-6">

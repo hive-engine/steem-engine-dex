@@ -18,8 +18,6 @@ import {
 import { ssc } from 'common/ssc';
 import moment from 'moment';
 
-import { environment } from 'environment';
-
 const nftService: NftService = Container.instance.get(NftService);
 
 export function loading(state: State, boolean: boolean) {
@@ -145,27 +143,6 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
                 };
             }
         }
-    } catch (e) {
-        log.error(e);
-    }
-
-    return newState;
-}
-
-export async function loadSiteSettings(state: State): Promise<State> {
-    const newState = { ...state };
-
-    newState.settings = { ...environment } as ISettings;
-
-    try {
-        const settings = await firebase
-            .firestore()
-            .collection('admin')
-            .doc('settings')
-            .get();
-        const loadedSettings = settings.data() as ISettings;
-
-        newState.settings = { ...environment, ...loadedSettings };
     } catch (e) {
         log.error(e);
     }
@@ -331,7 +308,7 @@ export async function exchangeData(state: State, symbol: string): Promise<State>
         if (newState.loggedIn) {
             const data = await loadExchangeUiLoggedIn(newState.account.name, symbol);
 
-            newState.tokens = parseTokens(data, newState.settings) as any;
+            newState.tokens = parseTokens(data) as any;
 
             newState.account.balances = data.userBalances;
 
@@ -357,7 +334,7 @@ export async function exchangeData(state: State, symbol: string): Promise<State>
         } else {
             const data = await loadExchangeUiLoggedOut(symbol);
 
-            newState.tokens = parseTokens(data, newState.settings) as any;
+            newState.tokens = parseTokens(data) as any;
 
             newState.buyBook = data.buyBook.map(o => {
                 newState.buyTotal += o.quantity * o.price;
@@ -484,6 +461,7 @@ export async function getNft(state: State, symbol: string): Promise<State> {
 
     return newState;
 }
+
 export async function getNftSellBook(state: State, symbol: string): Promise<State> {
     const newState = { ...state };
 
@@ -499,9 +477,25 @@ export async function getNftInstance(state: State, symbol: string): Promise<Stat
 
     const instances = await nftService.loadInstances(symbol, null);
 
-    console.log(instances);
-
     newState.instances = instances;
+
+    return newState;
+}
+
+export async function getNftById(state: State, symbol: string, id: string): Promise<State> {
+    const newState = { ...state };
+
+    const instance = await nftService.loadInstance(symbol, id);
+
+    newState.instance = instance;
+
+    return newState;
+}
+
+export function resetInstance(state: State): State {
+    const newState = { ...state };
+
+    newState.instance = null;
 
     return newState;
 }
@@ -533,7 +527,6 @@ export async function getUserNfts(state: State): Promise<State> {
 store.registerAction('loading', loading);
 store.registerAction('login', login);
 store.registerAction('logout', logout);
-store.registerAction('loadSiteSettings', loadSiteSettings);
 store.registerAction('setAccount', setAccount);
 store.registerAction('setTokens', setTokens);
 store.registerAction('getCurrentFirebaseUser', getCurrentFirebaseUser);
@@ -552,4 +545,6 @@ store.registerAction('getNftsWithSellBook', getNftsWithSellBook);
 store.registerAction('getNft', getNft);
 store.registerAction('getNftSellBook', getNftSellBook);
 store.registerAction('getNftInstance', getNftInstance);
+store.registerAction('getNftById', getNftById);
 store.registerAction('getUserNfts', getUserNfts);
+store.registerAction('resetInstance', resetInstance);

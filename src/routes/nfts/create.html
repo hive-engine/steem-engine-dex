@@ -21,11 +21,11 @@
             <div class="col-md-12 text-center">
                 <p style="margin-bottom: 15px;">
                     <strong
-                        >${'tokenCreationFee' & t: { 'tokenFee': tokenCreationFee, 'token': state.settings.nativeToken
+                        >${'tokenCreationFee' & t: { 'tokenFee': tokenCreationFee, 'token': environment.nativeToken
                         }}</strong
                     >
                 </p>
-                <p>${'yourEngBalance' & t: { 'balance': engBalance, 'token': state.settings.nativeToken }}</p>
+                <p>${'yourEngBalance' & t: { 'balance': engBalance, 'token': environment.nativeToken }}</p>
             </div>
             <div class="col-sm-12 col-md-6 offset-md-3">
                 <div class="create-nft-card-form">

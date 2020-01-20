@@ -47,13 +47,3 @@ export async function getFirebaseUser(username: string) {
 
     return doc.exists ? doc.data() : null;
 }
-
-export function loadSiteSettings() {
-    // const settings = await firebase
-    //     .firestore()
-    //     .collection('admin')
-    //     .doc('settings')
-    //     .get();
-
-    return { ...environment } as ISettings;
-}

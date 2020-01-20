@@ -71,8 +71,8 @@ export async function loadCoins(): Promise<ICoin[]> {
     return response.json() as Promise<ICoin[]>;
 }
 
-export function parseTokens(data: any, settings: State['settings']): State {
-    const tokens = data.tokens.filter(t => !settings.disabledTokens.includes(t.symbol));
+export function parseTokens(data: any): State {
+    const tokens = data.tokens.filter(t => !environment.disabledTokens.includes(t.symbol));
 
     if (data.steempBalance && data.steempBalance.balance) {
         const token = tokens.find(t => t.symbol === 'STEEMP');
@@ -412,7 +412,7 @@ export async function getScotConfigForAccount(account: string) {
 
 export async function loadUserBalances(account: string, limit = 1000, offset = 0) {
     const prices: any = await getPrices();
-    let results: any[] = await ssc.find('tokens', 'balances', { account }, limit, offset, '', false);
+    const results: any[] = await ssc.find('tokens', 'balances', { account }, limit, offset, '', false);
 
     const symbols = [];
 

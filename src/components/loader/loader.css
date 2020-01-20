@@ -10,7 +10,7 @@ loader {
     top: 0;
     transition: ease-out 0.8s opacity;
     width: 100vw;
-    z-index: 1;
+    z-index: 999;
 }
 
 loader[mode="tiny"] {

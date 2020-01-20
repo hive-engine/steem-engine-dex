@@ -335,7 +335,6 @@ interface INftParam {
 interface State {
     $action: any;
     account: AccountInterface;
-    settings: ISettings;
     firebaseUser: any;
     loggedIn: boolean;
     loading: boolean;
@@ -351,5 +350,6 @@ interface State {
     nft: INft;
     nfts: INft[];
     instances: INftInstance[];
+    instance: INftInstance;
     nftSellBook: INftSellBook[];
 }
