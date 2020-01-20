@@ -100,7 +100,7 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
         if (doc.exists) {
             newState.firebaseUser = doc.data();
 
-            if (newState.firebaseUser.notifications) {
+            if (newState?.firebaseUser?.notifications) {
                 newState.firebaseUser.notifications = newState.firebaseUser.notifications.filter(
                     notification => !notification.read,
                 );
@@ -380,7 +380,7 @@ export async function markNotificationsRead(state: State) {
             .collection('users')
             .doc(newState.account.name);
 
-        if (newState.firebaseUser.notifications) {
+        if (newState?.firebaseUser?.notifications) {
             newState.firebaseUser.notifications = newState.firebaseUser.notifications.map(notification => {
                 notification.read = true;
 
