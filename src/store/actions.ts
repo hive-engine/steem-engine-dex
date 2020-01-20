@@ -438,6 +438,16 @@ export async function getNfts(state: State): Promise<State> {
 
     const nfts = await nftService.loadNfts(null);
 
+    for (const nft of nfts) {
+        const exists = await nftService.sellBookExists(nft.symbol);
+        
+        if (nft.authorizedIssuingAccounts && nft.authorizedIssuingAccounts.includes(newState.account.name) && !exists) {
+            (nft as any).userCanEnableMarket = true;
+        } else {
+            (nft as any).userCanEnableMarket = false;
+        }
+    }
+
     newState.nfts = nfts;
 
     return newState;
@@ -499,6 +509,16 @@ export async function getUserNfts(state: State): Promise<State> {
 
     if (newState.loggedIn) {
         const userNfts = await nftService.loadUserNfts(newState.account.name);
+
+        for (const nft of userNfts) {
+            const exists = await nftService.sellBookExists(nft.symbol);
+            
+            if (nft.authorizedIssuingAccounts && nft.authorizedIssuingAccounts.includes(newState.account.name) && !exists) {
+                (nft as any).userCanEnableMarket = true;
+            } else {
+                (nft as any).userCanEnableMarket = false;
+            }
+        }
 
         newState.account.nfts = userNfts;
     }

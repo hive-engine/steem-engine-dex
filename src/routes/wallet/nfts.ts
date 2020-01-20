@@ -34,8 +34,10 @@ export class MyNfts {
         })
     }
 
-    marketIsEnabled(token) {
-        return token?.groupBy?.length ? true : false;
+    async marketIsEnabled(token) {
+        const exists = await this.nftService.sellBookExists(token.symbol);
+
+        return exists;
     }
 
     showNftProperties(token) {

@@ -106,6 +106,16 @@ export class NftService {
         }
     }
 
+    async sellBookExists(symbol: string): Promise<boolean> {
+        try {
+            const result = await ssc.find('nftmarket', `${symbol.toUpperCase()}sellBook`, { }, 1, 0, [], false);
+
+            return result === null ? false : true;
+        } catch (e) {
+            return false;
+        }
+    }
+
     async loadNft(symbol: string): Promise<INft> {
         try {
             const result = await ssc.findOne('nft', 'nfts', { symbol });
