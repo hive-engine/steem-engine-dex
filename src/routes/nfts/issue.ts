@@ -7,7 +7,6 @@ import { NftService } from './../../services/nft-service';
 import { DialogService } from 'aurelia-dialog';
 import { SteemEngine } from './../../services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
-import { State } from './../../store/state';
 import { connectTo, dispatchify } from 'aurelia-store';
 
 import { environment } from 'environment';

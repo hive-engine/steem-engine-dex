@@ -1,7 +1,6 @@
 import { query } from 'common/apollo';
 import { AuthService } from './auth-service';
 import { I18N } from 'aurelia-i18n';
-import { State } from 'store/state';
 import { HttpClient, json } from 'aurelia-fetch-client';
 import { lazy, autoinject } from 'aurelia-framework';
 import { environment } from 'environment';
@@ -819,7 +818,7 @@ export class SteemEngine {
 
         const token = this.getToken(symbol);
 
-        if (token.metadata && token.metadata.hide_in_market) {
+        if (token && token.metadata && token.metadata.hide_in_market) {
             return false;
         }
 

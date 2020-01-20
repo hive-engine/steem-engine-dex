@@ -222,3 +222,134 @@ interface IConversionItemResult {
     from_coin: string;
     to_coin: string;
 }
+
+interface AccountInterface {
+    name: string;
+    account: any;
+    balances: any[];
+    scotTokens: any[];
+    pendingUnstakes: any[];
+    token: any;
+    notifications: any[];
+    nfts: INft[]
+}
+
+interface ISettings {
+    disableDeposits: boolean;
+    disableWithdrawals: boolean;
+    disabledTokens: string[];
+    maintenanceMode: boolean;
+    siteName: string;
+    nativeToken: string;
+}
+
+interface INftProperty {
+    authorizedIssuingAccounts: string[] | null;
+    authorizedIssuingContracts: string[] | null;
+    isReadOnly: boolean;
+    name: string;
+    type: string;
+}
+
+interface INft {
+    symbol: string;
+    issuer: string;
+    name: string;
+    supply: number;
+    maxSupply: number;
+    metadata: {
+        url: string;
+        icon: string;
+        desc: string;
+    };
+    circulatingSupply: number;
+    delegationEnabled: boolean;
+    undelegationCooldown: number;
+    authorizedIssuingAccounts: string[];
+    authorizedIssuingContracts: string[];
+    properties: INftProperty[];
+}
+
+interface INftInstance {
+    _id: number;
+    account: string;
+    ownedBy: string;
+    lockedTokens: any;
+    properties: any;
+    delegatedTo: {
+        account: string;
+        ownedBy: string;
+        undelegatedAt: number;
+    }
+}
+
+interface INftSellBook {
+    _id: number;
+    account: string;
+    ownedBy: string;
+    nftId: any;
+    grouping: any;
+    timestamp: number;
+    price: number;
+    priceDec: number;
+    priceSymbol: string;
+    fee: number;
+}
+
+interface INftCounterparty {
+    account: string;
+    ownedBy: string;
+    nftIds: [string];
+    paymentTotal: string;
+}
+
+interface INftTrade {
+    _id: number;
+    type: string;
+    account: string;
+    ownedBy: string;
+    counterparties: [INftCounterparty];
+    priceSymbol: string;
+    price: string;
+    marketAccount: string;
+    fee: string;
+    timestamp: number;
+    volume: number;
+}
+
+interface INftInterest {
+    _id: string;
+    side: string;
+    priceSymbol: string;
+    grouping: any;
+    count: number;
+}
+
+interface INftParam {
+    nftCreationFee: number;
+    nftIssuanceFee: number;
+    dataPropertyCreationFee: number;
+    enableDelegationFee: number;
+}
+
+interface State {
+    $action: any;
+    account: AccountInterface;
+    settings: ISettings;
+    firebaseUser: any;
+    loggedIn: boolean;
+    loading: boolean;
+    tokens: IToken[];
+    tokensLoaded: boolean;
+    buyBook: any[];
+    sellBook: any[];
+    tradeHistory: any[];
+    buyTotal?: number;
+    sellTotal?: number;
+    pendingWithdrawals: any[];
+    conversionHistory: any[];
+    nft: INft;
+    nfts: INft[];
+    instances: INftInstance[];
+    nftSellBook: INftSellBook[];
+}

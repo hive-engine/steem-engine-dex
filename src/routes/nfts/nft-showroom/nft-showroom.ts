@@ -1,5 +1,3 @@
-import { TokenInfoModal } from 'modals/wallet/token-info';
-import { State } from 'store/state';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 import { DialogService, DialogCloseResult } from 'aurelia-dialog';

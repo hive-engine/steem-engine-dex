@@ -12,7 +12,6 @@ import { PreRenderStep } from './resources/pipeline-steps/prerender';
 import { MaintenanceStep } from './resources/pipeline-steps/maintenance';
 import { PLATFORM } from 'aurelia-pal';
 import { Router, RouterConfiguration, RouterEvent } from 'aurelia-router';
-import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
 
 import { getCurrentFirebaseUser, markNotificationsRead } from 'store/actions';
@@ -294,13 +293,6 @@ export class App {
                 name: 'nfts',
                 moduleId: PLATFORM.moduleName('./routes/nfts/nfts'),
                 nav: environment.features.nfts.enabled ? 2 : false,
-                title: 'NFTs',
-            },
-            {
-                route: 'nfts/:symbol',
-                name: 'nftMarket',
-                moduleId: PLATFORM.moduleName('./routes/nfts/nfts'),
-                nav: false,
                 title: 'NFTs',
             },
             {

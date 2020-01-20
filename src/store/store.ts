@@ -1,6 +1,5 @@
 import { Container } from 'aurelia-framework';
 import { Store } from 'aurelia-store';
-import { State } from './state';
 import { first } from 'rxjs/operators';
 
 const store: Store<State> = Container.instance.get(Store) as Store<State>;

@@ -1,10 +1,8 @@
 import { createTransaction } from 'common/functions';
 import { BootstrapFormRenderer } from 'resources/bootstrap-form-renderer';
 import { ValidationController, ValidationRules } from 'aurelia-validation';
-import { INft } from './../../store/state';
 import { Redirect } from 'aurelia-router';
 import { DialogService } from 'aurelia-dialog';
-import { State } from 'store/state';
 import { SteemEngine } from 'services/steem-engine';
 import { NewInstance, TaskQueue } from 'aurelia-framework';
 

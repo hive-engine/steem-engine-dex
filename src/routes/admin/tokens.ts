@@ -1,7 +1,6 @@
 import { loadTokensList } from 'store/actions';
 import { Store, dispatchify } from 'aurelia-store';
 import { autoinject } from 'aurelia-framework';
-import { State } from 'store/state';
 import { Subscription } from 'rxjs';
 import firebase from 'firebase/app';
 

@@ -1,5 +1,4 @@
 import { first, pluck } from 'rxjs/operators';
-import { State } from './../../store/state';
 import { dispatchify, Store } from 'aurelia-store';
 import { Redirect } from 'aurelia-router';
 import { SteemEngine } from 'services/steem-engine';

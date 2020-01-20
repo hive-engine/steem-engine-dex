@@ -33,5 +33,8 @@
     "precisionLessThanMax": "Please enter a precision less or equal to {{maxPrecision}}",
     "precisionCannotBeLess": "You can only increase the precision. Please enter a precision value higher than {{currentPrecision}}",
     "nftUnavailable": "NFT name is already taken",
-    "max10rows": "A maximum of 10 items is only allowed"
+    "max10rows": "A maximum of 10 items is only allowed",
+    "insufficientBalanceToWithdraw": "You do not have enough {{symbol}} to withdraw entered amount. Your balance is: {{balance}}",
+    "withdrawAddressRequired": "Withdraw address is required",
+    "withdrawTokenRequired": "Token is required"
 }

@@ -1,9 +1,8 @@
+import { NftService } from './../../services/nft-service';
 import { NftOwnershipModal } from './../../modals/nft/nft-ownership';
-import { NftEditModal } from './../../modals/nft/nft-edit';
 import { customJson } from 'common/keychain';
 import { TokenInfoModal } from 'modals/wallet/token-info';
 import { NftEnableModal } from 'modals/nft/nft-enable';
-import { State } from 'store/state';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 
@@ -22,7 +21,7 @@ export class Nfts {
     private tokenTable: HTMLTableElement;
     private state: State;
 
-    constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {}
+    constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService, private nftService: NftService) {}
 
     async canActivate() {
         await dispatchify(getNfts)();
@@ -84,14 +83,6 @@ export class Nfts {
 
     userCanIssue(token) {
         if (token.authorizedIssuingAccounts && token.authorizedIssuingAccounts.includes(this.state.account.name)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    userCanEnableMarket(token) {
-        if (token.authorizedIssuingAccounts && token.authorizedIssuingAccounts.includes(this.state.account.name) && !token?.groupBy?.length) {
             return true;
         }
 

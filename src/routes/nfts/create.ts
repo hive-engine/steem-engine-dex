@@ -3,7 +3,6 @@ import { Router } from 'aurelia-router';
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-undef */
 import { query } from 'common/apollo';
-import { State } from 'store/state';
 import { BootstrapFormRenderer } from 'resources/bootstrap-form-renderer';
 import { loadAccountBalances } from 'store/actions';
 import { Store, dispatchify } from 'aurelia-store';

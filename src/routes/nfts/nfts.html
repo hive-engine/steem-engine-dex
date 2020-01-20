@@ -7,7 +7,7 @@
                 </div>
                 <div class="col-3"></div>
                 <div class="col-3 text-right">
-                    <a class="button btn btn-primary" route-href="route: createNft;">Create NFT</a>
+                    <a class="button btn btn-primary" route-href="route: createNftOptions;">Create NFT</a>
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@
                                 >
                                     <font-awesome-icon icon.bind="['fas', 'atlas']"></font-awesome-icon>
                                 </a>
-                                <a route-href="route: nftMarket; params.bind: { symbol: token.symbol }" if.bind="false">
+                                <a route-href="route: nft-detail; params.bind: { symbol: token.symbol }">
                                     <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
                                 </a>
                                 <a
@@ -87,7 +87,7 @@
                                     click.delegate="enableMarket(token)"
                                     title="Enable market for NFT"
                                     href="javascript:void(0);"
-                                    if.bind="userCanEnableMarket(token)"
+                                    if.bind="token.userCanEnableMarket"
                                 >
                                     <font-awesome-icon icon.bind="['fas', 'envelope-open-dollar']"></font-awesome-icon>
                                 </a>
