@@ -1,5 +1,4 @@
-import { Container } from 'aurelia-framework';
-import { NftService } from './../services/nft-service';
+import { usdFormat } from 'common/functions';
 /* eslint-disable no-undef */
 import { HttpClient } from 'aurelia-fetch-client';
 import { queryParam } from 'common/functions';
@@ -8,6 +7,7 @@ import { ssc } from './ssc';
 import { getStateOnce } from 'store/store';
 import { query } from 'common/apollo';
 
+const SCOT_API = 'https://scot-api.steem-engine.com/';
 const http = new HttpClient();
 
 export async function request(url: string, params: any = {}) {
@@ -384,54 +384,124 @@ export async function loadExchangeUiLoggedOut(symbol) {
     };
 }
 
-/* istanbul ignore next */
-export async function loadBalances(account: string): Promise<BalanceInterface[]> {
-    const getUserBalances = await query(`query {
-        balances(account: "${account}", limit: 1000, offset: 0) {
-            account,
-            symbol,
-            balance,
-            delegationsIn,
-            delegationsOut,
-            pendingUndelegations,
-            stake,
-            pendingUnstake,
-            usdValueFormatted,
-            token {
-                circulatingSupply,
-                issuer, 
-                name, 
-                symbol,
-                delegationEnabled, 
-                precision,
-                maxSupply,
-                stakingEnabled, 
-                supply,
-                metadata {
-                    desc,
-                    icon,
-                    url
-                }
+export async function getPrices() {
+    try {
+        const request = await http.fetch(`https://postpromoter.net/api/prices`, {
+            headers: {
+                'Origin': 'https://steem-engine.com',
+                'Referer': 'https://steem-engine.com/?p=conversion_history',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'
             }
-            metric {
-                lastDayPriceExpiration,
-                lastPrice,
-                priceChangePercent,
-                priceChangeSteem
-            }
-            scotConfig {
-                pending_token,
-                staked_tokens
+        });
+
+        return request.json();
+    } catch {
+        return null;
+    }
+}
+
+export async function getScotConfigForAccount(account: string) {
+    try {
+        const result = await http.fetch(`${SCOT_API}@${account}`);
+
+        return result.json();
+    } catch (e) {
+        return null;
+    }
+}
+
+export async function loadUserBalances(account: string, limit = 1000, offset = 0) {
+    const prices: any = await getPrices();
+    let results: any[] = await ssc.find('tokens', 'balances', { account }, limit, offset, '', false);
+
+    const symbols = [];
+
+    for (const symbol of results) {
+        symbols.push(symbol.symbol);
+    }
+
+    const tokens = await ssc.find('tokens', 'tokens', { symbol: { $in: symbols } }, 1000, 0);
+    const metrics = await ssc.find('market', 'metrics', { symbol: { $in: symbols } }, 1000, 0, '', false);
+
+    for (const token of results) {
+        if (token?.balance) {
+            token.balance = parseFloat(token.balance);
+        }
+
+        if (token?.delegationsIn) {
+            token.delegationsIn = parseFloat(token.delegationsIn);
+        }
+
+        if (token?.delegationsOut) {
+            token.delegationsOut = parseFloat(token.delegationsOut);
+        }
+
+        if (token?.stake) {
+            token.stake = parseFloat(token.stake);
+        }
+
+        if (token?.pendingUnstake) {
+            token.pendingUnstake = parseFloat(token.pendingUnstake);
+        }
+
+        const findToken = tokens.find(t => t.symbol === token.symbol);
+        const findMetric = metrics.find(m => m.symbol === token.symbol);
+
+        token.token = findToken;
+        token.metric = findMetric;
+
+        if (token.token) {
+            token.token.metadata = JSON.parse(token.token.metadata);
+        }
+        
+        if (token.metric) {
+            token.metric.highestBid = parseFloat(token.metric.highestBid);
+            token.metric.lastPrice = parseFloat(token.metric.lastPrice);
+            token.metric.lowestAsk = parseFloat(token.metric.lowestAsk);
+            token.metric.marketCap = token.metric.lastPrice * parseFloat(token.circulatingSupply);
+            token.metric.lastDayPrice = parseFloat(token.metric.lastDayPrice);
+
+            if (token.metric.priceChangePercent !== null) {
+                token.metric.priceChangePercent = token.metric.priceChangePercent.replace('%', '');
             }
         }
-    }`);
 
-    const state = await getStateOnce();
+        if (token?.metric?.volumeExpiration >= 0) {
+            if (Date.now() / 1000 < token.metric.volumeExpiration) {
+                token.metric.volume = parseFloat(token.metric.volume);
+            }
+        }
 
-    const loadedBalances: BalanceInterface[] = getUserBalances.data.balances;
+        if (token?.metric?.lastDayPriceExpiration >= 0) {
+            if (Date.now() / 1000 < token.metric.lastDayPriceExpiration) {
+                token.metric.priceChangePercent = parseFloat(token.metric.priceChangePercent);
+                token.metric.priceChangeSteem = parseFloat(token.metric.priceChangeSteem);
+            }
+        }
 
-    if (loadedBalances.length) {
-        const balances = loadedBalances.filter(b => !state.settings.disabledTokens.includes(b.symbol));
+        if (token?.metric?.lastPrice) {
+            token.usdValueFormatted = usdFormat(parseFloat(token.balance) * token.metric.lastPrice, 3, prices.steem_price);
+            token.usdValue = usdFormat(parseFloat(token.balance) * token.metric.lastPrice, 3, prices.steem_price, true);
+        } else {
+            token.usdValueFormatted = usdFormat(parseFloat(token.balance) * 1, 3, prices.steem_price);
+            token.usdValue = usdFormat(parseFloat(token.balance) * 1, 3, prices.steem_price, true);
+        }
+    }
+
+    const scotConfig = await getScotConfigForAccount(account);
+
+    if (results && Object.keys(scotConfig).length) {
+        for (const token of results) {
+            const scotConfigToken = scotConfig[token.symbol];
+
+            if (scotConfigToken) {
+                token.scotConfig = scotConfigToken;
+            }
+        }
+    }
+
+    if (results.length) {
+        const balances = results.filter(b => !environment.disabledTokens.includes(b.symbol));
 
         balances.sort(
             (a, b) =>

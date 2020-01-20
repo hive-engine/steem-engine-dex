@@ -8,7 +8,7 @@ import store from './store';
 import firebase from 'firebase/app';
 import { log } from 'services/log';
 import {
-    loadBalances,
+    loadUserBalances,
     loadTokens,
     loadExchangeUiLoggedIn,
     loadExchangeUiLoggedOut,
@@ -181,7 +181,7 @@ export async function loadAccountBalances(state: State): Promise<State> {
     }
 
     try {
-        newState.account.balances = await loadBalances(newState.account.name);
+        newState.account.balances = await loadUserBalances(newState.account.name);
     } catch (e) {
         log.error(e);
     }
