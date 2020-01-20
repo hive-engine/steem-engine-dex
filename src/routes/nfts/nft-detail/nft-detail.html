@@ -42,9 +42,13 @@
                             <li class="nft-rank-spec">${'Issuer' & t}: ${state.nft.issuer}</li>
                         </ul>
 
-                        <p class="attribute-header" if.bind="state.instance">${'Attributes' & t}</p>
+                        <p class="attribute-header" if.bind="state.instance || state.nft.properties.length">${'Attributes' & t}</p>
                         <ul class="nft-attributes" if.bind="state.instance">
                             <li class="nft-attribute" repeat.for="key of state.instance.properties | keys"><span class="bold-text">${key}</span>: ${state.instance.properties[key]}</li>
+                        </ul>
+
+                        <ul class="nft-attributes" if.bind="state.nft.properties.length && !state.instance">
+                            <li class="nft-attribute" repeat.for="property of state.nft.properties"><span class="bold-text">${property.name}</span></li>
                         </ul>
 
                         <p class="attribute-header" if.bind="state.instance && state.instance.lockedTokens">${'Locked Tokens' & t}</p>
