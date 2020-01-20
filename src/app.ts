@@ -324,9 +324,7 @@ export class App {
                 title: 'NFT Showroom',
             },
             {
-
-
-                route: 'nft/showroom/detail/:symbol',
+                route: 'nft/showroom/detail/:symbol/:id?',
                 name: 'nft-detail',
                 moduleId: PLATFORM.moduleName('./routes/nfts/nft-detail/nft-detail'),
                 nav: false,

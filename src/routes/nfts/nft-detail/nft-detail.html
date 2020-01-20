@@ -14,19 +14,19 @@
                         <img src="https://picsum.photos/640/360" style="width: 650px; height: 400px;" />
                     </div>
                 </div>
-                <div class="col-md-4" style="z-index: -1!important;">
+                <div class="col-md-4">
 
                     <div class="nft-name-wrapper">
                         <h1 class="nft-name">${state.nft.name}</h1>
                     </div>
+
                     <div class="rating-wrap">
-                        
-                        <span
-                            ><font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon>
-                            <font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon
-                            ><font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon
-                            ><font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon
-                            ><font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon>
+                        <span>
+                            <font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon>
+                            <font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon>
+                            <font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon>
+                            <font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon>
+                            <font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon>
                         </span>
                         <p class="rate-now"><a href="">write a review</a></p>
                     </div>
@@ -36,7 +36,7 @@
                             ipsum dolor sit amet consectetur adipisicing elit. illum!
                         </p>
                     </div>
-                    <hr class="" />
+                    <hr>
                     <div class="nft-rank">
                         <ul class="stack-on">
                             <li class="nft-rank-spec">Rarity: ${state.nft.orders[1].grouping.rarity}</li>  
@@ -58,7 +58,7 @@
                 <div class="col-md-2">
                     <div class="card cat-card">
                         <div class="cat-card-header">
-                            <h4>Card Pricing</h4>
+                            <h4>${'Card Pricing' & t}</h4>
 
                             <let current-order.bind="state.nft.orders[0]"></let>
                             <let last-order.bind="state.nft.orders[1]"></let>
@@ -66,17 +66,18 @@
                         <div class="cat-card-body">
                             <ul class="cat-card-items">
                                 <li class="cat-card-item flex-setting">
-                                    <a href="">Last Traded</a>
+                                    <a href="">${'Last Traded' & t}</a>
+
                                     <span class="float-right">
                                         <template if.bind="lastOrder">${lastOrder.price | toFixed:2} ${lastOrder.priceSymbol}</template>
-                                        <template else>Not Available</template>
+                                        <template else>${'Not Available' & t}</template>
                                     </span>
                                 </li>
                                 <li class="cat-card-item flex-setting" if.bind="currentOrder">
-                                    <a href="">Currently Trading</a><span class="float-right">${currentOrder.price | toFixed:2} ${currentOrder.priceSymbol}</span>
+                                    <a href="">${'Currently Trading' & t}</a><span class="float-right">${currentOrder.price | toFixed:2} ${currentOrder.priceSymbol}</span>
                                 </li>
                                 <li class="cat-card-item flex-setting" if.bind="lastOrder">
-                                    <a href="">Time Sold</a><span class="float-right">${lastOrder.timestamp}</span>
+                                    <a href="">${'Time Sold' & t}</a><span class="float-right">${lastOrder.timestamp}</span>
                                 </li>
                                 <li class="cat-card-item flex-setting" style="display: flex;">
                                     <span class="curr-price">${currentOrder.price | toFixed:1} ${currentOrder.priceSymbol}</span

@@ -58,7 +58,7 @@ export class NftDetail {
         ImageZoom(document.getElementById('container'), this.options);
     }
 
-    async activate({ symbol }) {
+    async activate({ symbol, id }) {
         await dispatchify(getNft)(symbol);
         await dispatchify(getNftSellBook)(symbol);
     }
