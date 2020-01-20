@@ -1,3 +1,5 @@
+import { Container } from 'aurelia-framework';
+import { NftService } from './../services/nft-service';
 /* eslint-disable no-undef */
 import { initialState } from './state';
 import { query } from 'common/apollo';
@@ -17,6 +19,8 @@ import { ssc } from 'common/ssc';
 import moment from 'moment';
 
 import { environment } from 'environment';
+
+const nftService: NftService = Container.instance.get(NftService);
 
 export function loading(state: State, boolean: boolean) {
     const newState = { ...state };
@@ -434,37 +438,7 @@ export async function getPendingWithdrawals(state: State) {
 export async function getNfts(state: State): Promise<State> {
     const newState = { ...state };
 
-    const queryString = `query {
-        nfts {
-            symbol,
-            issuer,
-            name,
-            supply,
-            maxSupply,
-            metadata {
-                url,
-                icon,
-                desc
-            },
-            groupBy,
-            circulatingSupply,
-            delegationEnabled,
-            undelegationCooldown,
-            authorizedIssuingAccounts,
-            authorizedIssuingContracts,
-            properties {
-                authorizedEditingAccounts,
-                authorizedEditingContracts,
-                isReadOnly,
-                name,
-                type
-            }
-        }
-    }`;
-
-    const {
-        data: { nfts },
-    } = await query(queryString);
+    const nfts = await nftService.loadNfts(null);
 
     newState.nfts = nfts;
 
@@ -532,47 +506,10 @@ export async function getNftsWithSellBook(state: State): Promise<State> {
 export async function getNft(state: State, symbol: string): Promise<State> {
     const newState = { ...state };
 
-    const queryString = `query {
-        nft(symbol: "${symbol.toUpperCase()}") {
-            symbol,
-            issuer,
-            name,
-            supply,
-            maxSupply,
-            groupBy,
-            metadata {
-                url,
-                icon,
-                desc
-            },
-            circulatingSupply,
-            delegationEnabled,
-            undelegationCooldown,
-            authorizedIssuingAccounts,
-            authorizedIssuingContracts,
-            properties {
-                authorizedEditingAccounts,
-                authorizedEditingContracts,
-                isReadOnly,
-                name,
-                type
-            },
-            orders {
-                account,
-                nftId,
-                grouping,
-                timestamp,
-                price,
-                priceDec,
-                priceSymbol,
-                fee
-            }
-        }
-    }`;
+    const nft = await nftService.loadNft(symbol);
+    const orders = await nftService.loadSellBook(symbol, null);
 
-    const {
-        data: { nft },
-    } = await query(queryString);
+    (nft as any).orders = orders;
 
     newState.nft = nft;
 
@@ -581,24 +518,7 @@ export async function getNft(state: State, symbol: string): Promise<State> {
 export async function getNftSellBook(state: State, symbol: string): Promise<State> {
     const newState = { ...state };
 
-    const queryString = `query {
-        nftSellBook(symbol: "${symbol.toUpperCase()}") {
-            _id,
-            account,
-            ownedBy,
-            nftId,
-            grouping,
-            timestamp,
-            price,
-            priceDec,
-            priceSymbol,
-            fee            
-        }
-    }`;
-
-    const {
-        data: { nftSellBook },
-    } = await query(queryString);
+    const nftSellBook = await nftService.loadSellBook(symbol, null);
 
     newState.nftSellBook = nftSellBook;
 
@@ -608,24 +528,9 @@ export async function getNftSellBook(state: State, symbol: string): Promise<Stat
 export async function getNftInstance(state: State, symbol: string): Promise<State> {
     const newState = { ...state };
 
-    const queryString = `query {
-        instances(symbol: "${symbol.toUpperCase()}") {
-            _id,
-            account,
-            ownedBy,
-            lockedTokens,
-            properties,
-            delegatedTo {
-                account,
-                ownedBy,
-                undelegateAt
-            }
-        }
-    }`;
+    const instances = await nftService.loadInstances(symbol, null);
 
-    const {
-        data: { instances },
-    } = await query(queryString);
+    console.log(instances);
 
     newState.instances = instances;
 
@@ -636,25 +541,7 @@ export async function getUserNfts(state: State): Promise<State> {
     const newState = { ...state };
 
     if (newState.loggedIn) {
-        const queryString = `query {
-            userNfts(account: "${newState.account.name}") {
-                _id,
-                symbol,
-                account,
-                ownedBy,
-                lockedTokens,
-                properties,
-                delegatedTo {
-                    account,
-                    ownedBy,
-                    undelegateAt
-                }
-            }
-        }`;
-
-        const {
-            data: { userNfts },
-        } = await query(queryString);
+        const userNfts = await nftService.loadUserNfts(newState.account.name);
 
         newState.account.nfts = userNfts;
     }
