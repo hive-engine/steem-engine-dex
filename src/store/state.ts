@@ -26,6 +26,7 @@ export const initialState: State = {
     pendingWithdrawals: [],
     nft: null,
     nfts: [],
+    instance: null,
     instances: [],
     nftSellBook: [],
     tokensLoaded: false

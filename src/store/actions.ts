@@ -482,6 +482,16 @@ export async function getNftInstance(state: State, symbol: string): Promise<Stat
     return newState;
 }
 
+export async function getNftById(state: State, symbol: string, id: number): Promise<State> {
+    const newState = { ...state };
+
+    const instance = await nftService.loadInstance(symbol, id);
+
+    newState.instance = instance;
+
+    return newState;
+}
+
 export async function getUserNfts(state: State): Promise<State> {
     const newState = { ...state };
 
