@@ -1,5 +1,4 @@
 import { query } from 'common/apollo';
-import { Settings } from './services/settings';
 import { CallingAction, MiddlewarePlacement } from 'aurelia-store';
 /* eslint-disable no-undef */
 import { AuthorizeStep } from './resources/pipeline-steps/authorize';
@@ -41,8 +40,7 @@ export class App {
     constructor(
         private ea: EventAggregator,
         private store: Store<State>,
-        private se: SteemEngine,
-        private settings: Settings,
+        private se: SteemEngine
     ) {
         this.store.registerMiddleware(lastCalledActionMiddleware, MiddlewarePlacement.After);
     }
@@ -74,9 +72,9 @@ export class App {
     }
 
     public configureRouter(config: RouterConfiguration, router: Router) {
-        config.title = this.settings.property('siteName', 'Steem Engine');
+        config.title = environment.siteName;
 
-        MaintenanceStep.inMaintenance = this.settings.property('maintenanceMode', false);
+        MaintenanceStep.inMaintenance = environment.maintenanceMode;
 
         config.options.pushState = true;
 
