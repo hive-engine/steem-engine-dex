@@ -450,52 +450,11 @@ export async function getNfts(state: State): Promise<State> {
 export async function getNftsWithSellBook(state: State): Promise<State> {
     const newState = { ...state };
 
-    const queryString = `query {
-        nfts {
-            symbol,
-            issuer,
-            name,
-            supply,
-            maxSupply,
-            metadata {
-                url,
-                icon,
-                desc
-            },
-            orders {
-                account,
-                nftId,
-                grouping,
-                timestamp,
-                price,
-                priceDec,
-                priceSymbol,
-                fee
-            },
-            groupBy,
-            circulatingSupply,
-            delegationEnabled,
-            undelegationCooldown,
-            authorizedIssuingAccounts,
-            authorizedIssuingContracts,
-            properties {
-                authorizedEditingAccounts,
-                authorizedEditingContracts,
-                isReadOnly,
-                name,
-                type
-            }
-        }
-    }`;
-
-    const {
-        data: { nfts },
-    } = await query(queryString);
+    const nfts = await nftService.loadNfts(null);
 
     for (const nft of nfts) {
-        for (const order of nft.orders) {
-            order.price = parseFloat(order.price);
-        }
+        const orders = await nftService.loadSellBook(nft.symbol, null);
+        (nft as any).orders = orders;
     }
 
     newState.nfts = nfts;
