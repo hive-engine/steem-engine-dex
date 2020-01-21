@@ -223,6 +223,21 @@ interface IConversionItemResult {
     to_coin: string;
 }
 
+interface IAccountHistoryItemResult {
+    _id: string;
+    blockNumber: number;
+    transactionId: string;
+    timestamp: number;
+    account: string;
+    operation: string;
+    from: string;
+    to: string;
+    symbol: string;
+    quantityTokens: string;
+    quantitySteem: string;    
+    timestamp_string: string;
+}
+
 interface AccountInterface {
     name: string;
     account: any;
