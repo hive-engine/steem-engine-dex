@@ -3,7 +3,6 @@ import { Router } from 'aurelia-router';
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-undef */
 import { query } from 'common/apollo';
-import { State } from 'store/state';
 import { BootstrapFormRenderer } from 'resources/bootstrap-form-renderer';
 import { loadAccountBalances } from 'store/actions';
 import { Store, dispatchify } from 'aurelia-store';
@@ -11,6 +10,7 @@ import { ValidationController, ValidationControllerFactory, ValidationRules } fr
 import { autoinject } from 'aurelia-framework';
 import { createTransaction } from 'common/functions';
 
+import { environment } from 'environment';
 @autoinject()
 export class CreateNft {
     private renderer: BootstrapFormRenderer;
@@ -26,6 +26,7 @@ export class CreateNft {
     private authorisedIssuingContracts: any[] = [];
 
     private state: State;
+    private environment = environment;
 
     constructor(private controllerFactory: ValidationControllerFactory, private se: SteemEngine, private router: Router, private store: Store<State>) {
         this.controller = controllerFactory.createForCurrentScope();
@@ -48,7 +49,7 @@ export class CreateNft {
 
             // eslint-disable-next-line no-undef
             if (state?.account?.balances?.length) {
-                const engToken = state.account.balances.find(token => token.symbol === state.settings.nativeToken);
+                const engToken = state.account.balances.find(token => token.symbol === environment.nativeToken);
 
                 if (engToken) {
                     this.engBalance = engToken.balance;

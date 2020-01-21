@@ -9,5 +9,6 @@ export function configure(config: FrameworkConfiguration) {
         PLATFORM.moduleName('./nav-bar/nav-bar'),
         PLATFORM.moduleName('./select2/select2'),
         PLATFORM.moduleName('./tooltip/tooltip'),
+        PLATFORM.moduleName('./errors')
     ]);
 }

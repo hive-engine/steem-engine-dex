@@ -1,6 +1,5 @@
 import { Redirect } from 'aurelia-router';
 import { ChartComponent } from './../../components/chart/chart';
-import { State } from './../../store/state';
 
 import { I18N } from 'aurelia-i18n';
 import { ToastService } from '../../services/toast-service';
@@ -287,8 +286,6 @@ export class Exchange {
             console.log(response);
         });
     }
-
-    
 
     confirmMarketOrder() {
         const order = {

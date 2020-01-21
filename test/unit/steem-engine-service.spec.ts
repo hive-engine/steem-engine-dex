@@ -1,4 +1,3 @@
-import { State } from 'store/state';
 import { Store } from 'aurelia-store';
 /* eslint-disable no-empty-pattern */
 /* eslint-disable no-undef */

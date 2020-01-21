@@ -87,7 +87,7 @@
                                     click.delegate="enableMarket(token)"
                                     title="Enable market for NFT"
                                     href="javascript:void(0);"
-                                    if.bind="userCanEnableMarket(token)"
+                                    if.bind="token.userCanEnableMarket"
                                 >
                                     <font-awesome-icon icon.bind="['fas', 'envelope-open-dollar']"></font-awesome-icon>
                                 </a>

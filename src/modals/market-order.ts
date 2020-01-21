@@ -3,7 +3,6 @@ import { Store } from 'aurelia-store';
 import { SteemEngine } from 'services/steem-engine';
 import { DialogController } from 'aurelia-dialog';
 import { autoinject, TaskQueue } from 'aurelia-framework';
-import { State } from 'store/state';
 import { pluck } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { environment } from 'environment';

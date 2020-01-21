@@ -21,7 +21,6 @@ export class NftSellModal {
     }
 
     activate(token) {
-        console.log(token);
         this.symbol = token.symbol;
         this.nftId = token._id;
     }
@@ -40,6 +39,7 @@ export class NftSellModal {
                         this.errors = verify.errors;
                     } else {
                         await sleep(3200);
+
                         this.controller.ok();
                     }
                 } catch (e) {

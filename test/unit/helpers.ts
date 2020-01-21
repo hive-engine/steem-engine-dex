@@ -1,4 +1,3 @@
-import { State } from 'store/state';
 import { Store, StoreOptions, StateHistory } from 'aurelia-store';
 import { Aurelia, PLATFORM } from 'aurelia-framework';
 import { Backend, TCustomAttribute } from 'aurelia-i18n';

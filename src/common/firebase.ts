@@ -1,4 +1,3 @@
-import { ISettings } from './../store/state';
 import { environment } from 'environment';
 import { login, setAccount, logout } from 'store/actions';
 import { dispatchify } from 'aurelia-store';
@@ -47,14 +46,4 @@ export async function getFirebaseUser(username: string) {
         .get();
 
     return doc.exists ? doc.data() : null;
-}
-
-export async function loadSiteSettings() {
-    const settings = await firebase
-        .firestore()
-        .collection('admin')
-        .doc('settings')
-        .get();
-
-    return settings.exists ? { ...environment, ...settings.data() } : { ...environment } as ISettings;
 }

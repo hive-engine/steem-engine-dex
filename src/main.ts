@@ -1,4 +1,3 @@
-import { loadSiteSettings } from 'store/actions';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
@@ -143,7 +142,6 @@ export async function configure(aurelia: Aurelia) {
       };
 
     await authStateChanged();
-    await dispatchify(loadSiteSettings)();
 
     await aurelia.start();
     await aurelia.setRoot(PLATFORM.moduleName('app'));

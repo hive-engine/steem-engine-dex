@@ -1,5 +1,4 @@
 import { query } from 'common/apollo';
-import { Settings } from './services/settings';
 import { CallingAction, MiddlewarePlacement } from 'aurelia-store';
 /* eslint-disable no-undef */
 import { AuthorizeStep } from './resources/pipeline-steps/authorize';
@@ -12,7 +11,6 @@ import { PreRenderStep } from './resources/pipeline-steps/prerender';
 import { MaintenanceStep } from './resources/pipeline-steps/maintenance';
 import { PLATFORM } from 'aurelia-pal';
 import { Router, RouterConfiguration, RouterEvent } from 'aurelia-router';
-import { State } from 'store/state';
 import { autoinject } from 'aurelia-framework';
 
 import { getCurrentFirebaseUser, markNotificationsRead } from 'store/actions';
@@ -42,8 +40,7 @@ export class App {
     constructor(
         private ea: EventAggregator,
         private store: Store<State>,
-        private se: SteemEngine,
-        private settings: Settings,
+        private se: SteemEngine
     ) {
         this.store.registerMiddleware(lastCalledActionMiddleware, MiddlewarePlacement.After);
     }
@@ -75,9 +72,9 @@ export class App {
     }
 
     public configureRouter(config: RouterConfiguration, router: Router) {
-        config.title = this.settings.property('siteName', 'Steem Engine');
+        config.title = environment.siteName;
 
-        MaintenanceStep.inMaintenance = this.settings.property('maintenanceMode', false);
+        MaintenanceStep.inMaintenance = environment.maintenanceMode;
 
         config.options.pushState = true;
 
@@ -90,7 +87,7 @@ export class App {
             {
                 route: ['', 'home'],
                 name: 'home',
-                moduleId: PLATFORM.moduleName('./routes/home'),
+                moduleId: PLATFORM.moduleName('./routes/home', 'home'),
                 nav: false,
                 title: 'Home',
             },
@@ -104,7 +101,7 @@ export class App {
             {
                 route: 'wallet',
                 name: 'wallet',
-                moduleId: PLATFORM.moduleName('./routes/wallet/wallet'),
+                moduleId: PLATFORM.moduleName('./routes/wallet/wallet', 'wallet'),
                 auth: true,
                 nav: false,
                 title: 'Wallet',
@@ -112,14 +109,14 @@ export class App {
             {
                 route: 'offerings',
                 name: 'offerings',
-                moduleId: PLATFORM.moduleName('./routes/offerings'),
+                moduleId: PLATFORM.moduleName('./routes/offerings', 'offerings'),
                 nav: 3,
                 title: 'Offerings',
             },
             {
                 route: 'tokens',
                 name: 'tokens',
-                moduleId: PLATFORM.moduleName('./routes/tokens/tokens'),
+                moduleId: PLATFORM.moduleName('./routes/tokens/tokens', 'tokens'),
                 nav: 0,
                 title: 'Tokens',
             },
@@ -127,7 +124,7 @@ export class App {
                 route: 'token-history/:symbol?',
                 href: `token-history/${environment.nativeToken}`,
                 name: 'token-history',
-                moduleId: PLATFORM.moduleName('./routes/wallet/token-history'),
+                moduleId: PLATFORM.moduleName('./routes/wallet/token-history', 'token-history'),
                 nav: false,
                 title: 'Token History',
             },
@@ -135,7 +132,7 @@ export class App {
                 route: 'pending-undelegations',
                 href: `pending-undelegations`,
                 name: 'pending-undelegations',
-                moduleId: PLATFORM.moduleName('./routes/wallet/pending-undelegations'),
+                moduleId: PLATFORM.moduleName('./routes/wallet/pending-undelegations', 'pending-undelegations'),
                 nav: false,
                 title: 'Pending undelegations',
             },
@@ -143,7 +140,7 @@ export class App {
                 route: 'pending-unstakes',
                 href: `pending-unstakes`,
                 name: 'pending-unstakes',
-                moduleId: PLATFORM.moduleName('./routes/wallet/pending-unstakes'),
+                moduleId: PLATFORM.moduleName('./routes/wallet/pending-unstakes', 'pending-unstakes'),
                 nav: false,
                 title: 'Pending unstakes',
             },
@@ -151,21 +148,21 @@ export class App {
                 route: 'exchange/:symbol?',
                 href: `exchange/${environment.nativeToken}`,
                 name: 'exchange',
-                moduleId: PLATFORM.moduleName('./routes/exchange/exchange'),
+                moduleId: PLATFORM.moduleName('./routes/exchange/exchange', 'exchange'),
                 nav: 1,
                 title: 'Exchange',
             },
             {
                 route: 'faq',
                 name: 'faq',
-                moduleId: PLATFORM.moduleName('./routes/faq'),
+                moduleId: PLATFORM.moduleName('./routes/faq', 'faq'),
                 nav: 4,
                 title: 'Faq',
             },
             {
                 route: 'rewards',
                 name: 'rewards',
-                moduleId: PLATFORM.moduleName('./routes/account/rewards'),
+                moduleId: PLATFORM.moduleName('./routes/account/rewards', 'rewards'),
                 nav: false,
                 auth: true,
                 title: 'Rewards',
@@ -173,7 +170,7 @@ export class App {
             {
                 route: 'conversion-history',
                 name: 'conversionHistory',
-                moduleId: PLATFORM.moduleName('./routes/conversion-history'),
+                moduleId: PLATFORM.moduleName('./routes/conversion-history', 'conversion-history'),
                 nav: false,
                 auth: true,
                 title: 'Conversion History',
@@ -181,7 +178,7 @@ export class App {
             {
                 route: 'settings',
                 name: 'settings',
-                moduleId: PLATFORM.moduleName('./routes/account/settings'),
+                moduleId: PLATFORM.moduleName('./routes/account/settings', 'settings'),
                 nav: false,
                 auth: true,
                 title: 'Settings',
@@ -189,56 +186,56 @@ export class App {
             {
                 route: 'tribes',
                 name: 'tribes',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/tribes'),
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/tribes', 'tribes'),
                 nav: false,
                 title: 'Tribes',
             },
             {
                 route: 'advertise-tribe',
                 name: 'advertise-tribe',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/advertise-tribe'),
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/advertise-tribe', 'advertise-tribe'),
                 nav: false,
                 title: 'Advertise Tribe',
             },
             {
                 route: 'legal-services',
                 name: 'legal-services',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/legal-services'),
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/legal-services', 'legal-services'),
                 nav: false,
                 title: 'Legal Services',
             },
             {
                 route: 'crowdfunding',
                 name: 'crowdfunding',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding'),
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding', 'crowdfunding'),
                 nav: false,
                 title: 'Crowdfunding',
             },
             {
                 route: 'state-costs',
                 name: 'state-costs',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/state-costs'),
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/state-costs', 'state-costs'),
                 nav: false,
                 title: 'State Costs',
             },
             {
                 route: 'scotbot',
                 name: 'scotbot',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/scotbot'),
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/scotbot', 'scotbot'),
                 nav: false,
                 title: 'Scotbot',
             },
             {
                 route: 'state-costs',
                 name: 'state-costs',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/state-costs'),
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/state-costs', 'state-costs'),
                 nav: false,
                 title: 'State Costs',
             },
             {
                 route: 'admin',
                 name: 'admin',
-                moduleId: PLATFORM.moduleName('./routes/admin/admin'),
+                moduleId: PLATFORM.moduleName('./routes/admin/admin', 'admin'),
                 nav: true,
                 auth: true,
                 title: 'Admin',
@@ -249,7 +246,7 @@ export class App {
             {
                 route: 'crowdfunding-options',
                 name: 'crowdfunding-options',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-options'),
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-options', 'crowdfunding-options'),
                 nav: false,
 
                 title: 'Crowdfunding Options',
@@ -257,42 +254,42 @@ export class App {
             {
                 route: 'crowdfunding-create',
                 name: 'crowdfunding-create',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-create'),
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-create', 'crowdfunding-create'),
                 nav: false,
                 title: 'Crowdfunding Create',
             },
             {
                 route: 'crowdfunding-back',
                 name: 'crowdfunding-back',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-back'),
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-back', 'crowdfunding-back'),
                 nav: false,
                 title: 'Crowdfunding Back',
             },
             {
                 route: 'crowdfunding-how',
                 name: 'crowdfunding-how',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-how'),
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-how', 'crowdfunding-how'),
                 nav: false,
                 title: 'Crowdfunding How',
             },
             {
                 route: 'create-token',
                 name: 'createToken',
-                moduleId: PLATFORM.moduleName('./routes/create-token'),
+                moduleId: PLATFORM.moduleName('./routes/create-token', 'create-token'),
                 nav: false,
                 title: 'Create Token',
             },
             {
                 route: 'crowdfunding-explore',
                 name: 'crowdfunding-explore',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-explore'),
+                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-explore', 'crowdfunding-explore'),
                 nav: false,
                 title: 'Crowdfunding Explore',
             },
             {
                 route: 'nfts',
                 name: 'nfts',
-                moduleId: PLATFORM.moduleName('./routes/nfts/nfts'),
+                moduleId: PLATFORM.moduleName('./routes/nfts/nfts', 'nfts'),
                 nav: environment.features.nfts.enabled ? 2 : false,
                 title: 'NFTs',
             },
@@ -306,58 +303,56 @@ export class App {
             {
                 route: 'nft/issue/:symbol',
                 name: 'nftIssue',
-                moduleId: PLATFORM.moduleName('./routes/nfts/issue'),
+                moduleId: PLATFORM.moduleName('./routes/nfts/issue', 'issue'),
                 nav: false,
                 title: 'Issue NFT',
             },
             {
                 route: 'nft/properties/:symbol',
                 name: 'nftProperties',
-                moduleId: PLATFORM.moduleName('./routes/nfts/properties'),
+                moduleId: PLATFORM.moduleName('./routes/nfts/properties', 'properties'),
                 nav: false,
                 title: 'Add properties to NFT',
             },
             {
                 route: 'nft/showroom',
                 name: 'nft-showroom',
-                moduleId: PLATFORM.moduleName('./routes/nfts/nft-showroom/nft-showroom'),
+                moduleId: PLATFORM.moduleName('./routes/nfts/nft-showroom/nft-showroom', 'nft-showroom'),
                 nav: false,
                 title: 'NFT Showroom',
             },
             {
-
-
-                route: 'nft/showroom/detail/:symbol',
+                route: 'nft/showroom/detail/:symbol/:id?',
                 name: 'nft-detail',
-                moduleId: PLATFORM.moduleName('./routes/nfts/nft-detail/nft-detail'),
+                moduleId: PLATFORM.moduleName('./routes/nfts/nft-detail/nft-detail', 'nft-detail'),
                 nav: false,
                 title: 'NFT Detail',
             },
             {
                 route: 'nft/home',
                 name: 'nft-home',
-                moduleId: PLATFORM.moduleName('./routes/nfts/nft-home'),
+                moduleId: PLATFORM.moduleName('./routes/nfts/nft-home', 'nft-home'),
                 nav: false,
                 title: 'NFTs Home',
             },
             {
                 route: 'create-nft',
                 name: 'createNft',
-                moduleId: PLATFORM.moduleName('./routes/nfts/create'),
+                moduleId: PLATFORM.moduleName('./routes/nfts/create', 'nft-create'),
                 nav: false,
                 title: 'Create NFT',
             },
             {
                 route: 'create-nft-options',
                 name: 'createNftOptions',
-                moduleId: PLATFORM.moduleName('./routes/nfts/create-options'),
+                moduleId: PLATFORM.moduleName('./routes/nfts/create-options', 'nft-create-options'),
                 nav: false,
                 title: 'Create NFT Options',
             },
             {
                 route: 'edit-nft/:symbol',
                 name: 'editNft',
-                moduleId: PLATFORM.moduleName('./routes/nfts/edit'),
+                moduleId: PLATFORM.moduleName('./routes/nfts/edit', 'nft-edit'),
                 nav: false,
                 title: 'Edit NFT',
             },

@@ -2,9 +2,7 @@ import { NftService } from './../../services/nft-service';
 import { environment } from 'environment';
 import { Redirect } from 'aurelia-router';
 import { pluck } from 'rxjs/operators';
-import { NftPropertiesModal } from '../../modals/nft/nft-properties';
 import { DialogService } from 'aurelia-dialog';
-import { State } from 'store/state';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 

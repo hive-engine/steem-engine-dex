@@ -3,7 +3,6 @@ import { checkTransaction } from 'common/steem-engine';
 import { MarketService } from './../../../services/market-service';
 import { PLATFORM } from 'aurelia-framework';
 import { Router, RouterConfiguration } from 'aurelia-router';
-import { State } from 'store/state';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 import { slick } from 'slick-carousel/slick/slick';
@@ -11,7 +10,7 @@ import ImageZoom from 'js-image-zoom/js-image-zoom';
 import { faStar } from '@fortawesome/pro-duotone-svg-icons';
 import { bindable } from 'aurelia-framework';
 import { connectTo, dispatchify } from 'aurelia-store';
-import { getNft, getNftSellBook, loading } from 'store/actions';
+import { getNft, getNftSellBook, loading, getNftById, resetInstance } from 'store/actions';
 
 import styles from './nft-detail.module.css';
 
@@ -59,11 +58,15 @@ export class NftDetail {
         ImageZoom(document.getElementById('container'), this.options);
     }
 
-    async activate({ symbol }) {
+    async activate({ symbol, id }) {
+        dispatchify(resetInstance)();
+        
         await dispatchify(getNft)(symbol);
-
-
         await dispatchify(getNftSellBook)(symbol);
+
+        if (id) {
+            await dispatchify(getNftById)(symbol, id);
+        }
     }
 
     async buy(order) {

@@ -5,7 +5,6 @@ import { NftService } from './../../services/nft-service';
 import { NftTransferModal } from './../../modals/nft/nft-transfer';
 import { NftPropertiesModal } from './../../modals/nft/nft-properties';
 import { DialogService } from 'aurelia-dialog';
-import { State } from 'store/state';
 import { connectTo, dispatchify } from 'aurelia-store';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject } from 'aurelia-framework';
@@ -30,13 +29,10 @@ export class MyNfts {
         this.dialogService.open({ viewModel: NftSellModal, model: token }).whenClosed(async (result) => {
             if (!result.wasCancelled) {
                 await sleep(3200);
+                
                 window.location.reload();
             }
         })
-    }
-
-    marketIsEnabled(token) {
-        return token?.groupBy?.length ? true : false;
     }
 
     showNftProperties(token) {
@@ -61,6 +57,7 @@ export class MyNfts {
                         this.errors = verify.errors;
                     } else {
                         await sleep(3200);
+                        window.location.reload();
                     }
                 } catch (e) {
                     console.error(e);

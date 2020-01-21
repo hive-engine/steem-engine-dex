@@ -1,13 +1,14 @@
+import { Container } from 'aurelia-framework';
+import { NftService } from './../services/nft-service';
 /* eslint-disable no-undef */
 import { initialState } from './state';
 import { query } from 'common/apollo';
-import { State, ISettings } from './state';
 import store from './store';
 
 import firebase from 'firebase/app';
 import { log } from 'services/log';
 import {
-    loadBalances,
+    loadUserBalances,
     loadTokens,
     loadExchangeUiLoggedIn,
     loadExchangeUiLoggedOut,
@@ -17,7 +18,7 @@ import {
 import { ssc } from 'common/ssc';
 import moment from 'moment';
 
-import { environment } from 'environment';
+const nftService: NftService = Container.instance.get(NftService);
 
 export function loading(state: State, boolean: boolean) {
     const newState = { ...state };
@@ -99,7 +100,7 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
         if (doc.exists) {
             newState.firebaseUser = doc.data();
 
-            if (newState.firebaseUser.notifications) {
+            if (newState?.firebaseUser?.notifications) {
                 newState.firebaseUser.notifications = newState.firebaseUser.notifications.filter(
                     notification => !notification.read,
                 );
@@ -149,27 +150,6 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
     return newState;
 }
 
-export async function loadSiteSettings(state: State): Promise<State> {
-    const newState = { ...state };
-
-    newState.settings = { ...environment } as ISettings;
-
-    try {
-        const settings = await firebase
-            .firestore()
-            .collection('admin')
-            .doc('settings')
-            .get();
-        const loadedSettings = settings.data() as ISettings;
-
-        newState.settings = { ...environment, ...loadedSettings };
-    } catch (e) {
-        log.error(e);
-    }
-
-    return newState;
-}
-
 export async function loadAccountBalances(state: State): Promise<State> {
     const newState = { ...state };
 
@@ -178,7 +158,7 @@ export async function loadAccountBalances(state: State): Promise<State> {
     }
 
     try {
-        newState.account.balances = await loadBalances(newState.account.name);
+        newState.account.balances = await loadUserBalances(newState.account.name);
     } catch (e) {
         log.error(e);
     }
@@ -217,19 +197,17 @@ export async function loadSellBook(state: State, symbol: string, account: string
     const newState = { ...state };
 
     try {
-        const sellBookQuery = await query(`query {
-            sellBook(symbol: "${symbol}", account: "${account}" limit: 1000, offset: 0) {
-                txId,
-                timestamp,
-                account,
-                symbol,
-                quantity,
-                price,
-                expiration
-              }
-        }`);
+        const params: any = { };
 
-        const sellBook = sellBookQuery.data.sellBook;
+        if (symbol) {
+            params.symbol = symbol;
+        }
+
+        if (account) {
+            params.account = account;
+        }
+
+        const sellBook: any[] = await ssc.find('market', 'sellBook', params, 200, 0, [{ index: 'priceDec', descending: true }], false);
 
         // re-order sellbook results to match the buybook results
         newState.sellBook = sellBook.map(o => {
@@ -253,7 +231,7 @@ export async function loadTradeHistory(state: State, symbol: string, account: st
             'market',
             'tradesHistory',
             { symbol, account },
-            30,
+            100,
             0,
             [{ index: '_id', descending: true }],
             false,
@@ -330,7 +308,7 @@ export async function exchangeData(state: State, symbol: string): Promise<State>
         if (newState.loggedIn) {
             const data = await loadExchangeUiLoggedIn(newState.account.name, symbol);
 
-            newState.tokens = parseTokens(data, newState.settings) as any;
+            newState.tokens = parseTokens(data) as any;
 
             newState.account.balances = data.userBalances;
 
@@ -356,7 +334,7 @@ export async function exchangeData(state: State, symbol: string): Promise<State>
         } else {
             const data = await loadExchangeUiLoggedOut(symbol);
 
-            newState.tokens = parseTokens(data, newState.settings) as any;
+            newState.tokens = parseTokens(data) as any;
 
             newState.buyBook = data.buyBook.map(o => {
                 newState.buyTotal += o.quantity * o.price;
@@ -402,7 +380,7 @@ export async function markNotificationsRead(state: State) {
             .collection('users')
             .doc(newState.account.name);
 
-        if (newState.firebaseUser.notifications) {
+        if (newState?.firebaseUser?.notifications) {
             newState.firebaseUser.notifications = newState.firebaseUser.notifications.map(notification => {
                 notification.read = true;
 
@@ -435,37 +413,19 @@ export async function getPendingWithdrawals(state: State) {
 export async function getNfts(state: State): Promise<State> {
     const newState = { ...state };
 
-    const queryString = `query {
-        nfts {
-            symbol,
-            issuer,
-            name,
-            supply,
-            maxSupply,
-            metadata {
-                url,
-                icon,
-                desc
-            },
-            groupBy,
-            circulatingSupply,
-            delegationEnabled,
-            undelegationCooldown,
-            authorizedIssuingAccounts,
-            authorizedIssuingContracts,
-            properties {
-                authorizedEditingAccounts,
-                authorizedEditingContracts,
-                isReadOnly,
-                name,
-                type
-            }
-        }
-    }`;
+    const nfts = await nftService.loadNfts(null);
 
-    const {
-        data: { nfts },
-    } = await query(queryString);
+    for (const nft of nfts) {
+        const exists = await nftService.sellBookExists(nft.symbol);
+
+        (nft as any).marketEnabled = exists;
+        
+        if (nft.authorizedIssuingAccounts && nft.authorizedIssuingAccounts.includes(newState.account.name) && !(nft as any).groupBy.length) {
+            (nft as any).userCanEnableMarket = true;
+        } else {
+            (nft as any).userCanEnableMarket = false;
+        }
+    }
 
     newState.nfts = nfts;
 
@@ -477,52 +437,11 @@ export async function getNfts(state: State): Promise<State> {
 export async function getNftsWithSellBook(state: State): Promise<State> {
     const newState = { ...state };
 
-    const queryString = `query {
-        nfts {
-            symbol,
-            issuer,
-            name,
-            supply,
-            maxSupply,
-            metadata {
-                url,
-                icon,
-                desc
-            },
-            orders {
-                account,
-                nftId,
-                grouping,
-                timestamp,
-                price,
-                priceDec,
-                priceSymbol,
-                fee
-            },
-            groupBy,
-            circulatingSupply,
-            delegationEnabled,
-            undelegationCooldown,
-            authorizedIssuingAccounts,
-            authorizedIssuingContracts,
-            properties {
-                authorizedEditingAccounts,
-                authorizedEditingContracts,
-                isReadOnly,
-                name,
-                type
-            }
-        }
-    }`;
-
-    const {
-        data: { nfts },
-    } = await query(queryString);
+    const nfts = await nftService.loadNfts(null);
 
     for (const nft of nfts) {
-        for (const order of nft.orders) {
-            order.price = parseFloat(order.price);
-        }
+        const orders = await nftService.loadSellBook(nft.symbol, null);
+        (nft as any).orders = orders;
     }
 
     newState.nfts = nfts;
@@ -533,73 +452,20 @@ export async function getNftsWithSellBook(state: State): Promise<State> {
 export async function getNft(state: State, symbol: string): Promise<State> {
     const newState = { ...state };
 
-    const queryString = `query {
-        nft(symbol: "${symbol.toUpperCase()}") {
-            symbol,
-            issuer,
-            name,
-            supply,
-            maxSupply,
-            groupBy,
-            metadata {
-                url,
-                icon,
-                desc
-            },
-            circulatingSupply,
-            delegationEnabled,
-            undelegationCooldown,
-            authorizedIssuingAccounts,
-            authorizedIssuingContracts,
-            properties {
-                authorizedEditingAccounts,
-                authorizedEditingContracts,
-                isReadOnly,
-                name,
-                type
-            },
-            orders {
-                account,
-                nftId,
-                grouping,
-                timestamp,
-                price,
-                priceDec,
-                priceSymbol,
-                fee
-            }
-        }
-    }`;
+    const nft = await nftService.loadNft(symbol);
+    const orders = await nftService.loadSellBook(symbol, null);
 
-    const {
-        data: { nft },
-    } = await query(queryString);
+    (nft as any).orders = orders;
 
     newState.nft = nft;
 
     return newState;
 }
+
 export async function getNftSellBook(state: State, symbol: string): Promise<State> {
     const newState = { ...state };
 
-    const queryString = `query {
-        nftSellBook(symbol: "${symbol.toUpperCase()}") {
-            _id,
-            account,
-            ownedBy,
-            nftId,
-            grouping,
-            timestamp,
-            price,
-            priceDec,
-            priceSymbol,
-            fee            
-        }
-    }`;
-
-    const {
-        data: { nftSellBook },
-    } = await query(queryString);
+    const nftSellBook = await nftService.loadSellBook(symbol, null);
 
     newState.nftSellBook = nftSellBook;
 
@@ -609,26 +475,27 @@ export async function getNftSellBook(state: State, symbol: string): Promise<Stat
 export async function getNftInstance(state: State, symbol: string): Promise<State> {
     const newState = { ...state };
 
-    const queryString = `query {
-        instances(symbol: "${symbol.toUpperCase()}") {
-            _id,
-            account,
-            ownedBy,
-            lockedTokens,
-            properties,
-            delegatedTo {
-                account,
-                ownedBy,
-                undelegateAt
-            }
-        }
-    }`;
-
-    const {
-        data: { instances },
-    } = await query(queryString);
+    const instances = await nftService.loadInstances(symbol, null);
 
     newState.instances = instances;
+
+    return newState;
+}
+
+export async function getNftById(state: State, symbol: string, id: string): Promise<State> {
+    const newState = { ...state };
+
+    const instance = await nftService.loadInstance(symbol, id);
+
+    newState.instance = instance;
+
+    return newState;
+}
+
+export function resetInstance(state: State): State {
+    const newState = { ...state };
+
+    newState.instance = null;
 
     return newState;
 }
@@ -637,25 +504,19 @@ export async function getUserNfts(state: State): Promise<State> {
     const newState = { ...state };
 
     if (newState.loggedIn) {
-        const queryString = `query {
-            userNfts(account: "${newState.account.name}") {
-                _id,
-                symbol,
-                account,
-                ownedBy,
-                lockedTokens,
-                properties,
-                delegatedTo {
-                    account,
-                    ownedBy,
-                    undelegateAt
-                }
-            }
-        }`;
+        const userNfts = await nftService.loadUserNfts(newState.account.name);
 
-        const {
-            data: { userNfts },
-        } = await query(queryString);
+        for (const nft of userNfts) {
+            const exists = await nftService.sellBookExists(nft.symbol);
+
+            (nft as any).marketEnabled = exists;
+            
+            if (nft.authorizedIssuingAccounts && nft.authorizedIssuingAccounts.includes(newState.account.name) && !exists) {
+                (nft as any).userCanEnableMarket = true;
+            } else {
+                (nft as any).userCanEnableMarket = false;
+            }
+        }
 
         newState.account.nfts = userNfts;
     }
@@ -666,7 +527,6 @@ export async function getUserNfts(state: State): Promise<State> {
 store.registerAction('loading', loading);
 store.registerAction('login', login);
 store.registerAction('logout', logout);
-store.registerAction('loadSiteSettings', loadSiteSettings);
 store.registerAction('setAccount', setAccount);
 store.registerAction('setTokens', setTokens);
 store.registerAction('getCurrentFirebaseUser', getCurrentFirebaseUser);
@@ -685,4 +545,6 @@ store.registerAction('getNftsWithSellBook', getNftsWithSellBook);
 store.registerAction('getNft', getNft);
 store.registerAction('getNftSellBook', getNftSellBook);
 store.registerAction('getNftInstance', getNftInstance);
+store.registerAction('getNftById', getNftById);
 store.registerAction('getUserNfts', getUserNfts);
+store.registerAction('resetInstance', resetInstance);

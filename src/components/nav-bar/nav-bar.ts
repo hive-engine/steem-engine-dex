@@ -1,4 +1,3 @@
-import { State } from 'store/state';
 import { SteemEngine } from './../../services/steem-engine';
 import { SigninModal } from './../../modals/signin';
 import { DialogService } from 'aurelia-dialog';
