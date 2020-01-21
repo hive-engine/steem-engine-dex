@@ -54,7 +54,7 @@ export class Issue {
 
     addTokenPropertyRow() {
         if (this.tokenProperties.length === 0) {
-            this.tokenProperties.push({ name: this.tokenProperties[0].name, type: 'string', value: '' });
+            this.tokenProperties.push({ name: this.token.properties[0].name, type: 'string', value: '' });
         } else {
             this.tokenProperties.push({ name: '', type: 'string', value: '' });
         }
