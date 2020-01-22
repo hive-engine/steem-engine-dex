@@ -50,13 +50,6 @@ export class NftDetail {
                 nav: true,
                 title: 'NFT Reviews',
             },
-            {
-                route: ['nft-orders'],
-                name: 'nft-orders',
-                moduleId: PLATFORM.moduleName('./nft-detail-full/nft-orders'),
-                nav: true,
-                title: 'NFT Orders',
-            },
         ]);
 
         this.router = router;
