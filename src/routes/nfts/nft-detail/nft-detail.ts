@@ -34,26 +34,26 @@ export class NftDetail {
 
     constructor(private se: SteemEngine, private marketService: MarketService, private taskQueue: TaskQueue) {}
 
-    public configureRouter(config: RouterConfiguration, router: Router) {
-        config.map([
-            {
-                route: [''],
-                name: 'nft-overview',
-                moduleId: PLATFORM.moduleName('./nft-detail-full/nft-overview'),
-                nav: true,
-                title: 'NFT Overview',
-            },
-            {
-                route: ['nft-reviews'],
-                name: 'nft-reviews',
-                moduleId: PLATFORM.moduleName('./nft-detail-full/nft-reviews'),
-                nav: true,
-                title: 'NFT Reviews',
-            },
-        ]);
+    // public configureRouter(config: RouterConfiguration, router: Router) {
+    //     config.map([
+    //         {
+    //             route: [''],
+    //             name: 'nft-overview',
+    //             moduleId: PLATFORM.moduleName('./nft-detail-full/nft-overview'),
+    //             nav: true,
+    //             title: 'NFT Overview',
+    //         },
+    //         {
+    //             route: ['nft-reviews'],
+    //             name: 'nft-reviews',
+    //             moduleId: PLATFORM.moduleName('./nft-detail-full/nft-reviews'),
+    //             nav: true,
+    //             title: 'NFT Reviews',
+    //         },
+    //     ]);
 
-        this.router = router;
-    }
+    //     this.router = router;
+    // }
     attached() {
         ImageZoom(document.getElementById('container'), this.options);
     }
