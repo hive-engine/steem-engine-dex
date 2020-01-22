@@ -82,7 +82,7 @@ export class Nfts {
     }
 
     userCanIssue(token) {
-        if (token.authorizedIssuingAccounts && token.authorizedIssuingAccounts.includes(this.state.account.name)) {
+        if (token.issuer === this.state.account.name || token.authorizedIssuingAccounts && token.authorizedIssuingAccounts.includes(this.state.account.name)) {
             return true;
         }
 
