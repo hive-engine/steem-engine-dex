@@ -83,7 +83,7 @@ export class NftDetail {
         console.log(order);
 
         try {
-            const request = await this.marketService.buy(order.priceSymbol, order.nftId) as any;
+            const request = await this.marketService.buy(symbol, order.nftId) as any;
 
             if (request.success) {
                 try {
