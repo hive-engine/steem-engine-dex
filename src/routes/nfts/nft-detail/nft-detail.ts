@@ -1,3 +1,5 @@
+import { DialogService } from 'aurelia-dialog';
+import { NftPropertiesModal } from './../../../modals/nft/nft-properties';
 import { sleep } from 'common/functions';
 import { checkTransaction } from 'common/steem-engine';
 import { MarketService } from './../../../services/market-service';
@@ -32,28 +34,28 @@ export class NftDetail {
         offset: { vertical: 0, horizontal: 10 },
     };
 
-    constructor(private se: SteemEngine, private marketService: MarketService, private taskQueue: TaskQueue) {}
+    constructor(private se: SteemEngine, private dialogService: DialogService, private marketService: MarketService, private taskQueue: TaskQueue) {}
 
-    public configureRouter(config: RouterConfiguration, router: Router) {
-        config.map([
-            {
-                route: [''],
-                name: 'nft-overview',
-                moduleId: PLATFORM.moduleName('./nft-detail-full/nft-overview'),
-                nav: true,
-                title: 'NFT Overview',
-            },
-            {
-                route: ['nft-reviews'],
-                name: 'nft-reviews',
-                moduleId: PLATFORM.moduleName('./nft-detail-full/nft-reviews'),
-                nav: true,
-                title: 'NFT Reviews',
-            },
-        ]);
+    // public configureRouter(config: RouterConfiguration, router: Router) {
+    //     config.map([
+    //         {
+    //             route: [''],
+    //             name: 'nft-overview',
+    //             moduleId: PLATFORM.moduleName('./nft-detail-full/nft-overview'),
+    //             nav: true,
+    //             title: 'NFT Overview',
+    //         },
+    //         {
+    //             route: ['nft-reviews'],
+    //             name: 'nft-reviews',
+    //             moduleId: PLATFORM.moduleName('./nft-detail-full/nft-reviews'),
+    //             nav: true,
+    //             title: 'NFT Reviews',
+    //         },
+    //     ]);
 
-        this.router = router;
-    }
+    //     this.router = router;
+    // }
     attached() {
         ImageZoom(document.getElementById('container'), this.options);
     }
@@ -62,11 +64,18 @@ export class NftDetail {
         dispatchify(resetInstance)();
         
         await dispatchify(getNft)(symbol);
-        await dispatchify(getNftSellBook)(symbol);
+
+        dispatchify(getNftSellBook)(symbol, true);
 
         if (id) {
             await dispatchify(getNftById)(symbol, id);
         }
+    }
+
+    showNftProperties(token) {
+        this.dialogService.open({ viewModel: NftPropertiesModal, model: token }).whenClosed(response => {
+            //console.log(response);
+        });
     }
 
     async buy(order) {

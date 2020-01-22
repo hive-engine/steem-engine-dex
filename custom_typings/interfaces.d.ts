@@ -304,6 +304,7 @@ interface INftSellBook {
     ownedBy: string;
     nftId: any;
     grouping: any;
+    instance?: INftInstance;
     timestamp: number;
     price: number;
     priceDec: number;
