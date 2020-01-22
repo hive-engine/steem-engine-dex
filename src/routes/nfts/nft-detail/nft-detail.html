@@ -1,26 +1,30 @@
 <template>
     <section>
         <div class="container-fluid">
-            <h2 class="nft-details-title">${state.nft.symbol}</h2>
+            <h2 class="nft-details-title text-center">${state.nft.symbol}</h2>
         </div>
     </section>
     <section class="nft-description">
         <div class="container-fluid">
             <errors if.bind="errors.length" errors.bind="errors"></errors>
 
-            <div class="row" ref="tokenTable">
-                <div class="col-md-6">
-                    <div id="container" style="width: 750px; height: 500px;">
-                        <img src="https://picsum.photos/640/360" style="width: 650px; height: 400px;" />
+            <div style="margin: 0; padding: 0;" ref="tokenTable">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center" id="containerr" style="margin-bottom: 15px; background: #edeef0;">
+                            <img src="../../../images/nft-placeholder.svg" style="width: 200px; height: 400px;" />
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="info-wrapper">
+                                <div class="nft-name-wrapper">
+                                    <h1 class="nft-name">${state.nft.name}</h1>
+                                </div>
 
-                    <div class="nft-name-wrapper">
-                        <h1 class="nft-name">${state.nft.name}</h1>
-                    </div>
-
-                    <div class="rating-wrap">
+                                <!-- <div class="rating-wrap">
                         <span>
                             <font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon>
                             <font-awesome-icon icon.bind="['fas', 'star']" class="rate-nft"></font-awesome-icon>
@@ -35,58 +39,102 @@
                             <span class="reviewer" style="font-weight: bolder; margin-right: 5px;">Zackking:</span>Lorem
                             ipsum dolor sit amet consectetur adipisicing elit. illum!
                         </p>
-                    </div>
-                    <hr>
-                    <div class="nft-rank">
-                        <ul class="stack-on">
-                            <li class="nft-rank-spec">${'Issuer' & t}: ${state.nft.issuer}</li>
-                        </ul>
-
-                        <p class="attribute-header" if.bind="state.instance || state.nft.properties.length">${'Attributes' & t}</p>
-                        <ul class="nft-attributes" if.bind="state.instance">
-                            <li class="nft-attribute" repeat.for="key of state.instance.properties | keys"><span class="bold-text">${key}</span>: ${state.instance.properties[key]}</li>
-                        </ul>
-
-                        <ul class="nft-attributes" if.bind="state.nft.properties.length && !state.instance">
-                            <li class="nft-attribute" repeat.for="property of state.nft.properties"><span class="bold-text">${property.name}</span></li>
-                        </ul>
-
-                        <p class="attribute-header" if.bind="state.instance && state.instance.lockedTokens">${'Locked Tokens' & t}</p>
-                        <ul class="nft-attributes" if.bind="state.instance && state.instance.lockedTokens">
-                            <li class="nft-attribute" repeat.for="key of state.instance.lockedTokens | keys"><span class="bold-text">${key}</span>: ${state.instance.lockedTokens[key]}</li>
-                        </ul>
-
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="card cat-card">
-                        <div class="cat-card-header">
-                            <h4>${'Card Pricing' & t}</h4>
-
-                            <let current-order.bind="state.nft.orders[0]"></let>
-                            <let last-order.bind="state.nft.orders[1]"></let>
+                    </div> -->
+                                <div class="best-nft-review">
+                                    <p>
+                                        <span class="reviewer" style="font-weight: bolder; margin-right: 5px;"
+                                            >Note:</span
+                                        >The prices displayed come from the last-order order on this token. However, you
+                                        can as well place your own bid on the token
+                                    </p>
+                                </div>
+                                <hr />
+                            </div>
                         </div>
-                        <div class="cat-card-body">
-                            <ul class="cat-card-items">
-                                <li class="cat-card-item flex-setting">
-                                    <a href="">${'Last Traded' & t}</a>
+                        <div class="col-md-4">
+                            <h3 class="owners">
+                                Owner(s)
+                            </h3>
+                            <p>${state.nft.authorizedIssuingAccounts}</p>
+                            <hr />
+                            <div class="nft-rank">
+                                <p class="attribute-header">
+                                    Info
+                                </p>
+                                <ul class="stack-on">
+                                    <li class="nft-rank-spec">${'Issuer' & t}: ${state.nft.issuer}</li>
+                                </ul>
 
-                                    <span class="float-right">
-                                        <template if.bind="lastOrder">${lastOrder.price | toFixed:2} ${lastOrder.priceSymbol}</template>
-                                        <template else>${'Not Available' & t}</template>
-                                    </span>
-                                </li>
-                                <li class="cat-card-item flex-setting" if.bind="currentOrder">
-                                    <a href="">${'Currently Trading' & t}</a><span class="float-right">${currentOrder.price | toFixed:2} ${currentOrder.priceSymbol}</span>
-                                </li>
-                                <li class="cat-card-item flex-setting" if.bind="lastOrder">
-                                    <a href="">${'Time Sold' & t}</a><span class="float-right">${lastOrder.timestamp}</span>
-                                </li>
-                                <li class="cat-card-item flex-setting" style="display: flex;">
-                                    <span class="curr-price">${currentOrder.price | toFixed:1} ${currentOrder.priceSymbol}</span
-                                    ><span><a href="javascript:void(0);" click.delegate="buy(currentOrder)" class="buyBtn mg-tp">GET</a></span>
-                                </li>
-                            </ul>
+                                <p class="attribute-header" if.bind="state.instance || state.nft.properties.length">
+                                    ${'Attributes' & t}
+                                </p>
+                                <ul class="nft-attributes" if.bind="state.instance">
+                                    <li class="nft-attribute" repeat.for="key of state.instance.properties | keys">
+                                        <span class="bold-text">${key}</span>: ${state.instance.properties[key]}
+                                    </li>
+                                </ul>
+
+                                <ul class="nft-attributes" if.bind="state.nft.properties.length && !state.instance">
+                                    <li class="nft-attribute" repeat.for="property of state.nft.properties">
+                                        <span class="bold-text">${property.name}</span>
+                                    </li>
+                                </ul>
+
+                                <p class="attribute-header" if.bind="state.instance && state.instance.lockedTokens">
+                                    ${'Locked Tokens' & t}
+                                </p>
+                                <ul class="nft-attributes" if.bind="state.instance && state.instance.lockedTokens">
+                                    <li class="nft-attribute" repeat.for="key of state.instance.lockedTokens | keys">
+                                        <span class="bold-text">${key}</span>: ${state.instance.lockedTokens[key]}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card cat-card">
+                                <div class="cat-card-header">
+                                    <h4>${'Card Pricing' & t}</h4>
+
+                                    <let current-order.bind="state.nft.orders[0]"></let>
+                                    <let last-order.bind="state.nft.orders[1]"></let>
+                                </div>
+                                <div class="cat-card-body">
+                                    <ul class="cat-card-items">
+                                        <li class="cat-card-item flex-setting">
+                                            <a href="">${'Last Traded' & t}</a>
+
+                                            <span class="float-right">
+                                                <template if.bind="lastOrder"
+                                                    >${lastOrder.price | toFixed:2} ${lastOrder.priceSymbol}</template
+                                                >
+                                                <template else>${'Not Available' & t}</template>
+                                            </span>
+                                        </li>
+                                        <li class="cat-card-item flex-setting" if.bind="currentOrder">
+                                            <a href="">${'Currently Trading' & t}</a
+                                            ><span class="float-right"
+                                                >${currentOrder.price | toFixed:2} ${currentOrder.priceSymbol}</span
+                                            >
+                                        </li>
+                                        <li class="cat-card-item flex-setting" if.bind="lastOrder">
+                                            <a href="">${'Time Sold' & t}</a
+                                            ><span class="float-right">${lastOrder.timestamp}</span>
+                                        </li>
+                                        <li class="cat-card-item flex-setting" style="display: flex;">
+                                            <span class="curr-price"
+                                                >${currentOrder.price | toFixed:1} ${currentOrder.priceSymbol}</span
+                                            ><span
+                                                ><a
+                                                    href="javascript:void(0);"
+                                                    click.delegate="buy(currentOrder)"
+                                                    class="buyBtn mg-tp"
+                                                    >GET</a
+                                                ></span
+                                            >
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -94,37 +142,46 @@
         </div>
     </section>
 
-    <section class="nft-details">
+    <!-- NFT Details from router-view coming later -->
+    <!-- <section class="nft-details">
         <div class="container">
             <nav class="nav tabs mt-3">
-                <a class="nav-link tabs__tab ${row.isActive ? 'active' : ''}" repeat.for="row of router.navigation" href.bind="row.href">${row.title & t}</a>
+                <a
+                    class="nav-link tabs__tab ${row.isActive ? 'active' : ''}"
+                    repeat.for="row of router.navigation"
+                    href.bind="row.href"
+                    >${row.title & t}</a
+                >
             </nav>
 
             <router-view></router-view>
         </div>
-    </section>
+    </section> -->
 
-    <table class="table table-dark" ref="tokenTable" if.bind="!state.instance || state.nftSellBook.length">
-        <thead>
-            <tr>
-                <th>${'ID' & t}</th>
-                <th>${'Account' & t}</th>
-                <th>${'Price' & t}</th>
-                <th>${'Price Symbol'}</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr repeat.for="order of state.nftSellBook">
-                <td>${order._id}</td>
-                <td>${order.account}</td>
-                <td>${order.price}</td>
-                <td>${order.priceSymbol}</td>
-                <td><button type="button" class="btn btn-md" title="Buy NFT" click.delegate="buy(order)">
-                    <font-awesome-icon icon.bind="['fas', 'store']"></font-awesome-icon>
-                </button></td>
-            </tr>
-        </tbody>
-    </table>
-
+    <div class="container">
+        <table class="table table-blue" ref="tokenTable" if.bind="!state.instance || state.nftSellBook.length">
+            <thead class="bg-blue color-white">
+                <tr>
+                    <th>${'ID' & t}</th>
+                    <th>${'Account' & t}</th>
+                    <th>${'Price' & t}</th>
+                    <th>${'Price Symbol'}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr repeat.for="order of state.nftSellBook">
+                    <td>${order._id}</td>
+                    <td>${order.account}</td>
+                    <td>${order.price}</td>
+                    <td>${order.priceSymbol}</td>
+                    <td>
+                        <button type="button" class="btn btn-md" title="Buy NFT" click.delegate="buy(order)">
+                            <font-awesome-icon icon.bind="['fas', 'store']"></font-awesome-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </template>
