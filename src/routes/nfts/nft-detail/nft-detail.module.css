@@ -40,7 +40,6 @@
 
 .nft-rank {
     margin-bottom: 6px;
-    z-index: -1;
 }
 
 .nft-rank p {
@@ -174,11 +173,4 @@
 
 .review-p {
     display: block;
-}
-.send-back {
-    z-index: -1;
-    display: none;
-}
-.hidden-view {
-    display: hidden;
 }
