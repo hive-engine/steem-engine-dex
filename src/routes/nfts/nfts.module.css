@@ -19,3 +19,78 @@
 .changePercentCol .green {
     color: green;
 }
+@media only screen and (max-width: 468px) {
+    .mobile-table {
+        width: 100%!important;
+    }
+    .no-desktop {
+        display: block;
+    }
+    .no-mobile {
+        display: none;
+    }
+    .each-token {
+        display: flex;
+        align-content: center;
+        justify-content: space-between;
+        color: black;
+    }
+    .padding-add {
+        padding: 15px 5px;
+        border-bottom: 1px dashed rgb(233, 233, 233);
+    }
+    .padding-add:last-child {
+        border: none!important;
+    }
+    .each-nft-symbol {
+        text-align: right;
+    }
+    .each-nft-symbol:hover {
+        cursor: pointer;
+        color: #129cf3;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .mobile-table {
+        width: 100%!important;
+    }
+    .no-desktop {
+        display: block;
+    }
+    .no-mobile {
+        display: none;
+    }
+    .each-token {
+        display: flex;
+        align-content: center;
+        justify-content: space-between;
+        color: black;
+    }
+    .padding-add {
+        padding: 15px 5px;
+        border-bottom: 1px dashed rgb(233, 233, 233);
+    }
+    .padding-add:last-child {
+        border: none!important;
+    }
+    .each-nft-symbol {
+        text-align: right;
+    }
+    .each-nft-symbol:hover {
+        cursor: pointer;
+        color: #129cf3;
+    }
+}
+@media only screen and (min-width: 769px) {
+    .mobile-table {
+        width: 100%!important;
+    }
+}
+@media only screen and (min-width: 999px) {
+    .no-mobile {
+        display: block;
+    }
+    .no-desktop {
+        display: none;
+    }
+}

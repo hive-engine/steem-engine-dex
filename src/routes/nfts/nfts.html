@@ -13,7 +13,7 @@
         </div>
     </header>
 
-    <div class="container main-container">
+    <div class="container main-container no-mobile">
         <div class="row">
             <div class="col-12">
                 <table class="table table-dark" ref="tokenTable">
@@ -72,16 +72,14 @@
                                     route-href="route: nftIssue; params.bind: { symbol: token.symbol }"
                                     title="Issue NFT"
                                 >
-                                    <font-awesome-icon
-                                        icon.bind="['fas', 'share-square']"
-                                    ></font-awesome-icon>
+                                    <font-awesome-icon icon.bind="['fas', 'share-square']"></font-awesome-icon>
                                 </a>
-                                <a 
-                                    if.bind="userCanModify(token)" 
-                                    route-href="route: nftProperties; params.bind: { symbol: token.symbol }" 
-                                    title="Add Properties">
-                                    <font-awesome-icon
-                                    icon.bind="['fas', 'cog']"></font-awesome-icon>
+                                <a
+                                    if.bind="userCanModify(token)"
+                                    route-href="route: nftProperties; params.bind: { symbol: token.symbol }"
+                                    title="Add Properties"
+                                >
+                                    <font-awesome-icon icon.bind="['fas', 'cog']"></font-awesome-icon>
                                 </a>
                                 <a
                                     click.delegate="enableMarket(token)"
@@ -91,17 +89,19 @@
                                 >
                                     <font-awesome-icon icon.bind="['fas', 'envelope-open-dollar']"></font-awesome-icon>
                                 </a>
-                                <a 
-                                    route-href="route: editNft; params.bind: { symbol: token.symbol }" 
+                                <a
+                                    route-href="route: editNft; params.bind: { symbol: token.symbol }"
                                     title="Edit NFT Settings"
-                                    if.bind="userCanModify(token)">
+                                    if.bind="userCanModify(token)"
+                                >
                                     <font-awesome-icon icon.bind="['fas', 'pencil']"></font-awesome-icon>
                                 </a>
-                                <a 
+                                <a
                                     click.delegate="changeOwnership(token.symbol)"
                                     href="javascript:void(0);"
                                     title="Change Ownership"
-                                    if.bind="userCanModify(token)">
+                                    if.bind="userCanModify(token)"
+                                >
                                     <font-awesome-icon icon.bind="['fas', 'crown']"></font-awesome-icon>
                                 </a>
                             </td>
@@ -111,4 +111,86 @@
             </div>
         </div>
     </div>
+    <section class="no-desktop">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="nft-card" ref="tokenTable">
+                        <div class="each-nft padding-add" repeat.for="token of state.nfts">
+                            <div class="each-nft-icon col-1">
+                                <img
+                                    if.bind="token.metadata.icon"
+                                    class="tokenIcon"
+                                    src="${token.metadata.icon}"
+                                    alt="${token.symbol}"
+                                    title="${token.symbol}"
+                                />
+                            </div>
+                            <div class="each-nft-symbol-div col-3">${token.symbol}</div>
+                            <div class="each-nft-price col-2">
+                                <template repeat.for="val of token.authorizedIssuingAccounts"
+                                    >${val}${!$last ? ', ': ''}</template
+                                >
+                            </div>
+                            <div class="each-token-actions col-4 text-right">
+                                <a
+                                    click.delegate="showTokenInfo(token)"
+                                    href="javascript:void(0);"
+                                    title="Token information"
+                                >
+                                    <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
+                                </a>
+                                <a
+                                    route-href="route: nft; params.bind: { symbol: token.symbol }"
+                                    title="Issued NFT's and information"
+                                >
+                                    <font-awesome-icon icon.bind="['fas', 'atlas']"></font-awesome-icon>
+                                </a>
+                                <a route-href="route: nft-detail; params.bind: { symbol: token.symbol }">
+                                    <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
+                                </a>
+                                <a
+                                    if.bind="userCanIssue(token)"
+                                    route-href="route: nftIssue; params.bind: { symbol: token.symbol }"
+                                    title="Issue NFT"
+                                >
+                                    <font-awesome-icon icon.bind="['fas', 'share-square']"></font-awesome-icon>
+                                </a>
+                                <a
+                                    if.bind="userCanModify(token)"
+                                    route-href="route: nftProperties; params.bind: { symbol: token.symbol }"
+                                    title="Add Properties"
+                                >
+                                    <font-awesome-icon icon.bind="['fas', 'cog']"></font-awesome-icon>
+                                </a>
+                                <a
+                                    click.delegate="enableMarket(token)"
+                                    title="Enable market for NFT"
+                                    href="javascript:void(0);"
+                                    if.bind="token.userCanEnableMarket"
+                                >
+                                    <font-awesome-icon icon.bind="['fas', 'envelope-open-dollar']"></font-awesome-icon>
+                                </a>
+                                <a
+                                    route-href="route: editNft; params.bind: { symbol: token.symbol }"
+                                    title="Edit NFT Settings"
+                                    if.bind="userCanModify(token)"
+                                >
+                                    <font-awesome-icon icon.bind="['fas', 'pencil']"></font-awesome-icon>
+                                </a>
+                                <a
+                                    click.delegate="changeOwnership(token.symbol)"
+                                    href="javascript:void(0);"
+                                    title="Change Ownership"
+                                    if.bind="userCanModify(token)"
+                                >
+                                    <font-awesome-icon icon.bind="['fas', 'crown']"></font-awesome-icon>
+                                </a>
+                            </div>
+                        </div>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
 </template>
