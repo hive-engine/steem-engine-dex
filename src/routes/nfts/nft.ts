@@ -29,8 +29,15 @@ export class Nft {
         });
     }
 
+    userCanModify(token) {
+        if (token.issuer === this.state.account.name || token.authorizedIssuingAccounts && token.authorizedIssuingAccounts.includes(this.state.account.name)) {
+            return true;
+        }
+
+        return false;
+    }
+
     userCanIssue(token) {
-        console.log(token);
         if (token.authorizedIssuingAccounts && token.authorizedIssuingAccounts.includes(this.state.account.name)) {
             return true;
         }
