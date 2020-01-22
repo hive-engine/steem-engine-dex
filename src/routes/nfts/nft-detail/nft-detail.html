@@ -44,8 +44,7 @@
                                     <p>
                                         <span class="reviewer" style="font-weight: bolder; margin-right: 5px;"
                                             >Note:</span
-                                        >The prices displayed come from the last-order order on this token. However, you
-                                        can as well place your own bid on the token
+                                        >The prices displayed come from the last-order order on this token.
                                     </p>
                                 </div>
                                 <hr />
@@ -108,10 +107,10 @@
                                                     >${lastOrder.price | toFixed:2} ${lastOrder.priceSymbol}</template
                                                 >
                                                 <template else>${'Not Available' & t}</template>
-                                            </span>
-                                        </li>
-                                        <li class="cat-card-item flex-setting" if.bind="currentOrder">
-                                            <a href="">${'Currently Trading' & t}</a
+</span>
+</li>
+<li class="cat-card-item flex-setting" if.bind="currentOrder">
+    <a href="">${'Currently Trading' & t}</a
                                             ><span class="float-right"
                                                 >${currentOrder.price | toFixed:2} ${currentOrder.priceSymbol}</span
                                             >
@@ -175,7 +174,10 @@
                     <td>${order.account}</td>
                     <td>${order.price}</td>
                     <td>${order.priceSymbol}</td>
-                    <td>
+                    <td class="table-buttons">
+                        <button type="button" class="btn btn-md" click.delegate="showNftProperties(order.instance)" title="NFT Properties">
+                            <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
+                        </button>
                         <button type="button" class="btn btn-md" title="Buy NFT" click.delegate="buy(order)">
                             <font-awesome-icon icon.bind="['fas', 'store']"></font-awesome-icon>
                         </button>
