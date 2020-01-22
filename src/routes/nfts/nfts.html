@@ -64,7 +64,7 @@
                                 >
                                     <font-awesome-icon icon.bind="['fas', 'atlas']"></font-awesome-icon>
                                 </a>
-                                <a route-href="route: nft-detail; params.bind: { symbol: token.symbol }">
+                                <a if.bind="token.marketEnabled" route-href="route: nft-detail; params.bind: { symbol: token.symbol }">
                                     <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
                                 </a>
                                 <a
