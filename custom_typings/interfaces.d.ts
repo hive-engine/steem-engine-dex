@@ -264,6 +264,7 @@ interface INft {
         icon: string;
         desc: string;
     };
+    marketEnabled?: boolean;
     circulatingSupply: number;
     delegationEnabled: boolean;
     undelegationCooldown: number;

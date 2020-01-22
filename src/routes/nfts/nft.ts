@@ -1,3 +1,4 @@
+import { NftService } from './../../services/nft-service';
 import { NftPropertiesModal } from './../../modals/nft/nft-properties';
 import { DialogService } from 'aurelia-dialog';
 import { SteemEngine } from 'services/steem-engine';
@@ -16,11 +17,13 @@ export class Nft {
     private styles = styles;
     private state: State;
 
-    constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {}
+    constructor(private se: SteemEngine, private nftService: NftService, private taskQueue: TaskQueue, private dialogService: DialogService) {}
 
     async activate({ symbol }) {
         await dispatchify(getNft)(symbol);
         await dispatchify(getNftInstance)(symbol);
+
+        
     }
 
     showNftProperties(token) {
