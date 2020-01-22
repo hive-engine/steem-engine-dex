@@ -174,3 +174,13 @@
 .review-p {
     display: block;
 }
+
+.bg-blue {
+    background: #0048b3;
+}
+.color-white {
+    color: #fff;
+}
+.info-wrapper {
+    padding: 0 20px;
+}
