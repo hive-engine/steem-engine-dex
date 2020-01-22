@@ -13,12 +13,12 @@
             <div>
                 <div class="form-group">
                     <h4>${'Transaction ID' & t}</h4>
-                    <h4>${transaction.txid}</h4>
+                    <h4>${transaction.transactionId}</h4>
                 </div>
 
                 <div class="form-group">
                     <h4>${'Sidechain Block' & t}</h4>
-                    <h4>${transaction.block}</h4>
+                    <h4>${transaction.blockNumber}</h4>
                 </div>
 
                 <div class="form-group">
@@ -39,7 +39,7 @@
         </ux-dialog-body>
 
         <ux-dialog-footer>
-            <button class="btn btn-lg redBtn"
+            <button class="btn btn-lg greenBtn"
                     click.trigger="controller.cancel()">
                 ${'OK' & t}
             </button>

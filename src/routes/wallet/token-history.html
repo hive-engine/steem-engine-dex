@@ -24,14 +24,13 @@
     <div class="row">
         <div class="col-2"></div>
         <div class="col-8">
-            <table class="table table-striped transactionsTable table-hover" ref="transactionsTable">
+            <table class="table table-striped transactionsTable table-hover">
                 <thead>
                     <tr>
                         <th>Date</th>
                         <th>To/From</th>
                         <th>Type</th>
                         <th class="text-right">Amount</th>
-                        <th class="text-right">Balance</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,10 +39,12 @@
                         <td>@${tx.to == username ? tx.from : tx.to}</td>
                         <td>${tx.to == username ? 'Received' : 'Sent'}</td>
                         <td class="text-right">${tx.to == username ? '+' : '-'} ${tx.quantity | comma} ${token.symbol}</td>
-                        <td class="text-right">${tx.balance | comma} ${token.symbol}</td>
                     </tr>
                 </tbody>
             </table>
+            <div if.bind="displayShowMore" class="see-more hideSeeMoreBtn text-center" id="loadMoreTransactions">
+                <button click.delegate="loadHistoryData()" class="moreBtn seeMoreBtn" style="margin-top: 0px">see more</button>
+            </div>
         </div>
         <div class="col-2"></div>
     </div>
