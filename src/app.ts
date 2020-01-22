@@ -176,7 +176,7 @@ export class App {
                 title: 'Conversion History',
             },
             {
-                route: 'account-history',
+                route: 'account-history/:symbol?',
                 name: 'accountHistory',
                 moduleId: PLATFORM.moduleName('./routes/account/account-history', 'account-history'),
                 nav: false,

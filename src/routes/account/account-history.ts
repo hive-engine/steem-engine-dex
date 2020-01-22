@@ -15,6 +15,7 @@ export class AccountHistory {
     @bindable transactions: IAccountHistoryItemResult[] = [];    
     private offset: number = 0;
     private limit: number = 5;
+    private symbol;
     @bindable displayShowMore: boolean = true;
 
     constructor(private se: SteemEngine, private store: Store<State>) {
@@ -30,15 +31,16 @@ export class AccountHistory {
             this.subscription.unsubscribe();
         }
     }
-
-    async activate() {
-        this.username = 'steemsc';// this.state.account.name;
+    
+    async activate({ symbol }) {
+        this.symbol = symbol;
+        this.username = this.state.account.name;
         
         await this.loadTransactions();
     }
 
     async loadTransactions() {
-        let transactions = await loadAccountHistory(this.username, null, null, null, this.limit, this.offset);
+        let transactions = await loadAccountHistory(this.username, this.symbol, null, null, this.limit, this.offset);
         
         transactions.forEach(x => {
             x.timestamp_string = moment.unix(x.timestamp).format('YYYY-MM-DD HH:mm:ss');
