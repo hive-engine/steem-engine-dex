@@ -14,7 +14,7 @@ export class TokenHistoryTransactionModal {
     private token: any;
     private validationController;
     private renderer;
-    private transaction: ITokenHistoryTransaction;
+    private transaction: IAccountHistoryItemResult;
     private username: string;
 
     constructor(private controller: DialogController, private se: SteemEngine, private taskQueue: TaskQueue, private store: Store<State>) {

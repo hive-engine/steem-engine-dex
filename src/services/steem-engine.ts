@@ -783,23 +783,7 @@ export class SteemEngine {
 
     getTokens() {
         return this.tokens;
-    }
-
-    async showHistory(symbol: string, username: string) {
-        try {
-            const history = await this.request('/history?', {
-                account: username,
-                limit: 100,
-                offset: 0,
-                type: 'user',
-                symbol: symbol
-            });
-
-            return history.json();
-        } catch (e) {
-            return [];
-        }
-    }
+    }   
 
     async checkAccount(name) {
         const response = await steem.api.getAccountsAsync([name]);
