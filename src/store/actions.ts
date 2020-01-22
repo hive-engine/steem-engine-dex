@@ -465,6 +465,9 @@ export async function getNft(state: State, symbol: string): Promise<State> {
     try {
         const nft = await nftService.loadNft(symbol);
         const orders = await nftService.loadSellBook(symbol, null);
+        const marketEnabled = await nftService.sellBookExists(symbol);
+
+        nft.marketEnabled = marketEnabled;
     
         (nft as any).orders = orders;
     

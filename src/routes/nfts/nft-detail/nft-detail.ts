@@ -80,8 +80,6 @@ export class NftDetail {
     async buy(order, symbol) {
         dispatchify(loading)(true);
 
-        console.log(order);
-
         try {
             const request = await this.marketService.buy(symbol, order.nftId) as any;
 

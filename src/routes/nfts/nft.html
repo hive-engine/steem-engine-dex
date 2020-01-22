@@ -41,7 +41,7 @@
                                 <button click.delegate="showNftProperties(token)" title="NFT Properties">
                                     <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
                                 </button>
-                                <a route-href="route: nft-detail; params.bind: { symbol: state.nft.symbol }">
+                                <a if.bind="state.nft.marketEnabled" route-href="route: nft-detail; params.bind: { symbol: state.nft.symbol }">
                                     <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
                                 </a>
                             </td>
