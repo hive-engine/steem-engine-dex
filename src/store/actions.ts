@@ -421,15 +421,15 @@ export async function getNfts(state: State): Promise<State> {
         const nfts = await nftService.loadNfts(null);
 
         for (const nft of nfts) {
-        const exists = await nftService.sellBookExists(nft.symbol);
-
-        (nft as any).marketEnabled = exists;
-        
-        if (nft.authorizedIssuingAccounts && nft.authorizedIssuingAccounts.includes(newState.account.name) && !(nft as any).groupBy.length) {
-            (nft as any).userCanEnableMarket = true;
-        } else {
-            (nft as any).userCanEnableMarket = false;
-        }
+            const exists = await nftService.sellBookExists(nft.symbol);
+    
+            (nft as any).marketEnabled = exists;
+            
+            if (nft.authorizedIssuingAccounts && nft.authorizedIssuingAccounts.includes(newState.account.name) && !(nft as any).groupBy.length) {
+                (nft as any).userCanEnableMarket = true;
+            } else {
+                (nft as any).userCanEnableMarket = false;
+            }
         }
     
         newState.nfts = nfts;
@@ -447,11 +447,11 @@ export async function getNftsWithSellBook(state: State): Promise<State> {
         const nfts = await nftService.loadNfts(null);
 
         for (const nft of nfts) {
-        const orders = await nftService.loadSellBook(nft.symbol, null);
-        (nft as any).orders = orders;
-    }
-
-    newState.nfts = nfts;
+            const orders = await nftService.loadSellBook(nft.symbol, null);
+            (nft as any).orders = orders;
+        }
+    
+        newState.nfts = nfts;
     } catch (e) {
         log.error('Error loading NFTs with sell book', e);
     }
@@ -463,12 +463,12 @@ export async function getNft(state: State, symbol: string): Promise<State> {
     const newState = { ...state };
 
     try {
-    const nft = await nftService.loadNft(symbol);
-    const orders = await nftService.loadSellBook(symbol, null);
-
-    (nft as any).orders = orders;
-
-    newState.nft = nft;
+        const nft = await nftService.loadNft(symbol);
+        const orders = await nftService.loadSellBook(symbol, null);
+    
+        (nft as any).orders = orders;
+    
+        newState.nft = nft;
     } catch (e) {
         log.error('Could not load NFT', e);
     }
@@ -476,12 +476,24 @@ export async function getNft(state: State, symbol: string): Promise<State> {
     return newState;
 }
 
-export async function getNftSellBook(state: State, symbol: string): Promise<State> {
+export async function getNftSellBook(state: State, symbol: string, withDetails = false): Promise<State> {
     const newState = { ...state };
 
-    const nftSellBook = await nftService.loadSellBook(symbol, null);
+    try {
+        const nftSellBook = await nftService.loadSellBook(symbol, null);
 
-    newState.nftSellBook = nftSellBook;
+        newState.nftSellBook = nftSellBook;
+
+        if (withDetails) {
+            for (const sell of newState.nftSellBook) {
+                const instance = await nftService.loadInstance(symbol, sell.nftId);
+    
+                sell.instance = instance;
+            }
+        }
+    } catch(e) {
+        log.error('Could not load sell book orders', e);
+    }
 
     return newState;
 }
