@@ -78,11 +78,11 @@ export class NftDetail {
         });
     }
 
-    async buy(order) {
+    async buy(order, symbol) {
         dispatchify(loading)(true);
 
         try {
-            const request = await this.marketService.buy(order.symbol, order._id) as any;
+            const request = await this.marketService.buy(symbol, order._id) as any;
 
             if (request.success) {
                 try {
