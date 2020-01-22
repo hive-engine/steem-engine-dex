@@ -1,5 +1,4 @@
 <template>
-
     <header class="nft-header">
         <div class="header-row">
             <div class="row">
@@ -10,16 +9,14 @@
                             Explore the catalogue of our Non-Fungible Tokens
                         </p>
                     </div>
-
                 </div>
             </div>
         </div>
     </header>
 
-
-    <section class="showroom">        
+    <section class="showroom">
         <hr class="divider" />
-        
+
         <div class="showroom-row">
             <div class="col-lg-2 col-md-12 col-sm-12 hide-sm">
                 <div class="card cat-card">
@@ -44,11 +41,13 @@
                     <div class="cat-card-body">
                         <ul class="cat-card-items">
                             <li class="cat-card-item"><a href="">Neoxian</a><span class="float-right">(189)</span></li>
-                            <li class="cat-card-item"><a href="">Splinterlands</a><span class="float-right">(200)</span></li>
                             <li class="cat-card-item">
-                                <a href="">Marlians</a><span class="float-right">(100)</span>
+                                <a href="">Splinterlands</a><span class="float-right">(200)</span>
                             </li>
-                            <li class="cat-card-item"><a href="">SportsTalk</a><span class="float-right">(89)</span></li>
+                            <li class="cat-card-item"><a href="">Marlians</a><span class="float-right">(100)</span></li>
+                            <li class="cat-card-item">
+                                <a href="">SportsTalk</a><span class="float-right">(89)</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -113,9 +112,7 @@
                     <div class="col-md-3 col-sm-12" repeat.for="token of state.nfts">
                         <div class="showroom-card">
                             <div class="showroom-card-img">
-
-                                <a route-href='route: nft-detail; params.bind: { symbol: token.symbol }'
-
+                                <a route-href="route: nft-detail; params.bind: { symbol: token.symbol }"
                                     ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
                                 /></a>
                             </div>
@@ -171,13 +168,21 @@
                                 <div class="showroom-pf">
                                     <p class="showroom-goal">
                                         Max Supply:
-                                        <span class="init-price">${token.maxSupply == 0 ? 'Infinite' : token.maxSupply}</span>
+                                        <span class="init-price"
+                                            >${token.maxSupply == 0 ? 'Infinite' : token.maxSupply}</span
+                                        >
                                         <br />
                                         <template if.bind="token.orders.length">
                                             now trading @
-                                            <span class="now-price">${token.orders[0].price} ${token.orders[0].priceSymbol}</span>
+                                            <span class="now-price"
+                                                >${token.orders[0].price} ${token.orders[0].priceSymbol}</span
+                                            >
                                         </template>
-                                        <a route-href="route: nft-detail; params.bind: { symbol: token.symbol };" class="buyBtn">GET</a>
+                                        <a
+                                            route-href="route: nft-detail; params.bind: { symbol: token.symbol };"
+                                            class="buyBtn"
+                                            >GET</a
+                                        >
                                     </p>
                                 </div>
                             </div>
@@ -206,8 +211,8 @@
                     Top tiers
                 </h2>
             </div>
-            <div class="cards nft-extra-cards" style="display: flex;">
-                <div class="nft-slick">
+            <div class="cards nft-extra-cards" style="display: flex;" ref="tokenTable">
+                <div class="nft-slick" repeat.for="token of state.nfts">
                     <div class="showroom-card">
                         <div class="row">
                             <div class="col-6">
@@ -220,144 +225,21 @@
                             </div>
                             <div class="col-6">
                                 <div class="showroom-slick-card-body">
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur
-                                    </p>
+                                    <h3>
+                                        ${token.symbol} :
+                                    </h3>
+                                    <p>${token.name}</p>
                                     now trading @
-                                        <span class="now-price">$ ${'2,500' & t}</span>
+                                    <span class="now-price"
+                                        >${token.orders[0].price} ${token.orders[0].priceSymbol}</span
+                                    >
                                 </div>
                                 <div class="showroom-card-footer">
-                                    <a href="" class="buyBtn">GET</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="nft-slick">
-                    <div class="showroom-card">
-                        <div class="row">
-                            <div class="col-6">
-                                <img
-                                    src="https://picsum.photos/640/360"
-                                    alt="non-fungible"
-                                    width="100%"
-                                    height="100%"
-                                />
-                            </div>
-                            <div class="col-6">
-                                <div class="showroom-slick-card-body">
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur
-                                    </p>
-                                        now trading @
-                                    <span class="now-price">$ ${'2,500' & t}</span>
-                                </div>
-                                <div class="showroom-card-footer">
-                                    <a href="" class="buyBtn">GET</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="nft-slick">
-                    <div class="showroom-card">
-                        <div class="row">
-                            <div class="col-6">
-                                <img
-                                    src="https://picsum.photos/640/360"
-                                    alt="non-fungible"
-                                    width="100%"
-                                    height="100%"
-                                />
-                            </div>
-                            <div class="col-6">
-                                <div class="showroom-slick-card-body">
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur
-                                    </p>
-                                    now trading @
-                                        <span class="now-price">$ ${'2,500' & t}</span>
-                                </div>
-                                <div class="showroom-card-footer">
-                                    <a href="" class="buyBtn">GET</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="nft-slick">
-                    <div class="showroom-card">
-                        <div class="row">
-                            <div class="col-6">
-                                <img
-                                    src="https://picsum.photos/640/360"
-                                    alt="non-fungible"
-                                    width="100%"
-                                    height="100%"
-                                />
-                            </div>
-                            <div class="col-6">
-                                <div class="showroom-slick-card-body">
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur
-                                    </p>
-                                    now trading @
-                                        <span class="now-price">$ ${'2,500' & t}</span>
-                                </div>
-                                <div class="showroom-card-footer">
-                                    <a href="" class="buyBtn">GET</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="nft-slick">
-                    <div class="showroom-card">
-                        <div class="row">
-                            <div class="col-6">
-                                <img
-                                    src="https://picsum.photos/640/360"
-                                    alt="non-fungible"
-                                    width="100%"
-                                    height="100%"
-                                />
-                            </div>
-                            <div class="col-6">
-                                <div class="showroom-slick-card-body">
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur
-                                    </p>
-                                    now trading @
-                                        <span class="now-price">$ ${'2,500' & t}</span>
-                                </div>
-                                <div class="showroom-card-footer">
-                                    <a href="" class="buyBtn">GET</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="nft-slick">
-                    <div class="showroom-card">
-                        <div class="row">
-                            <div class="col-6">
-                                <img
-                                    src="https://picsum.photos/640/360"
-                                    alt="non-fungible"
-                                    width="100%"
-                                    height="100%"
-                                />
-                            </div>
-                            <div class="col-6">
-                                <div class="showroom-slick-card-body">
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur
-                                    </p>
-                                    now trading @
-                                        <span class="now-price">$ ${'2,500' & t}</span>
-                                </div>
-                                <div class="showroom-card-footer">
-                                    <a href="" class="buyBtn">GET</a>
+                                    <a
+                                        route-href="route: nft-detail; params.bind: { symbol: token.symbol };"
+                                        class="buyBtn"
+                                        >GET</a
+                                    >
                                 </div>
                             </div>
                         </div>
