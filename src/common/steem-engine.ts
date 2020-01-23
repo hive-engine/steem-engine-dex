@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { usdFormat } from 'common/functions';
 /* eslint-disable no-undef */
 import { HttpClient } from 'aurelia-fetch-client';
@@ -7,6 +8,7 @@ import { ssc } from './ssc';
 import { query } from 'common/apollo';
 
 const SCOT_API = 'https://scot-api.steem-engine.com/';
+
 const http = new HttpClient();
 
 export async function request(url: string, params: any = {}) {
@@ -26,11 +28,7 @@ export async function request(url: string, params: any = {}) {
  * @param timestampStart a unix timestamp that represents the start of the dataset (optional)
  * @param timestampEnd a unix timestamp that represents the end of the dataset (optional)
  */
-export async function loadTokenMarketHistory(
-    symbol: string,
-    timestampStart?: string,
-    timestampEnd?: string,
-): Promise<IHistoryApiItem[]> {
+export async function loadTokenMarketHistory(symbol: string, timestampStart?: string, timestampEnd?: string): Promise<IHistoryApiItem[]> {
     let url = `${environment.HISTORY_API}marketHistory?symbol=${symbol.toUpperCase()}`;
 
     if (timestampStart) {
