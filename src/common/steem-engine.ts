@@ -221,6 +221,38 @@ export async function loadTokens(symbols = [], limit = 50, offset = 0): Promise<
     return finalTokens;
 }
 
+export async function loadBuyBook(symbol, limit = 200, offset = 0) {
+    return ssc.find('market', 'buyBook', { symbol: symbol }, limit, offset, [{ index: 'priceDec', descending: true }], false);
+}
+
+export async function loadAccountBuyBook(symbol, account, limit = 200, offset = 0) {
+    return ssc.find('market', 'buyBook', { symbol: symbol, account: account }, limit, offset, [{ index: '_id', descending: true }], false);
+}
+
+export async function loadSellBook(symbol, limit = 200, offset = 0) {
+    return ssc.find('market', 'sellBook', { symbol: symbol }, limit, offset, [{ index: 'priceDec', descending: false }], false);
+}
+
+export async function loadAccountSellBook(symbol, account, limit = 100, offset = 0) {
+    return ssc.find('market', 'sellBook', { symbol: symbol, account: account }, limit, offset, [{ index: '_id', descending: true }], false);
+}
+
+export async function loadTradesHistory(symbol, limit = 30, offset = 0) {
+    return ssc.find('market', 'tradesHistory', { symbol: symbol }, limit, offset, [{ index: '_id', descending: true }], false)
+}
+
+export async function loadAccountTokenBalances(account, symbol, limit = 2, offset = 0) {
+    return ssc.find('tokens', 'balances', { account: account, symbol : { '$in' : [symbol, 'STEEMP'] } }, limit, offset, '', false);
+}
+
+export async function loadtokens(symbols, limit = 1000, offset = 0) {
+    const queryConfig = {
+        $in: symbols
+    }
+
+    return ssc.find('tokens', 'tokens', queryConfig, limit, offset, [{ index: 'symbol', descending: false }]);
+}
+
 /* istanbul ignore next */
 export async function loadExchangeUiLoggedIn(account, symbol) {
     const callQl = await query(`query {
