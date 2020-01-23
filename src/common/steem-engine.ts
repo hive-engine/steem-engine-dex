@@ -423,6 +423,32 @@ export async function loadExchangeUiLoggedOut(symbol) {
         userSellBook: any;
         tokenBalance: any;
     };
+
+    return response;
+}
+
+export async function loadConversions(account: string, type = 'from', limit = 20, offset = 0): Promise<IConversionItem> {
+    let url = `${environment.CONVERTER_API}conversions/`;
+
+    if (type === 'sent') {
+        url += `${queryParam({ limit, offset, deposit__from_account: account })}`;
+    } else {
+        url += `${queryParam({ limit, offset, to_address: account })}`;
+    }
+
+    try {
+        const request = await http.fetch(url, {
+            headers: {
+                'Origin': 'https://steem-engine.com',
+                'Referer': 'https://steem-engine.com/?p=conversion_history',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'
+            }
+        });
+
+        return request.json();
+    } catch {
+        return null;
+    }
 }
 
 export async function getPrices() {
