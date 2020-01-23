@@ -247,91 +247,25 @@ export async function loadAccountTokenBalances(account, symbol, limit = 2, offse
 /* istanbul ignore next */
 export async function loadExchangeUiLoggedIn(account, symbol) {
     const tokens = await loadTokens([`${symbol}`, 'STEEMP']);
-
-    const callQl = await query(`query {
-        steempBalance {
-            account,
-            symbol,
-            balance
-        },
-        userBalances: balances(account: "${account}", limit: 1000, offset: 0) {
-            account,
-            symbol,
-            balance,
-            delegationsIn,
-            delegationsOut,
-            pendingUndelegations,
-            stake,
-            pendingUnstake,
-            scotConfig {
-                pending_token,
-                staked_tokens
-            },
-            usdValueFormatted
-        },
-        buyBook(symbol: "${symbol}", limit: 1000, offset: 0) {
-            txId,
-            timestamp,
-            account,
-            symbol,
-            quantity,
-            price,
-            tokensLocked,
-            expiration
-          },
-          sellBook(symbol: "${symbol}", limit: 1000, offset: 0) {
-            txId,
-            timestamp,
-            account,
-            symbol,
-            quantity,
-            price,
-            expiration
-          },
-          tradesHistory(symbol: "${symbol}", limit: 30, offset: 0) {
-            type,
-            symbol,
-            quantity,
-            price,
-            timestamp
-          },
-          userBuyBook: buyBook(symbol: "${symbol}", account: "${account}", limit: 100, offset: 0) {
-            txId,
-            timestamp,
-            account,
-            symbol,
-            quantity,
-            price,
-            tokensLocked,
-            expiration
-          },
-          userSellBook: sellBook(symbol: "${symbol}", account: "${account}", limit: 100, offset: 0) {
-            txId,
-            timestamp,
-            account,
-            symbol,
-            quantity,
-            price,
-            expiration
-          },
-          tokenBalance(symbol: "${symbol}", account: "${account}") {
-            account,
-            symbol,
-            balance
-          }
-    }
-    `);
+    const steempBalance = await loadSteempBalance();
+    const userBalances = await loadUserBalances(account, 1000, 0);
+    const buyBook = await loadBuyBook(symbol, 1000, 0);
+    const sellBook = await loadSellBook(symbol, 1000, 0);
+    const tradesHistory = await loadTradesHistory(symbol, 30, 0);
+    const userBuyBook = await loadAccountBuyBook(symbol, account, 100, 0);
+    const userSellBook = await loadAccountSellBook(symbol, account, 100, 0);
+    const tokenBalance = await loadAccountTokenBalances(account, symbol);
 
     const response = {
         tokens: tokens,
-        steempBalance: callQl?.data.steempBalance,
-        userBalances: callQl?.data.userBalances,
-        buyBook: callQl?.data.buyBook,
-        sellBook: callQl?.data.sellBook,
-        tradesHistory: callQl?.data.tradesHistory,
-        userBuyBook: callQl?.data.userBuyBook,
-        userSellBook: callQl?.data.userSellBook,
-        tokenBalance: callQl?.data.tokenBalance
+        steempBalance: steempBalance,
+        userBalances: userBalances,
+        buyBook: buyBook,
+        sellBook: sellBook,
+        tradesHistory: tradesHistory,
+        userBuyBook: userBuyBook,
+        userSellBook: userSellBook,
+        tokenBalance: tokenBalance
     } as {
         tokens: IToken[];
         steempBalance: IBalance;
@@ -349,70 +283,19 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
 
 /* istanbul ignore next */
 export async function loadExchangeUiLoggedOut(symbol) {
-    const callQl = await query(`query {
-        tokens(symbols: ["${symbol}", "STEEMP"]) {
-            issuer,
-            symbol,
-            name,
-            metadata {
-                url,
-                icon,
-                desc
-            },
-            metric {
-                symbol,
-                volume,
-                volumeExpiration,
-                lastPrice,
-                lowestAsk,
-                highestBid,
-                lastDayPrice,
-                lastDayPriceExpiration,
-                priceChangeSteem,
-                priceChangePercent
-            },
-            precision,
-            maxSupply,
-            supply,
-            circulatingSupply,
-            stakingEnabled,
-            delegationEnabled
-        },
-        steempBalance {
-            account,
-            symbol,
-            balance
-        },
-        buyBook(symbol: "${symbol}", limit: 1000, offset: 0) {
-            txId,
-            timestamp,
-            account,
-            symbol,
-            quantity,
-            price,
-            tokensLocked,
-            expiration
-          },
-          sellBook(symbol: "${symbol}", limit: 1000, offset: 0) {
-            txId,
-            timestamp,
-            account,
-            symbol,
-            quantity,
-            price,
-            expiration
-          },
-          tradesHistory(symbol: "${symbol}", limit: 30, offset: 0) {
-            type,
-            symbol,
-            quantity,
-            price,
-            timestamp
-          }
-    }
-    `);
+    const tokens = await loadTokens([`${symbol}`, 'STEEMP']);
+    const steempBalance = await loadSteempBalance();
+    const buyBook = await loadBuyBook(symbol, 1000, 0);
+    const sellBook = await loadSellBook(symbol, 1000, 0);
+    const tradesHistory = await loadTradesHistory(symbol, 30, 0);
 
-    return callQl?.data as {
+    const response = {
+        tokens: tokens,
+        steempBalance: steempBalance,
+        buyBook: buyBook,
+        sellBook: sellBook,
+        tradesHistory: tradesHistory
+    } as {
         tokens: IToken[];
         steempBalance: IBalance;
         userBalances: IBalance[];
