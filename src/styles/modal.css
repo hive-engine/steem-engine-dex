@@ -25,6 +25,7 @@ ux-dialog-container {
     width: 300px;
     box-shadow: 0 20px 60px -2px rgba(27, 33, 58, 0.4) !important;
 }
+
 ux-dialog {
     color: #000;
     display: table;
@@ -42,13 +43,9 @@ ux-dialog {
     border-image-repeat: initial;
     background: #fff;
 }
-ux-dialog > ux-dialog-header {
-    background: linear-gradient(
-        280deg,
-        #0048b3 0%,
-        #a1b9e7 511.72%,
-        #0048b3 100%
-    );
+
+ux-dialog>ux-dialog-header {
+    background: linear-gradient( 280deg, #0048b3 0%, #a1b9e7 511.72%, #0048b3 100%);
     color: #fff;
     display: block;
     font-size: 22px;
@@ -58,7 +55,7 @@ ux-dialog > ux-dialog-header {
     text-transform: uppercase;
 }
 
-ux-dialog > ux-dialog-header h2 {
+ux-dialog>ux-dialog-header h2 {
     color: inherit;
     font-size: inherit;
     font-weight: inherit;
@@ -66,7 +63,7 @@ ux-dialog > ux-dialog-header h2 {
     margin: 0;
 }
 
-ux-dialog > ux-dialog-header > button {
+ux-dialog>ux-dialog-header>button {
     float: right;
     border: none;
     color: #fff;
@@ -81,36 +78,38 @@ ux-dialog > ux-dialog-header > button {
     cursor: pointer;
 }
 
-ux-dialog > ux-dialog-header > button:focus {
+ux-dialog>ux-dialog-header>button:focus {
     outline: none;
 }
 
-ux-dialog > ux-dialog-body {
+ux-dialog>ux-dialog-body {
     display: block;
     padding: 16px;
     background: url("../images/se-standalone.svg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    max-height: 450px;
+    overflow: auto;
 }
 
-ux-dialog > ux-dialog-body a {
+ux-dialog>ux-dialog-body a {
     color: #0048b3;
 }
 
-ux-dialog > ux-dialog-footer {
+ux-dialog>ux-dialog-footer {
     display: block;
     padding: 16px;
     text-align: right;
 }
 
-ux-dialog > ux-dialog-footer button {
+ux-dialog>ux-dialog-footer button {
     margin-right: 15px;
 }
+
 .greenBtns {
     margin-top: 0;
     width: 30%;
-
     padding: 0 !important;
     background-color: #0048b3;
     color: #fff !important;
@@ -122,9 +121,11 @@ ux-dialog > ux-dialog-footer button {
     min-width: 76px;
     display: inline-block;
 }
+
 .greenBtns:hover {
     background-color: #080ba3;
 }
+
 .redBtn {
     margin-top: 0;
     padding: 0 !important;
@@ -137,10 +138,12 @@ ux-dialog > ux-dialog-footer button {
     border-radius: 0.25rem;
     min-width: 76px;
 }
+
 .redBtn:hover {
     background-color: #e4202009 !important;
 }
-ux-dialog > ux-dialog-footer button:last-child {
+
+ux-dialog>ux-dialog-footer button:last-child {
     margin-right: 0;
 }
 
@@ -152,7 +155,6 @@ ux-dialog > ux-dialog-footer button:last-child {
     ux-dialog-container {
         width: 600px;
     }
-
     ux-dialog {
         min-width: 600px;
         width: fit-content;
@@ -174,6 +176,6 @@ ux-dialog > ux-dialog-footer button:last-child {
     min-width: 50px;
 }
 
-.lblPointer{
+.lblPointer {
     cursor: pointer;
 }
