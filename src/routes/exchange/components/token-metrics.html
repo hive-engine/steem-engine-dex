@@ -14,13 +14,13 @@
                                 >${'LAST PRICE' & t}:
                             </span>
                             <span class="meta-value"
-                                >${token.lastPrice} ${'STEEM'} /
-                                ${token.lastPrice | usdFormat:3}</span
+                                >${token.metric.lastPrice} ${'STEEM'} /
+                                ${token.metric.lastPrice | usdFormat:3}</span
                             >
                         </div>
                         <div class="meta-item">
                             <span class="meta-label">${'24H' & t}: ${' '} </span>
-                            <span class="meta-value ${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}">${token.priceChangePercent} ${'%'}</span>
+                            <span class="meta-value ${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}">${token.metric.priceChangePercent} ${'%'}</span>
                         </div>
                         
                         <div class="meta-item">
@@ -28,7 +28,7 @@
                                 >${'ASK ' & t} :
                             </span>
                             <span class="meta-value"
-                                >${token.lowestAsk}</span
+                                >${token.metric.lowestAsk}</span
                             >
                         </div>
                         <div class="meta-item">
@@ -36,12 +36,12 @@
                                 >${'BID ' & t} :
                             </span>
                             <span class="meta-value"
-                                >${token.highestBid}</span
+                                >${token.metric.highestBid}</span
                             >
                         </div>
                         <div class="meta-item">
                             <span class="meta-label">${'VOLUME' & t}: </span>
-                            <span class="meta-value">${token.volume}</span>
+                            <span class="meta-value">${token.metric.volume}</span>
                         </div>
                     </div>
                 </div>
@@ -81,20 +81,20 @@
                                 >${'LAST PRICE' & t}:
                             </h5>
                             <h5 class="metric-item-value"
-                                > ${token.lastPrice} ${'STEEM'} /
-                                ${token.lastPrice | usdFormat:3}</h5
+                                > ${token.metric.lastPrice} ${'STEEM'} /
+                                ${token.metric.lastPrice | usdFormat:3}</h5
                             >
                         </div>
                         <div class="metric-item">
                             <h4 class="metric-item-label">${'24H' & t}: </h4>
-                            <h4 class="metric-item-value">${token.priceChangePercent} ${'%'}</h4>
+                            <h4 class="metric-item-value">${token.metric.priceChangePercent} ${'%'}</h4>
                         </div>
                         <div class="metric-item">
                             <span class="metric-item-label"
                                 >${'HIGH' & t}:
                             </span>
                             <span class="metric-item-value"
-                                >${token.highestBid}</span
+                                >${token.metric.highestBid}</span
                             >
                         </div>
                         <div class="metric-item">
@@ -102,12 +102,12 @@
                                 >${'LOW' & t}:
                             </span>
                             <span class="metric-item-value"
-                                >${token.lowestAsk}</span
+                                >${token.metric.lowestAsk}</span
                             >
                         </div>
                         <div class="metric-item">
                             <span class="metric-item-label">${'VOLUME' & t}: </span>
-                            <span class="metric-item-value">${token.volume}</span>
+                            <span class="metric-item-value">${token.metric.volume}</span>
                         </div>
                     </div>
                 </div>
