@@ -90,19 +90,19 @@
                             <td class="text-right" data-order="${token.balance}">${token.balance | comma}</td>
                             <td class="text-right changePercentCol" data-order="${token.usdValueFormatted}">
                                 <span
-                                    class="changePercent ${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
+                                    class="changePercent ${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}"
                                 >
                                     ${token.usdValueFormatted}
                                 </span>
                             </td>
                             <td
                                 class="text-right changePercentCol"
-                                data-order="${token.metric.priceChangePercent.toFixed(2)}"
+                                data-order="${token.priceChangePercent.toFixed(2)}"
                             >
                                 <span
-                                    class="changePercent ${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
+                                    class="changePercent ${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}"
                                 >
-                                    ${token.metric.priceChangePercent | toFixed:2}%
+                                    ${token.priceChangePercent | toFixed:2}%
                                 </span>
                             </td>
                             <td class="text-right" data-order="${token.stake}">
@@ -240,7 +240,7 @@
                             </div>
                             <div class="each-balance-price-change col-2" data-order="${token.usdValueFormatted}">
                                 <span
-                                    class="changePercent ${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
+                                    class="changePercent ${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}"
                                 >
                                     ${token.usdValueFormatted}
                                 </span>

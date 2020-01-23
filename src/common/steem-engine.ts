@@ -131,7 +131,7 @@ export async function loadSteempBalance() {
     }
 }
 
-export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promise<any[]> {
+export async function loadTokens(symbols = [], limit = 50, offset = 0): Promise<any[]> {
     const queryConfig: any = {};
 
     if (symbols.length) {
@@ -140,74 +140,69 @@ export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promis
 
     const results = [];
 
-    const tokens: any[] = await ssc.find('tokens', 'tokens', queryConfig, limit, offset);
+    const metrics = await ssc.find('market', 'metrics', queryConfig);
+    metrics.sort((a, b) => {
+        return (
+            parseFloat(b.volume) - parseFloat(a.volume)
+        );
+    });
 
-    if (!symbols.length) {
-        const tokenSymbols = [];
+    const limitedMetrics = metrics.slice(offset, limit);
 
-        for (const token of tokens) {
-            tokenSymbols.push(token.symbol);
-        }
-
-        queryConfig.symbol = { $in: tokenSymbols };
+    queryConfig.symbol = {
+        $in: limitedMetrics.map(m => m.symbol)
     }
 
-    const metrics = await ssc.find('market', 'metrics', queryConfig, limit, offset, '', false);
+    const tokens: any[] = await ssc.find('tokens', 'tokens', queryConfig, limit, offset, [{ index: 'symbol', descending: false }]);
 
     for (const token of tokens) {
+        if (environment.disabledTokens.includes(token.symbol)) {
+            continue;
+        }
+
         if (token?.metadata) {
             token.metadata = JSON.parse(token.metadata);
         }
 
-        const metric = metrics.find(m => token.symbol == m.symbol);
+        token.highestBid = 0;
+        token.lastPrice = 0;
+        token.lowestAsk = 0;
+        token.marketCap = 0;
+        token.volume = 0;
+        token.priceChangePercent = 0;
+        token.priceChangeSteem = 0;
+
+        const metric = limitedMetrics.find(m => token.symbol == m.symbol);
+
+        if (!metric) {
+            return;
+        }
 
         if (metric) {
-            metric.volume = parseFloat(metric.volume);
-            metric.highestBid = parseFloat(metric.highestBid);
-            metric.lastPrice = parseFloat(metric.lastPrice);
-            metric.lowestAsk = parseFloat(metric.lowestAsk);
-            metric.marketCap = metric.lastPrice * parseFloat(token.circulatingSupply);
-            metric.lastDayPrice = parseFloat(metric.lastDayPrice);
-            metric.volumeExpiration = parseInt(metric.volumeExpiration);
-
-            if (metric.priceChangePercent !== null) {
-                metric.priceChangePercent = metric.priceChangePercent.replace('%', '');
-            }
+            token.highestBid = parseFloat(metric.highestBid);
+            token.lastPrice = parseFloat(metric.lastPrice);
+            token.lowestAsk = parseFloat(metric.lowestAsk);
+            token.marketCap = token.lastPrice * token.circulatingSupply;
 
             if (Date.now() / 1000 < metric.volumeExpiration) {
-                metric.volume = parseFloat(metric.volume);
+                token.volume = parseFloat(metric.volume);
             }
 
             if (Date.now() / 1000 < metric.lastDayPriceExpiration) {
-                metric.priceChangePercent = parseFloat(metric.priceChangePercent);
-                metric.priceChangeSteem = parseFloat(metric.priceChangeSteem);
+                token.priceChangePercent = parseFloat(metric.priceChangePercent);
+                token.priceChangeSteem = parseFloat(metric.priceChangeSteem);
             }
-            
-            token.metric = metric;
-        } else {
-            token.metric = {
-                highestBid: 0,
-                lastPrice: 0,
-                lowestAsk: 0,
-                marketCap: 0,
-                volume: 0,
-                lastDayPrice: 0,
-                priceChangePercent: 0,
-                priceChangeSteem: 0
-            };
         }
 
         if (token.symbol === 'STEEMP') {
-            token.metric.lastPrice = 1;
+            token.lastPrice = 1;
         }
 
         results.push(token);
     }
 
     results.sort((a, b) => {
-        return (
-            (b.metric.volume > 0 ? b.metric.volume : b.metric.marketCap / 1000000000) - (a.metric.volume > 0 ? a.metric.volume : a.metric.marketCap / 1000000000)
-        );
+        return (b.volume > 0 ? b.volume : b.marketCap / 1000000000000) - (a.volume > 0 ? a.volume : a.marketCap / 1000000000000);
     });
 
     const steempBalance = await loadSteempBalance();
@@ -484,41 +479,38 @@ export async function loadUserBalances(account: string, limit = 1000, offset = 0
         const findToken = tokens.find(t => t.symbol === token.symbol);
         const findMetric = metrics.find(m => m.symbol === token.symbol);
 
+        if (!findMetric) {
+            return;
+        }
+
         token.token = findToken;
-        token.metric = findMetric;
 
         if (token.token) {
             token.token.metadata = JSON.parse(token.token.metadata);
         }
         
-        if (token.metric) {
-            token.metric.highestBid = parseFloat(token.metric.highestBid);
-            token.metric.lastPrice = parseFloat(token.metric.lastPrice);
-            token.metric.lowestAsk = parseFloat(token.metric.lowestAsk);
-            token.metric.marketCap = token.metric.lastPrice * parseFloat(token.circulatingSupply);
-            token.metric.lastDayPrice = parseFloat(token.metric.lastDayPrice);
+        token.highestBid = parseFloat(token.highestBid);
+        token.lastPrice = parseFloat(token.lastPrice);
+        token.lowestAsk = parseFloat(token.lowestAsk);
+        token.marketCap = token.lastPrice * parseFloat(token.circulatingSupply);
+        token.lastDayPrice = parseFloat(token.lastDayPrice);
 
-            if (token.metric.priceChangePercent !== null) {
-                token.metric.priceChangePercent = token.metric.priceChangePercent.replace('%', '');
+        if (token?.volumeExpiration >= 0) {
+            if (Date.now() / 1000 < token.volumeExpiration) {
+                token.volume = parseFloat(token.volume);
             }
         }
 
-        if (token?.metric?.volumeExpiration >= 0) {
-            if (Date.now() / 1000 < token.metric.volumeExpiration) {
-                token.metric.volume = parseFloat(token.metric.volume);
+        if (token?.lastDayPriceExpiration >= 0) {
+            if (Date.now() / 1000 < token.lastDayPriceExpiration) {
+                token.priceChangePercent = parseFloat(token.priceChangePercent);
+                token.priceChangeSteem = parseFloat(token.priceChangeSteem);
             }
         }
 
-        if (token?.metric?.lastDayPriceExpiration >= 0) {
-            if (Date.now() / 1000 < token.metric.lastDayPriceExpiration) {
-                token.metric.priceChangePercent = parseFloat(token.metric.priceChangePercent);
-                token.metric.priceChangeSteem = parseFloat(token.metric.priceChangeSteem);
-            }
-        }
-
-        if (token?.metric?.lastPrice) {
-            token.usdValueFormatted = usdFormat(parseFloat(token.balance) * token.metric.lastPrice, 3, prices.steem_price);
-            token.usdValue = usdFormat(parseFloat(token.balance) * token.metric.lastPrice, 3, prices.steem_price, true);
+        if (token?.lastPrice) {
+            token.usdValueFormatted = usdFormat(parseFloat(token.balance) * token.lastPrice, 3, prices.steem_price);
+            token.usdValue = usdFormat(parseFloat(token.balance) * token.lastPrice, 3, prices.steem_price, true);
         } else {
             token.usdValueFormatted = usdFormat(parseFloat(token.balance) * 1, 3, prices.steem_price);
             token.usdValue = usdFormat(parseFloat(token.balance) * 1, 3, prices.steem_price, true);
@@ -542,8 +534,8 @@ export async function loadUserBalances(account: string, limit = 1000, offset = 0
 
         balances.sort(
             (a, b) =>
-                parseFloat(b.balance) * b?.metric?.lastPrice ??
-                0 * window.steem_price - parseFloat(b.balance) * a?.metric?.lastPrice ??
+                parseFloat(b.balance) * b?.lastPrice ??
+                0 * window.steem_price - parseFloat(b.balance) * a?.lastPrice ??
                 0 * window.steem_price,
         );
 
