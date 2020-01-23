@@ -5,7 +5,6 @@ import { HttpClient } from 'aurelia-fetch-client';
 import { queryParam } from 'common/functions';
 import { environment } from './../environment';
 import { ssc } from './ssc';
-import { query } from 'common/apollo';
 
 const SCOT_API = 'https://scot-api.steem-engine.com/';
 
@@ -103,6 +102,40 @@ export async function loadCoins(): Promise<ICoin[]> {
     });
 
     return response.json() as Promise<ICoin[]>;
+}
+
+export async function getFormattedCoinPairs() {
+    const coins = await loadCoins();
+    const pairs = await loadCoinPairs();
+
+    let tokenPairs = [];
+    const nonPeggedCoins = coins.filter(x => x.coin_type !== 'steemengine');
+
+    const steem = { name: 'STEEM', symbol: 'STEEM', pegged_token_symbol: 'STEEMP' };
+    tokenPairs.push(steem);
+
+    for (const x of nonPeggedCoins) {
+        // find pegged coin for each non-pegged coin
+        const coinFound = pairs.find(y => y.from_coin_symbol === x.symbol);
+
+        if (coinFound) {
+            const tp = {
+                name: x.display_name,
+                symbol: x.symbol,
+                pegged_token_symbol: coinFound.to_coin_symbol
+            }
+
+            // check if the token exists
+            if (!tokenPairs.find(x => x.pegged_token_symbol == tp.pegged_token_symbol)) {
+                tokenPairs.push(tp);
+            }
+        }
+    }
+
+    // sort the coins
+    tokenPairs = tokenPairs.sort((a, b) => a.name.localeCompare(b.name));
+
+    return tokenPairs;
 }
 
 export function parseTokens(data: any): State {
