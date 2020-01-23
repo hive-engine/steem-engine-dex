@@ -14,6 +14,7 @@ import {
     loadExchangeUiLoggedOut,
     parseTokens,
     loadConversionSentReceived,
+    loadPendingWithdrawals,
 } from 'common/steem-engine';
 import { ssc } from 'common/ssc';
 import moment from 'moment';
@@ -399,11 +400,7 @@ export async function getPendingWithdrawals(state: State) {
 
     if (newState.loggedIn) {
         try {
-            const {
-                data: { pendingWithdrawals },
-            } = (await query(
-                `query { pendingWithdrawals(account: "${newState.account.name}") { memo, quantity, type } }`,
-            )) as any;
+            const pendingWithdrawals = await loadPendingWithdrawals(state.account.name);
     
             newState.pendingWithdrawals = pendingWithdrawals;
         } catch (e) {

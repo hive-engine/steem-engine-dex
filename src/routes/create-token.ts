@@ -1,7 +1,7 @@
+import { ssc } from 'common/ssc';
 import { Router } from 'aurelia-router';
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-undef */
-import { query } from 'common/apollo';
 import { BootstrapFormRenderer } from './../resources/bootstrap-form-renderer';
 import { loadAccountBalances } from 'store/actions';
 import { Store, dispatchify } from 'aurelia-store';
@@ -38,8 +38,8 @@ export class CreateToken {
     async activate() {
         await dispatchify(loadAccountBalances)();
 
-        const data = await query(`query { tokenParams { tokenCreationFee } }`);
-        const tokenCreationFee = data?.data?.tokenParams?.[0]?.tokenCreationFee ?? 100;
+        const data = await ssc.find('tokens', 'params', {});
+        const tokenCreationFee = data?.tokenParams?.[0]?.tokenCreationFee ?? 100;
 
         this.tokenCreationFee = parseInt(tokenCreationFee);
     }

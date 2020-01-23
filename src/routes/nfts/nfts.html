@@ -52,34 +52,19 @@
                                     >
                                 </td>
                                 <td class="table-buttons">
-                                    <a
-                                        click.delegate="showTokenInfo(token)"
-                                        href="javascript:void(0);"
-                                        title="Token information"
-                                    >
+                                    <a click.delegate="showTokenInfo(token)" href="javascript:void(0);" title="Token information">
                                         <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
                                     </a>
-                                    <a
-                                        route-href="route: nft; params.bind: { symbol: token.symbol }"
-                                        title="Issued NFT's and information"
-                                    >
+                                    <a route-href="route: nft; params.bind: { symbol: token.symbol }" title="Issued NFT's and information">
                                         <font-awesome-icon icon.bind="['fas', 'atlas']"></font-awesome-icon>
                                     </a>
                                     <a if.bind="token.marketEnabled" route-href="route: nft-detail; params.bind: { symbol: token.symbol }">
                                         <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
                                     </a>
-                                    <a
-                                        if.bind="userCanIssue(token)"
-                                        route-href="route: nftIssue; params.bind: { symbol: token.symbol }"
-                                        title="Issue NFT"
-                                    >
+                                    <a if.bind="userCanIssue(token)" route-href="route: nftIssue; params.bind: { symbol: token.symbol }" title="Issue NFT">
                                         <font-awesome-icon icon.bind="['fas', 'share-square']"></font-awesome-icon>
                                     </a>
-                                    <a
-                                        if.bind="userCanModify(token)"
-                                        route-href="route: nftProperties; params.bind: { symbol: token.symbol }"
-                                        title="Add Properties"
-                                    >
+                                    <a if.bind="userCanModify(token)" route-href="route: nftProperties; params.bind: { symbol: token.symbol }" title="Add Properties">
                                         <font-awesome-icon icon.bind="['fas', 'cog']"></font-awesome-icon>
                                     </a>
                                     <a
