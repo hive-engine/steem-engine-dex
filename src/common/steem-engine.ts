@@ -113,8 +113,10 @@ export function parseTokens(data: any): State {
     if (data.steempBalance && data.steempBalance.balance) {
         const token = tokens.find(t => t.symbol === 'STEEMP');
 
-        token.supply -= parseFloat(data.steempBalance.balance);
-        (token as any).circulatingSupply -= parseFloat(data.steempBalance.balance);
+        if (token) {
+            token.supply -= parseFloat(data.steempBalance.balance);
+            (token as any).circulatingSupply -= parseFloat(data.steempBalance.balance);
+        }
     }
 
     return tokens;
