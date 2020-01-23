@@ -138,6 +138,14 @@ export async function getFormattedCoinPairs() {
     return tokenPairs;
 }
 
+export function loadPendingWithdrawals(account: string, limit = 1000, offset = 0) {
+    const queryConfig: any = {
+        recipient: account
+    };
+
+    return ssc.find('steempegged', 'withdrawals', queryConfig, limit, offset);
+}
+
 export function parseTokens(data: any): State {
     const tokens = data.tokens.filter(t => !environment.disabledTokens.includes(t.symbol));
 
