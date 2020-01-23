@@ -140,26 +140,27 @@ export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promis
 
     const results = [];
 
-    const tokens: any[] = await ssc.find('tokens', 'tokens', queryConfig, limit, offset);
+    const metrics = await ssc.find('market', 'metrics', queryConfig);
+    metrics.sort((a, b) => {
+        return (
+            parseFloat(b.volume) - parseFloat(a.volume)
+        );
+    });
 
-    if (!symbols.length) {
-        const tokenSymbols = [];
+    const limitedMetrics = metrics.slice(offset, limit);
 
-        for (const token of tokens) {
-            tokenSymbols.push(token.symbol);
-        }
-
-        queryConfig.symbol = { $in: tokenSymbols };
+    queryConfig.symbol = {
+        $in: limitedMetrics.map(m => m.symbol)
     }
 
-    const metrics = await ssc.find('market', 'metrics', queryConfig, limit, offset, '', false);
+    const tokens: any[] = await ssc.find('tokens', 'tokens', queryConfig, limit, offset, [{ index: 'symbol', descending: false }]);
 
     for (const token of tokens) {
         if (token?.metadata) {
             token.metadata = JSON.parse(token.metadata);
         }
 
-        const metric = metrics.find(m => token.symbol == m.symbol);
+        const metric = limitedMetrics.find(m => token.symbol == m.symbol);
 
         if (metric) {
             metric.volume = parseFloat(metric.volume);
