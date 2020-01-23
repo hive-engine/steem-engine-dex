@@ -1,10 +1,13 @@
-import { query } from 'common/apollo';
+import { NftService } from './../services/nft-service';
+import { Container } from 'aurelia-framework';
 import { ValidationRules } from 'aurelia-validation';
 
-async function nftExists(symbol: string) {
-    const response = await query(`query { nft(symbol: "${symbol}") { symbol } }`);
+const nftService = Container.instance.get(NftService);
 
-    return response.data.nft !== null ? false : true;
+async function nftExists(symbol: string) {
+    const nft = await nftService.loadNft(symbol);
+
+    return nft !== null ? false : true;
 }
 
 ValidationRules.customRule('nftAvailable', async (value, obj) => {
