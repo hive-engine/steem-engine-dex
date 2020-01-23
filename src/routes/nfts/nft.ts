@@ -1,3 +1,5 @@
+import { sleep } from 'common/functions';
+import { NftSellModal } from './../../modals/nft/nft-sell';
 import { NftService } from './../../services/nft-service';
 import { NftPropertiesModal } from './../../modals/nft/nft-properties';
 import { DialogService } from 'aurelia-dialog';
@@ -32,6 +34,16 @@ export class Nft {
         });
     }
 
+    sellNft(token) {
+        this.dialogService.open({ viewModel: NftSellModal, model: token }).whenClosed(async (result) => {
+            if (!result.wasCancelled) {
+                await sleep(3200);
+                
+                window.location.reload();
+            }
+        })
+    }
+
     userCanModify(token) {
         if (token.issuer === this.state.account.name || token.authorizedIssuingAccounts && token.authorizedIssuingAccounts.includes(this.state.account.name)) {
             return true;
@@ -41,7 +53,7 @@ export class Nft {
     }
 
     userCanIssue(token) {
-        if (token.authorizedIssuingAccounts && token.authorizedIssuingAccounts.includes(this.state.account.name)) {
+        if (token.issuer === this.state.account.name || token.authorizedIssuingAccounts && token.authorizedIssuingAccounts.includes(this.state.account.name)) {
             return true;
         }
 
