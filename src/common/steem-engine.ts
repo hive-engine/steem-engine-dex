@@ -4,7 +4,6 @@ import { HttpClient } from 'aurelia-fetch-client';
 import { queryParam } from 'common/functions';
 import { environment } from './../environment';
 import { ssc } from './ssc';
-import { getStateOnce } from 'store/store';
 import { query } from 'common/apollo';
 
 const SCOT_API = 'https://scot-api.steem-engine.com/';
@@ -245,45 +244,11 @@ export async function loadAccountTokenBalances(account, symbol, limit = 2, offse
     return ssc.find('tokens', 'balances', { account: account, symbol : { '$in' : [symbol, 'STEEMP'] } }, limit, offset, '', false);
 }
 
-export async function loadtokens(symbols, limit = 1000, offset = 0) {
-    const queryConfig = {
-        $in: symbols
-    }
-
-    return ssc.find('tokens', 'tokens', queryConfig, limit, offset, [{ index: 'symbol', descending: false }]);
-}
-
 /* istanbul ignore next */
 export async function loadExchangeUiLoggedIn(account, symbol) {
+    const tokens = await loadTokens([`${symbol}`, 'STEEMP']);
+
     const callQl = await query(`query {
-        tokens(symbols: ["${symbol}", "STEEMP"]) {
-            issuer,
-            symbol,
-            name,
-            metadata {
-                url,
-                icon,
-                desc
-            },
-            metric {
-                symbol,
-                volume,
-                volumeExpiration,
-                lastPrice,
-                lowestAsk,
-                highestBid,
-                lastDayPrice,
-                lastDayPriceExpiration,
-                priceChangeSteem,
-                priceChangePercent
-            },
-            precision,
-            maxSupply,
-            supply,
-            circulatingSupply,
-            stakingEnabled,
-            delegationEnabled
-        },
         steempBalance {
             account,
             symbol,
@@ -357,7 +322,17 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
     }
     `);
 
-    return callQl?.data as {
+    const response = {
+        tokens: tokens,
+        steempBalance: callQl?.data.steempBalance,
+        userBalances: callQl?.data.userBalances,
+        buyBook: callQl?.data.buyBook,
+        sellBook: callQl?.data.sellBook,
+        tradesHistory: callQl?.data.tradesHistory,
+        userBuyBook: callQl?.data.userBuyBook,
+        userSellBook: callQl?.data.userSellBook,
+        tokenBalance: callQl?.data.tokenBalance
+    } as {
         tokens: IToken[];
         steempBalance: IBalance;
         userBalances: IBalance[];
@@ -368,6 +343,8 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
         userSellBook: any;
         tokenBalance: any;
     };
+
+    return response;
 }
 
 /* istanbul ignore next */
