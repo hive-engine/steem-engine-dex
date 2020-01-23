@@ -6,14 +6,15 @@
                     <h1>${state.nft.symbol & t}</h1>
                     <h3>${state.nft.name}</h3>
                     <p class="meta text-muted">Current supply: ${state.nft.supply} // Max supply: ${state.nft.maxSupply > 0 ? state.nft.maxSupply : 'Unlimited'}</p>
-                    <a
-                    if.bind="userCanIssue(state.nft)"
-                    route-href="route: nftIssue; params.bind: { symbol: state.nft.symbol }"
-                    title="Issue NFT"
-                >${'Issue NFT' & t}
+                    <a class="text-dark" if.bind="userCanIssue(state.nft)" route-href="route: nftIssue; params.bind: { symbol: state.nft.symbol }" title="Issue NFT">
+                        ${'Issue NFT' & t}
                     <font-awesome-icon
                         icon.bind="['fas', 'share-square']"
                     ></font-awesome-icon>
+                </a>
+                &nbsp; &nbsp;
+                <a class="text-dark" if.bind="state.nft.marketEnabled" route-href="route: nft-detail; params.bind: { symbol: state.nft.symbol }">
+                    Visit market <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
                 </a>
                 </div>
             </div>
@@ -41,9 +42,9 @@
                                 <button click.delegate="showNftProperties(token)" title="NFT Properties">
                                     <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
                                 </button>
-                                <a if.bind="state.nft.marketEnabled" route-href="route: nft-detail; params.bind: { symbol: state.nft.symbol }">
-                                    <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
-                                </a>
+                                <button click.delegate="sellNft(token)" title="Sell NFT token" if.bind="state.nft.marketEnabled && state.account.name == token.account">
+                                    <font-awesome-icon icon.bind="['fas', 'usd-circle']"></font-awesome-icon>
+                                </button>
                             </td>
                         </tr>
                     </tbody>
