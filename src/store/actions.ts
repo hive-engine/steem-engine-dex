@@ -107,7 +107,7 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
             }
 
             // eslint-disable-next-line no-undef
-            if (newState?.firebaseUser?.favourites) {
+            if (newState?.firebaseUser?.favourites && newState?.account?.balances) {
                 newState.account.balances.map((token: any) => {
                     if (newState.firebaseUser.favourites.includes(token.symbol)) {
                         token.isFavourite = true;

@@ -477,16 +477,28 @@ export async function loadUserBalances(account: string, limit = 1000, offset = 0
         }
 
         const findToken = tokens.find(t => t.symbol === token.symbol);
-        const findMetric = metrics.find(m => m.symbol === token.symbol);
-
-        if (!findMetric) {
-            return;
-        }
+        const metric = metrics.find(m => m.symbol === token.symbol);
 
         token.token = findToken;
 
         if (token.token) {
             token.token.metadata = JSON.parse(token.token.metadata);
+        }
+
+        if (metric) {
+            token.highestBid = parseFloat(metric.highestBid);
+            token.lastPrice = parseFloat(metric.lastPrice);
+            token.lowestAsk = parseFloat(metric.lowestAsk);
+            token.marketCap = token.lastPrice * token.circulatingSupply;
+
+            if (Date.now() / 1000 < metric.volumeExpiration) {
+                token.volume = parseFloat(metric.volume);
+            }
+
+            if (Date.now() / 1000 < metric.lastDayPriceExpiration) {
+                token.priceChangePercent = parseFloat(metric.priceChangePercent);
+                token.priceChangeSteem = parseFloat(metric.priceChangeSteem);
+            }
         }
         
         token.highestBid = parseFloat(token.highestBid);
@@ -494,19 +506,6 @@ export async function loadUserBalances(account: string, limit = 1000, offset = 0
         token.lowestAsk = parseFloat(token.lowestAsk);
         token.marketCap = token.lastPrice * parseFloat(token.circulatingSupply);
         token.lastDayPrice = parseFloat(token.lastDayPrice);
-
-        if (token?.volumeExpiration >= 0) {
-            if (Date.now() / 1000 < token.volumeExpiration) {
-                token.volume = parseFloat(token.volume);
-            }
-        }
-
-        if (token?.lastDayPriceExpiration >= 0) {
-            if (Date.now() / 1000 < token.lastDayPriceExpiration) {
-                token.priceChangePercent = parseFloat(token.priceChangePercent);
-                token.priceChangeSteem = parseFloat(token.priceChangeSteem);
-            }
-        }
 
         if (token?.lastPrice) {
             token.usdValueFormatted = usdFormat(parseFloat(token.balance) * token.lastPrice, 3, prices.steem_price);
