@@ -42,7 +42,7 @@
                                 <button click.delegate="showNftProperties(token)" title="NFT Properties">
                                     <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
                                 </button>
-                                <button click.delegate="sellNft(token)" title="Sell NFT token" if.bind="token.marketEnabled && state.account.name == token.account">
+                                <button click.delegate="sellNft(token)" title="Sell NFT token" if.bind="state.nft.marketEnabled && state.account.name == token.account">
                                     <font-awesome-icon icon.bind="['fas', 'usd-circle']"></font-awesome-icon>
                                 </button>
                             </td>
