@@ -194,6 +194,10 @@ legend {
     border-top-color: rgba(255, 255, 255, 0.1);
 }
 
+.table-dark {
+    background: none;
+}
+
 .table-dark td,
 .table-dark th,
 .table-dark thead th {
