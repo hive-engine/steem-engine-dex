@@ -46,14 +46,6 @@ export class App {
     }
 
     bind() {
-        query(`query {
-            coinPairs {
-                name,
-                pegged_token_symbol,
-                symbol
-              }
-        }`);
-
         this.store.state.subscribe((s: State) => {
             if (s) {
                 this.state = s;
