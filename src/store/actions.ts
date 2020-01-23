@@ -425,7 +425,7 @@ export async function getNfts(state: State): Promise<State> {
     
             (nft as any).marketEnabled = exists;
             
-            if (nft.authorizedIssuingAccounts && nft.authorizedIssuingAccounts.includes(newState.account.name) && !(nft as any).groupBy.length) {
+            if (nft.issuer === newState.account.name || nft.authorizedIssuingAccounts && nft.authorizedIssuingAccounts.includes(newState.account.name) && !(nft as any).groupBy.length) {
                 (nft as any).userCanEnableMarket = true;
             } else {
                 (nft as any).userCanEnableMarket = false;
