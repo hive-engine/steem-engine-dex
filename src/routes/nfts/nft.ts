@@ -35,6 +35,8 @@ export class Nft {
     }
 
     sellNft(token) {
+        token.symbol = this.state.nft.symbol;
+        
         this.dialogService.open({ viewModel: NftSellModal, model: token }).whenClosed(async (result) => {
             if (!result.wasCancelled) {
                 await sleep(3200);
