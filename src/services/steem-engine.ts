@@ -13,7 +13,7 @@ import steem from 'steem';
 import { Store } from 'aurelia-store';
 import { Subscription } from 'rxjs';
 
-import { loadTokens, checkTransaction } from 'common/steem-engine';
+import { loadTokens, checkTransaction, loadCoinPairs, loadCoins, getFormattedCoinPairs } from 'common/steem-engine';
 import { steemConnectJsonId, steemConnectJson, getAccount, steemConnectTransfer } from 'common/steem';
 
 import { ToastService, ToastMessage } from './toast-service';
@@ -783,23 +783,7 @@ export class SteemEngine {
 
     getTokens() {
         return this.tokens;
-    }
-
-    async showHistory(symbol: string, username: string) {
-        try {
-            const history = await this.request('/history?', {
-                account: username,
-                limit: 100,
-                offset: 0,
-                type: 'user',
-                symbol: symbol
-            });
-
-            return history.json();
-        } catch (e) {
-            return [];
-        }
-    }
+    }   
 
     async checkAccount(name) {
         const response = await steem.api.getAccountsAsync([name]);
@@ -1135,16 +1119,9 @@ export class SteemEngine {
     }
 
     async getDepositAddress(symbol) {
-        const pairs = await query(`query {
-            coinPairs {
-                name,
-                pegged_token_symbol,
-                symbol
-              }
-        }`);     
+        const pairs = await getFormattedCoinPairs();     
         
-        const tokenPairs = pairs.data.coinPairs;
-        const peggedToken = tokenPairs.find(p => p.symbol === symbol);
+        const peggedToken = pairs.find(p => p.symbol === symbol);
 
         if (!peggedToken) {
             return;
@@ -1172,17 +1149,9 @@ export class SteemEngine {
     }
 
     async getWithdrawalAddress(symbol, address) {
-        const pairs = await query(`query {
-            coinPairs {
-                name,
-                pegged_token_symbol,
-                symbol
-              }
-        }`);     
-        
-        const tokenPairs = pairs.data.coinPairs;
+        const pairs = await getFormattedCoinPairs();
 
-        const peggedToken = tokenPairs.find(p => p.symbol === symbol);
+        const peggedToken = pairs.find(p => p.symbol === symbol);
 
         if (!peggedToken) {
             return;

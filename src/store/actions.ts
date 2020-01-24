@@ -14,6 +14,7 @@ import {
     loadExchangeUiLoggedOut,
     parseTokens,
     loadConversionSentReceived,
+    loadPendingWithdrawals,
 } from 'common/steem-engine';
 import { ssc } from 'common/ssc';
 import moment from 'moment';
@@ -107,7 +108,7 @@ export async function getCurrentFirebaseUser(state: State): Promise<State> {
             }
 
             // eslint-disable-next-line no-undef
-            if (newState?.firebaseUser?.favourites) {
+            if (newState?.firebaseUser?.favourites && newState?.account?.balances) {
                 newState.account.balances.map((token: any) => {
                     if (newState.firebaseUser.favourites.includes(token.symbol)) {
                         token.isFavourite = true;
@@ -399,11 +400,7 @@ export async function getPendingWithdrawals(state: State) {
 
     if (newState.loggedIn) {
         try {
-            const {
-                data: { pendingWithdrawals },
-            } = (await query(
-                `query { pendingWithdrawals(account: "${newState.account.name}") { memo, quantity, type } }`,
-            )) as any;
+            const pendingWithdrawals = await loadPendingWithdrawals(state.account.name);
     
             newState.pendingWithdrawals = pendingWithdrawals;
         } catch (e) {
@@ -425,7 +422,7 @@ export async function getNfts(state: State): Promise<State> {
     
             (nft as any).marketEnabled = exists;
             
-            if (nft.authorizedIssuingAccounts && nft.authorizedIssuingAccounts.includes(newState.account.name) && !(nft as any).groupBy.length) {
+            if (nft.issuer === newState.account.name || nft.authorizedIssuingAccounts && nft.authorizedIssuingAccounts.includes(newState.account.name) && !(nft as any).groupBy.length) {
                 (nft as any).userCanEnableMarket = true;
             } else {
                 (nft as any).userCanEnableMarket = false;
@@ -465,6 +462,9 @@ export async function getNft(state: State, symbol: string): Promise<State> {
     try {
         const nft = await nftService.loadNft(symbol);
         const orders = await nftService.loadSellBook(symbol, null);
+        const marketEnabled = await nftService.sellBookExists(symbol);
+
+        nft.marketEnabled = marketEnabled;
     
         (nft as any).orders = orders;
     

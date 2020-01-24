@@ -33,10 +33,10 @@ export class Issue {
 
     async canActivate({ symbol }) {
         if (symbol) {
-            const response = await query(`query { nft(symbol: "${symbol}") { properties { isReadOnly, name, type }}}`);
+            const response = await this.nftService.loadNft(symbol);
 
-            if (response?.data?.nft) {
-                this.token = response.data.nft;
+            if (response) {
+                this.token = response;
             }
 
             this.symbol = symbol;
