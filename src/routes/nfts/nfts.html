@@ -116,7 +116,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <table class="nft-card" ref="tokenTable">
-                        <div class="each-nft padding-add" repeat.for="token of state.nfts">
+                        <div
+                            class="each-nft padding-add"
+                            style="display: flex; color: black;"
+                            repeat.for="token of state.nfts"
+                        >
                             <div class="each-nft-icon col-1">
                                 <img
                                     if.bind="token.metadata.icon"
@@ -126,8 +130,12 @@
                                     title="${token.symbol}"
                                 />
                             </div>
-                            <div class="each-nft-symbol-div col-3">${token.symbol}</div>
-                            <div class="each-nft-price col-2">
+                            <div class="each-nft-symbol-div col-3">
+                                <a route-href="route: nft-detail; params.bind: { symbol: token.symbol }"
+                                    >${token.symbol}</a
+                                >
+                            </div>
+                            <div class="each-nft-price col-4">
                                 <template repeat.for="val of token.authorizedIssuingAccounts"
                                     >${val}${!$last ? ', ': ''}</template
                                 >
