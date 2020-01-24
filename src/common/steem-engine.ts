@@ -1,13 +1,13 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { usdFormat } from 'common/functions';
 /* eslint-disable no-undef */
 import { HttpClient } from 'aurelia-fetch-client';
 import { queryParam } from 'common/functions';
 import { environment } from './../environment';
 import { ssc } from './ssc';
-import { getStateOnce } from 'store/store';
-import { query } from 'common/apollo';
 
 const SCOT_API = 'https://scot-api.steem-engine.com/';
+
 const http = new HttpClient();
 
 export async function request(url: string, params: any = {}) {
@@ -27,12 +27,8 @@ export async function request(url: string, params: any = {}) {
  * @param timestampStart a unix timestamp that represents the start of the dataset (optional)
  * @param timestampEnd a unix timestamp that represents the end of the dataset (optional)
  */
-export async function loadTokenMarketHistory(
-    symbol: string,
-    timestampStart?: string,
-    timestampEnd?: string,
-): Promise<IHistoryApiItem[]> {
-    let url = `${environment.HISTORY_API}?symbol=${symbol.toUpperCase()}`;
+export async function loadTokenMarketHistory(symbol: string, timestampStart?: string, timestampEnd?: string): Promise<IHistoryApiItem[]> {
+    let url = `${environment.HISTORY_API}marketHistory?symbol=${symbol.toUpperCase()}`;
 
     if (timestampStart) {
         url += `&timestampStart=${timestampStart}`;
@@ -47,6 +43,43 @@ export async function loadTokenMarketHistory(
     });
 
     return response.json() as Promise<IHistoryApiItem[]>;
+}
+
+export async function loadAccountHistory(
+    account: string,
+    symbol?: string,
+    timestampStart?: string,
+    timestampEnd?: string,
+    limit?: number,
+    offset?: number,
+): Promise<IAccountHistoryItemResult[]> {
+    let url = `${environment.HISTORY_API}accountHistory?account=${account}`;
+
+    if (symbol) {
+        url += `&symbol=${symbol.toUpperCase()}`;
+    }
+
+    if (timestampStart) {
+        url += `&timestampStart=${timestampStart}`;
+    }
+
+    if (timestampEnd) {
+        url += `&timestampEnd=${timestampEnd}`;
+    }
+
+    if (limit) {
+        url += `&limit=${limit}`;
+    }
+
+    if (offset) {
+        url += `&offset=${offset}`;
+    }
+
+    const response = await http.fetch(url, {
+        method: 'GET',
+    });
+
+    return response.json() as Promise<IAccountHistoryItemResult[]>;
 }
 
 /* istanbul ignore next */
@@ -71,14 +104,58 @@ export async function loadCoins(): Promise<ICoin[]> {
     return response.json() as Promise<ICoin[]>;
 }
 
+export async function getFormattedCoinPairs() {
+    const coins = await loadCoins();
+    const pairs = await loadCoinPairs();
+
+    let tokenPairs = [];
+    const nonPeggedCoins = coins.filter(x => x.coin_type !== 'steemengine');
+
+    const steem = { name: 'STEEM', symbol: 'STEEM', pegged_token_symbol: 'STEEMP' };
+    tokenPairs.push(steem);
+
+    for (const x of nonPeggedCoins) {
+        // find pegged coin for each non-pegged coin
+        const coinFound = pairs.find(y => y.from_coin_symbol === x.symbol);
+
+        if (coinFound) {
+            const tp = {
+                name: x.display_name,
+                symbol: x.symbol,
+                pegged_token_symbol: coinFound.to_coin_symbol
+            }
+
+            // check if the token exists
+            if (!tokenPairs.find(x => x.pegged_token_symbol == tp.pegged_token_symbol)) {
+                tokenPairs.push(tp);
+            }
+        }
+    }
+
+    // sort the coins
+    tokenPairs = tokenPairs.sort((a, b) => a.name.localeCompare(b.name));
+
+    return tokenPairs;
+}
+
+export function loadPendingWithdrawals(account: string, limit = 1000, offset = 0) {
+    const queryConfig: any = {
+        recipient: account
+    };
+
+    return ssc.find('steempegged', 'withdrawals', queryConfig, limit, offset);
+}
+
 export function parseTokens(data: any): State {
     const tokens = data.tokens.filter(t => !environment.disabledTokens.includes(t.symbol));
 
     if (data.steempBalance && data.steempBalance.balance) {
         const token = tokens.find(t => t.symbol === 'STEEMP');
 
-        token.supply -= parseFloat(data.steempBalance.balance);
-        (token as any).circulatingSupply -= parseFloat(data.steempBalance.balance);
+        if (token) {
+            token.supply -= parseFloat(data.steempBalance.balance);
+            (token as any).circulatingSupply -= parseFloat(data.steempBalance.balance);
+        }
     }
 
     return tokens;
@@ -94,7 +171,7 @@ export async function loadSteempBalance() {
     }
 }
 
-export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promise<any[]> {
+export async function loadTokens(symbols = [], limit = 50, offset = 0): Promise<any[]> {
     const queryConfig: any = {};
 
     if (symbols.length) {
@@ -103,74 +180,69 @@ export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promis
 
     const results = [];
 
-    const tokens: any[] = await ssc.find('tokens', 'tokens', queryConfig, limit, offset);
+    const metrics = await ssc.find('market', 'metrics', queryConfig);
+    metrics.sort((a, b) => {
+        return (
+            parseFloat(b.volume) - parseFloat(a.volume)
+        );
+    });
 
-    if (!symbols.length) {
-        const tokenSymbols = [];
+    const limitedMetrics = metrics.slice(offset, limit);
 
-        for (const token of tokens) {
-            tokenSymbols.push(token.symbol);
-        }
-
-        queryConfig.symbol = { $in: tokenSymbols };
+    queryConfig.symbol = {
+        $in: limitedMetrics.map(m => m.symbol)
     }
 
-    const metrics = await ssc.find('market', 'metrics', queryConfig, limit, offset, '', false);
+    const tokens: any[] = await ssc.find('tokens', 'tokens', queryConfig, limit, offset, [{ index: 'symbol', descending: false }]);
 
     for (const token of tokens) {
+        if (environment.disabledTokens.includes(token.symbol)) {
+            continue;
+        }
+
         if (token?.metadata) {
             token.metadata = JSON.parse(token.metadata);
         }
 
-        const metric = metrics.find(m => token.symbol == m.symbol);
+        token.highestBid = 0;
+        token.lastPrice = 0;
+        token.lowestAsk = 0;
+        token.marketCap = 0;
+        token.volume = 0;
+        token.priceChangePercent = 0;
+        token.priceChangeSteem = 0;
+
+        const metric = limitedMetrics.find(m => token.symbol == m.symbol);
+
+        if (!metric) {
+            return;
+        }
 
         if (metric) {
-            metric.volume = parseFloat(metric.volume);
-            metric.highestBid = parseFloat(metric.highestBid);
-            metric.lastPrice = parseFloat(metric.lastPrice);
-            metric.lowestAsk = parseFloat(metric.lowestAsk);
-            metric.marketCap = metric.lastPrice * parseFloat(token.circulatingSupply);
-            metric.lastDayPrice = parseFloat(metric.lastDayPrice);
-            metric.volumeExpiration = parseInt(metric.volumeExpiration);
-
-            if (metric.priceChangePercent !== null) {
-                metric.priceChangePercent = metric.priceChangePercent.replace('%', '');
-            }
+            token.highestBid = parseFloat(metric.highestBid);
+            token.lastPrice = parseFloat(metric.lastPrice);
+            token.lowestAsk = parseFloat(metric.lowestAsk);
+            token.marketCap = token.lastPrice * token.circulatingSupply;
 
             if (Date.now() / 1000 < metric.volumeExpiration) {
-                metric.volume = parseFloat(metric.volume);
+                token.volume = parseFloat(metric.volume);
             }
 
             if (Date.now() / 1000 < metric.lastDayPriceExpiration) {
-                metric.priceChangePercent = parseFloat(metric.priceChangePercent);
-                metric.priceChangeSteem = parseFloat(metric.priceChangeSteem);
+                token.priceChangePercent = parseFloat(metric.priceChangePercent);
+                token.priceChangeSteem = parseFloat(metric.priceChangeSteem);
             }
-            
-            token.metric = metric;
-        } else {
-            token.metric = {
-                highestBid: 0,
-                lastPrice: 0,
-                lowestAsk: 0,
-                marketCap: 0,
-                volume: 0,
-                lastDayPrice: 0,
-                priceChangePercent: 0,
-                priceChangeSteem: 0
-            };
         }
 
         if (token.symbol === 'STEEMP') {
-            token.metric.lastPrice = 1;
+            token.lastPrice = 1;
         }
 
         results.push(token);
     }
 
     results.sort((a, b) => {
-        return (
-            (b.metric.volume > 0 ? b.metric.volume : b.metric.marketCap / 1000000000) - (a.metric.volume > 0 ? a.metric.volume : a.metric.marketCap / 1000000000)
-        );
+        return (b.volume > 0 ? b.volume : b.marketCap / 1000000000000) - (a.volume > 0 ? a.volume : a.marketCap / 1000000000000);
     });
 
     const steempBalance = await loadSteempBalance();
@@ -189,111 +261,53 @@ export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promis
     return finalTokens;
 }
 
+export async function loadBuyBook(symbol, limit = 200, offset = 0) {
+    return ssc.find('market', 'buyBook', { symbol: symbol }, limit, offset, [{ index: 'priceDec', descending: true }], false);
+}
+
+export async function loadAccountBuyBook(symbol, account, limit = 200, offset = 0) {
+    return ssc.find('market', 'buyBook', { symbol: symbol, account: account }, limit, offset, [{ index: '_id', descending: true }], false);
+}
+
+export async function loadSellBook(symbol, limit = 200, offset = 0) {
+    return ssc.find('market', 'sellBook', { symbol: symbol }, limit, offset, [{ index: 'priceDec', descending: false }], false);
+}
+
+export async function loadAccountSellBook(symbol, account, limit = 100, offset = 0) {
+    return ssc.find('market', 'sellBook', { symbol: symbol, account: account }, limit, offset, [{ index: '_id', descending: true }], false);
+}
+
+export async function loadTradesHistory(symbol, limit = 30, offset = 0) {
+    return ssc.find('market', 'tradesHistory', { symbol: symbol }, limit, offset, [{ index: '_id', descending: true }], false)
+}
+
+export async function loadAccountTokenBalances(account, symbol, limit = 2, offset = 0) {
+    return ssc.find('tokens', 'balances', { account: account, symbol : { '$in' : [symbol, 'STEEMP'] } }, limit, offset, '', false);
+}
+
 /* istanbul ignore next */
 export async function loadExchangeUiLoggedIn(account, symbol) {
-    const callQl = await query(`query {
-        tokens(symbols: ["${symbol}", "STEEMP"]) {
-            issuer,
-            symbol,
-            name,
-            metadata {
-                url,
-                icon,
-                desc
-            },
-            metric {
-                symbol,
-                volume,
-                volumeExpiration,
-                lastPrice,
-                lowestAsk,
-                highestBid,
-                lastDayPrice,
-                lastDayPriceExpiration,
-                priceChangeSteem,
-                priceChangePercent
-            },
-            precision,
-            maxSupply,
-            supply,
-            circulatingSupply,
-            stakingEnabled,
-            delegationEnabled
-        },
-        steempBalance {
-            account,
-            symbol,
-            balance
-        },
-        userBalances: balances(account: "${account}", limit: 1000, offset: 0) {
-            account,
-            symbol,
-            balance,
-            delegationsIn,
-            delegationsOut,
-            pendingUndelegations,
-            stake,
-            pendingUnstake,
-            scotConfig {
-                pending_token,
-                staked_tokens
-            },
-            usdValueFormatted
-        },
-        buyBook(symbol: "${symbol}", limit: 1000, offset: 0) {
-            txId,
-            timestamp,
-            account,
-            symbol,
-            quantity,
-            price,
-            tokensLocked,
-            expiration
-          },
-          sellBook(symbol: "${symbol}", limit: 1000, offset: 0) {
-            txId,
-            timestamp,
-            account,
-            symbol,
-            quantity,
-            price,
-            expiration
-          },
-          tradesHistory(symbol: "${symbol}", limit: 30, offset: 0) {
-            type,
-            symbol,
-            quantity,
-            price,
-            timestamp
-          },
-          userBuyBook: buyBook(symbol: "${symbol}", account: "${account}", limit: 100, offset: 0) {
-            txId,
-            timestamp,
-            account,
-            symbol,
-            quantity,
-            price,
-            tokensLocked,
-            expiration
-          },
-          userSellBook: sellBook(symbol: "${symbol}", account: "${account}", limit: 100, offset: 0) {
-            txId,
-            timestamp,
-            account,
-            symbol,
-            quantity,
-            price,
-            expiration
-          },
-          tokenBalance(symbol: "${symbol}", account: "${account}") {
-            account,
-            symbol,
-            balance
-          }
-    }
-    `);
+    const tokens = await loadTokens([`${symbol}`, 'STEEMP']);
+    const steempBalance = await loadSteempBalance();
+    const userBalances = await loadUserBalances(account, 1000, 0);
+    const buyBook = await loadBuyBook(symbol, 1000, 0);
+    const sellBook = await loadSellBook(symbol, 1000, 0);
+    const tradesHistory = await loadTradesHistory(symbol, 30, 0);
+    const userBuyBook = await loadAccountBuyBook(symbol, account, 100, 0);
+    const userSellBook = await loadAccountSellBook(symbol, account, 100, 0);
+    const tokenBalance = await loadAccountTokenBalances(account, symbol);
 
-    return callQl?.data as {
+    const response = {
+        tokens: tokens,
+        steempBalance: steempBalance,
+        userBalances: userBalances,
+        buyBook: buyBook,
+        sellBook: sellBook,
+        tradesHistory: tradesHistory,
+        userBuyBook: userBuyBook,
+        userSellBook: userSellBook,
+        tokenBalance: tokenBalance
+    } as {
         tokens: IToken[];
         steempBalance: IBalance;
         userBalances: IBalance[];
@@ -304,74 +318,25 @@ export async function loadExchangeUiLoggedIn(account, symbol) {
         userSellBook: any;
         tokenBalance: any;
     };
+
+    return response;
 }
 
 /* istanbul ignore next */
 export async function loadExchangeUiLoggedOut(symbol) {
-    const callQl = await query(`query {
-        tokens(symbols: ["${symbol}", "STEEMP"]) {
-            issuer,
-            symbol,
-            name,
-            metadata {
-                url,
-                icon,
-                desc
-            },
-            metric {
-                symbol,
-                volume,
-                volumeExpiration,
-                lastPrice,
-                lowestAsk,
-                highestBid,
-                lastDayPrice,
-                lastDayPriceExpiration,
-                priceChangeSteem,
-                priceChangePercent
-            },
-            precision,
-            maxSupply,
-            supply,
-            circulatingSupply,
-            stakingEnabled,
-            delegationEnabled
-        },
-        steempBalance {
-            account,
-            symbol,
-            balance
-        },
-        buyBook(symbol: "${symbol}", limit: 1000, offset: 0) {
-            txId,
-            timestamp,
-            account,
-            symbol,
-            quantity,
-            price,
-            tokensLocked,
-            expiration
-          },
-          sellBook(symbol: "${symbol}", limit: 1000, offset: 0) {
-            txId,
-            timestamp,
-            account,
-            symbol,
-            quantity,
-            price,
-            expiration
-          },
-          tradesHistory(symbol: "${symbol}", limit: 30, offset: 0) {
-            type,
-            symbol,
-            quantity,
-            price,
-            timestamp
-          }
-    }
-    `);
+    const tokens = await loadTokens([`${symbol}`, 'STEEMP']);
+    const steempBalance = await loadSteempBalance();
+    const buyBook = await loadBuyBook(symbol, 1000, 0);
+    const sellBook = await loadSellBook(symbol, 1000, 0);
+    const tradesHistory = await loadTradesHistory(symbol, 30, 0);
 
-    return callQl?.data as {
+    const response = {
+        tokens: tokens,
+        steempBalance: steempBalance,
+        buyBook: buyBook,
+        sellBook: sellBook,
+        tradesHistory: tradesHistory
+    } as {
         tokens: IToken[];
         steempBalance: IBalance;
         userBalances: IBalance[];
@@ -382,6 +347,32 @@ export async function loadExchangeUiLoggedOut(symbol) {
         userSellBook: any;
         tokenBalance: any;
     };
+
+    return response;
+}
+
+export async function loadConversions(account: string, type = 'from', limit = 20, offset = 0): Promise<IConversionItem> {
+    let url = `${environment.CONVERTER_API}conversions/`;
+
+    if (type === 'sent') {
+        url += `${queryParam({ limit, offset, deposit__from_account: account })}`;
+    } else {
+        url += `${queryParam({ limit, offset, to_address: account })}`;
+    }
+
+    try {
+        const request = await http.fetch(url, {
+            headers: {
+                'Origin': 'https://steem-engine.com',
+                'Referer': 'https://steem-engine.com/?p=conversion_history',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'
+            }
+        });
+
+        return request.json();
+    } catch {
+        return null;
+    }
 }
 
 export async function getPrices() {
@@ -445,43 +436,39 @@ export async function loadUserBalances(account: string, limit = 1000, offset = 0
         }
 
         const findToken = tokens.find(t => t.symbol === token.symbol);
-        const findMetric = metrics.find(m => m.symbol === token.symbol);
+        const metric = metrics.find(m => m.symbol === token.symbol);
 
         token.token = findToken;
-        token.metric = findMetric;
 
         if (token.token) {
             token.token.metadata = JSON.parse(token.token.metadata);
         }
+
+        if (metric) {
+            token.highestBid = parseFloat(metric.highestBid);
+            token.lastPrice = parseFloat(metric.lastPrice);
+            token.lowestAsk = parseFloat(metric.lowestAsk);
+            token.marketCap = token.lastPrice * token.circulatingSupply;
+
+            if (Date.now() / 1000 < metric.volumeExpiration) {
+                token.volume = parseFloat(metric.volume);
+            }
+
+            if (Date.now() / 1000 < metric.lastDayPriceExpiration) {
+                token.priceChangePercent = parseFloat(metric.priceChangePercent);
+                token.priceChangeSteem = parseFloat(metric.priceChangeSteem);
+            }
+        }
         
-        if (token.metric) {
-            token.metric.highestBid = parseFloat(token.metric.highestBid);
-            token.metric.lastPrice = parseFloat(token.metric.lastPrice);
-            token.metric.lowestAsk = parseFloat(token.metric.lowestAsk);
-            token.metric.marketCap = token.metric.lastPrice * parseFloat(token.circulatingSupply);
-            token.metric.lastDayPrice = parseFloat(token.metric.lastDayPrice);
+        token.highestBid = parseFloat(token.highestBid);
+        token.lastPrice = parseFloat(token.lastPrice);
+        token.lowestAsk = parseFloat(token.lowestAsk);
+        token.marketCap = token.lastPrice * parseFloat(token.circulatingSupply);
+        token.lastDayPrice = parseFloat(token.lastDayPrice);
 
-            if (token.metric.priceChangePercent !== null) {
-                token.metric.priceChangePercent = token.metric.priceChangePercent.replace('%', '');
-            }
-        }
-
-        if (token?.metric?.volumeExpiration >= 0) {
-            if (Date.now() / 1000 < token.metric.volumeExpiration) {
-                token.metric.volume = parseFloat(token.metric.volume);
-            }
-        }
-
-        if (token?.metric?.lastDayPriceExpiration >= 0) {
-            if (Date.now() / 1000 < token.metric.lastDayPriceExpiration) {
-                token.metric.priceChangePercent = parseFloat(token.metric.priceChangePercent);
-                token.metric.priceChangeSteem = parseFloat(token.metric.priceChangeSteem);
-            }
-        }
-
-        if (token?.metric?.lastPrice) {
-            token.usdValueFormatted = usdFormat(parseFloat(token.balance) * token.metric.lastPrice, 3, prices.steem_price);
-            token.usdValue = usdFormat(parseFloat(token.balance) * token.metric.lastPrice, 3, prices.steem_price, true);
+        if (token?.lastPrice) {
+            token.usdValueFormatted = usdFormat(parseFloat(token.balance) * token.lastPrice, 3, prices.steem_price);
+            token.usdValue = usdFormat(parseFloat(token.balance) * token.lastPrice, 3, prices.steem_price, true);
         } else {
             token.usdValueFormatted = usdFormat(parseFloat(token.balance) * 1, 3, prices.steem_price);
             token.usdValue = usdFormat(parseFloat(token.balance) * 1, 3, prices.steem_price, true);
@@ -505,8 +492,8 @@ export async function loadUserBalances(account: string, limit = 1000, offset = 0
 
         balances.sort(
             (a, b) =>
-                parseFloat(b.balance) * b?.metric?.lastPrice ??
-                0 * window.steem_price - parseFloat(b.balance) * a?.metric?.lastPrice ??
+                parseFloat(b.balance) * b?.lastPrice ??
+                0 * window.steem_price - parseFloat(b.balance) * a?.lastPrice ??
                 0 * window.steem_price,
         );
 
@@ -571,57 +558,11 @@ export async function checkTransaction(trxId: string, retries: number) {
 
 /* istanbul ignore next */
 export async function loadConversionSentReceived(account) {
-    const callQl = await query(`query {
-                conversionReceived(account: "${account}") {
-                    count,
-                    next, 
-                    previous,
-                    results {
-                    url,
-                      from_coin_symbol,
-                      to_coin_symbol,
-                      from_address,
-                      to_address,
-                      to_memo,
-                      to_amount,
-                      to_txid,
-                      tx_fee,
-                      ex_fee,
-                      created_at,
-                      updated_at,
-                      deposit,
-                      from_coin,
-                      to_coin
-                    }
-                  }
-  
-                conversionSent(account: "${account}") {
-                    count,
-                    next, 
-                    previous,
-                    results {
-    	                url,
-                      from_coin_symbol,
-                      to_coin_symbol,
-                      from_address,
-                      to_address,
-                      to_memo,
-                      to_amount,
-                      to_txid,
-                      tx_fee,
-                      ex_fee,
-                      created_at,
-                      updated_at,
-                      deposit,
-                      from_coin,
-                      to_coin
-                    }
-                  }
-                }
-    `);
+    const conversionReceived = await loadConversions(account, 'received');
+    const conversionSent = await loadConversions(account, 'sent');
 
-    return callQl?.data as {
-        conversionSent: IConversionItem;
-        conversionReceived: IConversionItem;
-    };
+    return {
+        conversionReceived,
+        conversionSent
+    }
 }
