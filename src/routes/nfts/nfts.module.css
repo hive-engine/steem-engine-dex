@@ -30,10 +30,10 @@
         display: none;
     }
     .each-token {
-        display: flex;
+        display: flex!important;
         align-content: center;
         justify-content: space-between;
-        color: black;
+        color: black!important;
     }
     .padding-add {
         padding: 15px 5px;
@@ -61,10 +61,10 @@
         display: none;
     }
     .each-token {
-        display: flex;
+        display: flex!important;
         align-content: center;
         justify-content: space-between;
-        color: black;
+        color: black!important;
     }
     .padding-add {
         padding: 15px 5px;
