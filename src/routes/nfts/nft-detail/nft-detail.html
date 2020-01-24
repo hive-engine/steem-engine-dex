@@ -179,7 +179,8 @@
                             <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
                         </button>
                         <button type="button" class="btn btn-md" title="Buy NFT" click.delegate="buy(order, state.nft.symbol)">
-                            <font-awesome-icon icon.bind="['fas', 'store']"></font-awesome-icon>
+                            <font-awesome-icon icon.bind="['fas', 'shopping-cart']"></font-awesome-icon>
+                        </button>
                         <button type="button" if.bind="order.account == state.account.name" class="btn btn-md" title="Change Sell Price" click.delegate="changeSellPrice(order, state.nft.symbol)">
                             <font-awesome-icon icon.bind="['fas', 'dollar-sign']"></font-awesome-icon>
                         </button>
