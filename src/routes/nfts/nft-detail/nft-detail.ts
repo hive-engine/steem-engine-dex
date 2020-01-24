@@ -77,6 +77,12 @@ export class NftDetail {
         });
     }
 
+    changeSellPrice(order, symbol) {
+        this.dialogService.open({ viewModel: NftChangeSellPriceModal, model: { order, symbol } }).whenClosed(response => {
+            //console.log(response);
+        });
+    }
+
     async buy(order, symbol) {
         dispatchify(loading)(true);
 
