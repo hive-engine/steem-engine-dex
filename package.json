@@ -139,7 +139,8 @@
     "scripts": {
         "build": "au build",
         "start": "au run",
-        "test": "au test"
+        "test": "jest",
+        "test:coverage": "jest --coverage"
     },
     "jest": {
         "globals": {
