@@ -1,3 +1,6 @@
+import { sleep } from 'common/functions';
+import { NftSellModal } from './../../modals/nft/nft-sell';
+import { NftService } from './../../services/nft-service';
 import { NftPropertiesModal } from './../../modals/nft/nft-properties';
 import { DialogService } from 'aurelia-dialog';
 import { SteemEngine } from 'services/steem-engine';
@@ -16,17 +19,31 @@ export class Nft {
     private styles = styles;
     private state: State;
 
-    constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {}
+    constructor(private se: SteemEngine, private nftService: NftService, private taskQueue: TaskQueue, private dialogService: DialogService) {}
 
     async activate({ symbol }) {
         await dispatchify(getNft)(symbol);
         await dispatchify(getNftInstance)(symbol);
+
+        
     }
 
     showNftProperties(token) {
         this.dialogService.open({ viewModel: NftPropertiesModal, model: token }).whenClosed(response => {
             //console.log(response);
         });
+    }
+
+    sellNft(token) {
+        token.symbol = this.state.nft.symbol;
+        
+        this.dialogService.open({ viewModel: NftSellModal, model: token }).whenClosed(async (result) => {
+            if (!result.wasCancelled) {
+                await sleep(3200);
+                
+                window.location.reload();
+            }
+        })
     }
 
     userCanModify(token) {
@@ -38,7 +55,7 @@ export class Nft {
     }
 
     userCanIssue(token) {
-        if (token.authorizedIssuingAccounts && token.authorizedIssuingAccounts.includes(this.state.account.name)) {
+        if (token.issuer === this.state.account.name || token.authorizedIssuingAccounts && token.authorizedIssuingAccounts.includes(this.state.account.name)) {
             return true;
         }
 

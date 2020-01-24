@@ -46,14 +46,6 @@ export class App {
     }
 
     bind() {
-        query(`query {
-            coinPairs {
-                name,
-                pegged_token_symbol,
-                symbol
-              }
-        }`);
-
         this.store.state.subscribe((s: State) => {
             if (s) {
                 this.state = s;
@@ -170,10 +162,18 @@ export class App {
             {
                 route: 'conversion-history',
                 name: 'conversionHistory',
-                moduleId: PLATFORM.moduleName('./routes/conversion-history', 'conversion-history'),
+                moduleId: PLATFORM.moduleName('./routes/account/conversion-history', 'conversion-history'),
                 nav: false,
                 auth: true,
                 title: 'Conversion History',
+            },
+            {
+                route: 'account-history/:symbol?',
+                name: 'accountHistory',
+                moduleId: PLATFORM.moduleName('./routes/account/account-history', 'account-history'),
+                nav: false,
+                auth: true,
+                title: 'Account History',
             },
             {
                 route: 'settings',

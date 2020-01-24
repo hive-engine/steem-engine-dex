@@ -161,21 +161,6 @@ interface IRewardToken {
     amount: number;
 }
 
-interface ITokenHistoryTransaction {
-    block: string;
-    from: string;
-    from_type: string;
-    memo: string;
-    quantity: string;
-    symbol: string;
-    timestamp: string;
-    to: string;
-    to_type: string;
-    txid: string;
-    balance: string;
-    timestamp_string: string;
-}
-
 interface IPendingUndelegationTransaction {
     account: string;
     completeTimestamp: number;
@@ -223,6 +208,23 @@ interface IConversionItemResult {
     to_coin: string;
 }
 
+interface IAccountHistoryItemResult {
+    _id: string;
+    blockNumber: number;
+    transactionId: string;
+    timestamp: number;
+    account: string;
+    operation: string;
+    from: string;
+    to: string;
+    symbol: string;
+    quantityTokens: string;
+    quantitySteem: string;    
+    quantity: string;
+    balance: string;
+    timestamp_string: string;
+}
+
 interface AccountInterface {
     name: string;
     account: any;
@@ -262,6 +264,7 @@ interface INft {
         icon: string;
         desc: string;
     };
+    marketEnabled?: boolean;
     circulatingSupply: number;
     delegationEnabled: boolean;
     undelegationCooldown: number;

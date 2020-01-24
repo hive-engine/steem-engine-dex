@@ -21,7 +21,7 @@
     <section class="no-mobile" <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <table class="table table-dark mobile-table desktop-table" id.bind="tableId" ref="tableRef">
+                <table class="table mobile-table desktop-table" id.bind="tableId" ref="tableRef">
                     <thead>
                         <tr>
                             <th class="no-sort"></th>
@@ -64,25 +64,25 @@
                                 >
                             </td>
                             <td>${token.name}</td>
-                            <td class="text-right" data-order="${token.metric.marketCap}">
-                                ${token.metric.marketCap | usdFormat:2}
+                            <td class="text-right" data-order="${token.marketCap}">
+                                ${token.marketCap | usdFormat:2}
                             </td>
-                            <td class="text-right changePercentCol" data-order="${token.metric.lastPrice}">
+                            <td class="text-right changePercentCol" data-order="${token.lastPrice}">
                                 <span
-                                    class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
+                                    class="${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}"
                                 >
-                                    ${token.metric.lastPrice | usdFormat:3}
+                                    ${token.lastPrice | usdFormat:3}
                                 </span>
                             </td>
-                            <td class="text-right changePercentCol" data-order="${token.metric.priceChangePercent}">
+                            <td class="text-right changePercentCol" data-order="${token.priceChangePercent}">
                                 <span
-                                    class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
+                                    class="${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}"
                                 >
-                                    ${token.metric.priceChangePercent | toFixed:2}%
+                                    ${token.priceChangePercent | toFixed:2}%
                                 </span>
                             </td>
-                            <td class="text-right" data-order="${token.metric.volume}">
-                                ${token.metric.volume | usdFormat:2}
+                            <td class="text-right" data-order="${token.volume}">
+                                ${token.volume | usdFormat:2}
                             </td>
                             <td class="text-right" data-order="${token.circulatingSupply}">
                                 ${token.circulatingSupply | toFixed:3 | comma}
@@ -148,16 +148,16 @@
                             </div>
                             <div class="each-token-price col-2">
                                 <span
-                                    class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
+                                    class="${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}"
                                 >
-                                    ${token.metric.lastPrice | usdFormat:3}
+                                    ${token.lastPrice | usdFormat:3}
                                 </span>
                             </div>
                             <div class="each-token-price-change col-2" style="display: flex;">
                                 <span
-                                    class="${token.metric.priceChangePercent > 0 ? 'green' : token.metric.priceChangePercent < 0 ? 'red' : ''}"
+                                    class="${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}"
                                 >
-                                    ${token.metric.priceChangePercent | toFixed:2}%
+                                    ${token.priceChangePercent | toFixed:2}%
                                 </span><span style="font-size: 6px;"></span>
                             </div>
                             <div class="each-token-actions col-4 text-right">

@@ -3,8 +3,7 @@ import { NftPropertiesModal } from './../../../modals/nft/nft-properties';
 import { sleep } from 'common/functions';
 import { checkTransaction } from 'common/steem-engine';
 import { MarketService } from './../../../services/market-service';
-import { PLATFORM } from 'aurelia-framework';
-import { Router, RouterConfiguration } from 'aurelia-router';
+import { Router } from 'aurelia-router';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, TaskQueue } from 'aurelia-framework';
 import { slick } from 'slick-carousel/slick/slick';
@@ -78,11 +77,11 @@ export class NftDetail {
         });
     }
 
-    async buy(order) {
+    async buy(order, symbol) {
         dispatchify(loading)(true);
 
         try {
-            const request = await this.marketService.buy(order.symbol, order._id) as any;
+            const request = await this.marketService.buy(symbol, order.nftId) as any;
 
             if (request.success) {
                 try {

@@ -1,3 +1,4 @@
+import { ssc } from 'common/ssc';
 import { SteemEngine } from 'services/steem-engine';
 import { Router } from 'aurelia-router';
 /* eslint-disable @typescript-eslint/no-use-before-define */
@@ -37,8 +38,8 @@ export class CreateNft {
     async activate() {
         await dispatchify(loadAccountBalances)();
 
-        const data = await query(`query { nftParams { nftCreationFee } }`);
-        const tokenCreationFee = data?.data?.nftParams?.[0]?.nftCreationFee ?? 100;
+        const data = await ssc.find('tokens', 'params', {});
+        const tokenCreationFee = data?.tokenParams?.[0]?.tokenCreationFee ?? 100;
 
         this.tokenCreationFee = parseInt(tokenCreationFee);
     }

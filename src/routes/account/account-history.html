@@ -1,0 +1,54 @@
+<template>
+    <header class="main-header">
+        <div class="container-fluid main-container d-flex flex-column justify-content-end">
+            <div class="row">
+                <div class="col-6">
+                    <h1>${'titles:Account History' & t} ${symbol ? '(' + symbol + ')' : ''}</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8 table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Operation</th>
+                        <th>Type</th>
+                        <th>Processed at</th>
+                        <th>Token</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th class="text-right">Quantity (Token)</th>
+                        <th class="text-right">Quantity (Steem)</th>
+                        <th>Memo</th>
+                        <th>Tx ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="t of transactions">
+                        <td>${t.operation}</td>
+                        <td if.bind="t.operation.startsWith('market')">${t.orderType ? t.orderType : '-'}</td>
+                        <td if.bind="!t.operation.startsWith('market')">${t.to ? (t.to == username ? 'Received' : 'Sent') : '-'}</td>
+                        <td>${t.timestamp_string}</td>
+                        <td>${t.symbol}</td>
+                        <td>${t.from ? t.from : '-'}</td>
+                        <td>${t.to ? t.to : '-'}</td>
+                        <td if.bind="t.operation == 'market_placeOrder'" class="text-right">${t.quantityLocked}</td>
+                        <td if.bind="t.operation.startsWith('tokens')" class="text-right">${t.quantity ? t.quantity + ' ' + t.symbol : '-'}</td>
+                        <td if.bind="t.operation.startsWith('market') && t.operation != 'market_placeOrder'" class="text-right">${t.quantityTokens ? t.quantityTokens : '-'}</td>                        
+                        <td class="text-right">${t.quantitySteem ? t.quantitySteem : '-'}</td>
+                        <td><font-awesome-icon icon.bind="['fas', 'info-circle']" title="${t.memo ? t.memo : 'No memo'}"></font-awesome-icon></td>
+                        <td><font-awesome-icon icon.bind="['fas', 'info-circle']" title="${t.transactionId}"></font-awesome-icon></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div if.bind="displayShowMore" class="see-more hideSeeMoreBtn text-center" id="loadMoreTransactions">
+                <button click.delegate="loadTransactions()" class="moreBtn seeMoreBtn" style="margin-top: 0px">see more</button>
+            </div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</template>

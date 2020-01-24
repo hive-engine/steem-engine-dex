@@ -1,5 +1,4 @@
-import { query } from 'common/apollo';
-import { Store } from 'aurelia-store';
+import { getFormattedCoinPairs } from 'common/steem-engine';
 import { SteemEngine } from 'services/steem-engine';
 import { DialogController } from 'aurelia-dialog';
 import { autoinject, TaskQueue } from 'aurelia-framework';
@@ -22,15 +21,9 @@ export class DepositModal {
     }
 
     async activate() {   
-        const pairs = await query(`query {
-            coinPairs {
-                name,
-                pegged_token_symbol,
-                symbol
-              }
-        }`);     
+        const pairs = await getFormattedCoinPairs();   
         
-        this.tokenList = pairs.data.coinPairs;
+        this.tokenList = pairs;
     }
 
     tokenSelected() {

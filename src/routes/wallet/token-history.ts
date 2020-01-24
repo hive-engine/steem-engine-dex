@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 import { observable } from 'aurelia-binding';
 import { SteemEngine } from 'services/steem-engine';
-import { autoinject, TaskQueue } from 'aurelia-framework';
+import { autoinject, TaskQueue, bindable } from 'aurelia-framework';
 import { TokenHistoryTransactionModal } from 'modals/wallet/token-history-transaction';
 import { SendTokensModal } from 'modals/wallet/send-tokens';
 import { IssueTokensModal } from 'modals/wallet/issuers/issue-tokens';
@@ -12,6 +12,7 @@ import styles from "./token-history.module.css";
 import { DialogService, DialogCloseResult } from 'aurelia-dialog';
 import moment from 'moment';
 import { stateTokensOnlyPegged } from 'common/functions';
+import { loadAccountHistory } from 'common/steem-engine';
 
 
 
@@ -21,14 +22,16 @@ export class TokenHistory {
     private columns = ['symbol'];
 
     private token: IToken;
-    private transactions: ITokenHistoryTransaction[] = [];
+    private transactions: IAccountHistoryItemResult[] = [];
     private username: any;
     private state: State;
     private subscription: Subscription;
     private styles = styles;
     private tokenBalance: number;
-
-    private transactionsTable: HTMLTableElement;
+    private offset: number = 0;
+    private limit: number = 5;
+    private symbol;
+    @bindable displayShowMore: boolean = true;
 
     @observable() private hideZeroBalances = false;
 
@@ -46,49 +49,38 @@ export class TokenHistory {
         }
     }
 
-    attached() {
-        this.loadTable();        
-    }
-
-    loadTable() {
-        // @ts-ignore
-        $(this.transactionsTable).DataTable({
-            bInfo: false,
-            paging: false,
-            searching: false,
-            ordering: false
-        });
-    }
-
-    async loadHistoryData(symbol) {    
+    async loadHistoryData() {    
         if (!this.state.tokens || this.state.tokens.length == 0 || stateTokensOnlyPegged(this.state.tokens)) {
             await dispatchify(loadTokensList)();
             await dispatchify(loadAccountBalances)();
         }
 
-        this.token = this.state.tokens.find(x => x.symbol == symbol);                
+        this.token = this.state.tokens.find(x => x.symbol == this.symbol);                
 
         this.username = this.state.account.name;
 
-        const history = await this.se.showHistory(symbol, this.state.account.name) as ITokenHistoryTransaction[];
+        const history = await loadAccountHistory(this.username, this.symbol, null, null, this.limit, this.offset);
 
-        this.tokenBalance = await this.se.getBalance(symbol);
-
-        let runningBalance = this.tokenBalance;
+        this.offset += this.limit;        
 
         history.forEach(x => {
-            x.balance = runningBalance.toFixed(this.token.precision);
-            runningBalance = (x.to == this.username) ? runningBalance - parseFloat(x.quantity) : runningBalance + parseFloat(x.quantity);
-            const dt = new Date(x.timestamp);
-            x.timestamp_string = moment(dt).format('YYYY-M-DD HH:mm:ss');
+            x.timestamp_string = moment.unix(x.timestamp).format('YYYY-MM-DD HH:mm:ss');
         })
 
-        this.transactions = history;
+        if (history)
+            this.transactions.push(...history);        
+
+        // if we get < limit items, we reached the end
+        if (history.length < this.limit)
+            this.displayShowMore = false;
     }
 
     async canActivate({ symbol }) {
         try {
-            await this.loadHistoryData(symbol);
+            this.symbol = symbol;
+            this.tokenBalance = await this.se.getBalance(this.symbol);
+
+            await this.loadHistoryData();
         } catch(e){
             console.log(e);
         }
@@ -118,7 +110,7 @@ export class TokenHistory {
         console.log(response);
         // reload balances if dialog response was success
         if (!response.wasCancelled) {
-            await this.loadHistoryData(this.token.symbol);
+            await this.loadHistoryData();
         }
     }
 }
