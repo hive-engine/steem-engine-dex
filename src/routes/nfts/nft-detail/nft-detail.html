@@ -183,6 +183,9 @@
                         <button type="button" if.bind="order.account == state.account.name" class="btn btn-md" title="Change Sell Price" click.delegate="changeSellPrice(order, state.nft.symbol)">
                             <font-awesome-icon icon.bind="['fas', 'dollar-sign']"></font-awesome-icon>
                         </button>
+                        <button type="button" if.bind="order.account == state.account.name" class="btn btn-md" title="Cancel order" click.delegate="cancelOrder(order, state.nft.symbol)">
+                            <font-awesome-icon icon.bind="['fas', 'times-square']"></font-awesome-icon>
+                        </button>
                     </td>
                 </tr>
             </tbody>
