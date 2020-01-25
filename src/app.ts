@@ -246,7 +246,10 @@ export class App {
             {
                 route: 'crowdfunding-options',
                 name: 'crowdfunding-options',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-options', 'crowdfunding-options'),
+                moduleId: PLATFORM.moduleName(
+                    './routes/offering-routes/crowdfunding/crowdfunding-options',
+                    'crowdfunding-options',
+                ),
                 nav: false,
 
                 title: 'Crowdfunding Options',
@@ -254,21 +257,30 @@ export class App {
             {
                 route: 'crowdfunding-create',
                 name: 'crowdfunding-create',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-create', 'crowdfunding-create'),
+                moduleId: PLATFORM.moduleName(
+                    './routes/offering-routes/crowdfunding/crowdfunding-create',
+                    'crowdfunding-create',
+                ),
                 nav: false,
                 title: 'Crowdfunding Create',
             },
             {
                 route: 'crowdfunding-back',
                 name: 'crowdfunding-back',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-back', 'crowdfunding-back'),
+                moduleId: PLATFORM.moduleName(
+                    './routes/offering-routes/crowdfunding/crowdfunding-back',
+                    'crowdfunding-back',
+                ),
                 nav: false,
                 title: 'Crowdfunding Back',
             },
             {
                 route: 'crowdfunding-how',
                 name: 'crowdfunding-how',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-how', 'crowdfunding-how'),
+                moduleId: PLATFORM.moduleName(
+                    './routes/offering-routes/crowdfunding/crowdfunding-how',
+                    'crowdfunding-how',
+                ),
                 nav: false,
                 title: 'Crowdfunding How',
             },
@@ -282,7 +294,10 @@ export class App {
             {
                 route: 'crowdfunding-explore',
                 name: 'crowdfunding-explore',
-                moduleId: PLATFORM.moduleName('./routes/offering-routes/crowdfunding/crowdfunding-explore', 'crowdfunding-explore'),
+                moduleId: PLATFORM.moduleName(
+                    './routes/offering-routes/crowdfunding/crowdfunding-explore',
+                    'crowdfunding-explore',
+                ),
                 nav: false,
                 title: 'Crowdfunding Explore',
             },
@@ -348,6 +363,13 @@ export class App {
                 moduleId: PLATFORM.moduleName('./routes/nfts/create-options', 'nft-create-options'),
                 nav: false,
                 title: 'Create NFT Options',
+            },
+            {
+                route: 'create-nft-user',
+                name: 'createNftUser',
+                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/create-nft-user', 'nft-create-user'),
+                nav: false,
+                title: 'Create NFT User',
             },
             {
                 route: 'edit-nft/:symbol',
