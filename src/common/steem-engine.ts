@@ -45,14 +45,7 @@ export async function loadTokenMarketHistory(symbol: string, timestampStart?: st
     return response.json() as Promise<IHistoryApiItem[]>;
 }
 
-export async function loadAccountHistory(
-    account: string,
-    symbol?: string,
-    timestampStart?: string,
-    timestampEnd?: string,
-    limit?: number,
-    offset?: number,
-): Promise<IAccountHistoryItemResult[]> {
+export async function loadAccountHistory(account: string, symbol?: string, timestampStart?: string, timestampEnd?: string, limit?: number, offset?: number): Promise<IAccountHistoryItemResult[]> {
     let url = `${environment.HISTORY_API}accountHistory?account=${account}`;
 
     if (symbol) {
