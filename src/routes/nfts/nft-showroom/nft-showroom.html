@@ -111,9 +111,9 @@
                 <div class="row margin-btm" ref="tokenTable">
                     <div class="col-md-3 col-sm-12" repeat.for="token of state.nfts">
                         <div class="showroom-card">
-                            <div class="showroom-card-img">
+                            <div class="showroom-card-img  text-center">
                                 <a route-href="route: nft-detail; params.bind: { symbol: token.symbol }"
-                                    ><img src="https://picsum.photos/640/360" alt="showroom image" class="showroom-img"
+                                    ><img src="../../../images/nft-placeholder.svg" alt="showroom image" class="showroom-img"
                                 /></a>
                             </div>
                             <div class="showroom-card-body">
@@ -215,12 +215,13 @@
                 <div class="nft-slick" repeat.for="token of state.nfts">
                     <div class="showroom-card">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-6  text-center">
                                 <img
-                                    src="https://picsum.photos/640/360"
+                                    src="../../../images/nft-placeholder.svg"
                                     alt="non-fungible"
-                                    width="100%"
-                                    height="100%"
+                                    width="70%"
+                                    height="70%"
+                                    style="padding: 20px"
                                 />
                             </div>
                             <div class="col-6">

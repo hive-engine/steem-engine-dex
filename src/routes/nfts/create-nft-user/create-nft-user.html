@@ -1,0 +1,111 @@
+<template>
+    <require from="./info-boxes/nft-create-info.html"></require>
+    <header class="create-nft-header-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="title">
+                        <h1 class="create-nft-header">${'tokenCreationHeading' & t}</h1>
+                    <p class="create-nft-header-desc">${'tokenCreationSubheading' & t}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="create-token-form-header text-center">Create your custom token</h2>
+                <hr class="split" />
+            </div>
+            <div class="col-md-12 text-center">
+                <p style="margin-bottom: 15px;">
+                    <strong
+                        >${'tokenCreationFee' & t: { 'tokenFee': tokenCreationFee, 'token': environment.nativeToken
+                        }}</strong
+                    >
+                </p>
+                <p>${'yourEngBalance' & t: { 'balance': engBalance, 'token': environment.nativeToken }}</p>
+            </div>
+            <div class="col-sm-12 col-md-6 offset-md-3">
+                <div class="create-nft-card-form">
+                    <div class="create-nft-card-header text-center">
+                        <img
+                            src="../../../images/se-stand-full-opacity.svg"
+                            alt="logo"
+                            class="register-logo"
+                            width="80px"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="create-nft-form-label">${'Name Your Token ' & t} <tooltip text="[REQUIRED] Name of the token (letters, numbers, whitespace only, max length of 50)"></tooltip></label>
+                        <input type="text" class="form-control" value.bind="tokenName & validate" click.trigger="info('[REQUIRED] Name of the token (letters, numbers, whitespace only, max length of 50)')" />
+                    </div>
+                    <div class="form-group">
+                        <label class="create-nft-form-label">${'Enter Your Website' & t} <tooltip text="[OPTIONAL] URL of the project (max length of 255)"></tooltip></label>
+                        <input type="text" class="form-control" value.bind="url & validate" click.trigger="info('[OPTIONAL] URL of the project (max length of 255)')" />
+                    </div>
+                    <div class="form-group">
+                        <label class="create-nft-form-label"
+                            >${'authorisedIssuingAccounts' & t}
+                            <a href="javascript:void(0);" click.delegate="addAuthorisedAccount()" if.bind="authorisedIssuingAccounts.length < 10">+</a>
+                        <tooltip text="[OPTIONAL] A list of Steem accounts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then the NFT owner (the account that calls create) will be the only such authorized account by default."></tooltip>
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control mb-3"
+                            value.bind="account.name"
+                            repeat.for="account of authorisedIssuingAccounts"
+                            click.trigger="info('[OPTIONAL] A list of Steem accounts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then the NFT owner (the account that calls create) will be the only such authorized account by default.')"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="create-nft-form-label">${'Symbol' & t} <tooltip text="[REQUIRED] Symbol of the token (uppercase letters only, max length of 10)"></tooltip></label>
+                        <input type="text" class="form-control" value.bind="symbol & validate" click.trigger="info('[REQUIRED] Symbol of the token (uppercase letters only, max length of 10)')" />
+                    </div>
+                    <div class="form-group">
+                        <label class="create-nft-form-label">${'Max Supply' & t} <tooltip text="[OPTIONAL] Maximum supply for the token (between 1 and 9,007,199,254,740,991). If max supply is not specified, then the supply will be unlimited."></tooltip></label>
+                        <input
+                            type="number"
+                            min="0"
+                            max="9007199254740991"
+                            class="form-control"
+                            value.bind="maxSupply & validate"
+                            click.trigger="info('[OPTIONAL] Maximum supply for the token (between 1 and 9,007,199,254,740,991). If max supply is not specified, then the supply will be unlimited.')"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="create-nft-form-label"
+                            >${'authorisedIssuingContracts' & t}
+                            <a href="javascript:void(0);" click.delegate="addAuthorisedContract()" if.bind="authorisedIssuingContracts.length < 10">+</a>
+                            <tooltip text="[OPTIONAL] A list of smart contracts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then no smart contracts will be authorized as such."></tooltip>
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control mb-3"
+                            value.bind="account.name"
+                            repeat.for="account of authorisedIssuingContracts"
+                            click.trigger="info('[OPTIONAL] A list of smart contracts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then no smart contracts will be authorized as such.')"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <button
+                            type="button"
+                            disabled.bind="tokenCreationFee > engBalance"
+                            class="greenBtn"
+                            style="border: none;"
+                            click.delegate="createToken()"
+                        >
+                            ${'Create my token' & t}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <nft-create-info class="hidden-box" id="nft-name"></nft-create-info>
+            </div>
+        </div>
+    </div>
+</template>
