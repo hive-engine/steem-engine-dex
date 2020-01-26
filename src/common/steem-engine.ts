@@ -75,7 +75,6 @@ export async function loadAccountHistory(account: string, symbol?: string, times
     return response.json() as Promise<IAccountHistoryItemResult[]>;
 }
 
-/* istanbul ignore next */
 export async function loadCoinPairs(): Promise<ICoinPair[]> {
     const url = `${environment.CONVERTER_API}/pairs/`;
 
@@ -86,7 +85,6 @@ export async function loadCoinPairs(): Promise<ICoinPair[]> {
     return response.json() as Promise<ICoinPair[]>;
 }
 
-/* istanbul ignore next */
 export async function loadCoins(): Promise<ICoin[]> {
     const url = `${environment.CONVERTER_API}/coins/`;
 

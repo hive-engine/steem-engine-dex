@@ -175,6 +175,46 @@ describe('Functions', () => {
         });
     });
 
+    test('loads coin pairs', async () => {
+        const resultData = [
+            {
+                _id: '5dace26d3415dd328fef94dd',
+                exchange_rate: '1234',
+                from_coin: 'ENG',
+                from_coin_symbol: 'ENG',
+                to_coin: 'BTC',
+                to_coin_symbol: 'BTC',
+                __str__: 'dasdas'
+            },
+        ];
+
+        fetchMock.mockResponseOnce(JSON.stringify(resultData));
+
+        const response = await functions.loadCoinPairs();
+
+        expect(response).toMatchObject(resultData);
+    });
+
+    test('loads coins', async () => {
+        const resultData = [
+            {
+                _id: '5dace26d3415dd328fef94dd',
+                exchange_rate: '1234',
+                from_coin: 'ENG',
+                from_coin_symbol: 'ENG',
+                to_coin: 'BTC',
+                to_coin_symbol: 'BTC',
+                __str__: 'dasdas'
+            },
+        ];
+
+        fetchMock.mockResponseOnce(JSON.stringify(resultData));
+
+        const response = await functions.loadCoins();
+
+        expect(response).toMatchObject(resultData);
+    });
+
     test('getTransactionInfo succeeds', async () => {
         const jsonData = JSON.stringify({ "errors": [] });
 
