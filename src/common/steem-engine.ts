@@ -45,14 +45,7 @@ export async function loadTokenMarketHistory(symbol: string, timestampStart?: st
     return response.json() as Promise<IHistoryApiItem[]>;
 }
 
-export async function loadAccountHistory(
-    account: string,
-    symbol?: string,
-    timestampStart?: string,
-    timestampEnd?: string,
-    limit?: number,
-    offset?: number,
-): Promise<IAccountHistoryItemResult[]> {
+export async function loadAccountHistory(account: string, symbol?: string, timestampStart?: string, timestampEnd?: string, limit?: number, offset?: number): Promise<IAccountHistoryItemResult[]> {
     let url = `${environment.HISTORY_API}accountHistory?account=${account}`;
 
     if (symbol) {
@@ -82,7 +75,6 @@ export async function loadAccountHistory(
     return response.json() as Promise<IAccountHistoryItemResult[]>;
 }
 
-/* istanbul ignore next */
 export async function loadCoinPairs(): Promise<ICoinPair[]> {
     const url = `${environment.CONVERTER_API}/pairs/`;
 
@@ -93,7 +85,6 @@ export async function loadCoinPairs(): Promise<ICoinPair[]> {
     return response.json() as Promise<ICoinPair[]>;
 }
 
-/* istanbul ignore next */
 export async function loadCoins(): Promise<ICoin[]> {
     const url = `${environment.CONVERTER_API}/coins/`;
 

@@ -1,3 +1,4 @@
+import { NftChangeSellPriceModal } from './../../../modals/nft/nft-change-price';
 import { DialogService } from 'aurelia-dialog';
 import { NftPropertiesModal } from './../../../modals/nft/nft-properties';
 import { sleep } from 'common/functions';
@@ -75,6 +76,40 @@ export class NftDetail {
         this.dialogService.open({ viewModel: NftPropertiesModal, model: token }).whenClosed(response => {
             //console.log(response);
         });
+    }
+
+    changeSellPrice(order, symbol) {
+        this.dialogService.open({ viewModel: NftChangeSellPriceModal, model: { order, symbol } }).whenClosed(response => {
+            //console.log(response);
+        });
+    }
+
+    async cancelOrder(order, symbol) {
+        dispatchify(loading)(true);
+
+        try {
+            const request = await this.marketService.cancel(symbol, order.nftId) as any;
+
+            if (request.success) {
+                try {
+                    const verify = await checkTransaction(request.result.id, 3);
+                    
+                    if (verify?.errors) {
+                        this.errors = verify.errors;
+                    } else {
+                        await sleep(3200);
+                        window.location.reload();
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+
+
+            dispatchify(loading)(false);
+        } catch {
+            dispatchify(loading)(false);
+        }
     }
 
     async buy(order, symbol) {

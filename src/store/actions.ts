@@ -2,11 +2,11 @@ import { Container } from 'aurelia-framework';
 import { NftService } from './../services/nft-service';
 /* eslint-disable no-undef */
 import { initialState } from './state';
-import { query } from 'common/apollo';
 import store from './store';
 
 import firebase from 'firebase/app';
 import { log } from 'services/log';
+
 import {
     loadUserBalances,
     loadTokens,
@@ -16,6 +16,7 @@ import {
     loadConversionSentReceived,
     loadPendingWithdrawals,
 } from 'common/steem-engine';
+
 import { ssc } from 'common/ssc';
 import moment from 'moment';
 
@@ -171,15 +172,7 @@ export async function loadBuyBook(state: State, symbol: string, account: string 
     const newState = { ...state };
 
     try {
-        const buyBook = await ssc.find(
-            'market',
-            'buyBook',
-            { symbol, account },
-            200,
-            0,
-            [{ index: 'priceDec', descending: true }],
-            false,
-        );
+        const buyBook = await ssc.find('market', 'buyBook', { symbol, account }, 200, 0, [{ index: 'priceDec', descending: true }], false);
 
         newState.buyBook = buyBook.map(o => {
             newState.buyTotal += o.quantity * o.price;
@@ -228,15 +221,7 @@ export async function loadTradeHistory(state: State, symbol: string, account: st
     const newState = { ...state };
 
     try {
-        const tradeHistory = await ssc.find(
-            'market',
-            'tradesHistory',
-            { symbol, account },
-            100,
-            0,
-            [{ index: '_id', descending: true }],
-            false,
-        );
+        const tradeHistory = await ssc.find('market', 'tradesHistory', { symbol, account }, 100, 0, [{ index: '_id', descending: true }], false);
 
         newState.tradeHistory = tradeHistory.map(o => {
             o.total = o.price * o.quantity;
