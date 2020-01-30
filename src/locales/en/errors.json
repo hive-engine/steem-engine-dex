@@ -36,5 +36,10 @@
     "max10rows": "A maximum of 10 items is only allowed",
     "insufficientBalanceToWithdraw": "You do not have enough {{symbol}} to withdraw entered amount. Your balance is: {{balance}}",
     "withdrawAddressRequired": "Withdraw address is required",
-    "withdrawTokenRequired": "Token is required"
+    "withdrawTokenRequired": "Token is required",
+    "nftSellPriceRequired": "Price is required",
+    "nftSellPriceGreaterThanZero": "Price must be greater than 0",
+    "nftSellPriceSymbolRequired": "Price symbol is required",
+    "nftTransferToRequired": "Transfer NFT To is required",
+    "nftTransferToTypeRequired": "Transfer NFT To Type is required"
 }
