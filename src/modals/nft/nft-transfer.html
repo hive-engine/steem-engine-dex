@@ -1,5 +1,7 @@
 <template>
     <ux-dialog>
+        <loader mode="tiny" loading.bind="loading"></loader>
+
         <ux-dialog-body>
             <h2>${'Transfer NFT' & t}</h2>
 
@@ -13,9 +15,9 @@
                 <label>TO</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="username-at">@</span>
+                        <span class="input-group-text" id="username-at">@</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="username-at" value.bind="transaction.to">
+                    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="username-at" value.bind="transactionTo & validate">
                     <div class="invalid-tooltip">
                         Please enter a valid account
                     </div>
@@ -24,9 +26,9 @@
 
             <div class="form-group">
                 <label>TO TYPE</label>
-                <select class="form-control" value.bind="transaction.toType">
+                <select class="form-control" value.bind="transactionToType & validate">
                     <option value="contract">Contract</option>
-                    <option value="user" selected>User</option>
+                    <option value="user">User</option>
                 </select>
             </div>
         </ux-dialog-body>
