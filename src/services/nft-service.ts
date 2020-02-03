@@ -5,6 +5,7 @@ import { steemConnectJson } from 'common/steem';
 import { customJson } from 'common/keychain';
 
 import { environment } from 'environment';
+import moment from 'moment';
 
 type NftFees = 'ENG' | 'PAL';
 type NftType = 'contract' | 'user';
@@ -98,6 +99,7 @@ export class NftService {
 
             for (const order of orders) {
                 order.price = parseFloat(order.price);
+                order.timestamp_string = moment.unix(order.timestamp / 1000).format('YYYY-MM-DD HH:mm');
             }
 
             return orders;
