@@ -298,6 +298,7 @@ interface INftSellBook {
     priceDec: number;
     priceSymbol: string;
     fee: number;
+    timestamp_string: string;
 }
 
 interface INftCounterparty {

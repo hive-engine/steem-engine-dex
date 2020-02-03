@@ -155,7 +155,6 @@ export class Exchange {
 
     async loadSellOrders(state) {
         this.sellBook = state.sellBook;
-        this.sellBook.reverse();
 
         const sellOrderLabels = uniq(this.sellBook.map(o => parseFloat(o.price)));
         const sellOrderDataset = fill(Array(this.orderDataSetLength), null);

@@ -108,16 +108,16 @@ export async function getFormattedCoinPairs() {
     for (const x of nonPeggedCoins) {
         // find pegged coin for each non-pegged coin
         const coinFound = pairs.find(y => y.from_coin_symbol === x.symbol);
-
+        
         if (coinFound) {
             const tp = {
                 name: x.display_name,
                 symbol: x.symbol,
                 pegged_token_symbol: coinFound.to_coin_symbol
             }
-
+            
             // check if the token exists
-            if (!tokenPairs.find(x => x.pegged_token_symbol == tp.pegged_token_symbol)) {
+            if (!tokenPairs.find(x => x.symbol == tp.symbol)) {
                 tokenPairs.push(tp);
             }
         }
