@@ -93,8 +93,16 @@
     font-weight: bolder;
     color: #0048be !important;
 }
+.preview-info {
+    font-size: 12px;
+    color: darkgray;
+    align-self: center;
+}
 .preview-img {
     border-radius: 0.8rem;
+}
+.card-ownership {
+    padding: 4px 10px;
 }
 .preview-card-body {
     margin: 5px;
@@ -111,5 +119,5 @@
     transform: scale(2);
 }
 .consent-text {
-    text-align: left!important;
+    text-align: left !important;
 }
