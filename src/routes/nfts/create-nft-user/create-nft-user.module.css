@@ -63,21 +63,53 @@
     font-size: 16px;
 }
 .preview-card {
-    background: rgb(236, 235, 235);
-    padding: 10px;
+    background: rgba(248, 248, 248, 0.377);
     /* background-color: #fff; */
     border-radius: 5px;
     margin-bottom: 10px;
     margin-right: 8px;
     box-shadow: 0 2px 4px rgba(204, 207, 216, 0.486);
     border: 1px solid #fff;
+    cursor: pointer;
+    position: relative;
+    max-width: 100%;
+    max-width: 48rem;
+    margin: auto;
+    border-radius: 10px;
+    background-color: #fff;
+    border: 0.2rem solid #eeeeee;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 20%;
+}
+.preview-card-name {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+    border-bottom: 1px dashed #ebebeb;
+}
+.preview-card-name .maxSupply {
+    font-size: 14px;
+    font-weight: bolder;
+    color: #0048be !important;
 }
 .preview-img {
     border-radius: 0.8rem;
 }
-.dashed-border-btm {
-    border-bottom: 1px dashed lightgray;
+.preview-card-body {
+    margin: 5px;
+    padding: 10px;
+    /* width: 100%; */
+    border: 1px solid lightgray;
 }
 .preview-para {
     margin-bottom: 0;
+}
+.checkbox-style {
+    margin: auto;
+    margin-left: 13px;
+    transform: scale(2);
+}
+.consent-text {
+    text-align: left!important;
 }
