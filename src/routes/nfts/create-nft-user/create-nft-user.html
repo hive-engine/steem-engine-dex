@@ -33,8 +33,8 @@
                     <div class="preview-card-name">
                         <!-- <h4 id="para-1" class="preview-para dashed-border-btm" textcontent.bind="symbol"></h4> -->
                         <div style="margin: 0; padding: 0; display: flex;">
-                            <span style="font-size: 10px; color: darkgray; align-self: center;">Price: </span>
-                            <span class="maxSupply" textcontent.bind="tokenPrice"></span
+                            <span class="preview-info" >Price: </span>
+                            <span class="preview-info" class="maxSupply" textcontent.bind="tokenPrice"></span
                             ><small
                                 style="font-size: 10px; color: darkgray; padding-left: 3px; align-self: center;"
                                 textcontent.bind="symbol"
@@ -51,7 +51,8 @@
                         <img src="../../../images/nft-piggy-bank.jpg" alt="" width="100%" class="preview-img" />
                     </div>
                     <div class="card-ownership">
-                        <span textcontent.bind="account.name"></span>
+                        <span class="preview-info">Id: </span>
+                        <span class="preview-info" style="margin-left: 5px;"> #4532</span>
                     </div>
                     <div class="preview-card-body">
                         <p id="preview" class="preview-para" textcontent.bind="inspiredBy"></p>
