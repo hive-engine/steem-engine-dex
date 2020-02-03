@@ -30,10 +30,32 @@
             </div>
             <div class="col-md-3">
                 <div class="preview-card">
-                    <img src="../../../images/nft-placeholder.svg" alt="" class="preview-img">
-                    <p id="para-1" class="preview-para dashed-border-btm" textcontent.bind="tokenName"></p>
-                    <p id="preview" class="preview-para" textcontent.bind="url"></p>
-                    <p id="preview" class="preview-para" textcontent.bind="symbol"></p>
+                    <div class="preview-card-name">
+                        <!-- <h4 id="para-1" class="preview-para dashed-border-btm" textcontent.bind="symbol"></h4> -->
+                        <div style="margin: 0; padding: 0; display: flex;">
+                            <span style="font-size: 10px; color: darkgray; align-self: center;">Price: </span>
+                            <span class="maxSupply" textcontent.bind="tokenPrice"></span
+                            ><small
+                                style="font-size: 10px; color: darkgray; padding-left: 3px; align-self: center;"
+                                textcontent.bind="symbol"
+                            ></small>
+                        </div>
+                        <div style="margin: 0; padding: 0; display: flex;">
+                            <span style="font-size: 10px; color: darkgray; padding-right: 3px; align-self: center;"
+                                >Max:
+                            </span>
+                            <span class="maxSupply" textcontent.bind="maxSupply"></span>
+                        </div>
+                    </div>
+                    <div class="preview-card-image text-center">
+                        <img src="../../../images/nft-piggy-bank.jpg" alt="" width="100%" class="preview-img" />
+                    </div>
+                    <div class="card-ownership">
+                        <span textcontent.bind="account.name"></span>
+                    </div>
+                    <div class="preview-card-body">
+                        <p id="preview" class="preview-para" textcontent.bind="inspiredBy"></p>
+                    </div>
                 </div>
             </div>
             <div class="col-sm-12 col-md-6">
@@ -81,6 +103,44 @@
                             class="form-control"
                             value.bind="url & validate"
                             click.trigger="info('[OPTIONAL] URL of the project (max length of 255)')"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="create-nft-form-label"
+                            >${'What Inspired this Collection' & t}
+                            <tooltip text="[REQUIRED] What inspired this collection?"></tooltip
+                        ></label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            value.bind="inspiredBy & validate"
+                            click.trigger="info('
+                                <strong>What inspired this collection?</strong>
+                                <br>
+                                <small>(letters, numbers, whitespace only, max length of 50)</small> 
+                                <hr> What idea inspired this collection? <br>
+                                <h4>Examples</h4>
+                                <p>The top hit songs in the 80s</p>
+                            ')"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="create-nft-form-label"
+                            >${'Tell us about this Collection' & t}
+                            <tooltip text="[REQUIRED] What is this collection about?"></tooltip
+                        ></label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            value.bind="tokenDesc & validate"
+                            click.trigger="info('
+                                <strong>What is this collection about?</strong>
+                                <br>
+                                <small>(letters, numbers, whitespace only, max length of 50)</small> 
+                                <hr> Tell us what this collection represents <br>
+                                <h4>Examples</h4>
+                                <p>All the arts in this collection is a reminder of my grandma\'s painting</p>
+                            ')"
                         />
                     </div>
                     <div class="form-group">
@@ -133,6 +193,54 @@
                             class="form-control"
                             value.bind="maxSupply & validate"
                             click.trigger="info('[OPTIONAL] Maximum supply for the token (between 1 and 9,007,199,254,740,991). If max supply is not specified, then the supply will be unlimited.')"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="create-nft-form-label"
+                            >${'Image URL' & t}
+                            <tooltip
+                                text="[REQUIRED] This will be the a link that leads to the main image associated with this collection."
+                            ></tooltip>
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control mb-3"
+                            value.bind="tokenImageURL"
+                            click.trigger="info('
+                            [REQUIRED] This will be the a link that leads to the main image associated with this collection.<hr>
+                            You will not be able to edit this link later so make sure it is the right one.
+                            ')"
+                        />
+                    </div>
+                    <div class="form-group d-flex">
+                        <label class="create-nft-form-label"
+                            >${'NSFW' & t}
+                            <tooltip
+                                text="[REQUIRED] Mark this collection as Not Safe for Work?."
+                            ></tooltip>
+                        </label>
+                        <input
+                            type="checkbox" checked
+                            class="checkbox-style"
+                            click.trigger="info('
+                            [REQUIRED] This will be the a link that leads to the main image associated with this collection.<hr>
+                            You will not be able to edit this link later so make sure it is the right one.
+                            ')"
+                        />
+                    </div>
+                    <div class="form-group d-flex">
+                        <label class="create-nft-form-label consent-text"
+                            >${'Do you have the consent to create this collection?' & t}
+                            <tooltip
+                                text="[REQUIRED] Do you have all the legal permission to create this collection?"
+                            ></tooltip>
+                        </label>
+                        <input
+                            type="checkbox" checked
+                            class="checkbox-style"
+                            click.trigger="info('
+                            [REQUIRED] Do you have all the legal permission to create this collection?
+                            ')"
                         />
                     </div>
 
