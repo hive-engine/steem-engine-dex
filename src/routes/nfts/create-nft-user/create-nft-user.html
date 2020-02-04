@@ -1,5 +1,6 @@
 <template>
     <require from="./info-boxes/nft-create-info.html"></require>
+    <require from="./create-nft-user-nav/stepsnav"></require>
     <header class="create-nft-header-wrapper">
         <div class="container">
             <div class="row">
@@ -28,12 +29,16 @@
                 </p>
                 <p>${'yourEngBalance' & t: { 'balance': engBalance, 'token': environment.nativeToken }}</p>
             </div>
+            <stepsnav selected='step-one' style="width: 100%;"></stepsnav>
+            
+        </div>
+        <div class="row">
             <div class="col-md-3">
                 <div class="preview-card">
                     <div class="preview-card-name">
                         <!-- <h4 id="para-1" class="preview-para dashed-border-btm" textcontent.bind="symbol"></h4> -->
                         <div style="margin: 0; padding: 0; display: flex;">
-                            <span class="preview-info" >Price: </span>
+                            <span class="preview-info">Price: </span>
                             <span class="preview-info" class="maxSupply" textcontent.bind="tokenPrice"></span
                             ><small
                                 style="font-size: 10px; color: darkgray; padding-left: 3px; align-self: center;"
@@ -69,18 +74,19 @@
                             width="80px"
                         />
                     </div>
-                    <div class="form-group">
-                        <label class="create-nft-form-label"
-                            >${'Name Your Collection ' & t}
-                            <tooltip
-                                text="[REQUIRED] Name of the token (letters, numbers, whitespace only, max length of 50)"
-                            ></tooltip
-                        ></label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            value.bind="tokenName & validate"
-                            click.trigger="info('
+                    <div class="hide-ts custom-tabs tab-1" id="tab-1">
+                        <div class="form-group">
+                            <label class="create-nft-form-label"
+                                >${'Name Your Collection ' & t}
+                                <tooltip
+                                    text="[REQUIRED] Name of the token (letters, numbers, whitespace only, max length of 50)"
+                                ></tooltip
+                            ></label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                value.bind="tokenName & validate"
+                                click.trigger="info('
                             <strong>Name of the collection</strong>
                             <br>
                             <small>(letters, numbers, whitespace only, max length of 50)</small> 
@@ -92,30 +98,30 @@
                                 <li> Country Boys</li>
                             </ul>
                             ')"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label class="create-nft-form-label"
-                            >${'Enter Your Website' & t}
-                            <tooltip text="[OPTIONAL] URL of the project (max length of 255)"></tooltip
-                        ></label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            value.bind="url & validate"
-                            click.trigger="info('[OPTIONAL] URL of the project (max length of 255)')"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label class="create-nft-form-label"
-                            >${'What Inspired this Collection' & t}
-                            <tooltip text="[REQUIRED] What inspired this collection?"></tooltip
-                        ></label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            value.bind="inspiredBy & validate"
-                            click.trigger="info('
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label class="create-nft-form-label"
+                                >${'Enter Your Website' & t}
+                                <tooltip text="[OPTIONAL] URL of the project (max length of 255)"></tooltip
+                            ></label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                value.bind="url & validate"
+                                click.trigger="info('[OPTIONAL] URL of the project (max length of 255)')"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label class="create-nft-form-label"
+                                >${'What Inspired this Collection' & t}
+                                <tooltip text="[REQUIRED] What inspired this collection?"></tooltip
+                            ></label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                value.bind="inspiredBy & validate"
+                                click.trigger="info('
                                 <strong>What inspired this collection?</strong>
                                 <br>
                                 <small>(letters, numbers, whitespace only, max length of 50)</small> 
@@ -123,18 +129,18 @@
                                 <h4>Examples</h4>
                                 <p>The top hit songs in the 80s</p>
                             ')"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label class="create-nft-form-label"
-                            >${'Tell us about this Collection' & t}
-                            <tooltip text="[REQUIRED] What is this collection about?"></tooltip
-                        ></label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            value.bind="tokenDesc & validate"
-                            click.trigger="info('
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label class="create-nft-form-label"
+                                >${'Tell us about this Collection' & t}
+                                <tooltip text="[REQUIRED] What is this collection about?"></tooltip
+                            ></label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                value.bind="tokenDesc & validate"
+                                click.trigger="info('
                                 <strong>What is this collection about?</strong>
                                 <br>
                                 <small>(letters, numbers, whitespace only, max length of 50)</small> 
@@ -142,110 +148,120 @@
                                 <h4>Examples</h4>
                                 <p>All the arts in this collection is a reminder of my grandma\'s painting</p>
                             ')"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label class="create-nft-form-label"
-                            >${'authorisedIssuingAccounts' & t}
-                            <a
-                                href="javascript:void(0);"
-                                click.delegate="addAuthorisedAccount()"
-                                if.bind="authorisedIssuingAccounts.length < 10"
-                                >+</a
-                            >
-                            <tooltip
-                                text="[OPTIONAL] A list of Steem accounts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then the NFT owner (the account that calls create) will be the only such authorized account by default."
-                            ></tooltip>
-                        </label>
-                        <input
-                            type="text"
-                            class="form-control mb-3"
-                            value.bind="account.name"
-                            repeat.for="account of authorisedIssuingAccounts"
-                            click.trigger="info('[OPTIONAL] A list of Steem accounts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then the NFT owner (the account that calls create) will be the only such authorized account by default.')"
-                        />
-                    </div>
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label class="create-nft-form-label"
+                                >${'authorisedIssuingAccounts' & t}
+                                <a
+                                    href="javascript:void(0);"
+                                    click.delegate="addAuthorisedAccount()"
+                                    if.bind="authorisedIssuingAccounts.length < 10"
+                                    >+</a
+                                >
+                                <tooltip
+                                    text="[OPTIONAL] A list of Steem accounts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then the NFT owner (the account that calls create) will be the only such authorized account by default."
+                                ></tooltip>
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control mb-3"
+                                value.bind="account.name"
+                                repeat.for="account of authorisedIssuingAccounts"
+                                click.trigger="info('[OPTIONAL] A list of Steem accounts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then the NFT owner (the account that calls create) will be the only such authorized account by default.')"
+                            />
+                        </div>
 
-                    <div class="form-group">
-                        <label class="create-nft-form-label"
-                            >${'Symbol' & t}
-                            <tooltip
-                                text="[REQUIRED] Symbol of the token (uppercase letters only, max length of 10)"
-                            ></tooltip
-                        ></label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            value.bind="symbol & validate"
-                            click.trigger="info('[REQUIRED] Symbol of the token (uppercase letters only, max length of 10)')"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label class="create-nft-form-label"
-                            >${'Max Supply' & t}
-                            <tooltip
-                                text="[OPTIONAL] Maximum supply for the token (between 1 and 9,007,199,254,740,991). If max supply is not specified, then the supply will be unlimited."
-                            ></tooltip
-                        ></label>
-                        <input
-                            type="number"
-                            min="0"
-                            max="9007199254740991"
-                            class="form-control"
-                            value.bind="maxSupply & validate"
-                            click.trigger="info('[OPTIONAL] Maximum supply for the token (between 1 and 9,007,199,254,740,991). If max supply is not specified, then the supply will be unlimited.')"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label class="create-nft-form-label"
-                            >${'Image URL' & t}
-                            <tooltip
-                                text="[REQUIRED] This will be the a link that leads to the main image associated with this collection."
-                            ></tooltip>
-                        </label>
-                        <input
-                            type="text"
-                            class="form-control mb-3"
-                            value.bind="tokenImageURL"
-                            click.trigger="info('
+                        <div class="form-group">
+                            <label class="create-nft-form-label"
+                                >${'Symbol' & t}
+                                <tooltip
+                                    text="[REQUIRED] Symbol of the token (uppercase letters only, max length of 10)"
+                                ></tooltip
+                            ></label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                value.bind="symbol & validate"
+                                click.trigger="info('[REQUIRED] Symbol of the token (uppercase letters only, max length of 10)')"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label class="create-nft-form-label"
+                                >${'Max Supply' & t}
+                                <tooltip
+                                    text="[OPTIONAL] Maximum supply for the token (between 1 and 9,007,199,254,740,991). If max supply is not specified, then the supply will be unlimited."
+                                ></tooltip
+                            ></label>
+                            <input
+                                type="number"
+                                min="0"
+                                max="9007199254740991"
+                                class="form-control"
+                                value.bind="maxSupply & validate"
+                                click.trigger="info('[OPTIONAL] Maximum supply for the token (between 1 and 9,007,199,254,740,991). If max supply is not specified, then the supply will be unlimited.')"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label class="create-nft-form-label"
+                                >${'Image URL' & t}
+                                <tooltip
+                                    text="[REQUIRED] This will be the a link that leads to the main image associated with this collection."
+                                ></tooltip>
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control mb-3"
+                                value.bind="tokenImageURL"
+                                click.trigger="info('
                             [REQUIRED] This will be the a link that leads to the main image associated with this collection.<hr>
                             You will not be able to edit this link later so make sure it is the right one.
                             ')"
-                        />
-                    </div>
-                    <div class="form-group d-flex">
-                        <label class="create-nft-form-label"
-                            >${'NSFW' & t}
-                            <tooltip
-                                text="[REQUIRED] Mark this collection as Not Safe for Work?."
-                            ></tooltip>
-                        </label>
-                        <input
-                            type="checkbox" checked
-                            class="checkbox-style"
-                            click.trigger="info('
+                            />
+                        </div>
+                        <div class="form-group d-flex">
+                            <label class="create-nft-form-label"
+                                >${'NSFW' & t}
+                                <tooltip text="[REQUIRED] Mark this collection as Not Safe for Work?."></tooltip>
+                            </label>
+                            <input
+                                type="checkbox"
+                                checked
+                                class="checkbox-style"
+                                click.trigger="info('
                             [REQUIRED] This will be the a link that leads to the main image associated with this collection.<hr>
                             You will not be able to edit this link later so make sure it is the right one.
                             ')"
-                        />
-                    </div>
-                    <div class="form-group d-flex">
-                        <label class="create-nft-form-label consent-text"
-                            >${'Do you have the consent to create this collection?' & t}
-                            <tooltip
-                                text="[REQUIRED] Do you have all the legal permission to create this collection?"
-                            ></tooltip>
-                        </label>
-                        <input
-                            type="checkbox" checked
-                            class="checkbox-style"
-                            click.trigger="info('
+                            />
+                        </div>
+                        <div class="form-group d-flex">
+                            <label class="create-nft-form-label consent-text"
+                                >${'Do you have the consent to create this collection?' & t}
+                                <tooltip
+                                    text="[REQUIRED] Do you have all the legal permission to create this collection?"
+                                ></tooltip>
+                            </label>
+                            <input
+                                type="checkbox"
+                                checked
+                                class="checkbox-style"
+                                click.trigger="info('
                             [REQUIRED] Do you have all the legal permission to create this collection?
                             ')"
-                        />
+                            />
+                        </div>
                     </div>
-
-                    <div class="form-group">
+                    <div class="hide-ts custom-tabs hide-tabs tab-2" id="tab-2">
+                        <h1>hello from step 2</h1>
+                    </div>
+                    <div class="hide-ts custom-tabs hide-tabs tab-3" id="tab-3">
+                        <h1>hello from step 3</h1>
+                    </div>
+                    <div class="steps-btn">
+                        <button id="nextBtn" class="nextBtn" click.delegate="handlePrev(-1)">Next</button>
+                        <button id="prevBtn" class="prevBtn" click.delegate="handleNext(1)">Prev</button>
+                    </div>
+                    <div class="form-group submit-nft-button">
                         <button
                             type="button"
                             disabled.bind="tokenCreationFee > engBalance"
