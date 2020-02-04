@@ -15,6 +15,12 @@
     color: #fff;
     font-size: 18px;
 }
+.register-logo {
+    margin-bottom: 15px;
+}
+.full-width {
+    width: 100%;
+}
 .steps-count {
     display: flex;
   justify-content: space-around;
@@ -62,7 +68,7 @@ span.step-one:after {
     height: 2px;
     left: 100%;
     top: 50%;
-    background: rgb(165, 11, 11);
+    background: #d8d8d8;
     z-index: -1;
 }
 .standalone-header {
@@ -156,4 +162,10 @@ span.step-one:after {
 }
 .consent-text {
     text-align: left !important;
+}
+.submit-nft-button {
+    display: none;
+}
+.hide-tabs {
+    display: none;
 }
