@@ -28,12 +28,21 @@
                 </p>
                 <p>${'yourEngBalance' & t: { 'balance': engBalance, 'token': environment.nativeToken }}</p>
             </div>
+            <div class="steps-count" style="text-align:center!important;margin-bottom:40px;">
+                <span class="step step-one active"><strong>1</strong></span>
+                <!-- <span class="split-one"></span> -->
+                <span class="step"><strong>2</strong></span>
+                <span class="step"><strong>3</strong></span>
+                <span class="step"><strong>4</strong></span>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-3">
                 <div class="preview-card">
                     <div class="preview-card-name">
                         <!-- <h4 id="para-1" class="preview-para dashed-border-btm" textcontent.bind="symbol"></h4> -->
                         <div style="margin: 0; padding: 0; display: flex;">
-                            <span class="preview-info" >Price: </span>
+                            <span class="preview-info">Price: </span>
                             <span class="preview-info" class="maxSupply" textcontent.bind="tokenPrice"></span
                             ><small
                                 style="font-size: 10px; color: darkgray; padding-left: 3px; align-self: center;"
@@ -216,12 +225,11 @@
                     <div class="form-group d-flex">
                         <label class="create-nft-form-label"
                             >${'NSFW' & t}
-                            <tooltip
-                                text="[REQUIRED] Mark this collection as Not Safe for Work?."
-                            ></tooltip>
+                            <tooltip text="[REQUIRED] Mark this collection as Not Safe for Work?."></tooltip>
                         </label>
                         <input
-                            type="checkbox" checked
+                            type="checkbox"
+                            checked
                             class="checkbox-style"
                             click.trigger="info('
                             [REQUIRED] This will be the a link that leads to the main image associated with this collection.<hr>
@@ -237,7 +245,8 @@
                             ></tooltip>
                         </label>
                         <input
-                            type="checkbox" checked
+                            type="checkbox"
+                            checked
                             class="checkbox-style"
                             click.trigger="info('
                             [REQUIRED] Do you have all the legal permission to create this collection?
