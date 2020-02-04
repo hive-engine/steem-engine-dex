@@ -110,6 +110,7 @@ export class CreateNftUser {
     attached() {
         this.authorisedIssuingAccounts.push({ name: this.se.getUser() });
         this.authorisedIssuingContracts.push({ name: '' });
+        
     }
 
     addAuthorisedAccount() {
@@ -187,10 +188,17 @@ export class CreateNftUser {
             }
         }
     }
-    info (e) {
+    info(e) {
         const hint = e;
         console.log(`let's display some components ${e}`);
         // $('.hidden-box').css('display', 'none');
         $('#here').html(hint);
     }
+    handleNext(n) {
+        console.log('next');
+    }
+    handlePrev(n) {
+        console.log('previous');
+    }
+    
 }
