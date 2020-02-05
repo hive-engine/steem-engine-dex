@@ -1,6 +1,9 @@
 <template>
     <require from="./info-boxes/nft-create-info.html"></require>
     <require from="./create-nft-user-nav/stepsnav"></require>
+    <require from="./create-nft-user-components/stepone"></require>
+    <require from="./create-nft-user-components/steptwo"></require>
+    <require from="./create-nft-user-components/stepthree"></require>
     <header class="create-nft-header-wrapper">
         <div class="container">
             <div class="row">
@@ -29,8 +32,7 @@
                 </p>
                 <p>${'yourEngBalance' & t: { 'balance': engBalance, 'token': environment.nativeToken }}</p>
             </div>
-            <stepsnav selected='step-one' style="width: 100%;"></stepsnav>
-            
+            <stepsnav selected="step-one" style="width: 100%;"></stepsnav>
         </div>
         <div class="row">
             <div class="col-md-3">
@@ -250,23 +252,19 @@
                             ')"
                             />
                         </div>
+                        <div class="step-btn">
+                            <button id="nextBtn" class="nextBtn" click.delegate="handleNext(2)">&#8250;</button>
+                        </div>
                     </div>
-                    <div class="hide-ts custom-tabs hide-tabs tab-2" id="tab-2">
-                        <h1>hello from step 2</h1>
-                    </div>
-                    <div class="hide-ts custom-tabs hide-tabs tab-3" id="tab-3">
-                        <h1>hello from step 3</h1>
-                    </div>
-                    <div class="steps-btn">
-                        <button id="nextBtn" class="nextBtn" click.delegate="handlePrev(-1)">Next</button>
-                        <button id="prevBtn" class="prevBtn" click.delegate="handleNext(1)">Prev</button>
-                    </div>
-                    <div class="form-group submit-nft-button">
+                    <steptwo class="hide-ts custom-tabs hide-tabs tab-2" id="tab-2"></steptwo>
+                    <stepthree class="hide-ts custom-tabs hide-tabs tab-3" id="tab-3"></stepthree>
+                    <div class="">
                         <button
+                            id="submit-btn"
                             type="button"
                             disabled.bind="tokenCreationFee > engBalance"
-                            class="greenBtn"
-                            style="border: none;"
+                            class="greenBtn custom-tabs hide-ts"
+                            style="border: none; display: none;"
                             click.delegate="createToken()"
                         >
                             ${'Create my token' & t}
