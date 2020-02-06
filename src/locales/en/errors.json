@@ -27,7 +27,7 @@
     "maxSupply": "Please enter a number from 1 to 9007199254740991",
     "symbolValid": "Symbols must be all uppercase strings with a minimum length of 3 and maximum length of 10.",
     "maximumLength50": "Maximum length of 50 characters.",
-    "errorSubmittedTransfer": "There is an error occured during execution of the transaction",
+    "errorSubmittedTransfer": "There is an error occured during execution of the transaction: {{error}}",
     "precisionRequired": "Please enter a precision",
     "precisionGreaterThanZero": "Please enter a precision greater than 0",
     "precisionLessThanMax": "Please enter a precision less or equal to {{maxPrecision}}",
