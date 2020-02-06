@@ -257,6 +257,8 @@ interface INft {
     symbol: string;
     issuer: string;
     name: string;
+    orgName: string;
+    productName: string;
     supply: number;
     maxSupply: number;
     metadata: {

@@ -1,4 +1,6 @@
 <template>
+    <loader mode="tiny" loading.bind="loading"></loader>
+
     <header class="main-header">
         <div class="container-fluid main-container d-flex flex-column justify-content-end">
             <div class="row">
@@ -17,7 +19,7 @@
                 <h4>${'Existing Properties'}</h4>
                 <p>These properties are currently already added to your NFT definition. Any additional properties beyond three will incur a charge of 100 ${environment.nativeToken}</p>
             </div>
-            
+
             <div class="col-12">
                 <table class="table order-list">
                     <thead>
@@ -25,18 +27,51 @@
                             <td><strong>Name</strong></td>
                             <td><strong>Type</strong></td>
                             <td><strong>Read Only</strong></td>
+                            <td></td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr repeat.for="property of token.properties">
                             <td>
-                                ${property.name}
+                                <div if.bind="!property.editMode">
+                                    ${property.name}
+                                </div>
+                                <div if.bind="property.editMode">
+                                    <input type="text" class="form-control" value.bind="property.newName">
+                                </div>
                             </td>
                             <td>
-                                ${property.type}
+                                <div if.bind="!property.editMode">
+                                    ${property.type}
+                                </div>
+                                <div if.bind="property.editMode">
+                                    <select class="form-control" value.bind="property.newType">
+                                        <option value="boolean">Boolean</option>
+                                        <option value="number">Number</option>
+                                        <option value="string">String</option>
+                                    </select>
+                                </div>
                             </td>
                             <td>
-                                ${property.isReadOnly ? 'true' : 'false'}
+                                <!--<div if.bind="!property.editMode">-->
+                                    ${property.isReadOnly ? 'true' : 'false'}
+                                <!--</div>
+                                <div if.bind="property.editMode">
+                                    <select class="form-control" value.bind="property.newIsReadOnly">
+                                        <option model.bind="true">True</option>
+                                        <option model.bind="false">False</option>
+                                    </select>
+                                </div>-->
+                            </td>
+                            <td>
+                                <div if.bind="isEditable(property)">
+                                    <button if.bind="!property.editMode" click.delegate="propertyEditMode(property, true)">Edit</button>
+                                    <button if.bind="property.editMode" click.delegate="propertyEditMode(property, false)">Cancel</button>
+                                    <button if.bind="property.editMode && (property.name !== property.newName || property.type !== property.newType || property.isReadOnly !== property.newIsReadOnly)"
+                                            click.delegate="updatePropertyDefinition(property)">
+                                        Update
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -48,7 +83,7 @@
             <div class="col-12">
                 <h4>${'Properties'}</h4>
                 <p>Set one or more optional properties at the time of issuing. String values can have a maximum length of 100 characters. You can only set a property value once.</p>
-                
+
                 <table class="table order-list">
                     <thead>
                         <tr>
@@ -95,6 +130,6 @@
                 <div class="form-group">
                     <button type="button" class="btn btn-lg btn-primary" click.delegate="saveChanges()">${'Add Properties' & t}</button>
                 </div>
+            </div>
         </div>
-    </div>
 </template>

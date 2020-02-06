@@ -15,7 +15,44 @@
     color: #fff;
     font-size: 18px;
 }
+.register-logo {
+    margin-bottom: 15px;
+}
+.full-width {
+    width: 100%;
+}
+.steps-count {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+.step {
+    height: 60px;
+    width: 60px;
+    margin: 0 2px;
+    background-color: #d8d8d8;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    position: relative;
+}
 
+.step.active {
+    background-color: #0048b3;
+    color: #fff !important;
+}
+.step.active strong {
+    color: #fff;
+    font-weight: bolder;
+    transform: scale(2);
+}
+
+.step strong {
+    color: black;
+    margin: auto;
+}
 .headImg {
     position: absolute;
     bottom: -59px;
@@ -23,11 +60,16 @@
     z-index: 1;
 }
 
-.split {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border: 0;
-    border-top: 1px solid #eee;
+span.step-one:after {
+    content: '';
+    position: absolute;
+    margin: auto;
+    width: 800px;
+    height: 2px;
+    left: 100%;
+    top: 50%;
+    background: #d8d8d8;
+    z-index: -1;
 }
 .standalone-header {
     padding: 50px 0px 0px;
@@ -120,4 +162,46 @@
 }
 .consent-text {
     text-align: left !important;
+}
+.submit-nft-button {
+    display: none;
+}
+.hide-tabs {
+    display: none;
+}
+.steps-btn {
+    display: flex;
+    justify-content: space-between;
+}
+.step-btn {
+    display: flex;
+    justify-content: flex-end;
+}
+.prevBtn {
+    border-radius: 50%;
+    background-color: #ff3300;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    font-size: 20px;
+    width: 60px;
+    height: 60px;
+}
+.prevBtn:hover {
+    background-color: #ddd;
+    color: black;
+}
+.nextBtn {
+    border-radius: 50%;
+    background-color: #4caf50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    font-size: 20px;
+    width: 60px;
+    height: 60px;
+}
+.nextBtn:hover {
+    background-color: rgb(221, 221, 221);
+    color: black;
 }

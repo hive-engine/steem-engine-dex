@@ -21,47 +21,49 @@ export class EditNft {
     private state: State;
     private token: INft;
     private nft: INft;
+    private nameRules;
+    private orgNameRules;
+    private productNameRules;
+    private orgName;
+    private productName;
+    private name;
+    private loading = false;
 
-    static inject = [NewInstance.of(ValidationController), NewInstance.of(ValidationController), SteemEngine, TaskQueue, DialogService];
+    static inject = [NewInstance.of(ValidationController), NewInstance.of(ValidationController), NewInstance.of(ValidationController), NewInstance.of(ValidationController), SteemEngine, TaskQueue, DialogService];
 
-    constructor(private nameController: ValidationController, private metadataController: ValidationController, private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {
+    constructor(private nameController: ValidationController,
+        private metadataController: ValidationController,
+        private orgNameController: ValidationController,
+        private productNameController: ValidationController,
+        private se: SteemEngine,
+        private taskQueue: TaskQueue,
+        private dialogService: DialogService) {
+
         this.renderer = new BootstrapFormRenderer();
 
         this.nameController.addRenderer(this.renderer);
         this.metadataController.addRenderer(this.renderer);
+        this.orgNameController.addRenderer(this.renderer);
+        this.productNameController.addRenderer(this.renderer);
     }
 
     async canActivate({ symbol }) {
         try {
-            await dispatchify(getNft)(symbol);
+            await dispatchify(getNft)(symbol);            
         } catch {
             return new Redirect('/wallet');
         }
-    }
-
-    addValidationRules() {
-        const nameRules = ValidationRules.
-            ensure('name')
-            .required()
-            .withMessageKey('errors:required')
-            .maxLength(50)
-            .withMessageKey('errors:maximumLength50')
-            .satisfies((value: string) => {
-                return value?.match(/^[a-zA-Z0-9 ]*$/)?.length > 0 ?? false;
-            })
-            .withMessageKey('errors:requiredAlphaNumericSpaces').rules;
-
-        this.nameController.removeObject(this.token);
-        this.nameController.addObject(this.token, nameRules);
-    }
+    }    
 
     async updateName() {
         const validationResult = await this.nameController.validate();
 
-        if (validationResult.valid && this.nft.name !== this.token.name) {
+        if (validationResult.valid && this.nft.name !== this.name) {
+            this.loading = true;
+
             const payload = {
                 symbol: this.nft.symbol,
-                name: this.token.name
+                name: this.name
             };
 
             const result = await createTransaction(
@@ -70,9 +72,69 @@ export class EditNft {
                 'updateName',
                 payload,
                 'Update Name ',
-                'updateSuccess',
-                'updateError',
+                'updateNftSuccess',
+                'updateNftError',
             );
+
+            this.loading = false;
+
+            if (result !== false) {
+                window.location.reload();
+            }
+        }
+    }
+
+    async updateOrgName() {
+        const validationResult = await this.orgNameController.validate();
+
+        if (validationResult.valid && this.nft.orgName !== this.orgName) {
+            this.loading = true;
+
+            const payload = {
+                symbol: this.nft.symbol,
+                orgName: this.orgName
+            };
+
+            const result = await createTransaction(
+                this.state.account.name,
+                'nft',
+                'updateOrgName',
+                payload,
+                'Update Organization Name',
+                'updateNftSuccess',
+                'updateNftError',
+            );
+
+            this.loading = false;
+
+            if (result !== false) {
+                window.location.reload();
+            }            
+        }
+    }
+
+    async updateProductName() {
+        const validationResult = await this.productNameController.validate();
+
+        if (validationResult.valid && this.nft.productName !== this.productName) {
+            this.loading = true;
+
+            const payload = {
+                symbol: this.nft.symbol,
+                productName: this.productName
+            };
+
+            const result = await createTransaction(
+                this.state.account.name,
+                'nft',
+                'updateProductName',
+                payload,
+                'Update Product Name',
+                'updateNftSuccess',
+                'updateNftError',
+            );
+
+            this.loading = false;
 
             if (result !== false) {
                 window.location.reload();
@@ -95,17 +157,33 @@ export class EditNft {
             return;
         }
 
-        if (validationResult.valid) {
+        // at least one var must be changed
+        if (validationResult.valid &&
+            (this.token.metadata.url != this.nft.metadata.url ||
+            this.token.metadata.icon != this.nft.metadata.icon ||
+            this.token.metadata.desc != this.nft.metadata.desc)) {
+            this.loading = true;
+
             const result = await createTransaction(
                 this.state.account.name,
                 'nft',
                 'updateMetadata',
                 payload,
                 'Update Metadata ',
-                'updateSuccess',
-                'updateError',
+                'updateNftSuccess',
+                'updateNftError',
             );
+
+            this.loading = false;
+
+            if (result !== false) {
+                window.location.reload();
+            }            
         }
+    }
+
+    bind() {
+        this.addValidationRules();
     }
 
     stateChanged(newState) {
@@ -123,9 +201,62 @@ export class EditNft {
             this.token.metadata.icon = '';
         }
 
-        this.nft = cloneDeep(this.token);
+        this.nft = cloneDeep(this.token); 
 
-        this.addValidationRules();
+        this.name = this.nft.name;
+        this.productName = this.nft.productName;
+        this.orgName = this.nft.orgName;
+    }
+
+    addValidationRules() {
+        this.addValidationRulesName();
+        this.addValidationRulesOrgName();
+        this.addValidationRulesProductName();
+    }
+
+    addValidationRulesName() {
+        this.nameRules = ValidationRules.
+            ensure('name')
+            .required()
+            .withMessageKey('errors:required')
+            .maxLength(50)
+            .withMessageKey('errors:maximumLength50')
+            .satisfies((value: string) => {
+                return value?.match(/^[a-zA-Z0-9 ]*$/)?.length > 0 ?? false;
+            })
+            .withMessageKey('errors:requiredAlphaNumericSpaces').rules;
+
+        this.nameController.addObject(this, this.nameRules);
+    }
+
+    addValidationRulesOrgName() {
+        this.orgNameRules = ValidationRules.
+            ensure('orgName')
+            .required()
+            .withMessageKey('errors:required')
+            .maxLength(50)
+            .withMessageKey('errors:maximumLength50')
+            .satisfies((value: string) => {
+                return value?.match(/^[a-zA-Z0-9 ]*$/)?.length > 0 ?? false;
+            })
+            .withMessageKey('errors:requiredAlphaNumericSpaces').rules;
+
+        this.orgNameController.addObject(this, this.orgNameRules);
+    }
+
+    addValidationRulesProductName() {
+        this.productNameRules = ValidationRules.
+            ensure('productName')
+            .required()
+            .withMessageKey('errors:required')
+            .maxLength(50)
+            .withMessageKey('errors:maximumLength50')
+            .satisfies((value: string) => {
+                return value?.match(/^[a-zA-Z0-9 ]*$/)?.length > 0 ?? false;
+            })
+            .withMessageKey('errors:requiredAlphaNumericSpaces').rules;  
+
+        this.productNameController.addObject(this, this.productNameRules);
     }
 
 }

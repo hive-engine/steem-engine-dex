@@ -110,6 +110,12 @@ export class CreateNftUser {
     attached() {
         this.authorisedIssuingAccounts.push({ name: this.se.getUser() });
         this.authorisedIssuingContracts.push({ name: '' });
+
+        // var n = 0;
+        // hidePrev(n)
+        // fucntion hidePrev (n) {
+        // $('#prevBtn').css('display', 'none');
+        // }
     }
 
     addAuthorisedAccount() {
@@ -187,10 +193,17 @@ export class CreateNftUser {
             }
         }
     }
-    info (e) {
+    info(e) {
         const hint = e;
         console.log(`let's display some components ${e}`);
         // $('.hidden-box').css('display', 'none');
         $('#here').html(hint);
+    }
+    
+    handleNext (n) {
+        $('.custom-tabs').css('display', 'none');
+        $('.tab-'+ n).css('display', 'block');
+        $('.step').addClass('active');
+        console.log(n)
     }
 }

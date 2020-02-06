@@ -372,6 +372,13 @@ export class App {
                 title: 'Create NFT User',
             },
             {
+                route: 'nft-user-showroom',
+                name: 'nftUserShowroom',
+                moduleId: PLATFORM.moduleName('./routes/nfts/nft-user-showroom/nft-user-showroom', 'nft-user-showroom'),
+                nav: false,
+                title: 'User Showroom',
+            },
+            {
                 route: 'edit-nft/:symbol',
                 name: 'editNft',
                 moduleId: PLATFORM.moduleName('./routes/nfts/edit', 'nft-edit'),
