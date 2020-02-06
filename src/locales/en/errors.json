@@ -27,7 +27,7 @@
     "maxSupply": "Please enter a number from 1 to 9007199254740991",
     "symbolValid": "Symbols must be all uppercase strings with a minimum length of 3 and maximum length of 10.",
     "maximumLength50": "Maximum length of 50 characters.",
-    "errorSubmittedTransfer": "There is an error occured during execution of the transaction",
+    "errorSubmittedTransfer": "There is an error occured during execution of the transaction: {{error}}",
     "precisionRequired": "Please enter a precision",
     "precisionGreaterThanZero": "Please enter a precision greater than 0",
     "precisionLessThanMax": "Please enter a precision less or equal to {{maxPrecision}}",
@@ -36,5 +36,10 @@
     "max10rows": "A maximum of 10 items is only allowed",
     "insufficientBalanceToWithdraw": "You do not have enough {{symbol}} to withdraw entered amount. Your balance is: {{balance}}",
     "withdrawAddressRequired": "Withdraw address is required",
-    "withdrawTokenRequired": "Token is required"
+    "withdrawTokenRequired": "Token is required",
+    "nftSellPriceRequired": "Price is required",
+    "nftSellPriceGreaterThanZero": "Price must be greater than 0",
+    "nftSellPriceSymbolRequired": "Price symbol is required",
+    "nftTransferToRequired": "Transfer NFT To is required",
+    "nftTransferToTypeRequired": "Transfer NFT To Type is required"
 }

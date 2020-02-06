@@ -1,17 +1,21 @@
 import { ssc } from 'common/ssc';
+import { checkTransaction } from 'common/steem-engine';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject } from 'aurelia-framework';
 import { steemConnectJson } from 'common/steem';
 import { customJson } from 'common/keychain';
 
 import { environment } from 'environment';
+import moment from 'moment';
+import { ToastService, ToastMessage } from './toast-service';
+import { I18N } from 'aurelia-i18n';
 
 type NftFees = 'ENG' | 'PAL';
 type NftType = 'contract' | 'user';
 
 @autoinject()
 export class NftService {
-    constructor(private se: SteemEngine) {
+    constructor(private se: SteemEngine, private toast: ToastService, private i18n: I18N) {
 
     }
 
@@ -98,6 +102,7 @@ export class NftService {
 
             for (const order of orders) {
                 order.price = parseFloat(order.price);
+                order.timestamp_string = moment.unix(order.timestamp / 1000).format('YYYY-MM-DD HH:mm');
             }
 
             return orders;
@@ -276,6 +281,86 @@ export class NftService {
         });
     }
 
+    async updatePropertyDefinition(symbol: string, property: any) {
+        return new Promise((resolve) => {
+            const transactionData = {
+                contractName: 'nft',
+                contractAction: 'updatePropertyDefinition',
+                contractPayload: {
+                    symbol,
+                    name: property.name
+                }
+            };
+
+            if (property.newName !== property.name) {
+                transactionData.contractPayload = {
+                    ...transactionData.contractPayload,
+                    ...{
+                        newName: property.newName
+                    }
+                };
+            }
+
+            if (property.newType !== property.type) {
+                transactionData.contractPayload = {
+                    ...transactionData.contractPayload,
+                    ...{
+                        type: property.newType
+                    }
+                };
+            }
+
+            if (property.newIsReadOnly !== property.isReadOnly) {
+                transactionData.contractPayload = {
+                    ...transactionData.contractPayload,
+                    ...{
+                        isReadOnly: property.newIsReadOnly
+                    }
+                };
+            }            
+
+            if (window.steem_keychain) {
+                window.steem_keychain.requestCustomJson(this.se.getUser(), environment.chainId, 'Active', JSON.stringify(transactionData), 'Update Property Definition', async (response) => {
+
+                    if (response.success && response.result) {
+                        try {
+                            await checkTransaction(response.result.id, 3);
+
+                            const toast = new ToastMessage();
+
+                            toast.message = this.i18n.tr('updatePropertyDefinitionSuccess', {
+                                symbol,
+                                ns: 'notifications'
+                            });
+
+                            this.toast.success(toast);
+
+                            resolve(true);
+                        } catch (e) {
+                            // Show error toastr: 'An error occurred attempting to unstake tokens: ' + tx.error
+                            const toast = new ToastMessage();
+
+                            toast.message = this.i18n.tr('errorSubmittedTransfer', {
+                                ns: 'errors',
+                                error: e
+                            });
+
+                            this.toast.error(toast);
+
+                            resolve(false);
+                        }
+                    } else {
+                        resolve(false);
+                    }
+                });                
+            } else {
+                steemConnectJson(this.se.getUser(), 'active', transactionData, () => {
+                    resolve(true);
+                });
+            }
+        });
+    }
+
     async changeOwnership(symbol: string, user: string) {
         return new Promise((resolve) => {
             const transactionData = {
@@ -337,7 +422,58 @@ export class NftService {
             }, []);
     
             if (window.steem_keychain) {
-                return resolve(customJson(this.se.getUser(), environment.chainId, 'Active', JSON.stringify(payloads), `Add NFT Properties ${symbol}`));
+                try {
+                    window.steem_keychain.requestCustomJson(this.se.getUser(), environment.chainId, 'Active', JSON.stringify(payloads), `Add NFT Properties ${symbol}`, async (response) => {
+
+                        if (response.success && response.result) {
+                            try {                                
+                                // checktransaction takes very long time for this call
+                                //await checkTransaction(response.result.id, 3);
+                                await new Promise(resolve => setTimeout(resolve, 5000))
+
+                                const toast = new ToastMessage();
+
+                                toast.message = this.i18n.tr('nftAddPropertiesSuccess', {
+                                    symbol,
+                                    ns: 'notifications'
+                                });
+
+                                this.toast.success(toast);
+
+                                resolve(true);
+                            } catch (e) {
+                                // Show error toastr: 'An error occurred attempting to unstake tokens: ' + tx.error
+                                const toast = new ToastMessage();
+
+                                toast.message = this.i18n.tr('errorSubmittedTransfer', {
+                                    ns: 'errors',
+                                    error: e
+                                });
+
+                                this.toast.error(toast);
+
+                                resolve(false);
+                            }
+                        } else {
+                            resolve(false);
+                        }
+                    });         
+                } catch (e) {
+                    /* istanbul ignore next */
+                    const toast = new ToastMessage();
+
+                    /* istanbul ignore next */
+                    toast.message = this.i18n.tr('nftAddPropertiesFailed', {
+                        ns: 'notifications'
+                    });
+
+                    /* istanbul ignore next */
+                    this.toast.error(toast);
+
+                    /* istanbul ignore next */
+                    resolve(false);
+                }
+                
             } else {
                 steemConnectJson(this.se.getUser(), 'active', payloads, () => {
                     resolve(true);

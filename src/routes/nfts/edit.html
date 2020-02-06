@@ -1,4 +1,6 @@
 <template>
+    <loader mode="tiny" loading.bind="loading"></loader>
+
     <header class="main-header">
         <div class="container-fluid main-container d-flex flex-column justify-content-end">
             <div class="row">
@@ -16,11 +18,39 @@
             <div class="col-6">
                 <h4>Name</h4>
                 <div class="form-group">
-                    <input type="text" class="form-control" value.bind="token.name & validate:nameController">
+                    <input type="text" class="form-control" value.bind="name & validate:nameController">
                 </div>
                 <div class="form-group">
-                    <button type="button" class="btn btn-md btn-primary" click.delegate="updateName()">${'Update Name' & t}</button>
-                </div> 
+                    <button type="button" class="btn btn-md btn-primary" click.delegate="updateName()">${'Update name' & t}</button>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row mb-3">
+            <div class="col-6">
+                <h4>Company / Organization name</h4>
+                <div class="form-group">
+                    <input type="text" class="form-control" value.bind="orgName & validate:orgNameController">
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-md btn-primary" click.delegate="updateOrgName()">${'Update organization name' & t}</button>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row mb-3">
+            <div class="col-6">
+                <h4>Product name</h4>
+                <div class="form-group">
+                    <input type="text" class="form-control" value.bind="productName & validate:productNameController">
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-md btn-primary" click.delegate="updateProductName()">${'Update product name' & t}</button>
+                </div>
             </div>
         </div>
 
@@ -43,7 +73,7 @@
                 </div>
                 <div class="form-group">
                     <button type="button" class="btn btn-md btn-primary" click.delegate="updateMetadata()">${'Update Metdata' & t}</button>
-                </div>  
+                </div>
             </div>
         </div>
     </div>

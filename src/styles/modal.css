@@ -93,6 +93,10 @@ ux-dialog>ux-dialog-body {
     overflow: auto;
 }
 
+ux-dialog > ux-dialog-body.withdrawDialogBody {
+    max-height: 500px;
+}
+
 ux-dialog>ux-dialog-body a {
     color: #0048b3;
 }

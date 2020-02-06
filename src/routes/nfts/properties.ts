@@ -21,7 +21,8 @@ export class PropertiesNft {
 
     private state: State;
     private token;
-    private tokenProperties: {name: string; type: string; value: string | number | boolean; isReadOnly: boolean;}[] = [];
+    private tokenProperties: { name: string; type: string; isReadOnly: boolean; editMode: boolean, newName: string, newType: string, newIsReadOnly: boolean}[] = [];
+    private loading = false;
 
     constructor(private se: SteemEngine, private nftService: NftService, private taskQueue: TaskQueue, private dialogService: DialogService) {}
 
@@ -33,8 +34,12 @@ export class PropertiesNft {
         }
     }
 
+    bind() {
+        console.log(this.token);
+    }
+
     addTokenPropertyRow() {
-        this.tokenProperties.push({ name: '', type: 'string', value: '', isReadOnly: false });
+        this.tokenProperties.push({ name: '', type: 'string', isReadOnly: false, editMode: false, newName: '', newType: '', newIsReadOnly: false });
     }
 
     removeProperty($index) {
@@ -42,7 +47,45 @@ export class PropertiesNft {
     }
 
     async saveChanges() {
-        const request = await this.nftService.addProperties(this.token.symbol, this.tokenProperties);
+        this.loading = true;
+
+        const response = await this.nftService.addProperties(this.token.symbol, this.tokenProperties);
+
+        this.loading = false; 
+
+        if (response !== false)
+            window.location.reload();
+    }
+
+    propertyEditMode(property, editModeVal) {
+        property.editMode = editModeVal;
+                
+        property.newName = property.name;       
+        property.newType = property.type;        
+        property.newIsReadOnly = property.isReadOnly;
+    }
+
+    isEditable(property) {
+        return this.token.supply == 0 && !this.token.groupBy.find(x => x === property.name);
+    }
+
+    async updatePropertyDefinition(property) {
+        this.loading = true;
+
+        let nameExists = this.token.properties.find(x => x.name === property.newName);        
+        if (nameExists) {
+            window.alert('Name is already in use for another property');
+            this.loading = false;
+
+            return;
+        }
+
+        const response = await this.nftService.updatePropertyDefinition(this.token.symbol, property);
+
+        this.loading = false;
+
+        if (response !== false)
+            window.location.reload();        
     }
 
     stateChanged(newState) {

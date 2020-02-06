@@ -28,5 +28,10 @@
     "updatePrecisionSucceeded": "Precision of {{symbol}} successfully updated to {{precision}}",
     "updateMetadataSucceeded": "Metadata of {{symbol}} successfully updated",
     "saveSuccess": "Successfully saved",
-    "transactionError": "There was an error attempting to broadcast transaction"
+    "transactionError": "There was an error attempting to broadcast transaction",
+    "updateNftSuccess": "NFT updated successfully",
+    "updateNftError": "NFT update failed",
+    "nftAddPropertiesFailed": "NFT Add Properties failed",
+    "updatePropertyDefinitionSuccess": "NFT property definition updated successfully",
+    "nftAddPropertiesSuccess":  "NFT Add Properties successfully completed"
 }

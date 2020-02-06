@@ -257,6 +257,8 @@ interface INft {
     symbol: string;
     issuer: string;
     name: string;
+    orgName: string;
+    productName: string;
     supply: number;
     maxSupply: number;
     metadata: {
@@ -298,6 +300,7 @@ interface INftSellBook {
     priceDec: number;
     priceSymbol: string;
     fee: number;
+    timestamp_string: string;
 }
 
 interface INftCounterparty {
