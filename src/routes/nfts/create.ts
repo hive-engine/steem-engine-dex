@@ -23,11 +23,14 @@ export class CreateNft {
     private symbol = null;
     private maxSupply = null;
     private url = null;
+    private orgName = null;
+    private productName = null;
     private authorisedIssuingAccounts: any[] = [];
     private authorisedIssuingContracts: any[] = [];
 
     private state: State;
     private environment = environment;
+    private loading = false;
 
     constructor(private controllerFactory: ValidationControllerFactory, private se: SteemEngine, private router: Router, private store: Store<State>) {
         this.controller = controllerFactory.createForCurrentScope();
@@ -94,7 +97,24 @@ export class CreateNft {
 
             .ensure('authorisedIssuingContracts')
                 .maxItems(10)
-                .withMessageKey('errors:max10rows')
+            .withMessageKey('errors:max10rows')
+
+            .ensure('orgName')
+                .maxLength(50)
+                .withMessageKey('errors:maximumLength50')
+                .satisfies((value: string) => {
+                    return value?.match(/^[a-zA-Z0-9 ]*$/)?.length > 0 ?? false;
+                })
+            .withMessageKey('errors:requiredAlphaNumericSpaces')
+
+            .ensure('productName')
+                .maxLength(50)
+                .withMessageKey('errors:maximumLength50')
+                .satisfies((value: string) => {
+                    return value?.match(/^[a-zA-Z0-9 ]*$/)?.length > 0 ?? false;
+                })
+            .withMessageKey('errors:requiredAlphaNumericSpaces')
+
             .on(CreateNft);
     }
 
@@ -114,7 +134,7 @@ export class CreateNft {
     public async createToken() {
         const validationResult = await this.controller.validate();
 
-        const payload: { symbol: string; name: string; maxSupply?: number; url?: string, authorizedIssuingAccounts?: string[], authorisedIssuingContracts?: string[] } = {
+        const payload: { symbol: string; name: string; maxSupply?: number; url?: string, authorizedIssuingAccounts?: string[], authorisedIssuingContracts?: string[], orgName?: string, productName?: string } = {
             symbol: this.symbol,
             name: this.tokenName
         };
@@ -125,6 +145,14 @@ export class CreateNft {
 
         if (this.maxSupply !== null && this.maxSupply.trim() !== '') {
             payload.maxSupply = this.maxSupply;
+        }
+
+        if (this.orgName !== null && this.orgName.trim() !== '') {
+            payload.orgName = this.orgName;
+        }
+
+        if (this.productName !== null && this.productName.trim() !== '') {
+            payload.productName = this.productName;
         }
 
         if (this.authorisedIssuingAccounts.length) {
@@ -156,6 +184,8 @@ export class CreateNft {
         const userHasFunds = this.tokenCreationFee <= this.engBalance;
 
         if (validationResult.valid && userHasFunds) {
+            this.loading = true;
+
             const result = await createTransaction(
                 this.state.account.name,
                 'nft',
@@ -165,6 +195,8 @@ export class CreateNft {
                 'nftCreateSuccess',
                 'nftCreateError',
             );
+
+            this.loading = false;
 
             if (result !== false) {
                 this.router.navigateToRoute('nft', { symbol: this.symbol });
