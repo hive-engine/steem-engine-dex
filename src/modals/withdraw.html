@@ -5,7 +5,7 @@
         <ux-dialog-header>
             <h2>${'Withdraw' & t}</h2>
         </ux-dialog-header>
-        <ux-dialog-body>
+        <ux-dialog-body class="withdrawDialogBody">
             <p class="note mb-4">
                 ${'There is a 1% fee on deposits and withdrawals' & t}                
             </p>
@@ -50,7 +50,7 @@
                             value.bind="amount"
                         />
                         <div class="input-group-append">
-                            ${token.symbol & t}
+                            ${token.pegged_token_symbol & t}
                         </div>
                         <div class="invalid-tooltip">
                             ${'errors:Please enter an amount greater than 0' &

@@ -44,7 +44,7 @@
                                     <p>
                                         <span class="reviewer" style="font-weight: bolder; margin-right: 5px;"
                                             >Note:</span
-                                        >The prices displayed come from the last-order order on this token.
+                                        >The prices displayed come from the last order on this token.
                                     </p>
                                 </div>
                                 <hr />
@@ -100,7 +100,7 @@
                                 <div class="cat-card-body">
                                     <ul class="cat-card-items">
                                         <li class="cat-card-item flex-setting">
-                                            <a href="">${'Last Traded' & t}</a>
+                                            <a href="javascript:void(0);">${'Last Order' & t}</a>
 
                                             <span class="float-right">
                                                 <template if.bind="lastOrder"
@@ -116,8 +116,8 @@
                                             >
                                         </li>
                                         <li class="cat-card-item flex-setting" if.bind="lastOrder">
-                                            <a href="">${'Time Sold' & t}</a
-                                            ><span class="float-right">${lastOrder.timestamp}</span>
+                                            <a href="javascript:void(0);">${'Time Last Order' & t}</a
+                                            ><span class="float-right nftLastOrderDate">${lastOrder.timestamp_string}</span>
                                         </li>
                                         <li class="cat-card-item flex-setting" style="display: flex;">
                                             <span class="curr-price"

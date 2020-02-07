@@ -13,6 +13,7 @@ admin.initializeApp({
 
 import { authRouter } from './routes/auth';
 import { documentRouter } from './routes/documents';
+import { nftRouter } from './routes/nft';
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use(cacheMiddleware);
 
 app.use('/', authRouter);
 app.use('/documents', documentRouter);
+app.use('/nfts', nftRouter);
 
 export const createUserRoles = functions.auth.user().onCreate((user) => {
     const customClaims: any = {

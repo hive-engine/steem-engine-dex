@@ -8,6 +8,7 @@ import styles from './token-info.module.css';
 @autoinject()
 export class TokenInfoModal {
     private token: any;
+    private isNft: boolean;
     private styles = styles;
 
     constructor(private controller: DialogController, private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {
@@ -28,6 +29,8 @@ export class TokenInfoModal {
                 supply: token.supply
             };
         }
+
+        this.isNft = this.token && this.token.authorizedIssuingAccounts ? true : false;
 
         console.log(this.token);
     }
