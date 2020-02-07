@@ -3,7 +3,6 @@ import { SteemEngine } from 'services/steem-engine';
 import { Router } from 'aurelia-router';
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-undef */
-import { query } from 'common/apollo';
 import { BootstrapFormRenderer } from 'resources/bootstrap-form-renderer';
 import { loadAccountBalances } from 'store/actions';
 import { Store, dispatchify } from 'aurelia-store';
@@ -30,6 +29,38 @@ export class CreateNftUser {
     private state: State;
     private environment = environment;
     private styles = styles;
+
+    private hints = [
+        `<strong>Name of the collection</strong>
+        <br>
+        <small>(letters, numbers, whitespace only, max length of 50)</small> 
+        <hr> What is the name of this project housing all of these collectable tokens? <br>
+        <h4>Examples</h4>
+        <ul>
+            <li>Lunar Sorrow</li>
+            <li>Shimmering Goddess</li>
+            <li> Country Boys</li>
+        </ul>`,
+        `[OPTIONAL] URL of the project (max length of 255)`,
+        `<strong>What inspired this collection?</strong>
+        <br>
+        <small>(letters, numbers, whitespace only, max length of 50)</small> 
+        <hr> What idea inspired this collection? <br>
+        <h4>Examples</h4>
+        <p>The top hit songs in the 80s</p>`,
+        `<strong>What is this collection about?</strong>
+        <br>
+        <small>(letters, numbers, whitespace only, max length of 50)</small> 
+        <hr> Tell us what this collection represents <br>
+        <h4>Examples</h4>
+        <p>All the arts in this collection is a reminder of my grandma's painting</p>`,
+        `[OPTIONAL] A list of Steem accounts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then the NFT owner (the account that calls create) will be the only such authorized account by default.`,
+        `[REQUIRED] Symbol of the token (uppercase letters only, max length of 10)`,
+        `[OPTIONAL] Maximum supply for the token (between 1 and 9,007,199,254,740,991). If max supply is not specified, then the supply will be unlimited.`,
+        `[REQUIRED] This will be the a link that leads to the main image associated with this collection.<hr>You will not be able to edit this link later so make sure it is the right one.`,
+        `[REQUIRED] Mark this collection as Not Safe for Work?`,
+        `[REQUIRED] Do you have all the legal permission to create this collection?`
+    ];
 
     constructor(
         private controllerFactory: ValidationControllerFactory,
@@ -193,9 +224,8 @@ export class CreateNftUser {
             }
         }
     }
-    info(e) {
-        const hint = e;
-        console.log(`let's display some components ${e}`);
+    info(index) {
+        const hint = this.hints[parseInt(index)];
         // $('.hidden-box').css('display', 'none');
         $('#here').html(hint);
     }

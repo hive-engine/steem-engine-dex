@@ -88,18 +88,7 @@
                                 type="text"
                                 class="form-control"
                                 value.bind="tokenName & validate"
-                                click.trigger="info('
-                            <strong>Name of the collection</strong>
-                            <br>
-                            <small>(letters, numbers, whitespace only, max length of 50)</small> 
-                            <hr> What is the name of this project housing all of these collectable tokens? <br>
-                            <h4>Examples</h4>
-                            <ul>
-                                <li>Lunar Sorrow</li>
-                                <li>Shimmering Goddess</li>
-                                <li> Country Boys</li>
-                            </ul>
-                            ')"
+                                click.trigger="info(0)"
                             />
                         </div>
                         <div class="form-group">
@@ -111,7 +100,7 @@
                                 type="text"
                                 class="form-control"
                                 value.bind="url & validate"
-                                click.trigger="info('[OPTIONAL] URL of the project (max length of 255)')"
+                                click.trigger="info(1)"
                             />
                         </div>
                         <div class="form-group">
@@ -123,14 +112,7 @@
                                 type="text"
                                 class="form-control"
                                 value.bind="inspiredBy & validate"
-                                click.trigger="info('
-                                <strong>What inspired this collection?</strong>
-                                <br>
-                                <small>(letters, numbers, whitespace only, max length of 50)</small> 
-                                <hr> What idea inspired this collection? <br>
-                                <h4>Examples</h4>
-                                <p>The top hit songs in the 80s</p>
-                            ')"
+                                click.trigger="info(2)"
                             />
                         </div>
                         <div class="form-group">
@@ -142,14 +124,7 @@
                                 type="text"
                                 class="form-control"
                                 value.bind="tokenDesc & validate"
-                                click.trigger="info('
-                                <strong>What is this collection about?</strong>
-                                <br>
-                                <small>(letters, numbers, whitespace only, max length of 50)</small> 
-                                <hr> Tell us what this collection represents <br>
-                                <h4>Examples</h4>
-                                <p>All the arts in this collection is a reminder of my grandma\'s painting</p>
-                            ')"
+                                click.trigger="info(3)"
                             />
                         </div>
                         <div class="form-group">
@@ -170,7 +145,7 @@
                                 class="form-control mb-3"
                                 value.bind="account.name"
                                 repeat.for="account of authorisedIssuingAccounts"
-                                click.trigger="info('[OPTIONAL] A list of Steem accounts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then the NFT owner (the account that calls create) will be the only such authorized account by default.')"
+                                click.trigger="info(4)"
                             />
                         </div>
 
@@ -185,7 +160,7 @@
                                 type="text"
                                 class="form-control"
                                 value.bind="symbol & validate"
-                                click.trigger="info('[REQUIRED] Symbol of the token (uppercase letters only, max length of 10)')"
+                                click.trigger="info(5)"
                             />
                         </div>
                         <div class="form-group">
@@ -201,7 +176,7 @@
                                 max="9007199254740991"
                                 class="form-control"
                                 value.bind="maxSupply & validate"
-                                click.trigger="info('[OPTIONAL] Maximum supply for the token (between 1 and 9,007,199,254,740,991). If max supply is not specified, then the supply will be unlimited.')"
+                                click.trigger="info(6)"
                             />
                         </div>
                         <div class="form-group">
@@ -215,10 +190,7 @@
                                 type="text"
                                 class="form-control mb-3"
                                 value.bind="tokenImageURL"
-                                click.trigger="info('
-                            [REQUIRED] This will be the a link that leads to the main image associated with this collection.<hr>
-                            You will not be able to edit this link later so make sure it is the right one.
-                            ')"
+                                click.trigger="info(7)"
                             />
                         </div>
                         <div class="form-group d-flex">
@@ -230,10 +202,7 @@
                                 type="checkbox"
                                 checked
                                 class="checkbox-style"
-                                click.trigger="info('
-                            [REQUIRED] This will be the a link that leads to the main image associated with this collection.<hr>
-                            You will not be able to edit this link later so make sure it is the right one.
-                            ')"
+                                click.trigger="info(8)"
                             />
                         </div>
                         <div class="form-group d-flex">
@@ -247,9 +216,7 @@
                                 type="checkbox"
                                 checked
                                 class="checkbox-style"
-                                click.trigger="info('
-                            [REQUIRED] Do you have all the legal permission to create this collection?
-                            ')"
+                                click.trigger="info(9)"
                             />
                         </div>
                         <div class="step-btn">
