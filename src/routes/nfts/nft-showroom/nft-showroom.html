@@ -112,9 +112,14 @@
                     <div class="col-md-3 col-sm-12" repeat.for="token of state.nfts">
                         <div class="showroom-card">
                             <div class="showroom-card-img  text-center">
-                                <a route-href="route: nft-detail; params.bind: { symbol: token.symbol }"
-                                    ><img src="../../../images/nft-placeholder.svg" alt="showroom image" class="showroom-img"
-                                /></a>
+                                <a route-href="route: nft-detail; params.bind: { symbol: token.symbol }">                                    
+                                    <div if.bind="!token.metadata || !token.metadata.icon || token.metadata.icon === ''">
+                                        <img src="../../../images/nft-placeholder.svg" alt="showroom image" class="showroom-img showroom-img-default" />
+                                    </div>
+                                    <div if.bind="token.metadata && token.metadata.icon && token.metadata.icon !== ''">
+                                        <img src="${token.metadata.icon}" alt="${token.name}" class="showroom-img" />
+                                    </div>
+                                </a>
                             </div>
                             <div class="showroom-card-body">
                                 <div class="showroom-pfa">
@@ -215,16 +220,15 @@
                 <div class="nft-slick" repeat.for="token of state.nfts">
                     <div class="showroom-card">
                         <div class="row">
-                            <div class="col-6  text-center">
-                                <img
-                                    src="../../../images/nft-placeholder.svg"
-                                    alt="non-fungible"
-                                    width="70%"
-                                    height="70%"
-                                    style="padding: 20px"
-                                />
+                            <div class="col-4  text-center">
+                                <div if.bind="!token.metadata || !token.metadata.icon || token.metadata.icon === ''">
+                                    <img src="../../../images/nft-placeholder.svg" alt="showroom image" class="showroom-img showroom-img-default" style="padding: 20px" />
+                                </div>
+                                <div if.bind="token.metadata && token.metadata.icon && token.metadata.icon !== ''">
+                                    <img src="${token.metadata.icon}" alt="${token.name}" class="showroom-img" style="padding: 20px"/>
+                                </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-8">
                                 <div class="showroom-slick-card-body">
                                     <h3>
                                         ${token.symbol} :
