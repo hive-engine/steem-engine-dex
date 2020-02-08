@@ -72,12 +72,14 @@ export class PropertiesNft {
     async updatePropertyDefinition(property) {
         this.loading = true;
 
-        let nameExists = this.token.properties.find(x => x.name === property.newName);        
-        if (nameExists) {
-            window.alert('Name is already in use for another property');
-            this.loading = false;
+        if (property.name !== property.newName) {
+            let nameExists = this.token.properties.find(x => x.name === property.newName);
+            if (nameExists) {
+                window.alert('Name is already in use for another property');
+                this.loading = false;
 
-            return;
+                return;
+            }
         }
 
         const response = await this.nftService.updatePropertyDefinition(this.token.symbol, property);
