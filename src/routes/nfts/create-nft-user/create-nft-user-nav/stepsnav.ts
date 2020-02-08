@@ -6,13 +6,14 @@ import styles from '../create-nft-user.module.css';
 @customElement('stepsnav')
 export class StepsNav {
     private styles = styles;
-
+    // private n;
+    @bindable clicked;
 
     handleClick(n) {
         $('.hide-ts').css('display', 'none');
-        $('#tab-'+n).css('display', 'block');
-
+        $('#tab-' + n).css('display', 'block');
+        this.clicked = n;
+        
         console.log(`you asked for me ${n} times`);
     }
-    
 }
