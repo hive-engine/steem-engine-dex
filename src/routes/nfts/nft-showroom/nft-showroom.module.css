@@ -101,9 +101,13 @@ h1 {
 }
 
 .showroom-img {
-    width: 100%;
-    min-height: 230px;
+    height: 120px;
+    max-height: 120px;    
     image-rendering: optimizeQuality;
+}
+
+.showroom-img-default {
+    width: 100%;
 }
 
 .showroom-card-pfa {
