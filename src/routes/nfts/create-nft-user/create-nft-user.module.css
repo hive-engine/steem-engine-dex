@@ -43,6 +43,10 @@
     background-color: #0048b3;
     color: #fff !important;
 }
+.active {
+    background-color: #0048b3;
+    color: #fff !important;
+}
 .step.active strong {
     color: #fff;
     font-weight: bolder;
