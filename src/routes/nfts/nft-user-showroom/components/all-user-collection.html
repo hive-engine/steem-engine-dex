@@ -19,43 +19,8 @@
                 </div>
             </div>
             <div class="col-lg-10 col-sm-12 col-md-12">
-                <div class="showroom-head-panel">
-                    <div class="sold-by">
-                        <span class="who sold-by-who">
-                            Sort price
-                        </span>
-                        <label class="form-radiobox" style="margin: 0;">
-                            <input class="radio" type="radio" name="r1" aria-labelledby="radio_soldby" />
-                            <span class="who">
-                                Highest
-                            </span>
-                        </label>
-                        <label class="form-radiobox" style="margin: 0;">
-                            <input class="radio" type="radio" name="r2" aria-labelledby="radio_soldby" />
-                            <span class="who">
-                                Lowest
-                            </span>
-                        </label>
-                    </div>
-                    <div class="sort-by">
-                        <span class="who sold-by-who">Sort by categories:</span>
-                        <label class="form-select" style="margin: 0;">
-                            <select id="sort-card" name="orderBy" style="border: none; padding: 5px;">
-
-                                <option value="15">Product Name</option>
-
-                                <option value="1">Best Rating</option>
-
-                                <option value="4">Collection Name</option>
-
-                                <option value="14">Newest to Oldest</option>
-                            </select>
-                            <i class="fa fa-caret-down"></i>
-                        </label>
-                    </div>
-                </div>
                 <div class="row margin-btm" ref="tokenTable">
-                    <div class="col-md-3 col-sm-12" repeat.for="token of state.nfts">
+                    <div class="col-md-4 col-sm-12" repeat.for="token of state.nfts">
                         <div class="showroom-card">
                             <div class="showroom-card-img  text-center">
                                 <a route-href="route: nft-detail; params.bind: { symbol: token.symbol }"
