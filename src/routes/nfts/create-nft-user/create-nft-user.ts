@@ -229,13 +229,19 @@ export class CreateNftUser {
         // $('.hidden-box').css('display', 'none');
         $('#here').html(hint);
     }
-    
-    handleNext (n) {
-        $('.custom-tabs').css('display', 'none');
-        $('.tab-'+ n).css('display', 'block');
-        $('.step').addClass('active');
-        console.log(n)
-        $('.step-' + n).addClass('active-form');
 
+    handleNext(n) {
+        $('.custom-tabs').css('display', 'none');
+        $('.tab-' + n).css('display', 'block');
+        $('.step').addClass('active');
+        console.log(n);
+        $('.step-' + n).addClass('active-form');
+    }
+    handlePrev(n) {
+        $('.custom-tabs').css('display', 'none');
+        $('.tab-' + n).css('display', 'block');
+        console.log(n);
+
+        $('.step-4').removeClass('active-form');
     }
 }
