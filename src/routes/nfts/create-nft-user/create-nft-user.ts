@@ -235,5 +235,7 @@ export class CreateNftUser {
         $('.tab-'+ n).css('display', 'block');
         $('.step').addClass('active');
         console.log(n)
+        $('.step-' + n).addClass('active-form');
+
     }
 }

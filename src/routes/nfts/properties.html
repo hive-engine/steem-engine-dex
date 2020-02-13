@@ -64,7 +64,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div if.bind="isEditable(property)">
+                                <div if.bind="token.supply === 0">
                                     <button if.bind="!property.editMode" click.delegate="propertyEditMode(property, true)">Edit</button>
                                     <button if.bind="property.editMode" click.delegate="propertyEditMode(property, false)">Cancel</button>
                                     <button if.bind="property.editMode && (property.name !== property.newName || property.type !== property.newType || property.isReadOnly !== property.newIsReadOnly)"
