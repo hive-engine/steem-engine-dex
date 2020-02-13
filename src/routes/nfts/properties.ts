@@ -65,15 +65,15 @@ export class PropertiesNft {
         property.newIsReadOnly = property.isReadOnly;
     }
 
-    isEditable(property) {
-        return this.token.supply == 0 && !this.token.groupBy.find(x => x === property.name);
+    isEditable() {
+        return this.token.supply === 0;
     }
 
     async updatePropertyDefinition(property) {
         this.loading = true;
 
         if (property.name !== property.newName) {
-            let nameExists = this.token.properties.find(x => x.name === property.newName);
+            const nameExists = this.token.properties.find(x => x.name === property.newName);
             if (nameExists) {
                 window.alert('Name is already in use for another property');
                 this.loading = false;

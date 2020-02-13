@@ -42,6 +42,22 @@ export class FirebaseService {
         return response;
     }
 
+    async uploadNftImage(file: File) {
+        const formData = new FormData();
+
+        formData.append('image', file);
+
+        const res = await http.fetch(`nfts/upload`, {
+            method: 'POST',
+            body: formData,
+            headers: new Headers()
+        });
+
+        const response = await res.json();
+
+        return response;
+    }
+
     async getIdToken() {
         return firebase.auth().currentUser.getIdToken();
     }
