@@ -379,6 +379,20 @@ export class App {
                 title: 'Add Personal Details',
             },
             {
+                route: 'add-group-details',
+                name: 'groupDetails',
+                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/add-group-details', 'add-group-details'),
+                nav: false,
+                title: 'Add Group Details',
+            },
+            {
+                route: 'add-opportunity',
+                name: 'addOpportunity',
+                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/add-opportunity', 'add-opportunity'),
+                nav: false,
+                title: 'Add Opportunity',
+            },
+            {
                 route: 'create-nft-user',
                 name: 'createNftUser',
                 moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/create-nft-user', 'nft-create-user'),
