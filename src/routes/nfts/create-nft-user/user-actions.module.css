@@ -1,8 +1,11 @@
+.route--userAcions .user-action-wrapper {
+    background-color: black;
+}
 .user-action-wrapper {
-    margin-top: 43px;
+    margin-top: 42px;
     margin-bottom: -130px!important;
     height: 500px;
-    background: #f8f9fa!important;
+    /* background: #f8f9fa!important; */
 }
 .user-action-header {
     margin: 60px auto 60px;
@@ -20,7 +23,7 @@
     width: 100%;
     min-height: 0;
     background: #fff;
-    padding: 40px;
+    padding: 20px 20px;
     border: none;
     border-radius: .28571429rem;
     box-shadow: rgba(0,0,0,0.04) 0px 2px 4px 0px, rgba(0, 0, 0, 0.08) 0px 1px 2px 0px;
@@ -30,6 +33,26 @@
     transition: box-shadow .1s ease,transform .1s ease,-webkit-box-shadow .1s ease,-webkit-transform .1s ease;
 }
 .user-action-icon {
-    width: 100%;
+    width: 100px;
     height: auto;
+}
+.user-action-infos {
+    margin: 0;
+    padding: 0;
+}
+.infos {
+    margin: 0;
+    padding: 0;
+}
+.info {
+    color: rgb(121, 121, 121);
+    padding: 10px 0;
+    list-style: none;
+}
+.user-action-btn 
+{
+    text-align: center;
+    width: 50%;
+    color: #fff;
+    background-color: lightsalmon;
 }
