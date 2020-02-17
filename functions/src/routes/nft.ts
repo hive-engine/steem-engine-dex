@@ -24,6 +24,12 @@ async function loadNft(symbol: string) {
     return result;
 }
 
+async function loadNftInstance(symbol: string, nftId: string) {
+    const result = await ssc.findOne('nft', 'nfts', { symbol });
+
+    return result; 
+}
+
 // @ts-ignore
 const uploadNftImage = async (filename: string, mimetype: string, buffer: Buffer) => {
     // eslint-disable-next-line no-async-promise-executor
@@ -48,9 +54,17 @@ const uploadNftImage = async (filename: string, mimetype: string, buffer: Buffer
     });
 };
 
+const deleteNftImage = async (filepath: string) => {
+    const file = bucket.file(filepath);
+
+    return file.delete();
+};
+
 nftRouter.post('/upload', uploadMiddleware, async (req: express.Request, res: express.Response) => {
     const authToken = req.headers.authorization || '';
     const symbol = req.body.symbol;
+    const nftId = req.body.id;
+
     const allowedMimeTypes = ['image/jpeg', 'image/png'];
 
     try {
