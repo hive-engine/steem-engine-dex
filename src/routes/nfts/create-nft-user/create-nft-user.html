@@ -44,15 +44,15 @@
                             <span class="preview-info">Price: </span>
                             <span class="preview-info price-placeholder" class="maxSupply" textcontent.bind="tokenPrice"></span
                             ><small
-                                style="font-size: 10px; color: darkgray; padding-left: 3px; align-self: center;"
+                                style="font-size: 10px; color: darkgray; padding-left: 3px; align-self: center;" class="symbol-placeholder"
                                 textcontent.bind="symbol"
                             ></small>
                         </div>
                         <div style="margin: 0; padding: 0; display: flex;">
-                            <span style="font-size: 10px; color: darkgray; padding-right: 3px; align-self: center;"
+                            <span style="font-size: 10px; color: darkgray; padding-right: 3px; align-self: center;" 
                                 >Max:
                             </span>
-                            <span class="maxSupply" textcontent.bind="maxSupply"></span>
+                            <span class="maxSupply max-placeholder" textcontent.bind="maxSupply"></span>
                         </div>
                     </div>
                     <div class="preview-card-image text-center">
@@ -60,10 +60,10 @@
                     </div>
                     <div class="card-ownership">
                         <span class="preview-info">Id: </span>
-                        <span class="preview-info" style="margin-left: 5px;"> #4532</span>
+                        <span class="preview-info id-placeholder" style="margin-left: 5px;"> #4532</span>
                     </div>
                     <div class="preview-card-body">
-                        <p id="preview" class="preview-para" textcontent.bind="inspiredBy"></p>
+                        <p id="preview" class="preview-para body-placeholder" textcontent.bind="inspiredBy"></p>
                     </div>
                 </div>
             </div>
@@ -238,6 +238,7 @@
                         >
                             ${'Create my token' & t}
                         </button>
+                        <a type="button" click.delegate="handlePrev(3)" class="text-center hide-tabs go-back custom-tabs hide-ts" id="go-back">Go back</a>
                     </div>
                 </div>
             </div>

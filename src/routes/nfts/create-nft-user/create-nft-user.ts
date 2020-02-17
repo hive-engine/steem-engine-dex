@@ -23,6 +23,8 @@ export class CreateNftUser {
     private symbol = null;
     private maxSupply = null;
     private url = null;
+    private orgName = null;
+    private productName = null;
     private authorisedIssuingAccounts: any[] = [];
     private authorisedIssuingContracts: any[] = [];
 
@@ -59,7 +61,7 @@ export class CreateNftUser {
         `[OPTIONAL] Maximum supply for the token (between 1 and 9,007,199,254,740,991). If max supply is not specified, then the supply will be unlimited.`,
         `[REQUIRED] This will be the a link that leads to the main image associated with this collection.<hr>You will not be able to edit this link later so make sure it is the right one.`,
         `[REQUIRED] Mark this collection as Not Safe for Work?`,
-        `[REQUIRED] Do you have all the legal permission to create this collection?`
+        `[REQUIRED] Do you have all the legal permission to create this collection?`,
     ];
 
     constructor(
@@ -141,12 +143,6 @@ export class CreateNftUser {
     attached() {
         this.authorisedIssuingAccounts.push({ name: this.se.getUser() });
         this.authorisedIssuingContracts.push({ name: '' });
-
-        // var n = 0;
-        // hidePrev(n)
-        // fucntion hidePrev (n) {
-        // $('#prevBtn').css('display', 'none');
-        // }
     }
 
     addAuthorisedAccount() {
@@ -229,13 +225,19 @@ export class CreateNftUser {
         // $('.hidden-box').css('display', 'none');
         $('#here').html(hint);
     }
-    
-    handleNext (n) {
-        $('.custom-tabs').css('display', 'none');
-        $('.tab-'+ n).css('display', 'block');
-        $('.step').addClass('active');
-        console.log(n)
-        $('.step-' + n).addClass('active-form');
 
+    handleNext(n) {
+        $('.custom-tabs').css('display', 'none');
+        $('.tab-' + n).css('display', 'block');
+        $('.step').addClass('active');
+        console.log(n);
+        $('.step-' + n).addClass('active-form');
+    }
+    handlePrev(n) {
+        $('.custom-tabs').css('display', 'none');
+        $('.tab-' + n).css('display', 'block');
+        console.log(n);
+
+        $('.step-4').removeClass('active-form');
     }
 }

@@ -365,6 +365,13 @@ export class App {
                 title: 'Create NFT Options',
             },
             {
+                route: 'user-actions',
+                name: 'userActions',
+                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/user-actions', 'user-actions'),
+                nav: false,
+                title: 'Create User Actions',
+            },
+            {
                 route: 'create-nft-user',
                 name: 'createNftUser',
                 moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/create-nft-user', 'nft-create-user'),
