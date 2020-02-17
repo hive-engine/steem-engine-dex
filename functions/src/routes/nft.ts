@@ -24,8 +24,12 @@ async function loadNft(symbol: string) {
     return result;
 }
 
-async function loadNftInstance(symbol: string, nftId: string) {
-    const result = await ssc.findOne('nft', 'nfts', { symbol });
+async function loadNftInstance(symbol: string, id: string) {
+    const params: any = {
+        _id: parseInt(id)
+    };
+    
+    const result = await ssc.findOne('nft', `${symbol.toUpperCase()}instances`, params)
 
     return result; 
 }
