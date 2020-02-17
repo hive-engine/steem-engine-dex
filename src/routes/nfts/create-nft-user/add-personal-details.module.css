@@ -23,6 +23,7 @@ header {
     background: #fff;
     box-shadow: 0 3px 0 rgba(84,94,111,0.2);
     transition: transform .2s ease-in-out,background .2s ease-in-out;
+    margin-bottom: 20px;
 }
 .desc {
     font-size: 14px;
