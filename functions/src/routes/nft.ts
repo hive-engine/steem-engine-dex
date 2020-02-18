@@ -28,8 +28,8 @@ async function loadNftInstance(symbol: string, id: string) {
     const params: any = {
         _id: parseInt(id)
     };
-    
-    const result = await ssc.findOne('nft', `${symbol.toUpperCase()}instances`, params)
+
+    const result = await ssc.findOne('nft', `${symbol.toUpperCase()}instances`, params);
 
     return result; 
 }
@@ -90,15 +90,23 @@ nftRouter.post('/upload', uploadMiddleware, async (req: express.Request, res: ex
 
                 if (file) {
                     const { buffer, mimetype, originalname } = file;
+                    let nftInstance;
 
                     if (!allowedMimeTypes.includes(mimetype)) {
                         throw new Error('Invalid mimetype. Only JPG and PNG files are supported.');
+                    }
+
+                    if (nftId) {
+                        nftInstance = await loadNftInstance(symbol, nftId);
                     }
 
                     const url = await uploadNftImage(`${symbol.toString().toLowerCase()}/${originalname}`, mimetype, buffer);
 
                     const nftsRef = firestore.collection('nfts');
                     const nft = await nftsRef.doc(symbol).get();
+
+                    const nftInstanceRefs = firestore.collection('nftInstances');
+                    const instance = await nftInstanceRefs.doc(`${nftId}`).get();
 
                     const data: any = {
                         image: {
@@ -110,6 +118,11 @@ nftRouter.post('/upload', uploadMiddleware, async (req: express.Request, res: ex
 
                     if (nft.exists) {
                         nftsRef.doc(symbol).set(data, { merge: true });
+                    } else {
+                        // Delete the image uploaded, we can't use it
+                        await deleteNftImage(`${symbol.toString().toLowerCase()}/${originalname}`);
+
+                        res.status(400).json({ success: false, message: 'NFT does not exist' });
                     }
 
                     res.status(200).json({ success: true, message: 'Image uploaded successfully.' });
