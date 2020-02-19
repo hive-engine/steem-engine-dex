@@ -2,6 +2,18 @@
     <div>
         <h1>hello from step 3</h1>
     </div>
+    <style>
+        .active-form {
+            background-color: #0048b3;
+            color: #fff !important;
+        }
+        .active-form > strong {
+            color: #fff;
+            font-weight: bolder;
+            -webkit-transform: scale(2);
+            transform: scale(2);
+        }
+    </style>
     <div class="steps-btn">
         <button id="prevBtn" class="prevBtn" click.delegate="handlePrev(2)">&#8249;</button>
         <button id="nextBtn" class="nextBtn" click.delegate="handleNext('submit')">&#8250;</button>

@@ -159,6 +159,15 @@ span.step-one:after {
 .preview-para {
     margin-bottom: 0;
 }
+.go-back {
+    color: #0048b3!important;
+    font-size: 14px;
+    margin-top: 30px;
+}
+.go-back:hover {
+    text-decoration: underline;
+    color: #129cc1!important;
+}
 .checkbox-style {
     margin: auto;
     margin-left: 13px;
