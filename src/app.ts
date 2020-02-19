@@ -374,9 +374,22 @@ export class App {
             {
                 route: 'add-personal-details',
                 name: 'personalDetails',
-                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/add-personal-details', 'add-personal-details'),
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-user/add-personal-details',
+                    'add-personal-details',
+                ),
                 nav: false,
                 title: 'Add Personal Details',
+            },
+            {
+                route: 'create-profiles',
+                name: 'createProfiles',
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-user/profiles/create-profiles',
+                    'create-profiles',
+                ),
+                nav: false,
+                title: 'Create Profiles',
             },
             {
                 route: 'add-group-details',
