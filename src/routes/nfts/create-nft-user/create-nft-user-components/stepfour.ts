@@ -3,20 +3,18 @@ import { customElement, autoinject, bindable } from 'aurelia-framework';
 import styles from '../create-nft-user.module.css';
 
 @autoinject()
-@customElement('steptwo')
-export class StepTwo {
+@customElement('stepfour')
+export class StepFour {
     private styles = styles;
+    @bindable selected;
 
-    handleNext(n) {
-        $('.custom-tabs').css('display', 'none');
-        $('.tab-' + n).css('display', 'block');
-        console.log(n);
-        $('.step-'+n).addClass('active-form');
-    }
+    
     handlePrev(n) {
         $('.custom-tabs').css('display', 'none');
         $('.tab-' + n).css('display', 'block');
         console.log(n);
-        $('.step-2').removeClass('active-form');
+        this.selected = n;
+
+        $('.step-4').removeClass('active-form');
     }
 }

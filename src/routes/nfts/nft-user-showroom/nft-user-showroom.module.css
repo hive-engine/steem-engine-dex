@@ -49,47 +49,10 @@ h1 {
 .user-summary {
     margin-bottom: 20px;
 }
-.summary-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-    width: 100%;
-    padding: 20px;
-}
-.collection-location {
-    padding: 0;
-}
-.summary-image {
-    width: 160px;
-    height: 160px;
-}
-.collection-name {
-    font-size: large;
-    margin: 0;
-}
-.collection-category {
-    font-size: small;
-    margin: 0;
-    margin-bottom: 15px;
-}
-.location-details {
-    display: flex;
-    /* justify-content: space-evenly; */
-    padding: 0;
-    margin-bottom: 5px;
-}
-.location-detail {
-    list-style: none;
-    color: #000;
-    padding: 0 10px 0 0;
-}
-.watch-button {
-    background: transparent!important;
-    border-radius: 5px;
-    text-transform: capitalize;
-    border: none;
-    outline: 1px solid lightgray;
-    margin-top: 5px;
+.nice-border {
+    border-bottom: 4px solid #11111194;
+    padding: 5px 0 10px;
+    margin-bottom: 20px;
 }
 .owner-info {
     display: flex;
@@ -101,8 +64,7 @@ h1 {
     color: #757575;
 }
 .owner-image {
-    width: 100px;
-    height: 100px;
+    width: 60%;
     border-radius: 50%;
     border: 1px dashed #0048b3;
     align-self: center;
@@ -110,14 +72,28 @@ h1 {
 .owner-name {
     align-self: center;
     margin: 0;
+    font-size: large;
+}
+.about-user {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+}
+.about-user span {
     font-size: small;
+    display: inline-block;
+    color: #757575;
+    padding: 3px;
+    white-space: pre-line;
 }
 .social {
     align-self: center;
 }
 .social-icon {
-    width: 20px;
+    width: 25px;
 }
+
 .showroom-header h2 {
     color: #0048b3;
 }
@@ -128,11 +104,12 @@ h1 {
 
 .showroom-head-panel {
     display: flex;
-    margin-bottom: 20px;
+    align-self: center;
+    justify-content: center;
+    align-content: center;
     padding: 0 30px;
-    background-color: #edeef0;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    margin-top: 10px;
+    /* background-color: #edeef0; */
 }
 
 .radio {
@@ -289,9 +266,7 @@ h1 {
     font-size: 16px;
 }
 
-.nft-slick {
-    margin-right: 10px;
-}
+
 
 .cat-card {
     background: white;
@@ -313,12 +288,13 @@ h1 {
 
 .cat-card-header {
     padding: 12px 20px;
-    background: #edeef0;
+    /* background: #edeef0; */
     /* border-radius: 10px 10px 0 0; */
 }
 
 .cat-card-header h4 {
     margin-bottom: 0px !important;
+    color: #757575;
 }
 
 .cat-card-body {

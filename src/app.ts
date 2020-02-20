@@ -365,6 +365,47 @@ export class App {
                 title: 'Create NFT Options',
             },
             {
+                route: 'user-actions',
+                name: 'userActions',
+                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/user-actions', 'user-actions'),
+                nav: false,
+                title: 'Create User Actions',
+            },
+            {
+                route: 'add-personal-details',
+                name: 'personalDetails',
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-user/add-personal-details',
+                    'add-personal-details',
+                ),
+                nav: false,
+                title: 'Add Personal Details',
+            },
+            {
+                route: 'create-profiles',
+                name: 'createProfiles',
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-user/profiles/create-profiles',
+                    'create-profiles',
+                ),
+                nav: false,
+                title: 'Create Profiles',
+            },
+            {
+                route: 'add-group-details',
+                name: 'groupDetails',
+                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/add-group-details', 'add-group-details'),
+                nav: false,
+                title: 'Add Group Details',
+            },
+            {
+                route: 'add-opportunity',
+                name: 'addOpportunity',
+                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/add-opportunity', 'add-opportunity'),
+                nav: false,
+                title: 'Add Opportunity',
+            },
+            {
                 route: 'create-nft-user',
                 name: 'createNftUser',
                 moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/create-nft-user', 'nft-create-user'),

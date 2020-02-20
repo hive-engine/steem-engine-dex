@@ -4,7 +4,7 @@ The new generation is upon us.
 
 ## Installation / Setup
 
-To run locally, you will need to install Node.js. The easiest way to install Node.js is via the downloadable installers on the official Node website [here](https://nodejs.org/en/download/). This is the only prerequisite.
+To run locally, you will need to install Node.js. The easiest way to install Node.js is via the downloadable installers on the official Node website [here](https://nodejs.org/en/download/). This is the only prerequisite (besides a computer).
 
 ### Clone This Repo
 
@@ -61,7 +61,7 @@ A basic test case is checking all code paths, functions and ensuring that you ha
 To run the tests type:
 
 ```shell
-yarn test
+npm run test
 ```
 
 ## Environment / Project Configuration
