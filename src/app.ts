@@ -392,6 +392,16 @@ export class App {
                 title: 'Create Profiles',
             },
             {
+                route: 'core-profile',
+                name: 'coreProfile',
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-user/profiles/profile-forms/core-profile',
+                    'core-profile',
+                ),
+                nav: false,
+                title: 'Core Profile Form',
+            },
+            {
                 route: 'add-group-details',
                 name: 'groupDetails',
                 moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/add-group-details', 'add-group-details'),
