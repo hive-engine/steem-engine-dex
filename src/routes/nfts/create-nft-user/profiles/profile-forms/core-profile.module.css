@@ -1,0 +1,68 @@
+header {
+    margin-top: 80px;
+    
+}
+.header-wrapper {
+    background: #451771;
+    box-shadow: 0 3px 0 #30104f;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 30px;
+}
+.profile-form-header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background: #f5f6f7;
+}
+.profile-form-header {
+    margin-bottom: 0;
+    margin-left: 5px;
+}
+.profile-form-header-icon {
+    width: 35px;
+}
+.wizard-header {
+    color: #fff;
+}
+.wizard-header-desc {
+    color: #fff;
+}
+.link-el {
+    width: 100%;
+    text-align: right;
+}
+.detail-card {
+    padding: 10px 30px;
+    /* border-radius: 15px; */
+    background: #fff;
+    box-shadow: 0 3px 0 rgba(84, 94, 111, 0.103);
+    transition: transform .2s ease-in-out,background .2s ease-in-out;
+    margin-bottom: 20px;
+}
+.content-wrapper {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    text-align: right;
+
+}
+.content-icon {
+    margin-right: 5px;
+}
+.content-name {
+    margin-bottom: 0;
+    letter-spacing: 4px;
+    color: #20202096;
+}
+.desc {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+.form-nav-icon {
+    width: 35px;
+
+}
