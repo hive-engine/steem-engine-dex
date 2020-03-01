@@ -35,6 +35,10 @@ header {
     width: 100%;
     text-align: right;
 }
+.active {
+    color: black;
+    font-weight: 700;
+}
 .detail-card {
     padding: 10px 30px;
     /* border-radius: 15px; */
@@ -65,4 +69,21 @@ header {
 .form-nav-icon {
     width: 35px;
 
+}
+.side-bar-wrapper {
+    border-right: #f5f6f7 solid 1px;
+    padding: 0;
+    margin: 0;
+}
+.input-label {
+    font-size: 16px;
+}
+.input-space {
+    outline: none;
+    border: none;
+    box-shadow: 0 3px 0 rgba(84, 94, 111, 0.103);
+    transition: transform .2s ease-in-out,background .2s ease-in-out;
+    margin-bottom: 20px;
+    border-radius: 0;
+    padding-left: 0;
 }
