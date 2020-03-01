@@ -1,4 +1,6 @@
 <template>
+    <require from="./profile-form-sidebar/side-bar"></require>
+    <require from="./core-profile-forms/core-profile-form"></require>
     <header>
         <div class="container">
             <div class="row">
@@ -27,68 +29,12 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-nav-name">
-                                <a class="link-el" href=""
-                                    ><div class="detail-card">
-                                        <div class="content-wrapper">
-                                            <div class="content-icon">
-                                                <img
-                                                    class="form-nav-icon"
-                                                    src="https://img.icons8.com/color/48/000000/real-estate.png"
-                                                />
-                                            </div>
-                                            <div class="content-name-wrapper">
-                                                <h4 class="content-name">Home Address</h4>
-                                            </div>
-                                        </div>
-                                    </div></a
-                                >
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-nav-name">
-                                <a class="link-el" href=""
-                                    ><div class="detail-card">
-                                        <div class="content-wrapper">
-                                            <div class="content-icon">
-                                                <img
-                                                    class="form-nav-icon"
-                                                    src="https://img.icons8.com/color/48/000000/historic-ship.png"
-                                                />
-                                            </div>
-                                            <div class="content-name-wrapper">
-                                                <h4 class="content-name">Shipping Address</h4>
-                                            </div>
-                                        </div>
-                                    </div></a
-                                >
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-nav-name">
-                                <a class="link-el" href=""
-                                    ><div class="detail-card">
-                                        <div class="content-wrapper">
-                                            <div class="content-icon">
-                                                <img
-                                                    class="form-nav-icon"
-                                                    src="https://img.icons8.com/color/48/000000/conference-call.png"
-                                                />
-                                            </div>
-                                            <div class="content-name-wrapper">
-                                                <h4 class="content-name">Shipping Address</h4>
-                                            </div>
-                                        </div>
-                                    </div></a
-                                >
-                            </div>
-                        </div>
+                    <div>
+                        <sidebar></sidebar>
                     </div>
                 </div>
-                <div class="col-md-8">
-                    <h1>Forms Go Here</h1>
+                <div class="col-md-5">
+                    <coreprofileform></coreprofileform>
                 </div>
             </div>
         </div>
