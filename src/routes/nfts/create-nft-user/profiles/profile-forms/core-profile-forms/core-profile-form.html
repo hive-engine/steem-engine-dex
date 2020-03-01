@@ -1,7 +1,7 @@
 <template>
     <div class="form-group forms-here">
         <label class="input-label" for="formGroupExampleInput">Full Name</label>
-        <input class="form-control form-control-lg input-space" type="text" placeholder="Enter Your Full Name" />
+        <input class="form-control form-control-lg input-space" value.bind="fullName" type="text" placeholder="Enter Your Full Name" />
     </div>
     <div class="form-group forms-here">
         <label class="input-label" for="formGroupExampleInput">Address Line 1</label>
@@ -30,5 +30,8 @@
     <div class="form-group forms-here">
         <label class="input-label" for="formGroupExampleInput">Country</label>
         <input class="form-control form-control-lg input-space" type="text" placeholder="Enter Your Country" />
+    </div>
+    <div class="submit-btn-wrapper">
+        <a class="submit-btn" href="">Submit</a>
     </div>
 </template>
