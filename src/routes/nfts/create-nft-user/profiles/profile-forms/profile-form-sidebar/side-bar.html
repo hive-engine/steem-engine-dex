@@ -1,8 +1,14 @@
 <template>
+    <style>
+        .activateIt {
+            color: blue!important;
+            font-size: 17px;
+        }
+    </style>
     <div class="side-bar-wrapper">
         <div class="col-md-12">
             <div class="form-nav-name">
-                <a class="link-el" href=""
+                <a class="link-el" click.delegate="handleClick('homeAddress')"
                     ><div class="detail-card">
                         <div class="content-wrapper">
                             <div class="content-icon">
@@ -12,7 +18,7 @@
                                 />
                             </div>
                             <div class="content-name-wrapper">
-                                <h4 class="content-name active">Home Address</h4>
+                                <h4 class="content-name removeActivate" id="homeAddress">Home Address</h4>
                             </div>
                         </div>
                     </div></a
@@ -21,7 +27,7 @@
         </div>
         <div class="col-md-12">
             <div class="form-nav-name">
-                <a class="link-el" href=""
+                <a class="link-el" click.delegate="handleClick('shippingAddress')"
                     ><div class="detail-card">
                         <div class="content-wrapper">
                             <div class="content-icon">
@@ -31,7 +37,7 @@
                                 />
                             </div>
                             <div class="content-name-wrapper">
-                                <h4 class="content-name">Shipping Address</h4>
+                                <h4 class="content-name removeActivate" id="shippingAddress">Shipping Address</h4>
                             </div>
                         </div>
                     </div></a
@@ -40,7 +46,7 @@
         </div>
         <div class="col-md-12">
             <div class="form-nav-name">
-                <a class="link-el" href=""
+                <a class="link-el" click.delegate="handleClick('socialMedia')"
                     ><div class="detail-card">
                         <div class="content-wrapper">
                             <div class="content-icon">
@@ -50,7 +56,7 @@
                                 />
                             </div>
                             <div class="content-name-wrapper">
-                                <h4 class="content-name">Social Media</h4>
+                                <h4 class="content-name removeActivate" id="socialMedia">Social Media</h4>
                             </div>
                         </div>
                     </div></a
@@ -59,7 +65,7 @@
         </div>
         <div class="col-md-12">
             <div class="form-nav-name">
-                <a class="link-el" href=""
+                <a class="link-el" click.delegate="handleClick('privateContact')"
                     ><div class="detail-card">
                         <div class="content-wrapper">
                             <div class="content-icon">
@@ -69,7 +75,7 @@
                                 />
                             </div>
                             <div class="content-name-wrapper">
-                                <h4 class="content-name">Private Contact</h4>
+                                <h4 class="content-name removeActivate" id="privateContact">Private Contact</h4>
                             </div>
                         </div>
                     </div></a
@@ -78,7 +84,7 @@
         </div>
         <div class="col-md-12">
             <div class="form-nav-name">
-                <a class="link-el" href=""
+                <a class="link-el" click.delegate="handleClick('medicalContact')"
                     ><div class="detail-card">
                         <div class="content-wrapper">
                             <div class="content-icon">
@@ -88,7 +94,7 @@
                                 />
                             </div>
                             <div class="content-name-wrapper">
-                                <h4 class="content-name">Medical Contact</h4>
+                                <h4 class="content-name removeActivate" id="medicalContact">Medical Contact</h4>
                             </div>
                         </div>
                     </div></a
@@ -97,7 +103,7 @@
         </div>
         <div class="col-md-12">
             <div class="form-nav-name">
-                <a class="link-el" href=""
+                <a class="link-el" click.delegate="handleClick('emmergencyContact')"
                     ><div class="detail-card">
                         <div class="content-wrapper">
                             <div class="content-icon">
@@ -107,7 +113,7 @@
                                 />
                             </div>
                             <div class="content-name-wrapper">
-                                <h4 class="content-name">Emmergency Contact</h4>
+                                <h4 class="content-name removeActivate" id="emmergencyContact">Emmergency Contact</h4>
                             </div>
                         </div>
                     </div></a
@@ -116,7 +122,7 @@
         </div>
         <div class="col-md-12">
             <div class="form-nav-name">
-                <a class="link-el" href=""
+                <a class="link-el" click.delegate="handleClick('languages')"
                     ><div class="detail-card">
                         <div class="content-wrapper">
                             <div class="content-icon">
@@ -126,7 +132,7 @@
                                 />
                             </div>
                             <div class="content-name-wrapper">
-                                <h4 class="content-name">Languages</h4>
+                                <h4 class="content-name removeActivate" id="languages">Languages</h4>
                             </div>
                         </div>
                     </div></a
@@ -135,7 +141,7 @@
         </div>
         <div class="col-md-12">
             <div class="form-nav-name">
-                <a class="link-el" href=""
+                <a class="link-el" click.delegate="handleClick('programmingLanguages')"
                     ><div class="detail-card">
                         <div class="content-wrapper">
                             <div class="content-icon">
@@ -145,7 +151,7 @@
                                 />
                             </div>
                             <div class="content-name-wrapper">
-                                <h4 class="content-name">Programming Languages</h4>
+                                <h4 class="content-name removeActivate" id="programmingLanguages">Programming Languages</h4>
                             </div>
                         </div>
                     </div></a
@@ -154,7 +160,7 @@
         </div>
         <div class="col-md-12">
             <div class="form-nav-name">
-                <a class="link-el" href=""
+                <a class="link-el" click.delegate="handleClick('generalGeography')"
                     ><div class="detail-card">
                         <div class="content-wrapper">
                             <div class="content-icon">
@@ -164,7 +170,7 @@
                                 />
                             </div>
                             <div class="content-name-wrapper">
-                                <h4 class="content-name">General Geography</h4>
+                                <h4 class="content-name removeActivate" id="generalGeography">General Geography</h4>
                             </div>
                         </div>
                     </div></a

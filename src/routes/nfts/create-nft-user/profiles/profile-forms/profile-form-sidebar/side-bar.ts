@@ -10,6 +10,10 @@ export class SideBar {
     @bindable clicked;
 
     handleClick(n) {
-        
+        $('.removeActivate').removeClass('activateIt');
+        $('#'+n).addClass('activateIt');
+        $('.core-forms').css('display', 'none');
+        $('#'+n+'Form').css('display', 'block');
+        console.log('Hello from side bar');
     }
 }
