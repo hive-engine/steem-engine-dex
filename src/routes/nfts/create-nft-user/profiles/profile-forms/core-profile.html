@@ -1,6 +1,8 @@
 <template>
     <require from="./profile-form-sidebar/side-bar"></require>
-    <require from="./core-profile-forms/core-profile-form"></require>
+    <require from="./core-profile-forms/home-address"></require>
+    <require from="./core-profile-forms/shipping-address"></require>
+    <require from="./core-profile-forms/social-media"></require>
     <header>
         <div class="container">
             <div class="row">
@@ -34,7 +36,8 @@
                     </div>
                 </div>
                 <div class="col-md-5">
-                    <coreprofileform></coreprofileform>
+                    <homeaddress class="core-forms" id='homeAddressForm'></homeaddress>
+                    <shippingaddress class="core-forms" id='shippingAddressForm'></shippingaddress>
                 </div>
                 <div class="col-md-3">
                     <div class="col-md-2">

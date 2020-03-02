@@ -60,6 +60,10 @@ header {
     letter-spacing: 2px;
     color: #20202096;
     font-size: 14px;
+    transition: 0.2s ease-out all;
+    -o-transition: 0.2s ease-out all;
+    -webkit-transition: 0.2s ease-out all;
+    -moz-transition: 0.2s ease-out all;
 }
 .desc {
     font-size: 14px;
