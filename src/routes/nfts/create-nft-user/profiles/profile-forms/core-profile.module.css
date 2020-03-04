@@ -114,3 +114,9 @@ header {
     border-radius: 10px;
     padding: 30px;
 }
+.forms-here {
+    padding: 15px;
+}
+.form-check label {
+    margin-top: 0!important;
+}
