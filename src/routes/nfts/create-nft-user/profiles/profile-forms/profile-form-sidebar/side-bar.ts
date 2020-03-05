@@ -15,5 +15,8 @@ export class SideBar {
         $('.core-forms').css('display', 'none');
         $('#'+n+'Form').css('display', 'block');
         console.log('Hello from side bar');
+        // To scroll page back to top on click
+        document.documentElement.scrollTop = 0; // Chrome, FireFox, IE and Opera
+        document.body.scrollTop = 0; // For Safari
     }
 }
