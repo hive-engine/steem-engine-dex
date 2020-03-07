@@ -1,0 +1,238 @@
+<template>
+    <style>
+        .activateIt {
+            color: blue!important;
+            font-size: 17px;
+        }
+    </style>
+    <div class="side-bar-wrapper">
+        <div class="col-md-12">
+            <div class="form-nav-name">
+                <a class="link-el" click.delegate="handleClick('homeAddress')"
+                    ><div class="detail-card">
+                        <div class="content-wrapper">
+                            <div class="content-icon">
+                                <img
+                                    class="form-nav-icon"
+                                    src="https://img.icons8.com/color/48/000000/real-estate.png"
+                                />
+                            </div>
+                            <div class="content-name-wrapper">
+                                <h4 class="content-name removeActivate activateIt" id="homeAddress">Home Address</h4>
+                            </div>
+                        </div>
+                    </div></a
+                >
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-nav-name">
+                <a class="link-el" click.delegate="handleClick('shippingAddress')"
+                    ><div class="detail-card">
+                        <div class="content-wrapper">
+                            <div class="content-icon">
+                                <img
+                                    class="form-nav-icon"
+                                    src="https://img.icons8.com/color/48/000000/historic-ship.png"
+                                />
+                            </div>
+                            <div class="content-name-wrapper">
+                                <h4 class="content-name removeActivate" id="shippingAddress">Shipping Address</h4>
+                            </div>
+                        </div>
+                    </div></a
+                >
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-nav-name">
+                <a class="link-el" click.delegate="handleClick('socialMedia')"
+                    ><div class="detail-card">
+                        <div class="content-wrapper">
+                            <div class="content-icon">
+                                <img
+                                    class="form-nav-icon"
+                                    src="https://img.icons8.com/color/48/000000/conference-call.png"
+                                />
+                            </div>
+                            <div class="content-name-wrapper">
+                                <h4 class="content-name removeActivate" id="socialMedia">Social Media</h4>
+                            </div>
+                        </div>
+                    </div></a
+                >
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-nav-name">
+                <a class="link-el" click.delegate="handleClick('privateContact')"
+                    ><div class="detail-card">
+                        <div class="content-wrapper">
+                            <div class="content-icon">
+                                <img
+                                    class="form-nav-icon"
+                                    src="https://img.icons8.com/color/48/000000/private2--v1.png"
+                                />
+                            </div>
+                            <div class="content-name-wrapper">
+                                <h4 class="content-name removeActivate" id="privateContact">Private Contact</h4>
+                            </div>
+                        </div>
+                    </div></a
+                >
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-nav-name">
+                <a class="link-el" click.delegate="handleClick('socialFinancial')"
+                    ><div class="detail-card">
+                        <div class="content-wrapper">
+                            <div class="content-icon">
+                                <img
+                                    class="form-nav-icon"
+                                    src="https://img.icons8.com/color/48/000000/card-exchange.png"
+                                />
+                            </div>
+                            <div class="content-name-wrapper">
+                                <h4 class="content-name removeActivate" id="socialFinancial">Social Financial</h4>
+                            </div>
+                        </div>
+                    </div></a
+                >
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-nav-name">
+                <a class="link-el" click.delegate="handleClick('medical')"
+                    ><div class="detail-card">
+                        <div class="content-wrapper">
+                            <div class="content-icon">
+                                <img
+                                    class="form-nav-icon"
+                                    src="https://img.icons8.com/color/50/000000/treatment-plan.png"
+                                />
+                            </div>
+                            <div class="content-name-wrapper">
+                                <h4 class="content-name removeActivate" id="medical">Medical</h4>
+                            </div>
+                        </div>
+                    </div></a
+                >
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-nav-name">
+                <a class="link-el" click.delegate="handleClick('medicalContact')"
+                    ><div class="detail-card">
+                        <div class="content-wrapper">
+                            <div class="content-icon">
+                                <img
+                                    class="form-nav-icon"
+                                    src="https://img.icons8.com/color/48/000000/hospital-3.png"
+                                />
+                            </div>
+                            <div class="content-name-wrapper">
+                                <h4 class="content-name removeActivate" id="medicalContact">Medical Contact</h4>
+                            </div>
+                        </div>
+                    </div></a
+                >
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-nav-name">
+                <a class="link-el" click.delegate="handleClick('emergencyContact')"
+                    ><div class="detail-card">
+                        <div class="content-wrapper">
+                            <div class="content-icon">
+                                <img
+                                    class="form-nav-icon"
+                                    src="https://img.icons8.com/color/48/000000/exit-sign.png"
+                                />
+                            </div>
+                            <div class="content-name-wrapper">
+                                <h4 class="content-name removeActivate" id="emergencyContact">Emergency Contact</h4>
+                            </div>
+                        </div>
+                    </div></a
+                >
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-nav-name">
+                <a class="link-el" click.delegate="handleClick('languages')"
+                    ><div class="detail-card">
+                        <div class="content-wrapper">
+                            <div class="content-icon">
+                                <img
+                                    class="form-nav-icon"
+                                    src="https://img.icons8.com/color/48/000000/language.png"
+                                />
+                            </div>
+                            <div class="content-name-wrapper">
+                                <h4 class="content-name removeActivate" id="languages">Languages</h4>
+                            </div>
+                        </div>
+                    </div></a
+                >
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-nav-name">
+                <a class="link-el" click.delegate="handleClick('programmingLanguages')"
+                    ><div class="detail-card">
+                        <div class="content-wrapper">
+                            <div class="content-icon">
+                                <img
+                                    class="form-nav-icon"
+                                    src="https://img.icons8.com/color/48/000000/programming-flag.png"
+                                />
+                            </div>
+                            <div class="content-name-wrapper">
+                                <h4 class="content-name removeActivate" id="programmingLanguages">Programming Languages</h4>
+                            </div>
+                        </div>
+                    </div></a
+                >
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-nav-name">
+                <a class="link-el" click.delegate="handleClick('generalGeography')"
+                    ><div class="detail-card">
+                        <div class="content-wrapper">
+                            <div class="content-icon">
+                                <img
+                                    class="form-nav-icon"
+                                    src="https://img.icons8.com/color/48/000000/latitude.png"
+                                />
+                            </div>
+                            <div class="content-name-wrapper">
+                                <h4 class="content-name removeActivate" id="generalGeography">General Geography</h4>
+                            </div>
+                        </div>
+                    </div></a
+                >
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-nav-name">
+                <a class="link-el" click.delegate="handleClick('generalPhysicalAppearance')"
+                    ><div class="detail-card">
+                        <div class="content-wrapper">
+                            <div class="content-icon">
+                                <img
+                                    class="form-nav-icon"
+                                    src="https://img.icons8.com/color/48/000000/id-verified.png"
+                                />
+                            </div>
+                            <div class="content-name-wrapper">
+                                <h4 class="content-name removeActivate" id="generalPhysicalAppearance">Gen Physical Appearance</h4>
+                            </div>
+                        </div>
+                    </div></a
+                >
+            </div>
+        </div>
+    </div>
+</template>
