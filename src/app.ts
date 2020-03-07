@@ -395,7 +395,7 @@ export class App {
                 route: 'core-profile',
                 name: 'coreProfile',
                 moduleId: PLATFORM.moduleName(
-                    './routes/nfts/create-nft-user/profiles/profile-forms/core-profile',
+                    './routes/nfts/create-nft-user/profiles/profile-forms/core-profile/core-profile',
                     'core-profile',
                 ),
                 nav: false,
