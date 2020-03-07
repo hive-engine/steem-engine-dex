@@ -395,11 +395,21 @@ export class App {
                 route: 'core-profile',
                 name: 'coreProfile',
                 moduleId: PLATFORM.moduleName(
-                    './routes/nfts/create-nft-user/profiles/profile-forms/core-profile',
+                    './routes/nfts/create-nft-user/profiles/profile-forms/core-profile/core-profile',
                     'core-profile',
                 ),
                 nav: false,
                 title: 'Core Profile Form',
+            },
+            {
+                route: 'professional-profile',
+                name: 'professionalProfile',
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-user/profiles/profile-forms/professional-profile/professional-profile',
+                    'professioonal-profile',
+                ),
+                nav: false,
+                title: 'Professioonal Profile Form',
             },
             {
                 route: 'add-group-details',

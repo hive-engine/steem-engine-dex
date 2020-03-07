@@ -1,6 +1,6 @@
 import { customElement, autoinject, bindable } from 'aurelia-framework';
 
-import styles from '../core-profile.module.css';
+import styles from '../../professional-profile.module.css';
 
 @autoinject()
 @customElement('sidebar')
