@@ -1,0 +1,50 @@
+<template>
+    <require from="./professional-profile-forms/profile-form-sidebar/side-bar"></require>
+    <require from="./professional-profile-forms/cover-letter"></require>
+    
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="header-wrapper">
+                        <h2 class="wizard-header pt-3">Profile Forms</h2>
+                        <p class="wizard-header-desc">
+                            Fill the profile forms in modules and at your own pace on our platform.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="profile-form-header-wrapper">
+                        <img class="profile-form-header-icon" src="https://img.icons8.com/color/96/000000/idea.png" />
+                        <h4 class="profile-form-header">
+                            Core Profile
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div>
+                        <sidebar></sidebar>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <coverletter class="core-forms" id='coverLetterForm'></coverletter>
+                    
+                </div>
+                <div class="col-md-3">
+                    <div class="col-md-2">
+                        <h4>Preview</h4>
+                        <p textcontent.bind="fullName" id="here"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
