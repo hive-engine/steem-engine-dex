@@ -1,0 +1,70 @@
+<template>
+    <require from="./core-profile-forms/profile-form-sidebar/side-bar"></require>
+    <require from="./core-profile-forms/home-address"></require>
+    <require from="./core-profile-forms/shipping-address"></require>
+    <require from="./core-profile-forms/social-media"></require>
+    <require from="./core-profile-forms/private-contact"></require>
+    <require from="./core-profile-forms/social-financial"></require>
+    <require from="./core-profile-forms/medical-contact"></require>
+    <require from="./core-profile-forms/medical"></require>
+    <require from="./core-profile-forms/emergency-contact"></require>
+    <require from="./core-profile-forms/languages"></require>
+    <require from="./core-profile-forms/programming-languages"></require>
+    <require from="./core-profile-forms/general-geography"></require>
+    <require from="./core-profile-forms/general-physical-appearance"></require>
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="header-wrapper">
+                        <h2 class="wizard-header pt-3">Profile Forms</h2>
+                        <p class="wizard-header-desc">
+                            Fill the profile forms in modules and at your own pace on our platform.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="profile-form-header-wrapper">
+                        <img class="profile-form-header-icon" src="https://img.icons8.com/color/96/000000/idea.png" />
+                        <h4 class="profile-form-header">
+                            Core Profile
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div>
+                        <sidebar></sidebar>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <homeaddress class="core-forms" id='homeAddressForm'></homeaddress>
+                    <shippingaddress class="core-forms" id='shippingAddressForm' style="display: none;"></shippingaddress>
+                    <socialmedia class="core-forms" id='socialMediaForm' style="display: none;"></socialmedia>
+                    <privatecontact class="core-forms" id='privateContactForm' style="display: none;"></privatecontact>
+                    <socialfinancial class="core-forms" id='socialFinancialForm' style="display: none;"></socialfinancial>
+                    <medicalcontact class="core-forms" id='medicalContactForm' style="display: none;"></medicalcontact>
+                    <medical class="core-forms" id='medicalForm' style="display: none;"></medical>
+                    <emergencycontact class="core-forms" id='emergencyContactForm' style="display: none;"></emergencycontact>
+                    <languages class="core-forms" id='languagesForm' style="display: none;"></languages>
+                    <programminglanguages class="core-forms" id='programmingLanguagesForm' style="display: none;"></programminglanguages>
+                    <generalgeography class="core-forms" id='generalGeographyForm' style="display: none;"></generalgeography>
+                    <generalphysicalappearance class="core-forms" id='generalPhysicalAppearanceForm' style="display: none;"></generalphysicalappearance>
+                </div>
+                <div class="col-md-3">
+                    <div class="col-md-2">
+                        <h4>Preview</h4>
+                        <p textcontent.bind="fullName" id="here"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
