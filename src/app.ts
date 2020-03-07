@@ -402,6 +402,16 @@ export class App {
                 title: 'Core Profile Form',
             },
             {
+                route: 'professional-profile',
+                name: 'professionalProfile',
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-user/profiles/profile-forms/professional-profile/professional-profile',
+                    'professioonal-profile',
+                ),
+                nav: false,
+                title: 'Professioonal Profile Form',
+            },
+            {
                 route: 'add-group-details',
                 name: 'groupDetails',
                 moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/add-group-details', 'add-group-details'),
