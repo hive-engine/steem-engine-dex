@@ -406,10 +406,20 @@ export class App {
                 name: 'professionalProfile',
                 moduleId: PLATFORM.moduleName(
                     './routes/nfts/create-nft-user/profiles/profile-forms/professional-profile/professional-profile',
-                    'professioonal-profile',
+                    'professional-profile',
                 ),
                 nav: false,
                 title: 'Professioonal Profile Form',
+            },
+            {
+                route: 'dating-profile',
+                name: 'datingProfile',
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-user/profiles/profile-forms/dating-profile/dating-profile',
+                    'dating-profile',
+                ),
+                nav: false,
+                title: 'Dating Profile Form',
             },
             {
                 route: 'add-group-details',
