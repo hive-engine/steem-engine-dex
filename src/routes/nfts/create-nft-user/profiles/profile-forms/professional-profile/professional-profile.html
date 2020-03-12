@@ -1,7 +1,12 @@
 <template>
     <require from="./professional-profile-forms/profile-form-sidebar/side-bar"></require>
     <require from="./professional-profile-forms/cover-letter"></require>
-    
+    <require from="./professional-profile-forms/desired-field"></require>
+    <require from="./professional-profile-forms/private-contact"></require>
+    <require from="./professional-profile-forms/education"></require>
+    <require from="./professional-profile-forms/work-experience"></require>
+    <require from="./professional-profile-forms/references"></require>
+
     <header>
         <div class="container">
             <div class="row">
@@ -35,8 +40,12 @@
                     </div>
                 </div>
                 <div class="col-md-5">
-                    <coverletter class="core-forms" id='coverLetterForm'></coverletter>
-                    
+                    <coverletter class="core-forms" id="coverLetterForm"></coverletter>
+                    <desiredfield class="core-forms" id="desiredFieldForm"></desiredfield>
+                    <privatecontact class="core-forms" id="privateContactForm"></privatecontact>
+                    <education class="core-forms" id="educationForm"></education>
+                    <workexperience class="core-forms" id="workExperienceForm"></workexperience>
+                    <references class="core-forms" id="referencesForm"></references>
                 </div>
                 <div class="col-md-3">
                     <div class="col-md-2">
