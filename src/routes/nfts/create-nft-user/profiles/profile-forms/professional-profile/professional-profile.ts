@@ -3,7 +3,7 @@ import { customElement, autoinject, bindable } from 'aurelia-framework';
 import styles from './professional-profile.module.css';
 
 @autoinject()
-@customElement('coreProfile')
-export class CoreProfile {
+@customElement('professionalProfile')
+export class ProfessionalProfile {
     private styles = styles;
 }
