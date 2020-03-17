@@ -7,7 +7,7 @@ import { PLATFORM } from 'aurelia-pal';
 import { Router, RouterConfiguration } from 'aurelia-router';
 
 import { slick } from 'slick-carousel/slick/slick';
-import styles from './nft-user-showroom.module.css';
+import styles from './user-profile.module.css';
 
 @autoinject()
 @connectTo()
