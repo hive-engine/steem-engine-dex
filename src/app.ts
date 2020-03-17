@@ -392,6 +392,16 @@ export class App {
                 title: 'Create Profiles',
             },
             {
+                route: 'user-profile',
+                name: 'userProfile',
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-user/profiles/profile-page/user-profile',
+                    'user-profile',
+                ),
+                nav: false,
+                title: 'User Profile',
+            },
+            {
                 route: 'core-profile',
                 name: 'coreProfile',
                 moduleId: PLATFORM.moduleName(
