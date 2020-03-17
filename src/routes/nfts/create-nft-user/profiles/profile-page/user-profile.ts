@@ -19,26 +19,26 @@ export class nftUserShowroom {
     private tokenTable: HTMLTableElement;
 
     constructor(private se: SteemEngine, private taskQueue: TaskQueue) {}
-    public configureRouter(config: RouterConfiguration, router: Router) {
-        config.map([
-            {
-                route: [''],
-                name: 'allCollections',
-                moduleId: PLATFORM.moduleName('./components/all-user-collection'),
-                nav: true,
-                title: 'All',
-            },
-            {
-                route: ['user-reviews'],
-                name: 'userReviews',
-                moduleId: PLATFORM.moduleName('./components/user-reviews'),
-                nav: true,
-                title: 'User Reviews',
-            },
-        ]);
+    // public configureRouter(config: RouterConfiguration, router: Router) {
+    //     config.map([
+    //         {
+    //             route: [''],
+    //             name: 'allCollections',
+    //             moduleId: PLATFORM.moduleName('./components/all-user-collection'),
+    //             nav: true,
+    //             title: 'All',
+    //         },
+    //         {
+    //             route: ['user-reviews'],
+    //             name: 'userReviews',
+    //             moduleId: PLATFORM.moduleName('./components/user-reviews'),
+    //             nav: true,
+    //             title: 'User Reviews',
+    //         },
+    //     ]);
 
-        this.router = router;
-    }
+    //     this.router = router;
+    // }
 
     async canActivate() {
         await dispatchify(getNftsWithSellBook)();
