@@ -1,6 +1,6 @@
 import { customElement, autoinject, bindable } from 'aurelia-framework';
 
-import styles from '../create-nft-user.module.css';
+import styles from '../create-listing.module.css';
 
 @autoinject()
 @customElement('stepthree')

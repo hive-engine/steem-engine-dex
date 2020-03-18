@@ -394,10 +394,7 @@ export class App {
             {
                 route: 'explore',
                 name: 'explore',
-                moduleId: PLATFORM.moduleName(
-                    './routes/nfts/create-nft-user/explore-page/explore',
-                    'explore',
-                ),
+                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/explore-page/explore', 'explore'),
                 nav: false,
                 title: 'Explore',
             },
@@ -446,9 +443,9 @@ export class App {
                 title: 'Add Opportunity',
             },
             {
-                route: 'create-nft-user',
+                route: 'create-listing',
                 name: 'createNftUser',
-                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/create-nft-user', 'nft-create-user'),
+                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/create-listing', 'create-listing'),
                 nav: false,
                 title: 'Create NFT User',
             },

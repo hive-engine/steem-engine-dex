@@ -11,7 +11,7 @@ import { autoinject } from 'aurelia-framework';
 import { createTransaction } from 'common/functions';
 
 import { environment } from 'environment';
-import styles from './create-nft-user.module.css';
+import styles from './create-listing.module.css';
 @autoinject()
 export class CreateNftUser {
     private renderer: BootstrapFormRenderer;
