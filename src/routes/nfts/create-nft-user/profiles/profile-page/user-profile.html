@@ -3,20 +3,24 @@
         <img src="../../../../../images/nft-user-placeholder.png" alt="" class="user-image" />
         <div class="header-row">
             <div class="showroom-header text-center">
-                <h2 class="text-center header=text">Welcome to User Shop</h2>
+                <h2 class="text-center header-text">Welcome to DexRex</h2>
                 <div class="user-info">
-                    <span class="info">username</span>
-                    <span class="info">offering</span>
-                    <span class="info">language</span>
+                    <span class="info">Decentralized</span>
+                    <span class="info">Scalable</span>
+                    <span class="info">Efficient</span>
                 </div>
             </div>
+        </div>
+        <div class="text-center">
+            <button>Login</button>
+            <button>Sign Up</button>
         </div>
     </header>
     <section>
         <div class="container-fluid">
             <div class="row nice-border">
-                <div class="col-md-4">
-                    <div class="nav tabs make-flex minus-margin mt-3">
+                <div class="col-md-12">
+                    <div class="nav tabs make-flex text-center minus-margin mt-3">
                         <a
                             class="nav-link color-white remove-padding tabs__tab ${row.isActive ? 'active' : ''}"
                             repeat.for="row of router.navigation"
@@ -25,52 +29,133 @@
                         >
                     </div>
                 </div>
-                <div class="col-md-7 offset-md-1">
-                    <div class="showroom-head-panel">
-                        <div class="sold-by">
-                            <span class="who sold-by-who">
-                                Sort price
-                            </span>
-                            <label class="form-radiobox" style="margin: 0;">
-                                <input class="radio" type="radio" name="r1" aria-labelledby="radio_soldby" />
-                                <span class="who">
-                                    Highest
-                                </span>
-                            </label>
-                            <label class="form-radiobox" style="margin: 0;">
-                                <input class="radio" type="radio" name="r2" aria-labelledby="radio_soldby" />
-                                <span class="who">
-                                    Lowest
-                                </span>
-                            </label>
-                        </div>
-                        <div class="sort-by">
-                            <span class="who sold-by-who">Sort by categories:</span>
-                            <label class="form-select" style="margin: 0;">
-                                <select id="sort-card" name="orderBy" style="border: none; padding: 5px;">
-                                    <option value="15">Product Name</option>
-
-                                    <option value="1">Best Rating</option>
-
-                                    <option value="4">Collection Name</option>
-
-                                    <option value="14">Newest to Oldest</option>
-                                </select>
-                                <i class="fa fa-caret-down"></i>
-                            </label>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-2">
+                    <div class="card cat-card">
+                        <div class="cat-card-header">
+                            <h4>User</h4>
+                        </div>
+                        <div class="cat-card-body">
+                            <ul class="cat-card-items">
+                                <li class="cat-card-item">
+                                    <a href="">Profiles</a><span class="float-right">70%</span>
+                                </li>
+                                <li class="cat-card-item"><a href="">Resume</a><span class="float-right">90%</span></li>
+                                <li class="cat-card-item">
+                                    <a href="">Store</a><span class="float-right">(100)</span>
+                                </li>
+                                <li class="cat-card-item">
+                                    <a href="">Authorization</a><span class="float-right">(89)</span>
+                                </li>
+                                <li class="cat-card-item">
+                                    <a href="">Permission</a><span class="float-right">(89)</span>
+                                </li>
+                                <div class="more-less" id="more-less">
+                                    <li class="cat-card-item">
+                                        <a href="">My Wall</a><span class="float-right">(89)</span>
+                                    </li>
+                                    <li class="cat-card-item">
+                                        <a href="">My Groups</a><span class="float-right">(89)</span>
+                                    </li>
+                                    <li class="cat-card-item">
+                                        <a href="">My Events</a><span class="float-right">(89)</span>
+                                    </li>
+                                    <li class="cat-card-item">
+                                        <a href="">My Fund Raise</a><span class="float-right">(89)</span>
+                                    </li>
+                                    <li class="cat-card-item">
+                                        <a href="">My Crowdfund</a><span class="float-right">(89)</span>
+                                    </li>
+                                </div>
+                                <div class="text-center">
+                                    <a
+                                        class="text-center cat-card-items"
+                                        style="color: black;"
+                                        id="more-btn"
+                                        click.trigger="showMore()"
+                                        >show more</a
+                                    >
+                                    <a
+                                        class="text-center cat-card-items"
+                                        style="color: black; display: none;"
+                                        id="less-btn"
+                                        click.trigger="showLess()"
+                                        >show less</a
+                                    >
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card cat-card">
+                        <div class="cat-card-header">
+                            <h4>Directories</h4>
+                        </div>
+                        <div class="cat-card-body">
+                            <ul class="cat-card-items">
+                                <li class="cat-card-item"><a href="">People</a><span class="float-right">70%</span></li>
+                                <li class="cat-card-item"><a href="">Groups</a><span class="float-right">90%</span></li>
+                                <li class="cat-card-item">
+                                    <a href="">Events</a><span class="float-right">(100)</span>
+                                </li>
+                                <li class="cat-card-item">
+                                    <a href="">Fundraise</a><span class="float-right">(89)</span>
+                                </li>
+
+                                <li class="cat-card-item">
+                                    <a href="">Crowdfund</a><span class="float-right">(89)</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card cat-card">
+                        <div class="cat-card-header">
+                            <h4>Opportunities</h4>
+                        </div>
+                        <div class="cat-card-body">
+                            <ul class="cat-card-items">
+                                <li class="cat-card-item"><a href="">Jobs</a><span class="float-right">70%</span></li>
+                                <li class="cat-card-item"><a href="">Gigs</a><span class="float-right">90%</span></li>
+                                <li class="cat-card-item"><a href="">Date</a><span class="float-right">(100)</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card cat-card">
+                        <div class="cat-card-header">
+                            <h4>Shop</h4>
+                        </div>
+                        <div class="cat-card-body">
+                            <ul class="cat-card-items">
+                                <li class="cat-card-item">
+                                    <a href="">Service</a><span class="float-right">70%</span>
+                                </li>
+                                <li class="cat-card-item">
+                                    <a href="">Digital Goods</a><span class="float-right">90%</span>
+                                </li>
+                                <li class="cat-card-item">
+                                    <a href="">Physical Goods</a><span class="float-right">(100)</span>
+                                </li>
+                                <li class="cat-card-item">
+                                    <a href="">Pets and Livestock</a><span class="float-right">(100)</span>
+                                </li>
+                                <li class="cat-card-item">
+                                    <a href="">Financial</a><span class="float-right">(100)</span>
+                                </li>
+                                <li class="cat-card-item">
+                                    <a href="">Restricted</a><span class="float-right">(100)</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
                     <router-view></router-view>
                 </div>
-                <div class="col-md-2">
-                    <div class="owner-info">
-                        <h5 class="owner-info-header text-center">Collection Owner</h5>
+                <div class="col-md-2 offset-md-1">
+                    <div class="owner-info owner-info-card">
+                        <h5 class="owner-info-header text-center">Top Collection Owners</h5>
                         <div class="owner-image">
                             <img
                                 src="../../../../../images/user-image-placeholder.png"
@@ -80,7 +165,9 @@
                             />
                         </div>
                         <p class="owner-name">John Doe</p>
-                        <div class="about-user"><span>Photographer/Model</span><span>English</span><br><span>Spain</span></div>
+                        <div class="about-user">
+                            <span>Photographer/Model</span><span>English</span><br /><span>Spain</span>
+                        </div>
                         <div class="social">
                             <span
                                 ><a href="">
