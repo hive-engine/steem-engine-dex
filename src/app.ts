@@ -395,7 +395,7 @@ export class App {
                 route: 'explore',
                 name: 'explore',
                 moduleId: PLATFORM.moduleName(
-                    './routes/nfts/create-nft-user/profile-page/explore',
+                    './routes/nfts/create-nft-user/explore-page/explore',
                     'explore',
                 ),
                 nav: false,
