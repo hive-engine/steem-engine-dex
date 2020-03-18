@@ -39,6 +39,12 @@ h1 {
 .header-text-desc {
     margin: 0;
 }
+.view-link {
+    color: #0048b3!important;
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: 18px;
+}
 .user-info {
     display: flex;
     justify-content: space-evenly;
