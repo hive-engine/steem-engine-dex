@@ -444,7 +444,7 @@ export class App {
             },
             {
                 route: 'create-listing',
-                name: 'createNftUser',
+                name: 'createListing',
                 moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/create-listing', 'create-listing'),
                 nav: false,
                 title: 'Create NFT User',
