@@ -15,6 +15,6 @@ export class StepFour {
         console.log(n);
         this.selected = n;
 
-        $('.step-4').removeClass('active-form');
+        $('#step-4').removeClass('active-form');
     }
 }
