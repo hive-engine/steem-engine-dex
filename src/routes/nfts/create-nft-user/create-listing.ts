@@ -11,7 +11,7 @@ import { autoinject } from 'aurelia-framework';
 import { createTransaction } from 'common/functions';
 
 import { environment } from 'environment';
-import styles from './create-nft-user.module.css';
+import styles from './create-listing.module.css';
 @autoinject()
 export class CreateNftUser {
     private renderer: BootstrapFormRenderer;
@@ -227,17 +227,23 @@ export class CreateNftUser {
     }
 
     handleNext(n) {
-        $('.custom-tabs').css('display', 'none');
-        $('.tab-' + n).css('display', 'block');
-        $('.step').addClass('active');
-        console.log(n);
-        $('.step-' + n).addClass('active-form');
-    }
+                      $('.custom-tabs').css('display', 'none');
+                      $('.tab-' + n).css('display', 'block');
+                      $('.step').addClass('active');
+                      console.log(n);
+                      $('#step-' + n).addClass('active-form');
+                      // To scroll page back to top on click
+                      document.documentElement.scrollTop = 250; // Chrome, FireFox, IE and Opera
+                      document.body.scrollTop = 250; // For Safari
+                  }
     handlePrev(n) {
-        $('.custom-tabs').css('display', 'none');
-        $('.tab-' + n).css('display', 'block');
-        console.log(n);
+                      $('.custom-tabs').css('display', 'none');
+                      $('.tab-' + n).css('display', 'block');
+                      console.log(n);
 
-        $('.step-4').removeClass('active-form');
-    }
+                      $('#step-4').removeClass('active-form');
+                      // To scroll page back to top on click
+                      document.documentElement.scrollTop = 250; // Chrome, FireFox, IE and Opera
+                      document.body.scrollTop = 250; // For Safari
+                  }
 }

@@ -1,6 +1,6 @@
 import { customElement, autoinject, bindable } from 'aurelia-framework';
 
-import styles from '../create-nft-user.module.css';
+import styles from '../create-listing.module.css';
 
 @autoinject()
 @customElement('stepfour')
@@ -15,6 +15,6 @@ export class StepFour {
         console.log(n);
         this.selected = n;
 
-        $('.step-4').removeClass('active-form');
+        $('#step-4').removeClass('active-form');
     }
 }

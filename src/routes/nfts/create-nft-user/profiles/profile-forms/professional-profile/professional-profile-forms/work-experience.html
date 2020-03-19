@@ -1,20 +1,30 @@
 <template>
     <div class="form-group forms-here">
-        <label class="input-label" for="formGroupExampleInput">School</label>
+        <label class="input-label" for="formGroupExampleInput">Company</label>
         <input
             class="form-control form-control-lg input-space"
             value.bind="fullName"
             type="text"
-            placeholder="Enter Your School Name"
+            placeholder="Enter Job Type"
         />
     </div>
-    <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" />
-        <label class="form-check-label" for="inlineCheckbox1">Bsc</label>
+    <div class="form-group forms-here">
+        <label class="input-label" for="formGroupExampleInput">Role</label>
+        <input
+            class="form-control form-control-lg input-space"
+            value.bind="fullName"
+            type="text"
+            placeholder="Enter Your Role"
+        />
     </div>
-    <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-        <label class="form-check-label" for="inlineCheckbox2">Msc</label>
+    <div class="form-group forms-here">
+        <label class="input-label" for="formGroupExampleInput">Duration</label>
+        <input
+            class="form-control form-control-lg input-space"
+            value.bind="fullName"
+            type="text"
+            placeholder="Enter Job Duration"
+        />
     </div>
     <button class="ml-auto">Add More   <font-awesome-icon icon.bind="['fas', 'plus']"></font-awesome-icon></button>
     <br />

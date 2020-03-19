@@ -43,8 +43,11 @@
     background-color: #0048b3;
     color: #fff !important;
 }
-.active {
+.step.active::before {
     background-color: #0048b3;
+}
+.active {
+    background: #0048b3;
     color: #fff !important;
 }
 .step.active strong {
@@ -71,6 +74,49 @@ span.step-one:after {
     width: 800px;
     height: 2px;
     left: 100%;
+    top: 50%;
+    background: #d8d8d8;
+    z-index: -1;
+}
+.active-form {
+    background-color: #0048b3;
+    color: #fff !important;
+}
+.active-form > strong {
+    color: #fff;
+    font-weight: bolder;
+    -webkit-transform: scale(2);
+    transform: scale(2);
+}
+span.step-2:before {
+    content: '';
+    position: absolute;
+    margin: auto;
+    width: 300px;
+    height: 2px;
+    right: 0;
+    top: 50%;
+    background: #d8d8d8;
+    z-index: -1;
+}
+span.step-3:before {
+    content: '';
+    position: absolute;
+    margin: auto;
+    width: 300px;
+    height: 2px;
+    right: 0;
+    top: 50%;
+    background: #d8d8d8;
+    z-index: -1;
+}
+span.step-4:before {
+    content: '';
+    position: absolute;
+    margin: auto;
+    width: 300px;
+    height: 2px;
+    right: 0;
     top: 50%;
     background: #d8d8d8;
     z-index: -1;
@@ -160,13 +206,13 @@ span.step-one:after {
     margin-bottom: 0;
 }
 .go-back {
-    color: #0048b3!important;
+    color: #0048b3 !important;
     font-size: 14px;
     margin-top: 30px;
 }
 .go-back:hover {
     text-decoration: underline;
-    color: #129cc1!important;
+    color: #129cc1 !important;
 }
 .checkbox-style {
     margin: auto;

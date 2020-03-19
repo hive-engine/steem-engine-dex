@@ -392,6 +392,13 @@ export class App {
                 title: 'Create Profiles',
             },
             {
+                route: 'explore',
+                name: 'explore',
+                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/explore-page/explore', 'explore'),
+                nav: false,
+                title: 'Explore',
+            },
+            {
                 route: 'core-profile',
                 name: 'coreProfile',
                 moduleId: PLATFORM.moduleName(
@@ -406,10 +413,20 @@ export class App {
                 name: 'professionalProfile',
                 moduleId: PLATFORM.moduleName(
                     './routes/nfts/create-nft-user/profiles/profile-forms/professional-profile/professional-profile',
-                    'professioonal-profile',
+                    'professional-profile',
                 ),
                 nav: false,
                 title: 'Professioonal Profile Form',
+            },
+            {
+                route: 'dating-profile',
+                name: 'datingProfile',
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-user/profiles/profile-forms/dating-profile/dating-profile',
+                    'dating-profile',
+                ),
+                nav: false,
+                title: 'Dating Profile Form',
             },
             {
                 route: 'add-group-details',
@@ -426,9 +443,9 @@ export class App {
                 title: 'Add Opportunity',
             },
             {
-                route: 'create-nft-user',
-                name: 'createNftUser',
-                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/create-nft-user', 'nft-create-user'),
+                route: 'create-listing',
+                name: 'createListing',
+                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/create-listing', 'create-listing'),
                 nav: false,
                 title: 'Create NFT User',
             },

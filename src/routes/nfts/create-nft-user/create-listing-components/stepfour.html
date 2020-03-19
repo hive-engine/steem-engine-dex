@@ -27,4 +27,19 @@
             <p id="body-placeholder" class="preview-para" textcontent.bind="inspiredBy"></p>
         </div>
     </div>
+    <style>
+        .active-form {
+            background-color: #0048b3;
+            color: #fff !important;
+        }
+        .active-form > strong {
+            color: #fff;
+            font-weight: bolder;
+            -webkit-transform: scale(2);
+            transform: scale(2);
+        }
+        #step-4.active-form::before {
+            background-color: #0048b3;
+        }
+    </style>
 </template>
