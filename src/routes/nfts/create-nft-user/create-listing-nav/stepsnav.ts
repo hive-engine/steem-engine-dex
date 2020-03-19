@@ -13,7 +13,12 @@ export class StepsNav {
         $('.hide-ts').css('display', 'none');
         $('#tab-' + n).css('display', 'block');
         this.clicked = n;
+        let next = n + 1;
+        let prev = n - 1;
+        $('#step-' + next).removeClass('active-form');
+        $('#step-' + prev).addClass('active-form');
         
+        console.log(`${next} and ${prev}`)
         console.log(`you asked for me ${n} times`);
     }
 }
