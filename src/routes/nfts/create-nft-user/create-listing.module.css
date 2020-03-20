@@ -154,6 +154,14 @@ span.step-4:before {
     margin-bottom: -20px;
     font-size: 16px;
 }
+.create-nft-card-form {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px 80px;
+    box-shadow: 0 2px 6px -4px rgba(0, 0, 0, 0.2), 0 8px 10px -4px rgba(0, 0, 0, 0.14),
+        0 8px 12px 4px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
 .preview-card {
     background: rgba(248, 248, 248, 0.377);
     /* background-color: #fff; */
@@ -278,6 +286,15 @@ span.step-4:before {
     align-items: center;
     margin-left: 15px;
 }
+.margin-t-zero-0 {
+    margin-top: 0!important;
+}
+.margin-bottom-0 {
+    margin-bottom: 0!important;
+}
 .padding-right {
     align-items: center;
+}
+.margin-bt-15 {
+    margin-bottom: 32px;
 }
