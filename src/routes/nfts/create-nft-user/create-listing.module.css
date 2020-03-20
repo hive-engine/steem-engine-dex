@@ -27,8 +27,8 @@
     width: 100%;
 }
 .step {
-    height: 60px;
-    width: 60px;
+    height: 45px;
+    width: 45px;
     margin: 0 2px;
     background-color: #d8d8d8;
     border: none;
@@ -53,7 +53,7 @@
 .step.active strong {
     color: #fff;
     font-weight: bolder;
-    transform: scale(2);
+    transform: scale(1.5);
 }
 
 .step strong {
@@ -263,4 +263,21 @@ span.step-4:before {
 .nextBtn:hover {
     background-color: rgb(221, 221, 221);
     color: black;
+}
+.no-pad-left {
+    padding-left: 0;
+}
+.flex-it {
+    display: flex;
+}
+.flex-save {
+    align-items: center;
+}
+.margin-top-zero {
+    margin-top: 0!important;
+    align-items: center;
+    margin-left: 15px;
+}
+.padding-right {
+    align-items: center;
 }
