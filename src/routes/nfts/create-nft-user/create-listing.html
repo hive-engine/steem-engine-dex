@@ -23,7 +23,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2 class="create-token-form-header text-center">Create your custom token</h2>
+                <h2 class="create-token-form-header text-center">Create Listing Form</h2>
                 <hr class="split" />
             </div>
             <div class="col-md-12 text-center">
@@ -50,138 +50,161 @@
                     </div>
                     <div class="hide-ts custom-tabs tab-1" id="tab-1">
                         <div class="nft-form-wrapper" style="padding: 0; margin: 0;">
-                            <div class="form-group">
-                                <label class="create-nft-form-label"
-                                    >${'Name Your Collection ' & t}
-                                    <tooltip
-                                        text="[REQUIRED] Name of the token (letters, numbers, whitespace only, max length of 50)"
-                                    ></tooltip
-                                ></label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    value.bind="tokenName & validate"
-                                    click.trigger="info(0)"
-                                />
-                            </div>
-                            <div class="form-group">
-                                <label class="create-nft-form-label"
-                                    >${'Enter Your Website' & t}
-                                    <tooltip text="[OPTIONAL] URL of the project (max length of 255)"></tooltip
-                                ></label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    value.bind="url & validate"
-                                    click.trigger="info(1)"
-                                />
-                            </div>
-                            <div class="form-group">
-                                <label class="create-nft-form-label"
-                                    >${'What Inspired this Collection' & t}
-                                    <tooltip text="[REQUIRED] What inspired this collection?"></tooltip
-                                ></label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    value.bind="inspiredBy & validate"
-                                    click.trigger="info(2)"
-                                />
-                            </div>
-                            <div class="form-group">
-                                <label class="create-nft-form-label"
-                                    >${'Tell us about this Collection' & t}
-                                    <tooltip text="[REQUIRED] What is this collection about?"></tooltip
-                                ></label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    value.bind="tokenDesc & validate"
-                                    click.trigger="info(3)"
-                                />
-                            </div>
-                            <div class="form-group">
-                                <label class="create-nft-form-label"
-                                    >${'authorisedIssuingAccounts' & t}
-                                    <a
-                                        href="javascript:void(0);"
-                                        click.delegate="addAuthorisedAccount()"
-                                        if.bind="authorisedIssuingAccounts.length < 10"
-                                        >+</a
-                                    >
-                                    <tooltip
-                                        text="[OPTIONAL] A list of Steem accounts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then the NFT owner (the account that calls create) will be the only such authorized account by default."
-                                    ></tooltip>
-                                </label>
-                                <input
-                                    type="text"
-                                    class="form-control mb-3"
-                                    value.bind="account.name"
-                                    repeat.for="account of authorisedIssuingAccounts"
-                                    click.trigger="info(4)"
-                                />
-                            </div>
-
-                            <div class="form-group">
-                                <label class="create-nft-form-label"
-                                    >${'Symbol' & t}
-                                    <tooltip
-                                        text="[REQUIRED] Symbol of the token (uppercase letters only, max length of 10)"
-                                    ></tooltip
-                                ></label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    value.bind="symbol & validate"
-                                    click.trigger="info(5)"
-                                />
-                            </div>
-                            <div class="form-group">
-                                <label class="create-nft-form-label"
-                                    >${'Max Supply' & t}
-                                    <tooltip
-                                        text="[OPTIONAL] Maximum supply for the token (between 1 and 9,007,199,254,740,991). If max supply is not specified, then the supply will be unlimited."
-                                    ></tooltip
-                                ></label>
-                                <input
-                                    type="number"
-                                    min="0"
-                                    max="9007199254740991"
-                                    class="form-control"
-                                    value.bind="maxSupply & validate"
-                                    click.trigger="info(6)"
-                                />
-                            </div>
-                            <div class="form-group">
-                                <label class="create-nft-form-label"
-                                    >${'Image URL' & t}
-                                    <tooltip
-                                        text="[REQUIRED] This will be the a link that leads to the main image associated with this collection."
-                                    ></tooltip>
-                                </label>
-                                <input
-                                    type="text"
-                                    class="form-control mb-3"
-                                    value.bind="tokenImageURL"
-                                    click.trigger="info(7)"
-                                />
-                            </div>
-                            <div class="form-group d-flex">
-                                <label class="create-nft-form-label"
-                                    >${'NSFW' & t}
-                                    <tooltip text="[REQUIRED] Mark this collection as Not Safe for Work?."></tooltip>
-                                </label>
-                                <input type="checkbox" checked class="checkbox-style" click.trigger="info(8)" />
-                            </div>
-                            <div class="form-group d-flex">
-                                <label class="create-nft-form-label consent-text"
-                                    >${'Do you have the consent to create this collection?' & t}
-                                    <tooltip
-                                        text="[REQUIRED] Do you have all the legal permission to create this collection?"
-                                    ></tooltip>
-                                </label>
-                                <input type="checkbox" checked class="checkbox-style" click.trigger="info(9)" />
-                            </div>
+                            <form>
+                                <div class="form-row">
+                                    <div class="form-group margin-bottom-0 col-md-6">
+                                        <label for="inputEmail4"
+                                            >Account/Group Name<tooltip
+                                                text="[REQUIRED] Name of the token (letters, numbers, whitespace only, max length of 50)"
+                                            ></tooltip
+                                        ></label>
+                                        <input
+                                            type="accountName"
+                                            class="form-control"
+                                            id="name"
+                                            value.bind="tokenName & validate"
+                                            click.trigger="info(1)"
+                                        />
+                                    </div>
+                                    <div class="form-group margin-bottom-0 col-md-6">
+                                        <label for="inputPassword4"
+                                            >Item Name
+                                            <tooltip
+                                                text="[REQUIRED] Enter Collection/Item name (max length of 100)"
+                                            ></tooltip
+                                        ></label>
+                                        <input
+                                            type="password"
+                                            class="form-control"
+                                            id="itemName"
+                                            click.trigger="info(0)"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputAddress2"
+                                        >Categories
+                                        <tooltip text="[REQUIRED] Choose the category of your listing"></tooltip
+                                    ></label>
+                                    <select class="form-control" click.trigger="info(2)">
+                                        <option>Select Category</option>
+                                    </select>
+                                </div>
+                                <div class="form-group no-pad-left flex-it" click.trigger="info(3)">
+                                    <label for="inputAddress2"
+                                        >What do you want?
+                                        <tooltip
+                                            text="[REQUIRED] Are you offereing this item or looking for one?"
+                                        ></tooltip
+                                    ></label>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-checks-input"
+                                            type="radio"
+                                            name="exampleRadios"
+                                            id="exampleRadios1"
+                                            value="option1"
+                                            checked
+                                        />
+                                        <label class="form-check-label" for="exampleRadios1">
+                                            Wanted
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-checks-input"
+                                            type="radio"
+                                            name="exampleRadios"
+                                            id="exampleRadios2"
+                                            value="option2"
+                                        />
+                                        <label class="form-check-label" for="exampleRadios2">
+                                            Offered
+                                        </label>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="form-group margin-bt-15">
+                                    <label for="inputAddress2"
+                                        >Language
+                                        <tooltip text="[REQUIRED] Choose a default language for your store"></tooltip
+                                    ></label>
+                                    <select class="form-control" click.trigger="info(4)">
+                                        <option>Select Store Language</option>
+                                    </select>
+                                    <label for="inputAddress2"
+                                        >Currency
+                                        <tooltip
+                                            text="[REQUIRED] Choose a default currency for pricing and payment"
+                                        ></tooltip
+                                    ></label>
+                                    <select class="form-control" click.trigger="info(5)">
+                                        <option>Select Store Currency</option>
+                                    </select>
+                                </div>
+                                <hr />
+                                <div class="form-group margin-bottom-0">
+                                    <label for="inputAddress2"
+                                        >Country
+                                        <tooltip
+                                            text="[REQUIRED] Choose a store country"
+                                        ></tooltip
+                                    ></label>
+                                    <select class="form-control" click.trigger="info(6)">
+                                        <option>Select Country</option>
+                                    </select>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group margin-top-0 col-md-6">
+                                        <label for="inputCity">City <tooltip
+                                            text="[REQUIRED] Choose a store city"
+                                        ></tooltip
+                                    ></label>
+                                        <input type="text" class="form-control" id="inputCity" click.trigger="info(7)" />
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputState">State <tooltip
+                                            text="[REQUIRED] Choose a store State"
+                                        ></tooltip
+                                    ></label>
+                                        <select id="inputState" class="form-control" click.trigger="info(8)">
+                                            <option selected>Choose...</option>
+                                            <option>...</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="inputZip">Zip <tooltip
+                                            text="[REQUIRED] Enter Zip Code"
+                                        ></tooltip
+                                    ></label>
+                                        <input type="text" class="form-control" id="inputZip" click.trigger="info(9)" />
+                                    </div>
+                                </div>
+                                <div class="form-group no-pad-left flex-it">
+                                    <form action="/action_page.php">
+                                        <label for="offerStart">Offer Starts: <tooltip
+                                            text="[REQUIRED] Choose a starting date for this opening"
+                                        ></tooltip
+                                    ></label>
+                                        <input class="date-picker" type="date" id="offerStart" name="offerStart" />
+                                    </form>
+                                    <form class="margin-top-zero" action="/action_page.php">
+                                        <label for="offerEnd">Offer Ends: <tooltip
+                                            text="[REQUIRED] Choose an ending date for this opening"
+                                        ></tooltip
+                                    ></label>
+                                        <input class="date-picker" type="date" id="offerEnd" name="offerEnd" />
+                                    </form>
+                                </div>
+                                <div class="form-group no-pad-left">
+                                    <div class="form-checks flex-save">
+                                        <input class="form-checks-input padding-right" type="checkbox" id="gridCheck" />
+                                        <label class="form-check-label margin-top-zero" for="gridCheck">
+                                            Save before continuing
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                         <div class="step-btn">
                             <button id="nextBtn" class="nextBtn" click.delegate="handleNext(2)">&#8250;</button>
@@ -213,9 +236,9 @@
             </div>
             <div class="col-md-3 offset-md-1">
                 <nft-create-info class="hidden-box" id="nft-name"></nft-create-info>
-                <div class="preview-card" style="display: none;">
+                <div class="preview-card" >
                     <div class="preview-card-name">
-                        <h4 id="para-1" class="preview-para dashed-border-btm" textcontent.bind="symbol"></h4>
+                        <h4 id="para-1" class="preview-para dashed-border-btm" textcontent.bind="tokenName"></h4>
                         <div style="margin: 0; padding: 0; display: flex;">
                             <span class="preview-info">Price: </span>
                             <span

@@ -1,4 +1,77 @@
 <template>
+    <div>
+        <form>
+            <div class="form-group">
+                <label for="exampleFormControlInput1"
+                    >Item Name
+                    <tooltip
+                        text="[REQUIRED] Name of the product you are listing (letters, numbers, whitespace only, max length of 50)"
+                    ></tooltip
+                ></label>
+                <input
+                    type="name"
+                    class="form-control"
+                    id="exampleFormControlInput1"
+                    placeholder="Item Name"
+                    click.trigger="info(0)"
+                />
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1"
+                    >Quantity Availabe
+                    <tooltip text="[REQUIRED] How many of this product do you have in stock?"></tooltip
+                ></label>
+                <select class="form-control" id="exampleFormControlSelect1" click.trigger="info(1)">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect2"
+                    >Grade and Category
+                    <tooltip
+                        text="[REQUIRED] What is the category of your product? this will help others find your product"
+                    ></tooltip
+                ></label>
+                <select multiple class="form-control" id="exampleFormControlSelect2" click.trigger="info(2)">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1"
+                    >Item Description
+                    <tooltip
+                        text="[REQUIRED] Write a brief description of your product (letters, numbers, whitespace only, max length of 150)"
+                    ></tooltip
+                ></label>
+                <textarea
+                    class="form-control"
+                    id="exampleFormControlTextarea1"
+                    rows="3"
+                    click.trigger="info(3)"
+                ></textarea>
+            </div>
+            <hr />
+            <h4 for="exampleFormControlTextarea1"
+                >Add Images <tooltip text="[REQUIRED] Add images of the product"></tooltip
+            ></h4>
+            <div class="custom-file" style="margin-bottom: 30px;">
+                <input type="file" class="custom-file-input" id="customFile" />
+                <label class="custom-file-label" for="customFile">Add Image </label>
+            </div>
+        </form>
+    </div>
+    <div class="steps-btn">
+        <button id="prevBtn" class="prevBtn" click.delegate="handlePrev(1)">&#8249;</button>
+        <button id="nextBtn" class="nextBtn" click.delegate="handleNext(3)">&#8250;</button>
+    </div>
     <style>
         .active-form {
             background-color: #0048b3;
@@ -7,18 +80,11 @@
         .active-form > strong {
             color: #fff;
             font-weight: bolder;
-            -webkit-transform: scale(2);
-            transform: scale(2);
+            -webkit-transform: scale(1.5);
+            transform: scale(1.5);
         }
         #step-2.active-form::before {
             background-color: #0048b3;
         }
     </style>
-    <div>
-        <h1>hello from step 2</h1>
-    </div>
-    <div class="steps-btn">
-        <button id="prevBtn" class="prevBtn" click.delegate="handlePrev(1)">&#8249;</button>
-        <button id="nextBtn" class="nextBtn" click.delegate="handleNext(3)">&#8250;</button>
-    </div>
 </template>
