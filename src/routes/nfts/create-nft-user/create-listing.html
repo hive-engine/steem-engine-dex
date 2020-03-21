@@ -53,22 +53,50 @@
                             <form>
                                 <div class="form-row">
                                     <div class="form-group margin-bottom-0 col-md-6">
-                                        <label for="inputEmail4">Account/Group Name</label>
-                                        <input type="accountName" class="form-control" id="collectionName" />
+                                        <label for="inputEmail4"
+                                            >Account/Group Name<tooltip
+                                                text="[REQUIRED] Name of the token (letters, numbers, whitespace only, max length of 50)"
+                                            ></tooltip
+                                        ></label>
+                                        <input
+                                            type="accountName"
+                                            class="form-control"
+                                            id="name"
+                                            value.bind="tokenName & validate"
+                                            click.trigger="info(1)"
+                                        />
                                     </div>
                                     <div class="form-group margin-bottom-0 col-md-6">
-                                        <label for="inputPassword4">Item Name</label>
-                                        <input type="password" class="form-control" id="inputPassword4" />
+                                        <label for="inputPassword4"
+                                            >Item Name
+                                            <tooltip
+                                                text="[REQUIRED] Enter Collection/Item name (max length of 100)"
+                                            ></tooltip
+                                        ></label>
+                                        <input
+                                            type="password"
+                                            class="form-control"
+                                            id="itemName"
+                                            click.trigger="info(0)"
+                                        />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputAddress2">Categories</label>
-                                    <select class="form-control">
+                                    <label for="inputAddress2"
+                                        >Categories
+                                        <tooltip text="[REQUIRED] Choose the category of your listing"></tooltip
+                                    ></label>
+                                    <select class="form-control" click.trigger="info(2)">
                                         <option>Select Category</option>
                                     </select>
                                 </div>
-                                <div class="form-group no-pad-left flex-it">
-                                    <label for="inputAddress2">What do you want?</label>
+                                <div class="form-group no-pad-left flex-it" click.trigger="info(3)">
+                                    <label for="inputAddress2"
+                                        >What do you want?
+                                        <tooltip
+                                            text="[REQUIRED] Are you offereing this item or looking for one?"
+                                        ></tooltip
+                                    ></label>
                                     <div class="form-check">
                                         <input
                                             class="form-checks-input"
@@ -97,47 +125,75 @@
                                 </div>
                                 <hr />
                                 <div class="form-group margin-bt-15">
-                                    <label for="inputAddress2">Language</label>
-                                    <select class="form-control">
+                                    <label for="inputAddress2"
+                                        >Language
+                                        <tooltip text="[REQUIRED] Choose a default language for your store"></tooltip
+                                    ></label>
+                                    <select class="form-control" click.trigger="info(4)">
                                         <option>Select Store Language</option>
                                     </select>
-                                    <label for="inputAddress2">Currency</label>
-                                    <select class="form-control">
+                                    <label for="inputAddress2"
+                                        >Currency
+                                        <tooltip
+                                            text="[REQUIRED] Choose a default currency for pricing and payment"
+                                        ></tooltip
+                                    ></label>
+                                    <select class="form-control" click.trigger="info(5)">
                                         <option>Select Store Currency</option>
                                     </select>
                                 </div>
                                 <hr />
                                 <div class="form-group margin-bottom-0">
-                                    <label for="inputAddress2">Country</label>
-                                    <select class="form-control">
+                                    <label for="inputAddress2"
+                                        >Country
+                                        <tooltip
+                                            text="[REQUIRED] Choose a store country"
+                                        ></tooltip
+                                    ></label>
+                                    <select class="form-control" click.trigger="info(6)">
                                         <option>Select Country</option>
                                     </select>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group margin-top-0 col-md-6">
-                                        <label for="inputCity">City</label>
-                                        <input type="text" class="form-control" id="inputCity" />
+                                        <label for="inputCity">City <tooltip
+                                            text="[REQUIRED] Choose a store city"
+                                        ></tooltip
+                                    ></label>
+                                        <input type="text" class="form-control" id="inputCity" click.trigger="info(7)" />
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for="inputState">State</label>
-                                        <select id="inputState" class="form-control">
+                                        <label for="inputState">State <tooltip
+                                            text="[REQUIRED] Choose a store State"
+                                        ></tooltip
+                                    ></label>
+                                        <select id="inputState" class="form-control" click.trigger="info(8)">
                                             <option selected>Choose...</option>
                                             <option>...</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-2">
-                                        <label for="inputZip">Zip</label>
-                                        <input type="text" class="form-control" id="inputZip" />
+                                        <label for="inputZip">Zip <tooltip
+                                            text="[REQUIRED] Enter Zip Code"
+                                        ></tooltip
+                                    ></label>
+                                        <input type="text" class="form-control" id="inputZip" click.trigger="info(9)" />
                                     </div>
                                 </div>
                                 <div class="form-group no-pad-left flex-it">
                                     <form action="/action_page.php">
-                                        <label for="offerStart">Offer Starts:</label>
-                                        <input type="date" id="offerStart" name="offerStart" />
+                                        <label for="offerStart">Offer Starts: <tooltip
+                                            text="[REQUIRED] Choose a starting date for this opening"
+                                        ></tooltip
+                                    ></label>
+                                        <input class="date-picker" type="date" id="offerStart" name="offerStart" />
                                     </form>
                                     <form class="margin-top-zero" action="/action_page.php">
-                                        <label for="offerEnd">Offer Ends:</label>
-                                        <input type="date" id="offerEnd" name="offerEnd" />
+                                        <label for="offerEnd">Offer Ends: <tooltip
+                                            text="[REQUIRED] Choose an ending date for this opening"
+                                        ></tooltip
+                                    ></label>
+                                        <input class="date-picker" type="date" id="offerEnd" name="offerEnd" />
                                     </form>
                                 </div>
                                 <div class="form-group no-pad-left">
@@ -180,9 +236,9 @@
             </div>
             <div class="col-md-3 offset-md-1">
                 <nft-create-info class="hidden-box" id="nft-name"></nft-create-info>
-                <div class="preview-card" style="display: none;">
+                <div class="preview-card" >
                     <div class="preview-card-name">
-                        <h4 id="para-1" class="preview-para dashed-border-btm" textcontent.bind="symbol"></h4>
+                        <h4 id="para-1" class="preview-para dashed-border-btm" textcontent.bind="tokenName"></h4>
                         <div style="margin: 0; padding: 0; display: flex;">
                             <span class="preview-info">Price: </span>
                             <span
