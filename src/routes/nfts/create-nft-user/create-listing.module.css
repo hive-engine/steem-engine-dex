@@ -320,6 +320,7 @@ span.step-4:before {
     background: none;
     border: none;
     outline: none;
+    margin-bottom: 30px;
 }
 .question-answer-1 {
     color: #0048b3;

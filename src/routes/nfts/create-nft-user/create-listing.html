@@ -73,12 +73,7 @@
                                                 text="[REQUIRED] Enter Collection/Item name (max length of 100)"
                                             ></tooltip
                                         ></label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="itemName"
-                                            click.trigger="info(0)"
-                                        />
+                                        <input type="text" class="form-control" id="itemName" click.trigger="info(0)" />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -142,7 +137,7 @@
                                         <option>Select Store Currency</option>
                                     </select>
                                 </div>
-                               
+
                                 <div class="form-group no-pad-left">
                                     <div class="form-checks flex-save">
                                         <input class="form-checks-input padding-right" type="checkbox" id="gridCheck" />
@@ -183,9 +178,9 @@
             </div>
             <div class="col-md-3 offset-md-1">
                 <nft-create-info class="hidden-box" id="nft-name"></nft-create-info>
-                <div class="preview-card" >
+                <div class="preview-card">
+                    <h4 id="para-1" class="preview-para dashed-border-btm" textcontent.bind="name"></h4>
                     <div class="preview-card-name">
-                        <h4 id="para-1" class="preview-para dashed-border-btm" textcontent.bind="name"></h4>
                         <div style="margin: 0; padding: 0; display: flex;">
                             <span class="preview-info">Price: </span>
                             <span
