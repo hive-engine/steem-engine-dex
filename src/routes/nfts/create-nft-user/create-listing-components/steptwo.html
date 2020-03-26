@@ -16,6 +16,28 @@
                     click.trigger="info(0)"
                 />
             </div>
+            <div class="form-row">
+                <div class="form-group margin-bottom-0 col-md-6">
+                    <label for="inputEmail4"
+                        >Actual Price<tooltip
+                            text="[REQUIRED] Name of the token (letters, numbers, whitespace only, max length of 50)"
+                        ></tooltip
+                    ></label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="name"
+                        value.bind="tokenName & validate"
+                        click.trigger="info(1)"
+                    />
+                </div>
+                <div class="form-group margin-bottom-0 col-md-6">
+                    <label for="inputPassword4"
+                        >Actual Rate<tooltip text="[REQUIRED] Enter Collection/Item name (max length of 100)"></tooltip
+                    ></label>
+                    <input type="number" class="form-control" id="itemName" click.trigger="info(0)" />
+                </div>
+            </div>
             <div class="form-group">
                 <label for="exampleFormControlSelect1"
                     >Quantity Availabe
@@ -29,21 +51,7 @@
                     <option>5</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="exampleFormControlSelect2"
-                    >Grade and Category
-                    <tooltip
-                        text="[REQUIRED] What is the category of your product? this will help others find your product"
-                    ></tooltip
-                ></label>
-                <select multiple class="form-control" id="exampleFormControlSelect2" click.trigger="info(2)">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
+
             <div class="form-group">
                 <label for="exampleFormControlTextarea1"
                     >Item Description
@@ -59,13 +67,16 @@
                 ></textarea>
             </div>
             <hr />
-            <h4 for="exampleFormControlTextarea1"
-                >Add Images <tooltip text="[REQUIRED] Add images of the product"></tooltip
-            ></h4>
-            <div class="custom-file" style="margin-bottom: 30px;">
+            <h4 for="exampleFormControlTextarea1">
+                Add Images <tooltip text="[REQUIRED] Add images of the product"></tooltip>
+            </h4>
+            <div class="custom-file" style="margin-bottom: 10px;">
                 <input type="file" class="custom-file-input" id="customFile" />
                 <label class="custom-file-label" for="customFile">Add Image </label>
             </div>
+            <button class="ml-auto" style="margin-bottom: 30px;">
+                Add More <font-awesome-icon icon.bind="['fas', 'plus']"></font-awesome-icon>
+            </button>
         </form>
     </div>
     <div class="steps-btn">

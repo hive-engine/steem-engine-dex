@@ -73,12 +73,7 @@
                                                 text="[REQUIRED] Enter Collection/Item name (max length of 100)"
                                             ></tooltip
                                         ></label>
-                                        <input
-                                            type="password"
-                                            class="form-control"
-                                            id="itemName"
-                                            click.trigger="info(0)"
-                                        />
+                                        <input type="text" class="form-control" id="itemName" click.trigger="info(0)" />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -133,7 +128,7 @@
                                         <option>Select Store Language</option>
                                     </select>
                                     <label for="inputAddress2"
-                                        >Currency
+                                        >Accepted Currency
                                         <tooltip
                                             text="[REQUIRED] Choose a default currency for pricing and payment"
                                         ></tooltip
@@ -142,60 +137,7 @@
                                         <option>Select Store Currency</option>
                                     </select>
                                 </div>
-                                <hr />
-                                <div class="form-group margin-bottom-0">
-                                    <label for="inputAddress2"
-                                        >Country
-                                        <tooltip
-                                            text="[REQUIRED] Choose a store country"
-                                        ></tooltip
-                                    ></label>
-                                    <select class="form-control" click.trigger="info(6)">
-                                        <option>Select Country</option>
-                                    </select>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group margin-top-0 col-md-6">
-                                        <label for="inputCity">City <tooltip
-                                            text="[REQUIRED] Choose a store city"
-                                        ></tooltip
-                                    ></label>
-                                        <input type="text" class="form-control" id="inputCity" click.trigger="info(7)" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="inputState">State <tooltip
-                                            text="[REQUIRED] Choose a store State"
-                                        ></tooltip
-                                    ></label>
-                                        <select id="inputState" class="form-control" click.trigger="info(8)">
-                                            <option selected>Choose...</option>
-                                            <option>...</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label for="inputZip">Zip <tooltip
-                                            text="[REQUIRED] Enter Zip Code"
-                                        ></tooltip
-                                    ></label>
-                                        <input type="text" class="form-control" id="inputZip" click.trigger="info(9)" />
-                                    </div>
-                                </div>
-                                <div class="form-group no-pad-left flex-it">
-                                    <form action="/action_page.php">
-                                        <label for="offerStart">Offer Starts: <tooltip
-                                            text="[REQUIRED] Choose a starting date for this opening"
-                                        ></tooltip
-                                    ></label>
-                                        <input class="date-picker" type="date" id="offerStart" name="offerStart" />
-                                    </form>
-                                    <form class="margin-top-zero" action="/action_page.php">
-                                        <label for="offerEnd">Offer Ends: <tooltip
-                                            text="[REQUIRED] Choose an ending date for this opening"
-                                        ></tooltip
-                                    ></label>
-                                        <input class="date-picker" type="date" id="offerEnd" name="offerEnd" />
-                                    </form>
-                                </div>
+
                                 <div class="form-group no-pad-left">
                                     <div class="form-checks flex-save">
                                         <input class="form-checks-input padding-right" type="checkbox" id="gridCheck" />
@@ -236,15 +178,15 @@
             </div>
             <div class="col-md-3 offset-md-1">
                 <nft-create-info class="hidden-box" id="nft-name"></nft-create-info>
-                <div class="preview-card" >
+                <div class="preview-card">
+                    <h4 id="para-1" class="preview-para dashed-border-btm" textcontent.bind="name"></h4>
                     <div class="preview-card-name">
-                        <h4 id="para-1" class="preview-para dashed-border-btm" textcontent.bind="tokenName"></h4>
                         <div style="margin: 0; padding: 0; display: flex;">
                             <span class="preview-info">Price: </span>
                             <span
                                 class="preview-info price-placeholder"
                                 class="maxSupply"
-                                textcontent.bind="tokenPrice"
+                                textcontent.bind="tokenName"
                             ></span
                             ><small
                                 style="font-size: 10px; color: darkgray; padding-left: 3px; align-self: center;"

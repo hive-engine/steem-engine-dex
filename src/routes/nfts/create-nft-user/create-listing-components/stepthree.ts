@@ -259,4 +259,8 @@ export class StepThree {
 
         $('#step-3').removeClass('active-form');
     }
+    showNftForm() {
+        $('.nft-form-wrapper').css('display', 'block');
+
+    }
 }

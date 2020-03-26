@@ -315,3 +315,18 @@ span.step-4:before {
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
 }
+.question-answer {
+    font-size: 22px;
+    background: none;
+    border: none;
+    outline: none;
+    margin-bottom: 30px;
+}
+.question-answer-1 {
+    color: #0048b3;
+    font-weight: bold;
+    margin-right: 15px;
+}
+.question-answer-2 {
+    color: #cf3999;
+}
