@@ -26,8 +26,8 @@
                     <input
                         type="number"
                         class="form-control"
-                        id="name"
-                        value.bind="tokenName & validate"
+                        id="itemPrice"
+                        value.bind="itemPrice & validate"
                         click.trigger="info(1)"
                     />
                 </div>
@@ -64,7 +64,15 @@
                     id="exampleFormControlTextarea1"
                     rows="3"
                     click.trigger="info(3)"
-                ></textarea>
+                    <h4
+                    id="para-1"
+                    class="preview-para dashed-border-btm"
+                    textcontent.bind="itemDescription"
+                >
+nnn</h4>
+
+                ></textarea
+                >
             </div>
             <hr />
             <h4 for="exampleFormControlTextarea1">

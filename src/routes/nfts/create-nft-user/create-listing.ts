@@ -33,35 +33,32 @@ export class CreateNftUser {
     private styles = styles;
 
     private hints = [
-        `<strong>Name of the collection</strong>
+        `[REQUIRED] Enter an account name or group name for the store`,
+        `<strong>Name of the Store listing this item?</strong>
         <br>
         <small>(letters, numbers, whitespace only, max length of 50)</small> 
-        <hr> What is the name of this project housing all of these collectable tokens? <br>
+        <hr> What is the name of this store housing all of these collectable tokens? <br>
         <h4>Examples</h4>
         <ul>
-            <li>Lunar Sorrow</li>
-            <li>Shimmering Goddess</li>
-            <li> Country Boys</li>
+            <li>Toshiba Mart</li>
+            <li>Winter Malls</li>
+            <li> Country Side</li>
         </ul>`,
-        `[OPTIONAL] URL of the project (max length of 255)`,
-        `<strong>What inspired this collection?</strong>
+        `<strong>What is the category of this item?</strong>
         <br>
-        <small>(letters, numbers, whitespace only, max length of 50)</small> 
-        <hr> What idea inspired this collection? <br>
+        <small>Select from the list</small> 
+        <hr> What keywords will help others find this item easily? <br>
         <h4>Examples</h4>
         <p>The top hit songs in the 80s</p>`,
-        `<strong>What is this collection about?</strong>
+        `<strong>Is this item for sale or wanted by you?</strong>
         <br>
-        <small>(letters, numbers, whitespace only, max length of 50)</small> 
-        <hr> Tell us what this collection represents <br>
         <h4>Examples</h4>
-        <p>All the arts in this collection is a reminder of my grandma's painting</p>`,
-        `[OPTIONAL] A list of Steem accounts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then the NFT owner (the account that calls create) will be the only such authorized account by default.`,
-        `[REQUIRED] Symbol of the token (uppercase letters only, max length of 10)`,
-        `[OPTIONAL] Maximum supply for the token (between 1 and 9,007,199,254,740,991). If max supply is not specified, then the supply will be unlimited.`,
-        `[REQUIRED] This will be the a link that leads to the main image associated with this collection.<hr>You will not be able to edit this link later so make sure it is the right one.`,
-        `[REQUIRED] Mark this collection as Not Safe for Work?`,
-        `[REQUIRED] Do you have all the legal permission to create this collection?`,
+        <small>(Make a choice from both radio buttons)</small> 
+        <hr> <strong>Offered</strong> means you are listing this item to sell this item <br>
+        <hr> <strong>Wanted</strong> means, you are listing this item to buy this item </p>`,
+        `[OPTIONAL]  Choose a language that you would like others to communicate with you. English will be the language by default.`,
+        `[OPTIONAL] Choose a currency that you would like to be paid in. USD will be the default currency`,
+        `[REQUIRED] Do you want to save your inputs before proceeding?`,
     ];
 
     constructor(
@@ -227,23 +224,26 @@ export class CreateNftUser {
     }
 
     handleNext(n) {
-                      $('.custom-tabs').css('display', 'none');
-                      $('.tab-' + n).css('display', 'block');
-                      $('.step').addClass('active');
-                      console.log(n);
-                      $('#step-' + n).addClass('active-form');
-                      // To scroll page back to top on click
-                      document.documentElement.scrollTop = 250; // Chrome, FireFox, IE and Opera
-                      document.body.scrollTop = 250; // For Safari
-                  }
+        $('.custom-tabs').css('display', 'none');
+        $('.tab-' + n).css('display', 'block');
+        $('.step').addClass('active');
+        console.log(n);
+        $('#step-' + n).addClass('active-form');
+        // To scroll page back to top on click
+        document.documentElement.scrollTop = 250; // Chrome, FireFox, IE and Opera
+        document.body.scrollTop = 250; // For Safari
+    }
     handlePrev(n) {
-                      $('.custom-tabs').css('display', 'none');
-                      $('.tab-' + n).css('display', 'block');
-                      console.log(n);
+        $('.custom-tabs').css('display', 'none');
+        $('.tab-' + n).css('display', 'block');
+        console.log(n);
 
-                      $('#step-4').removeClass('active-form');
-                      // To scroll page back to top on click
-                      document.documentElement.scrollTop = 250; // Chrome, FireFox, IE and Opera
-                      document.body.scrollTop = 250; // For Safari
-                  }
+        $('#step-4').removeClass('active-form');
+        // To scroll page back to top on click
+        document.documentElement.scrollTop = 250; // Chrome, FireFox, IE and Opera
+        document.body.scrollTop = 250; // For Safari
+    }
+    testing() {
+        console.log('testing 123...');
+    }
 }

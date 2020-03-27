@@ -59,21 +59,27 @@
                                             ></tooltip
                                         ></label>
                                         <input
-                                            type="accountName"
+                                            type="text"
                                             class="form-control"
-                                            id="name"
-                                            value.bind="tokenName & validate"
-                                            click.trigger="info(1)"
+                                            id="accountName"
+                                            value.bind="accountName & validate"
+                                            click.trigger="info(0)"
                                         />
                                     </div>
                                     <div class="form-group margin-bottom-0 col-md-6">
                                         <label for="inputPassword4"
-                                            >Item Name
+                                            >Store Name
                                             <tooltip
                                                 text="[REQUIRED] Enter Collection/Item name (max length of 100)"
                                             ></tooltip
                                         ></label>
-                                        <input type="text" class="form-control" id="itemName" click.trigger="info(0)" />
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="storeName"
+                                            click.trigger="info(1)"
+                                            value.bind="itemName & validate"
+                                        />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -81,7 +87,7 @@
                                         >Categories
                                         <tooltip text="[REQUIRED] Choose the category of your listing"></tooltip
                                     ></label>
-                                    <select class="form-control" click.trigger="info(2)">
+                                    <select class="form-control" click.trigger="info(2)" value.bind="itemCategory & validate">
                                         <option>Select Category</option>
                                     </select>
                                 </div>
@@ -142,7 +148,7 @@
                                     <div class="form-checks flex-save">
                                         <input class="form-checks-input padding-right" type="checkbox" id="gridCheck" />
                                         <label class="form-check-label margin-top-zero" for="gridCheck">
-                                            Save before continuing
+                                            Save before proceeding
                                         </label>
                                     </div>
                                 </div>
@@ -153,7 +159,7 @@
                         </div>
                     </div>
                     <steptwo class="hide-ts custom-tabs hide-tabs tab-2" id="tab-2"></steptwo>
-                    <stepthree class="hide-ts custom-tabs hide-tabs tab-3" id="tab-3"></stepthree>
+                    <stepthree testing.call='testing()' class="hide-ts custom-tabs hide-tabs tab-3" id="tab-3"></stepthree>
                     <stepfour class="hide-ts custom-tabs hide-tabs tab-4" id="tab-4"></stepfour>
                     <div class="">
                         <button
@@ -179,26 +185,26 @@
             <div class="col-md-3 offset-md-1">
                 <nft-create-info class="hidden-box" id="nft-name"></nft-create-info>
                 <div class="preview-card">
-                    <h4 id="para-1" class="preview-para dashed-border-btm" textcontent.bind="name"></h4>
+                    <h4 id="para-1" class="preview-para name-placeholder dashed-border-btm" textcontent.bind="itemName"></h4>
                     <div class="preview-card-name">
                         <div style="margin: 0; padding: 0; display: flex;">
                             <span class="preview-info">Price: </span>
                             <span
                                 class="preview-info price-placeholder"
                                 class="maxSupply"
-                                textcontent.bind="tokenName"
+                                textcontent.bind="itemPrice"
                             ></span
                             ><small
                                 style="font-size: 10px; color: darkgray; padding-left: 3px; align-self: center;"
                                 class="symbol-placeholder"
-                                textcontent.bind="symbol"
+                                textcontent.bind="storeCurrency"
                             ></small>
                         </div>
                         <div style="margin: 0; padding: 0; display: flex;">
                             <span style="font-size: 10px; color: darkgray; padding-right: 3px; align-self: center;"
                                 >Max:
                             </span>
-                            <span class="maxSupply max-placeholder" textcontent.bind="maxSupply"></span>
+                            <span class="maxSupply max-placeholder" textcontent.bind="itemQuantity"></span>
                         </div>
                     </div>
                     <div class="preview-card-image text-center">
@@ -209,7 +215,7 @@
                         <span class="preview-info id-placeholder" style="margin-left: 5px;"> #4532</span>
                     </div>
                     <div class="preview-card-body">
-                        <p id="preview" class="preview-para body-placeholder" textcontent.bind="inspiredBy"></p>
+                        <p id="preview" class="preview-para body-placeholder" textcontent.bind="itemDescription"></p>
                     </div>
                 </div>
             </div>

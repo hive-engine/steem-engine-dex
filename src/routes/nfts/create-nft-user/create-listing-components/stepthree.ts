@@ -67,6 +67,8 @@ export class StepThree {
         `[REQUIRED] Do you have all the legal permission to create this collection?`,
     ];
 
+    @bindable testing;
+
     constructor(
         private controllerFactory: ValidationControllerFactory,
         private se: SteemEngine,
@@ -239,12 +241,14 @@ export class StepThree {
 
         function showPreview() {
             //show final data
+            let name = $('.name-placeholder')[0].innerText;
             let price = $('.price-placeholder')[0].innerText;
             let sym = $('.symbol-placeholder')[0].innerText;
             let max = $('.max-placeholder')[0].innerText;
             let id = $('.id-placeholder')[0].innerText;
             let bodyContent = $('.body-placeholder')[0].innerText;
 
+            $('#name-placeholder').text(name);
             $('#price-placeholder').text(price);
             $('#symbol-placeholder').text(sym);
             $('#max-placeholder').text(max);
