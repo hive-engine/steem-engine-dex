@@ -450,6 +450,13 @@ export class App {
                 title: 'Create NFT User',
             },
             {
+                route: 'add-service-listing',
+                name: 'addServiceListing',
+                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/create-listing-forms/add-service-listing', 'add-service-listing'),
+                nav: false,
+                title: 'Add Service Listing',
+            },
+            {
                 route: 'nft-user-showroom',
                 name: 'nftUserShowroom',
                 moduleId: PLATFORM.moduleName('./routes/nfts/nft-user-showroom/nft-user-showroom', 'nft-user-showroom'),
