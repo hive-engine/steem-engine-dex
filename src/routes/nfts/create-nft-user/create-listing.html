@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="title">
-                        <h1 class="create-nft-header">Add Listing</h1>
+                        <h1 class="create-nft-header">Add Goods Listing</h1>
                         <p class="create-nft-header-desc">
                             Add goods for sale in your DexRex store using our Listing Wizard
                         </p>
@@ -62,7 +62,7 @@
                                             type="text"
                                             class="form-control"
                                             id="accountName"
-                                            value.bind="accountName & validate"
+                                            value.bind="accountName"
                                             click.trigger="info(0)"
                                         />
                                     </div>
@@ -78,7 +78,7 @@
                                             class="form-control"
                                             id="storeName"
                                             click.trigger="info(1)"
-                                            value.bind="itemName & validate"
+                                            value.bind="itemName"
                                         />
                                     </div>
                                 </div>
@@ -87,7 +87,7 @@
                                         >Categories
                                         <tooltip text="[REQUIRED] Choose the category of your listing"></tooltip
                                     ></label>
-                                    <select class="form-control" click.trigger="info(2)" value.bind="itemCategory & validate">
+                                    <select class="form-control" click.trigger="info(2)" value.bind="itemCategory">
                                         <option>Select Category</option>
                                     </select>
                                 </div>
