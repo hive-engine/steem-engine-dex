@@ -15,13 +15,13 @@
                     text="[REQUIRED] Name of the token (letters, numbers, whitespace only, max length of 50)"
                 ></tooltip
             ></label>
-            <input type="text" class="form-control" value.bind="tokenName & validate" click.trigger="info(0)" />
+            <input type="text" class="form-control" value.bind="tokenName" click.trigger="info(0)" />
         </div>
         <div class="form-group">
             <label
                 >${'Enter Your Website' & t} <tooltip text="[OPTIONAL] URL of the project (max length of 255)"></tooltip
             ></label>
-            <input type="text" class="form-control" value.bind="url & validate" click.trigger="info(1)" />
+            <input type="text" class="form-control" value.bind="url" click.trigger="info(1)" />
         </div>        
         <div class="form-group">
             <label
@@ -50,7 +50,7 @@
                 >${'Symbol' & t}
                 <tooltip text="[REQUIRED] Symbol of the token (uppercase letters only, max length of 10)"></tooltip
             ></label>
-            <input type="text" class="form-control" value.bind="symbol & validate" click.trigger="info(5)" />
+            <input type="text" class="form-control" value.bind="symbol" click.trigger="info(5)" />
         </div>
         <div class="form-group">
             <label
@@ -64,7 +64,7 @@
                 min="0"
                 max="9007199254740991"
                 class="form-control"
-                value.bind="maxSupply & validate"
+                value.bind="maxSupply"
                 click.trigger="info(6)"
             />
         </div>
