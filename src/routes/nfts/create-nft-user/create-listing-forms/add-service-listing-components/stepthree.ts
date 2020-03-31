@@ -238,9 +238,15 @@ export class StepThree {
         console.log('#' + m + '-btn');
         $('#step-4').addClass('active-form');
         showPreview();
+        // To scroll page back to top on click
+        document.documentElement.scrollTop = 250; // Chrome, FireFox, IE and Opera
+        document.body.scrollTop = 250; // For Safari
 
         function showPreview() {
             //show final data
+            let storeName = $('.storeName-placeholder')
+                .val()
+                .toString();
             let name = $('.name-placeholder')[0].innerText;
             let price = $('.price-placeholder')[0].innerText;
             let sym = $('.symbol-placeholder')[0].innerText;
@@ -248,6 +254,11 @@ export class StepThree {
             let id = $('.id-placeholder')[0].innerText;
             let bodyContent = $('.body-placeholder')[0].innerText;
 
+            console.log(storeName);
+            let pStore = $('#storeName-placeholder').text(storeName);
+            console.log(pStore);
+
+            $('#storeName-placeholder').text(storeName);
             $('#name-placeholder').text(name);
             $('#price-placeholder').text(price);
             $('#symbol-placeholder').text(sym);
@@ -262,9 +273,14 @@ export class StepThree {
         console.log(n);
 
         $('#step-3').removeClass('active-form');
+        // To scroll page back to top on click
+        document.documentElement.scrollTop = 250; // Chrome, FireFox, IE and Opera
+        document.body.scrollTop = 250; // For Safari
+    }
+    showNftCards() {
+        $('.add-nft-cards').css('display', 'block');
     }
     showNftForm() {
         $('.nft-form-wrapper').css('display', 'block');
-
     }
 }
