@@ -45,15 +45,18 @@ export class StepTwo {
         $('.tab-' + n).css('display', 'block');
         console.log(n);
         $('#step-' + n).addClass('active-form');
+        // To scroll page back to top on click
+        document.documentElement.scrollTop = 250; // Chrome, FireFox, IE and Opera
+        document.body.scrollTop = 250; // For Safari
     }
     handlePrev(n) {
         $('.custom-tabs').css('display', 'none');
         $('.tab-' + n).css('display', 'block');
         console.log(n);
         $('#step-2').removeClass('active-form');
+        // To scroll page back to top on click
+        document.documentElement.scrollTop = 250; // Chrome, FireFox, IE and Opera
+        document.body.scrollTop = 250; // For Safari
     }
 
-    testing() {
-        console.log('testing 123...')
-    }
 }
