@@ -330,3 +330,38 @@ span.step-4:before {
 .question-answer-2 {
     color: #cf3999;
 }
+.add-nft-link {
+    width: 100%;
+}
+.add-nft-card {
+    border-radius: 3px;
+    background-color: #FFF;
+    border: 1px solid #E1E3DF;
+    border-bottom-color: #CBCCC9;
+    display: inline-block;
+    max-width: 240px;
+    position: relative;
+    width: 100%;
+    padding: 1px;
+    margin-bottom: 30px;
+}
+.top-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    background-color: rgba(86, 180, 201, 0.301);
+}
+.plus-sign h1 {
+    color: #83CBDC!important;
+    font-size: 38px;
+    font-weight: bolder;
+}
+.light-blue {
+    color: #83CBDC;
+    font-size: 14px;
+}
+.bottom-card {
+    height: 30px;
+}
