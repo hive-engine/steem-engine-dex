@@ -1,19 +1,21 @@
-import styles from './create-listing.module.css';
+import { customElement, autoinject, bindable } from 'aurelia-framework';
 
-export class CreateNftUser {
+import styles from '../add-service-listing.module.css';
+
+@autoinject()
+@customElement('steptwo')
+export class StepTwo {
     private styles = styles;
-
     private hints = [
-        `[REQUIRED] Enter an account name or group name for the store`,
-        `<strong>Name of the Store listing this item?</strong>
+        `<strong>Name of the Item</strong>
         <br>
         <small>(letters, numbers, whitespace only, max length of 50)</small> 
-        <hr> What is the name of this store housing all of these collectable tokens? <br>
+        <hr> What is the name of this project housing all of these collectable tokens? <br>
         <h4>Examples</h4>
         <ul>
-            <li>Toshiba Mart</li>
-            <li>Winter Malls</li>
-            <li> Country Side</li>
+            <li>Lunar Sorrow</li>
+            <li>Shimmering Goddess</li>
+            <li> Country Boys</li>
         </ul>`,
         `<strong>What is the category of this item?</strong>
         <br>
@@ -41,7 +43,6 @@ export class CreateNftUser {
     handleNext(n) {
         $('.custom-tabs').css('display', 'none');
         $('.tab-' + n).css('display', 'block');
-        $('.step').addClass('active');
         console.log(n);
         $('#step-' + n).addClass('active-form');
         // To scroll page back to top on click
@@ -52,13 +53,10 @@ export class CreateNftUser {
         $('.custom-tabs').css('display', 'none');
         $('.tab-' + n).css('display', 'block');
         console.log(n);
-
-        $('#step-4').removeClass('active-form');
+        $('#step-2').removeClass('active-form');
         // To scroll page back to top on click
         document.documentElement.scrollTop = 250; // Chrome, FireFox, IE and Opera
         document.body.scrollTop = 250; // For Safari
     }
-    testing() {
-        console.log('testing 123...');
-    }
+
 }

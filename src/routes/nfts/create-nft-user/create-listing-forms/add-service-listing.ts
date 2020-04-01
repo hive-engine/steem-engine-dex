@@ -1,4 +1,4 @@
-import styles from './create-listing.module.css';
+import styles from './add-service-listing.module.css';
 
 export class CreateNftUser {
     private styles = styles;

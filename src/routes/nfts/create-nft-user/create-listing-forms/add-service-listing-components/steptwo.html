@@ -3,9 +3,9 @@
         <form>
             <div class="form-group">
                 <label for="exampleFormControlInput1"
-                    >Item Name
+                    >Service Name
                     <tooltip
-                        text="[REQUIRED] Name of the product you are listing (letters, numbers, whitespace only, max length of 50)"
+                        text="[REQUIRED] Name of the service you are listing (letters, numbers, whitespace only, max length of 50)"
                     ></tooltip
                 ></label>
                 <input
@@ -19,9 +19,7 @@
             <div class="form-row">
                 <div class="form-group margin-bottom-0 col-md-6">
                     <label for="inputEmail4"
-                        >Actual Price<tooltip
-                            text="[REQUIRED] Name of the token (letters, numbers, whitespace only, max length of 50)"
-                        ></tooltip
+                        >Rate<tooltip text="[REQUIRED] Enter your rates for this service"></tooltip
                     ></label>
                     <input
                         type="number"
@@ -33,28 +31,30 @@
                 </div>
                 <div class="form-group margin-bottom-0 col-md-6">
                     <label for="inputPassword4"
-                        >Actual Rate<tooltip text="[REQUIRED] Enter Collection/Item name (max length of 100)"></tooltip
+                        >Actual Rate<tooltip
+                            text="[OPTIONAL] Enter the actual rate charged for this service (Use this to signify any discounts on your rates"
+                        ></tooltip
                     ></label>
                     <input type="number" class="form-control" id="itemName" click.trigger="info(0)" />
                 </div>
             </div>
             <div class="form-group">
                 <label for="exampleFormControlSelect1"
-                    >Quantity Availabe
+                    >Days/Hours Availabe
                     <tooltip text="[REQUIRED] How many of this product do you have in stock?"></tooltip
                 ></label>
                 <select class="form-control" id="exampleFormControlSelect1" click.trigger="info(1)">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <option>Mondays</option>
+                    <option>Tuesdays</option>
+                    <option>Wednesdays</option>
+                    <option>Thursdays</option>
+                    <option>Fridays </option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="exampleFormControlTextarea1"
-                    >Item Description
+                    >Preferences and Description
                     <tooltip
                         text="[REQUIRED] Write a brief description of your product (letters, numbers, whitespace only, max length of 150)"
                     ></tooltip
@@ -69,10 +69,7 @@
                     class="preview-para dashed-border-btm"
                     textcontent.bind="itemDescription"
                 >
-nnn</h4>
-
-                ></textarea
-                >
+                </textarea>
             </div>
             <hr />
             <h4 for="exampleFormControlTextarea1">
