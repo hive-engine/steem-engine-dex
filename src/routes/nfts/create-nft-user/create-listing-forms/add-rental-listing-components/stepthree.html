@@ -1,0 +1,172 @@
+<template>
+    <div class="nft-question text-center">
+        <h4>Would you like to Make an NFT to Represent this Product?</h4>
+        <div class="flex">
+            <button click.delegate="showNftCards()" class="question-answer question-answer-1">Yes</button>
+            <button click.delegate="handleNext('submit')" class="question-answer question-answer-2">No</button>
+        </div>
+    </div>
+    <div class="add-nft-cards" style="padding: 0; margin: 0; display: none;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <a click.delegate="showNftForm()" class="add-nft-link">
+                        <div class="add-nft-card">
+                            <div class="top-card">
+                                <div class="plus-sign">
+                                    <h1>+</h1>
+                                </div>
+                                <div class="plus-sign-text">
+                                    <p class="light-blue">Add NFT</p>
+                                </div>
+                            </div>
+                            <!-- <div class="bottom-card">
+
+                            </div> -->
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a click.delegate="showNftForm()" class="add-nft-link">
+                        <div class="add-nft-card">
+                            <div class="top-card">
+                                <div class="plus-sign">
+                                    <h1>+</h1>
+                                </div>
+                                <div class="plus-sign-text">
+                                    <p class="light-blue">Add NFT</p>
+                                </div>
+                            </div>
+                            <!-- <div class="bottom-card">
+
+                            </div> -->
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a click.delegate="showNftForm()" class="add-nft-link">
+                        <div class="add-nft-card">
+                            <div class="top-card">
+                                <div class="plus-sign">
+                                    <h1>+</h1>
+                                </div>
+                                <div class="plus-sign-text">
+                                    <p class="light-blue">Add NFT</p>
+                                </div>
+                            </div>
+                            <!-- <div class="bottom-card">
+
+                            </div> -->
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="nft-form-wrapper" style="padding: 0; margin: 0; display: none;">
+        <div class="form-group">
+            <label
+                >${'NFT Name ' & t}
+                <tooltip
+                    text="[REQUIRED] Name of the token (letters, numbers, whitespace only, max length of 50)"
+                ></tooltip
+            ></label>
+            <input type="text" class="form-control" value.bind="tokenName" click.trigger="info(0)" />
+        </div>
+        <div class="form-group">
+            <label
+                >${'Enter Your Website' & t} <tooltip text="[OPTIONAL] URL of the project (max length of 255)"></tooltip
+            ></label>
+            <input type="text" class="form-control" value.bind="url" click.trigger="info(1)" />
+        </div>
+        <div class="form-group">
+            <label
+                >${'authorisedIssuingAccounts' & t}
+                <a
+                    href="javascript:void(0);"
+                    click.delegate="addAuthorisedAccount()"
+                    if.bind="authorisedIssuingAccounts.length < 10"
+                    >+</a
+                >
+                <tooltip
+                    text="[OPTIONAL] A list of Steem accounts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then the NFT owner (the account that calls create) will be the only such authorized account by default."
+                ></tooltip>
+            </label>
+            <input
+                type="text"
+                class="form-control mb-3"
+                value.bind="account.name"
+                repeat.for="account of authorisedIssuingAccounts"
+                click.trigger="info(4)"
+            />
+        </div>
+
+        <div class="form-group">
+            <label
+                >${'Symbol' & t}
+                <tooltip text="[REQUIRED] Symbol of the token (uppercase letters only, max length of 10)"></tooltip
+            ></label>
+            <input type="text" class="form-control" value.bind="symbol" click.trigger="info(5)" />
+        </div>
+        <div class="form-group">
+            <label
+                >${'Max Supply' & t}
+                <tooltip
+                    text="[OPTIONAL] Maximum supply for the token (between 1 and 9,007,199,254,740,991). If max supply is not specified, then the supply will be unlimited."
+                ></tooltip
+            ></label>
+            <input
+                type="number"
+                min="0"
+                max="9007199254740991"
+                class="form-control"
+                value.bind="maxSupply"
+                click.trigger="info(6)"
+            />
+        </div>
+        <hr />
+        <h4 for="exampleFormControlTextarea1">
+            Add Images <tooltip text="[REQUIRED] Add images of the product"></tooltip>
+        </h4>
+        <div class="custom-file" style="margin-bottom: 10px;">
+            <input type="file" class="custom-file-input" id="customFile" />
+            <label class="custom-file-label" for="customFile">Add Image </label>
+        </div>
+        <button class="ml-auto" style="margin-bottom: 30px;">
+            Add More <font-awesome-icon icon.bind="['fas', 'plus']"></font-awesome-icon>
+        </button>
+        <div class="form-group d-flex">
+            <label
+                >${'NSFW' & t}
+                <tooltip text="[REQUIRED] Mark this collection as Not Safe for Work?."></tooltip>
+            </label>
+            <input type="checkbox" checked class="checkbox-style" click.trigger="info(8)" />
+        </div>
+        <div class="form-group d-flex">
+            <label class="create-nft-form-label consent-text"
+                >${'Do you have the consent to create this collection?' & t}
+                <tooltip text="[REQUIRED] Do you have all the legal permission to create this collection?"></tooltip>
+            </label>
+            <input type="checkbox" checked class="checkbox-style" click.trigger="info(9)" />
+        </div>
+    </div>
+    <div class="steps-btn">
+        <button id="prevBtn" class="prevBtn" click.delegate="handlePrev(2)">&#8249;</button>
+        <button id="nextBtn" class="nextBtn" click.delegate="handleNext('submit')">&#8250;</button>
+    </div>
+    <style>
+        .active-form {
+            background-color: #0048b3;
+            color: #fff !important;
+        }
+        .active-form > strong {
+            color: #fff;
+            font-weight: bolder;
+            -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+        }
+        #step-3.active-form::before {
+            background-color: #0048b3;
+        }
+    </style>
+</template>
