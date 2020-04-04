@@ -457,6 +457,13 @@ export class App {
                 title: 'Add Service Listing',
             },
             {
+                route: 'add-rental-listing',
+                name: 'addRentalListing',
+                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/create-listing-forms/add-rental-listing', 'add-rental-listing'),
+                nav: false,
+                title: 'Add Rental Listing',
+            },
+            {
                 route: 'nft-user-showroom',
                 name: 'nftUserShowroom',
                 moduleId: PLATFORM.moduleName('./routes/nfts/nft-user-showroom/nft-user-showroom', 'nft-user-showroom'),
