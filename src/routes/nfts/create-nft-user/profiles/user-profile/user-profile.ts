@@ -23,6 +23,13 @@ export class UserProfile {
         config.map([
             {
                 route: [''],
+                name: 'userFeed',
+                moduleId: PLATFORM.moduleName('./components/user-feed'),
+                nav: true,
+                title: 'Feed',
+            },
+            {
+                route: ['all-collections'],
                 name: 'allCollections',
                 moduleId: PLATFORM.moduleName('./components/all-user-collection'),
                 nav: true,
@@ -34,6 +41,13 @@ export class UserProfile {
                 moduleId: PLATFORM.moduleName('./components/directory'),
                 nav: true,
                 title: 'Directory',
+            },
+            {
+                route: ['edit-profile'],
+                name: 'edit-profile',
+                moduleId: PLATFORM.moduleName('./edit-profile/edit-profile'),
+                nav: true,
+                title: 'Edit Profile',
             },
         ]);
 
