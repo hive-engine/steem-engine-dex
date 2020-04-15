@@ -109,6 +109,10 @@ export class Exchange {
     async activate({ symbol }) {
         this.currentToken = symbol;
 
+        if (environment.disabledTokens.includes(symbol)) {
+            return new Redirect('/exchange/ENG');
+        }
+
         // eslint-disable-next-line no-undef
         if (!this?.state?.loggedIn) {
             this.loadUserExchangeData();
