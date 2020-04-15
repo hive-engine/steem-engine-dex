@@ -7,7 +7,7 @@ export const baseEnvironmentConfiguration: Partial<EnvironmentInterface> = {
     CONVERTER_API: 'https://converter-api.steem-engine.com/api/',
     FIREBASE_API: 'https://us-central1-steem-engine-dex.cloudfunctions.net/api/',
     maintenanceMode: false,
-    disabledTokens: ['BTC', 'LTC', 'STEEM', 'SBD', 'BCC', 'XAP', 'XRP', 'GOLOS', 'DISNEY', 'AMAZON', 'VOICE', 'ETH', 'EOS', 'LASSE', 'TIME', 'R', 'SCTR', 'ALLAH', 'BNB', 'DONE', 'ETHER', 'LTCPEG', 'SBC'],
+    disabledTokens: ['BTC', 'LTC', 'STEEM', 'SBD', 'BCC', 'XAP', 'XRP', 'GOLOS', 'DISNEY', 'AMAZON', 'VOICE', 'ETH', 'EOS', 'LASSE', 'TIME', 'R', 'SCTR', 'ALLAH', 'DONE', 'BNB', 'ETHER', 'LTCPEG', 'SBC', 'LASSECASH', 'HIVE', 'TIX', 'TIXM', 'STEM', 'STEMM'],
     peggedToken: 'STEEMP',
     features: {
         nfts: {
