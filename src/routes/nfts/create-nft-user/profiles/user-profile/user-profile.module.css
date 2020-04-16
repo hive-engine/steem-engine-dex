@@ -46,6 +46,26 @@ h1 {
     text-decoration: underline;
     font-size: 18px;
 }
+.remove-def-outline {
+    border: none;
+    background-color: transparent;
+    border-bottom: 1px solid #0048b3;
+    border-radius: 0;
+    color: #129cfe;
+}
+.remove-def-outline:focus {
+    box-shadow: none;
+    outline: none;
+    background-color: transparent;
+}
+.btn-outline-search {
+        color: #0048b3;
+    border-color: #0048b3;
+}
+.btn-outline-search:hover {
+    color: #fff;
+    background-color: #0048b3;
+}
 .user-info {
     display: flex;
     justify-content: space-evenly;
@@ -61,6 +81,10 @@ h1 {
     padding: 5px 0 10px;
     margin-bottom: 20px;
 }
+.make-flex {
+    margin-left: auto;
+    margin-right: auto;
+}
 .owner-info {
     display: flex;
     flex-direction: column;
@@ -70,11 +94,13 @@ h1 {
 .owner-info-card {
     background: white;
     border: 1px solid #eee;
-    /* margin-top: 15px; */
+    margin-bottom: 15px;
     padding: 8px;
 }
 .owner-info-header {
     color: #757575;
+    background-color: #f5f6f7;
+    padding: 8px;
 }
 .owner-image {
     width: 60%;
@@ -305,9 +331,8 @@ h1 {
 }
 
 .cat-card-header {
-    padding: 12px 20px;
-    /* background: #edeef0; */
-    /* border-radius: 10px 10px 0 0; */
+    padding: 8px;
+    background-color: #f5f6f7;
 }
 
 .cat-card-header h4 {

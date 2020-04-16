@@ -15,7 +15,7 @@
     <section>
         <div class="container-fluid">
             <div class="row nice-border">
-                <div class="col-md-8">
+                <div class="col-md-4 offset-md-3">
                     <div class="nav tabs make-flex text-center minus-margin mt-3">
                         <a
                             class="nav-link color-white remove-padding tabs__tab ${row.isActive ? 'active' : ''}"
@@ -23,11 +23,32 @@
                             href.bind="row.href"
                             >${row.title & t}</a
                         >
+                        <a
+                            route-href="route:nftUserShowroom"
+                            class="nav-link color-white remove-padding tabs__tab ${row.isActive ? 'active' : ''}"
+                            >My Shop</a
+                        >
                     </div>
                 </div>
-                <div class="col-md-2 offset-md-2">
-                    <div class="nav tabs make-flex text-center minus-margin mt-3">
-                        <a route-href="route:addOpportunity" class="view-link">New Listing</a>
+                <div class="col-md-3" style="align-self: center;">
+                    <form class="form-inline my-2 my-lg-0">
+                        <input
+                            class="form-control mr-sm-2 remove-def-outline"
+                            type="search"
+                            placeholder="Enter a word or phrase"
+                            aria-label="Search"
+                        />
+                        <button class="btn btn-outline-search my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+                <div class="col-md-2">
+                    <div class="nav tabs make-flex text-right minus-margin mt-3">
+                        <a
+                            route-href="route:addOpportunity"
+                            class="view-link text-right"
+                            style="margin-left: auto; margin-right: 6px; padding: 5px;"
+                            >Create</a
+                        >
                     </div>
                 </div>
             </div>
@@ -154,6 +175,9 @@
                 <div class="col-md-7">
                     <router-view></router-view>
                 </div>
+                <div class="col-md-2">
+                    <h4>Trending Stuffs and Hashtags</h4>
+                </div>
                 <div class="col-md-2 offset-md-1">
                     <div class="owner-info owner-info-card">
                         <h5 class="owner-info-header text-center">Top Collection Owners</h5>
@@ -194,6 +218,8 @@
                         </div>
                     </div>
                     <div class="owner-info owner-info-card">
+                        <h5 class="owner-info-header text-center">Top Store Owners</h5>
+                        <hr />
                         <div class="owner-image">
                             <img
                                 src="../../../../../images/user-image-placeholder.png"
@@ -230,6 +256,8 @@
                         </div>
                     </div>
                     <div class="owner-info owner-info-card">
+                        <h5 class="owner-info-header text-center">Top Deals</h5>
+                        <hr />
                         <div class="owner-image">
                             <img
                                 src="../../../../../images/user-image-placeholder.png"
