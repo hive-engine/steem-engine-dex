@@ -470,6 +470,11 @@ export class App {
                 nav: false,
                 title: 'Edit NFT',
             },
+            { route: 'category-catalog/categories/:level', moduleId: PLATFORM.moduleName('./routes/category-catalog/categories/categories', 'categories'), name: 'categories', nav: false },
+            { route: 'category-catalog/edit-category/:id', moduleId: PLATFORM.moduleName('./routes/category-catalog/categories/edit-category', 'edit-category'), name: 'edit-category', nav: false },
+            { route: 'category-catalog/add-category', title: 'Add category', moduleId: PLATFORM.moduleName('./routes/category-catalog/categories/add-category', 'add-category'), name: 'add-category', nav: true },
+            { route: 'category-catalog/category-proposals', title: 'Category proposals', moduleId: PLATFORM.moduleName('./routes/category-catalog/proposals/category-proposals', 'category-proposals'), name: 'category-proposals', nav: true },
+            { route: 'category-catalog/add-category-proposal', title: 'Propose category', moduleId: PLATFORM.moduleName('./routes/category-catalog/proposals/add-category-proposal', 'add-category-proposal'), name: 'add-category-proposal', nav: true }      
         ]);
 
         this.router = router;

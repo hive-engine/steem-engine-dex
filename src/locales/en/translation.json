@@ -12,5 +12,6 @@
     "tokenCreationSubheading": "Are you ready to make history? Let's make a new token on the Steem blockchain!",
     "authorisedIssuingAccounts": "Authorized Issuing Accounts",
     "authorisedIssuingContracts": "Authorized Issuing Contracts",
-    "issueNftHeading": "Issue NFT"
+    "issueNftHeading": "Issue NFT",
+    "addCategoryNameRequired": "Please enter a name for the category"
 }

@@ -33,5 +33,9 @@
     "updateNftError": "NFT update failed",
     "nftAddPropertiesFailed": "NFT Add Properties failed",
     "updatePropertyDefinitionSuccess": "NFT property definition updated successfully",
-    "nftAddPropertiesSuccess":  "NFT Add Properties successfully completed"
+    "nftAddPropertiesSuccess": "NFT Add Properties successfully completed",
+    "addCategorySuccess": "Category {{name}} is added successfully to level {{level}}",
+    "updateCategorySuccess": "Category {{name}} is updated successfully",
+    "addCategoryProposalSuccess": "Category proposal for name: {{name}} and level: {{level}} is added successfully",
+    "categoryProposalStatusChange": "Category proposal status set to {{status}} for name: {{name}} and level: {{level}}"
 }

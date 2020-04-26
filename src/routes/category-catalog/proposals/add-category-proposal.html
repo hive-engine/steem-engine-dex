@@ -1,0 +1,145 @@
+﻿<template>
+  <div class="main-content">
+    <div class="no-selection text-center">
+      <h2>Add category proposal</h2>
+    </div>
+
+    <loader mode="tiny" loading.bind="loading"></loader>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-3">
+          <label>From: </label>
+        </div>
+        <div class="col-sm-6">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">@</span>
+            </div>
+            <input type="text" class="form-control"
+                   placeholder="From"
+                   value.bind="from & validate" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-3">
+          <label>Level: </label>
+        </div>
+        <div class="col-sm-6">
+          <select2>
+            <select value.bind="level & validate" class="form-control">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </select2>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-3">
+          <label>Parent: </label>
+        </div>
+        <div class="col-sm-6">
+          <select2>
+            <select value.bind="parentId & validate" class="form-control chosen-select">
+              <option if.bind="level == 0" value="0">No parent</option>
+              <option repeat.for="pCat of parentCats" model.bind="pCat.id">${pCat.name}</option>
+            </select>
+          </select2>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-3">
+          <label>Category name: </label>
+        </div>
+        <div class="col-sm-6">
+          <div class="input-group">
+            <input type="text" class="form-control"
+                   placeholder="Category name"
+                   value.bind="name & validate" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-3">
+          <label>SEO friendly name: </label>
+        </div>
+        <div class="col-sm-6">
+          <div class="input-group">
+            <input type="text" class="form-control"
+                   placeholder=""
+                   value.bind="nameSlug & validate" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-3">
+          <label>Restricted: </label>
+        </div>
+        <div class="col-sm-6">
+          <div class="input-group">
+            <input type="checkbox" checked.bind="restricted" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-3">
+          <label>Image: </label>
+        </div>
+        <div class="col-sm-6">
+          <div class="input-group">
+            <input type="text" value.bind="image" class="form-control" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-3">
+          <label>Message: </label>
+        </div>
+        <div class="col-sm-6">
+          <div class="input-group">
+            <textarea class="form-control" value.bind="message & validate" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+          <button type="button"
+                  class="btn btn-primary text-right"
+                  style="border: none;"
+                  click.delegate="save()">
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

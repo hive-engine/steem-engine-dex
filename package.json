@@ -57,6 +57,7 @@
         "select2": "^4.0.12",
         "shortid": "2.2.15",
         "slick-carousel": "^1.8.1",
+        "slugify": "1.3.6",
         "sscjs": "^0.0.8",
         "steem": "^0.7.10",
         "trim-character": "^2.0.1",

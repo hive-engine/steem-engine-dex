@@ -1,0 +1,54 @@
+﻿<template>
+  <div class="main-content">
+    <div class="col-sm-12">
+      <div class="row alert alert-primary">
+        <h3>Category proposals</h3>
+      </div>
+    </div>
+
+    <table class="table table-striped">
+      <thead>
+        <tr class="table-active">
+          <th scope="col">From</th>
+          <th scope="col">Date created</th>
+          <th scope="col">Name</th>
+          <th scope="col">Level</th>
+          <th scope="col">Parent</th>
+          <th scope="col">Restricted</th>
+          <th scope="col">Image</th>
+          <th scope="col">Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr repeat.for="p of proposals" class="${p.status == 'Approved' ? 'table-success' : p.status == 'Rejected' ? 'table-danger' : ''}">
+          <td>${p.from}</td>
+          <td>${p.timestamp_string}</td>
+          <td>
+            ${p.name}
+            <i if.bind="p.message" class="fa fa-sticky-note" title="${p.message}"></i>
+          </td>
+          <td>${p.level}</td>
+          <td>${p.parentId > 0 && p.parentData ? p.parentData.name : 'N/A'}</td>
+          <td>${p.restricted ? 'Yes' : 'No'}</td>
+          <td>
+            <div if.bind="p.image">
+              <img src="${p.image}" width="50" height="50" />
+            </div>
+            <div if.bind="!p.image">
+              <span>N/A</span>
+            </div>
+          </td>
+          <td>
+              ${p.status} ${p.handlingTimestamp_string ? '(' + p.handlingTimestamp_string + ')' : ''} 
+              <i if.bind="p.handlerMessage" class="fa fa-sticky-note" title="${p.handlerMessage}"></i>
+          </td>
+          <td>
+            <a if.bind="p.status != 'Approved'" class="btn btn-success fa fa-thumbs-up" click.delegate="approve(p)" title="Approve"></a>
+            <a if.bind="p.status != 'Rejected'" class="btn btn-danger fa fa-thumbs-down" click.delegate="reject(p)" title="Reject"></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>

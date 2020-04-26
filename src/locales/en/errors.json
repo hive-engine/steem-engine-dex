@@ -41,5 +41,21 @@
     "nftSellPriceGreaterThanZero": "Price must be greater than 0",
     "nftSellPriceSymbolRequired": "Price symbol is required",
     "nftTransferToRequired": "Transfer NFT To is required",
-    "nftTransferToTypeRequired": "Transfer NFT To Type is required"
+    "nftTransferToTypeRequired": "Transfer NFT To Type is required",
+    "addCategoryNameRequired": "Please enter a name for the category",
+    "addCategoryNameExists": "This category name already exists in this level",
+    "addCategoryLevelRequired": "Please select a level for the category",
+    "addCategoryFailure": "Failed to add category {{name}} to level {{level}}",
+    "addCategoryParentRequired": "Please select a parent category",
+    "updateCategoryFailure": "Failed to update category {{name}}",
+    "categoryNotFound": "Category {{id}} not found!",
+    "addCategoryProposalFromRequired": "Please enter who creates the proposal",
+    "addCategoryProposalFailure": "Failed to add category proposal {{name}} with level {{level}}",
+    "addCategoryProposalMessageMaxLength": "Max length reached for message field",
+    "categoryProposalNotFound": "Category proposal not found",
+    "categoryProposalStatusChangeFailure": "Category proposal status change failed",
+    "addCategoryProposalNameExists": "There is already a proposal with name {{name}} and level {{level}}",
+    "approveCategoryProposalCategoryAlreadyExists": "There is already a category with name: {{name}} at level {{level}}",
+    "addCategoryNameSlugRequired": "SEO friendly name required",
+    "addCategoryNameSlugExists": "This SEO friendly name is already used for another category at the same level"
 }
