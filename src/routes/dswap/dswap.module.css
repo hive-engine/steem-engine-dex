@@ -1,0 +1,21 @@
+.dswap-wrapper {
+    margin-top: 40px;
+    padding-top: 40px;
+}
+
+.dswap-card {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+}
+.item-header {
+    padding: 5px 10px;
+}
+.item-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.item {
+    padding: 5px 10px;
+}
