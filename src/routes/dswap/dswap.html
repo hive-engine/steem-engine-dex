@@ -3,10 +3,17 @@
     <require from="./components/trade"></require>
     <require from="./components/dashboard"></require>
     <!-- <swapnav></swapnav> -->
-    <section class="dswap-wrapper">
-        <div class="container">
+    <header class="dswap-wrapper">
+        <div class="header-wrapper">
+            <div class="container">
+
+            </div>
+        </div>
+    </header>
+    <section class="swap-screen">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="dswap-card">
                         <div class="dswap-card-header">
                             <h4 class="item-header">Actions</h4>
@@ -14,21 +21,16 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="item-wrapper">
-                                    <a repeat.for="row of router.navigation" href.bind="row.href" class="item">
+                                    <a route-href="route:dashboard" class="item">
                                         <div class="row">
-                                            <div class="col-4">
+                                            <div class="col-3">
                                                 <div class="item-icon">
-                                                    <font-awesome-icon
-                                            class="font-awesome-icons"
-                                            icon="arrow-right"
-                                        ></font-awesome-icon
-                                    >
-                                                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABmJLR0QA/wD/AP+gvaeTAAADDklEQVRYhe2WXUhTYRjH/8+ZbTP6mEagZwqGdeOiqzSkMpaZkNVNtQg0EFd4l0HeexN4pRddqbMRdTWLCr9QNo0Uky4ru4rwwm0Voam11tx5ny4UO5vbOm4TI84PdvN/n/c5v3P2bs8BdHR0UkLbefECb3e5BKkLQCmYBsMrpub5c/VL6pqcrF3N4zHIecuVABBY2P0KDoeSqlzu79oJ0CgACwCA+FquMfwFQIu6TsqGm83jMcr7FsdAPAHiCTl/abrE7TYnqi2a8uQW+npbYDbMAmRRrzFwLL4+K09wIX+5AUxVquhopEhZkL09kyDyCsHCQFwmGBYRWqogQE50uIh5ekOWqdz+cXfBjqjyGoTiNFv8WLN4HjFR89cTTcvqxaRPUB65X5y3uOvzjMMRSVZTNO46KKLKcHpyNAXi9kC1sz9lVSIxGMQAgCNE/F1Auh6sbnoaX1foc1UR4xmAvPWQEQRhmIgmBLiUGKcYOE6xZ52JccFf4xzUdBvxgdXreshAvbohg58Q8EKCcUJIygFSxCUmugqw8Y8bPTYZpIZZe2NY3a/o5YMKXlkZYYYFgCDGHX+Ns1OLXEJB2euaAlCptcGqHDqCk3OtaGsTidZLxt2WiBAVksQf5+zOD5vpveEMEmOISaMggSHoVrCm6V6qsll74zcAo5sRSyroz5lrtworM1MdIOYJ0hsGl4NxEkSmGD+mt/6/yCWjYKzbJgnpXVz8PnDGaUspCHtb1A/cxepnnZJxtzmiRPsAOr8WRZnQmo7cZtD8Rz1rbwyD+aLV11MHlg4pBjH66fTNma2UAzY7SYjYDwzEx1af64pgcqgzidjjr3b2ZeiXnVHHgm1EuByXzQDIWDArLwtbSfZet5Ig+3rPEnivOvv5yzwChDTt33JBMHcyUKaOjObQYa3bNwgW+lwdYIoZ/pJB3Pbbb8ylb5k+iSZJLcAxd6wwtwHYFsH/50eSP/RoT64pXKvOGLQYqG5Ka8ZqRbOg0RwqZiF5YlN+D8CWcEOW+Oe/Yl0wU3TBTNEFdXR0tpjfeuYUmBsnhgsAAAAASUVORK5CYII=">
+                                                    <font-awesome-icon icon.bind="['fas', 'chart-line']"></font-awesome-icon>
                                                 </div>
                                             </div>
-                                            <div class="col-8">
+                                            <div class="col-9" style="display: flex;">
                                                 <div class="item-title">
-                                                    <h4>${row.title & t}</h4>
+                                                    <h4 class="item-title-text">Dashboard</h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -38,7 +40,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="components">
+                <div class="col-md-10">
                     <router-view></router-view>
                 </div>
             </div>

@@ -33,5 +33,6 @@ export class Dswap {
         ]);
 
         this.router = router;
+        console.log(this.router);
     }
 }

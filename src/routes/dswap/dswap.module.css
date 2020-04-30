@@ -19,3 +19,14 @@
 .item {
     padding: 5px 10px;
 }
+.item-title {
+    align-self: center;
+}
+.item-title-text {
+    margin-bottom: 0;
+}
+.item-title,
+.item-icon {
+    font-size: 22px;
+    color: #000;
+}
