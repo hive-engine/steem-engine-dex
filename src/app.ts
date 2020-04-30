@@ -316,6 +316,13 @@ export class App {
                 title: 'DSwap',
             },
             {
+                route: 'dswap-login',
+                name: 'dswapLogin',
+                moduleId: PLATFORM.moduleName('./routes/dswap/dswap-login', 'dswap-login'),
+                nav: false,
+                title: 'DSwap Login',
+            },
+            {
                 route: 'nft/:symbol',
                 name: 'nft',
                 moduleId: PLATFORM.moduleName('./routes/nfts/nft'),
