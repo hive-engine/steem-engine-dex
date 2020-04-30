@@ -309,6 +309,13 @@ export class App {
                 title: 'NFTs',
             },
             {
+                route: 'dswap',
+                name: 'dswap',
+                moduleId: PLATFORM.moduleName('./routes/dswap/dswap', 'dswap'),
+                nav: environment.features.nfts.enabled ? 3 : false,
+                title: 'DSwap',
+            },
+            {
                 route: 'nft/:symbol',
                 name: 'nft',
                 moduleId: PLATFORM.moduleName('./routes/nfts/nft'),
