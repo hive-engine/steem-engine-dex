@@ -4,6 +4,8 @@ import Chart from 'chart.js';
 import './../../../custom_scripts/chartjs-chart-financial/scale.financialLinear.js';
 import './../../../custom_scripts/chartjs-chart-financial/controller.candlestick.js';
 import { faWallet } from '@fortawesome/pro-duotone-svg-icons'
+import 'hammerjs'
+import 'chartjs-plugin-zoom'
 
 const DefaultChartOptions = {
     options: {
@@ -13,8 +15,39 @@ const DefaultChartOptions = {
         },
         steppedLine: true,
         responsive: true,
-        maintainAspectRatio: false
-    }
+        maintainAspectRatio: false,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true//,
+                    //max: 100000
+                }
+            }]
+        },
+        plugins: {
+            zoom: {
+                // Container for pan options
+                pan: {
+                    // Boolean to enable panning
+                    enabled: true,
+
+                    // Panning directions. Remove the appropriate direction to disable 
+                    // Eg. 'y' would only allow panning in the y direction
+                    mode: 'xy'
+                },
+
+                // Container for zoom options
+                zoom: {
+                    // Boolean to enable zooming
+                    enabled: true,
+
+                    // Zooming directions. Remove the appropriate direction to disable 
+                    // Eg. 'y' would only allow zooming in the y direction
+                    mode: 'xy',
+                }
+            }
+        }
+    }    
 };
 
 @autoinject()
