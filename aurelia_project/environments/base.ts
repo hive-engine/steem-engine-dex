@@ -3,7 +3,7 @@ export const baseEnvironmentConfiguration: Partial<EnvironmentInterface> = {
     defaultLocale: 'en',
     GRAPHQL_API: 'https://graphql.steem.services/',
     SCOT_API: 'https://scot-api.steem-engine.com/',
-    HISTORY_API: 'https://history.steem-engine.com/',
+    HISTORY_API: 'https://api.steem-engine.com/history/',
     CONVERTER_API: 'https://converter-api.steem-engine.com/api/',
     FIREBASE_API: 'https://us-central1-steem-engine-dex.cloudfunctions.net/api/',
     maintenanceMode: false,
