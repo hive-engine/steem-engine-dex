@@ -729,25 +729,80 @@
                             </div>
                             <p class="balance-title">Current Balance</p>
                             <div class="action-quantity-slider">
-                                <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                                <input type="range" min="1" max="100" value="50" class="slider" id="myRange" />
                                 <div class="quantity-unit-options">
                                     <p class="quantity-unit">min</p>
-                                    <p class="quantity-unit">min</p>
-                                    <p class="quantity-unit">min</p>
+                                    <p class="quantity-unit">half</p>
+                                    <p class="quantity-unit">max</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2">
-                        form two
+                        <div class="action-input">
+                            <div class="token-sym">
+                                <div class="input-group-text token-sym-text h-100 input-group-text-dark">
+                                    $
+                                </div>
+                            </div>
+                            <input
+                                class="form-control transparent-bgn add-border-right action-input-box text-right"
+                                type="text"
+                                placeholder="0.00"
+                            />
+                        </div>
+                        <p class="balance-title">EST. USD Value</p>
                     </div>
                     <div class="col-md-5">
-                        form three
+                        <div class="action-input-wrapper">
+                            <div class="action-input">
+                                <input
+                                    class="form-control transparent-bgn action-input-box text-right"
+                                    type="text"
+                                    placeholder="0.000"
+                                />
+                                <div class="token-sym">
+                                    <div class="input-group-text token-sym-text h-100 input-group-text-dark">
+                                        ETH
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="balance-title">Current Balance</p>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <h1>Estimates</h1>
+                <div class="estimate-wrapper">
+                    <h4 style="margin-left: 0; margin-bottom: 7px;" class="action-title">
+                        Your Estimated Rate
+                        <font-awesome-icon class="chart-icon" icon.bind="['fas', 'info-circle']"></font-awesome-icon>
+                    </h4>
+                    <div class="estimated-rate-info-wrapper">
+                        <p class="estimated-rate-info">1 ATOM = 0.01328161 ETH</p>
+                    </div>
+                    <div class="estimated-trade-info-wrapper">
+                        <p class="estimated-trade-info-title">Estimated Trade Details</p>
+                        <div class="estimated-trade-swap">
+                            <p class="estimated-tokens token-one">0 BTC</p>
+                            <font-awesome-icon
+                                class="chart-icon"
+                                icon.bind="['fas', 'arrow-right']"
+                            ></font-awesome-icon>
+                            <p class="estimated-tokens token-two">0 EOSP</p>
+                        </div>
+                        <div class="trade-fee">
+                            <p class="trade-fee-title">Miner Fee</p>
+                            <p class="trade-fee-value">0.000ETHP</p>
+                        </div>
+                    </div>
+                    <button class="start-trade">Start trade</button>
+                    <div class="warning">
+                        <font-awesome-icon class="warning-icon" icon.bind="['fas', 'engine-warning']"></font-awesome-icon>
+                        <p class="login-required">Login Required</p>
+                        <p class="warning-info">Please <a href="">Signup</a> or <a href="">Login</a> to continue</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

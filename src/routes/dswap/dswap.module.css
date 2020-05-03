@@ -318,3 +318,67 @@ a.item:hover .item-icon {
     border-radius: 4px;
     cursor: pointer;
 }
+.add-border-right {
+    border: 1px solid #22a275;
+}
+.estimated-rate-info {
+    font-size: 22px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+.estimated-trade-info-wrapper {
+    margin-bottom: 20px;
+}
+.estimated-trade-info-title {
+    font-size: 14px;
+    color: #387973;
+    margin-bottom: 10px;
+ }
+ .estimated-trade-swap {
+     display: flex;
+     align-items: center;
+     margin-bottom: 1.5rem;
+     width: 65%;
+     justify-content: space-between;
+ }
+ .estimated-tokens {
+     font-size: 18px;
+     color: #fff;
+     font-weight: bold;
+     margin-bottom: 0;
+ }
+.trade-fee {
+    display: flex;
+    justify-content: space-between;
+}
+
+.trade-fee-title, .trade-fee-value {
+    color: #22a275;
+    margin-bottom: 10px;
+}
+.start-trade {
+    width: 100%;
+    background-color: #22a275;
+    color: #387973;
+    border: 1px solid #05413c;
+    
+}
+.warning {
+    margin-top: 20px;
+}
+.warning-icon {
+    color: red;
+    font-size: 25px;
+}
+.login-required {
+    color: red;
+    margin-bottom: 2px;
+}
+.warning-info {
+    color: red;
+    font-size: 14px;
+}
+.warning-info a {
+    color: red;
+    text-decoration: red!important;
+}
