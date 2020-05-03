@@ -47,7 +47,11 @@ body {
     background-color: #e9ebee;
 }
 .route--dswap {
-    background-color: #f8f9fa;
+    background-color: #065750;
+}
+.route--dswapLogin {
+    background-color: #f7f8fa;
+    overflow-y: hidden;
 }
 a {
     color: inherit;
