@@ -1,6 +1,6 @@
 .page-wrapper {
     margin-top: 40px;
-    margin-bottom: -100px;
+    /* margin-bottom: -100px; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -180,8 +180,7 @@ input.input {
     background-color: #387973;
 }
 .keychain-link.keychain {
-    
-    margin: 8px auto;
+    margin: 15px auto;
 }
 .keychain {
     color: #387973;
