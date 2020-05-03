@@ -1,81 +1,18 @@
 <template bindable="selected">
-    <nav class="navbar navbar-default" style="margin-top: 80px;">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button
-                    type="button"
-                    class="navbar-toggle collapsed"
-                    data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1"
-                    aria-expanded="false"
-                >
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Brand</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href="#">Link <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li><a href="#">Link</a></li>
-                    <li class="dropdown">
-                        <a
-                            href="#"
-                            class="dropdown-toggle"
-                            data-toggle="dropdown"
-                            role="button"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                            >Dropdown <span class="caret"></span
-                        ></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">One more separated link</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <form class="navbar-form navbar-left">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search" />
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                </form>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Link</a></li>
-                    <li class="dropdown">
-                        <a
-                            href="#"
-                            class="dropdown-toggle"
-                            data-toggle="dropdown"
-                            role="button"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                            >Dropdown <span class="caret"></span
-                        ></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
+    <div class="dswap-nav">
+        <div class="logo">
+            <img src="../../../images/dswap_standalone.png" class="logo-image" alt="brand_img">
         </div>
-        <!-- /.container-fluid -->
-    </nav>
+        <div class="dswap-nav-links">
+            <a class="each-link" href=""><div class="small-wrap">
+                <span>Send</span><img class="img-send" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAABn0lEQVRYhe2WLU/DUBSGbzEUSUgL/ALmEGiKAEWCpI5JEghoLAJ+AHoocEgmsZghaQiGEBLkQgC5QXgQO0tvun53t4Rkr2lzPu773nvuOa1SE0xQAwAL8IDNuomXgGPgiQG8OkhngV3gFvghxAswZYrUBnygDfQ10g/gTd5PTBCvAGdAVyP9Bm6AJjAHvIu9MS7SaF2HeACOgHkt1hdfpyppUl1f5QSWE/LaEndQhnQa2AKugF6krhfABmCl5DtyH770U8kiHfZrS4iG6MtufMCOyXOBvYjtUHLbecmbDFpFR0cWclLyXCCQ+H3Nfic2P68AfaEesFowJwBcsTe0co2cWNqCDnAvyY/AYoHYBc13KvZWbvIiIjLILeBZfOVGb5qINHLxr4mv2uiNE5FFLnnn4q8+emMu2ciFi8TbhO07ttGr7zpx5xJbePRm1siyrK5Sal0pFejmhPAdeV7mFZAbWd1BmdE7ThGEo/faCHmWCMLRu21UQIIIT94/gRnjAkRE9NsBZUZvRRHRFjX/15siwtxfbw4RLtD8E/J/j19UDHPD88Jh+wAAAABJRU5ErkJggg==">
+            </div></a>
+            <a class="each-link" href=""><div class="small-wrap">
+                <span>Receive</span><img class="img-receive" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAABFklEQVRYhe2UTW7CQAxGnaqwrtSrdAM3ABZwkpyiG37uwGGQOAFcANiVC7B63Uyk0dQzTBwSlLbfKrIn/l48jkX+9WQVWhCgFbOi+OH30oZRHb2mkhqxRamOPr0D/QEAZsAFOAOTIKfKTKUVcMaVTnUAUkDJIQy5Yokmw5p1BcBQRI5e6AAMrKY5hmEL10qHV+F5yxXkAlxdaASM3fNXZwBNlarXnz3wawGy9sC9eaj2QHjO2w8f0XdThrHCBoB6+lN/gXkGtPZarqAfHcgdJsvQtdYBIFrbz7UCALyJyA5YKLmpiOyB91QBi7bVlwGli92AuXdm7mIA5aMBQoilB0HwvGza5SwBnwrkphPzCES35gGEav4NdvUl/wCRrDYAAAAASUVORK5CYII=">
+            </div></a>
+        </div>
+        <div class="dswap-nav-options ml-auto">
+            <button class="add-wallet-btn each-link" disabled="disabled">Add Wallet</button>
+        </div>
+    </div>
 </template>
