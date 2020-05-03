@@ -2,28 +2,21 @@
     <require from="./components/swapnav"></require>
     <require from="./components/trade"></require>
     <require from="./components/dashboard"></require>
-    <!-- <swapnav></swapnav> -->
+    
     <header class="dswap-wrapper">
-        <div class="header-wrapper">
-            <div class="container">
-
-            </div>
-        </div>
+        <swapnav></swapnav>
     </header>
     <section class="swap-screen">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-2" style="padding: 0;">
                     <div class="dswap-card">
-                        <div class="dswap-card-header">
-                            <h4 class="item-header">Actions</h4>
-                        </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12" style="padding: 0;">
                                 <div class="item-wrapper">
                                     <a route-href="route:dashboard" class="item">
                                         <div class="row">
-                                            <div class="col-3">
+                                            <div class="col-3" style="padding: 0;">
                                                 <div class="item-icon">
                                                     <font-awesome-icon icon.bind="['fas', 'chart-line']"></font-awesome-icon>
                                                 </div>
@@ -31,6 +24,54 @@
                                             <div class="col-9" style="display: flex;">
                                                 <div class="item-title">
                                                     <h4 class="item-title-text">Dashboard</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item-wrapper">
+                                    <a route-href="route:trade" class="item">
+                                        <div class="row">
+                                            <div class="col-3" style="padding: 0;">
+                                                <div class="item-icon">
+                                                    <font-awesome-icon icon.bind="['fas', 'wallet']"></font-awesome-icon>
+                                                </div>
+                                            </div>
+                                            <div class="col-9" style="display: flex;">
+                                                <div class="item-title">
+                                                    <h4 class="item-title-text">Wallet</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item-wrapper">
+                                    <a route-href="route:trade" class="item">
+                                        <div class="row">
+                                            <div class="col-3" style="padding: 0;">
+                                                <div class="item-icon">
+                                                    <font-awesome-icon icon.bind="['fas', 'qrcode']"></font-awesome-icon>
+                                                </div>
+                                            </div>
+                                            <div class="col-9" style="display: flex;">
+                                                <div class="item-title">
+                                                    <h4 class="item-title-text">Trade</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item-wrapper">
+                                    <a route-href="route:dashboard" class="item">
+                                        <div class="row">
+                                            <div class="col-3" style="padding: 0;">
+                                                <div class="item-icon">
+                                                    <font-awesome-icon icon.bind="['fas', 'comments']"></font-awesome-icon>
+                                                </div>
+                                            </div>
+                                            <div class="col-9" style="display: flex;">
+                                                <div class="item-title">
+                                                    <h4 class="item-title-text">FAQ</h4>
                                                 </div>
                                             </div>
                                         </div>

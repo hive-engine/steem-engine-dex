@@ -1,12 +1,80 @@
 .dswap-wrapper {
-    margin-top: 40px;
-    padding-top: 40px;
+    margin-top: 39px;
+    /* margin-bottom: 40px; */
 }
+.dswap-nav {
+    display: flex;
+    background-color: #05413c;
+    margin-bottom: 20px;
 
+    min-height: 60px;
+    box-shadow: 0 1px 9px rgba(255, 255, 255, 0.05);
+    z-index: 980;
+    padding: 10px 20px;
+    margin: 0;
+    border: none;
+    z-index: 999;
+}
+.logo {
+    padding: 5px;
+}
+.logo-image {
+    width: 35px;
+}
+.dswap-nav-links {
+    display: flex;
+    margin-left: 20px;
+}
+.each-link {
+    align-self: center !important;
+    font-size: 18px;
+    margin-left: 10px;
+    text-transform: uppercase;
+    /* opacity: 0.5; */
+}
+.each-link span {
+    opacity: 0.5;
+}
+.each-link:hover {
+    font-weight: bold;
+}
+.img-send,
+.img-receive {
+    opacity: 0.5;
+}
+.each-link:hover .img-send {
+    padding-bottom: 5px;
+    opacity: 0.8;
+}
+.each-link:hover .img-receive {
+    padding-top: 5px;
+    opacity: 0.8;
+}
+.small-wrap {
+    display: flex;
+}
+.small-wrap span,
+.small-wrap span {
+    align-self: center;
+}
+.add-wallet-btn {
+    background-color: transparent;
+    border: 1px solid #387973;
+    border-radius: 8px;
+    padding: 10px 15px;
+    color: #22a275;
+}
+.add-wallet-btn:hover {
+    background-color: #387973;
+    color: #fff;
+    opacity: 0.8;
+}
 .dswap-card {
-    background-color: #fff;
+    background-color: #065750;
     padding: 10px;
-    border-radius: 4px;
+    border-radius: 2px;
+    height: 100vh;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px 2px, rgba(0, 0, 0, 0.2) 0px 2px 10px 2px;
 }
 .item-header {
     padding: 5px 10px;
@@ -17,16 +85,236 @@
 }
 
 .item {
-    padding: 5px 10px;
+    padding: 24px 10px;
+    text-transform: uppercase;
 }
+a.item:hover {
+    color: #387973;
+    font-size: 19px;
+    font-weight: bolder;
+    padding-left: 5px;
+}
+a.item:hover .item-icon {
+    background-color: #22a275;
+}
+
 .item-title {
     align-self: center;
 }
 .item-title-text {
     margin-bottom: 0;
+    color: #22a275;
 }
-.item-title,
-.item-icon {
+.item-title {
     font-size: 22px;
-    color: #000;
+    color: #fff;
+}
+
+.item-icon {
+    height: 40px;
+    width: 4em;
+    margin-right: 16px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+
+    background-size: 200% 100%;
+    opacity: 1;
+    padding: 8px 14px 8px 24px;
+    transition: background-position 0.1s linear 0s;
+    background-position: 0% 0%;
+}
+
+/* ==================Dashboard====================== */
+.dashboard-wrapper {
+    padding: 40px;
+}
+.action-title {
+    margin: 0 15px 20px;
+    color: #22a275;
+}
+.action-card {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(122, 197, 126);
+    margin: 0 auto;
+    height: auto;
+    padding-bottom: 0px;
+    min-width: 16rem;
+    width: 90%;
+    order: 1;
+    border-width: 1px;
+    border-radius: 8px;
+}
+.sell.action-card {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(197, 122, 122);
+    margin: 0 auto;
+    height: auto;
+    padding-bottom: 0px;
+    min-width: 16rem;
+    width: 90%;
+    order: 1;
+    border-width: 1px;
+    border-radius: 8px;
+}
+.transparent-bgn {
+    background-color: transparent !important;
+    color: #22a275 !important;
+    border: none;
+}
+.token-info {
+    display: flex;
+    justify-content: space-around;
+}
+.token-info-data {
+    display: flex;
+}
+.token-icon {
+    padding: 10px;
+}
+.token-name {
+    align-self: center;
+}
+.token-name h4 {
+    margin: 0;
+    color: #22a275;
+}
+.chart-icon {
+    color: #22a275;
+    font-size: 24px;
+}
+.blur {
+    /* display: none; */
+    background-image: linear-gradient(to top, rgb(13, 24, 45), rgba(102, 187, 106, 0.1));
+    height: 30px;
+    position: relative;
+    top: -3px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.chart-data {
+    display: flex;
+    justify-content: space-around;
+}
+.change-data,
+.price-data {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.price-title,
+.change-title {
+    margin-bottom: 0;
+    font-size: 11px;
+    color: #22a275;
+}
+
+.change-data span,
+.price-data span {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.trade-arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.trade-arrow .chart-icon {
+    font-size: 30px;
+}
+
+.action-input {
+    margin: 15px auto 5px;
+    width: 90%;
+    display: flex;
+}
+.action-input-box {
+    border: 1px solid #22a275;
+    border-radius: 0;
+    border-right: none;
+}
+.action-input-box:hover {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    border: 2px solid #22a275;
+}
+.action-input-box:focus {
+    border: 2px solid #22a275;
+    outline: none;
+    box-shadow: none;
+}
+.token-sym-text {
+    border-radius: 0;
+    background-color: #387973;
+    color: #22a275;
+    font-weight: bold;
+    border-left: none;
+    border: 1px solid #22a275;
+}
+.balance-title {
+    margin-bottom: 0;
+    font-size: 11px;
+    color: #22a275;
+    margin-left: 17px;
+}
+.action-quantity-slider {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    background: #22a275;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: #05413c;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.slider::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    background: #05413c;
+    cursor: pointer;
+    border-radius: 50%;
+}
+.quantity-unit-options {
+    display: flex;
+    justify-content: space-between;
+}
+.quantity-unit {
+    font-size: 14px;
+    color: #22a275;
+    padding: 5px 15px;
+    transition: all 250ms ease 0s;
+    text-transform: capitalize;
+}
+.quantity-unit:hover {
+    font-weight: bold;
+    background-color: #22a275;
+    color: #387973;
+    border-radius: 4px;
+    cursor: pointer;
 }
