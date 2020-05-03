@@ -178,13 +178,9 @@ export async function loadTokens(symbols = [], limit = 50, offset = 0): Promise<
         );
     });
 
-    const limitedMetrics = metrics.slice(offset, limit);
+    const limitedMetrics = metrics.slice(offset, limit);    
 
-    queryConfig.symbol = {
-        $in: limitedMetrics.map(m => m.symbol)
-    }
-
-    const tokens: any[] = await ssc.find('tokens', 'tokens', queryConfig, limit, offset, [{ index: 'symbol', descending: false }]);
+    const tokens: any[] = await ssc.find('tokens', 'tokens', {}, limit, offset, [{ index: 'symbol', descending: false }]);
 
     for (const token of tokens) {
         if (environment.disabledTokens.includes(token.symbol)) {
@@ -203,11 +199,7 @@ export async function loadTokens(symbols = [], limit = 50, offset = 0): Promise<
         token.priceChangePercent = 0;
         token.priceChangeSteem = 0;
 
-        const metric = limitedMetrics.find(m => token.symbol == m.symbol);
-
-        if (!metric) {
-            return;
-        }
+        const metric = limitedMetrics.find(m => token.symbol == m.symbol);        
 
         if (metric) {
             token.highestBid = parseFloat(metric.highestBid);
@@ -223,14 +215,14 @@ export async function loadTokens(symbols = [], limit = 50, offset = 0): Promise<
                 token.priceChangePercent = parseFloat(metric.priceChangePercent);
                 token.priceChangeSteem = parseFloat(metric.priceChangeSteem);
             }
-        }
+        } 
 
         if (token.symbol === 'STEEMP') {
             token.lastPrice = 1;
         }
 
         results.push(token);
-    }
+    }    
 
     results.sort((a, b) => {
         return (b.volume > 0 ? b.volume : b.marketCap / 1000000000000) - (a.volume > 0 ? a.volume : a.marketCap / 1000000000000);

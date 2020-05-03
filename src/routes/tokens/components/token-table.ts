@@ -42,7 +42,7 @@ export class TokenTable {
                     targets: 'no-sort',
                     orderable: false,
                 },
-                { targets: 0, responsivePriority: 1 }, // Logo
+                { targets: 0, responsivePriority: 1, width: "100px" }, // Logo
                 { targets: 1, responsivePriority: 2 }, // Symbol
                 { targets: 2, responsivePriority: 10000 }, // Name
                 { targets: 3, responsivePriority: 10010, type: 'html-num-fmt' }, // Market cap
@@ -55,8 +55,9 @@ export class TokenTable {
             destroy: true,
             bInfo: false,
             paging: true,
-            searching: false,
-            responsive: true
+            searching: true,
+            responsive: true,
+            language: { searchPlaceholder: "Search records" }
         });
     }
 
