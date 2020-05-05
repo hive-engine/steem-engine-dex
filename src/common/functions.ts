@@ -140,13 +140,13 @@ export function percentageOf(amount: number, percentOf: number) {
 
 export async function getSteemPrice() {
     try {
-        const request = await http.fetch('https://postpromoter.net/api/prices', {
+        const request = await http.fetch('https://api.coingecko.com/api/v3/simple/price?ids=STEEM&vs_currencies=USD', {
             method: 'GET'
         });
 
         const response = await request.json();
 
-        window.steem_price = parseFloat(response.steem_price);
+        window.steem_price = parseFloat(response.steem.usd);
 
         return window.steem_price;
     } catch {
