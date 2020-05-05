@@ -125,3 +125,76 @@
         display: none;
     }
 }
+
+ul.pagination {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+ul.pagination li {
+    display: inline;
+}
+
+ul.pagination li a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+
+ul.pagination li a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+ul.pagination li a:hover:not(.active):not(.disabled) {
+    background-color: #ddd;
+}
+
+ul.pagination li a.disabled {
+    color: darkgrey;
+}
+
+/*.sort-this:before {
+    padding-right: 0.5em;
+    width: 1.28571429em;
+    display: inline-block;
+    text-align: center;
+}*/
+.sort-this {
+    cursor: pointer;
+    position: relative;
+    padding-right: 30px !important;
+}
+
+.sort-this:before,
+.sort-this:after {
+    position: absolute;
+    bottom: .9em;
+    display: block;
+    opacity: .3;
+}
+
+.sort-this:before {
+    right: 1em;
+    content: "\2191";
+}
+
+.sort-this:after {
+    right: .5em;
+    content: "\2193";
+}
+
+.aut-asc:before {
+    opacity: 1;
+    right: 1em;
+    content: "\2191";
+}
+
+.aut-desc:before {
+    opacity: 1;
+    right: 1em;
+    content: "\2191";
+}
