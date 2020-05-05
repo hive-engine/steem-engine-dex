@@ -64,13 +64,13 @@
                 <a
                     class="nav-link color-white tabs__tab ${tab === 'engine' ? 'active' : ''}"
                     href="javascript:void(0);"
-                    click.delegate="tab = 'engine'"
+                    click.delegate="toggleTokens('engine')"
                     >Engine Tokens</a
                 >
                 <a
                     class="nav-link color-white tabs__tab ${tab === 'pegged' ? 'active' : ''}"
                     href="javascript:void(0);"
-                    click.delegate="tab = 'pegged'"
+                    click.delegate="toggleTokens('pegged')"
                     >Pegged Tokens</a
                 >
             </nav>
@@ -82,17 +82,15 @@
             <div class="col-12">
                 <!--<button if.bind="tab === 'other' && !state.tokensLoaded" type="button" class="btn btn-md btn-primary" click.delegate="loadMoreTokens()">${'Load More'}</button>-->
                 <token-table
-                    show.bind="tab === 'engine'"
-                    tokens.bind="state.tokens"
-                    table-id.bind="'tblEngineTokens'"
+                    tokens.bind="tokenList"
                     tab.bind="tab"
                 ></token-table>
-                <token-table
+                <!--<token-table
                     show.bind="tab === 'pegged'"
                     tokens.bind="peggedTokens"
                     table-id.bind="'tblPeggedTokens'"
                     tab.bind="tab"
-                ></token-table>
+                ></token-table>-->
                 <!--<button if.bind="tab === 'other' && !state.tokensLoaded" type="button" class="btn btn-md btn-primary" click.delegate="loadMoreTokens()">${'Load More'}</button>-->
             </div>
         </div>

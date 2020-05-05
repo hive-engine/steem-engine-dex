@@ -12,6 +12,7 @@
         "animate.css": "^3.7.2",
         "apollo-boost": "^0.4.7",
         "apollo-cache-inmemory": "^1.6.5",
+        "au-table": "^0.1.14",
         "aurelia-animator-css": "^1.0.4",
         "aurelia-async-binding": "^1.2.0",
         "aurelia-bootstrapper": "^2.3.3",
