@@ -33,6 +33,8 @@ export class Balances {
     private subscription: Subscription;
     private styles = styles;
     private totalWalletValue = 0.00;
+    private pageSize = 10;
+    private filters = [{ value: '', keys: ['symbol', 'name'] }];
 
     private tokenTable: HTMLTableElement;
     private showActionBtns = () => {
