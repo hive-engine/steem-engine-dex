@@ -162,7 +162,7 @@ export async function loadSteempBalance() {
     }
 }
 
-export async function loadTokens(symbols = [], limit = 50, offset = 0): Promise<any[]> {
+export async function loadTokens(symbols = [], limit = 1000, offset = 0): Promise<any[]> {
     const queryConfig: any = {};
 
     if (symbols.length) {
@@ -181,7 +181,7 @@ export async function loadTokens(symbols = [], limit = 50, offset = 0): Promise<
     const limitedMetrics = metrics.slice(offset, limit);    
 
     const tokens: any[] = await ssc.find('tokens', 'tokens', {}, limit, offset, [{ index: 'symbol', descending: false }]);
-
+    
     for (const token of tokens) {
         if (environment.disabledTokens.includes(token.symbol)) {
             continue;
