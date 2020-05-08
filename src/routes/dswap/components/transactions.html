@@ -1,0 +1,47 @@
+<template>
+    <div class="transaction-table">
+        <div class="container-fluid">
+            <div class="transaction-table-header">
+                <h4>Transaction History</h4>
+            </div>
+            <table class="table">
+                <thead class="table-head">
+                    <tr>
+                        <th class="icon-head head-item" scope="col">Icon</th>
+                        <th class="date-head head-item" scope="col">Date</th>
+                        <th class="transaction-head head-item" scope="col">Transaction Type</th>
+                        <th class="amount-head head-item" scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="table-item" scope="row"><div class="transaction-icon">
+                            <font-awesome-icon icon.bind="['fas', 'university']"></font-awesome-icon>
+                        </div></th>
+                        <td class="table-item">Mark</td>
+                        <td class="table-item">Otto</td>
+                        <td class="table-item">@mdo</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+            <nav class="text-right ml-auto" aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item pagination-btn">
+                        <a class="page-link pagination-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item pagination-btn"><a class="page-link pagination-link" href="#">1</a></li>
+                    <li class="page-item pagination-btn"><a class="page-link pagination-link" href="#">2</a></li>
+                    <li class="page-item pagination-btn"><a class="page-link pagination-link" href="#">3</a></li>
+                    <li class="page-item pagination-btn">
+                        <a class="page-link pagination-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</template>
