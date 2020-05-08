@@ -330,3 +330,7 @@ span.step-4:before {
 .question-answer-2 {
     color: #cf3999;
 }
+.description-text {
+    color: lightgray;
+    margin-bottom: 15px;
+}

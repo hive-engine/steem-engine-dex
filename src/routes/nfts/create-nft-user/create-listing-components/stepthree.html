@@ -1,7 +1,15 @@
 <template>
     <div class="nft-question text-center">
-        <button click.delegate="testing()">hello</button>
+        <!-- <button click.delegate="testing()">hello</button> -->
         <h4>Would you like to Make an NFT to Represent this Product?</h4>
+        <h4 class="text-center">
+            <font-awesome-icon class="chart-icon" icon.bind="['fas', 'info-circle']"></font-awesome-icon>
+        </h4>
+        <small class="description-text">
+            If you dont' create an NFT this is just a listing that you are offering something for sale. If you do create
+            an NFT to go with it, then you will actually be selling the thing via tribaldex.com, and the NFT will
+            represent ownership that will transfer when they buy it.
+        </small>
         <div class="flex">
             <button click.delegate="showNftForm()" class="question-answer question-answer-1">Yes</button>
             <button click.delegate="handleNext('submit')" class="question-answer question-answer-2">No</button>
@@ -22,7 +30,7 @@
                 >${'Enter Your Website' & t} <tooltip text="[OPTIONAL] URL of the project (max length of 255)"></tooltip
             ></label>
             <input type="text" class="form-control" value.bind="url" click.trigger="info(1)" />
-        </div>        
+        </div>
         <div class="form-group">
             <label
                 >${'authorisedIssuingAccounts' & t}
@@ -68,24 +76,23 @@
                 click.trigger="info(6)"
             />
         </div>
-        <hr>
+        <hr />
         <h4 for="exampleFormControlTextarea1">
-                Add Images <tooltip text="[REQUIRED] Add images of the product"></tooltip>
-            </h4>
-            <div class="custom-file" style="margin-bottom: 10px;">
-                <input type="file" class="custom-file-input" id="customFile" />
-                <label class="custom-file-label" for="customFile">Add Image </label>
-            </div>
-            <button class="ml-auto" style="margin-bottom: 30px;">
-                Add More <font-awesome-icon icon.bind="['fas', 'plus']"></font-awesome-icon>
-            </button>
+            Add Images <tooltip text="[REQUIRED] Add images of the product"></tooltip>
+        </h4>
+        <div class="custom-file" style="margin-bottom: 10px;">
+            <input type="file" class="custom-file-input" id="customFile" />
+            <label class="custom-file-label" for="customFile">Add Image </label>
+        </div>
+        <button class="ml-auto" style="margin-bottom: 30px;">
+            Add More <font-awesome-icon icon.bind="['fas', 'plus']"></font-awesome-icon>
+        </button>
         <div class="form-group d-flex">
             <label
                 >${'NSFW' & t}
                 <tooltip text="[REQUIRED] Mark this collection as Not Safe for Work?."></tooltip>
             </label>
             <input type="checkbox" checked class="checkbox-style" click.trigger="info(8)" />
-            
         </div>
         <div class="form-group d-flex">
             <label class="create-nft-form-label consent-text"
