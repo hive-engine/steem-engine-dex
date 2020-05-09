@@ -43,7 +43,9 @@ html {
 body {
     min-height: 100%;
 }
-
+.route--userProfile {
+    background-color: #e9ebee;
+}
 a {
     color: inherit;
     text-decoration: none;

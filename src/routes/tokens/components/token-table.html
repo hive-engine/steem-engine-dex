@@ -1,109 +1,95 @@
 ﻿<template>
     <loader loading.bind="loading"></loader>
 
-    <div class="container-fluid">
-        <div class="row text-center" style="display: flex; justify-content: center;">
-            <div class="col-md-8 col-sm-12">
-                <div class="input-group input-group-sm mb-3">
-                    <input
-                        type="text"
-                        class="form-control form-control-transparent"
-                        placeholder="Symbol"
-                        aria-label="Symbol"
-                        aria-describedby="symbol-search"
-                        value.bind="searchValue"
-                    />
+    <section class="no-mobile"> 
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group text-right">
+                        <input type="text" value.bind="filters[0].value" placeholder="Search token" class="form-control" />
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <section class="no-mobile" <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <table class="table mobile-table desktop-table" id.bind="tableId" ref="tableRef">
-                    <thead>
-                        <tr>
-                            <th class="no-sort"></th>
-                            <th>${'Symbol' & t}</th>
-                            <th>${'Name' & t}</th>
-                            <th class="text-right">${'Market Cap' & t}</th>
-                            <th class="text-right">${'Price' & t}</th>
-                            <th class="text-right">${'% Chg' & t}</th>
-                            <th class="text-right">${'24h Vol' & t}</th>
-                            <th class="text-right">${'Supply' & t}</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr repeat.for="token of tokens | arrayFilter: {search: 'symbol', term: searchValue}">
-                            <td>
-                                <img
-                                    if.bind="token.metadata.icon"
-                                    class="tokenIcon"
-                                    src="${token.metadata.icon}"
-                                    alt="${token.symbol}"
-                                    title="${token.symbol}"
-                                />
-                                <button
-                                    if.bind="state.loggedIn"
-                                    type="button"
-                                    class="btn btn-icon btn-favourite ${token.isFavourite ? 'active' : ''}"
-                                    click.delegate="favouriteToken(token)"
-                                >
-                                    <font-awesome-icon
-                                        if.bind="token.isFavourite"
-                                        icon.bind="['fas', 'star']"
-                                    ></font-awesome-icon>
-                                    <font-awesome-icon else icon.bind="['far', 'star']"></font-awesome-icon>
-                                </button>
-                            </td>
-                            <td>
-                                <a route-href="route: exchange; params.bind: { symbol: token.symbol }"
-                                    >${token.symbol}</a
-                                >
-                            </td>
-                            <td>${token.name}</td>
-                            <td class="text-right" data-order="${token.marketCap}">
-                                ${token.marketCap | usdFormat:2}
-                            </td>
-                            <td class="text-right changePercentCol" data-order="${token.lastPrice}">
-                                <span
-                                    class="${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}"
-                                >
-                                    ${token.lastPrice | usdFormat:3}
-                                </span>
-                            </td>
-                            <td class="text-right changePercentCol" data-order="${token.priceChangePercent}">
-                                <span
-                                    class="${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}"
-                                >
-                                    ${token.priceChangePercent | toFixed:2}%
-                                </span>
-                            </td>
-                            <td class="text-right" data-order="${token.volume}">
-                                ${token.volume | usdFormat:2}
-                            </td>
-                            <td class="text-right" data-order="${token.circulatingSupply}">
-                                ${token.circulatingSupply | toFixed:3 | comma}
-                            </td>
-                            <td class="table-buttons">
-                                <a click.delegate="showTokenInfo(token)" title="Token information">
-                                    <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
-                                </a>
-                                <a route-href="route: exchange; params.bind: { symbol: token.symbol }">
-                                    <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
-                                </a>
-                                <a
-                                    route-href="route: token-history; params.bind: { symbol: token.symbol }"
-                                    title="Show token history"
-                                >
-                                    <font-awesome-icon icon.bind="['fas', 'list-ul']"></font-awesome-icon>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="row">                
+                <div class="col-md-12">
+                    <table class="table mobile-table desktop-table"
+                           aurelia-table="data.bind: tokens; display-data.bind: $displayData;
+                                            current-page.bind: currentPage; page-size.bind: pageSize; total-items.bind: totalItems; filters.bind: filters">
+                        <thead>
+                            <tr>
+                                <th class="no-sort"></th>
+                                <th class="sort-this" aut-sort="key: symbol">${'Symbol' & t}</th>
+                                <th class="sort-this" aut-sort="key: name">${'Name' & t}</th>
+                                <th class="sort-this text-right" aut-sort="key: marketCap">${'Market Cap' & t}</th>
+                                <th class="sort-this text-right" aut-sort="key: lastPrice">${'Price' & t}</th>
+                                <th class="sort-this text-right" aut-sort="key: priceChangePercent">${'% Chg' & t}</th>
+                                <th class="sort-this text-right" aut-sort="key: volume; default: desc">${'24h Vol' & t}</th>
+                                <th class="sort-this text-right" aut-sort="key: circulatingSupply">${'Supply' & t}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr repeat.for="token of $displayData">
+                                <td>
+                                    <button if.bind="state.loggedIn"
+                                            type="button"
+                                            class="btn btn-icon btn-favourite ${token.isFavourite ? 'active' : ''}"
+                                            click.delegate="favouriteToken(token)">
+                                        <font-awesome-icon if.bind="token.isFavourite"
+                                                           icon.bind="['fas', 'star']"></font-awesome-icon>
+                                        <font-awesome-icon else icon.bind="['far', 'star']"></font-awesome-icon>
+                                    </button>
+                                    <img if.bind="token.metadata.icon"
+                                         class="tokenIcon"
+                                         src="${token.metadata.icon}"
+                                         alt="${token.symbol}"
+                                         title="${token.symbol}" />
+                                </td>
+                                <td>
+                                    <a route-href="route: exchange; params.bind: { symbol: token.symbol }">${token.symbol}</a>
+                                </td>
+                                <td>${token.name}</td>
+                                <td class="text-right" data-order="${token.marketCap}">
+                                    ${token.marketCap | usdFormat:2}
+                                </td>
+                                <td class="text-right changePercentCol" data-order="${token.lastPrice}">
+                                    <span class="${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}">
+                                        ${token.lastPrice | usdFormat:3}
+                                    </span>
+                                </td>
+                                <td class="text-right changePercentCol" data-order="${token.priceChangePercent}">
+                                    <span class="${token.priceChangePercent > 0 ? 'green' : token.priceChangePercent < 0 ? 'red' : ''}">
+                                        ${token.priceChangePercent | toFixed:2}%
+                                    </span>
+                                </td>
+                                <td class="text-right" data-order="${token.volume}">
+                                    ${token.volume | usdFormat:2}
+                                </td>
+                                <td class="text-right" data-order="${token.circulatingSupply}">
+                                    ${token.circulatingSupply | toFixed:3 | comma}
+                                </td>
+                                <td class="table-buttons">
+                                    <a click.delegate="showTokenInfo(token)" title="Token information">
+                                        <font-awesome-icon icon.bind="['fas', 'info-circle']"></font-awesome-icon>
+                                    </a>
+                                    <a route-href="route: exchange; params.bind: { symbol: token.symbol }">
+                                        <font-awesome-icon icon.bind="['fas', 'exchange-alt']"></font-awesome-icon>
+                                    </a>
+                                    <a route-href="route: token-history; params.bind: { symbol: token.symbol }"
+                                       title="Show token history">
+                                        <font-awesome-icon icon.bind="['fas', 'list-ul']"></font-awesome-icon>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row pagingRow">
+                        <div class="col-md-9 pagination-container">
+                            <aut-pagination current-page.bind="currentPage" page-size.bind="pageSize" total-items.bind="totalItems"
+                                            pagination-size.bind="5" boundary-links.bind="true"> </aut-pagination>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -111,11 +97,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="token-card" id.bind="tableId" ref="tableRef">
-                        <div
-                            class="each-token padding-add"
-                            repeat.for="token of tokens | arrayFilter: {search: 'symbol', term: searchValue}"
-                        >
+                    <div class="token-card">
+                        <div class="each-token padding-add" repeat.for="token of tokens">
                             <!-- <button
                                 if.bind="state.loggedIn"
                                 type="button"

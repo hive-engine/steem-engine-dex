@@ -80,7 +80,7 @@ describe('Functions', () => {
         const request = fetchMock.mock.calls[0][0][symbols[1]];
 
         expect(request.parsedURL).toMatchObject({
-            path: `/marketHistory?symbol=${symbol}&timestampStart=123456`,
+            path: `/history/marketHistory?symbol=${symbol}&timestampStart=123456`,
         });
     });
 
@@ -95,7 +95,7 @@ describe('Functions', () => {
         const request = fetchMock.mock.calls[0][0][symbols[1]];
 
         expect(request.parsedURL).toMatchObject({
-            path: `/marketHistory?symbol=${symbol}&timestampEnd=123456`,
+            path: `/history/marketHistory?symbol=${symbol}&timestampEnd=123456`,
         });
     });
 
@@ -156,7 +156,7 @@ describe('Functions', () => {
         const request = fetchMock.mock.calls[0][0][symbols[1]];
 
         expect(request.parsedURL).toMatchObject({
-            path: `/accountHistory?account=beggars&symbol=${symbol}&timestampStart=123456`,
+            path: `/history/accountHistory?account=beggars&symbol=${symbol}&timestampStart=123456`,
         });
     });
 
@@ -171,7 +171,7 @@ describe('Functions', () => {
         const request = fetchMock.mock.calls[0][0][symbols[1]];
 
         expect(request.parsedURL).toMatchObject({
-            path: `/accountHistory?account=beggars&symbol=${symbol}&timestampEnd=123456`,
+            path: `/history/accountHistory?account=beggars&symbol=${symbol}&timestampEnd=123456`,
         });
     });
 
