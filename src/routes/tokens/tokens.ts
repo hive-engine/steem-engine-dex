@@ -2,7 +2,7 @@ import { TokenInfoModal } from 'modals/wallet/token-info';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject, observable, TaskQueue, bindable } from 'aurelia-framework';
 
-import { connectTo, dispatchify } from 'aurelia-store';
+import { connectTo, dispatchify, Store } from 'aurelia-store';
 import { loadTokensList, loadTokenSymbols, getCurrentFirebaseUser } from 'store/actions';
 
 import styles from './tokens.module.css';
@@ -11,6 +11,7 @@ import { BuyTokenModal } from 'modals/buy-token';
 import { DepositModal } from 'modals/deposit';
 import { WithdrawModal } from 'modals/withdraw';
 import { loadTokens } from 'common/steem-engine';
+import { Subscription as StateSubscription } from 'rxjs';
 
 @autoinject()
 @connectTo()
@@ -21,10 +22,16 @@ export class Tokens {
     private peggedTokens = [];
     private currentLimit = 1000;
     private currentOffset = 0;
-        
+    private subscription: StateSubscription;
+
+    @bindable tokenList = [];
     @bindable tab = 'engine';
 
-    constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService) {}
+    constructor(private se: SteemEngine, private taskQueue: TaskQueue, private dialogService: DialogService, private store: Store<State>) {
+        this.subscription = this.store.state.subscribe(async (state: State) => {
+            this.state = state;
+        });
+    }
 
     async canActivate() {
          this.peggedTokens = await loadTokens(['BCHP',
@@ -44,7 +51,18 @@ export class Tokens {
                 0
             );
 
-        await dispatchify(loadTokensList)(this.currentLimit, this.currentOffset);                
+        await dispatchify(loadTokensList)(this.currentLimit, this.currentOffset);           
+
+        this.tokenList = this.state.tokens;
+    }
+
+    toggleTokens(tabVal) {
+        this.tab = tabVal;
+        if (this.tab == 'engine') {
+            this.tokenList = this.state.tokens;
+        } else {
+            this.tokenList = this.peggedTokens;
+        }
     }
 
     async activate() {

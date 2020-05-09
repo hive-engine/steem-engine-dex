@@ -82,6 +82,7 @@ export async function configure(aurelia: Aurelia) {
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-fetch-client'));
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-validation'));
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-fontawesome'));
+    aurelia.use.plugin(PLATFORM.moduleName('au-table'));
 
     aurelia.use.plugin(PLATFORM.moduleName('aurelia-store', 'store'), {
         initialState: initialState,
