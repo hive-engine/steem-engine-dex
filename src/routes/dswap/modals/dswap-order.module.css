@@ -1,3 +1,12 @@
 .sendTokenBalance {
     cursor: pointer;
 }
+.modal-header {
+    background: #05413c!important;
+}
+.modal-body {
+    background-image: url('../../../images/dswap_low_opacity.png');
+}
+.trade-button {
+    background: #05413c;
+}
