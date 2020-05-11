@@ -90,14 +90,22 @@
 }
 a.item:hover {
     color: #387973;
-    font-size: 19px;
+    font-size: 16px;
     font-weight: bolder;
     padding-left: 5px;
+}
+a.item:focus {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bolder;
+    /* padding-left: 5px; */
 }
 a.item:hover .item-icon {
     background-color: #22a275;
 }
-
+.activateIt {
+    background-color: #22a275;
+}
 .item-title {
     align-self: center;
 }
@@ -333,26 +341,27 @@ a.item:hover .item-icon {
     font-size: 14px;
     color: #387973;
     margin-bottom: 10px;
- }
- .estimated-trade-swap {
-     display: flex;
-     align-items: center;
-     margin-bottom: 1.5rem;
-     width: 65%;
-     justify-content: space-between;
- }
- .estimated-tokens {
-     font-size: 18px;
-     color: #fff;
-     font-weight: bold;
-     margin-bottom: 0;
- }
+}
+.estimated-trade-swap {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    width: 65%;
+    justify-content: space-between;
+}
+.estimated-tokens {
+    font-size: 18px;
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 0;
+}
 .trade-fee {
     display: flex;
     justify-content: space-between;
 }
 
-.trade-fee-title, .trade-fee-value {
+.trade-fee-title,
+.trade-fee-value {
     color: #22a275;
     margin-bottom: 10px;
 }
@@ -361,24 +370,193 @@ a.item:hover .item-icon {
     background-color: #22a275;
     color: #387973;
     border: 1px solid #05413c;
-    
 }
 .warning {
     margin-top: 20px;
 }
 .warning-icon {
-    color: red;
+    color: rgb(255, 155, 155);
     font-size: 25px;
 }
 .login-required {
-    color: red;
+    color: rgb(255, 155, 155);
     margin-bottom: 2px;
 }
 .warning-info {
-    color: red;
+    color: rgb(255, 155, 155);
     font-size: 14px;
 }
 .warning-info a {
-    color: red;
-    text-decoration: red!important;
+    color: rgb(255, 155, 155);
+    text-decoration: rgb(255, 155, 155) !important;
+}
+.table {
+    width: 100%;
+}
+.transaction-table {
+    /* background-color: #05413c; */
+    margin: 30px 50px;
+    border: 1px solid #22a275;
+    padding: 5px;
+    color: #22a275;
+}
+.transaction-table-header h4 {
+    color: #22a275;
+    margin: 10px 0;
+}
+.table-head {
+    background-color: #22a275c5;
+}
+.table-tab {
+    /* border-bottom: 1px solid #22a275c5; */
+    border-bottom: none!important;
+}
+
+.table-head-links {
+    padding: 0;
+
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+.table-head-links:hover {
+    border-color: #22a275;
+}
+
+.head-item {
+    color: #05413c !important;
+}
+.head-item,
+.table-item {
+    /* border-bottom: 1px solid #22a275c5 !important;
+    border-top: 1px solid #22a275c5 !important; */
+    color: #22a275;
+    padding: 10px;
+    /* display: flex;
+    align-items: center; */
+}
+.transaction-icon {
+    border: 1px solid #142e2b;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    background: #22a275c5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.table-icon {
+    font-size: 20px;
+    color: #142e2b;
+}
+.table-item h4 {
+    font-size: 15px;
+    color: #22a275;
+    font-weight: 900;
+    margin: 0;
+}
+.table-item h6 {
+    font-size: 20px;
+    margin: 0;
+    color: #22a275c5;
+}
+.table tr {
+    border-bottom: 1px solid #22a275c5 !important;
+    border-top: 1px solid #22a275c5 !important;
+    padding: 0 10px;
+}
+.page-item {
+    padding: 0;
+}
+.icon-head {
+    width: 5%;
+}
+.date-head {
+    width: 5%;
+}
+.transaction-head {
+    width: 78%;
+}
+.amount-head {
+    width: 12%;
+}
+.pagination-btn {
+    padding: 0;
+}
+.pagination-link {
+    color: #05413c;
+    background: #22a275;
+    border: 1px solid #05413cbd;
+}
+.transaction-type {
+    font-weight: 900;
+    font-size: 15px;
+}
+.transaction-type-info {
+    font-size: 12px;
+    color: #22a275c5;
+}
+
+/* ============= Wallet ================== */
+.wallet-wrapper {
+    /* padding: 40px; */
+    margin: 50px;
+    border: 1px solid #22a275c5;
+    background-color: #22a2750c;
+    border-radius: 5px;
+}
+.wallet-header {
+    border-bottom: 1px solid #22a275c5;
+}
+.wallet-title {
+    font-size: 20px;
+    padding: 15px;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    color: #22a275;
+    font-weight: 900;
+}
+.wallet-desc {
+    margin-bottom: 0;
+    font-size: 16px;
+    padding: 15px;
+    color: #22a275c5;
+}
+.wallets-info-wrapper {
+    padding: 5px 15px 0;
+}
+.wallet-card {
+    border: 1px solid #22a275c5;
+    border-radius: 5px;
+    padding: 20px 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.wallet-card-content {
+    width: 80%;
+}
+.wallet-card-icon {
+    width: 20%;
+}
+.wallet-card-icon img {
+    width: 100%;
+}
+.token-name {
+    color: rgba(255, 255, 255, 0.767);
+    font-weight: 900;
+}
+
+.value-title {
+    color: #22a275c5;
+    text-transform: capitalize;
+}
+.value-title {
+    color: #ffffffbd;
+    text-transform: capitalize;
+    margin-bottom: 2px;
+}
+.balance {
+    margin-bottom: 12px;
+}
+.value {
+    color: #22a275c5;
 }
