@@ -1,6 +1,6 @@
 <template>
     <require from="./components/swapnav"></require>
-    <require from="./components/trade"></require>
+    <require from="./components/trades"></require>
     <require from="./components/dashboard"></require>
     <require from="./components/transactions"></require>
     
@@ -15,10 +15,10 @@
                         <div class="row">
                             <div class="col-md-12" style="padding: 0;">
                                 <div class="item-wrapper">
-                                    <a route-href="route:dashboard" class="item">
+                                    <a click.delegate="addActive('dashboard')" route-href="route:dashboard" class="item">
                                         <div class="row">
                                             <div class="col-3" style="padding: 0;">
-                                                <div class="item-icon">
+                                                <div class="item-icon removeActivate " id="dashboard">
                                                     <font-awesome-icon icon.bind="['fas', 'chart-line']"></font-awesome-icon>
                                                 </div>
                                             </div>
@@ -31,10 +31,10 @@
                                     </a>
                                 </div>
                                 <div class="item-wrapper">
-                                    <a route-href="route:trade" class="item">
+                                    <a click.delegate="addActive('wallet')" route-href="route:dswapWallet" class="item">
                                         <div class="row">
-                                            <div class="col-3" style="padding: 0;">
-                                                <div class="item-icon">
+                                            <div class="col-3" style="padding: 0;"> 
+                                                <div class="item-icon removeActivate" id="wallet"> 
                                                     <font-awesome-icon icon.bind="['fas', 'wallet']"></font-awesome-icon>
                                                 </div>
                                             </div>
@@ -47,26 +47,26 @@
                                     </a>
                                 </div>
                                 <div class="item-wrapper">
-                                    <a route-href="route:trade" class="item">
+                                    <a click.delegate="addActive('trades')" route-href="route:trades" class="item">
                                         <div class="row">
                                             <div class="col-3" style="padding: 0;">
-                                                <div class="item-icon">
+                                                <div class="item-icon removeActivate" id="trades">
                                                     <font-awesome-icon icon.bind="['fas', 'qrcode']"></font-awesome-icon>
                                                 </div>
                                             </div>
                                             <div class="col-9" style="display: flex;">
                                                 <div class="item-title">
-                                                    <h4 class="item-title-text">Trade</h4>
+                                                    <h4 class="item-title-text">Trades</h4>
                                                 </div>
                                             </div>
                                         </div>
                                     </a>
                                 </div>
                                 <div class="item-wrapper">
-                                    <a route-href="route:dashboard" class="item">
+                                    <a click.delegate="addActive('faq')" route-href="route:dashboard" class="item">
                                         <div class="row">
                                             <div class="col-3" style="padding: 0;">
-                                                <div class="item-icon">
+                                                <div class="item-icon removeActivate" id="faq">
                                                     <font-awesome-icon icon.bind="['fas', 'comments']"></font-awesome-icon>
                                                 </div>
                                             </div>
@@ -84,9 +84,15 @@
                 </div>
                 <div class="col-md-10">
                     <router-view></router-view>
-                    <transactions></transactions>
+                    <!-- <transactions></transactions> -->
                 </div>
             </div>
         </div>
     </section>
+
+    <style>
+        .activateIt {
+            background-color: #22a275;
+        }
+    </style>
 </template>
