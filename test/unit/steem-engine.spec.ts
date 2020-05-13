@@ -237,7 +237,7 @@ describe('Functions', () => {
         const parsed = functions.parseTokens(data);
 
         // DISNEY should be removed
-        expect(parsed).toHaveLength(3);
+        expect(parsed).toHaveLength(2);
     });
 
     test('parseTokens sets steemp supply and circulating supply', () => {
