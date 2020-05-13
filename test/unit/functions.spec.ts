@@ -267,7 +267,6 @@ describe('Functions', () => {
 
     test('should filter out non-pegged tokens', () => {
         expect(stateTokensOnlyPegged([
-            { symbol: 'PAL' },
             { symbol: 'ENG' },
             { symbol: 'STEEMP' },
             { symbol: 'LTCP' }
