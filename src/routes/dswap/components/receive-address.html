@@ -1,0 +1,52 @@
+<template bindable="selected">
+    <div class="transaction-table">
+        <div class="container-fluid">
+            <div class="receive-address-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <h4 class="color-white p-2 text-center">Receive Address</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-5">
+                                <div class="form-group mb-1">
+                                    <input
+                                        type="text"
+                                        placeholder="Enter Receiving Address"
+                                        class="form-control transparent-bgn add-border-right action-input-box"
+                                        id="walletAddress"
+                                        aria-describedby="walletHelp"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <input
+                                        type="text"
+                                        placeholder="Enter Memo (Optional)"
+                                        class="form-control transparent-bgn add-border-right action-input-box"
+                                        id="transactionMemo"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10 offset-md-1 text-center">
+                                <button type="submit" class="btn btn-primary">Get Deposit Address</button>
+                                <div class="form-group pt-1 form-check">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+                                    <label class="form-check-label mt-0" for="exampleCheck1">Save this address</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
