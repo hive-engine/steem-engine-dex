@@ -1,6 +1,10 @@
 .dswap-wrapper {
     margin-top: 39px;
     /* margin-bottom: 40px; */
+    color: white;
+}
+.color-white {
+    color: #fff;
 }
 .dswap-nav {
     display: flex;
