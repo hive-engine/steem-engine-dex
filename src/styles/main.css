@@ -46,6 +46,13 @@ body {
 .route--userProfile {
     background-color: #e9ebee;
 }
+.route--dswap {
+    background-color: #065750;
+}
+.route--dswapLogin {
+    background-color: #f7f8fa;
+    overflow-y: hidden;
+}
 a {
     color: inherit;
     text-decoration: none;

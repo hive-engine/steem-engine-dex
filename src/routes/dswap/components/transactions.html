@@ -1,0 +1,112 @@
+<template>
+    <div class="transaction-table">
+        <div class="container-fluid">
+            <div class="transaction-table-header">
+                <h4>Transactions</h4>
+            </div>
+            <ul class="nav nav-tabs table-tab" id="myTab" role="tablist">
+                <li class="nav-item table-head-links">
+                    <a
+                        class="nav-link table-link active"
+                        id="pending-tab"
+                        data-toggle="tab"
+                        href="#pending"
+                        role="tab"
+                        aria-controls="pending"
+                        aria-selected="true"
+                        >Pending</a
+                    >
+                </li>
+                <li class="nav-item table-head-links">
+                    <a
+                        class="nav-link table-link"
+                        id="completed-tab"
+                        data-toggle="tab"
+                        href="#completed"
+                        role="tab"
+                        aria-controls="completed"
+                        aria-selected="false"
+                        >Completed</a
+                    >
+                </li>
+                <li class="nav-item table-head-links">
+                    <a
+                        class="nav-link table-link"
+                        id="failed-tab"
+                        data-toggle="tab"
+                        href="#failed"
+                        role="tab"
+                        aria-controls="failed"
+                        aria-selected="false"
+                        >Failed</a
+                    >
+                </li>
+            </ul>
+            
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                    <table class="table">
+                        <thead class="table-head">
+                            <tr>
+                                <th class="icon-head head-item" scope="col">Icon</th>
+                                <th class="date-head head-item" scope="col">Date</th>
+                                <th class="transaction-head head-item" scope="col">Transaction Type</th>
+                                <th class="amount-head head-item" scope="col">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="table-item" scope="row">
+                                    <div class="transaction-icon">
+                                        <font-awesome-icon icon.bind="['fas', 'university']"></font-awesome-icon>
+                                    </div>
+                                </th>
+                                <td class="table-item">Mark</td>
+                                <td class="table-item">Otto</td>
+                                <td class="table-item">@mdo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <nav class="text-right ml-auto" aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item pagination-btn">
+                                <a class="page-link pagination-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item pagination-btn">
+                                <a class="page-link pagination-link" href="#">1</a>
+                            </li>
+                            <li class="page-item pagination-btn">
+                                <a class="page-link pagination-link" href="#">2</a>
+                            </li>
+                            <li class="page-item pagination-btn">
+                                <a class="page-link pagination-link" href="#">3</a>
+                            </li>
+                            <li class="page-item pagination-btn">
+                                <a class="page-link pagination-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">...</div>
+                <div class="tab-pane fade" id="failed" role="tabpanel" aria-labelledby="failed-tab">...</div>
+            </div>
+            
+        </div>
+    </div>
+
+    <style>
+        .table-link.active {
+            background-color: #22a275c5!important;
+            color: #05413c;
+            border: 1px solid #22a275c5!important;
+        }
+        .nav-tabs .table-link:focus,
+        .nav-tabs .table-link:hover {
+            border-color: #22a275c5;
+        }
+    </style>
+</template>

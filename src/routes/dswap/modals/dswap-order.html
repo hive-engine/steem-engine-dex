@@ -1,0 +1,127 @@
+<template>
+    <ux-dialog>
+        <loader mode="tiny" loading.bind="loading"></loader>
+
+        <ux-dialog-header class="modal-header">
+            <h2>${'Initiate Market Maker' & t}</h2>
+        </ux-dialog-header>
+        <ux-dialog-body class="withdrawDialogBody modal-body">
+            <p class="note mb-4">
+                ${'There is a x% fee on this trade' & t}
+            </p>
+            <div class="form-group">
+                <label>${'What account do you want to authorize to trade using the market maker?' & t}</label>
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="0.000" value.bind="amount" />
+                    <div class="invalid-tooltip">
+                        ${'errors:Please enter a valid account name' & t}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>${'What token do you want the market maker to trade?' & t}</label>
+                <select class="form-control" value.bind="token" change.delegate="tokenSelected()">
+                    <option model.bind="null">${'Please select a token...' & t}</option>
+                    <option model.bind="t" repeat.for="t of tokenList">${t.name & t} (${t.symbol})</option>
+                </select>
+            </div>
+
+            <div>
+                <div class="form-group" if.bind="token">
+                    <h4>
+                        ${`Current ${token.pegged_token_symbol} Balance` & t}
+                    </h4>
+                    <h3 class="lblPointer" click.delegate="balanceClicked()">${tokenBalance | comma}</h3>
+                </div>
+
+                <div class="form-group">
+                    <label>${'What is the maximum price you\'re willing to buy the token for?' & t}</label>
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="0.000" value.bind="amount" />
+                        <div class="input-group-append">
+                            ${token.pegged_token_symbol & t}
+                        </div>
+                        <div class="invalid-tooltip">
+                            ${'errors:Please enter an amount greater than 0' & t}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>${'What is the minimum price you\'re willing to sell the token for?' & t}</label>
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="0.000" value.bind="amount" />
+                        <div class="input-group-append">
+                            ${token.pegged_token_symbol & t}
+                        </div>
+                        <div class="invalid-tooltip">
+                            ${'errors:Please enter an amount greater than 0' & t}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>${'What is the maximum amount of STEEM/HIVE you\'re willing to buy with in a single order?' & t}</label>
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="0.000" value.bind="amount" />
+                        <div class="input-group-append">
+                            ${token.pegged_token_symbol & t}
+                        </div>
+                        <div class="invalid-tooltip">
+                            ${'errors:Please enter an amount greater than 0' & t}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>${'What is the maximum amount of tokens you\'re willing to sell in a single order?' & t}</label>
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="0.000" value.bind="amount" />
+                        <div class="input-group-append">
+                            ${token.pegged_token_symbol & t}
+                        </div>
+                        <div class="invalid-tooltip">
+                            ${'errors:Please enter an amount greater than 0' & t}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>${'What is the minimum spread between bid and asks before the bot won\'t place orders any closer?' & t}</label>
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="0.000" value.bind="amount" />
+                        <div class="input-group-append">
+                            ${token.pegged_token_symbol & t}
+                        </div>
+                        <div class="invalid-tooltip">
+                            ${'errors:Please enter an amount greater than 0' & t}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>${'Withdrawal Address' & t}</label>
+                    <input
+                        class="form-control"
+                        type="text"
+                        id="withdraw_address"
+                        value.bind="address"
+                        disabled.bind="!token || token.symbol == 'STEEM'"
+                    />
+                    <div class="invalid-tooltip" id="error_response"></div>
+                </div>
+
+                <div class="ssc-cost">
+                    You will receive:
+                    <span id="receive_amt">${amount * 0.99 | toFixed: 3}</span>
+                    ${token.symbol}
+                </div>
+            </div>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <button class="btn btn-lg redBtn" click.trigger="controller.cancel()">
+                ${'Cancel' & t}
+            </button>
+            <button class="btn btn-lg greenBtns trade-button" click.trigger="confirmSend()">
+                ${'Proceed' | capitalise & t}
+            </button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>
