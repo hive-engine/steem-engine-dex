@@ -10,7 +10,7 @@ import moment from 'moment';
 import { ToastService, ToastMessage } from './toast-service';
 import { I18N } from 'aurelia-i18n';
 
-type NftFees = 'ENG' | 'PAL';
+type NftFees = 'ENG'; 
 type NftType = 'contract' | 'user';
 
 @autoinject()
