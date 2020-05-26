@@ -16,4 +16,7 @@ export class Dashboard {
             console.log(response);
         });
     }
+    getReceiveAddress() {
+        $('#receiveAddress').css('display', 'block');
+    }
 }

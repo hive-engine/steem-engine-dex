@@ -19,7 +19,7 @@
                                     <a click.delegate="addActive('dashboard')" route-href="route:dashboard" class="item">
                                         <div class="row">
                                             <div class="col-3" style="padding: 0;">
-                                                <div class="item-icon removeActivate " id="dashboard">
+                                                <div class="item-icon dashboardActive removeActivate " id="dashboard">
                                                     <font-awesome-icon icon.bind="['fas', 'chart-line']"></font-awesome-icon>
                                                 </div>
                                             </div>
@@ -85,7 +85,7 @@
                 </div>
                 <div class="col-md-10">
                     <router-view></router-view>
-                    <receive-address></receive-address>
+                    <receive-address id="receiveAddress" style="display: none;"></receive-address>
                     <!-- <transactions></transactions> -->
                 </div>
             </div>
@@ -94,6 +94,9 @@
 
     <style>
         .activateIt {
+            background-color: #22a275;
+        }
+        .dashboardActive {
             background-color: #22a275;
         }
     </style>

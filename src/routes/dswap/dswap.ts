@@ -52,6 +52,7 @@ export class Dswap {
     
     addActive(e){
         $('.removeActivate').removeClass('activateIt');
+        $('.dashboardActive').toggleClass('dashboardActive');
         $('#' + e).addClass('activateIt');
     }
 }
