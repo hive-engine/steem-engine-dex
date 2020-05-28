@@ -103,3 +103,8 @@
     color: black;
     background-color: #eaf0fe;
 }
+.doc-footer {
+    background-color: #091e42;
+    height: 300px;
+    margin-bottom: -100px;
+}
