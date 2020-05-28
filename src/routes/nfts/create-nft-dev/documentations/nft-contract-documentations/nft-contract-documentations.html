@@ -1,0 +1,503 @@
+<template>
+    <loader mode="tiny" loading.bind="loading"></loader>
+
+    <header class="documentation-header-wrapper color-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title">
+                        <h1 class="create-nft-header text-center">NFT Contract</h1>
+                        <p class="create-nft-header-desc text-center">
+                            You'll find comprehensive guides and documentation to help you start working with STEEM
+                            ENGINE NFTs as quickly as possible, as well as a support system leading you to the necessary
+                            developer if you get stuck. Let's dive right in!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="doc-cards-wrapper">
+        <div class="section-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7">
+                        <h2 class="section-header-text mt-4">Get Started</h2>
+                    </div>
+                    <div class="col-md-5" style="display: flex; justify-content: flex-end;">
+                        <a href="" class="mt-4 ml-auto need-help-text">Need help with integrating?</a>
+                    </div>
+                </div>
+                <hr />
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-2">
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                            <div class="acc-card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button
+                                        class="btn btn-link btn-block text-left acc-header-text"
+                                        type="button"
+                                        data-toggle="collapse"
+                                        data-target="#collapseOne"
+                                        aria-expanded="true"
+                                        aria-controls="collapseOne"
+                                    >
+                                        Creating New NFTs
+                                    </button>
+                                </h2>
+                            </div>
+
+                            <div
+                                id="collapseOne"
+                                class="collapse show"
+                                aria-labelledby="headingOne"
+                                data-parent="#accordionExample"
+                            >
+                                <div class="card-body acc-card-body">
+                                    <p class="doc-card-body">
+                                        Creates a new NFT. A creation fee of 100 ENG is required.
+                                    </p>
+                                    <ul class="actions">
+                                        <li class="each-action">
+                                            <a click.delegate="handleScroll('test')" class="doc-card-link"
+                                                >create<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="acc-card-header" id="headingTwo">
+                                <h2 class="mb-0">
+                                    <button
+                                        class="btn btn-link btn-block text-left acc-header-text collapsed"
+                                        type="button"
+                                        data-toggle="collapse"
+                                        data-target="#collapseTwo"
+                                        aria-expanded="false"
+                                        aria-controls="collapseTwo"
+                                    >
+                                        Managing NFT Metadata
+                                    </button>
+                                </h2>
+                            </div>
+                            <div
+                                id="collapseTwo"
+                                class="collapse"
+                                aria-labelledby="headingTwo"
+                                data-parent="#accordionExample"
+                            >
+                                <div class="card-body acc-card-body">
+                                    <p class="doc-card-body">
+                                        Updates the metadata of a NFT.
+                                    </p>
+                                    <ul class="actions">
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >updateUrl<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >updateMetadata<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >updateName<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >updateOrgName<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >updateProductName<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >addAuthorizedIssuingAccounts<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >addAuthorizedIssuingContracts<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >removeAuthorizedIssuingAccounts<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >removeAuthorizedIssuingContracts<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >transferOwnership<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="acc-card-header" id="headingThree">
+                                <h2 class="mb-0">
+                                    <button
+                                        class="btn btn-link btn-block text-left acc-header-text collapsed"
+                                        type="button"
+                                        data-toggle="collapse"
+                                        data-target="#collapseThree"
+                                        aria-expanded="false"
+                                        aria-controls="collapseThree"
+                                    >
+                                        Configuring Data Properties
+                                    </button>
+                                </h2>
+                            </div>
+                            <div
+                                id="collapseThree"
+                                class="collapse"
+                                aria-labelledby="headingThree"
+                                data-parent="#accordionExample"
+                            >
+                                <div class="card-body acc-card-body">
+                                    <p class="doc-card-body">
+                                        Adds a new data property schema to an existing NFT definition.
+                                    </p>
+                                    <ul class="actions">
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >addProperty<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >addPropertyPermissions<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >setProperties<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >setGroupBy<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >updatePropertyDefinition<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="acc-card-header" id="headingFour">
+                                <h2 class="mb-0">
+                                    <button
+                                        class="btn btn-link btn-block text-left acc-header-text collapsed"
+                                        type="button"
+                                        data-toggle="collapse"
+                                        data-target="#collapseFour"
+                                        aria-expanded="false"
+                                        aria-controls="collapseFour"
+                                    >
+                                        Token Issuance
+                                    </button>
+                                </h2>
+                            </div>
+                            <div
+                                id="collapseFour"
+                                class="collapse"
+                                aria-labelledby="headingFour"
+                                data-parent="#accordionExample"
+                            >
+                                <div class="card-body acc-card-body">
+                                    <p class="doc-card-body">
+                                        Once an NFT has been created, its data properties defined, and editing permissions set, it's time to issue some tokens!.
+                                    </p>
+                                    <ul class="actions">
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >fees<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >Load Tokens<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >Load Token Restrictions<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >Token IDs<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >addProperty<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                    <div class="doc-card" id="test">
+                        <div class="doc-card-header">
+                            <h3 class="card-title">Creating New NFTs</h3>
+                            <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
+                        </div>
+                        <p class="doc-card-body">
+                            Creates a new NFT. A creation fee of 100 ENG is required.
+                        </p>
+                        <ul class="actions">
+                            <li class="each-action">
+                                <a href="" class="doc-card-link"
+                                    >create<span
+                                        ><font-awesome-icon
+                                            class="arrow-icon"
+                                            icon.bind="['fas', 'chevron-circle-right']"
+                                        ></font-awesome-icon></span
+                                ></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="doc-card">
+                        <div class="doc-card-header">
+                            <h3 class="card-title">Managing NFT Metadata</h3>
+                            <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
+                        </div>
+                        <p class="doc-card-body">
+                            Updates the metadata of a NFT.
+                        </p>
+                        <ul class="actions">
+                            <li class="each-action">
+                                <a href="" class="doc-card-link"
+                                    >updateUrl<span
+                                        ><font-awesome-icon
+                                            class="arrow-icon"
+                                            icon.bind="['fas', 'chevron-circle-right']"
+                                        ></font-awesome-icon></span
+                                ></a>
+                            </li>
+                            <li class="each-action">
+                                <a href="" class="doc-card-link"
+                                    >updateMetadata<span
+                                        ><font-awesome-icon
+                                            class="arrow-icon"
+                                            icon.bind="['fas', 'chevron-circle-right']"
+                                        ></font-awesome-icon></span
+                                ></a>
+                            </li>
+                            <li class="each-action">
+                                <a href="" class="doc-card-link"
+                                    >updateName<span
+                                        ><font-awesome-icon
+                                            class="arrow-icon"
+                                            icon.bind="['fas', 'chevron-circle-right']"
+                                        ></font-awesome-icon></span
+                                ></a>
+                            </li>
+                            <li class="each-action">
+                                <a href="" class="doc-card-link"
+                                    >updateOrgName<span
+                                        ><font-awesome-icon
+                                            class="arrow-icon"
+                                            icon.bind="['fas', 'chevron-circle-right']"
+                                        ></font-awesome-icon></span
+                                ></a>
+                            </li>
+                            <li class="each-action">
+                                <a href="" class="doc-card-link"
+                                    >updateProductName<span
+                                        ><font-awesome-icon
+                                            class="arrow-icon"
+                                            icon.bind="['fas', 'chevron-circle-right']"
+                                        ></font-awesome-icon></span
+                                ></a>
+                            </li>
+                            <li class="each-action">
+                                <a href="" class="doc-card-link"
+                                    >addAuthorizedIssuingAccounts<span
+                                        ><font-awesome-icon
+                                            class="arrow-icon"
+                                            icon.bind="['fas', 'chevron-circle-right']"
+                                        ></font-awesome-icon></span
+                                ></a>
+                            </li>
+                            <li class="each-action">
+                                <a href="" class="doc-card-link"
+                                    >addAuthorizedIssuingContracts<span
+                                        ><font-awesome-icon
+                                            class="arrow-icon"
+                                            icon.bind="['fas', 'chevron-circle-right']"
+                                        ></font-awesome-icon></span
+                                ></a>
+                            </li>
+                            <li class="each-action">
+                                <a href="" class="doc-card-link"
+                                    >removeAuthorizedIssuingAccounts<span
+                                        ><font-awesome-icon
+                                            class="arrow-icon"
+                                            icon.bind="['fas', 'chevron-circle-right']"
+                                        ></font-awesome-icon></span
+                                ></a>
+                            </li>
+                            <li class="each-action">
+                                <a href="" class="doc-card-link"
+                                    >removeAuthorizedIssuingContracts<span
+                                        ><font-awesome-icon
+                                            class="arrow-icon"
+                                            icon.bind="['fas', 'chevron-circle-right']"
+                                        ></font-awesome-icon></span
+                                ></a>
+                            </li>
+                            <li class="each-action">
+                                <a href="" class="doc-card-link"
+                                    >transferOwnership<span
+                                        ><font-awesome-icon
+                                            class="arrow-icon"
+                                            icon.bind="['fas', 'chevron-circle-right']"
+                                        ></font-awesome-icon></span
+                                ></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="doc-card">
+                        <div class="doc-card-header">
+                            <h3 class="card-title">Creating New NFTs</h3>
+                            <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
+                        </div>
+                        <p class="doc-card-body">
+                            Creates a new NFT. A creation fee of 100 ENG is required.
+                        </p>
+                        <ul class="actions">
+                            <li class="each-action">
+                                <a href="" class="doc-card-link"
+                                    >Create<span
+                                        ><font-awesome-icon
+                                            class="arrow-icon"
+                                            icon.bind="['fas', 'chevron-circle-right']"
+                                        ></font-awesome-icon></span
+                                ></a>
+                            </li>
+                        </ul>
+                    </div> 
+                </div>
+                <!-- <div class="col-md-7 offset-md-1">
+
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <div class="container"></div>
+</template>
