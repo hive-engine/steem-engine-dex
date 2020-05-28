@@ -374,9 +374,22 @@ export class App {
             {
                 route: 'create-nft-documentations',
                 name: 'createNftDocumentations',
-                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-dev/documentations/documentations', 'documentations'),
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-dev/documentations/documentations',
+                    'documentations',
+                ),
                 nav: false,
                 title: 'NFT Documentations',
+            },
+            {
+                route: 'nft-contract-documentations',
+                name: 'nftContractDocumentations',
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-dev/documentations/nft-contract-documentations/nft-contract-documentations',
+                    'nft-contract-documentations',
+                ),
+                nav: false,
+                title: 'NFT Contract Documentations',
             },
             {
                 route: 'create-nft-options',
@@ -483,14 +496,20 @@ export class App {
             {
                 route: 'add-service-listing',
                 name: 'addServiceListing',
-                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/create-listing-forms/add-service-listing', 'add-service-listing'),
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-user/create-listing-forms/add-service-listing',
+                    'add-service-listing',
+                ),
                 nav: false,
                 title: 'Add Service Listing',
             },
             {
                 route: 'add-rental-listing',
                 name: 'addRentalListing',
-                moduleId: PLATFORM.moduleName('./routes/nfts/create-nft-user/create-listing-forms/add-rental-listing', 'add-rental-listing'),
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-user/create-listing-forms/add-rental-listing',
+                    'add-rental-listing',
+                ),
                 nav: false,
                 title: 'Add Rental Listing',
             },
