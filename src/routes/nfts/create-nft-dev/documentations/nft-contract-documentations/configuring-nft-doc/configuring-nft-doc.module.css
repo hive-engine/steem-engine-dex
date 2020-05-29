@@ -1,0 +1,112 @@
+.documentation-header-wrapper {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #091e42;
+    height: 350px;
+}
+.color-bg {
+    background-image: url('../../../../../images/color-bg.svg');
+    background-repeat: no-repeat;
+}
+.section-header-text {
+    font-size: 30px;
+    margin-bottom: 8px;
+    font-family: 'main-font-bold';
+}
+.need-help-text {
+    align-self: center;
+    color: #0048b3;
+    font-weight: bold;
+    background-color: rgba(52, 152, 219, 0.1);
+    border-radius: 10px;
+    padding: 8px 15px;
+}
+.doc-card {
+    padding: 20px;
+    box-shadow: 0 3px 6px -2px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    margin-bottom: 10px;
+}
+.doc-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #7c7c7c;
+}
+.dev-detail {
+    color: rgb(201, 201, 201);
+    align-self: center;
+}
+.dev-name {
+    color: #272832;
+    font-size: 14px;
+    text-decoration: underline;
+    text-decoration-color: #272832;
+}
+.card-title {
+    font-size: 15px;
+    margin: 10px 0;
+}
+.doc-card-body {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #272832;
+}
+.doc-card-link {
+    color: #0048b3;
+    display: flex;
+}
+.arrow-icon {
+    color: #0048b3;
+    align-self: center;
+    font-size: 18px;
+    line-height: 30px;
+    margin-left: 5px;
+}
+.actions {
+    padding: 0;
+    margin: 0;
+}
+.each-action {
+    padding: 10px 0 5px;
+    font-size: 18px;
+    list-style: none;
+    text-decoration: underline;
+    border-bottom: 1px dashed #4d49494f;
+    cursor: pointer;
+}
+.acc-card-header {
+    background-color: #091e42;
+    padding: 16px 52px;
+}
+.acc-header-text {
+    color: #fff;
+    text-decoration: none;
+    font-size: 21px;
+    text-transform: capitalize;
+}
+.acc-header-text:hover {
+    color: rgb(206, 206, 206);
+    text-decoration: dashed;
+    font-size: 21px;
+}
+.acc-card-body {
+    padding: 16px 52px;
+    color: black;
+    background-color: #eaf0fe;
+}
+.nested-requirement-title {
+    margin-bottom: 10px;
+}
+.each-requirement {
+    color: #272832 !important;
+}
+.doc-footer {
+    background-color: #091e42;
+    height: 300px;
+    margin-bottom: -100px;
+}
