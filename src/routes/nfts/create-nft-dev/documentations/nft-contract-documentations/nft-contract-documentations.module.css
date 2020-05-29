@@ -136,7 +136,7 @@
     margin-bottom: 10px;
 }
 .each-requirement {
-    color: #272832;
+    color: #272832 !important;
 }
 pre {
     padding: 16px;
@@ -156,6 +156,9 @@ code {
     word-wrap: normal;
     background-color: initial;
     border: 0;
+}
+.note {
+    font-style: oblique;
 }
 /* .hide-section {
     display: none;
