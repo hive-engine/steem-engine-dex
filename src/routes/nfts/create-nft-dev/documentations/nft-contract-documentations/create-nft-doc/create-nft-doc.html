@@ -1,199 +1,103 @@
 <template>
     <loader mode="tiny" loading.bind="loading"></loader>
-
-    <header class="documentation-header-wrapper color-bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="title">
-                        <h1 class="create-nft-header text-center">NFT Contract</h1>
-                        <p class="create-nft-header-desc text-center">
-                            You'll find comprehensive guides and documentation to help you start working with STEEM
-                            ENGINE NFTs as quickly as possible, as well as a support system leading you to the necessary
-                            developer if you get stuck. Let's dive right in!
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-    <section class="doc-cards-wrapper">
-        <div class="section-header">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-7">
-                        <h2 class="section-header-text mt-4">Get Started</h2>
-                    </div>
-                    <div class="col-md-5" style="display: flex; justify-content: flex-end;">
-                        <a href="" class="mt-4 ml-auto need-help-text">Need help with integrating?</a>
-                    </div>
-                </div>
-                <hr />
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 offset-2">
-                    <div class="doc-card" id="test">
+    <div class="doc-card hide-section" id="create-section" style="display: none;">
                         <div class="doc-card-header">
-                            <h3 class="card-title">Creating New NFTs</h3>
+                            <h2 class="card-title">Creating New NFTs</h2>
                             <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
                         </div>
-                        <p class="doc-card-body">
+                        <h3 class="doc-card-link"
+                                >ACTION: create<span
+                                    ><font-awesome-icon
+                                        class="arrow-icon"
+                                        icon.bind="['fas', 'chevron-circle-right']"
+                                    ></font-awesome-icon></span
+                            ></h3>
+                                <p class="doc-card-body">
                             Creates a new NFT. A creation fee of 100 ENG is required.
                         </p>
-                        <ul class="actions">
-                            <li class="each-action">
-                                <a href="" class="doc-card-link"
-                                    >create<span
-                                        ><font-awesome-icon
-                                            class="arrow-icon"
-                                            icon.bind="['fas', 'chevron-circle-right']"
-                                        ></font-awesome-icon></span
-                                ></a>
+                        <ul class="requirements">
+                            <li class="each-requirement">
+                                Requires active key: yes
+                            </li>
+                            <li class="each-requirement">
+                                Can be called by: Steem account
+                            </li>
+                            <li class="each-requirement">
+                                <p class="nested-requirement-title">Parameters</p>
+                                <ul class="nested-requirement">
+                                    <li class="each-nested-requirement">
+                                        name (string): name of the token (letters, numbers, whitespace only, max length of 50)
+                                    </li>
+                                    <li class="each-nested-requirement">
+                                        symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                                    </li>
+                                    <li class="each-nested-requirement">
+                                        (optional) orgName (string): name of the company/organization that created this NFT (letters, numbers, whitespace only, max length of 50)
+                                    </li>
+                                    <li class="each-nested-requirement">
+                                        (optional) productName (string): product/brand that this NFT is associated with (letters, numbers, whitespace only, max length of 50)
+                                    </li>
+                                    <li class="each-nested-requirement">
+                                        (optional) url (string): url of the project (max length of 255)
+                                    </li>
+                                    <li class="each-nested-requirement">
+                                        (optional) maxSupply (string): maximum supply for the token (between 1 and 9,007,199,254,740,991). If maxSupply is not specified, then the supply will be unlimited.
+                                    </li>
+                                    <li class="each-nested-requirement">
+                                        (optional) authorizedIssuingAccounts (array of string): a list of Steem accounts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then the NFT owner (the account that calls create) will be the only such authorized account by default.
+                                    </li>
+                                    <li class="each-nested-requirement">
+                                        (optional) authorizedIssuingContracts (array of string): a list of smart contracts which are authorized to issue new tokens on behalf of the NFT owner. If no list is provided, then no smart contracts will be authorized as such.
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
-                    </div>
-                    <div class="doc-card">
-                        <div class="doc-card-header">
-                            <h3 class="card-title">Managing NFT Metadata</h3>
-                            <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
-                        </div>
-                        <p class="doc-card-body">
-                            Updates the metadata of a NFT.
-                        </p>
-                        <ul class="actions">
-                            <li class="each-action">
-                                <a href="" class="doc-card-link"
-                                    >updateUrl<span
-                                        ><font-awesome-icon
-                                            class="arrow-icon"
-                                            icon.bind="['fas', 'chevron-circle-right']"
-                                        ></font-awesome-icon></span
-                                ></a>
-                            </li>
-                            <li class="each-action">
-                                <a href="" class="doc-card-link"
-                                    >updateMetadata<span
-                                        ><font-awesome-icon
-                                            class="arrow-icon"
-                                            icon.bind="['fas', 'chevron-circle-right']"
-                                        ></font-awesome-icon></span
-                                ></a>
-                            </li>
-                            <li class="each-action">
-                                <a href="" class="doc-card-link"
-                                    >updateName<span
-                                        ><font-awesome-icon
-                                            class="arrow-icon"
-                                            icon.bind="['fas', 'chevron-circle-right']"
-                                        ></font-awesome-icon></span
-                                ></a>
-                            </li>
-                            <li class="each-action">
-                                <a href="" class="doc-card-link"
-                                    >updateOrgName<span
-                                        ><font-awesome-icon
-                                            class="arrow-icon"
-                                            icon.bind="['fas', 'chevron-circle-right']"
-                                        ></font-awesome-icon></span
-                                ></a>
-                            </li>
-                            <li class="each-action">
-                                <a href="" class="doc-card-link"
-                                    >updateProductName<span
-                                        ><font-awesome-icon
-                                            class="arrow-icon"
-                                            icon.bind="['fas', 'chevron-circle-right']"
-                                        ></font-awesome-icon></span
-                                ></a>
-                            </li>
-                            <li class="each-action">
-                                <a href="" class="doc-card-link"
-                                    >addAuthorizedIssuingAccounts<span
-                                        ><font-awesome-icon
-                                            class="arrow-icon"
-                                            icon.bind="['fas', 'chevron-circle-right']"
-                                        ></font-awesome-icon></span
-                                ></a>
-                            </li>
-                            <li class="each-action">
-                                <a href="" class="doc-card-link"
-                                    >addAuthorizedIssuingContracts<span
-                                        ><font-awesome-icon
-                                            class="arrow-icon"
-                                            icon.bind="['fas', 'chevron-circle-right']"
-                                        ></font-awesome-icon></span
-                                ></a>
-                            </li>
-                            <li class="each-action">
-                                <a href="" class="doc-card-link"
-                                    >removeAuthorizedIssuingAccounts<span
-                                        ><font-awesome-icon
-                                            class="arrow-icon"
-                                            icon.bind="['fas', 'chevron-circle-right']"
-                                        ></font-awesome-icon></span
-                                ></a>
-                            </li>
-                            <li class="each-action">
-                                <a href="" class="doc-card-link"
-                                    >removeAuthorizedIssuingContracts<span
-                                        ><font-awesome-icon
-                                            class="arrow-icon"
-                                            icon.bind="['fas', 'chevron-circle-right']"
-                                        ></font-awesome-icon></span
-                                ></a>
-                            </li>
-                            <li class="each-action">
-                                <a href="" class="doc-card-link"
-                                    >transferOwnership<span
-                                        ><font-awesome-icon
-                                            class="arrow-icon"
-                                            icon.bind="['fas', 'chevron-circle-right']"
-                                        ></font-awesome-icon></span
-                                ></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="doc-card">
-                        <div class="doc-card-header">
-                            <h3 class="card-title">Creating New NFTs</h3>
-                            <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
-                        </div>
-                        <p class="doc-card-body">
-                            Creates a new NFT. A creation fee of 100 ENG is required.
-                        </p>
-                        <ul class="actions">
-                            <li class="each-action">
-                                <a href="" class="doc-card-link"
-                                    >Create<span
-                                        ><font-awesome-icon
-                                            class="arrow-icon"
-                                            icon.bind="['fas', 'chevron-circle-right']"
-                                        ></font-awesome-icon></span
-                                ></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- <div class="col-md-7 offset-md-1">
+                        <div class="doc-example-header">
+                            <h3 class="example-title">Example</h3>
+                            <div class="doc-example">
+                                <pre style="overflow-x: hidden;">
+                            <code>
+    {
+        "contractName": "nft",
+        "contractAction": "create",
+        "contractPayload": {
+            "symbol": "TESTNFT",
+            "name": "My Test NFT"
+        }
+    }
 
-                </div> -->
-            </div>
-        </div>
-    </section>
+    {
+        "contractName": "nft",
+        "contractAction": "create",
+        "contractPayload": {
+            "symbol": "TESTNFT",
+            "name": "My Test NFT",
+            "url": "https://mynft.com",
+            "maxSupply": "1000"
+        }
+    }
 
-    <div class="doc-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10 offset-md-1">
-                    <div class="doc-footer-title">
-                        <h1 class="doc-title-text">Meet The Developer</h1>
-                        <img src="" alt="" class="doc-title-image">
-                        <p class="doc-title-desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus laudantium error repellendus voluptate maxime minima! Reiciendis at ipsa, officia libero autem aliquid illo corrupti voluptate iure sint laboriosam, expedita totam.</p>
+    {
+        "contractName": "nft",
+        "contractAction": "create",
+        "contractPayload": {
+            "symbol": "TESTNFT",
+            "name": "My Test NFT",
+            "orgName": "My Company Inc",
+            "productName": "Uber Cool Product",
+            "url": "https://mynft.com",
+            "maxSupply": "1000",
+            "authorizedIssuingAccounts": [ "cryptomancer","aggroed","harpagon" ],
+            "authorizedIssuingContracts": [ "mycontract","myothercontract" ]
+        }
+    }
+                            </code>
+                        </pre>
+                            </div>
+                        </div>
+                        
+                        
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+   
+    
 </template>
