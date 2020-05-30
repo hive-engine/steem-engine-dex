@@ -156,6 +156,7 @@ code {
     word-wrap: normal;
     background-color: initial;
     border: 0;
+    background-color: #f6f8fa;
 }
 .note {
     font-style: oblique;
@@ -164,6 +165,7 @@ code {
     display: none;
 } */
 .scroller {
+    
     display: flex;
     position: -webkit-sticky;
     position: sticky;
@@ -177,6 +179,11 @@ code {
     margin-bottom: 15px;
 }
 .scroll-arrow {
+    cursor: pointer;
     font-size: 45px;
     color: #091e42;
+}
+
+.scroll-arrow:hover {
+    color: #183e80;
 }
