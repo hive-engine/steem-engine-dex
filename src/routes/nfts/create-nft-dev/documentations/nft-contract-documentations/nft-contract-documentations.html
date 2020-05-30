@@ -2,6 +2,7 @@
     <require from="./create-nft-doc/create-nft-doc.html"></require>
     <require from="./manage-nft-doc/manage-nft-doc.html"></require>
     <require from="./configuring-nft-doc/configuring-nft-doc.html"></require>
+    <require from="./token-issuance-doc/token-issuance-doc.html"></require>
     <loader mode="tiny" loading.bind="loading"></loader>
 
     <header class="documentation-header-wrapper color-bg">
@@ -301,7 +302,7 @@
                                     </p>
                                     <ul class="actions">
                                         <li class="each-action">
-                                            <a href="" class="doc-card-link"
+                                            <a click.delegate="handleScroll('token')" class="doc-card-link"
                                                 >fees<span
                                                     ><font-awesome-icon
                                                         class="arrow-icon"
@@ -553,6 +554,7 @@
                     <create-nft-doc></create-nft-doc>
                     <manage-nft-doc></manage-nft-doc>
                     <configuring-nft-doc></configuring-nft-doc>
+                    <token-issuance-doc></token-issuance-doc>
                     
                 </div>
                 
