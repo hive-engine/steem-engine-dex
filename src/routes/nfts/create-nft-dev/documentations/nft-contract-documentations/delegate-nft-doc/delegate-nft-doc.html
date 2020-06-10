@@ -1,0 +1,305 @@
+<template>
+    <loader mode="tiny" loading.bind="loading"></loader>
+    <div class="doc-card hide-section" id="delegate-section" style="display: none;">
+        <div>
+            <div class="doc-card-header">
+                <h2 class="card-title">Delegation</h2>
+                <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
+            </div>
+            <h3 class="doc-card-link">
+                ACTION: enableDelegation:<span
+                    ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                Enables the delegation feature for a token. A fee of 1000 ENG is required to perform this action.
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    Requires active key: yes
+                </li>
+                <li class="each-requirement">
+                    Can be called by: Steem account that owns the NFT
+                </li>
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">Parameters</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                        </li>
+                        <li class="each-nested-requirement">
+                            undelegationCooldown (integer): number of days that a user will have to wait until the tokens that were delegated are returned to them (between 1 and 18,250 days - 50 years)
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="doc-example-header">
+                <h3 class="example-title">Example</h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                                <code>
+    {
+            "contractName": "nft",
+            "contractAction": "enableDelegation",
+            "contractPayload": {
+                "symbol": "TESTNFT",
+                "undelegationCooldown": 1, // 1 day to cooldown
+            }
+        }
+
+        {
+            "contractName": "nft",
+            "contractAction": "enableDelegation",
+            "contractPayload": {
+                "symbol": "TESTNFT",
+                "undelegationCooldown": 30, // 30 days to cooldown
+            }
+        }
+
+        {
+            "contractName": "nft",
+            "contractAction": "enableDelegation",
+            "contractPayload": {
+                "symbol": "TESTNFT",
+                "undelegationCooldown": 91, // 13 weeks to cooldown
+            }
+    }
+                                </code>
+                            </pre>
+                </div>
+            </div>
+            <p class="note">
+                Once delegation is enabled, the undelegation cooldown time can NOT be changed, so choose thoughtfully before calling this action! One day is the minimum cooldown time.
+            </p>
+        </div>
+        
+        <div class="doc-card-divider">
+            <h3 class="doc-card-link">
+                ACTION: delegate:<span
+                    ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                Delegates one or more tokens to another account or smart contract. Can only be called if an NFT has previously had delegation enabled through the enableDelegation action. If a token is already delegated, it cannot be delegated again until it has been undelegated.
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    Requires active key: yes
+                </li>
+                <li class="each-requirement">
+                    Can be called by: Steem account or smart contract that holds the token(s) to be delegated
+                </li>
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">Parameters</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            to (string): Steem account or smart contract to delegate the token(s) to
+                        </li>
+                        <li class="each-nested-requirement">
+                            <strong>(optional)</strong> fromType (string): indicates whether this action is being called by a Steem account or a smart contract. Can be set to user or contract. If not specified, defaults to user. Note that a smart contract can still set this to user in order to execute the delegation on behalf of a Steem account rather than the calling contract itself.
+                        </li>
+                        <li class="each-nested-requirement">
+                            <strong>(optional)</strong> toType (string): indicates whether the target specified by the "to" parameter is a Steem account or a smart contract. Can be set to user or contract. If not specified, defaults to user.
+                        </li>
+                        <li class="each-nested-requirement">
+                        nfts (array of object): list of tokens to delegate. Should be formatted as follows: <code>[ {"symbol":"SYMBOLONE", "ids":["1","2","3", ...]}, {"symbol":"SYMBOLTWO", "ids":["1","2","3", ...]}, ... ]</code>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p class="note">
+                A maximum of 50 tokens can be delegated in a single call of this action. Note that tokens cannot be delegated to the null account.
+            </p>
+            <div class="doc-example-header">
+                <h3 class="example-title">Example</h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                                <code>
+    // user -> user
+        {
+            "contractName": "nft",
+            "contractAction": "delegate",
+            "contractPayload": {
+                "to": "cryptomancer",
+                "nfts": [
+                    {"symbol":"TSTNFT", "ids":["200"]},
+                    {"symbol":"DRAGON", "ids":["1","1000","10000","9999"]}
+                ]
+            }
+        }
+
+        // user -> contract
+        {
+            "contractName": "nft",
+            "contractAction": "delegate",
+            "contractPayload": {
+                "to": "splinterlands",
+                "toType":"contract",
+                "nfts": [
+                    {"symbol":"TSTNFT", "ids":["200"]},
+                    {"symbol":"DRAGON", "ids":["1","1000","10000","9999"]}
+                ]
+            }
+        }
+
+        // contract -> contract
+        {
+            "contractName": "nft",
+            "contractAction": "delegate",
+            "contractPayload": {
+                "to": "splinterlands",
+                "toType":"contract",
+                "fromType":"contract",
+                "nfts": [
+                    {"symbol":"DRAGON", "ids":["111","112"]}
+                ]
+            }
+        }
+
+        // contract -> user
+        {
+            "contractName": "nft",
+            "contractAction": "delegate",
+            "contractPayload": {
+                "to": "aggroed",
+                "toType":"user",      // could have omitted this, but including it here for clarity
+                "fromType":"contract",
+                "nfts": [
+                    {"symbol":"NFTNFT", "ids":["987654"]}
+                ]
+            }
+        }
+                        </code>
+                    </pre>
+                </div>
+            </div>
+            <p class="note">
+                A successful delegate action will emit a "delegate" event for each token delegated: <code>
+                    from: token holder, fromType: u or c, to: account delegated to, toType: u or c, symbol, id
+                </code> example:
+            </p>
+            <pre>
+                <code>
+        {
+            "contract": "nft",
+            "event": "delegate",
+            "data": {
+                "from": "testContract",
+                "fromType": "c",
+                "to": "harpagon",
+                "toType": "u",
+                "symbol": "TEST",
+                "id": "4"
+            }
+        }
+                </code>
+            </pre>
+        </div>
+        
+        <div class="doc-card-divider">
+        <h3 class="doc-card-link">
+            ACTION: undelegate:<span
+                ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+            ></span>
+        </h3>
+        <p class="doc-card-body">
+            Undelegates one or more tokens that have previously been delegated. If an undelegation is currently pending, calling this action again will have no effect. Tokens being undelegated have to wait for the cooldown time (see enableDelegation action above) to elapse before the undelegation will complete.
+        </p>
+        <ul class="requirements">
+            <li class="each-requirement">
+                Requires active key: yes
+            </li>
+            <li class="each-requirement">
+                Can be called by: Steem account or smart contract that holds the token(s) to undelegate
+            </li>
+            <li class="each-requirement">
+                <p class="nested-requirement-title">Parameters</p>
+                <ul class="nested-requirement">
+                    <li class="each-nested-requirement">
+                        to (string): Steem account or smart contract to delegate the token(s) to
+                    </li>
+                    <li class="each-nested-requirement">
+                        <strong>(optional)</strong> fromType (string): indicates whether this action is being called by a Steem account or a smart contract. Can be set to user or contract. If not specified, defaults to user. Note that a smart contract can still set this to user in order to execute the undelegation on behalf of a Steem account rather than the calling contract itself.
+                        nfts (array of object): list of tokens to undelegate. Should be formatted as follows:
+                        <code>[ {"symbol":"SYMBOLONE", "ids":["1","2","3", ...]}, {"symbol":"SYMBOLTWO", "ids":["1","2","3", ...]}, ... ]</code>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <p class="note">
+            A maximum of 50 tokens can be undelegated in a single call of this action.
+        </p>
+        <div class="doc-example-header">
+            <h3 class="example-title">Example</h3>
+            <div class="doc-example">
+                <pre style="overflow-x: hidden;">
+                            <code>
+   {
+        "contractName": "nft",
+        "contractAction": "undelegate",
+        "contractPayload": {
+            "nfts": [
+                {"symbol":"TSTNFT", "ids":["200"]},
+                {"symbol":"DRAGON", "ids":["1","1000","10000","9999"]}
+            ]
+        }
+    }
+
+    {
+        "contractName": "nft",
+        "contractAction": "undelegate",
+        "contractPayload": {
+            "fromType":"contract",
+            "nfts": [
+                {"symbol":"TSTNFT", "ids":["200"]},
+                {"symbol":"DRAGON", "ids":["1","1000","10000","9999"]}
+            ]
+        }
+    }
+                    </code>
+                </pre>
+            </div>
+        </div>
+        <p class="note">
+            A successful undelegate action will emit an "undelegateStart" event for each token undelegated: <code>
+                from: account undelegated from, fromType: u or c, symbol, id 
+            </code> example:
+        </p>
+        <pre>
+            <code>
+    {
+        "contract": "nft",
+        "event": "undelegateStart",
+        "data": {
+            "from": "cryptomancer",
+            "fromType": "u",
+            "symbol": "TEST",
+            "id": "999"
+        }
+    }
+            </code>
+        </pre>
+        <p class="note">
+            When the undelegation cooldown is complete, an "undelegateDone" event will be emitted for each completed undelegation grouping: <code>
+                symbol, ids: list of token IDs grouped together for undelegation
+            </code> example:
+        </p>
+        <pre>
+            <code>
+    {
+        "contract": "nft",
+        "event": "undelegateDone",
+        "data": {
+            "symbol": "TEST",
+            "ids": [ 2, 3, 4 ]
+        }
+    }
+            </code>
+        </pre>
+        </div>
+        
+    </div>
+
+    
+    
+</template>
