@@ -1,0 +1,216 @@
+<template>
+    <loader mode="tiny" loading.bind="loading"></loader>
+    <div class="doc-card hide-section" id="other-section" style="display: none;">
+        <div>
+            <div class="doc-card-header">
+                <h2 class="card-title">Other actions</h2>
+                <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
+            </div>
+            <h3 class="doc-card-link">
+                ACTION: transfer:<span
+                    ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                Transfers one or more tokens to another account or smart contract.
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    Requires active key: yes
+                </li>
+                <li class="each-requirement">
+                    Can be called by: Steem account or smart contract that holds the token(s) to be transferred
+                </li>
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">Parameters</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            to (string): Steem account or smart contract to transfer the token(s) to
+                        </li>
+                        <li class="each-nested-requirement">
+                           <strong>(optional)</strong> fromType (string): indicates whether this action is being called by a Steem account or a smart contract. Can be set to user or contract. If not specified, defaults to user. Note that a smart contract can still set this to user in order to execute the transfer on behalf of a Steem account rather than the calling contract itself.
+                        </li>
+                        <li class="each-nested-requirement">
+                           nfts (array of object): list of tokens to transfer. Should be formatted as follows: <code>
+                               [ {"symbol":"SYMBOLONE", "ids":["1","2","3", ...]}, {"symbol":"SYMBOLTWO", "ids":["1","2","3", ...]}, ... ]
+                           </code>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p class="note">
+                A maximum of 50 tokens can be transferred in a single call of this action. Note that tokens cannot be transferred if they are currently being delegated to another account. Also, tokens cannot be transferred to null; for that you need to use the burn action.
+            </p>
+            <div class="doc-example-header">
+                <h3 class="example-title">Example</h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                                <code>
+    // user -> user
+    {
+        "contractName": "nft",
+        "contractAction": "transfer",
+        "contractPayload": {
+            "to": "cryptomancer",
+            "nfts": [
+                {"symbol":"TSTNFT", "ids":["200"]},
+                {"symbol":"DRAGON", "ids":["1","1000","10000","9999"]}
+            ]
+        }
+    }
+
+    // user -> contract
+    {
+        "contractName": "nft",
+        "contractAction": "transfer",
+        "contractPayload": {
+            "to": "splinterlands",
+            "toType":"contract",
+            "nfts": [
+                {"symbol":"TSTNFT", "ids":["200"]},
+                {"symbol":"DRAGON", "ids":["1","1000","10000","9999"]}
+            ]
+        }
+    }
+
+    // contract -> contract
+    {
+        "contractName": "nft",
+        "contractAction": "transfer",
+        "contractPayload": {
+            "to": "splinterlands",
+            "toType":"contract",
+            "fromType":"contract",
+            "nfts": [
+                {"symbol":"DRAGON", "ids":["111","112"]}
+            ]
+        }
+    }
+
+    // contract -> user
+    {
+        "contractName": "nft",
+        "contractAction": "transfer",
+        "contractPayload": {
+            "to": "aggroed",
+            "toType":"user",      // could have omitted this, but including it here for clarity
+            "fromType":"contract",
+            "nfts": [
+                {"symbol":"NFTNFT", "ids":["987654"]}
+            ]
+        }
+    }
+                                </code>
+                            </pre>
+                </div>
+            </div>
+            <p class="note">
+                A successful transfer action will emit a "transfer" event for each token transferred: <code>
+                    from: original token holder, fromType: u or c, to: new token holder, toType: u or c, symbol, id
+                </code> example:
+            </p>
+            <pre>
+                <code>
+    {
+        "contract": "nft",
+        "event": "transfer",
+        "data": {
+            "from": "aggroed",
+            "fromType": "u",
+            "to": "cryptomancer",
+            "toType": "u",
+            "symbol": "TEST",
+            "id": "1000"
+        }
+    }
+                </code>
+            </pre>
+        </div>
+        
+        <div class="doc-card-divider">
+            <h3 class="doc-card-link">
+                ACTION: burn:<span
+                    ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                Burns one or more tokens. When a token is burned, it is sent to the null account and the circulating supply of that NFT is reduced by 1. In addition, any locked tokens contained within the burned token will be released and transferred back to the account that held the burned token.
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    Requires active key: yes
+                </li>
+                <li class="each-requirement">
+                    Can be called by: Steem account or smart contract that holds the token(s) to be burned
+                </li>
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">Parameters</p>
+                    <ul class="nested-requirement">
+                        
+                        <li class="each-nested-requirement">
+                            <strong>(optional)</strong> fromType (string): indicates whether this action is being called by a Steem account or a smart contract. Can be set to user or contract. If not specified, defaults to user. Note that a smart contract can still set this to user in order to execute the action on behalf of a Steem account rather than the calling contract itself.
+                        </li>
+                        <li class="each-nested-requirement">
+                        nfts (array of object): list of tokens to burn. Should be formatted as follows: <code>[ [ {"symbol":"SYMBOLONE", "ids":["1","2","3", ...]}, {"symbol":"SYMBOLTWO", "ids":["1","2","3", ...]}, ... ]</code>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p class="note">
+                A maximum of 50 tokens can be burned in a single call of this action. Note that tokens cannot be burned if they are currently being delegated to another account. There are some additional caveats, see locked token restrictions above.
+            </p>
+            <div class="doc-example-header">
+                <h3 class="example-title">Example</h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                                <code>
+    {
+        "contractName": "nft",
+        "contractAction": "burn",
+        "contractPayload": {
+            "nfts": [ {"symbol":"TESTNFT", "ids":["666"]} ]
+        }
+    }
+
+    {
+        "contractName": "nft",
+        "contractAction": "burn",
+        "contractPayload": {
+            "fromType": "contract",
+            "nfts": [
+                {"symbol":"TESTNFT", "ids":["12","45","882"]},
+                {"symbol":"MYNFT", "ids":["672","33"]},
+                {"symbol":"DRAGON", "ids":["123456"]}
+            ]
+        }
+    }
+                        </code>
+                    </pre>
+                </div>
+            </div>
+            <p class="note">
+                A successful burn action will emit a "burn" event for each token burned: <code>
+                    account: who burned it, ownedBy: u or c, unlockedTokens: released regular token list, unlockedNfts: released NFT instance list, symbol, id
+                </code> example:
+            </p>
+            <pre>
+                <code>
+        {
+            "contract": "nft",
+            "event": "burn",
+            "data": {
+                "account": "aggroed",
+                "ownedBy": "u",
+                "unlockedTokens": {"ENG":"15", "TKN":"0.75"},
+                "unlockedNfts": [{"symbol": "TSTNFT", "ids": ["1","2"]}, {"symbol": "OTHERNFT", "ids": ["320"]}],
+                "symbol": "TSTNFT",
+                "id": "305"
+            }
+        }
+                </code>
+            </pre>
+        </div>
+        
+    </div>
+
+</template>
