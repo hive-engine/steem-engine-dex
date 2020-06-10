@@ -3,6 +3,9 @@
     <require from="./manage-nft-doc/manage-nft-doc.html"></require>
     <require from="./configuring-nft-doc/configuring-nft-doc.html"></require>
     <require from="./token-issuance-doc/token-issuance-doc.html"></require>
+    <require from="./delegate-nft-doc/delegate-nft-doc.html"></require>
+    <require from="./other-nft-doc/other-nft-doc.html"></require>
+    <!-- <require from="./table-nft-doc/table-nft-doc.html"></require> -->
     <loader mode="tiny" loading.bind="loading"></loader>
 
     <header class="documentation-header-wrapper color-bg">
@@ -390,7 +393,9 @@
                                     </p>
                                     <ul class="actions">
                                         <li class="each-action">
-                                            <a href="" class="doc-card-link">Available Actions:</a>
+                                            <a click.delegate="handleScroll('delegate')" class="doc-card-link"
+                                                >Available Actions:</a
+                                            >
                                         </li>
                                         <li class="each-action">
                                             <a href="" class="doc-card-link"
@@ -450,11 +455,13 @@
                                     </p>
                                     <ul class="actions">
                                         <li class="each-action">
-                                            <a href="" class="doc-card-link">Available Actions:</a>
+                                            <a click.delegate="handleScroll('other')" class="doc-card-link"
+                                                >Available Actions:</a
+                                            >
                                         </li>
 
                                         <li class="each-action">
-                                            <a href="" class="doc-card-link"
+                                            <a click.delegate="handleScroll('other')" class="doc-card-link"
                                                 >transfer<span
                                                     ><font-awesome-icon
                                                         class="arrow-icon"
@@ -503,7 +510,7 @@
                                     </p>
                                     <ul class="actions">
                                         <li class="each-action">
-                                            <a href="" class="doc-card-link"
+                                            <a click.delegate="handleScroll('table')" class="doc-card-link"
                                                 >params<span
                                                     ><font-awesome-icon
                                                         class="arrow-icon"
@@ -555,16 +562,21 @@
                     <manage-nft-doc></manage-nft-doc>
                     <configuring-nft-doc></configuring-nft-doc>
                     <token-issuance-doc></token-issuance-doc>
-                    
+                    <delegate-nft-doc></delegate-nft-doc>
+                    <other-nft-doc></other-nft-doc>
+                    <table-nft-doc></table-nft-doc>
                 </div>
-                
             </div>
         </div>
     </section>
 
     <div class="scroller">
         <span>
-            <font-awesome-icon click.delegate="scrollToTop()" class="arrow-icon scroll-arrow" icon.bind="['fas', 'chevron-circle-up']"></font-awesome-icon>
+            <font-awesome-icon
+                click.delegate="scrollToTop()"
+                class="arrow-icon scroll-arrow"
+                icon.bind="['fas', 'chevron-circle-up']"
+            ></font-awesome-icon>
         </span>
     </div>
 
@@ -592,41 +604,30 @@
                                     repellendus voluptate maxime minima! Reiciendis at ipsa, officia libero autem
                                     aliquid illo corrupti voluptate iure sint laboriosam, expedita totam.
                                 </p>
-                                <div
-                                class="social-display "
-                                style="display: flex; margin: auto;">
-                                <div class="social-logo">
-                                    <a
-                                        href="https://discord.gg/@cryptomancer"
-                                        target="_blank"
-                                        ><img
+                                <div class="social-display " style="display: flex; margin: auto;">
+                                    <div class="social-logo">
+                                        <a href="https://discord.gg/@cryptomancer" target="_blank"
+                                            ><img
                                             src=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAADSklEQVRoge2YT4hNURzHv2dmYhoRo5mJGWRjM/6MsWCBZqORoUkhIawkIpGVsTT5U/7F7GShCIWwkYVIkWFCTFkoapQ/4y1oNOTNx+KeeXO9ufe+d968q1H3U69ev3N+39/3nHPve+ccKSEhISEhwRFgDNAMHAceAr1Ak0N+E/AVeAycBlYCY2O0nCk8AzgBfMHjnTWwDBjjoDPWTkAH0GO1vgIngRlxGK8EzgK/bLEuYB1QAlQDa4B24IZt+wikGCJlY122zyGbU2U11to2bI1TwMRimd/km/EUsBmYDOwGOoE0hZMGngC7rOZ6X63PwIaRmm/xFbsLrAYuA/0jMB1Gv9VuBe744i1RHk2E+TJJryXNkvRKUq+kphHNSP7ckzRZ0lxJbyTVG2PSTgrAlhhmuVA2hvmMWoFXkuqdRh0fL40x84IaSoKCeL/po8W8JM0FlgQ1BA5A0rYYzRTK9qDgsEcIqJD0WdK4uB058kNStTGmzx8MWoFVGn3mJalC0orsYNAA1sTvpWCGefvrEQJKJX2RNOlfOXIkJanKGDMwGMhegflyM//I5pRLapT0OKacQSolNYS2Avsd/lyek7UDxdtmvyhyTjb7ogZw20FoVYhGa5FzsrkZNYCenOlDVIdoVBU5J5v3/twSn0ilpNrQ0eVPacw504HMe+p/iec4Fl0UEl9Y5JwgZg+L4B0qXAh7IV8WOSeInYP5/hWY6TgL8yTdBxqBcmCBpAeKXslCcoLIeC3zBac6ikjeI/HsH+RkM2XwS0lQ8D8gM9n5DKBb0odY7QTzydYOIjOAzF4I+CZpfEhCh23bpIhTXJFA0gV52+fAM4Ck78aYCdLfK3AkQnSHpN+Slkq6LsntgJ0faUnXJC2RN4gw85J0ODAK7AUGIn6+XgPzgWlAG/A0R/9cDODdLR0A6qx2d47+eyKnAVgOfIgQSQPngFrbvwZvL9MOXLWGevAuwX7bT8rGOoErtm8rUGM16oDzRF+S9QDNea0lMAnv3jLqAusncBEI397mrtMAXLJaYfQDZ/BtH1wK1AHHCN/k9QEF314A9VYjbMaPYld6ROBdwC4GDgK3gLe28NYiaG+1Wm+tdputFXZjkpCQkJCQkOEPPeHOJdadKOAAAAAASUVORK5CYII=
-                                            alt="discord"
-                                            width="30px"
-                                    /></a>
-                                </div>
-                                <div class="social-logo">
-                                    <a
-                                        href="http://www.steemit.com/@cryptomancer"
-                                        target="_blank"
-                                        style="padding-left: 10px;"
-                                        ><img
-                                            src="../../../../../images/steemit-logo.png"
-                                            alt="discord"
-                                            width="25x"
-                                    /></a>
-                                </div>
-                                <div class="social-logo">
-                                    <a
-                                        href="http://www.hive.blog/@cryptomancer"
-                                        target="_blank"
-                                        style="padding-left: 10px;"
-                                        ><img
-                                            src="../../../../../images/hivelogo.png"
-                                            alt="discord"
-                                            width="25x"
-                                    /></a>
-                                </div>
+                                            alt="discord" width="30px" /></a
+                                        >
+                                    </div>
+                                    <div class="social-logo">
+                                        <a
+                                            href="http://www.steemit.com/@cryptomancer"
+                                            target="_blank"
+                                            style="padding-left: 10px;"
+                                            ><img src="../../../../../images/steemit-logo.png" alt="discord" width="25x"
+                                        /></a>
+                                    </div>
+                                    <div class="social-logo">
+                                        <a
+                                            href="http://www.hive.blog/@cryptomancer"
+                                            target="_blank"
+                                            style="padding-left: 10px;"
+                                            ><img src="../../../../../images/hivelogo.png" alt="discord" width="25x"
+                                        /></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
