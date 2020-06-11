@@ -1,0 +1,378 @@
+<template>
+    <loader mode="tiny" loading.bind="loading"></loader>
+    <div class="doc-card hide-section" id="tables-section" style="display: none;">
+        <div>
+            <div class="doc-card-header">
+                <h2 class="card-title">Tables Available</h2>
+                <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
+            </div>
+            <p class="configure-info">
+                Note: all tables below have an implicit _id field that provides a unique numeric identifier for each
+                particular object in the database. Most of the time the _id field is not important, so we have omitted
+                it from table descriptions. The one exception is the NFT instance table, as the _id serves as the token
+                ID used to refer to that particular token in data queries and various smart contract actions.
+            </p>
+            <h3 class="doc-card-link">
+                Table: params:<span
+                    ><font-awesome-icon
+                        class="arrow-icon"
+                        icon.bind="['fas', 'chevron-circle-right']"
+                    ></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                Contains contract parameters such as the current fees
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">fields</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            nftCreationFee = the fee in ENG for creating a new NFT through the create action
+                        </li>
+                        <li class="each-nested-requirement">
+                            nftIssuanceFee = a mapping of Steem Engine tokens that can be used to pay for new NFT
+                            issuance through the issue action. The issuer can choose which of these tokens to pay the
+                            fee in.
+                        </li>
+                        <li class="each-nested-requirement">
+                            dataPropertyCreationFee = the fee in ENG for adding new data properties to an NFT's
+                            definition through the addProperty action. Note that the first 3 properties are free; this
+                            fee must be paid for each additional property added beyond the first three.
+                        </li>
+                        <li class="each-nested-requirement">
+                            enableDelegationFee = the fee in ENG for enabling delegation support through the
+                            enableDelegation action
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="doc-card-divider">
+            <h3 class="doc-card-link">
+                Table: nfts:<span
+                    ><font-awesome-icon
+                        class="arrow-icon"
+                        icon.bind="['fas', 'chevron-circle-right']"
+                    ></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                Contains definitions of each NFT
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">Fields</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            issuer = the Steem account that owns the NFT (i.e. called the create action)
+                        </li>
+                        <li class="each-nested-requirement">
+                            symbol = the token symbol
+                        </li>
+                        <li class="each-nested-requirement">
+                            name = the human friendly name of the token
+                        </li>
+                        <li class="each-nested-requirement">
+                            metadata = token metadata such as the URL and long text description
+                        </li>
+                        <li class="each-nested-requirement">
+                            maxSupply = max supply of the token, or 0 if supply is unlimited
+                        </li>
+                        <li class="each-nested-requirement">
+                            supply = the number of tokens which have been issued to date
+                        </li>
+                        <li class="each-nested-requirement">
+                            circulatingSupply = the number of tokens in circulation (i.e. tokens that have not been
+                            burned)
+                        </li>
+                        <li class="each-nested-requirement">
+                            delegationEnabled = is delegation enabled for this NFT? (true / false)
+                        </li>
+                        <li class="each-nested-requirement">
+                            undelegationCooldown = if delegation is enabled, this will be the number of days of cooldown
+                            needed when a token is undelegated
+                        </li>
+                        <li class="each-nested-requirement">
+                            authorizedIssuingAccounts = list of Steem accounts authorized to issue tokens on behalf of
+                            the NFT owner
+                        </li>
+                        <li class="each-nested-requirement">
+                            authorizedIssuingContracts = list of smart contracts authorized to issue tokens on behalf of
+                            the NFT owner
+                        </li>
+                        <li class="each-nested-requirement">
+                            properties = schema definition of any data properties belonging to this NFT
+                        </li>
+                        <li class="each-nested-requirement">
+                            groupBy = list of data property names by which market orders for NFT instances should be
+                            grouped
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p class="note">
+                The properties field is a dictionary mapping property names to schema that have their own structure as
+                follows:
+            </p>
+            <ul class="nested-requirement">
+                <li class="each-nested-requirement">
+                    type = indicates the type of the data property. Can be string, number, or boolean.
+                </li>
+                <li class="each-nested-requirement">
+                    isReadOnly = if true, this data property can be set exactly once and then never changed again.
+                </li>
+                <li class="each-nested-requirement">
+                    authorizedEditingAccounts = list of Steem accounts that are authorized to edit this data property
+                </li>
+                <li class="each-nested-requirement">
+                    authorizedEditingContracts = list of smart contracts that are authorized to edit this data property
+                </li>
+            </ul>
+            <div class="doc-example-header">
+                <h3 class="example-title">Example of a typical NFT definition:</h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                                <code>
+    {
+        _id: 1,
+        issuer: 'cryptomancer',
+        symbol: 'TSTNFT',
+        name: 'test NFT',
+        metadata: '{\"url\":\"https://my-test-nft.com\",\"icon\":\"https://my-test-nft.com/image.jpg\",\"desc\":\"My cool token will rule the world!\"}',
+        maxSupply: 1000,
+        supply: 456,
+        circulatingSupply: 450,
+        delegationEnabled: true,
+        undelegationCooldown: 7,
+        authorizedIssuingAccounts: [ 'cryptomancer' ],
+        authorizedIssuingContracts: [],
+        properties: { 
+            color:
+            {
+                type: 'string',
+                isReadOnly: false,
+                authorizedEditingAccounts: [ 'cryptomancer' ],
+                authorizedEditingContracts: []
+            },
+            level:
+            {
+                type: 'number',
+                isReadOnly: false,
+                authorizedEditingAccounts: [ 'cryptomancer' ],
+                authorizedEditingContracts: []
+            },
+            frozen:
+            {
+                type: 'boolean',
+                isReadOnly: true,
+                authorizedEditingAccounts: [ 'cryptomancer' ],
+                authorizedEditingContracts: []
+            },
+            isFood:
+            {
+                type: 'boolean',
+                isReadOnly: false,
+                authorizedEditingAccounts: [ 'cryptomancer' ],
+                authorizedEditingContracts: []
+            }
+        },
+        groupBy: [ 'level', 'isFood' ]
+    }
+                        </code>
+                    </pre>
+                </div>
+            </div>
+            <p class="note">
+                A successful burn action will emit a "burn" event for each token burned:
+                <code>
+                    account: who burned it, ownedBy: u or c, unlockedTokens: released regular token list, unlockedNfts:
+                    released NFT instance list, symbol, id
+                </code>
+                example:
+            </p>
+            <pre>
+                <code>
+        {
+            "contract": "nft",
+            "event": "burn",
+            "data": {
+                "account": "aggroed",
+                "ownedBy": "u",
+                "unlockedTokens": {"ENG":"15", "TKN":"0.75"},
+                "unlockedNfts": [{"symbol": "TSTNFT", "ids": ["1","2"]}, {"symbol": "OTHERNFT", "ids": ["320"]}],
+                "symbol": "TSTNFT",
+                "id": "305"
+            }
+        }
+                </code>
+            </pre>
+        </div>
+
+        <div class="doc-card-divider">
+            <h3 class="doc-card-link">
+                Table: pendingUndelegations:<span
+                    ><font-awesome-icon
+                        class="arrow-icon"
+                        icon.bind="['fas', 'chevron-circle-right']"
+                    ></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                Contains records of all undelegations which are waiting for cooldown to complete
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">fields</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            symbol = the token symbol
+                        </li>
+                        <li class="each-nested-requirement">
+                            ids = array of token IDs which are batched together in this undelegation
+                        </li>
+                        <li class="each-nested-requirement">
+                            completeTimestamp = timestamp when the undelegation will be completed (in milliseconds)
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="doc-card-divider">
+            <h3 class="doc-card-link">
+                Table: SYMBOLinstances:<span
+                    ><font-awesome-icon
+                        class="arrow-icon"
+                        icon.bind="['fas', 'chevron-circle-right']"
+                    ></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                Every NFT symbol has its own separate table to store NFT instances (issued tokens). The instance table
+                name for a particular symbol is formed by taking the symbol and adding "instances" to the end of it.
+                Thus, if you have an NFT called MYNFT, the MYNFTinstances table will store all the issued MYNFT tokens.
+            </p>
+            <div>
+                <ul class="requirements">
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">Fields</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            _id = the token ID number
+                        </li>
+                        <li class="each-nested-requirement">
+                            account = the Steem account or smart contract that holds this particular token
+                        </li>
+                        <li class="each-nested-requirement">
+                            ownedBy = indicates if this token is held in a Steem account or smart contract. For a Steem
+                            account, the value will be "u". For a smart contract, the value will be "c".
+                        </li>
+                        <li class="each-nested-requirement">
+                            lockedTokens = describes all regular Steem Engine tokens which are locked in this particular
+                            NFT instance. If there are no locked tokens, the value will be {}
+                        </li>
+                        <li class="each-nested-requirement">
+                            properties = values of all the data properties for this particular NFT instance. If there
+                            are no data properties set, the value will be {}
+                        </li>
+                        <li class="each-nested-requirement">
+                            <strong>(optional)</strong> lockedNfts = describes all NFT instances which are locked in
+                            this particular NFT instance. If there are no locked NFT instances, this field will not
+                            exist (will be undefined). For burned tokens on the null account, this field may exist but
+                            with the value set to an empty array []
+                        </li>
+                        <li class="each-nested-requirement">
+                            <strong>(optional)</strong> delegatedTo = if this token is delegated, will contain
+                            information about which account or contract the token is delegated to. If there is no
+                            delegation, this field will not exist (will be undefined).
+                        </li>
+                        <li class="each-nested-requirement">
+                            <strong>(optional)</strong> previousAccount = the Steem account or smart contract that
+                            previously held this particular token. Will only be set if the token has been burned or
+                            transferred at least once. If a token was bought on the market, previousAccount will be the
+                            NFT market contract itself.
+                        </li>
+                        <li class="each-nested-requirement">
+                            <strong>(optional)</strong> previousOwnedBy = same meaning as ownedBy, but for the Steem
+                            account or smart contract that previously held this particular token. Will only be set if
+                            previousAccount is set.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            </div>
+            <p class="note">
+                The delegatedTo field has its own structure as follows:
+            </p>
+            <ul class="nested-requirement">
+                <li class="each-nested-requirement">
+                    account = the Steem account or smart contract that the token is delegated to
+                </li>
+                <li class="each-nested-requirement">
+                    ownedBy = indicates if the token is delegated to a Steem account or smart contract. For a Steem
+                    account, the value will be "u". For a smart contract, the value will be "c".
+                </li>
+                <li class="each-nested-requirement">
+                    <strong>(optional)</strong> undelegateAt = if this token is pending undelegation, this will be the
+                    timestamp when the undelegation will be completed (in milliseconds). If there is no pending
+                    undelegation, this field will not exist (will be undefined)
+                </li>
+            </ul>
+            <div class="doc-example-header">
+                <h3 class="example-title">Examples of typical token data:</h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                                <code>
+    {
+    _id: 4,
+    account: 'marc',
+    ownedBy: 'u',
+    lockedTokens: {},
+    properties: {}
+        }
+
+        {
+            _id: 605,
+            account: 'gamecontract',
+            ownedBy: 'c',
+            lockedTokens: { ENG: '10', SPT: '0.5' },
+            properties: { color: 'red', frozen: true }
+        }
+
+        {
+            _id: 222,
+            account: 'aggroed',
+            ownedBy: 'u',
+            lockedTokens: { ENG: '10', TKN: '0.01' },
+            properties: { color: 'orange' },
+            delegatedTo: {
+                account: 'cryptomancer',
+                ownedBy: 'u'
+            }
+        }
+
+        {
+            _id: 12345,
+            account: 'testContract',
+            ownedBy: 'c',
+            lockedTokens: {},
+            lockedNfts: [ { symbol: 'TSTNFT', ids: [ '333' ] },
+                        { symbol: 'TEST', ids: [ '101','202' ] } ],
+            properties: { color: 'blue', edition: 1 },
+            delegatedTo: {
+                account: 'contract2',
+                ownedBy: 'c',
+                undelegateAt: 1528243200000
+            },
+            previousAccount: 'aggroed',
+            previousOwnedBy: 'u'
+        }
+                        </code>
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
