@@ -392,6 +392,16 @@ export class App {
                 title: 'NFT Contract Documentations',
             },
             {
+                route: 'nft-market-contract-documentations',
+                name: 'nftMarketContractDocumentations',
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-dev/documentations/nft-market-contract-documentations/nft-market-contract-documentations',
+                    'nft-market-contract-documentations',
+                ),
+                nav: false,
+                title: 'NFT Market Contract Documentations',
+            },
+            {
                 route: 'create-nft-options',
                 name: 'createNftOptions',
                 moduleId: PLATFORM.moduleName('./routes/nfts/create-options', 'nft-create-options'),
