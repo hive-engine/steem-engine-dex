@@ -1,0 +1,627 @@
+<template>
+    <require from="./enable-market-doc/enable-market-doc.html"></require>
+    <require from="./manage-market-doc/manage-market-doc.html"></require>
+    <loader mode="tiny" loading.bind="loading"></loader>
+
+    <header class="documentation-header-wrapper color-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title">
+                        <h1 class="create-nft-header text-center">NFT Contract</h1>
+                        <p class="create-nft-header-desc text-center">
+                            You'll find comprehensive guides and documentation to help you start working with STEEM
+                            ENGINE NFTs as quickly as possible, as well as a support system leading you to the necessary
+                            developer if you get stuck. Let's dive right in!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="doc-cards-wrapper">
+        <div class="section-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 offset-md-2">
+                        <h2 class="section-header-text mt-4">Getting Started</h2>
+                    </div>
+                    <div class="col-md-5" style="display: flex; justify-content: flex-end;">
+                        <a href="" class="mt-4 ml-auto need-help-text">Need help with integrating?</a>
+                    </div>
+                </div>
+                <hr />
+            </div>
+        </div>
+        <div class="container" style="margin-bottom: 30px;">
+            <div class="row">
+                <div class="col-md-8 offset-2">
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                            <div class="acc-card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button
+                                        class="btn btn-link btn-block text-left acc-header-text"
+                                        type="button"
+                                        data-toggle="collapse"
+                                        data-target="#collapseOne"
+                                        aria-expanded="true"
+                                        aria-controls="collapseOne"
+                                    >
+                                        Enabling the Market
+                                    </button>
+                                </h2>
+                            </div>
+
+                            <div
+                                id="collapseOne"
+                                class="collapse show"
+                                aria-labelledby="headingOne"
+                                data-parent="#accordionExample"
+                            >
+                                <div class="card-body acc-card-body">
+                                    <p class="doc-card-body">
+                                        Before token holders can trade an NFT, the market must be enabled for a
+                                        particular NFT symbol.
+                                    </p>
+                                    <ul class="actions">
+                                        <li class="each-action">
+                                            <a click.delegate="handleScroll('enable')" class="doc-card-link"
+                                                >enableMarket<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="#!" class="doc-card-link"
+                                                >setGroupBy<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="acc-card-header" id="headingTwo">
+                                <h2 class="mb-0">
+                                    <button
+                                        class="btn btn-link btn-block text-left acc-header-text collapsed"
+                                        type="button"
+                                        data-toggle="collapse"
+                                        data-target="#collapseTwo"
+                                        aria-expanded="false"
+                                        aria-controls="collapseTwo"
+                                    >
+                                        Managing Sell Orders
+
+                                    </button>
+                                </h2>
+                            </div>
+                            <div
+                                id="collapseTwo"
+                                class="collapse"
+                                aria-labelledby="headingTwo"
+                                data-parent="#accordionExample"
+                            >
+                                <div class="card-body acc-card-body">
+                                    <p class="doc-card-body">
+                                        Sellers have the ability to put NFT instances up for sale, change the price of existing orders, and cancel existing orders
+                                    </p>
+                                    <ul class="actions">
+                                        <li class="each-action">
+                                            <a click.delegate="handleScroll('manage')" class="doc-card-link"
+                                                >sell<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a click.delegate="handleScroll('changePrice')" class="doc-card-link"
+                                                >changePrice<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >cancel<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="acc-card-header" id="headingThree">
+                                <h2 class="mb-0">
+                                    <button
+                                        class="btn btn-link btn-block text-left acc-header-text collapsed"
+                                        type="button"
+                                        data-toggle="collapse"
+                                        data-target="#collapseThree"
+                                        aria-expanded="false"
+                                        aria-controls="collapseThree"
+                                    >
+                                        Configuring Data Properties
+                                    </button>
+                                </h2>
+                            </div>
+                            <div
+                                id="collapseThree"
+                                class="collapse"
+                                aria-labelledby="headingThree"
+                                data-parent="#accordionExample"
+                            >
+                                <div class="card-body acc-card-body">
+                                    <p class="doc-card-body">
+                                        Adds a new data property schema to an existing NFT definition.
+                                    </p>
+                                    <ul class="actions">
+                                        <li class="each-action">
+                                            <a click.delegate="handleScroll('configuring')" class="doc-card-link"
+                                                >addProperty<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >addPropertyPermissions<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >setProperties<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >setGroupBy<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >updatePropertyDefinition<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="acc-card-header" id="headingFour">
+                                <h2 class="mb-0">
+                                    <button
+                                        class="btn btn-link btn-block text-left acc-header-text collapsed"
+                                        type="button"
+                                        data-toggle="collapse"
+                                        data-target="#collapseFour"
+                                        aria-expanded="false"
+                                        aria-controls="collapseFour"
+                                    >
+                                        Token Issuance
+                                    </button>
+                                </h2>
+                            </div>
+                            <div
+                                id="collapseFour"
+                                class="collapse"
+                                aria-labelledby="headingFour"
+                                data-parent="#accordionExample"
+                            >
+                                <div class="card-body acc-card-body">
+                                    <p class="doc-card-body">
+                                        Once an NFT has been created, its data properties defined, and editing
+                                        permissions set, it's time to issue some tokens!.
+                                    </p>
+                                    <ul class="actions">
+                                        <li class="each-action">
+                                            <a click.delegate="handleScroll('token')" class="doc-card-link"
+                                                >fees<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >Locked Tokens<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >Load Token Restrictions<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >Token IDs<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link">Available Actions: </a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >issue<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >issueMultiple<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="acc-card-header" id="headingFive">
+                                <h2 class="mb-0">
+                                    <button
+                                        class="btn btn-link btn-block text-left acc-header-text collapsed"
+                                        type="button"
+                                        data-toggle="collapse"
+                                        data-target="#collapseFive"
+                                        aria-expanded="false"
+                                        aria-controls="collapseFive"
+                                    >
+                                        Delegation
+                                    </button>
+                                </h2>
+                            </div>
+                            <div
+                                id="collapseFive"
+                                class="collapse"
+                                aria-labelledby="headingFive"
+                                data-parent="#accordionExample"
+                            >
+                                <div class="card-body acc-card-body">
+                                    <p class="doc-card-body">
+                                        Enables the delegation feature for a token. A fee of 1000 ENG is required to
+                                        perform this action.
+                                    </p>
+                                    <ul class="actions">
+                                        <li class="each-action">
+                                            <a click.delegate="handleScroll('delegate')" class="doc-card-link"
+                                                >Available Actions:</a
+                                            >
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >enableDelegation<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >delegate<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >undelegate<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="acc-card-header" id="headingSix">
+                                <h2 class="mb-0">
+                                    <button
+                                        class="btn btn-link btn-block text-left acc-header-text collapsed"
+                                        type="button"
+                                        data-toggle="collapse"
+                                        data-target="#collapseSix"
+                                        aria-expanded="false"
+                                        aria-controls="collapseSix"
+                                    >
+                                        Other Actions
+                                    </button>
+                                </h2>
+                            </div>
+                            <div
+                                id="collapseSix"
+                                class="collapse"
+                                aria-labelledby="headingSix"
+                                data-parent="#accordionExample"
+                            >
+                                <div class="card-body acc-card-body">
+                                    <p class="doc-card-body">
+                                        Transfers one or more tokens to another account or smart contract.
+                                    </p>
+                                    <ul class="actions">
+                                        <li class="each-action">
+                                            <a click.delegate="handleScroll('other')" class="doc-card-link"
+                                                >Available Actions:</a
+                                            >
+                                        </li>
+
+                                        <li class="each-action">
+                                            <a click.delegate="handleScroll('other')" class="doc-card-link"
+                                                >transfer<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >burn<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="acc-card-header" id="headingSeven">
+                                <h2 class="mb-0">
+                                    <button
+                                        class="btn btn-link btn-block text-left acc-header-text collapsed"
+                                        type="button"
+                                        data-toggle="collapse"
+                                        data-target="#collapseSeven"
+                                        aria-expanded="false"
+                                        aria-controls="collapseSeven"
+                                    >
+                                        Tables Available
+                                    </button>
+                                </h2>
+                            </div>
+                            <div
+                                id="collapseSeven"
+                                class="collapse"
+                                aria-labelledby="headingSeven"
+                                data-parent="#accordionExample"
+                            >
+                                <div class="card-body acc-card-body">
+                                    <p class="doc-card-body">
+                                        Note: all tables below have an implicit _id field that provides a unique numeric
+                                        identifier for each particular object in the database. Most of the time the _id
+                                        field is not important, so we have omitted it from table descriptions. The one
+                                        exception is the NFT instance table, as the _id serves as the token ID used to
+                                        refer to that particular token in data queries and various smart contract
+                                        actions.
+                                    </p>
+                                    <ul class="actions">
+                                        <li class="each-action">
+                                            <a click.delegate="handleScroll('table')" class="doc-card-link"
+                                                >params<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a click.delegate="handleScroll('tables')" class="doc-card-link"
+                                                >nfts<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >pendingUndelegations<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                        <li class="each-action">
+                                            <a href="" class="doc-card-link"
+                                                >SYMBOLinstances<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="acc-card-header" id="headingEight">
+                                <h2 class="mb-0">
+                                    <button
+                                        class="btn btn-link btn-block text-left acc-header-text collapsed"
+                                        type="button"
+                                        data-toggle="collapse"
+                                        data-target="#collapseEight"
+                                        aria-expanded="false"
+                                        aria-controls="collapseEight"
+                                    >
+                                        Example Smart Contract for Token Issuance
+                                    </button>
+                                </h2>
+                            </div>
+                            <div
+                                id="collapseEight"
+                                class="collapse"
+                                aria-labelledby="headingEight"
+                                data-parent="#accordionExample"
+                            >
+                                <div class="card-body acc-card-body">
+                                    <p class="doc-card-body">
+                                        The crittermanager contract serves as a reference example of how to do
+                                        Splinterlands style NFT pack issuance. The comments in the source code should
+                                        give a good idea of how it works.
+                                        <br />
+                                        <a
+                                            href="https://github.com/harpagon210/steemsmartcontracts/blob/witnesses/contracts/crittermanager.js"
+                                            >Critter Manager smart contract source code</a
+                                        >
+                                    </p>
+                                    <ul class="actions">
+                                        <li class="each-action">
+                                            <a click.delegate="handleScroll('example')" class="doc-card-link"
+                                                >View Example<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="example-top"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-2">
+                    <!-- <hr style="margin-bottom: 50px; margin-top: 50px" id="divide" /> -->
+                    <enable-market-doc></enable-market-doc>
+                    <manage-market-doc></manage-market-doc>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="scroller">
+        <span>
+            <font-awesome-icon
+                click.delegate="scrollToTop()"
+                class="arrow-icon scroll-arrow"
+                icon.bind="['fas', 'chevron-circle-up']"
+            ></font-awesome-icon>
+        </span>
+    </div>
+
+    <div class="doc-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 offset-md-1">
+                    <div class="doc-footer-title">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="doc-image-wrapper">
+                                    <img
+                                        src="https://cdn.discordapp.com/avatars/329554910745985025/36a8c1b9f6249ebc5a4a0f2421f151ed.png?size=128"
+                                        alt="dev-image"
+                                        class="doc-title-image"
+                                    />
+                                    <h4 class="dev-name">@cryptomancer</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h1 class="doc-title-text">Meet The Developer</h1>
+
+                                <p class="doc-title-desc">
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus laudantium error
+                                    repellendus voluptate maxime minima! Reiciendis at ipsa, officia libero autem
+                                    aliquid illo corrupti voluptate iure sint laboriosam, expedita totam.
+                                </p>
+                                <div class="social-display " style="display: flex; margin: auto;">
+                                    <div class="social-logo">
+                                        <a href="https://discord.gg/@cryptomancer" target="_blank"
+                                            ><img
+                                            src=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAADSklEQVRoge2YT4hNURzHv2dmYhoRo5mJGWRjM/6MsWCBZqORoUkhIawkIpGVsTT5U/7F7GShCIWwkYVIkWFCTFkoapQ/4y1oNOTNx+KeeXO9ufe+d968q1H3U69ev3N+39/3nHPve+ccKSEhISEhwRFgDNAMHAceAr1Ak0N+E/AVeAycBlYCY2O0nCk8AzgBfMHjnTWwDBjjoDPWTkAH0GO1vgIngRlxGK8EzgK/bLEuYB1QAlQDa4B24IZt+wikGCJlY122zyGbU2U11to2bI1TwMRimd/km/EUsBmYDOwGOoE0hZMGngC7rOZ6X63PwIaRmm/xFbsLrAYuA/0jMB1Gv9VuBe744i1RHk2E+TJJryXNkvRKUq+kphHNSP7ckzRZ0lxJbyTVG2PSTgrAlhhmuVA2hvmMWoFXkuqdRh0fL40x84IaSoKCeL/po8W8JM0FlgQ1BA5A0rYYzRTK9qDgsEcIqJD0WdK4uB058kNStTGmzx8MWoFVGn3mJalC0orsYNAA1sTvpWCGefvrEQJKJX2RNOlfOXIkJanKGDMwGMhegflyM//I5pRLapT0OKacQSolNYS2Avsd/lyek7UDxdtmvyhyTjb7ogZw20FoVYhGa5FzsrkZNYCenOlDVIdoVBU5J5v3/twSn0ilpNrQ0eVPacw504HMe+p/iec4Fl0UEl9Y5JwgZg+L4B0qXAh7IV8WOSeInYP5/hWY6TgL8yTdBxqBcmCBpAeKXslCcoLIeC3zBac6ikjeI/HsH+RkM2XwS0lQ8D8gM9n5DKBb0odY7QTzydYOIjOAzF4I+CZpfEhCh23bpIhTXJFA0gV52+fAM4Ck78aYCdLfK3AkQnSHpN+Slkq6LsntgJ0faUnXJC2RN4gw85J0ODAK7AUGIn6+XgPzgWlAG/A0R/9cDODdLR0A6qx2d47+eyKnAVgOfIgQSQPngFrbvwZvL9MOXLWGevAuwX7bT8rGOoErtm8rUGM16oDzRF+S9QDNea0lMAnv3jLqAusncBEI397mrtMAXLJaYfQDZ/BtH1wK1AHHCN/k9QEF314A9VYjbMaPYld6ROBdwC4GDgK3gLe28NYiaG+1Wm+tdputFXZjkpCQkJCQkOEPPeHOJdadKOAAAAAASUVORK5CYII=
+                                            alt="discord" width="30px" /></a
+                                        >
+                                    </div>
+                                    <div class="social-logo">
+                                        <a
+                                            href="http://www.steemit.com/@cryptomancer"
+                                            target="_blank"
+                                            style="padding-left: 10px;"
+                                            ><img src="../../../../../images/steemit-logo.png" alt="discord" width="25x"
+                                        /></a>
+                                    </div>
+                                    <div class="social-logo">
+                                        <a
+                                            href="http://www.hive.blog/@cryptomancer"
+                                            target="_blank"
+                                            style="padding-left: 10px;"
+                                            ><img src="../../../../../images/hivelogo.png" alt="discord" width="25x"
+                                        /></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
