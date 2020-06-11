@@ -1,0 +1,157 @@
+<template>
+    <div class="doc-card hide-section" id="manage-section" style="display: none;">
+        <div>
+            <div class="doc-card-header">
+                <h2 class="card-title">Managing Sell Orders</h2>
+                <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
+            </div>
+            <p class="info">
+                For now, the market only supports sell side orders. The ability to place bids will be added later. Also,
+                only Steem accounts can place market orders. Smart contracts that hold tokens cannot currently use the
+                market.
+                <br />
+                Sellers have the ability to put NFT instances up for sale, change the price of existing orders, and
+                cancel existing orders. Buyers have the ability to buy (hit) existing sell orders.
+            </p>
+            <h3 class="doc-card-link">
+                ACTION: sell:<span
+                    ><font-awesome-icon
+                        class="arrow-icon"
+                        icon.bind="['fas', 'chevron-circle-right']"
+                    ></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                Enables a market by creating necessary database tables for the given symbol.
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    Requires active key: yes
+                </li>
+                <li class="each-requirement">
+                    Can be called by: Steem account that owns the NFT
+                </li>
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">Parameters</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="doc-example-header">
+                <h3 class="example-title">Example</h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                            <code>
+    {
+        "contractName": "nftmarket",
+        "contractAction": "enableMarket",
+        "contractPayload": {
+            "symbol": "TESTNFT"
+        }
+    }
+                            </code>
+                        </pre>
+                </div>
+            </div>
+            <p class="info">
+                A successful enableMarket action will emit an "enableMarket" event: symbol example:
+            </p>
+            <div class="doc-example">
+                <pre style="overflow-x: hidden;">
+                            <code>
+    {
+        "contract": "nftmarket",
+        "event": "enableMarket",
+        "data": {
+            "symbol": "TESTNFT"
+        }
+    }
+                                </code>
+                        </pre>
+            </div>
+        </div>
+
+        <div class="doc-card-divider">
+            <h3 class="doc-card-link">
+                ACTION: setGroupBy:<span
+                    ><font-awesome-icon
+                        class="arrow-icon"
+                        icon.bind="['fas', 'chevron-circle-right']"
+                    ></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                <strong>Note:</strong> this is an action on the nft contract, NOT nftmarket. After you have created some
+                data properties via the addProperty action, you can call setGroupBy in order to define a list of data
+                properties by which market orders for NFT instances should be grouped by. You can think of this grouping
+                as an index used to organize orders on the market, similar to how PeakMonsters groups Splinterlands
+                cards according to type & gold foil status. NFT instances which have the same values for the designated
+                data properties are considered equivalent as far as the market is concerned.
+            </p>
+            <p class="info">
+                Consider the following points carefully before calling this action:
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    Data properties which never change once set (i.e. read-only properties) are the best ones to use for
+                    this grouping.
+                </li>
+                <li class="each-requirement">
+                    Long text strings do not make ideal properties to group by. Integers and boolean types make the best
+                    grouping.
+                </li>
+                <li class="each-requirement">
+                    Numbers with fractional parts (for example 3.1415926) should be avoided due to possible rounding
+                    issues. Integers without fractional parts are ideal for grouping.
+                </li>
+                <li class="each-requirement">
+                    This grouping can only be set once! You can't change it later on, so don't call this action until
+                    you are completely ready to do so.
+                </li>
+                <li class="each-requirement">
+                    Token holders will not be able to place market orders until you have defined a valid grouping via
+                    this action.
+                </li>
+                <li class="each-requirement">
+                    requires active key: yes
+                </li>
+                <li class="each-requirement">
+                    can be called by: Steem account that owns the NFT
+                </li>
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">Parameters</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                        </li>
+                        <li class="each-nested-requirement">
+                            properties (array of string): list of data property names to set as the grouping. The schema
+                            for each property must have been previously created via the addProperty action.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="doc-example-header">
+                <h3 class="example-title">Example</h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                                <code>
+   {
+        "contractName": "nft",
+        "contractAction": "setGroupBy",
+        "contractPayload": {
+            "symbol": "TESTNFT",
+            "properties": [ "level","isFood" ]
+        }
+    }
+                </code>
+            </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
