@@ -134,6 +134,10 @@
 }
 .nested-requirement-title {
     margin-bottom: 10px;
+    color: #272832 !important;
+}
+.each-nested-requirement {
+    color: #272832 !important;
 }
 .each-requirement {
     color: #272832 !important;
@@ -165,7 +169,6 @@ code {
     display: none;
 } */
 .scroller {
-    
     display: flex;
     position: -webkit-sticky;
     position: sticky;

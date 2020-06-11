@@ -5,6 +5,8 @@
     <require from="./token-issuance-doc/token-issuance-doc.html"></require>
     <require from="./delegate-nft-doc/delegate-nft-doc.html"></require>
     <require from="./other-nft-doc/other-nft-doc.html"></require>
+    <require from="./tables-nft-doc/tables-nft-doc.html"></require>
+    <require from="./example-nft-doc/example-nft-doc.html"></require>
     <!-- <require from="./table-nft-doc/table-nft-doc.html"></require> -->
     <loader mode="tiny" loading.bind="loading"></loader>
 
@@ -118,7 +120,7 @@
                                             ></a>
                                         </li>
                                         <li class="each-action">
-                                            <a href="" class="doc-card-link"
+                                            <a click.delegate="handleScroll('updateMetadata')" class="doc-card-link"
                                                 >updateMetadata<span
                                                     ><font-awesome-icon
                                                         class="arrow-icon"
@@ -505,8 +507,7 @@
                             >
                                 <div class="card-body acc-card-body">
                                     <p class="doc-card-body">
-                                        Once an NFT has been created, its data properties defined, and editing
-                                        permissions set, it's time to issue some tokens!.
+                                        Note: all tables below have an implicit _id field that provides a unique numeric identifier for each particular object in the database. Most of the time the _id field is not important, so we have omitted it from table descriptions. The one exception is the NFT instance table, as the _id serves as the token ID used to refer to that particular token in data queries and various smart contract actions.
                                     </p>
                                     <ul class="actions">
                                         <li class="each-action">
@@ -519,7 +520,7 @@
                                             ></a>
                                         </li>
                                         <li class="each-action">
-                                            <a href="" class="doc-card-link"
+                                            <a click.delegate="handleScroll('tables')" class="doc-card-link"
                                                 >nfts<span
                                                     ><font-awesome-icon
                                                         class="arrow-icon"
@@ -549,6 +550,47 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="card">
+                            <div class="acc-card-header" id="headingEight">
+                                <h2 class="mb-0">
+                                    <button
+                                        class="btn btn-link btn-block text-left acc-header-text collapsed"
+                                        type="button"
+                                        data-toggle="collapse"
+                                        data-target="#collapseEight"
+                                        aria-expanded="false"
+                                        aria-controls="collapseEight"
+                                    >
+                                        Example Smart Contract for Token Issuance
+                                    </button>
+                                </h2>
+                            </div>
+                            <div
+                                id="collapseEight"
+                                class="collapse"
+                                aria-labelledby="headingEight"
+                                data-parent="#accordionExample"
+                            >
+                                <div class="card-body acc-card-body">
+                                    <p class="doc-card-body">
+                                        The crittermanager contract serves as a reference example of how to do Splinterlands style NFT pack issuance. The comments in the source code should give a good idea of how it works.
+                                        <br>
+                                        <a href="https://github.com/harpagon210/steemsmartcontracts/blob/witnesses/contracts/crittermanager.js">Critter Manager smart contract source code</a>
+                                    </p>
+                                    <ul class="actions">
+                                        <li class="each-action">
+                                            <a click.delegate="handleScroll('example')" class="doc-card-link"
+                                                >View Example<span
+                                                    ><font-awesome-icon
+                                                        class="arrow-icon"
+                                                        icon.bind="['fas', 'chevron-circle-right']"
+                                                    ></font-awesome-icon></span
+                                            ></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -564,7 +606,8 @@
                     <token-issuance-doc></token-issuance-doc>
                     <delegate-nft-doc></delegate-nft-doc>
                     <other-nft-doc></other-nft-doc>
-                    <table-nft-doc></table-nft-doc>
+                    <tables-nft-doc></tables-nft-doc>
+                    <example-nft-doc></example-nft-doc>
                 </div>
             </div>
         </div>
