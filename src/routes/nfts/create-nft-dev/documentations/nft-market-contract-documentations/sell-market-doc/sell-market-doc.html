@@ -1,0 +1,296 @@
+<template>
+    <div class="doc-card hide-section" id="sell-section" style="display: none;">
+        <div>
+            <div class="doc-card-header">
+                <h2 class="card-title">Managing Sell Orders</h2>
+                <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
+            </div>
+            <p class="info">
+                For now, the market only supports sell side orders. The ability to place bids will be added later. Also,
+                only Steem accounts can place market orders. Smart contracts that hold tokens cannot currently use the
+                market.
+                <br />
+                <br />
+                Sellers have the ability to put NFT instances up for sale, change the price of existing orders, and
+                cancel existing orders. Buyers have the ability to buy (hit) existing sell orders.
+            </p>
+            <h3 class="doc-card-link">
+                ACTION: sell:<span
+                    ><font-awesome-icon
+                        class="arrow-icon"
+                        icon.bind="['fas', 'chevron-circle-right']"
+                    ></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                Puts one or more NFT instances up for sale. Separate market orders will be created for each individual
+                token listed for sale. As with the regular token market, tokens up for sale are "locked" by transferring
+                them to the NFT market contract for safekeeping. Tokens held by the market will be returned to their
+                owners if the corresponding market order gets canceled. Unlike the regular token market, NFT market
+                orders do not expire. Once listed for sale, a market order will persist until it is either canceled or
+                bought.
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    Requires active key: yes
+                </li>
+                <li class="each-requirement">
+                    Can be called by: Steem account that holds the token(s) to be sold
+                </li>
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">Parameters</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                        </li>
+                        <li class="each-nested-requirement">
+                            nfts (array of string): list of NFT instance IDs to sell
+                        </li>
+                        <li class="each-nested-requirement">
+                            price (string): price that each individual token should be sold at
+                        </li>
+                        <li class="each-nested-requirement">
+                            priceSymbol (string): the regular token symbol that the seller wants to be paid in. Does not
+                            necessarily have to be STEEMP. Note that you cannot create multiple sell orders for the same
+                            NFT instance ID with different price symbols.
+                        </li>
+                        <li class="each-nested-requirement">
+                            fee (integer): a whole number ranging from 0 to 10000 inclusive. Represents a percentage of
+                            the price that will be taken as a fee and sent to a designated market account specified by
+                            buyers. These fees provide an incentive for construction of third-party marketplace apps by
+                            giving such apps a way to monetize themselves. To calculate the fee percentage, divide this
+                            number by 10000. For example, a fee value of 500 is 5% (0.05). A value of 1234 is 12.34%
+                            (0.1234).
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p class="info">
+                A maximum of 50 tokens can be put up for sale in a single call of this action. Note that tokens cannot
+                be put on the market if they are currently being delegated to another account.
+            </p>
+            <div class="doc-example-header">
+                <h3 class="example-title">Example</h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                            <code>
+    {
+        "contractName": "nftmarket",
+        "contractAction": "sell",
+        "contractPayload": {
+            "symbol": "TESTNFT",
+            "nfts": [ "1","2","3" ],
+            "price": "2.000",
+            "priceSymbol": "ENG",
+            "fee": 500
+        }
+    }
+                            </code>
+                        </pre>
+                </div>
+            </div>
+            <p class="info">
+                A successful sell action will emit a "sellOrder" event for each market order created:
+                <code>
+                    account: the seller, ownedBy: u, symbol, nftId: NFT instance ID for this order, timestamp: time of
+                    order creation in milliseconds, price, priceSymbol, fee, orderId: ID of the newly created order
+                </code>
+                example:
+            </p>
+            <div class="doc-example">
+                <pre style="overflow-x: hidden;">
+                            <code>
+    {
+        "contract": "nftmarket",
+        "event": "sellOrder",
+        "data": {
+            "account": "aggroed",
+            "ownedBy": "u",
+            "symbol": "TESTNFT",
+            "nftId": "1",
+            "timestamp": 1527811200000,
+            "price": "2.00000000",
+            "priceSymbol": "ENG",
+            "fee": 500,
+            "orderId": 1
+        }
+    }
+                                </code>
+                        </pre>
+            </div>
+        </div>
+
+        <div class="doc-card-divider">
+            <h3 class="doc-card-link">
+                ACTION: changePrice:<span
+                    ><font-awesome-icon
+                        class="arrow-icon"
+                        icon.bind="['fas', 'chevron-circle-right']"
+                    ></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                Changes the price of one or more existing sell orders. Note that the price symbol cannot be changed (to
+                do that you should cancel the sell order and place a new one).
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    requires active key: yes
+                </li>
+                <li class="each-requirement">
+                    can be called by: Steem account that originally placed the order(s) to be modified
+                </li>
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">Parameters</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                        </li>
+                        <li class="each-nested-requirement">
+                            nfts (array of string): list of NFT instance IDs (NOT order IDs) whose price you wish to
+                            change
+                        </li>
+                        <li class="each-nested-requirement">
+                            price (string): new price that each individual token should be sold at
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p class="info">
+                A maximum of 50 orders can be modified in a single call of this action. All orders must have the same
+                price symbol.
+            </p>
+
+            <div class="doc-example-header">
+                <h3 class="example-title">Example</h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                                <code>
+   {
+        "contractName": "nftmarket",
+        "contractAction": "changePrice",
+        "contractPayload": {
+            "symbol": "TESTNFT",
+            "nfts": [ "1","2","3" ],
+            "price": "15.666"
+        }
+    }
+                </code>
+            </pre>
+                </div>
+            </div>
+            <p class="info">
+                A successful action will emit a "changePrice" event for each market order updated:
+                <code
+                    >symbol, nftId: NFT instance ID for this order, oldPrice, newPrice, priceSymbol, orderId: ID of the
+                    updated order</code
+                >
+                example:
+            </p>
+            <div class="doc-example">
+                <pre style="overflow-x: hidden;">
+                                <code>
+   {
+        "contract": "nftmarket",
+        "event": "changePrice",
+        "data": {
+            "symbol": "TEST",
+            "nftId": "1",
+            "oldPrice": "3.14159000",
+            "newPrice": "15.66600000",
+            "priceSymbol": "ENG",
+            "orderId": 1
+        }
+    }
+                </code>
+            </pre>
+            </div>
+        </div>
+
+        <div class="doc-card-divider">
+            <h3 class="doc-card-link">
+                ACTION: cancel:<span
+                    ><font-awesome-icon
+                        class="arrow-icon"
+                        icon.bind="['fas', 'chevron-circle-right']"
+                    ></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                Cancels one or more existing sell orders. Upon an order's successful cancelation, the corresponding NFT
+                instance held by the NFT market contract will be transferred back to the owning account.
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    requires active key: yes
+                </li>
+                <li class="each-requirement">
+                    can be called by: Steem account that originally placed the order(s) to be canceled
+                </li>
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">Parameters</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                        </li>
+                        <li class="each-nested-requirement">
+                            nfts (array of string): list of NFT instance IDs (NOT order IDs) whose orders you wish to
+                            cancel
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p class="info">
+                A maximum of 50 orders can be cancelled in a single call of this action. All orders must have the same
+                price symbol.
+            </p>
+
+            <div class="doc-example-header">
+                <h3 class="example-title">Example</h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                                <code>
+   {
+        "contractName": "nftmarket",
+        "contractAction": "cancel",
+        "contractPayload": {
+            "symbol": "TESTNFT",
+            "nfts": [ "1","2","3" ]
+        }
+    }
+                </code>
+            </pre>
+                </div>
+            </div>
+            <p class="info">
+                A successful action will emit a "cancelOrder" event for each market order cancelled:
+                <code
+                    >account: the seller, ownedBy: u, symbol, nftId: NFT instance ID for this order, timestamp: time of
+                    order creation in milliseconds, price, priceSymbol, fee, orderId: ID of the cancelled order</code
+                >
+                example:
+            </p>
+            <div class="doc-example">
+                <pre style="overflow-x: hidden;">
+                                <code>
+   {
+        "contract": "nftmarket",
+        "event": "cancelOrder",
+        "data": {
+            "account": "aggroed",
+            "ownedBy": "u",
+            "symbol": "TESTNFT",
+            "nftId": "1",
+            "timestamp": 1527811200000,
+            "price": "2.00000000",
+            "priceSymbol": "ENG",
+            "fee": 500,
+            "orderId": 1
+        }
+    }
+                </code>
+            </pre>
+            </div>
+        </div>
+    </div>
+</template>
