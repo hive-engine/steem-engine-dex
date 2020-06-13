@@ -1,0 +1,309 @@
+<template>
+    <loader mode="tiny" loading.bind="loading"></loader>
+    <div class="doc-card hide-section" id="tables-section" style="display: none;">
+        <div>
+            <div class="doc-card-header">
+                <h2 class="card-title">Tables Available</h2>
+                <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
+            </div>
+            <p class="configure-info">
+                Note: all tables below have an implicit _id field that provides a unique numeric identifier for each
+                particular object in the database. Most of the time the _id field is not important, so we have omitted
+                it from table descriptions.
+            </p>
+            <h3 class="doc-card-link">
+                Table: SYMBOLsellBook:<span
+                    ><font-awesome-icon
+                        class="arrow-icon"
+                        icon.bind="['fas', 'chevron-circle-right']"
+                    ></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                <strong>indexes:</strong> ownedBy, account, nftId, grouping, priceSymbol <br /><br />
+                Every NFT symbol has its own separate table to store the sell side order book. The table name for a
+                particular symbol is formed by taking the symbol and adding "sellBook" to the end of it. Thus, if you
+                have an NFT called MYNFT, the MYNFTsellBook table will store all active sell orders. Note that this
+                table will not exist if the enableMarket action has not been called yet.
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">fields</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            account = the Steem account that created this particular order
+                        </li>
+                        <li class="each-nested-requirement">
+                            ownedBy = indicates if this order was created by a Steem account or smart contract. As smart
+                            contracts are not supported for now, the value will always be "u".
+                        </li>
+                        <li class="each-nested-requirement">
+                            nftId (string) = NFT instance ID for this particular order
+                        </li>
+                        <li class="each-nested-requirement">
+                            grouping = holds a copy of the data property values which together uniquely identify how
+                            this market order should be grouped, according to the list set by the NFT contract
+                            setGroupBy action
+                        </li>
+                        <li class="each-nested-requirement">
+                            timestamp (integer) = creation time of this order in milliseconds
+                        </li>
+                        <li class="each-nested-requirement">
+                            price (string) = price of this order
+                        </li>
+                        <li class="each-nested-requirement">
+                            priceDec (decimal) = price of this order as a decimal data type
+                        </li>
+                        <li class="each-nested-requirement">
+                            priceSymbol = the token symbol that the seller wants payment in
+                        </li>
+                        <li class="each-nested-requirement">
+                            fee (integer) = a whole number between 0 and 10000, inclusive, which represents the market
+                            fee percentage for this order
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="doc-example-header">
+                <h3 class="example-title">Examples of typical sell orders:</h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                            <code>
+    {
+        _id: 4,
+        account: 'marc',
+        ownedBy: 'u',
+        nftId: '35',
+        grouping: { level: '', color: '' },
+        timestamp: 1527811200000,
+        price: '8.000',
+        priceDec: { '$numberDecimal': '8.000' },
+        priceSymbol: 'TKN',
+        fee: 500
+    }
+
+    {
+        _id: 112,
+        account: 'aggroed',
+        ownedBy: 'u',
+        nftId: '10',
+        grouping: { type: '3', isRare: 'true' },
+        timestamp: 1527811200000,
+        price: '2.00000000',
+        priceDec: { '$numberDecimal': '2.00000000' },
+        priceSymbol: 'ENG',
+        fee: 1000
+    }
+                            </code>
+                        </pre>
+                </div>
+            </div>
+            <p class="info">A couple points about the grouping:</p>
+            <ol>
+                <li>
+                    If an NFT instance does not have one of the grouped by data properties set, the grouping will
+                    contain an empty string '' for that data property, as in the first example above.
+                </li>
+                <li>
+                    Grouping values will always be strings, regardless of the data property type, as shown in the second
+                    example above where the value 'true' is a boolean data type but represented here as a string.
+                </li>
+            </ol>
+            <p class="info">
+                We can also infer that the above examples are orders for two different NFT symbols, because the grouped
+                by data property names are fixed per symbol according to the setGroupBy action (i.e. grouped by names
+                will be the same for all orders of a particular NFT symbol, although of course the data property values
+                can vary to distinguish the various groupings).
+            </p>
+        </div>
+
+        <div class="doc-card-divider">
+            <h3 class="doc-card-link">
+                Table: SYMBOLopenInterest:<span
+                    ><font-awesome-icon
+                        class="arrow-icon"
+                        icon.bind="['fas', 'chevron-circle-right']"
+                    ></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                <strong>indexes:</strong> side, priceSymbol, grouping <br /><br />
+                Every NFT symbol has its own separate table to store open interest metrics. The table name for a
+                particular symbol is formed by taking the symbol and adding "openInterest" to the end of it. Thus, if
+                you have an NFT called MYNFT, the MYNFTopenInterest table will store all open interest for that symbol.
+                Note that this table will not exist if the enableMarket action has not been called yet. <br /><br />
+                Open interest is defined to be the number of currently open (active) orders, grouped according to the
+                data property values in each order's grouping field. Note that an open interest entry for a particular
+                combination of data property values won't exist until at least 1 order whose NFT instance has that
+                combination of values is created. Once created, open interest entries never get deleted. Thus it is
+                perfectly reasonable to have an entry with 0 current active orders. <br /><br />
+                The open interest count will be incremented as orders are created, and decremented as orders are
+                cancelled or filled.
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">Fields</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            side = will be buy or sell depending on which side of the order book an order is on.
+                            Currently only sell side orders are supported, so every open interest entry will have this
+                            field set to 'sell'.
+                        </li>
+                        <li class="each-nested-requirement">
+                            priceSymbol = the token symbol of the order's payment method
+                        </li>
+                        <li class="each-nested-requirement">
+                            grouping = holds a copy of the data property values which together represent how these
+                            market orders should be grouped, according to the list set by the NFT contract setGroupBy
+                            action. Note that the combination of side, priceSymbol, and grouping uniquely identifies an
+                            open interest entry.
+                        </li>
+                        <li class="each-nested-requirement">
+                            count (integer) = the number of currently open (active) orders for this combination of side,
+                            priceSymbol, and grouping. Will be 0 or greater.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="doc-example-header">
+                <h3 class="example-title">Example of typical open interest entries:</h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                                <code>
+    {
+        _id: 29,
+        side: 'sell',
+        priceSymbol: 'ENG',
+        grouping: { level: '29', color: '' },
+        count: 567
+    }
+
+    {
+        _id: 800,
+        side: 'sell',
+        priceSymbol: 'STEEMP',
+        grouping: { level: '5', color: 'red' },
+        count: 0
+    }
+                        </code>
+                    </pre>
+                </div>
+            </div>
+            <p class="note">
+                <strong>Counting number of open orders: </strong> simply sum together the count field for all open
+                interest entries in the table, querying by priceSymbol and side if desired.
+            </p>
+        </div>
+
+        <div class="doc-card-divider">
+            <h3 class="doc-card-link">
+                Table: SYMBOLtradesHistory:<span
+                    ><font-awesome-icon
+                        class="arrow-icon"
+                        icon.bind="['fas', 'chevron-circle-right']"
+                    ></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                <strong>indexes:</strong> priceSymbol, timestamp <br /><br />
+                Every NFT symbol has its own separate table to store trade history. The table name for a particular
+                symbol is formed by taking the symbol and adding "tradesHistory" to the end of it. Thus, if you have an
+                NFT called MYNFT, the MYNFTtradesHistory table will store all trade history for that symbol. Note that
+                this table will not exist if the enableMarket action has not been called yet. <br /><br />
+                Only the last 24 hours worth of trade history is kept. Every time a trade is made, a check will be made
+                to prune old information from this table.
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">fields</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            type = will be buy or sell. Currently, the market only supports sell side orders. Thus all
+                            trades will have this field set to 'buy' (a trade is done when a buyer hits a sell order
+                            using the buy action).
+                        </li>
+                        <li class="each-nested-requirement">
+                            account = the buyer's Steem account name
+                        </li>
+                        <li class="each-nested-requirement">
+                            ownedBy = will always be u (smart contracts are not currently allowed to participate in the
+                            market)
+                        </li>
+                        <li class="each-nested-requirement">
+                            counterparties = contains detailed information about the counterparties from which NFT
+                            instances are bought or sold (these will always be the sellers for now)
+                        </li>
+                        <li class="each-nested-requirement">
+                            priceSymbol = the token symbol of the trade's payment method
+                        </li>
+                        <li class="each-nested-requirement">
+                            price = the total price for all NFT instances purchased in this trade (inclusive of market
+                            fees)
+                        </li>
+                        <li class="each-nested-requirement">
+                            marketAccount = the Steem account that received the market fee for this trade
+                        </li>
+                        <li class="each-nested-requirement">
+                            fee = the total fee paid to the market account by the purchaser for this trade
+                        </li>
+                        <li class="each-nested-requirement">
+                            timestamp (integer) = time of this trade in seconds
+                        </li>
+                        <li class="each-nested-requirement">
+                            volume (integer) = number of NFT instances exchanged in this trade
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="doc-example-header">
+                <h3 class="example-title">
+                    An example of a trade involving multiple NFT instances bought from different sellers:
+                </h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                        <code>
+    {
+        _id: 12345,
+        type: 'buy',
+        account: 'cryptomancer',
+        ownedBy: 'u',
+        counterparties: [
+            {
+                account: 'aggroed',
+                ownedBy: 'u',
+                nftIds: [ '147' ],
+                paymentTotal: '2.98451050'
+            },
+            {
+                account: 'marc',
+                ownedBy: 'u',
+                nftIds: [ '503' ],
+                paymentTotal: '7.60000000'
+            }
+        ],
+        priceSymbol: 'ENG',
+        price: '11.14159000',
+        marketAccount: 'peakmonsters',
+        fee: '0.55707950',
+        timestamp: 1527811200,
+        volume: 2
+    }
+                        </code>
+                    </pre>
+                </div>
+            </div>
+            <p class="note">
+                In the above example, 2 NFT instances were bought by @cryptomancer from @aggroed and @marc. The total
+                price for both NFT instances, inclusive of the market fee, was 11.14159000 ENG. From that amount, a fee
+                of 0.55707950 ENG was subtracted and sent to the @peakmonsters account. The remaining amount was
+                distributed as payment to the two sellers, with @aggroed receiving 2.98451050 ENG and @marc receiving
+                7.60000000 ENG. The market fee was 5% for each order hit. <br /><br />
+                <strong>Calculating daily volume metrics: </strong> simply sum together the volume field for all trade
+                history entries in the table, querying by priceSymbol if desired, to get the total number of NFT
+                instances traded. Similarly, sum together the price field to get total value exchanged. Note that price
+                is stored as a string, so you must convert to a floating point number in order to calculate the sum.
+            </p>
+        </div>
+    </div>
+</template>
