@@ -216,3 +216,8 @@ tr td:last-child {
 .buy-percentage-buttons button:last-child {
     margin-right: 0;
 } */
+
+.token-open-orders-table td {
+    font-size: 13px;
+    padding: 5px 5px;
+}

@@ -33,5 +33,7 @@
     "updateNftError": "NFT update failed",
     "nftAddPropertiesFailed": "NFT Add Properties failed",
     "updatePropertyDefinitionSuccess": "NFT property definition updated successfully",
-    "nftAddPropertiesSuccess":  "NFT Add Properties successfully completed"
+    "nftAddPropertiesSuccess": "NFT Add Properties successfully completed",
+    "orderCancelWait": "Please wait until the transaction is verified",
+    "orderCancelSelectedOnlyKeychain": "Bulk cancellation is currently only supported in combination with Keychain."
 }
