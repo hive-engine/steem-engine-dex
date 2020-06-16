@@ -1,28 +1,38 @@
 <template>
-        <div class="table-wrapper">
-                <loader loading.bind="loadingOpenOrders" mode="tiny"></loader>
+    <div class="table-wrapper">
+        <loader loading.bind="loadingOpenOrders" mode="tiny"></loader>
 
-                <table class="table table-dark" ref="openOrdersTable">
-                        <thead>
-                            <tr>
-                                <th>${'Symbol' & t}</th>
-                                <th width="135">${'Price' & t} (${'STEEMP' & t})</th>
-                                <th>${'Quantity' & t}</th>
-                                <th>${'Total' & t} (STEEMP)</th>
-                                <th>${'Date' & t}</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr repeat.for="order of orders">
-                                <td>${order.symbol}</td>
-                                <td>${order.price}</td>
-                                <td>${order.quantity}</td>
-                                <td>${order.total}</td>
-                                <td>${order.timestamp_string}</td>
-                                <td><button type="button" class="btn btn-danger btn-sm" click.delegate="cancelOrder(order.type, order.txId, order.symbol)">cancel</button></td>
-                            </tr>
-                        </tbody>
-                </table>
-            </div>
+        <table class="table table-dark" ref="openOrdersTable">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="text-left">${'Transaction Id' & t}</th>
+                    <th>${'Symbol' & t}</th>
+                    <th>${'Quantity' & t}</th>
+                    <th>${'Type' & t}</th>
+                    <th width="135">${'Price' & t} (${'HIVE' & t})</th>
+                    <th>${'Total' & t} (HIVE)</th>
+                    <th>${'Date' & t}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr repeat.for="order of orders">
+                    <td><input type="checkbox" checked.bind="order.checked" change.delegate="orderCheckChange()" /></td>
+                    <td>${order.txId}</td>
+                    <td>${order.symbol}</td>
+                    <td>${order.quantity}</td>
+                    <td><button type="button" class="btn ${order.type.toUpperCase() == 'SELL' ? 'btn-danger' : 'btn-success'} btn-sm">${order.type.toUpperCase()}</button></td>
+                    <td>${order.price}</td>
+                    <td>${order.total}</td>
+                    <td>${order.timestamp_string}</td>
+                    <td><button type="button" class="btn btn-danger btn-sm" click.delegate="cancelOrder(order.type, order.txId, order.symbol)">cancel</button></td>
+                </tr>
+            </tbody>
+            <tfoot>
+            <td colspan="7"></td>
+            <td colspan="2" class="text-right"><button show.bind="anyOrderChecked" type="button" class="btn btn-danger btn-sm" click.delegate="cancelSelectedOrders()">Cancel selected orders</button></td>
+            </tfoot>
+        </table>
+    </div>
 </template>

@@ -23,6 +23,7 @@ export async function getUserOpenOrders(account: string = null) {
             o.type = 'buy';
             o.total = o.price * o.quantity;
             o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
+            o.checked = false;
             return o;
         });
 
@@ -30,6 +31,7 @@ export async function getUserOpenOrders(account: string = null) {
             o.type = 'sell';
             o.total = o.price * o.quantity;
             o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
+            o.checked = false;
             return o;
         });
 
@@ -131,6 +133,15 @@ export async function cancelMarketOrder(username: string, type: string, orderId:
             window.steem_keychain.requestCustomJson(username, environment.chainId, 'Active', JSON.stringify(transaction_data), `Cancel ${type.toUpperCase()} Order`, async (response) => {
                 if (response.success && response.result) {
                     try {
+                        const toastWait = new ToastMessage();
+                        toastWait.message = i18n.tr('orderCancelWait', {
+                            ns: 'notifications',
+                            type,
+                            symbol
+                        });
+
+                        toastService.success(toastWait);
+
                         const transaction = await checkTransaction(response.result.id, 3);
 
                         const toast = new ToastMessage();
