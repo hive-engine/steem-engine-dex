@@ -1,0 +1,381 @@
+<template>
+    <loader mode="tiny" loading.bind="loading"></loader>
+    <div class="doc-card hide-section" id="token-section" style="display: none;">
+        <div>
+            <div class="doc-card-header">
+                <h2 class="card-title">Token Issuance</h2>
+                <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
+            </div>
+            <p class="configure-info">
+                Once an NFT has been created, its data properties defined, and editing permissions set, it's time to issue some tokens!
+            </p>
+            <h3 class="doc-card-link">
+                fees<span
+                    ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                There is a fee per each token issued, which the issuing account or smart contract must pay. The issuer can choose to pay the fee in one of several different regular Steem Engine token types. Initially, such fees will be payable in ENG or PAL. The issuance fee is calculated as follows:
+            </p>
+            <pre>
+                <code>fee = base fee + ((base fee) x (number of data properties))</code>
+            </pre>
+            <p class="configure-info">
+                    The base fee when paying with ENG or PAL is 0.001. The fee reflects the fact that on-chain storage has a cost, so the more data properties an NFT has, the higher the issuance fee will be per token.
+                    <br>
+                    <strong>Example:</strong> you want to issue 3 tokens and pay the fees in ENG. Your NFT has 4 data properties. You will pay 0.005 ENG per token issued (the base fee of 0.001, plus an additional 0.001 for each data property). The total cost to issue 3 tokens will be 0.015 ENG.
+                </p>
+        </div>
+        <div class="doc-card-divider">
+            <h3 class="doc-card-link">
+                locked tokens<span
+                    ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                When a token is issued, the issuer can optionally choose to lock up a basket of other tokens within the issued NFT token (or NFT instance, as we sometimes refer to them). These locked tokens will be transferred from the issuing account or smart contract, and considered "owned" by the newly issued token itself. The locked tokens will stay attached to the issued NFT instance for the duration of its lifetime. Locked tokens cannot be spent or interacted with in any way, they are effectively out of circulation.
+                <br>
+                The only way to retrieve locked tokens is by burning the NFT instance that contains them. When an NFT token is burned, any locked tokens are released & transferred back to the account or smart contract that held the burned token (they are NOT sent back to the issuing account!).
+                <br>
+                Thus locked tokens are a way to give intrinsic value to an NFT, above & beyond what the NFT is worth in its own right. Token holders are incentivized to burn their NFTs in order to get back the value of the tokens locked within.
+                <br>
+                Note that both regular Steem Engine tokens and other NFT instances can be locked within tokens in this manner. You can even have a mix of different token types.
+            </p>
+            
+        </div>
+        <div class="doc-card-divider">
+            <h3 class="doc-card-link">
+                locked token restrictions<span
+                    ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+               For performance reasons, the following rules apply when dealing with locked tokens. For the purposes of these rules, we use the term container token to refer to an NFT instance that contains other NFT instances locked within it (an NFT instance that only contains regular Steem Engine tokens is NOT considered to be a container token).
+            </p>
+            <ul class="configure-types">
+                <li class="each-requirement">
+                    A maximum of 10 different types of regular tokens can be locked up in a single NFT token (though the quantity of each has no limit).
+                </li>
+                <li class="each-requirement">
+                    A maximum of 50 NFT instances can be locked up in a single NFT token. A mix of different symbols is permitted without restriction.
+                </li>
+                <li class="each-requirement">
+                    Container tokens must be issued individually, you may not issue more than one of them at once using the issueMultiple action.
+                </li>
+                <li class="each-requirement">
+                    Container tokens must be burned individually, you may not burn more than one at a time using the burn action.
+                </li>
+                <li class="each-requirement">
+                    In the issueMultiple and burn actions, container tokens and non-container tokens cannot be mixed. You can burn up to EITHER 50 non-container tokens OR 1 container token at a time.
+                </li>
+            </ul>
+        </div>
+        <div class="doc-card-divider">
+            <h3 class="doc-card-link">
+                token IDs<span
+                    ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+               Each issued NFT token has its own unique ID number. This ID starts at 1 for each token symbol, and increments by 1 every time a new token is issued. Thus if you issue a new instance of a MYNFT, and the ID of that newly issued token is 501, you know it is the 501st MYNFT to be issued. Token ID numbers can be used to look up data properties through RPC queries, or to identify tokens to be the subject of transfer, burn, delegate, etc actions.
+               <br>
+               Token IDs are always represented as strings when used in arguments to contract actions. Note that ID numbers are not globally unique; they will only be unique for a given symbol (i.e. MYNFT can have a token with id 5, and OTHERNFT can also have a token with id 5). The combination of symbol and ID number uniquely identifies a token (or NFT instance, as we sometimes refer to them).
+            </p>
+            
+        </div>
+        <div class="doc-card-divider">
+
+            <h3 class="doc-card-link">
+                ACTION: issue:<span
+                    ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                Issues a new instance of an NFT to a Steem account or smart contract. Requires the issuance fee to be paid as described above. The ID of the newly issued token will be returned as part of an "issue" emission in transaction logs.
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    Requires active key: yes
+                </li>
+                <li class="each-requirement">
+                    can be called by: Steem account or smart contract on the authorized list of issuing accounts/contracts for the NFT in question
+                </li>
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">Parameters</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                        </li>
+                        <li class="each-nested-requirement">
+                            to (string): Steem account or smart contract to issue the token to
+                        </li>
+                        <li class="each-nested-requirement">
+                            feeSymbol (string): the symbol of the regular Steem Engine token to be used for paying issuance fees. Initially, ENG and PAL are the only valid fee symbols, though other types may be added later.
+                        </li>
+                        <li class="each-nested-requirement">
+                            <strong>(optional)</strong> fromType (string): indicates whether this action is being called by a Steem account or a smart contract. Can be set to user or contract. If not specified, defaults to user. Note that a smart contract can still set this to user in order to perform the issuance on behalf of a Steem account rather than the calling contract itself.
+                        </li>
+                        <li class="each-nested-requirement">
+                            <strong>(optional)</strong> toType (string): indicates whether the destination specified by the "to" parameter is a Steem account or a smart contract. Can be set to user or contract. If not specified, defaults to user.
+                        </li>
+                        <li class="each-nested-requirement">
+                            <strong>(optional)</strong> lockTokens (dictionary object): if desired, specifies a basket of regular Steem Engine tokens to be locked within the newly issued NFT instance, as described above. Should be formatted as follows:
+                            <pre><code>
+                                {"SYMBOLONE": "quantity to lock", "SYMBOLTWO": "quantity to lock", ...}
+                            </code></pre>
+                        </li>
+                        <li class="each-nested-requirement">
+                            <strong>(optional)</strong> lockNfts (array of object): if desired, specifies a basket of other NFT instances to be locked within the newly issued NFT instance, as described above. Should be formatted as follows: 
+                            <pre><code>
+                                [ {"symbol":"SYMBOLONE", "ids":["1","2","3", ...]}, {"symbol":"SYMBOLTWO", "ids":["1","2","3", ...]}, ... ]
+                            </code></pre>
+                        </li>
+                        <li class="each-nested-requirement">
+                            <strong>(optional)</strong> properties (dictionary object): if desired, data properties can be set directly at issuance time using this parameter. Should be formatted as follows:
+                            <pre><code>
+                                { "name1":"value1", "name2":"value2", ... }
+                            </code></pre>
+                        </li>
+                        
+                    </ul>
+                </li>
+            </ul>
+            <div class="doc-example-header">
+                <h3 class="example-title">Example</h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                                <code>
+    // issue from user -> user
+        {
+            "contractName": "nft",
+            "contractAction": "issue",
+            "contractPayload": {
+                "symbol": "TESTNFT",
+                "to": "aggroed",
+                "feeSymbol": "PAL"
+            }
+        }
+
+        // issue from user -> contract
+        {
+            "contractName": "nft",
+            "contractAction": "issue",
+            "contractPayload": {
+                "symbol": "TESTNFT",
+                "to": "acontract",
+                "toType": "contract",
+                "feeSymbol": "ENG",
+                "lockTokens": {
+                    "ENG": "3.5",
+                    "BETA": "10",
+                    "SCT": "1.123"
+                }
+            }
+        }
+
+        // issue from contract -> contract
+        {
+            "contractName": "nft",
+            "contractAction": "issue",
+            "contractPayload": {
+                "symbol": "TESTNFT",
+                "to": "acontract",
+                "toType": "contract",
+                "fromType":"contract",
+                "feeSymbol": "ENG",
+                "properties": {
+                    "color": "gold",
+                    "xp": 0,
+                    "isPremium": false
+                }
+            }
+        }
+
+        // issue from contract -> user
+        {
+            "contractName": "nft",
+            "contractAction": "issue",
+            "contractPayload": {
+                "symbol": "DRAGON",
+                "to": "cryptomancer",
+                "toType": "user",      // could be omitted, but we include it here for clarity
+                "fromType":"contract",
+                "feeSymbol": "PAL",
+                "lockTokens": {
+                    "SPT": "0.01"
+                },
+                "lockNfts": [
+                    {"symbol":"TSTNFT", "ids":["200"]},
+                    {"symbol":"DRAGON", "ids":["1","1000","10000","9999"]}
+                ],
+                "properties": {
+                    "type": "wyvern",
+                    "xp": 0,
+                    "hp": 200,
+                    "isFireBreathing": true
+                }
+            }
+        }
+                        </code>
+                    </pre>
+                </div>
+            </div>
+            <p class="note">
+                A successful issue action will emit an "issue" event for each token issued: 
+                <code>
+                    from: issuing account, fromType: user or contract, to: destination account, toType: user or contract, symbol, lockedTokens: list of locked regular tokens, lockedNfts: list of locked NFT instances, properties: any data properties set, id: token ID of newly issued token as an integer
+                </code> example:
+
+                <pre style="overflow-x: hidden;">
+                                <code>
+    // issue from user -> user
+        {
+            "contractName": "nft",
+            "contractAction": "issue",
+            "contractPayload": {
+                "symbol": "TESTNFT",
+                "to": "aggroed",
+                "feeSymbol": "PAL"
+            }
+        }
+
+        // issue from user -> contract
+        {
+            "contractName": "nft",
+            "contractAction": "issue",
+            "contractPayload": {
+                "symbol": "TESTNFT",
+                "to": "acontract",
+                "toType": "contract",
+                "feeSymbol": "ENG",
+                "lockTokens": {
+                    "ENG": "3.5",
+                    "BETA": "10",
+                    "SCT": "1.123"
+                }
+            }
+        }
+
+        // issue from contract -> contract
+        {
+            "contractName": "nft",
+            "contractAction": "issue",
+            "contractPayload": {
+                "symbol": "TESTNFT",
+                "to": "acontract",
+                "toType": "contract",
+                "fromType":"contract",
+                "feeSymbol": "ENG",
+                "properties": {
+                    "color": "gold",
+                    "xp": 0,
+                    "isPremium": false
+                }
+            }
+        }
+
+        // issue from contract -> user
+        {
+            "contractName": "nft",
+            "contractAction": "issue",
+            "contractPayload": {
+                "symbol": "DRAGON",
+                "to": "cryptomancer",
+                "toType": "user",      // could be omitted, but we include it here for clarity
+                "fromType":"contract",
+                "feeSymbol": "PAL",
+                "lockTokens": {
+                    "SPT": "0.01"
+                },
+                "lockNfts": [
+                    {"symbol":"TSTNFT", "ids":["200"]},
+                    {"symbol":"DRAGON", "ids":["1","1000","10000","9999"]}
+                ],
+                "properties": {
+                    "type": "wyvern",
+                    "xp": 0,
+                    "hp": 200,
+                    "isFireBreathing": true
+                }
+            }
+        }
+                    </code>
+                </pre>
+            </p>
+        </div>
+        <div class="doc-card-divider">
+
+        <h3 class="doc-card-link">
+            ACTION: issueMultiple:<span
+                ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+            ></span>
+        </h3>
+        <p class="doc-card-body">
+            Issues multiple NFT instances at once. A maximum of 10 tokens can be issued by calling this action (there are some caveats however, see <a href="#!">locked token restrictions</a> above). Issuance fees & other issuing behavior is same as for the issue action above.
+        </p>
+        <ul class="requirements">
+            <li class="each-requirement">
+                Requires active key: yes
+            </li>
+            <li class="each-requirement">
+                can be called by: Steem account or smart contract on the authorized list of issuing accounts/contracts for the NFT in question
+            </li>
+            <li class="each-requirement">
+                <p class="nested-requirement-title">Parameters</p>
+                <ul class="nested-requirement">
+                    <li class="each-nested-requirement">
+                        instances (array of object): a list of parameters for each token to be issued, as described above for the issue action
+                    </li>
+                    
+                </ul>
+            </li>
+        </ul>
+        <div class="doc-example-header">
+            <h3 class="example-title">Example</h3>
+            <div class="doc-example">
+                <pre style="overflow-x: hidden;">
+                            <code>
+   // issue 3 tokens from contract -> a combination of users & contracts
+{
+    "contractName": "nft",
+    "contractAction": "issueMultiple",
+    "contractPayload": {
+        "instances": [
+            {
+                "fromType": "contract",
+                "symbol": "TSTNFT",
+                "to": "aggroed",
+                "feeSymbol": "ENG",
+                "properties": {"level": 0}
+            },
+            {
+                "fromType": "contract",
+                "symbol": "TSTNFT",
+                "to": "dice",
+                "toType": "contract",
+                "feeSymbol": "ENG",
+                "lockTokens": {"ENG": "5.75"}
+            },
+            {
+                "fromType": "contract",
+                "symbol": "TSTNFT",
+                "to": "marc",
+                "feeSymbol": "PAL"
+            }
+        ]
+    }
+}
+                    </code>
+                </pre>
+            </div>
+        </div>
+        <p class="note">
+            Under the hood, this action simply calls the issue action repeatedly, passing in the parameters given for each instance. Note that it is possible for some tokens to be issued, and for others to fail if parameters are incorrect (it's NOT all or nothing!).
+        </p>
+        </div>
+        
+    </div>
+
+    
+    
+</template>

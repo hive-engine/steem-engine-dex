@@ -14,19 +14,20 @@
 .section-header-text {
     font-size: 30px;
     margin-bottom: 8px;
-    font-family: 'main-font-bold';
+    font-family: "main-font-bold";
 }
 .need-help-text {
     align-self: center;
     color: #0048b3;
     font-weight: bold;
-    background-color: rgba(52, 152, 219, 0.1);
+    background-color: rgba(52,152,219,.1);
     border-radius: 10px;
     padding: 8px 15px;
+    
 }
 .doc-card {
     padding: 20px;
-    box-shadow: 0 3px 6px -2px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 3px 6px -2px rgba(0,0,0,.08);
     width: 100%;
     margin-bottom: 10px;
 }
@@ -59,6 +60,7 @@
 .doc-card-link {
     color: #0048b3;
     display: flex;
+
 }
 .arrow-icon {
     color: #0048b3;
@@ -70,7 +72,7 @@
 .actions {
     padding: 0;
     margin: 0;
-}
+} 
 .each-action {
     padding: 10px 0 5px;
     font-size: 18px;
@@ -78,6 +80,7 @@
     text-decoration: underline;
     border-bottom: 1px dashed #4d49494f;
     cursor: pointer;
+
 }
 .acc-card-header {
     background-color: #091e42;
@@ -88,6 +91,7 @@
     text-decoration: none;
     font-size: 21px;
     text-transform: capitalize;
+    
 }
 .acc-header-text:hover {
     color: rgb(206, 206, 206);
@@ -103,90 +107,4 @@
     background-color: #091e42;
     height: 300px;
     margin-bottom: -100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.doc-title-text {
-    color: #fff;
-}
-.doc-image-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-.dev-name {
-    color: #fff;
-    margin-top: 10px;
-}
-.doc-title-image {
-    width: 70%;
-    padding: 4px;
-    border-radius: 50%;
-    border: 1px dashed #0048b3;
-    align-self: center;
-}
-.doc-title-desc {
-    color: #fff;
-    font-style: oblique;
-    margin-bottom: 10px;
-}
-.nested-requirement-title {
-    margin-bottom: 10px;
-    color: #272832 !important;
-}
-.each-nested-requirement {
-    color: #272832 !important;
-}
-.each-requirement {
-    color: #272832 !important;
-}
-pre {
-    padding: 16px;
-    overflow: auto;
-    font-size: 85%;
-    line-height: 1.45;
-    background-color: #f6f8fa;
-    border-radius: 3px;
-}
-code {
-    display: inline;
-    max-width: auto;
-    padding: 0;
-    margin: 0;
-    overflow: visible;
-    line-height: inherit;
-    word-wrap: normal;
-    background-color: initial;
-    border: 0;
-    background-color: #f6f8fa;
-}
-.note {
-    font-style: oblique;
-}
-/* .hide-section {
-    display: none;
-} */
-.scroller {
-    display: flex;
-    position: -webkit-sticky;
-    position: sticky;
-    /* top: 20%; */
-    left: 2%;
-    bottom: 7%;
-}
-.scroller span {
-    margin-left: auto;
-    margin-right: 15px;
-    margin-bottom: 15px;
-}
-.scroll-arrow {
-    cursor: pointer;
-    font-size: 45px;
-    color: #091e42;
-}
-
-.scroll-arrow:hover {
-    color: #183e80;
 }

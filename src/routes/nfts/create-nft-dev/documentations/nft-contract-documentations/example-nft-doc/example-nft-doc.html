@@ -1,0 +1,46 @@
+<template>
+    <loader mode="tiny" loading.bind="loading"></loader>
+    <div class="doc-card hide-section" id="example-section" style="display: none;">
+        <div>
+            <div class="doc-card-header">
+                <h2 class="card-title">Example Smart Contract for Token Issuance</h2>
+                <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
+            </div>
+            <p class="configure-info">
+                The crittermanager contract serves as a reference example of how to do Splinterlands style NFT pack
+                issuance. The comments in the source code should give a good idea of how it works.
+                <br />
+                <a href="https://github.com/harpagon210/steemsmartcontracts/blob/witnesses/contracts/crittermanager.js"
+                    >Critter Manager smart contract source code</a
+                >
+                <br />
+            </p>
+
+            <p class="doc-card-body">
+                Everything done in this example contract can be done just as well from Python or Javascript. It's worth
+                repeating that all NFT interactions can be boiled down to simply broadcasting the appropriate custom
+                json commands. It demonstrates the following features:
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    allow NFT owner to configure different editions (think Splinterlands ALPHA, BETA, and UNTAMED)
+                </li>
+                <li class="each-requirement">
+                    programmatically create the CRITTER NFT through a contract action
+                </li>
+                <li class="each-requirement">
+                    open a "pack" to generate critters by randomly varying properties such as critter type, rarity, and
+                    whether the critter is a gold foil or not.
+                </li>
+                <li class="each-requirement">
+                    allow different pack tokens for each edition - the contract gives users a way to exchange pack
+                    tokens for newly issued critters
+                </li>
+                <li class="each-requirement">
+                    update data properties - a user can call a contract action to set a name for critters that he/she
+                    owns
+                </li>
+            </ul>
+        </div>
+    </div>
+</template>
