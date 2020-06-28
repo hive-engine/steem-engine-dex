@@ -409,7 +409,37 @@ export class App {
                     'tutorial',
                 ),
                 nav: false,
-                title: 'NFT Documentations',
+                title: 'NFT Tutorial',
+            },
+            {
+                route: 'nft-consulting',
+                name: 'nftConsulting',
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-dev/tutorial/consulting',
+                    'consulting',
+                ),
+                nav: false,
+                title: 'NFT Consulting',
+            },
+            {
+                route: 'consulting-dev-profile',
+                name: 'devProfile',
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-dev/tutorial/consulting/dev-profile',
+                    'dev-profile',
+                ),
+                nav: false,
+                title: 'NFT Consulting Profile',
+            },
+            {
+                route: 'basic-tutorial',
+                name: 'basicTutorial',
+                moduleId: PLATFORM.moduleName(
+                    './routes/nfts/create-nft-dev/tutorial/basic-tutorial/basic-tutorial',
+                    'basic-tutorial',
+                ),
+                nav: false,
+                title: 'Basic NFT Documentations',
             },
             {
                 route: 'create-nft-options',
