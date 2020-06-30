@@ -1,4 +1,4 @@
-import { getUserOpenOrders, cancelMarketOrder } from 'common/market';
+import { getUserOpenOrders, cancelMarketOrder, cancelMarketOrders } from 'common/market';
 import { SteemEngine } from 'services/steem-engine';
 import { autoinject } from 'aurelia-framework';
 import { ToastMessage, ToastService } from 'services/toast-service';
@@ -50,8 +50,12 @@ export class OpenOrders {
         }
     }
 
-    async cancelOrder(type: string, txId: string, symbol: string) {
-        return await cancelMarketOrder(this.se.getUser(), type, txId, symbol);
+    async cancelOrder(order: any) {
+        return await cancelMarketOrder(this.se.getUser(), order.type, order.txId, order.symbol);
+    }
+
+    async cancelMultipleOrders(orders: any = []) {
+        return await cancelMarketOrders(this.se.getUser(), orders);
     }
 
     async isAnyOrderChecked() {
@@ -74,12 +78,17 @@ export class OpenOrders {
         if (window.steem_keychain) {
             if (orders.length > 0) {
                 this.loadingOpenOrders = true;
+                let response: any;
 
-                for (let o of orders) {
-                    let response: any = await this.cancelOrder(o.type, o.txId, o.symbol);
-                    
-                    if (response && response.transactionId)
-                        reloadOrders = true;
+                if (orders.length == 1) {
+                    response = await this.cancelOrder(orders[0]);
+                } else {
+                    response = await this.cancelMultipleOrders(orders);
+                }
+
+                if (response && response.transactionId) {
+                    reloadOrders = true;
+                    this.anyOrderChecked = false;
                 }
             }
         } else {
