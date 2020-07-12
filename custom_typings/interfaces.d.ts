@@ -16,6 +16,7 @@ interface EnvironmentInterface {
     steempAccount: string;
     nativeToken: string;
     disabledTokens: string[];
+    marketHideTokens: string[];
     peggedToken: string;
     features: any;
 }

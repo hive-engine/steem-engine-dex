@@ -228,7 +228,6 @@ describe('Functions', () => {
     test('parseTokens removes disabled tokens', () => {
         const data = {
             tokens: [
-                { symbol: 'PAL', supply: 0, circulatingSupply: 0 },
                 { symbol: 'ENG', supply: 0, circulatingSupply: 0 },
                 { symbol: 'DISNEY', supply: 0, circulatingSupply: 0 },
                 { symbol: 'ASS', supply: 0, circulatingSupply: 0 }
@@ -238,13 +237,12 @@ describe('Functions', () => {
         const parsed = functions.parseTokens(data);
 
         // DISNEY should be removed
-        expect(parsed).toHaveLength(3);
+        expect(parsed).toHaveLength(2);
     });
 
     test('parseTokens sets steemp supply and circulating supply', () => {
         const data = {
             tokens: [
-                { symbol: 'PAL', supply: 0, circulatingSupply: 0 },
                 { symbol: 'ENG', supply: 0, circulatingSupply: 0 },
                 { symbol: 'DISNEY', supply: 0, circulatingSupply: 0 },
                 { symbol: 'ASS', supply: 0, circulatingSupply: 0 },

@@ -23,6 +23,7 @@ export async function getUserOpenOrders(account: string = null) {
             o.type = 'buy';
             o.total = o.price * o.quantity;
             o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
+            o.checked = false;
             return o;
         });
 
@@ -30,6 +31,7 @@ export async function getUserOpenOrders(account: string = null) {
             o.type = 'sell';
             o.total = o.price * o.quantity;
             o.timestamp_string = moment.unix(o.timestamp).format('YYYY-M-DD HH:mm:ss');
+            o.checked = false;
             return o;
         });
 
@@ -131,6 +133,15 @@ export async function cancelMarketOrder(username: string, type: string, orderId:
             window.steem_keychain.requestCustomJson(username, environment.chainId, 'Active', JSON.stringify(transaction_data), `Cancel ${type.toUpperCase()} Order`, async (response) => {
                 if (response.success && response.result) {
                     try {
+                        const toastWait = new ToastMessage();
+                        toastWait.message = i18n.tr('orderCancelWait', {
+                            ns: 'notifications',
+                            type,
+                            symbol
+                        });
+
+                        toastService.success(toastWait);
+
                         const transaction = await checkTransaction(response.result.id, 3);
 
                         const toast = new ToastMessage();
@@ -150,6 +161,86 @@ export async function cancelMarketOrder(username: string, type: string, orderId:
                         toast.message = i18n.tr('errorCancelOrder', {
                             ns: 'notifications',
                             type,
+                            error: e
+                        });
+
+                        toastService.error(toast);
+
+                        resolve(false);
+                    }
+                } else {
+                    resolve(response);
+                }
+            });
+        } else {
+            steemConnectJson(username, 'active', transaction_data, () => {
+
+            });
+        }
+    });
+}
+
+export async function cancelMarketOrders(username: string, orders: any = []) {
+    return new Promise((resolve, reject) => {
+        let transaction_data = [];
+        
+        for (var i = 0; i < orders.length; i++) {
+            let order:any = orders[i];
+            let type = order.type;
+            let orderId = order.txId;
+
+            transaction_data.push({
+                "contractName": "market",
+                "contractAction": "cancel",
+                "contractPayload": {
+                    "type": type,
+                    "id": orderId
+                }
+            });
+
+            if (!ALLOWED_MARKET_ACTIONS.includes(type)) {
+                log.error(`Invalid order type: ${type}`);
+                return reject(`Invalid order type: ${type}`);
+            }
+        }        
+
+        log.debug(`Broadcasting cancel order: ${JSON.stringify(transaction_data)}`);
+
+        if (window.steem_keychain) {
+            window.steem_keychain.requestCustomJson(username, environment.chainId, 'Active', JSON.stringify(transaction_data), `Cancel Orders`, async (response) => {
+                if (response.success && response.result) {
+                    try {
+                        const toastWait = new ToastMessage();
+                        toastWait.message = i18n.tr('orderCancelWait', {
+                            ns: 'notifications'
+                        });
+
+                        toastService.success(toastWait);
+
+                        let txId = response.result.id;
+
+                        // check last transaction in case bulk cancellation
+                        // transactions to check in engine sidechain have id's like: {txId}-0, {txId}-1, {txId}-2 etc.
+                        if (orders.length > 1) {
+                            txId = response.result.id + "-" + (orders.length - 1).toString();
+                        }
+
+                        const transaction = await checkTransaction(txId, 3);
+
+                        const toast = new ToastMessage();
+
+                        toast.message = i18n.tr('multipleOrdersCanceled', {
+                            ns: 'notifications'
+                        });
+
+                        toastService.success(toast);
+
+                        resolve(transaction);
+                    } catch (e) {
+                        const toast = new ToastMessage();
+
+                        toast.message = i18n.tr('multipleOrdersCanceledError', {
+                            ns: 'notifications',
                             error: e
                         });
 

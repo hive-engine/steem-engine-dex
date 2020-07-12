@@ -34,6 +34,11 @@
     "nftAddPropertiesFailed": "NFT Add Properties failed",
     "updatePropertyDefinitionSuccess": "NFT property definition updated successfully",
     "nftAddPropertiesSuccess": "NFT Add Properties successfully completed",
+    "orderCancelWait": "Please wait until the transaction is verified",
+    "orderCancelSelectedOnlyKeychain": "Bulk cancellation is currently only supported in combination with Keychain.",
+    "multipleOrdersCanceled": "Your orders are cancelled successfully",
+    "multipleOrdersCanceledError": "There was an error attempting to cancel your orders: {{error}}"
+    "nftAddPropertiesSuccess": "NFT Add Properties successfully completed",
     "addCategorySuccess": "Category {{name}} is added successfully to level {{level}}",
     "updateCategorySuccess": "Category {{name}} is updated successfully",
     "addCategoryProposalSuccess": "Category proposal for name: {{name}} and level: {{level}} is added successfully",
