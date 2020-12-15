@@ -1,0 +1,46 @@
+<template>
+    <h1>Hello from four</h1>
+    <div class="preview-card">
+        <h4 class="preview-para dashed-border-btm" id="storeName-placeholder"></h4>
+        <div class="preview-card-name">
+            <div style="margin: 0; padding: 0; display: flex;">
+                <span class="preview-info">Price: </span>
+                <span class="preview-info" class="maxSupply" textcontent.bind="tokenPrice" id="price-placeholder"></span
+                ><small
+                    style="font-size: 10px; color: darkgray; padding-left: 3px; align-self: center;"
+                    id="symbol-placeholder"
+                    textcontent.bind="symbol"
+                ></small>
+            </div>
+            <div style="margin: 0; padding: 0; display: flex;">
+                <span style="font-size: 10px; color: darkgray; padding-right: 3px; align-self: center;">Max: </span>
+                <span class="maxSupply" textcontent.bind="maxSupply" id="max-placeholder"></span>
+            </div>
+        </div>
+        <div class="preview-card-image text-center">
+            <img src="../../../../../images/nft-piggy-bank.jpg" alt="" width="100%" class="preview-img" />
+        </div>
+        <div class="card-ownership">
+            <span class="preview-info">Id: </span>
+            <span class="preview-info" style="margin-left: 5px;" id="id-placeholder"></span>
+        </div>
+        <div class="preview-card-body">
+            <p id="body-placeholder" class="preview-para" textcontent.bind="inspiredBy"></p>
+        </div>
+    </div>
+    <style>
+        .active-form {
+            background-color: #0048b3;
+            color: #fff !important;
+        }
+        .active-form > strong {
+            color: #fff;
+            font-weight: bolder;
+            -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+        }
+        #step-4.active-form::before {
+            background-color: #0048b3;
+        }
+    </style>
+</template>

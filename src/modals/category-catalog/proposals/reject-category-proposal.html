@@ -1,0 +1,77 @@
+﻿<template>
+  <ux-dialog>
+    <loader mode="tiny" loading.bind="loading"></loader>
+
+    <ux-dialog-header>
+      <h2>${'Reject category proposal' & t}</h2>
+    </ux-dialog-header>
+    <ux-dialog-body>
+      <div if.bind="proposal">
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-3">
+              <h5>Handler message: </h5>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group">
+                <textarea class="form-control" value.bind="handlerMessage & validate" rows="3"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <h5>${'Name' & t}</h5>
+          <p>${proposal.name}</p>
+        </div>
+
+        <div class="form-group">
+          <h5>${'Level' & t}</h5>
+          <p>${proposal.level}</p>
+        </div>
+
+        <div class="form-group">
+          <h5>${'From' & t}</h5>
+          <p>${proposal.from}</p>
+        </div>
+
+        <div class="form-group">
+          <h5>${'Restricted' & t}</h5>
+          <p>${proposal.restricted ? 'Yes' : 'No'}</p>
+        </div>
+
+        <div class="form-group">
+          <h5>${'Parent' & t}</h5>
+          <p>${proposal.parentId > 0 && proposal.parentData ? proposal.parentData.name : 'N/A'}</p>
+        </div>
+
+        <div class="form-group">
+          <h5>${'Created at' & t}</h5>
+          <p>${proposal.timestamp_string}</p>
+        </div>
+
+        <div class="form-group">
+          <h5>${'Status' & t}</h5>
+          <p>${proposal.status}</p>
+        </div>
+
+        <div class="form-group">
+          <h5>${'Message' & t}</h5>
+          <p>${proposal.message}</p>
+        </div>
+
+
+      </div>
+    </ux-dialog-body>
+
+    <ux-dialog-footer>
+      <button class="btn btn-lg redBtn"
+              click.trigger="controller.cancel()">
+        ${'Cancel' & t}
+      </button>
+      <button class="btn btn-lg greenBtns" click.trigger="confirmReject()">
+        ${'Reject proposal' | capitalise & t}
+      </button>
+    </ux-dialog-footer>
+  </ux-dialog>
+</template>

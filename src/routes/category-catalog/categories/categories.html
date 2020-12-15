@@ -1,0 +1,55 @@
+<template>
+  <loader mode="tiny" loading.bind="loading"></loader>
+
+  <div class="main-content">
+    <div class="col-sm-12">
+      <div class="row alert alert-primary">
+        <h3>Level ${level} categories</h3>
+      </div>
+    </div>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <!--<th scope="col">Level</th>-->
+          <th scope="col">Restricted</th>
+          <th scope="col">Order id</th>
+          <th scope="col">Parent</th>
+          <th scope="col">Image</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr repeat.for="cat of categories" class="${cat.enabled == false ? 'table-danger' : ''}">
+          <td>${cat.id}</td>
+          <td>${cat.name}</td>
+          <!--<td>${cat.level}</td>-->
+          <td>${cat.restricted ? 'Yes' : 'No'}</td>
+          <td>${cat.orderId}</td>
+          <td>${cat.parentId > 0 && cat.parentData ? cat.parentData.name : 'N/A'}</td>
+          <td>
+            <div if.bind="cat.image">
+              <img src="${cat.image}" width="50" height="50" />
+            </div>
+            <div if.bind="!cat.image">
+              <span>N/A</span>
+            </div>
+          </td>
+          <td class="text-right">
+            <a class="btn btn-primary" route-href="route: edit-category; params.bind: { id:cat.id }" title="Edit">
+              <i class="fa fa-pencil"></i>
+            </a>
+            <button if.bind="cat.enabled == true" class="btn btn-danger" click.delegate="disableCategory(cat.id)" title="Disable">
+              <i class="fa fa-pause"></i>
+            </button>
+            <button if.bind="cat.enabled == false" class="btn btn-success" click.delegate="enableCategory(cat.id)" title="Enable">
+              <i class="fa fa-play"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>

@@ -1,0 +1,367 @@
+.register-header {
+    background-color: darkblue;
+    padding-top: 80px;
+    padding-bottom: 120px;
+    background-position: 100%;
+    margin: 41px 0px;
+}
+.title h2 {
+    color: #fff;
+    font-size: 36px;
+    margin: 20px 0px 10px;
+    padding-top: 40px;
+}
+.title p {
+    color: #fff;
+    font-size: 18px;
+}
+.register-logo {
+    margin-bottom: 15px;
+}
+.full-width {
+    width: 100%;
+}
+.steps-count {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+.step {
+    height: 45px;
+    width: 45px;
+    margin: 0 2px;
+    background-color: #d8d8d8;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    position: relative;
+}
+
+.step.active {
+    background-color: #0048b3;
+    color: #fff !important;
+}
+.step.active::before {
+    background-color: #0048b3;
+}
+.active {
+    background: #0048b3;
+    color: #fff !important;
+}
+.step.active strong {
+    color: #fff;
+    font-weight: bolder;
+    transform: scale(1.5);
+}
+
+.step strong {
+    color: black;
+    margin: auto;
+}
+.headImg {
+    position: absolute;
+    bottom: -59px;
+    right: -10px;
+    z-index: 1;
+}
+
+span.step-one:after {
+    content: '';
+    position: absolute;
+    margin: auto;
+    width: 800px;
+    height: 2px;
+    left: 100%;
+    top: 50%;
+    background: #d8d8d8;
+    z-index: -1;
+}
+.active-form {
+    background-color: #0048b3;
+    color: #fff !important;
+}
+.active-form > strong {
+    color: #fff;
+    font-weight: bolder;
+    -webkit-transform: scale(2);
+    transform: scale(2);
+}
+span.step-2:before {
+    content: '';
+    position: absolute;
+    margin: auto;
+    width: 300px;
+    height: 2px;
+    right: 0;
+    top: 50%;
+    background: #d8d8d8;
+    z-index: -1;
+}
+span.step-3:before {
+    content: '';
+    position: absolute;
+    margin: auto;
+    width: 300px;
+    height: 2px;
+    right: 0;
+    top: 50%;
+    background: #d8d8d8;
+    z-index: -1;
+}
+span.step-4:before {
+    content: '';
+    position: absolute;
+    margin: auto;
+    width: 300px;
+    height: 2px;
+    right: 0;
+    top: 50%;
+    background: #d8d8d8;
+    z-index: -1;
+}
+.standalone-header {
+    padding: 50px 0px 0px;
+}
+.option-wrapper {
+    color: #000 !important;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    box-shadow: 0 3px 6px -2px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    padding: 30px;
+}
+.option-wrapper:hover {
+    border-color: #0052cc;
+    box-shadow: 0 2px 6px -4px rgba(0, 0, 0, 0.2), 0 8px 10px -4px rgba(0, 0, 0, 0.14),
+        0 8px 12px 4px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+}
+.body-text {
+    margin: 10px 0;
+}
+.fee-text {
+    margin: 10px 0px 0px !important;
+    color: darkblue;
+}
+.option-logo {
+    margin-top: 10px;
+}
+.disclaimer-text {
+    margin-top: 50px;
+    margin-bottom: -20px;
+    font-size: 16px;
+}
+.create-nft-card-form {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px 80px;
+    box-shadow: 0 2px 6px -4px rgba(0, 0, 0, 0.2), 0 8px 10px -4px rgba(0, 0, 0, 0.14),
+        0 8px 12px 4px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+.preview-card {
+    background: rgba(248, 248, 248, 0.377);
+    /* background-color: #fff; */
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-right: 8px;
+    box-shadow: 0 2px 4px rgba(204, 207, 216, 0.486);
+    border: 1px solid #fff;
+    cursor: pointer;
+    position: relative;
+    max-width: 100%;
+    max-width: 48rem;
+    margin: auto;
+    border-radius: 10px;
+    background-color: #fff;
+    border: 0.2rem solid #eeeeee;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 20%;
+}
+.preview-card-name {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+    border-bottom: 1px dashed #ebebeb;
+}
+.preview-card-name .maxSupply {
+    font-size: 14px;
+    font-weight: bolder;
+    color: #0048be !important;
+}
+.preview-info {
+    font-size: 12px;
+    color: darkgray;
+    align-self: center;
+}
+.preview-img {
+    border-radius: 0.8rem;
+}
+.card-ownership {
+    padding: 4px 10px;
+}
+.preview-card-body {
+    margin: 5px;
+    padding: 10px;
+    /* width: 100%; */
+    border: 1px solid lightgray;
+}
+.preview-para {
+    margin-bottom: 0;
+}
+.go-back {
+    color: #0048b3 !important;
+    font-size: 14px;
+    margin-top: 30px;
+}
+.go-back:hover {
+    text-decoration: underline;
+    color: #129cc1 !important;
+}
+.checkbox-style {
+    margin: auto;
+    margin-left: 13px;
+    transform: scale(2);
+}
+.consent-text {
+    text-align: left !important;
+}
+.submit-nft-button {
+    display: none;
+}
+.hide-tabs {
+    display: none;
+}
+.steps-btn {
+    display: flex;
+    justify-content: space-between;
+}
+.step-btn {
+    display: flex;
+    justify-content: flex-end;
+}
+.prevBtn {
+    border-radius: 50%;
+    background-color: #ff3300;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    font-size: 20px;
+    width: 60px;
+    height: 60px;
+}
+.prevBtn:hover {
+    background-color: #ddd;
+    color: black;
+}
+.nextBtn {
+    border-radius: 50%;
+    background-color: #4caf50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    font-size: 20px;
+    width: 60px;
+    height: 60px;
+}
+.nextBtn:hover {
+    background-color: rgb(221, 221, 221);
+    color: black;
+}
+.no-pad-left {
+    padding-left: 0;
+}
+.flex-it {
+    display: flex;
+}
+.flex-save {
+    align-items: center;
+}
+.margin-top-zero {
+    margin-top: 0!important;
+    align-items: center;
+    margin-left: 15px;
+}
+.margin-t-zero-0 {
+    margin-top: 0!important;
+}
+.margin-bottom-0 {
+    margin-bottom: 0!important;
+}
+.padding-right {
+    align-items: center;
+}
+.margin-bt-15 {
+    margin-bottom: 32px;
+}
+.date-picker {
+    display: block;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    -webkit-transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+}
+.question-answer {
+    font-size: 22px;
+    background: none;
+    border: none;
+    outline: none;
+    margin-bottom: 30px;
+}
+.question-answer-1 {
+    color: #0048b3;
+    font-weight: bold;
+    margin-right: 15px;
+}
+.question-answer-2 {
+    color: #cf3999;
+}
+.add-nft-link {
+    width: 100%;
+}
+.add-nft-card {
+    border-radius: 3px;
+    background-color: #FFF;
+    border: 1px solid #E1E3DF;
+    border-bottom-color: #CBCCC9;
+    display: inline-block;
+    max-width: 240px;
+    position: relative;
+    width: 100%;
+    padding: 1px;
+    margin-bottom: 30px;
+}
+.top-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    background-color: rgba(86, 180, 201, 0.301);
+}
+.plus-sign h1 {
+    color: #83CBDC!important;
+    font-size: 38px;
+    font-weight: bolder;
+}
+.light-blue {
+    color: #83CBDC;
+    font-size: 14px;
+}
+.bottom-card {
+    height: 30px;
+}
