@@ -160,7 +160,7 @@ describe('Functions', () => {
     });
 
     test('getSteemPrice should return mock steem price', async () => {
-        fetchMock.mockResponseOnce(JSON.stringify({ steem_price: 0.389283 }));
+        fetchMock.mockResponseOnce(JSON.stringify({ steem: { usd: 0.389283 } }));
 
         const response = await getSteemPrice();
         expect(response).toEqual(0.389283)
@@ -267,7 +267,6 @@ describe('Functions', () => {
 
     test('should filter out non-pegged tokens', () => {
         expect(stateTokensOnlyPegged([
-            { symbol: 'PAL' },
             { symbol: 'ENG' },
             { symbol: 'STEEMP' },
             { symbol: 'LTCP' }
