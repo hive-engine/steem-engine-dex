@@ -1,0 +1,160 @@
+.p-privacy{
+    line-height: 3;
+    padding-top: 3%;
+    font-size: inherit;
+}
+.pp-privacy{
+    line-height: 3;
+    font-size: inherit;
+}
+.h-privacy{
+    padding-top: 2%;
+    padding-bottom: 1%;
+}
+.privacy-h-b{
+    font-weight: 600;
+    line-height: 1.5;
+}
+.faq-banner{
+    background-color: #0052cc!important;
+}
+.faq-h-text{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.pad-header{
+    padding: 1%;
+}
+.faq-header{
+    padding-bottom: 3%;
+}
+.pt-faq{
+    padding-top: 7%;
+    padding-bottom: 7%;
+}
+.faq-pad{
+    padding: 8%;
+}
+.faq-pad-ans{
+    padding: 2%;
+}
+.faq-pad-btn{
+    text-align: left;
+    font-size: 120%;
+    white-space: inherit;
+}
+.faq-pad-btn:hover{
+    color: #23527c;
+    text-decoration: none; 
+    background-color: transparent;
+    text-align: left;
+}
+.faq-pad-btn:active:focus{
+    color: #23527c;
+    text-decoration: none; 
+    background-color: transparent;
+    outline: 0;
+    outline-offset: 0;
+}
+.faq-pad-btn:active{
+    color: #23527c;
+    text-decoration: none; 
+    background-color: transparent;
+    outline: 0;
+    outline-offset: 0;
+}
+.faq-pad-btn:focus{
+    color: #23527c;
+    text-decoration: none; 
+    background-color: transparent;
+    outline: 0;
+    outline-offset: 0;
+}
+.faq-card{
+    box-shadow: 0 1px 9px -2px rgba(0, 0, 0, 0.08);
+    width: 100%;
+}
+.hr-style-faq{
+    width: 22%;
+    margin-top: 0;
+    margin-bottom: 0;
+    border-top: 3px solid;
+    border-color: white;
+}
+
+.panel-title > a {
+  display: block;
+  position: relative;
+}
+.panel-title > a:after {
+    content: "\f067";
+    position: absolute;
+    font-family: "Font Awesome 5 Free";
+    width: 25px;
+    height: 25px;
+    line-height: 28px;
+    font-size: 15px;
+    font-weight: 900;
+    text-align: center;
+    position: absolute;
+    top: 8px;
+    right: 15px;
+    transform: rotate(135deg);
+    color: #0cc26f;
+}
+
+.panel-title > a[aria-expanded="true"]:after {
+    content: "\f067";
+    font-family: "Font Awesome 5 Free";
+    width: 25px;
+    height: 25px;
+    line-height: 28px;
+    font-size: 15px;
+    font-weight: 900;
+    text-align: center;
+    position: absolute;
+    top: 8px;
+    right: 15px;
+    transform: rotate(0);
+    color: #676767;
+}
+@media only screen and (max-device-width: 480px){
+   
+      .panel-title > a:after {
+          content: "\f067";
+          position: absolute;
+          font-family: "Font Awesome 5 Free";
+          width: 25px;
+          height: 25px;
+          line-height: 28px;
+          font-size: 15px;
+          font-weight: 900;
+          text-align: center;
+          position: absolute;
+          top: 8px;
+          right: 15px;
+          transform: rotate(135deg);
+          color: #0cc26f;
+          display: none!important;
+      }
+      
+      .panel-title > a[aria-expanded="true"]:after {
+          content: "\f067";
+          font-family: "Font Awesome 5 Free";
+          width: 25px;
+          height: 25px;
+          line-height: 28px;
+          font-size: 15px;
+          font-weight: 900;
+          text-align: center;
+          position: absolute;
+          top: 8px;
+          right: 15px;
+          transform: rotate(0);
+          color: #676767;
+          display: none!important;
+      }
+      .faq-pad-ans{
+        padding: 8%!important;
+    }
+}
