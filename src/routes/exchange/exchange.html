@@ -8,13 +8,13 @@
     <require from="./components/order-actions"></require>
     <require from="./components/token-open-orders"></require>
 
-    <div class="token-metrics-margin-top">
+    <div class="token-metrics-margin-top" show.bind="!marketTokenHide">
         <token-metrics token.bind="data"
                        hide-buttons.bind="!state.loggedIn"
                        deposit.call="deposit()"
                        withdraw.call="withdraw()"></token-metrics>
     </div>
-    <div class="container-fluid h100-minus-header">
+    <div class="container-fluid h100-minus-header" show.bind="!marketTokenHide">
         <div class="row exchange-columns h100">            
             <div class="col-lg-3 col-md-12 col-sm-12">
                 <div class="exchange-header">

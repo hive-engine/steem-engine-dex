@@ -67,6 +67,7 @@ export class Exchange {
     private currentExchangeMode = 'buy';
     private bidQuantity = '';
     private bidPrice = '';
+    private marketTokenHide = false;
 
     private subscription: StateSubscription;
     private state: State;
@@ -111,6 +112,10 @@ export class Exchange {
 
         if (environment.disabledTokens.includes(symbol)) {
             return new Redirect('/exchange/ENG');
+        }
+
+        if (environment.marketHideTokens.includes(symbol)) {
+            this.marketTokenHide = true;
         }
 
         // eslint-disable-next-line no-undef

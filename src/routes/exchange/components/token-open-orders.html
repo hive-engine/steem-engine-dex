@@ -7,26 +7,34 @@
         <table class="buy-table table-striped col-12 token-open-orders-table">
             <thead>
                 <tr>
-                    <th>${'Symbol' & t}</th>
-                    <th width="135" class="text-right">${'Price' & t} (${'STEEMP' & t})</th>
+                    <th></th>
+                    <th width="150">${'Date' & t}</th>
+                    <td class="text-left">${'Transaction Id' & t}</td>
+                    <th class="text-left">${'Symbol' & t}</th>
                     <th class="text-right">${'Quantity' & t}</th>
-                    <th class="text-right">${'Total' & t} (STEEMP)</th>
-                    <th>${'Type' & t}</th>
-                    <th>${'Date' & t}</th>
+                    <th width="135" class="text-right">${'Price' & t} (${'HIVE' & t})</th>                    
+                    <th class="text-right">${'Total' & t} (HIVE)</th>
+                    <th>${'Type' & t}</th>                    
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr repeat.for="order of orders">
-                    <td>${order.symbol}</td>
-                    <td class="text-right">${order.price}</td>
+                    <td><input type="checkbox" checked.bind="order.checked" change.delegate="orderCheckChange()" /></td>
+                    <td class="text-left">${order.timestamp_string}</td>
+                    <td class="text-left tokenOpenOrderTxId">${order.txId}</td>
+                    <td class="text-left">${order.symbol}</td>
                     <td class="text-right">${order.quantity}</td>
+                    <td class="text-right">${order.price}</td>                    
                     <td class="text-right">${order.total}</td>
-                    <td class="${order.type == 'sell' ? 'red' : 'green'}">${order.type.toUpperCase()}</td>
-                    <td>${order.timestamp_string}</td>
+                    <td class="${order.type == 'sell' ? 'red' : 'green'}">${order.type.toUpperCase()}</td>                    
                     <td><button type="button" class="btn btn-danger btn-sm" click.delegate="cancelOrder(order.type, order.txId, order.symbol)">cancel</button></td>
                 </tr>
             </tbody>
+            <tfoot>
+                <td colspan="6"></td>
+                <td colspan="3" class="text-right"><button show.bind="anyOrderChecked" type="button" class="btn btn-danger btn-sm" click.delegate="cancelSelectedOrders()">Cancel selected orders</button></td>
+            </tfoot>
         </table>
     </div>
 </template>
