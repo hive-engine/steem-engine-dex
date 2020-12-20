@@ -1,0 +1,289 @@
+<template>
+    <require from="../info-boxes/nft-create-info.html"></require>
+    <require from="../create-listing-nav/stepsnav"></require>
+    <require from="./add-service-listing-components/stepone"></require>
+    <require from="./add-service-listing-components/steptwo"></require>
+    <require from="./add-service-listing-components/stepthree"></require>
+    <require from="./add-service-listing-components/stepfour"></require>
+    <header class="create-nft-header-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="title">
+                        <h1 class="create-nft-header">Add Service Listing</h1>
+                        <p class="create-nft-header-desc">
+                            Add goods for sale in your DexRex store using our Listing Wizard
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="create-token-form-header text-center">Create Listing Form</h2>
+                <hr class="split" />
+            </div>
+            <div class="col-md-12 text-center">
+                <p style="margin-bottom: 15px;">
+                    <strong
+                        >${'tokenCreationFee' & t: { 'tokenFee': tokenCreationFee, 'token': environment.nativeToken
+                        }}</strong
+                    >
+                </p>
+                <p>${'yourEngBalance' & t: { 'balance': engBalance, 'token': environment.nativeToken }}</p>
+            </div>
+            <stepsnav selected="step-one" style="width: 100%;"></stepsnav>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-8">
+                <div class="create-nft-card-form">
+                    <div class="create-nft-card-header text-center">
+                        <img
+                            src="../../../../images/se-stand-full-opacity.svg"
+                            alt="logo"
+                            class="register-logo"
+                            width="80"
+                        />
+                    </div>
+                    <div class="hide-ts custom-tabs tab-1" id="tab-1">
+                        <div class="nft-form-wrapper" style="padding: 0; margin: 0;">
+                            <form>
+                                <div class="form-row">
+                                    <div class="form-group margin-bottom-0 col-md-6">
+                                        <label for="inputEmail4"
+                                            >Account/Group Name<tooltip
+                                                text="[REQUIRED] Name of the token (letters, numbers, whitespace only, max length of 50)"
+                                            ></tooltip
+                                        ></label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="accountName"
+                                            value.bind="accountName"
+                                            click.trigger="info(0)"
+                                        />
+                                    </div>
+                                    <div class="form-group margin-bottom-0 col-md-6">
+                                        <label for="inputPassword4"
+                                            >Store Name
+                                            <tooltip
+                                                text="[REQUIRED] Enter Collection/Item name (max length of 100)"
+                                            ></tooltip
+                                        ></label>
+                                        <input
+                                            type="text"
+                                            class="form-control storeName-placeholder"
+                                            id="storeName"
+                                            click.trigger="info(1)"
+                                            value.bind="itemName"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputAddress2"
+                                        >Categories
+                                        <tooltip text="[REQUIRED] Choose the category of your listing"></tooltip
+                                    ></label>
+                                    <select class="form-control" click.trigger="info(2)" value.bind="itemCategory">
+                                        <option>Select Category</option>
+                                    </select>
+                                </div>
+                                <div class="form-group no-pad-left flex-it" click.trigger="info(3)">
+                                    <label for="inputAddress2"
+                                        >What do you want?
+                                        <tooltip
+                                            text="[REQUIRED] Are you offereing this item or looking for one?"
+                                        ></tooltip
+                                    ></label>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-checks-input"
+                                            type="radio"
+                                            name="exampleRadios"
+                                            id="exampleRadios1"
+                                            value="option1"
+                                            checked
+                                        />
+                                        <label class="form-check-label" for="exampleRadios1">
+                                            Wanted
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-checks-input"
+                                            type="radio"
+                                            name="exampleRadios"
+                                            id="exampleRadios2"
+                                            value="option2"
+                                        />
+                                        <label class="form-check-label" for="exampleRadios2">
+                                            Offered
+                                        </label>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="form-group margin-bt-15">
+                                    <label for="inputAddress2"
+                                        >Language
+                                        <tooltip text="[REQUIRED] Choose a default language for your store"></tooltip
+                                    ></label>
+                                    <select class="form-control" click.trigger="info(4)">
+                                        <option>Select Store Language</option>
+                                    </select>
+                                    <label for="inputAddress2"
+                                        >Accepted Currency
+                                        <tooltip
+                                            text="[REQUIRED] Choose a default currency for pricing and payment"
+                                        ></tooltip
+                                    ></label>
+                                    <select class="form-control" click.trigger="info(5)">
+                                        <option>Select Store Currency</option>
+                                    </select>
+                                </div>
+                                <hr />
+                                <div class="form-group margin-bottom-0">
+                                    <label for="inputAddress2"
+                                        >Country <tooltip text="[REQUIRED] Choose a store country"></tooltip
+                                    ></label>
+                                    <select class="form-control" click.trigger="info(6)">
+                                        <option>Select Country</option>
+                                    </select>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group margin-top-0 col-md-6">
+                                        <label for="inputCity"
+                                            >City <tooltip text="[REQUIRED] Choose a store city"></tooltip
+                                        ></label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="inputCity"
+                                            click.trigger="info(7)"
+                                        />
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputState"
+                                            >State <tooltip text="[REQUIRED] Choose a store State"></tooltip
+                                        ></label>
+                                        <select id="inputState" class="form-control" click.trigger="info(8)">
+                                            <option selected>Choose...</option>
+                                            <option>...</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="inputZip"
+                                            >Zip <tooltip text="[REQUIRED] Enter Zip Code"></tooltip
+                                        ></label>
+                                        <input type="text" class="form-control" id="inputZip" click.trigger="info(9)" />
+                                    </div>
+                                </div>
+
+                                <hr />
+                                <div class="form-group no-pad-left flex-it">
+                                    <form action="/action_page.php">
+                                        <label for="offerStart"
+                                            >Offer Starts:
+                                            <tooltip text="[REQUIRED] Choose a starting date for this opening"></tooltip
+                                        ></label>
+                                        <input class="date-picker" type="date" id="offerStart" name="offerStart" />
+                                    </form>
+                                    <form class="margin-top-zero" action="/action_page.php">
+                                        <label for="offerEnd"
+                                            >Offer Ends:
+                                            <tooltip text="[REQUIRED] Choose an ending date for this opening"></tooltip
+                                        ></label>
+                                        <input class="date-picker" type="date" id="offerEnd" name="offerEnd" />
+                                    </form>
+                                </div>
+
+                                <div class="form-group no-pad-left">
+                                    <div class="form-checks flex-save">
+                                        <input class="form-checks-input padding-right" type="checkbox" id="gridCheck" />
+                                        <label class="form-check-label margin-top-zero" for="gridCheck">
+                                            Save before proceeding
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="step-btn">
+                            <button id="nextBtn" class="nextBtn" click.delegate="handleNext(2)">&#8250;</button>
+                        </div>
+                    </div>
+                    <steptwo class="hide-ts custom-tabs hide-tabs tab-2" id="tab-2"></steptwo>
+                    <stepthree
+                        testing.call="testing()"
+                        class="hide-ts custom-tabs hide-tabs tab-3"
+                        id="tab-3"
+                    ></stepthree>
+                    <stepfour class="hide-ts custom-tabs hide-tabs tab-4" id="tab-4"></stepfour>
+                    <div class="">
+                        <button
+                            id="submit-btn"
+                            type="button"
+                            disabled.bind="tokenCreationFee > engBalance"
+                            class="greenBtn custom-tabs hide-ts"
+                            style="border: none; display: none;"
+                            click.delegate="createToken()"
+                        >
+                            ${'Create my token' & t}
+                        </button>
+                        <a
+                            type="button"
+                            click.delegate="handlePrev(3)"
+                            class="text-center hide-tabs go-back custom-tabs hide-ts"
+                            id="go-back"
+                            >Go back</a
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 offset-md-1">
+                <nft-create-info class="hidden-box" id="nft-name"></nft-create-info>
+                <div class="preview-card">
+                    <h4
+                        id="para-1"
+                        class="preview-para name-placeholder dashed-border-btm"
+                        textcontent.bind="itemName"
+                    ></h4>
+                    <div class="preview-card-name">
+                        <div style="margin: 0; padding: 0; display: flex;">
+                            <span class="preview-info">Price: </span>
+                            <span
+                                class="preview-info price-placeholder"
+                                class="maxSupply"
+                                textcontent.bind="itemPrice"
+                            ></span
+                            ><small
+                                style="font-size: 10px; color: darkgray; padding-left: 3px; align-self: center;"
+                                class="symbol-placeholder"
+                                textcontent.bind="storeCurrency"
+                            ></small>
+                        </div>
+                        <div style="margin: 0; padding: 0; display: flex;">
+                            <span style="font-size: 10px; color: darkgray; padding-right: 3px; align-self: center;"
+                                >Max:
+                            </span>
+                            <span class="maxSupply max-placeholder" textcontent.bind="itemQuantity"></span>
+                        </div>
+                    </div>
+                    <div class="preview-card-image text-center">
+                        <img src="../../../../images/nft-piggy-bank.jpg" alt="" width="100%" class="preview-img" />
+                    </div>
+                    <div class="card-ownership">
+                        <span class="preview-info">Id: </span>
+                        <span class="preview-info id-placeholder" style="margin-left: 5px;"> #4532</span>
+                    </div>
+                    <div class="preview-card-body">
+                        <p id="preview" class="preview-para body-placeholder" textcontent.bind="itemDescription"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</template>

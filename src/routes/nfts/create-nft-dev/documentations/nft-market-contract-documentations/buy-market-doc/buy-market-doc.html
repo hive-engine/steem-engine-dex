@@ -1,0 +1,115 @@
+<template>
+    <div class="doc-card hide-section" id="buy-section" style="display: none;">
+        <div>
+            <div class="doc-card-header">
+                <h2 class="card-title">Buy (hit an existing sell order)</h2>
+                <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
+            </div>
+            <h3 class="doc-card-link">
+                ACTION: buy:<span
+                    ><font-awesome-icon
+                        class="arrow-icon"
+                        icon.bind="['fas', 'chevron-circle-right']"
+                    ></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                Buys one or more NFT instances that are currently listed for sale. The buyer must have enough tokens in
+                his account to pay for all NFT instances; there is no concept of a partial fill, either you buy
+                everything requested or nothing.
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    Requires active key: yes
+                </li>
+                <li class="each-requirement">
+                    Can be called by: Steem account
+                </li>
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">Parameters</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                        </li>
+                        <li class="each-nested-requirement">
+                            nfts (array of string): list of NFT instance IDs (NOT order IDs) that you want to buy
+                        </li>
+                        <li class="each-nested-requirement">
+                            marketAccount (string): Steem account to receive the market fee percentage of the total sale
+                            price
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p class="info">
+                A maximum of 50 NFT instances can be bought in a single call of this action. You cannot fill your own
+                orders, and all orders must have the same price symbol.
+            </p>
+            <div class="doc-example-header">
+                <h3 class="example-title">Example</h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                            <code>
+    {
+        "contractName": "nftmarket",
+        "contractAction": "buy",
+        "contractPayload": {
+            "symbol": "TESTNFT",
+            "nfts": [ "1","2","3","4" ],
+            "marketAccount": "peakmonsters"
+        }
+    }
+                            </code>
+                        </pre>
+                </div>
+            </div>
+            <p class="info">
+                A successful purchase will emit a single "hitSellOrder" event with data on all NFT instances sold:
+                <code>
+                    symbol, priceSymbol, account: the buyer, ownedBy: u, sellers: data structure giving info on all
+                    sellers, paymentTotal: total sale price of all orders sold (after subtracting the market fee),
+                    feeTotal: total market fee of all orders sold
+                </code>
+                example:
+            </p>
+            <div class="doc-example">
+                <pre style="overflow-x: hidden;">
+                            <code>
+    {
+        "contract": "nftmarket",
+        "event": "hitSellOrder",
+        "data": {
+            "symbol": "TESTNFT",
+            "priceSymbol": "ENG",
+            "account": "cryptomancer",
+            "ownedBy": "u",
+            "sellers": [
+                { "account": "aggroed",
+                "ownedBy": "u",
+                "nftIds": [ "1","2","3" ],
+                "paymentTotal": "8.95353150"
+                },
+                { "account": "marc",
+                "ownedBy": "u",
+                "nftIds": [ "4" ],
+                "paymentTotal": "7.60000000"
+                }
+            ],
+            "paymentTotal": "16.55353150",
+            "feeTotal": "0.87123850"
+        }
+    }
+                                </code>
+                        </pre>
+            </div>
+            <p class="info">
+                In the above example, 4 NFT instances are bought at once by @cryptomancer, from separate sellers. Three
+                of those tokens were sold by @aggroed, who received a payment of 8.95353150 ENG, and one token was sold
+                by @marc who received a payment of 7.60000000 ENG. The total payment amount distributed to the sellers
+                for all 4 tokens was 16.55353150 ENG (8.95353150 + 7.60000000), and the market fee was 0.87123850 ENG.
+                To get the total sale price of 17.42477000 ENG, add together paymentTotal and feeTotal. In this case,
+                the fee for each order was 5%.
+            </p>
+        </div>
+    </div>
+</template>

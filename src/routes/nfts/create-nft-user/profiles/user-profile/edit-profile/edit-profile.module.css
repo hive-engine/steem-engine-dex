@@ -1,0 +1,122 @@
+header {
+    margin-top: 80px;
+}
+.header-wrapper {
+    background: #451771;
+    box-shadow: 0 3px 0 #30104f;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 30px;
+}
+.profile-form-header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background: #f5f6f7;
+}
+.profile-form-header {
+    margin-bottom: 0;
+    margin-left: 5px;
+}
+.profile-form-header-icon {
+    width: 35px;
+}
+.wizard-header {
+    color: #fff;
+}
+.wizard-header-desc {
+    color: #fff;
+}
+.link-el {
+    width: 100%;
+    text-align: right;
+}
+.active {
+    color: black;
+    font-weight: 700;
+}
+.detail-card {
+    padding: 10px 30px 10px 0px;
+    /* border-radius: 15px; */
+    background: #fff;
+    box-shadow: 0 3px 0 rgba(84, 94, 111, 0.021);
+    transition: transform 0.2s ease-in-out, background 0.2s ease-in-out;
+    margin-bottom: 5px;
+}
+.content-wrapper {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    text-align: right;
+}
+.content-icon {
+    margin-right: 5px;
+}
+.content-name {
+    margin-bottom: 0;
+    letter-spacing: 2px;
+    color: #20202096;
+    font-size: 14px;
+    transition: 0.2s ease-out all;
+    -o-transition: 0.2s ease-out all;
+    -webkit-transition: 0.2s ease-out all;
+    -moz-transition: 0.2s ease-out all;
+}
+.desc {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+.form-nav-icon {
+    width: 35px;
+}
+.side-bar-wrapper {
+    border-right: #f5f6f7 solid 1px;
+    padding: 0;
+    margin: 0;
+}
+.input-label {
+    font-size: 16px;
+}
+.input-space {
+    outline: none;
+    border: none;
+    box-shadow: 0 3px 0 rgba(84, 94, 111, 0.103);
+    transition: transform 0.2s ease-in-out, background 0.2s ease-in-out;
+    margin-bottom: 20px;
+    border-radius: 0;
+    padding-left: 0;
+}
+.input-space:focus {
+    border: none !important;
+    box-shadow: none;
+}
+.submit-btn-wrapper {
+    text-align: right;
+}
+.submit-btn {
+    background: #4267b2;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 2px;
+    padding: 4px 12px;
+    font-weight: bold;
+}
+.info-card {
+    color: #000 !important;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 20%;
+    border: 1px solid #0012b7;
+    box-shadow: 0 3px 6px -2px rgba(0, 0, 0, 0.219);
+    border-radius: 10px;
+    padding: 30px;
+}
+.form-pad-up {
+    padding: 15px;
+}
+.form-check label {
+    margin-top: 0!important;
+}

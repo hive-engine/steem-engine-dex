@@ -1,0 +1,92 @@
+<template>
+    <loader mode="tiny" loading.bind="loading"></loader>
+
+    <header class="documentation-header-wrapper color-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title">
+                        <h1 class="create-nft-header text-center">Tutorials</h1>
+                        <p class="create-nft-header-desc text-center">
+                            Welcome to our NFT creation wizard, we noticed you just created a NFT, kindly follow the steps below to start Issuing and Delegating your NFT.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="doc-cards-wrapper">
+        <div class="section-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7">
+                        <h2 class="section-header-text mt-4">Get Started with NFTs</h2>
+                    </div>
+                    <div class="col-md-5" style="display: flex; justify-content: flex-end;">
+                        <a href="" class="mt-4 ml-auto need-help-text">Need help with integrating?</a>
+                    </div>
+                </div>
+                <hr />
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="doc-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Basic Tutorials</h3>
+                            <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
+                        </div>
+                        <p class="card-body">
+                            Once an NFT has been created, with properties defined, and permissions set, it's time to issue some tokens!
+                        </p>
+                        <a route-href="route: basicTutorial" class="doc-card-link"
+                            >Read the docs<span
+                                ><font-awesome-icon
+                                    class="arrow-icon"
+                                    icon.bind="['fas', 'chevron-circle-right']"
+                                ></font-awesome-icon></span
+                        ></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="doc-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Advanced Tutorials</h3>
+                            <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
+                        </div>
+                        <p class="card-body">
+                            This will include the automation process that you may need to set up post NFT creation
+                        </p>
+                        <a route-href="route: nftContractDocumentations" class="doc-card-link"
+                            >Read the docs<span
+                                ><font-awesome-icon
+                                    class="arrow-icon"
+                                    icon.bind="['fas', 'chevron-circle-right']"
+                                ></font-awesome-icon></span
+                        ></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="doc-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Consulting</h3>
+                        </div>
+                        <p class="card-body">
+                            Check in here to see a detailed form that requires assistance through the creation process
+                        </p>
+                        <a route-href="route: nftConsulting" class="doc-card-link"
+                            >Read the docs<span
+                                ><font-awesome-icon
+                                    class="arrow-icon"
+                                    icon.bind="['fas', 'chevron-circle-right']"
+                                ></font-awesome-icon></span
+                        ></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container"></div>
+</template>

@@ -1,0 +1,29 @@
+<template>
+    <div class="form-group forms-here">
+        <label class="input-label" for="formGroupExampleInput">Name of Contact</label>
+        <input
+            class="form-control form-control-lg input-space"
+            value.bind="fullName"
+            type="text"
+            placeholder="Enter Job Type"
+        />
+    </div>
+    <div class="form-group forms-here">
+        <label class="input-label" for="formGroupExampleInput">Email Address of Contact</label>
+        <input
+            class="form-control form-control-lg input-space"
+            value.bind="fullName"
+            type="text"
+            placeholder="Enter Your Role"
+        />
+    </div>
+    <div class="form-group forms-here">
+        <label class="input-label" for="formGroupExampleInput">Brief History</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+    </div>
+    <button class="ml-auto">Add More   <font-awesome-icon icon.bind="['fas', 'plus']"></font-awesome-icon></button>
+    <br />
+    <div class="submit-btn-wrapper">
+        <a class="submit-btn" href="">Submit</a>
+    </div>
+</template>

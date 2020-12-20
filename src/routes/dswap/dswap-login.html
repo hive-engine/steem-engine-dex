@@ -1,0 +1,35 @@
+<template>
+    <div class="page-wrapper">
+        <div class="logo-wrapper">
+            <img src="../../images/dswap_login.png" width="200" alt="DSwap_Logo">
+        </div>
+        <div class="login-box">
+            <h2 class="header text-center">Login</h2>
+            <form class="login-form validate-form">
+                <div class="wrap-input rs1 validate-input" data-validate="Username is required">
+                    <input class="input" placeholder="Username" type="text" name="username" />
+                    <span class="label-input">Username</span>
+                </div>
+
+                <div class="wrap-input rs2 validate-input" data-validate="Password is required">
+                    <input class="input" placeholder="Active Key" type="password" name="pass" />
+                    <span class="label-input">Active Key</span>
+                </div>
+
+                <div class="container-login-form-btn">
+                    <a style="width: 100%;" route-href="route:dswap">
+                        <button class="login-form-btn">
+                        Sign in
+                    </button>
+                    </a>
+                </div>
+
+                <div class="text-center keychain-link keychain">
+                    <a href="#" class="txt1 keychain text-center">
+                        Signin With Keychain
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>

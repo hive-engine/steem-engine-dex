@@ -1,0 +1,498 @@
+<template>
+    <loader mode="tiny" loading.bind="loading"></loader>
+    <div class="doc-card hide-section" id="manage-section" style="display: none;">
+        <div>
+            <div class="doc-card-header">
+                <h2 class="card-title">Managing NFTs</h2>
+                <small class="dev-detail">by <a href="" class="dev-name">Cryptomancer</a></small>
+            </div>
+            <h3 class="doc-card-link">
+                ACTION: updateUrl<span
+                    ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+                ></span>
+            </h3>
+            <p class="doc-card-body">
+                Updates the url of the token's project web site.
+            </p>
+            <ul class="requirements">
+                <li class="each-requirement">
+                    Requires active key: no
+                </li>
+                <li class="each-requirement">
+                    Can be called by: Steem account that owns the NFT
+                </li>
+                <li class="each-requirement">
+                    <p class="nested-requirement-title">Parameters</p>
+                    <ul class="nested-requirement">
+                        <li class="each-nested-requirement">
+                            url (string): new url for the token (0 <= length <= 255)
+                        </li>
+                        <li class="each-nested-requirement">
+                            symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="doc-example-header">
+                <h3 class="example-title">Example</h3>
+                <div class="doc-example">
+                    <pre style="overflow-x: hidden;">
+                                <code>
+    {
+            "contractName": "nft",
+            "contractAction": "updateUrl",
+            "contractPayload": {
+                "symbol": "TESTNFT",
+                "url": "https://mynewurl.com"
+            }
+        }
+                                </code>
+                            </pre>
+                </div>
+            </div>
+        </div>
+        <div id="updateMetadata-section" class="doc-card-divider">
+        <h3 class="doc-card-link">
+            ACTION: updateMetadata<span
+                ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+            ></span>
+        </h3>
+        <p class="doc-card-body">
+            Updates the metadata of a token.
+        </p>
+        <ul class="requirements">
+            <li class="each-requirement">
+                Requires active key: no
+            </li>
+            <li class="each-requirement">
+                Can be called by: Steem account that owns the NFT
+            </li>
+            <li class="each-requirement">
+                <p class="nested-requirement-title">Parameters</p>
+                <ul class="nested-requirement">
+                    <li class="each-nested-requirement">
+                        symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                    </li>
+                    <li class="each-nested-requirement">
+                        metadata (JSON): the metadata for the token (the JSON when stringified can't exceed 1000 characters)
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="doc-example-header">
+            <h3 class="example-title">Example</h3>
+            <div class="doc-example">
+                <pre style="overflow-x: hidden;">
+                            <code>
+   {
+        "contractName": "nft",
+        "contractAction": "updateMetadata",
+        "contractPayload": {
+            "symbol": "TESTNFT",
+            "metadata": {
+                "url": "https://mycoolnft.com",
+                "icon": "https://mycoolnft.com/token.jpg",
+                "desc": "This NFT will rock your world! It has features x, y, and z. So cool!"
+            }
+        }
+    }
+                            </code>
+                        </pre>
+            </div>
+        </div>
+        </div>
+        <div class="doc-card-divider">
+        <h3 class="doc-card-link">
+            ACTION: updateName<span
+                ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+            ></span>
+        </h3>
+        <p class="doc-card-body">
+            Updates the user friendly name of an NFT.
+        </p>
+        <ul class="requirements">
+            <li class="each-requirement">
+                Requires active key: no
+            </li>
+            <li class="each-requirement">
+                Can be called by: Steem account that owns the NFT
+            </li>
+            <li class="each-requirement">
+                <p class="nested-requirement-title">Parameters</p>
+                <ul class="nested-requirement">
+                    <li class="each-nested-requirement">
+                        name (string): new name of the token (letters, numbers, whitespace only, max length of 50)
+                    </li>
+                    <li class="each-nested-requirement">
+                        symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="doc-example-header">
+            <h3 class="example-title">Example</h3>
+            <div class="doc-example">
+                <pre style="overflow-x: hidden;">
+                    <code>
+   {
+    "contractName": "nft",
+    "contractAction": "updateName",
+    "contractPayload": {
+        "symbol": "TESTNFT",
+        "name": "My Awesome NFT"
+    }
+}
+                    </code>
+                </pre>
+            </div>
+        </div>
+        </div>
+
+        <div class="doc-card-divider">
+        <h3 class="doc-card-link">
+            ACTION: updateOrgName<span
+                ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+            ></span>
+        </h3>
+        <p class="doc-card-body">
+            Updates the name of the company/organization that manages an NFT.
+        </p>
+        <ul class="requirements">
+            <li class="each-requirement">
+                Requires active key: no
+            </li>
+            <li class="each-requirement">
+                Can be called by: Steem account that owns the NFT
+            </li>
+            <li class="each-requirement">
+                <p class="nested-requirement-title">Parameters</p>
+                <ul class="nested-requirement">
+                    <li class="each-nested-requirement">
+                        orgName (string): new name of the company/organization (letters, numbers, whitespace only, max length of 50)
+                    </li>
+                    <li class="each-nested-requirement">
+                        symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="doc-example-header">
+            <h3 class="example-title">Example</h3>
+            <div class="doc-example">
+                <pre style="overflow-x: hidden;">
+                    <code>
+   {
+        "contractName": "nft",
+        "contractAction": "updateOrgName",
+        "contractPayload": {
+            "symbol": "TESTNFT",
+            "orgName": "Nifty Company Inc"
+        }
+    }
+                    </code>
+                </pre>
+            </div>
+        </div>
+        </div>
+
+        <div class="doc-card-divider">
+        <h3 class="doc-card-link">
+            ACTION: updateProductName<span
+                ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+            ></span>
+        </h3>
+        <p class="doc-card-body">
+            Updates the name of the product/brand that an NFT is associated with.
+        </p>
+        <ul class="requirements">
+            <li class="each-requirement">
+                Requires active key: no
+            </li>
+            <li class="each-requirement">
+                Can be called by: Steem account that owns the NFT
+            </li>
+            <li class="each-requirement">
+                <p class="nested-requirement-title">Parameters</p>
+                <ul class="nested-requirement">
+                    <li class="each-nested-requirement">
+                        productName (string): new name of the product/brand (letters, numbers, whitespace only, max length of 50)
+                    </li>
+                    <li class="each-nested-requirement">
+                        symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="doc-example-header">
+            <h3 class="example-title">Example</h3>
+            <div class="doc-example">
+                <pre style="overflow-x: hidden;">
+                    <code>
+   {
+        "contractName": "nft",
+        "contractAction": "updateProductName",
+        "contractPayload": {
+            "symbol": "TESTNFT",
+            "productName": "Acme Exploding NFTs"
+        }
+    }
+                    </code>
+                </pre>
+            </div>
+        </div>
+        </div>
+
+        <div class="doc-card-divider">
+        <h3 class="doc-card-link">
+            ACTION: addAuthorizedIssuingAccounts<span
+                ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+            ></span>
+        </h3>
+        <p class="doc-card-body">
+            Adds Steem accounts to the list of accounts that are authorized to issue new tokens on behalf of the NFT owner. This will NOT replace the existing list; it only adds to it. There is a maximum limit of 10 accounts that can be on this list.
+        </p>
+        <ul class="requirements">
+            <li class="each-requirement">
+                Requires active key: yes
+            </li>
+            <li class="each-requirement">
+                Can be called by: Steem account that owns the NFT
+            </li>
+            <li class="each-requirement">
+                <p class="nested-requirement-title">Parameters</p>
+                <ul class="nested-requirement">
+                    <li class="each-nested-requirement">
+                        symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                    </li>
+                    <li class="each-nested-requirement">
+                        accounts (array of string): a list of Steem accounts to add to the authorized list
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="doc-example-header">
+            <h3 class="example-title">Example</h3>
+            <div class="doc-example">
+                <pre style="overflow-x: hidden;">
+                    <code>
+   {
+        "contractName": "nft",
+        "contractAction": "addAuthorizedIssuingAccounts",
+        "contractPayload": {
+            "symbol": "TESTNFT",
+            "accounts": [ "satoshi","aggroed","cryptomancer" ]
+        }
+    }
+                    </code>
+                </pre>
+            </div>
+        </div>
+        <p class="note">
+            If the current authorized account list is [ "marc" ], then after calling the above example action, the list will be updated to [ "marc","satoshi","aggroed","cryptomancer" ]
+        </p>
+        </div>
+
+        <div class="doc-card-divider">
+        <h3 class="doc-card-link">
+            ACTION: addAuthorizedIssuingContracts<span
+                ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+            ></span>
+        </h3>
+        <p class="doc-card-body">
+            Adds smart contracts to the list of contracts that are authorized to issue new tokens on behalf of the NFT owner. This will NOT replace the existing list; it only adds to it. There is a maximum limit of 10 smart contracts that can be on this list.
+        </p>
+        <ul class="requirements">
+            <li class="each-requirement">
+                Requires active key: yes
+            </li>
+            <li class="each-requirement">
+                Can be called by: Steem account that owns the NFT
+            </li>
+            <li class="each-requirement">
+                <p class="nested-requirement-title">Parameters</p>
+                <ul class="nested-requirement">
+                    <li class="each-nested-requirement">
+                        symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                    </li>
+                    <li class="each-nested-requirement">
+                        contracts (array of string): a list of smart contracts to add to the authorized list
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="doc-example-header">
+            <h3 class="example-title">Example</h3>
+            <div class="doc-example">
+                <pre style="overflow-x: hidden;">
+                    <code>
+   {
+        "contractName": "nft",
+        "contractAction": "addAuthorizedIssuingContracts",
+        "contractPayload": {
+            "symbol": "TESTNFT",
+            "contracts": [ "mycontract","anothercontract","mygamecontract" ]
+        }
+    }
+                    </code>
+                </pre>
+            </div>
+        </div>
+        <p class="note">
+            If the current authorized contract list is [ "splinterlands" ], then after calling the above example action, the list will be updated to [ "splinterlands","mycontract","anothercontract","mygamecontract" ]
+        </p>
+        </div>
+
+        <div class="doc-card-divider">
+        <h3 class="doc-card-link">
+            ACTION: removeAuthorizedIssuingAccounts<span
+                ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+            ></span>
+        </h3>
+        <p class="doc-card-body">
+            Removes Steem accounts from the list of accounts that are authorized to issue new tokens on behalf of the NFT owner. This will NOT replace the existing list; it only removes from it.
+        </p>
+        <ul class="requirements">
+            <li class="each-requirement">
+                Requires active key: yes
+            </li>
+            <li class="each-requirement">
+                Can be called by: Steem account that owns the NFT
+            </li>
+            <li class="each-requirement">
+                <p class="nested-requirement-title">Parameters</p>
+                <ul class="nested-requirement">
+                    <li class="each-nested-requirement">
+                        symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                    </li>
+                    <li class="each-nested-requirement">
+                        accounts (array of string): a list of Steem accounts to remove from the authorized list
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="doc-example-header">
+            <h3 class="example-title">Example</h3>
+            <div class="doc-example">
+                <pre style="overflow-x: hidden;">
+                    <code>
+   {
+        "contractName": "nft",
+        "contractAction": "removeAuthorizedIssuingAccounts",
+        "contractPayload": {
+            "symbol": "TESTNFT",
+            "accounts": [ "satoshi","aggroed" ]
+        }
+    }
+                    </code>
+                </pre>
+            </div>
+        </div>
+        <p class="note">
+            If the current authorized account list is [ "satoshi","aggroed","cryptomancer" ], then after calling the above example action, the list will be updated to [ "cryptomancer" ]
+        </p>
+        </div>
+
+        <div class="doc-card-divider">
+        <h3 class="doc-card-link">
+            ACTION: removeAuthorizedIssuingContracts<span
+                ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+            ></span>
+        </h3>
+        <p class="doc-card-body">
+            Removes smart contracts from the list of contracts that are authorized to issue new tokens on behalf of the NFT owner. This will NOT replace the existing list; it only removes from it.
+        </p>
+        <ul class="requirements">
+            <li class="each-requirement">
+                Requires active key: yes
+            </li>
+            <li class="each-requirement">
+                Can be called by: Steem account that owns the NFT
+            </li>
+            <li class="each-requirement">
+                <p class="nested-requirement-title">Parameters</p>
+                <ul class="nested-requirement">
+                    <li class="each-nested-requirement">
+                        symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                    </li>
+                    <li class="each-nested-requirement">
+                        contracts (array of string): a list of smart contracts to remove from the authorized list
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="doc-example-header">
+            <h3 class="example-title">Example</h3>
+            <div class="doc-example">
+                <pre style="overflow-x: hidden;">
+                    <code>
+   {
+        "contractName": "nft",
+        "contractAction": "removeAuthorizedIssuingContracts",
+        "contractPayload": {
+            "symbol": "TESTNFT",
+            "contracts": [ "mycontract","mygamecontract" ]
+        }
+    }
+                    </code>
+                </pre>
+            </div>
+        </div>
+        <p class="note">
+            If the current authorized contract list is [ "mycontract","anothercontract","mygamecontract" ], then after calling the above example action, the list will be updated to [ "anothercontract" ]
+        </p>
+        </div>
+
+        <div class="doc-card-divider">
+        <h3 class="doc-card-link">
+            ACTION: transferOwnership<span
+                ><font-awesome-icon class="arrow-icon" icon.bind="['fas', 'chevron-circle-right']"></font-awesome-icon
+            ></span>
+        </h3>
+        <p class="doc-card-body">
+            Transfers ownership of an NFT from the current owner to another Steem account.
+        </p>
+        <ul class="requirements">
+            <li class="each-requirement">
+                Requires active key: yes
+            </li>
+            <li class="each-requirement">
+                Can be called by: Steem account that owns the NFT
+            </li>
+            <li class="each-requirement">
+                <p class="nested-requirement-title">Parameters</p>
+                <ul class="nested-requirement">
+                    <li class="each-nested-requirement">
+                        symbol (string): symbol of the token (uppercase letters only, max length of 10)
+                    </li>
+                    <li class="each-nested-requirement">
+                        to (string): Steem account to become the new owner (3 <= length <= 16)
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="doc-example-header">
+            <h3 class="example-title">Example</h3>
+            <div class="doc-example">
+                <pre style="overflow-x: hidden;">
+                    <code>
+   {
+        "contractName": "nft",
+        "contractAction": "transferOwnership",
+        "contractPayload": {
+            "symbol": "TESTNFT",
+            "to": "aggroed"
+        }
+    }
+                    </code>
+                </pre>
+            </div>
+        </div>
+        <p class="note">
+            If the current authorized contract list is [ "mycontract","anothercontract","mygamecontract" ], then after calling the above example action, the list will be updated to [ "anothercontract" ]
+        </p>
+        </div>
+    </div>
+
+    
+    
+</template>
