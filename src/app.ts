@@ -152,6 +152,13 @@ export class App {
                 title: 'Faq',
             },
             {
+                route: 'privacy',
+                name: 'privacy',
+                moduleId: PLATFORM.moduleName('./routes/privacy', 'privacy'),
+                nav: false,
+                title: 'Privacy',
+            },
+            {
                 route: 'rewards',
                 name: 'rewards',
                 moduleId: PLATFORM.moduleName('./routes/account/rewards', 'rewards'),
