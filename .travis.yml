@@ -3,7 +3,7 @@ language: node_js
 node_js:
 - '10'
 addons:
-  ssh_known_hosts: steem-engine.com
+  ssh_known_hosts: steem-engine.net
 deploy:
 - provider: script
   skip_cleanup: true
