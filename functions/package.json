@@ -17,7 +17,7 @@
     "@types/crypto-js": "^3.1.43",
     "@types/multer": "^1.4.2",
     "@types/shortid": "0.0.29",
-    "aws-sdk": "^2.613.0",
+    "aws-sdk": "^2.814.0",
     "body-parser": "^1.19.0",
     "busboy": "^0.3.1",
     "cors": "^2.8.5",
