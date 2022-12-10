@@ -36,7 +36,7 @@
         "datatables.net-bs4": "^1.10.20",
         "datatables.net-plugins": "1.10.19",
         "datatables.net-responsive-bs4": "^2.2.3",
-        "express": "^4.17.1",
+        "express": "^4.17.3",
         "firebase": "^7.6.2",
         "firebase-admin": "^8.9.0",
         "firebase-functions": "^3.3.0",
